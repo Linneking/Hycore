@@ -234,8 +234,8 @@ def train(net, trainloader, optimizer, criterion, criterion2, device):
         total += label.size(0)
         correct += preds.eq(label).sum().item()
 
-        #progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
-        #             % (train_loss / (batch_idx + 1), 100. * correct / total, correct, total))
+        progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
+                     % (train_loss / (batch_idx + 1), 100. * correct / total, correct, total))
 
     time_cost = int((datetime.datetime.now() - time_cost).total_seconds())
     train_true = np.concatenate(train_true)
@@ -268,8 +268,8 @@ def validate(net, testloader, criterion, device):
             test_pred.append(preds.detach().cpu().numpy())
             total += label.size(0)
             correct += preds.eq(label).sum().item()
-            #progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
-            #             % (test_loss / (batch_idx + 1), 100. * correct / total, correct, total))
+            progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
+                         % (test_loss / (batch_idx + 1), 100. * correct / total, correct, total))
 
     time_cost = int((datetime.datetime.now() - time_cost).total_seconds())
     test_true = np.concatenate(test_true)

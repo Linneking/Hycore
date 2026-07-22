@@ -1,0 +1,58 @@
+
+cat > .gitignore <<'EOF'
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Dataset
+data/
+dataset/
+datasets/
+**/data/
+**/dataset/
+
+# Checkpoints / weights
+checkpoints/
+checkpoint/
+weights/
+pretrained/
+*.pth
+*.pt
+*.ckpt
+
+# Logs / experiments
+logs/
+runs/
+wandb/
+tensorboard/
+*.log
+output/
+*.npy
+*.npz
+
+# Experiment records
+**/experiments/**/metrics.csv
+
+# Build files
+build/
+dist/
+*.so
+*.o
+*.egg-info/
+
+# CUDA extensions
+pointnet2_ops_lib/build/
+pointnet2_ops_lib/*.egg-info/
+
+# Visualization outputs
+data_vis/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+EOF

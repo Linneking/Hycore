@@ -16,7 +16,14 @@ requirements = ["torch>=1.4"]
 
 exec(open(osp.join("pointnet2_ops", "_version.py")).read())
 
-os.environ["TORCH_CUDA_ARCH_LIST"] = "3.7+PTX;5.0;6.0;6.1;6.2;7.0;7.5"
+# Allow configuring via TORCH_CUDA_ARCH_LIST environment variable.
+# For RTX 5090 (sm_120), set before pip install:
+#   export TORCH_CUDA_ARCH_LIST="8.0;8.6;8.9;9.0;12.0"
+# Do NOT pass extra -gencode flags here; torch's BuildExtension reads
+# TORCH_CUDA_ARCH_LIST and adds the correct -gencode/arch flags itself.
+if "TORCH_CUDA_ARCH_LIST" not in os.environ:
+    os.environ["TORCH_CUDA_ARCH_LIST"] = "8.0;8.6;8.9;9.0;12.0"
+
 setup(
     name="pointnet2_ops",
     version=__version__,
@@ -29,7 +36,7 @@ setup(
             sources=_ext_sources,
             extra_compile_args={
                 "cxx": ["-O3"],
-                "nvcc": ["-O3", "-Xfatbin", "-compress-all"],
+                "nvcc": ["-O3"],
             },
             include_dirs=[osp.join(this_dir, _ext_src_root, "include")],
         )
