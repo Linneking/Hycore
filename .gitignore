@@ -1,5 +1,3 @@
-
-cat > .gitignore <<'EOF'
 # Python
 __pycache__/
 *.py[cod]
@@ -55,4 +53,3 @@ data_vis/
 # OS
 .DS_Store
 Thumbs.db
-EOF
