@@ -22,6 +22,8 @@ pretrained/
 # Logs / experiments
 logs/
 runs/
+**/runs_v2/
+*.stdout
 wandb/
 tensorboard/
 *.log
