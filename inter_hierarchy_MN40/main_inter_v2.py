@@ -33,6 +33,7 @@ from hutil import cal_loss, get_children_np, hype_triplet_losses
 from models.pointmlp import Hype_pointMLP
 from models.manifolds import PoincareBall
 from v2.geometry import equal_radius_leaves
+from v2.geometry import pairwise_ball_distance
 from v2.losses import gather_teacher_similarity, lca_ranking_loss
 from v2.sampler import ClassBalancedBatchSampler
 
@@ -59,6 +60,8 @@ def parse_args():
     p.add_argument("--neighbor_k", type=int, default=3)
     p.add_argument("--lca_mode", choices=("exact", "gromov"), default="exact")
     p.add_argument("--teacher_views", type=int, default=3)
+    p.add_argument("--teacher_mode", choices=("cosine", "hyperbolic"),
+                   default="hyperbolic")
     p.add_argument("--eval_only", action="store_true")
     p.add_argument("--smoke_batches", type=int, default=0,
                    help="limit train batches per epoch; 0 means the full epoch")
@@ -84,8 +87,8 @@ def load_pretrained(net, path):
 
 
 @torch.no_grad()
-def collect_teacher(net, loader, size, device, views):
-    """Average normalized teacher directions over independent train augmentations."""
+def collect_teacher(net, loader, size, device, views, ball, mode):
+    """Average teacher features over views in the appropriate geometry."""
     net.eval()
     feature_sum = None
     labels = torch.empty(size, dtype=torch.long)
@@ -93,12 +96,18 @@ def collect_teacher(net, loader, size, device, views):
         for data, label, idx in loader:
             data = data.to(device).permute(0, 2, 1)
             mu, _ = net(data)
-            feat = F.normalize(mu, dim=-1).cpu()
+            feat = (F.normalize(mu, dim=-1) if mode == "cosine"
+                    else ball.logmap0(mu)).cpu()
             if feature_sum is None:
                 feature_sum = torch.zeros(size, feat.shape[1], dtype=feat.dtype)
             feature_sum[idx.long()] += feat
             labels[idx.long()] = label.reshape(-1).long()
-    return F.normalize(feature_sum / float(views), dim=-1), labels
+    mean = feature_sum / float(views)
+    if mode == "cosine":
+        mean = F.normalize(mean, dim=-1)
+    else:
+        mean = ball.expmap0(mean.to(device)).cpu()
+    return mean, labels
 
 
 @torch.no_grad()
@@ -149,7 +158,11 @@ def train_epoch(net, loader, sampler, optimizer, teacher, ball, args, epoch, dev
         task_loss = cal_loss(logits, label)
 
         if args.beta_inter > 0:
-            teacher_sim = gather_teacher_similarity(teacher, sample_id)
+            if args.teacher_mode == "cosine":
+                teacher_sim = gather_teacher_similarity(teacher, sample_id)
+            else:
+                teacher_batch = teacher[sample_id.long()].to(device)
+                teacher_sim = -pairwise_ball_distance(ball, teacher_batch, teacher_batch)
             leaves = equal_radius_leaves(parent_mu, args.leaf_radius)
             inter_loss, rank_stats = lca_ranking_loss(
                 leaves, label, teacher_sim, ball, neighbor_k=args.neighbor_k,
@@ -241,10 +254,13 @@ def main():
             json.dump(initial, f, indent=2)
         return
 
+    ball = PoincareBall(c=1.0, dim=256).to(device)
     if args.beta_inter > 0:
-        report(f"collecting fixed teacher over {args.teacher_views} augmented views")
+        report(f"collecting fixed {args.teacher_mode} teacher over "
+               f"{args.teacher_views} augmented views")
         teacher, teacher_labels = collect_teacher(
-            net, teacher_loader, len(train_set), device, args.teacher_views)
+            net, teacher_loader, len(train_set), device, args.teacher_views,
+            ball, args.teacher_mode)
         assert torch.equal(teacher_labels, torch.as_tensor(train_set.label).reshape(-1))
         torch.save({"features": teacher, "labels": teacher_labels,
                     "views": args.teacher_views}, os.path.join(args.run_dir, "teacher.pt"))
@@ -256,7 +272,6 @@ def main():
         net.parameters(), lr=args.learning_rate, momentum=0.9,
         weight_decay=args.weight_decay)
     scheduler = CosineAnnealingLR(optimizer, args.epochs, eta_min=args.min_lr)
-    ball = PoincareBall(c=1.0, dim=256)
     fields = ["epoch", "lr", "loss", "task", "hycore", "inter", "grad_norm",
               "inter_grad_norm",
               "train_oa", "train_aa", "triplets", "rank_satisfaction", "rank_gap",
