@@ -281,7 +281,7 @@ def main():
     with open(metrics_path, "w", newline="") as f:
         csv.DictWriter(f, fieldnames=fields).writeheader()
 
-    best_oa = initial["test_oa"]
+    best_oa = float("-inf")
     for epoch in range(args.epochs):
         train_metrics = train_epoch(net, train_loader, sampler, optimizer, teacher,
                                     ball, args, epoch, device)
@@ -300,7 +300,7 @@ def main():
             torch.save(state, os.path.join(args.run_dir, "best.pth"))
         scheduler.step()
     with open(os.path.join(args.run_dir, "summary.json"), "w") as f:
-        json.dump({"initial": initial, "best_test_oa": best_oa,
+        json.dump({"initial": initial, "best_finetune_test_oa": best_oa,
                    "finished": datetime.datetime.now().isoformat()}, f, indent=2)
 
 

@@ -37,7 +37,9 @@ def args():
 
 
 def load(net, path):
-    obj = torch.load(path, map_location="cpu")
+    # These are checkpoints produced locally by this experiment and include
+    # optimizer/NumPy scalar state, so PyTorch 2.6+ needs explicit full loading.
+    obj = torch.load(path, map_location="cpu", weights_only=False)
     state = obj.get("net", obj.get("model", obj))
     state = {k[7:] if k.startswith("module.") else k: v for k, v in state.items()}
     net.load_state_dict(state, strict=True)
