@@ -5,7 +5,8 @@
 - Server environment: Python 3.9, PyTorch 2.8.0 + CUDA 12.8, Geoopt 0.5.1.
 - Hardware: four RTX 5090 GPUs. The first run used only GPUs 2 and 3 after confirming they were idle.
 - ModelNet40 data and historical checkpoints remain server-local.
-- Original A3 checkpoint independently reproduced OA 93.9222% and AA 91.5907%.
+- Original HyCoRe reproduction (`...hycore_var-4780/best_checkpoint.pth`): epoch 229, OA 94.044%, AA 91.545% as recorded in the checkpoint.
+- Derived A3 checkpoint independently evaluated at OA 93.9222% and AA 91.5907%. A3 starts from the original HyCoRe reproduction and continues with `alpha=0`, so it is not the original HyCoRe weight.
 
 ## Correctness findings in the legacy path
 
@@ -38,7 +39,7 @@ Shared setup: learning rate `5e-3`, class-balanced batches, original HyCoRe loss
 
 | Setting | Best OA | Best AA | Final OA | Final AA |
 |---|---:|---:|---:|---:|
-| Original A3 checkpoint | 93.9222 | 91.5907 | — | — |
+| Derived A3 initialization | 93.9222 | 91.5907 | — | — |
 | Same protocol, `beta_inter=0` | 93.4360 | 92.3192 | 92.0583 | 91.3448 |
 | Hyperbolic teacher + equal radius + exact LCA | 93.4765 | 91.8157 | 92.1394 | 91.3029 |
 
@@ -50,13 +51,12 @@ Same 50 class-balanced batches, 7,000 within-class pairs, and 3,440 reliable tri
 
 | Checkpoint | Spearman | Satisfaction | Ranking loss |
 |---|---:|---:|---:|
-| Original A3 | 0.8050 | 72.238% | 0.03974 |
+| Derived A3, evaluated against an A3-derived teacher | 0.8050 | 72.238% | 0.03974 |
 | `beta_inter=0`, final | 0.4576 | 59.535% | 0.05951 |
 | Main method, final | 0.4708 | 60.320% | 0.05257 |
 
-Relative to the zero-increment control, the main method improves Spearman by 0.0133, satisfaction by 0.785 percentage points, and ranking loss by about 11.65%. Both fine-tuned models remain far below the original checkpoint. The defensible conclusion is that inter ranking weakly mitigates structural drift; it has not learned a better hierarchy.
+Relative to the zero-increment control, the main method improves Spearman by 0.0133, satisfaction by 0.785 percentage points, and ranking loss by about 11.65%. Both fine-tuned models remain far below their A3 initialization. Because teacher and reference are both derived from A3, the high A3 Spearman is a self-consistency measure, not evidence that original HyCoRe already contains a valid morphology hierarchy. The defensible conclusion is only that inter ranking weakly mitigates drift relative to A3 self-distillation.
 
 ## Known protocol flaw to fix
 
 The first v2 run evaluated the ModelNet40 test set after every epoch. The next protocol must create a deterministic stratified train/validation split, select checkpoints using validation metrics, and use the official test set only for final reporting.
-

@@ -16,7 +16,7 @@ The most relevant conceptual references supplied by the user are Onghena/HPCS an
 - Backbone and base objective: reproduced HyCoRe point-cloud classification on ModelNet40.
 - Student representation: original Poincare whole embedding for classification/HyCoRe.
 - Inter representation: deterministic same-direction, equal-Euclidean-radius leaf copy.
-- Teacher: frozen pretrained HyCoRe embedding aggregated across three augmented views in the tangent space at the origin and mapped back to the Poincare ball.
+- First-run teacher: the derived A3 checkpoint (not the original HyCoRe checkpoint), aggregated across three augmented views in the tangent space at the origin and mapped back to the Poincare ball. A3 was obtained by continuing from the original HyCoRe reproduction with `alpha=0`, so its intra-sample regularization was removed.
 - Teacher relation: negative pairwise hyperbolic distance within each class.
 - Positive relations: mutual top-k neighbours within the class-balanced batch.
 - Negative relations: lower-similarity within-class samples.
@@ -50,5 +50,4 @@ Correctness work completed:
 
 ## Current scientific conclusion
 
-The first run is a weak positive signal, not a successful method claim. Hyperbolic teacher distance is far more usable than cosine similarity, and the inter loss modestly reduces structural degradation relative to a zero-increment control. However, the current fine-tuning protocol substantially degrades both the original classification checkpoint and its structure. The next task is to stabilize the protocol before running multiple seeds or broader ablations.
-
+The first run is a weak positive signal, not a successful method claim. Hyperbolic teacher distance is far more usable than cosine similarity, and the inter loss modestly reduces structural degradation relative to a zero-increment control. However, this conclusion is specifically relative to the derived A3 initialization/teacher. It does not yet characterize the original HyCoRe reproduction. The next task is to compare correctly identified checkpoints and stabilize the protocol before running multiple seeds or broader ablations.
