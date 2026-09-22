@@ -1,4 +1,8 @@
-"""Deterministically audit chair-instance radius in a HyCoRe checkpoint."""
+"""Deterministically audit one ModelNet40 class in a HyCoRe checkpoint.
+
+The historical filename is retained for compatibility; ``--class-label`` and
+``--class-name`` make the diagnostic reusable for any ModelNet40 category.
+"""
 
 from __future__ import annotations
 
@@ -21,9 +25,6 @@ CLASSIFICATION_ROOT = HERE.parents[1] / "classification_ModelNet40"
 sys.path.insert(0, str(CLASSIFICATION_ROOT))
 from data import ModelNet40  # noqa: E402
 from models.pointmlp import Hype_pointMLP  # noqa: E402
-
-CHAIR_LABEL = 8
-
 
 class IndexedSubset(Dataset):
     def __init__(self, base, indices):
@@ -52,6 +53,8 @@ def arguments():
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--seed", type=int, default=22)
     parser.add_argument("--per-group", type=int, default=4)
+    parser.add_argument("--class-label", type=int, default=8)
+    parser.add_argument("--class-name", default="chair")
     return parser.parse_args()
 
 
@@ -104,7 +107,8 @@ def draw_cloud(ax, points, title, elev=18, azim=42):
     ax.set_title(title, fontsize=8)
 
 
-def save_montages(out, points, ids, radius, confidence, groups):
+def save_montages(out, points, ids, radius, confidence, groups, class_name):
+    prefix = class_name.lower().replace(" ", "_")
     names = list(groups)
     cols = max(map(len, groups.values()))
     fig = plt.figure(figsize=(3.1 * cols, 2.8 * len(names)))
@@ -112,9 +116,9 @@ def save_montages(out, points, ids, radius, confidence, groups):
         for col, idx in enumerate(groups[name]):
             ax = fig.add_subplot(len(names), cols, row * cols + col + 1, projection="3d")
             draw_cloud(ax, points[idx], f"{name} | id={ids[idx]}\nr={radius[idx]:.4f}, p={confidence[idx]:.3f}")
-    fig.suptitle("Original HyCoRe: chair samples ordered by hyperbolic radius", fontsize=14)
+    fig.suptitle(f"Original HyCoRe: {class_name} samples ordered by hyperbolic radius", fontsize=14)
     fig.tight_layout(rect=(0, 0, 1, 0.975))
-    fig.savefig(out / "chair_radius_montage.png", dpi=220)
+    fig.savefig(out / f"{prefix}_radius_montage.png", dpi=220)
     plt.close(fig)
 
     extremes = groups["inner"] + groups["outer"]
@@ -125,9 +129,9 @@ def save_montages(out, points, ids, radius, confidence, groups):
         for col, (elev, azim) in enumerate(views):
             ax = fig.add_subplot(len(extremes), len(views), row * len(views) + col + 1, projection="3d")
             draw_cloud(ax, points[idx], f"{side} id={ids[idx]} r={radius[idx]:.4f}", elev, azim)
-    fig.suptitle("Chair radius extremes: three canonical views", fontsize=14)
+    fig.suptitle(f"{class_name.title()} radius extremes: three canonical views", fontsize=14)
     fig.tight_layout(rect=(0, 0, 1, 0.982))
-    fig.savefig(out / "chair_radius_extremes_multiview.png", dpi=220)
+    fig.savefig(out / f"{prefix}_radius_extremes_multiview.png", dpi=220)
     plt.close(fig)
 
 
@@ -144,8 +148,10 @@ def main():
     checkpoint = load_checkpoint(model, args.checkpoint)
     model.eval()
     base = ModelNet40(num_points=args.num_points, partition=args.partition)
-    chair_indices = np.flatnonzero(base.label.reshape(-1) == CHAIR_LABEL)
-    loader = DataLoader(IndexedSubset(base, chair_indices), batch_size=args.batch_size,
+    target_indices = np.flatnonzero(base.label.reshape(-1) == args.class_label)
+    if len(target_indices) == 0:
+        raise ValueError(f"no samples found for class label {args.class_label}")
+    loader = DataLoader(IndexedSubset(base, target_indices), batch_size=args.batch_size,
                         shuffle=False, num_workers=args.workers, drop_last=False)
 
     embeddings, tangents, logits_all, ids_all, clouds = [], [], [], [], []
@@ -176,7 +182,7 @@ def main():
     cosine = (direction * prototype_direction).sum(1).numpy()
     angle_deg = np.degrees(np.arccos(np.clip(cosine, -1, 1)))
     probabilities = torch.softmax(logits, dim=1)
-    confidence = probabilities[:, CHAIR_LABEL].numpy()
+    confidence = probabilities[:, args.class_label].numpy()
     predicted = logits.argmax(1).numpy()
 
     order = np.argsort(radius)
@@ -186,11 +192,12 @@ def main():
     groups = select_groups(radius, args.per_group)
     selected = {idx: name for name, indices in groups.items() for idx in indices}
 
-    with (output / "chair_radius_samples.csv").open("w", newline="", encoding="utf-8") as handle:
+    prefix = args.class_name.lower().replace(" ", "_")
+    with (output / f"{prefix}_radius_samples.csv").open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle)
         writer.writerow(["local_index", "sample_id", "partition", "radius", "radius_percentile",
                          "prototype_hyperbolic_distance", "angle_to_prototype_deg",
-                         "chair_confidence", "predicted_label", "selected_group"])
+                         "target_class_score", "predicted_label", "selected_group"])
         for idx in order:
             writer.writerow([int(idx), int(sample_ids[idx]), args.partition, float(radius[idx]),
                              float(percentile[idx]), float(prototype_distance[idx]), float(angle_deg[idx]),
@@ -198,9 +205,9 @@ def main():
 
     torch.save({"sample_ids": torch.from_numpy(sample_ids), "embedding": mu, "tangent": tangent,
                 "radius": torch.from_numpy(radius), "prototype": prototype.cpu()},
-               output / "chair_embeddings.pt")
+               output / f"{prefix}_embeddings.pt")
     chosen = sorted(selected)
-    np.savez_compressed(output / "selected_chair_pointclouds.npz", points=point_clouds[chosen],
+    np.savez_compressed(output / f"selected_{prefix}_pointclouds.npz", points=point_clouds[chosen],
                         sample_ids=sample_ids[chosen], radius=radius[chosen])
 
     summary = {
@@ -208,14 +215,14 @@ def main():
         "checkpoint_epoch": checkpoint.get("epoch"),
         "checkpoint_best_test_acc": checkpoint.get("best_test_acc"),
         "checkpoint_best_test_acc_avg": checkpoint.get("best_test_acc_avg"),
-        "partition": args.partition, "chair_label": CHAIR_LABEL,
+        "partition": args.partition, "class_label": args.class_label, "class_name": args.class_name,
         "num_samples": int(len(radius)), "num_points": args.num_points,
         "radius": {"min": float(radius.min()), "q25": float(np.quantile(radius, .25)),
                    "median": float(np.median(radius)), "q75": float(np.quantile(radius, .75)),
                    "max": float(radius.max()), "mean": float(radius.mean()), "std": float(radius.std())},
         "prototype_distance": {"mean": float(prototype_distance.mean()), "std": float(prototype_distance.std())},
         "angle_to_prototype_deg": {"mean": float(angle_deg.mean()), "std": float(angle_deg.std())},
-        "chair_accuracy": float((predicted == CHAIR_LABEL).mean()),
+        "class_accuracy": float((predicted == args.class_label).mean()),
         "selected": {name: [{"sample_id": int(sample_ids[i]), "radius": float(radius[i])}
                             for i in indices] for name, indices in groups.items()},
     }
@@ -223,15 +230,15 @@ def main():
 
     fig, axes = plt.subplots(1, 3, figsize=(15, 4.2))
     axes[0].hist(radius, bins=20, color="#4472C4", alpha=.85)
-    axes[0].set(xlabel="Hyperbolic radius d(o,z)", ylabel="Chair count", title="Radius distribution")
+    axes[0].set(xlabel="Hyperbolic radius d(o,z)", ylabel=f"{args.class_name.title()} count", title="Radius distribution")
     axes[1].scatter(radius, prototype_distance, c=angle_deg, s=18, cmap="viridis", alpha=.8)
-    axes[1].set(xlabel="Hyperbolic radius", ylabel="Distance to chair prototype", title="Radius vs prototype distance")
+    axes[1].set(xlabel="Hyperbolic radius", ylabel=f"Distance to {args.class_name} prototype", title="Radius vs prototype distance")
     axes[2].scatter(radius, confidence, c=prototype_distance, s=18, cmap="plasma", alpha=.8)
-    axes[2].set(xlabel="Hyperbolic radius", ylabel="Chair confidence", title="Radius vs confidence")
+    axes[2].set(xlabel="Hyperbolic radius", ylabel="Target-class score", title="Radius vs class score")
     fig.tight_layout()
-    fig.savefig(output / "chair_radius_statistics.png", dpi=220)
+    fig.savefig(output / f"{prefix}_radius_statistics.png", dpi=220)
     plt.close(fig)
-    save_montages(output, point_clouds, sample_ids, radius, confidence, groups)
+    save_montages(output, point_clouds, sample_ids, radius, confidence, groups, args.class_name)
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     print(f"OUTPUT_DIR={output}")
 
