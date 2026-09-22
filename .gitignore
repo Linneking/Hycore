@@ -52,6 +52,14 @@ data_vis/
 .vscode/
 .idea/
 
+# Local Codex/server connection notes (never commit credentials or host details)
+.codex-local/
+.env
+.env.*
+*.pem
+id_rsa*
+id_ed25519*
+
 # OS
 .DS_Store
 Thumbs.db
