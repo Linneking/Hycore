@@ -41,8 +41,11 @@ The proxy probe samples `p_ij` and `p_ijk` from the same random proxy bank using
 Gumbel choices on negative maximum hyperbolic distances. It reports proxy
 collision, hinge activity and post-mask effective-loss fractions. **These
 proxies are not trained**. Their values test whether the objective has usable
-signal at initialization; they cannot establish a learned hierarchy or predict
-classification accuracy. Raw loss magnitudes across K settings are not an
+hinge activity at initialization; they do not establish nonzero encoder
+gradients, a learned hierarchy, or future classification accuracy. The
+descriptive batch-resampling intervals are conditional on one fixed checkpoint,
+not confidence intervals for method performance. Raw loss magnitudes across
+K settings are not an
 achievement ranking because K changes the candidate distribution.
 
 The experiment does not use ModelNet40 test examples and does not claim that

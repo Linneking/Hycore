@@ -200,9 +200,9 @@ def summarize(config: GridConfig, mining_rows: list[dict], probe_rows: list[dict
         "random_proxy_pre_active_fraction": ratio(probe_rows, "pre_active", "triplets"),
         "random_proxy_effective_fraction": ratio(probe_rows, "effective", "triplets"),
         "random_proxy_masked_loss_mean": ratio(probe_rows, "masked_loss_sum", "triplets"),
-        "j_same_bootstrap95": bootstrap_interval(mining_rows, "j_same", "triplets"),
-        "k_same_other_bootstrap95": bootstrap_interval(mining_rows, "k_same_other", "triplets"),
-        "distance_order_bootstrap95": bootstrap_interval(mining_rows, "ordered", "triplets"),
+        "j_same_batch_resample95_descriptive": bootstrap_interval(mining_rows, "j_same", "triplets"),
+        "k_same_other_batch_resample95_descriptive": bootstrap_interval(mining_rows, "k_same_other", "triplets"),
+        "distance_order_batch_resample95_descriptive": bootstrap_interval(mining_rows, "ordered", "triplets"),
     })
     return result
 
@@ -306,6 +306,8 @@ def main():
     args = arguments()
     if args.batches_per_seed <= 0 or args.triples_per_anchor <= 0 or args.proxy_count <= 30:
         raise ValueError("invalid audit size")
+    if args.curvature != 1.0:
+        raise ValueError("original HyCoRe parent_mu requires curvature magnitude c=1")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     manifest = {
@@ -314,12 +316,14 @@ def main():
         "data_dir": str(args.data_dir.resolve()),
         "git_commit": git_value("rev-parse", "HEAD"),
         "git_branch": git_value("rev-parse", "--abbrev-ref", "HEAD"),
+        "git_dirty": bool(git_value("status", "--porcelain")),
         "python": sys.version, "torch": torch.__version__,
         "numpy": np.__version__, "geoopt": package_version("geoopt"),
         "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
         "grid": [asdict(config) for config in DEFAULT_GRID],
         "split": "ModelNet40 train, no augmentation", "weights_updated": False,
         "proxy_interpretation": "randomly initialized HIER-style proxies only",
+        "interval_interpretation": "batch-resampling variability conditional on this fixed checkpoint; not method uncertainty",
     }
     path = output / "manifest.json"
     path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
