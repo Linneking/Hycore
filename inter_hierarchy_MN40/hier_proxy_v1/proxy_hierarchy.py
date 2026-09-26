@@ -53,7 +53,9 @@ class ProxyHierarchy(nn.Module):
         self.c = float(c)
         self.seed = int(seed)
         self.max_ball_fraction = float(max_ball_fraction)
-        self.ball = PoincareBall(c=self.c, dim=self.dim)
+        # Geoopt's PoincareBall infers dimension from each tensor; unlike the
+        # repository's own wrapper it does not accept a ``dim`` constructor arg.
+        self.ball = PoincareBall(c=self.c)
         self.tangent_proxies = nn.Parameter(torch.zeros(num_proxies, dim))
 
     @property
