@@ -7,13 +7,14 @@ and mines B1/B2 sample triplets from the current student whole embedding.
 The detached embedding is used only for discrete triplet selection; the live
 embedding and trainable proxies receive the HIER loss gradients.
 The HIER-only path projects the live whole embedding into the open ball before
-distance calculation: the first full run encountered raw embeddings outside
-the strict interior check; the precise upstream numerical cause remains to be
-diagnosed. The original classification and part–whole losses still receive
-the unmodified embedding. Each epoch logs how many samples needed projection
-and the maximum raw radius; non-finite values or raw radius above 1.10 abort
-training. This guard is deliberately logged and does not establish why a few
-raw HyCoRe outputs exceeded radius one in the first full-run attempt.
+distance calculation. The first full run exposed a training bug: recursively
+enabling gradients on the two Mobius layers also enabled their Geoopt
+curvature parameters, so the original `c=1` ball drifted. The manifolds are
+now re-frozen and explicitly excluded from the optimizer; assertions check
+both curvatures remain one. The original classification and part–whole losses
+still receive the unmodified embedding. Each epoch logs how many samples
+needed HIER projection and the maximum raw radius; non-finite values or raw
+radius above 1.01 abort training.
 
 `--initialization-cache` is checked against the source checkpoint and dataset.
 It is used once to set the initial proxy scale, never to mine training samples.

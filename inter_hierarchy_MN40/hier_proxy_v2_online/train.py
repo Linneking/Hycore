@@ -47,7 +47,7 @@ from hier_proxy_v2_online.diagnostics import (
 ORIGINAL_FOLDER = "Hype_PointNet-Offv_pointmlp_hycore_var-4780"
 ALPHA_INTRA = 0.01
 MAX_BETA = 10.0
-MAX_RAW_RADIUS = 1.10
+MAX_RAW_RADIUS = 1.01
 FROZEN_NAMES = (
     "embedding", "local_grouper_list", "pre_blocks_list",
     "pos_blocks_list", "proj",
@@ -192,7 +192,32 @@ def freeze_euclidean_backbone(model: torch.nn.Module) -> list[torch.nn.Module]:
         module.eval()
     for module in (model.emb, model.classifier):
         module.requires_grad_(True)
+    # MobiusLayer owns its manifold as a child module. The recursive call
+    # above also toggles Geoopt's isp_c curvature parameters, unintentionally
+    # changing the ball radius during training unless they are re-frozen.
+    model.manifold.requires_grad_(False)
+    model.manifold2.requires_grad_(False)
+    assert_manifold_contract(model)
     return frozen
+
+
+def assert_manifold_contract(model: torch.nn.Module,
+                             optimizer: torch.optim.Optimizer | None = None) -> None:
+    curvature_ids = set()
+    for name in ("manifold", "manifold2"):
+        manifold = getattr(model, name)
+        c = float(manifold.c.detach())
+        if not math.isfinite(c) or abs(c - 1.0) > 1e-5:
+            raise RuntimeError(f"{name} curvature changed from c=1: {c:.8f}")
+        for parameter in manifold.parameters():
+            curvature_ids.add(id(parameter))
+            if parameter.requires_grad:
+                raise RuntimeError(f"{name} curvature is unexpectedly trainable")
+    if optimizer is not None:
+        optimizer_ids = {id(parameter) for group in optimizer.param_groups
+                         for parameter in group["params"]}
+        if curvature_ids & optimizer_ids:
+            raise RuntimeError("curvature parameter entered optimizer")
 
 
 def training_mode(model: torch.nn.Module, frozen: list[torch.nn.Module]) -> None:
@@ -678,6 +703,7 @@ def train_epoch(model: torch.nn.Module, proxy: ProxyHierarchy | None,
             if sums[branch + "_triplets"] else 0.0
         )
     result["train_oa"] = 100 * correct / total
+    assert_manifold_contract(model, optimizer)
     result["train_seconds"] = time.monotonic() - start
     result["peak_memory_mb"] = (torch.cuda.max_memory_allocated(device) / (1024 ** 2)
                                  if device.type == "cuda" else 0.0)
@@ -723,6 +749,7 @@ def main() -> None:
                 "torch": torch.__version__, "torch_cuda": torch.version.cuda,
                 "geoopt": getattr(geoopt, "__version__", "unknown"),
                 "model_manifold_c": float(model.manifold.c),
+                "model_manifold2_c": float(model.manifold2.c),
                 "hier_proxy_c": 1.0,
                 "max_raw_radius_guard": MAX_RAW_RADIUS,
                 "numpy": np.__version__,
@@ -818,6 +845,7 @@ def main() -> None:
             parameter_groups, lr=args.lr, momentum=0.9,
             weight_decay=args.weight_decay,
         )
+        assert_manifold_contract(model, optimizer)
         scheduler = CosineAnnealingLR(optimizer, args.epochs, eta_min=args.min_lr)
         seed_all(args.seed)
         first, second, initial_mu, fixed_triplets, initial_edges = fixed_probe_data(
