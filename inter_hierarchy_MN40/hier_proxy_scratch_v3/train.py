@@ -16,6 +16,7 @@ import math
 import os
 from pathlib import Path
 import random
+import subprocess
 import sys
 import time
 
@@ -39,7 +40,8 @@ from hier_proxy_v2_online.proxy_hierarchy import ProxyHierarchy
 from hier_proxy_v2_online.diagnostics import fixed_rng, fixed_triplet_metrics, proxy_geometry
 from hier_proxy_v2_online.train import (
     PointClouds, assert_manifold_contract, calibrate, edge_jaccard, evaluate,
-    fixed_probe_data, initialization_features, load_shards, norm_of_gradient,
+    fixed_probe_data, git_branch, git_commit, initialization_features,
+    load_shards, norm_of_gradient,
     probe_distance_stats, probe_neighbour_edges, seed_all, sha256, triplet_columns,
 )
 
@@ -107,6 +109,15 @@ def arguments() -> argparse.Namespace:
 def serializable_args(args: argparse.Namespace) -> dict:
     return {key: str(value) if isinstance(value, Path) else value
             for key, value in vars(args).items()}
+
+
+def git_checkout_state() -> dict:
+    status = subprocess.run(["git", "status", "--porcelain"], cwd=REPO,
+                            text=True, capture_output=True, check=False)
+    return {"git_commit": git_commit(), "git_branch": git_branch(),
+            "git_dirty": (bool(status.stdout.strip()) if status.returncode == 0 else None),
+            "git_status_sha256": (hashlib.sha256(status.stdout.encode()).hexdigest()
+                                  if status.returncode == 0 else None)}
 
 
 def atomic_torch(path: Path, value: object) -> None:
@@ -181,6 +192,38 @@ def model_optimizer(model: torch.nn.Module, args: argparse.Namespace):
     return optimizer, scheduler
 
 
+class FlipSafeBatchSampler:
+    """Keep selected samples, but place each of four classes in an 8-item block.
+
+    Original HyCoRe constructs intra negatives by flipping batch dimension.
+    A fully shuffled balanced batch would put approximately one quarter of
+    negatives in the same class. Grouping the four sampled classes in their
+    first-seen random order ensures each mirrored pair crosses classes.
+    Within each class the base sampler's random sample order is preserved.
+    """
+
+    def __init__(self, base: ClassBalancedBatchSampler, labels: np.ndarray):
+        self.base = base
+        self.labels = labels
+
+    def __len__(self) -> int:
+        return len(self.base)
+
+    def __iter__(self):
+        for batch in self.base:
+            groups: dict[int, list[int]] = {}
+            for index in batch:
+                groups.setdefault(int(self.labels[index]), []).append(index)
+            if len(groups) != 4 or any(len(indices) != 8 for indices in groups.values()):
+                raise RuntimeError("balanced batch must contain exactly four 8-sample classes")
+            ordered = [index for indices in groups.values() for index in indices]
+            ordered_labels = [int(self.labels[index]) for index in ordered]
+            if any(left == right for left, right in
+                   zip(ordered_labels, reversed(ordered_labels))):
+                raise RuntimeError("flip-negative class collision")
+            yield ordered
+
+
 def loader_for_epoch(dataset: PointClouds, labels: np.ndarray,
                      args: argparse.Namespace, epoch: int) -> DataLoader:
     sampler = ClassBalancedBatchSampler(
@@ -191,7 +234,8 @@ def loader_for_epoch(dataset: PointClouds, labels: np.ndarray,
     # A fresh worker generator makes augmentation and sample order identical
     # in B1/B2 even though the two losses consume different CUDA random draws.
     worker_generator = torch.Generator().manual_seed(args.seed + 101 + epoch * 1009)
-    return DataLoader(dataset, batch_sampler=sampler, num_workers=args.workers,
+    return DataLoader(dataset, batch_sampler=FlipSafeBatchSampler(sampler, labels),
+                      num_workers=args.workers,
                       pin_memory=True, generator=worker_generator,
                       persistent_workers=False)
 
@@ -216,13 +260,14 @@ def forward_losses(model: torch.nn.Module, proxy: ProxyHierarchy | None,
     )
     pos_mu, _ = model(pos_data, emb=True)
     mu, logits = model(data)
-    _, _, positive_distance, negative_distance, triplet, radial = hype_triplet_losses(
+    parent_norm, child_norm, positive_distance, negative_distance, triplet, radial = hype_triplet_losses(
         mu, pos_mu, hier_margin=margin, contr_margin=4, ball_dim=256,
     )
     ce = cal_loss(logits, labels)
     zero = mu.sum() * 0.0
     result = {"ce": ce, "intra": triplet + radial,
               "intra_triplet": triplet, "intra_radial": radial,
+              "parent_norm": parent_norm, "child_norm": child_norm,
               "positive_distance": positive_distance,
               "negative_distance": negative_distance,
               "mu": mu, "logits": logits, "in": zero, "out": zero,
@@ -279,7 +324,8 @@ def train_epoch(model: torch.nn.Module, proxy: ProxyHierarchy | None,
     start = time.monotonic()
     if device.type == "cuda":
         torch.cuda.reset_peak_memory_stats(device)
-    keys = ("loss", "ce", "intra", "intra_triplet", "intra_radial", "in", "out",
+    keys = ("loss", "ce", "intra", "intra_triplet", "intra_radial",
+            "parent_norm", "child_norm", "positive_distance", "negative_distance", "in", "out",
             "proxy", "base", "weighted_in", "weighted_out", "weighted_proxy",
             "in_triplets", "out_triplets", "proxy_triplets", "in_active",
             "out_active", "proxy_active", "in_valid", "out_valid", "proxy_valid",
@@ -335,7 +381,9 @@ def train_epoch(model: torch.nn.Module, proxy: ProxyHierarchy | None,
         if batch_index == 0:
             step_diagnostics.update({"update_" + name: float((p.detach() - before[name]).norm())
                                      for name, p in params.items() if p is not None})
-        for key in ("ce", "intra", "intra_triplet", "intra_radial", "in", "out", "proxy"):
+        for key in ("ce", "intra", "intra_triplet", "intra_radial",
+                    "parent_norm", "child_norm", "positive_distance", "negative_distance",
+                    "in", "out", "proxy"):
             sums[key] += float(values[key].detach())
         for key, tensor in (("base", base), ("weighted_in", weighted_in),
                             ("weighted_out", weighted_out), ("weighted_proxy", weighted_proxy),
@@ -343,6 +391,8 @@ def train_epoch(model: torch.nn.Module, proxy: ProxyHierarchy | None,
             sums[key] += float(tensor.detach())
         sums["grad_norm"] += float(norm)
         labels_cpu = labels.reshape(-1).cpu()
+        if bool((labels_cpu == torch.flip(labels_cpu, (0,))).any()):
+            raise RuntimeError("HyCoRe flipped negative has same class as anchor")
         prediction = values["logits"].detach().argmax(-1).cpu()
         for gold, pred in zip(labels_cpu.tolist(), prediction.tolist()):
             confusion[gold, pred] += 1
@@ -427,12 +477,13 @@ def calibrate_shared(model: torch.nn.Module, proxy: ProxyHierarchy,
         finite = [r["suggested_betas"][key] for r in reports
                   if r["suggested_betas"][key] is not None and
                   math.isfinite(r["suggested_betas"][key])]
-        if not finite:
-            # A zero-gradient branch carries no training signal; record the
-            # reason and use zero rather than an arbitrary huge coefficient.
-            betas[key] = 0.0
-        else:
-            betas[key] = min(float(np.median(finite)), MAX_BETA)
+        if not finite or float(np.median(finite)) <= 0:
+            raise RuntimeError(f"calibration has no usable {key} gradient; refusing empty HIER branch")
+        betas[key] = min(float(np.median(finite)), MAX_BETA)
+    coverage = {key: sum(int(r[key]["valid_triplets"]) for r in reports)
+                for key in ("in", "out", "proxy")}
+    if any(count == 0 for count in coverage.values()):
+        raise RuntimeError(f"calibration HIER triplet coverage is empty: {coverage}")
     # Short non-mutating pilot at first ramp scale. Cap the proxy LR so its
     # largest predicted tangent update is <=5% of the initial tangent radius.
     with fixed_rng(args.seed + 5006, device):
@@ -440,6 +491,10 @@ def calibrate_shared(model: torch.nn.Module, proxy: ProxyHierarchy,
                                            args.warmup_epochs)))
         values = forward_losses(model, proxy, first[0], first[1], args,
                                 args.warmup_epochs, 0, device)
+        pilot_coverage = {key: int(values[key + "_stats"]["valid_triplets"])
+                          for key in ("in", "out", "proxy")}
+        if any(count == 0 for count in pilot_coverage.values()):
+            raise RuntimeError(f"pilot HIER triplet coverage is empty: {pilot_coverage}")
         first_scale = args.target_hier_scale / args.ramp_epochs
         pilot = first_scale * (betas["in"] * values["in"] +
                                betas["out"] * values["out"] +
@@ -460,6 +515,8 @@ def calibrate_shared(model: torch.nn.Module, proxy: ProxyHierarchy,
             "pilot_max_proxy_row_grad": max_row_grad,
             "pilot_initial_tangent_radius": initial_radius,
             "pilot_safe_lr": safe_lr,
+            "calibration_valid_triplets": coverage,
+            "pilot_valid_triplets": pilot_coverage,
             "rule": "v2 gradient balance; cap beta at 10; first-ramp proxy step <=5% initial tangent radius",
             "per_batch": reports}
 
@@ -568,8 +625,16 @@ def main() -> None:
             raise FileExistsError(f"old run dir without resumable last.pth: {run_dir}")
     run_dir.mkdir(parents=True, exist_ok=True)
     train_points, train_labels, train_shards = load_shards(args.data_dir, "train")
-    if len(train_labels) != 9843 or min(np.bincount(train_labels)) < 8:
-        raise ValueError("expected original ModelNet40 train set (9843 examples; 40 classes)")
+    class_counts = np.bincount(train_labels, minlength=40)
+    if (len(np.unique(train_labels)) != 40 or class_counts.min() < 8 or
+            len(train_labels) // args.batch_size != args.steps_per_epoch):
+        raise ValueError("expected 40 ModelNet40 classes, >=8 samples/class, and 307 full 32-item steps")
+    args.data_dir = args.data_dir.resolve(strict=True)
+    args.run_dir = args.run_dir.resolve()
+    if args.warmup_checkpoint is not None:
+        args.warmup_checkpoint = args.warmup_checkpoint.resolve(strict=True)
+    args.train_labels_sha256 = hashlib.sha256(train_labels.tobytes()).hexdigest()
+    args.train_shards_sorted = train_shards
     train_data = PointClouds(train_points, train_labels, 1024, "train", args.seed)
     test_loader = None
     test_shards = None
@@ -588,7 +653,8 @@ def main() -> None:
                 "torch": torch.__version__, "geoopt": getattr(geoopt, "__version__", "unknown"),
                 "gpu_name": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
                 "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
-                "protocol": "HyCoRe original CE/intra/part sampling + paired online HIER"}
+                "protocol": "HyCoRe original CE/intra/part sampling + paired online HIER",
+                **git_checkout_state()}
     atomic_json(manifest_path, manifest)
     try:
         model = Hype_pointMLP().to(device)
@@ -600,8 +666,13 @@ def main() -> None:
         own_last = run_dir / "last.pth"
         if own_last.is_file():
             state = torch.load(own_last, map_location="cpu", weights_only=False)
-            if state["args"]["phase"] != args.phase or state["args"]["arm"] != args.arm:
-                raise ValueError("existing run phase/arm mismatch")
+            previous_args = state["args"]
+            current_args = serializable_args(args)
+            mismatched = [key for key, value in current_args.items()
+                          if key != "device" and previous_args.get(key) != value]
+            if mismatched:
+                raise ValueError("existing run configuration/data mismatch: " +
+                                 ", ".join(mismatched))
             model.load_state_dict(state["net"])
             optimizer.load_state_dict(state["optimizer"])
             scheduler.load_state_dict(state["scheduler"])
@@ -612,8 +683,14 @@ def main() -> None:
             state = torch.load(source, map_location="cpu", weights_only=False)
             if state["epoch"] != args.warmup_epochs or state["args"]["phase"] != "warmup":
                 raise ValueError("branch source is not the completed shared warmup")
-            if state["args"]["seed"] != args.seed or state["args"]["epochs"] != args.epochs:
-                raise ValueError("warmup seed or cosine schedule differs")
+            shared_keys = ("seed", "epochs", "warmup_epochs", "batch_size",
+                           "num_points", "steps_per_epoch", "lr", "min_lr",
+                           "weight_decay", "train_labels_sha256", "train_shards_sorted")
+            mismatched = [key for key in shared_keys
+                          if state["args"].get(key) != serializable_args(args)[key]]
+            if mismatched:
+                raise ValueError("warmup training configuration/data mismatch: " +
+                                 ", ".join(mismatched))
             model.load_state_dict(state["net"])
             optimizer.load_state_dict(state["optimizer"])
             scheduler.load_state_dict(state["scheduler"])
