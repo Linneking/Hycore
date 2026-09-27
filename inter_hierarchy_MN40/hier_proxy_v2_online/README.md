@@ -7,8 +7,9 @@ and mines B1/B2 sample triplets from the current student whole embedding.
 The detached embedding is used only for discrete triplet selection; the live
 embedding and trainable proxies receive the HIER loss gradients.
 The HIER-only path projects the live whole embedding into the open ball before
-distance calculation: float32 HyCoRe outputs can round to the boundary under
-augmentation. The original classification and part–whole losses still receive
+distance calculation: the first full run encountered raw embeddings outside
+the strict interior check; the precise upstream numerical cause remains to be
+diagnosed. The original classification and part–whole losses still receive
 the unmodified embedding. Each epoch logs how many samples needed projection
 and the maximum raw radius; grossly invalid radii abort training.
 

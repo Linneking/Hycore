@@ -9,6 +9,7 @@ from geoopt import PoincareBall
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from hier_proxy_v2_online.mining import mine_batch_triplets, pairwise_poincare_distance_c1
+from hier_proxy_v2_online.proxy_hierarchy import ProxyHierarchy
 
 
 def _topk(mu: torch.Tensor, labels: torch.Tensor, anchor: int, k: int = 3) -> set[int]:
@@ -114,7 +115,8 @@ def test_distance_detaches_and_rejects_boundary():
 def test_projected_hier_branch_accepts_float32_boundary_and_keeps_gradient():
     # HyCoRe occasionally rounds a valid Mobius output to norm exactly one.
     # The HIER-only projection restores an interior point before ranking.
-    raw = torch.tensor([[1.0, 0.0], [0.90, 0.02]], requires_grad=True)
+    raw = torch.tensor([[1.0, 0.0], [0.90, 0.02], [0.75, 0.10]],
+                       requires_grad=True)
     ball = PoincareBall(c=1)
     projected = ball.projx(raw)
     distances = pairwise_poincare_distance_c1(projected)
@@ -122,6 +124,12 @@ def test_projected_hier_branch_accepts_float32_boundary_and_keeps_gradient():
     assert float(projected.norm(dim=-1).max()) < 1.0
     ball.dist(projected[0], projected[1]).backward()
     assert raw.grad is not None and torch.isfinite(raw.grad).all()
+    proxy = ProxyHierarchy(num_proxies=16, dim=2, seed=7)
+    proxy.initialize(projected.detach())
+    triplets = tuple(torch.tensor([index]) for index in (0, 1, 2))
+    loss, _ = proxy.sample_loss(projected, triplets,
+                                generator=torch.Generator().manual_seed(7))
+    assert torch.isfinite(loss)
 
 
 if __name__ == "__main__":

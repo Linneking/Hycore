@@ -303,16 +303,17 @@ def forward_losses(model: torch.nn.Module, proxy: ProxyHierarchy,
     losses = {"ce": ce, "intra": intra, "mu": mu, "logits": logits,
               "in": zero, "out": zero, "proxy": zero,
               "mining_stats": {}, "in_stats": {}, "out_stats": {}, "proxy_stats": {}}
-    # HyCoRe's Mobius output can round onto the float32 ball boundary for
-    # strongly augmented samples. Its own objectives already tolerate this,
-    # but the explicit HIER distance formula requires an interior point.
+    # Full-batch training encountered raw embeddings outside the strict
+    # interior check; the cause may include model/Geoopt numerical behavior.
+    # The explicit HIER distance formula requires an interior point.
     # Project only the HIER branch; leave classification and intra unchanged.
     raw_radius = mu.detach().norm(dim=-1)
     if not bool(torch.isfinite(raw_radius).all()) or float(raw_radius.max()) > 1.01:
         raise FloatingPointError(
-            f"invalid HyCoRe embedding radius; max={float(raw_radius.max()):.8f}"
+            f"invalid HyCoRe embedding radius; max={float(raw_radius.max()):.8f}, "
+            f"dtype={mu.dtype}"
         )
-    hier_mu = proxy.ball.projx(mu)
+    hier_mu = proxy.ball.projx(mu.float())
     projected_radius = hier_mu.detach().norm(dim=-1)
     if not bool(torch.isfinite(projected_radius).all()) or float(projected_radius.max()) >= 1:
         raise FloatingPointError("HIER projection did not produce interior points")
@@ -341,6 +342,7 @@ def forward_losses(model: torch.nn.Module, proxy: ProxyHierarchy,
         tau=args.tau, margin=args.margin,
     )
     losses.update({"in": in_loss, "out": out_loss, "proxy": proxy_loss,
+                   "hier_mu": hier_mu,
                    "mining_stats": mined["stats"], "in_stats": in_stats,
                    "out_stats": out_stats, "proxy_stats": proxy_stats})
     return losses
@@ -533,11 +535,11 @@ def probe_epoch(model: torch.nn.Module, proxy: ProxyHierarchy,
     with fixed_rng(args.seed + 9002, device):
         values = forward_losses(model, proxy, *first, args, 0, 0, device)
         in_loss, in_stats = proxy.sample_loss(
-            values["mu"], triplet_columns(fixed_triplets["in"]),
+            values["hier_mu"], triplet_columns(fixed_triplets["in"]),
             tau=args.tau, margin=args.margin,
         )
         out_loss, out_stats = proxy.sample_loss(
-            values["mu"], triplet_columns(fixed_triplets["out"]),
+            values["hier_mu"], triplet_columns(fixed_triplets["out"]),
             tau=args.tau, margin=args.margin,
         )
         base = values["ce"] + ALPHA_INTRA * values["intra"]
@@ -702,6 +704,7 @@ def main() -> None:
                 "device": str(device),
                 "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
                 "gpu_name": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
+                "model_parameter_dtype": str(next(model.parameters()).dtype),
                 "torch": torch.__version__, "torch_cuda": torch.version.cuda,
                 "geoopt": getattr(geoopt, "__version__", "unknown"),
                 "numpy": np.__version__,
