@@ -224,6 +224,33 @@ class FlipSafeBatchSampler:
             yield ordered
 
 
+def flip_safe_fixed_probe_data(model: torch.nn.Module, proxy: ProxyHierarchy,
+                               points: np.ndarray, labels: np.ndarray,
+                               args: argparse.Namespace, device: torch.device):
+    """Reindex v2's fixed probe into the same flip-safe layout as training."""
+    first, second, initial_mu, mined, edges = fixed_probe_data(
+        model, proxy, points, labels, args, device)
+    groups: dict[int, list[int]] = {}
+    for position, label in enumerate(first[1].reshape(-1).tolist()):
+        groups.setdefault(int(label), []).append(position)
+    if len(groups) != 4 or any(len(group) != 8 for group in groups.values()):
+        raise RuntimeError("fixed probe must have four 8-sample classes")
+    permutation = torch.tensor([position for group in groups.values()
+                                for position in group], dtype=torch.long)
+    inverse = torch.empty_like(permutation)
+    inverse[permutation] = torch.arange(len(permutation))
+    first = tuple(value[permutation] for value in first)
+    second = tuple(value[permutation] for value in second)
+    initial_mu = initial_mu[permutation]
+    mined = {key: inverse.to(value.device)[value] if key in ("in", "out") else value
+             for key, value in mined.items()}
+    edges = {(int(inverse[i]), int(inverse[j])) for i, j in edges}
+    gold = first[1].reshape(-1)
+    if bool((gold == torch.flip(gold, (0,))).any()):
+        raise RuntimeError("fixed probe flip-negative class collision")
+    return first, second, initial_mu, mined, edges
+
+
 def loader_for_epoch(dataset: PointClouds, labels: np.ndarray,
                      args: argparse.Namespace, epoch: int) -> DataLoader:
     sampler = ClassBalancedBatchSampler(
@@ -719,7 +746,7 @@ def main() -> None:
                 proxy_optimizer, args.epochs - args.warmup_epochs,
                 eta_min=calibration["proxy_min_lr"])
             # Probe starts from the common branch point. B1/B2 are identical.
-            first, second, initial_mu, triplets, edges = fixed_probe_data(
+            first, second, initial_mu, triplets, edges = flip_safe_fixed_probe_data(
                 model, proxy, train_points, train_labels, args, device)
             fixed = {"first": first, "second": second,
                      "initial_mu": initial_mu,
