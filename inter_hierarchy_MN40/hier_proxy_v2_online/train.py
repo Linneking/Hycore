@@ -47,6 +47,7 @@ from hier_proxy_v2_online.diagnostics import (
 ORIGINAL_FOLDER = "Hype_PointNet-Offv_pointmlp_hycore_var-4780"
 ALPHA_INTRA = 0.01
 MAX_BETA = 10.0
+MAX_RAW_RADIUS = 1.10
 FROZEN_NAMES = (
     "embedding", "local_grouper_list", "pre_blocks_list",
     "pos_blocks_list", "proj",
@@ -308,10 +309,11 @@ def forward_losses(model: torch.nn.Module, proxy: ProxyHierarchy,
     # The explicit HIER distance formula requires an interior point.
     # Project only the HIER branch; leave classification and intra unchanged.
     raw_radius = mu.detach().norm(dim=-1)
-    if not bool(torch.isfinite(raw_radius).all()) or float(raw_radius.max()) > 1.01:
+    if not bool(torch.isfinite(raw_radius).all()) or float(raw_radius.max()) > MAX_RAW_RADIUS:
         raise FloatingPointError(
             f"invalid HyCoRe embedding radius; max={float(raw_radius.max()):.8f}, "
-            f"dtype={mu.dtype}"
+            f"dtype={mu.dtype}, manifold_c={float(model.manifold.c):.8f}, "
+            f"limit={MAX_RAW_RADIUS:.3f}"
         )
     hier_mu = proxy.ball.projx(mu.float())
     projected_radius = hier_mu.detach().norm(dim=-1)
@@ -612,8 +614,13 @@ def train_epoch(model: torch.nn.Module, proxy: ProxyHierarchy | None,
         if args.max_batches and batch_index >= args.max_batches:
             break
         optimizer.zero_grad(set_to_none=True)
-        values = forward_losses(model, proxy, points, labels, ids,
-                                args, epoch, batch_index, device)
+        try:
+            values = forward_losses(model, proxy, points, labels, ids,
+                                    args, epoch, batch_index, device)
+        except Exception as error:
+            raise RuntimeError(
+                f"epoch={epoch + 1}, batch_index={batch_index}: {error}"
+            ) from error
         base = values["ce"] + ALPHA_INTRA * values["intra"]
         weighted_in = args.hier_scale * b_in * values["in"]
         weighted_out = args.hier_scale * b_out * values["out"]
@@ -636,6 +643,14 @@ def train_epoch(model: torch.nn.Module, proxy: ProxyHierarchy | None,
         sums["loss"] += float(loss.detach())
         sums["grad_norm"] += float(grad_norm)
         mine = values["mining_stats"]
+        if batch_index % 50 == 0:
+            print("batch_radius:", json.dumps({
+                "epoch": epoch + 1, "batch_index": batch_index,
+                "raw_radius_max": mine["raw_radius_max"],
+                "projected_radius_max": mine["projected_radius_max"],
+                "raw_outside_samples": mine["raw_outside_samples"],
+                "projected_samples": mine["projected_samples"],
+            }, sort_keys=True), flush=True)
         sums["eligible_in"] += mine.get("eligible_in_anchors", 0)
         sums["eligible_out"] += mine.get("eligible_out_anchors", 0)
         sums["projected_samples"] += mine.get("projected_samples", 0)
@@ -707,6 +722,9 @@ def main() -> None:
                 "model_parameter_dtype": str(next(model.parameters()).dtype),
                 "torch": torch.__version__, "torch_cuda": torch.version.cuda,
                 "geoopt": getattr(geoopt, "__version__", "unknown"),
+                "model_manifold_c": float(model.manifold.c),
+                "hier_proxy_c": 1.0,
+                "max_raw_radius_guard": MAX_RAW_RADIUS,
                 "numpy": np.__version__,
                 "args": {key: str(value) if isinstance(value, Path) else value
                          for key, value in vars(args).items()}}

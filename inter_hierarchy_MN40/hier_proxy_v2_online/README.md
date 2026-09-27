@@ -11,7 +11,9 @@ distance calculation: the first full run encountered raw embeddings outside
 the strict interior check; the precise upstream numerical cause remains to be
 diagnosed. The original classification and part–whole losses still receive
 the unmodified embedding. Each epoch logs how many samples needed projection
-and the maximum raw radius; grossly invalid radii abort training.
+and the maximum raw radius; non-finite values or raw radius above 1.10 abort
+training. This guard is deliberately logged and does not establish why a few
+raw HyCoRe outputs exceeded radius one in the first full-run attempt.
 
 `--initialization-cache` is checked against the source checkpoint and dataset.
 It is used once to set the initial proxy scale, never to mine training samples.
