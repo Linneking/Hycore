@@ -111,6 +111,90 @@ def serializable_args(args: argparse.Namespace) -> dict:
             for key, value in vars(args).items()}
 
 
+@torch.no_grad()
+def initialize_proxies_from_features(
+        proxy: ProxyHierarchy, reference_mu: torch.Tensor) -> dict:
+    """Use epoch-20 whole features for proxy directions, without class labels.
+
+    The original v2 initializer used the feature median only as a scale and
+    placed proxies in random directions. Here a fixed subset is clustered in
+    the origin tangent space, then the cluster directions are placed at the
+    same conservative half-median radius. All clustering runs on CPU with a
+    local seed so the independently launched B1/B2 arms get identical starts.
+    """
+    if reference_mu.ndim != 2 or reference_mu.shape[1] != proxy.dim:
+        raise ValueError(f"reference_mu must be [N,{proxy.dim}]")
+    if reference_mu.shape[0] < proxy.num_proxies:
+        raise ValueError("need at least one reference feature per proxy")
+    reference = reference_mu.detach().to(device="cpu", dtype=torch.float32)
+    if not bool(torch.isfinite(reference).all()):
+        raise ValueError("reference_mu contains NaN or Inf")
+    boundary = 1.0 / math.sqrt(proxy.c)
+    if not bool((reference.norm(dim=-1) < boundary).all()):
+        raise ValueError("reference_mu has points outside the Poincare ball")
+    tangent = geoopt.PoincareBall(c=proxy.c).logmap0(reference)
+    if not bool(torch.isfinite(tangent).all()):
+        raise ValueError("log-mapped reference features are not finite")
+    reference_norm = tangent.norm(dim=-1)
+    median_norm = float(reference_norm.median())
+    if median_norm <= 1e-8:
+        raise ValueError("epoch-20 reference features have no usable radius")
+
+    generator = torch.Generator(device="cpu").manual_seed(proxy.seed)
+    subset_size = min(len(tangent), 2048)
+    subset_indices = torch.randperm(len(tangent), generator=generator)[:subset_size]
+    subset = tangent[subset_indices].contiguous()
+    centers = subset[torch.randperm(subset_size, generator=generator)
+                     [:proxy.num_proxies]].clone()
+    empty_reseeds = 0
+    iterations = 6
+    for _ in range(iterations):
+        distances = torch.cdist(subset, centers)
+        assignment = distances.argmin(dim=1)
+        counts = torch.bincount(assignment, minlength=proxy.num_proxies)
+        sums = torch.zeros_like(centers)
+        sums.index_add_(0, assignment, subset)
+        updated = sums / counts.clamp_min(1).unsqueeze(1)
+        empty = torch.nonzero(counts == 0, as_tuple=False).flatten()
+        if len(empty):
+            # Refill distinct empty clusters with the least represented data.
+            farthest = torch.argsort(distances.min(dim=1).values,
+                                     descending=True)[:len(empty)]
+            updated[empty] = subset[farthest]
+            empty_reseeds += len(empty)
+        centers = updated
+    center_norms = centers.norm(dim=-1)
+    if not bool(torch.isfinite(centers).all()) or bool((center_norms <= 1e-8).any()):
+        raise ValueError("feature-derived proxy directions are degenerate")
+
+    init_cap = math.atanh(0.8) / math.sqrt(proxy.c)
+    target = min(max(0.5 * median_norm, 0.05), init_cap)
+    values = centers / center_norms.unsqueeze(1) * target
+    value_sha256 = hashlib.sha256(values.numpy().tobytes()).hexdigest()
+    proxy.tangent_proxies.copy_(values.to(device=proxy.tangent_proxies.device,
+                                          dtype=proxy.tangent_proxies.dtype))
+    final_distances = torch.cdist(subset, centers)
+    final_counts = torch.bincount(final_distances.argmin(dim=1),
+                                  minlength=proxy.num_proxies)
+    return {
+        "method": "epoch20_feature_tangent_kmeans_directions_half_median_radius",
+        "label_free": True,
+        "seed": proxy.seed,
+        "reference_count": len(reference),
+        "subset_count": subset_size,
+        "iterations": iterations,
+        "empty_cluster_reseeds": int(empty_reseeds),
+        "occupied_clusters": int((final_counts > 0).sum()),
+        "reference_median_tangent_norm": median_norm,
+        "centroid_tangent_norm_min": float(center_norms.min()),
+        "centroid_tangent_norm_median": float(center_norms.median()),
+        "centroid_tangent_norm_max": float(center_norms.max()),
+        "init_tangent_norm": target,
+        "init_ball_norm": float(proxy.proxies().norm(dim=-1).median()),
+        "initial_tangent_sha256": value_sha256,
+    }
+
+
 def git_checkout_state() -> dict:
     status = subprocess.run(["git", "status", "--porcelain"], cwd=REPO,
                             text=True, capture_output=True, check=False)
@@ -734,7 +818,7 @@ def main() -> None:
                 raise ValueError("warmup feature cache shape mismatch")
             proxy = ProxyHierarchy(num_proxies=args.proxy_count, dim=256, c=1,
                                    seed=args.seed).to(device)
-            initialization = proxy.initialize(initial_features.to(device))
+            initialization = initialize_proxies_from_features(proxy, initial_features)
             atomic_json(run_dir / "proxy_initialization.json", initialization)
             calibration = calibrate_shared(model, proxy, train_data, train_labels, args, device)
             betas = calibration["betas"]
