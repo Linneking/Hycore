@@ -37,3 +37,11 @@ python -m hier_proxy_v2_online.train --mode train --arm B1 \
 
 Unit checks are in `tests/`. Run them in the server's `hycore` environment
 before training. Keep datasets, caches, checkpoints, and complete logs off Git.
+
+`launch_screen.py` is the server-side launcher for the fixed 8-epoch screen:
+`B1_scale1`, `B2_scale1`, and `B1_scale2` start simultaneously on three
+distinct GPUs that are idle at launch. After `B1_scale1` succeeds, `B2_scale2`
+starts on its GPU only if that GPU is still idle. A newly occupied card causes
+the affected run to be marked skipped, never preempted. The launcher writes
+`launcher_state.json` and separate console logs under the run parent; each
+training process also writes its own manifest, metrics, and checkpoints.
