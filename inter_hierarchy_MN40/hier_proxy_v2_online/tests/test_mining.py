@@ -5,6 +5,7 @@ import os
 import sys
 
 import torch
+from geoopt import PoincareBall
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from hier_proxy_v2_online.mining import mine_batch_triplets, pairwise_poincare_distance_c1
@@ -110,12 +111,26 @@ def test_distance_detaches_and_rejects_boundary():
         raise AssertionError("boundary embedding should be rejected")
 
 
+def test_projected_hier_branch_accepts_float32_boundary_and_keeps_gradient():
+    # HyCoRe occasionally rounds a valid Mobius output to norm exactly one.
+    # The HIER-only projection restores an interior point before ranking.
+    raw = torch.tensor([[1.0, 0.0], [0.90, 0.02]], requires_grad=True)
+    ball = PoincareBall(c=1)
+    projected = ball.projx(raw)
+    distances = pairwise_poincare_distance_c1(projected)
+    assert torch.isfinite(distances).all()
+    assert float(projected.norm(dim=-1).max()) < 1.0
+    ball.dist(projected[0], projected[1]).backward()
+    assert raw.grad is not None and torch.isfinite(raw.grad).all()
+
+
 if __name__ == "__main__":
     for test in (
         test_rank_crossing_updates_selected_triplet_with_fixed_seed,
         test_balanced_5x8_respects_mutual_neighbours_and_class_rules,
         test_all_hard_cross_class_negatives_are_nearest,
         test_distance_detaches_and_rejects_boundary,
+        test_projected_hier_branch_accepts_float32_boundary_and_keeps_gradient,
     ):
         test()
         print(f"PASS {test.__name__}")

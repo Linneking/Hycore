@@ -303,18 +303,38 @@ def forward_losses(model: torch.nn.Module, proxy: ProxyHierarchy,
     losses = {"ce": ce, "intra": intra, "mu": mu, "logits": logits,
               "in": zero, "out": zero, "proxy": zero,
               "mining_stats": {}, "in_stats": {}, "out_stats": {}, "proxy_stats": {}}
+    # HyCoRe's Mobius output can round onto the float32 ball boundary for
+    # strongly augmented samples. Its own objectives already tolerate this,
+    # but the explicit HIER distance formula requires an interior point.
+    # Project only the HIER branch; leave classification and intra unchanged.
+    raw_radius = mu.detach().norm(dim=-1)
+    if not bool(torch.isfinite(raw_radius).all()) or float(raw_radius.max()) > 1.01:
+        raise FloatingPointError(
+            f"invalid HyCoRe embedding radius; max={float(raw_radius.max()):.8f}"
+        )
+    hier_mu = proxy.ball.projx(mu)
+    projected_radius = hier_mu.detach().norm(dim=-1)
+    if not bool(torch.isfinite(projected_radius).all()) or float(projected_radius.max()) >= 1:
+        raise FloatingPointError("HIER projection did not produce interior points")
+    projected_samples = int(
+        ((hier_mu.detach() - mu.detach()).norm(dim=-1) > 1e-6).sum()
+    )
     # The selector is the *current* student representation. Detaching makes
     # the discrete top-k decision non-differentiable; the loss below still
     # receives the live mu and can update both student and proxies.
     mined = mine_batch_triplets(
-        mu.detach(), labels, k_in=args.k_in,
+        hier_mu.detach(), labels, k_in=args.k_in,
         seed=args.seed + epoch * 1000003 + batch_index, hard_ratio=0.5,
     )
+    mined["stats"].update(raw_radius_max=float(raw_radius.max()),
+                          projected_radius_max=float(projected_radius.max()),
+                          raw_outside_samples=int((raw_radius >= 1).sum()),
+                          projected_samples=projected_samples)
     in_loss, in_stats = proxy.sample_loss(
-        mu, triplet_columns(mined["in"]), tau=args.tau, margin=args.margin,
+        hier_mu, triplet_columns(mined["in"]), tau=args.tau, margin=args.margin,
     )
     out_loss, out_stats = proxy.sample_loss(
-        mu, triplet_columns(mined["out"]), tau=args.tau, margin=args.margin,
+        hier_mu, triplet_columns(mined["out"]), tau=args.tau, margin=args.margin,
     )
     proxy_loss, proxy_stats = proxy.proxy_loss(
         k=args.proxy_k, t_per_anchor=args.proxy_triples_per_anchor,
@@ -472,6 +492,7 @@ def fixed_probe_data(model: torch.nn.Module, proxy: ProxyHierarchy,
     proxy.eval()
     with fixed_rng(args.seed + 9001, device), torch.no_grad():
         initial_mu, _ = model(views[0].to(device).transpose(1, 2))
+        initial_mu = proxy.ball.projx(initial_mu)
     mined = mine_batch_triplets(initial_mu.detach(), gold.to(device),
                                 k_in=args.k_in, seed=args.seed + 701)
     if mined["in"].shape[0] == 0:
@@ -497,8 +518,10 @@ def probe_epoch(model: torch.nn.Module, proxy: ProxyHierarchy,
     proxy.eval()
     with fixed_rng(args.seed + 9001, device), torch.no_grad():
         current_mu, _ = model(first[0].to(device).transpose(1, 2))
+        current_mu = proxy.ball.projx(current_mu)
     with fixed_rng(args.seed + 9001, device), torch.no_grad():
         second_mu, _ = model(second[0].to(device).transpose(1, 2))
+        second_mu = proxy.ball.projx(second_mu)
     edges = probe_neighbour_edges(current_mu, first[1], proxy, args.k_in)
     other_edges = probe_neighbour_edges(second_mu, second[1], proxy, args.k_in)
     result: dict[str, float] = {
@@ -577,8 +600,11 @@ def train_epoch(model: torch.nn.Module, proxy: ProxyHierarchy | None,
                                      "in_valid", "out_valid", "proxy_valid",
                                      "in_collisions", "out_collisions", "proxy_collisions",
                                      "eligible_in", "eligible_out", "proxy_eligible",
+                                     "projected_samples", "raw_outside_samples",
                                      "grad_norm")}
     correct, total, batches = 0, 0, 0
+    max_raw_radius = 0.0
+    max_projected_radius = 0.0
     b_in, b_out, b_p = configured_betas(args)
     for batch_index, (points, labels, ids) in enumerate(loader):
         if args.max_batches and batch_index >= args.max_batches:
@@ -610,6 +636,11 @@ def train_epoch(model: torch.nn.Module, proxy: ProxyHierarchy | None,
         mine = values["mining_stats"]
         sums["eligible_in"] += mine.get("eligible_in_anchors", 0)
         sums["eligible_out"] += mine.get("eligible_out_anchors", 0)
+        sums["projected_samples"] += mine.get("projected_samples", 0)
+        sums["raw_outside_samples"] += mine.get("raw_outside_samples", 0)
+        max_raw_radius = max(max_raw_radius, mine.get("raw_radius_max", 0.0))
+        max_projected_radius = max(max_projected_radius,
+                                   mine.get("projected_radius_max", 0.0))
         for branch in ("in", "out", "proxy"):
             stats = values[branch + "_stats"]
             sums[branch + "_triplets"] += stats.get("triplets", 0)
@@ -622,6 +653,8 @@ def train_epoch(model: torch.nn.Module, proxy: ProxyHierarchy | None,
         total += len(labels)
         batches += 1
     result = {"train_" + key: value / batches for key, value in sums.items()}
+    result["train_max_raw_radius"] = max_raw_radius
+    result["train_max_projected_radius"] = max_projected_radius
     for branch in ("in", "out", "proxy"):
         result["train_" + branch + "_active_rate"] = (
             sums[branch + "_active"] / sums[branch + "_triplets"]
