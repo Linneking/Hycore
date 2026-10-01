@@ -112,3 +112,18 @@ foreign compute owners are rechecked before model allocation. The existing
 PyTorch/CUDA package bytes may be copied into an SSD cache to avoid repeated
 shared-HDD cold loading; runtime module paths are recorded in manifests.
 This changes storage location, not framework versions or objective settings.
+
+## Launch gate result
+
+All14 CPU numerical/protocol checks passed. A3-epoch smoke trajectory
+(shared1-epoch prefix,2batches per epoch) completed for B0/H3/H5. Actual
+HIER sample/proxy gradients were finite and nonzero; no extra whole
+projection occurred. Peak allocated memory in the last smoke epoch was
+28390.8/28394.2/28393.2MiB for B0/H3/H5. These are runtime gates, not
+classification-performance measurements. The full run removes the batch
+limit, uses20 shared prefix epochs and200 total epochs, workers4.
+
+Runtime versions verified: PyTorch2.8.0+cu128, Geoopt0.5.1, NumPy1.26.4,
+SciPy1.13.1, h5py3.14.0. Physical assignment: B0 GPU1, H3 GPU2, H5 GPU3;
+GPU2 is RTX5090D and the other two RTX5090, so runtime is not a hardware
+matched comparison. Source labels/checkpoint identity remain explicit.

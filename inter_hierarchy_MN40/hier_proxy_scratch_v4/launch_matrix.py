@@ -218,7 +218,7 @@ def main() -> None:
         "config": {key: str(value) if isinstance(value, Path) else value
                    for key, value in vars(args).items()},
         "gpu_inventory_at_start": inventory, "selected_gpus": selected, "runs": {},
-        "progress_source": "each run manifest.json and metrics.csv",
+        "progress_source": "each run manifest.json and metrics_epoch_NNN.json",
     }
     atomic_json(args.root / "launcher_state.json", state)
     try:
