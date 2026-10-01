@@ -317,6 +317,23 @@ def ensure_gpu_idle_before_allocation():
     )
 
 
+def ensure_no_foreign_compute_owner(uuid):
+    """After reserving an idle GPU, wait if somebody else also starts work."""
+    while True:
+        output = subprocess.run(
+            ["nvidia-smi", "--query-compute-apps=gpu_uuid,pid", "--format=csv,noheader,nounits"],
+            capture_output=True, text=True, check=True).stdout
+        foreign = []
+        for row in output.splitlines():
+            gpu_uuid, pid = [value.strip() for value in row.split(",")]
+            if gpu_uuid == uuid and int(pid) != os.getpid():
+                foreign.append(int(pid))
+        if not foreign:
+            return
+        print("waiting for foreign compute processes on assigned GPU:", foreign, flush=True)
+        time.sleep(15)
+
+
 def main():
     args = arguments()
     args.run_dir = args.run_dir.resolve()
@@ -339,14 +356,23 @@ def main():
                 "gpu_physical": os.environ.get("HYCORE_PHYSICAL_GPU", os.environ.get("CUDA_VISIBLE_DEVICES")),
                 "gpu_uuid": os.environ.get("HYCORE_PHYSICAL_GPU_UUID"),
                 "torch": torch.__version__, "geoopt": geoopt.__version__,
+                "python_executable": sys.executable, "torch_module": torch.__file__,
+                "pythonpath": os.environ.get("PYTHONPATH"),
                 "fixed_budget_no_early_stopping": True,
                 "whole_output_cap": None, "curvature": 1, "distance_units": "native d1",
                 "intra_compatibility": source_cap_intra_audit(), **git_checkout_state()}
     path = args.run_dir / "manifest.json"
     atomic_json(path, manifest)
     try:
+        idle = ensure_gpu_idle_before_allocation()
+        # A small context reservation keeps each assigned job visible while
+        # hierarchy arms await the exact common warmup.
+        reservation = torch.empty(1, device=device)
+        manifest.update(gpu_reserved_utc=utc_now(), gpu_uuid=idle["uuid"],
+                        gpu_name=torch.cuda.get_device_name(device))
+        atomic_json(path, manifest)
         source, ready = (None, None) if args.arm == "B0" else wait_for_shared(args)
-        ensure_gpu_idle_before_allocation()
+        ensure_no_foreign_compute_owner(idle["uuid"])
         seed_all(args.seed)
         model = Hype_pointMLP().to(device)
         freeze_curvature(model)

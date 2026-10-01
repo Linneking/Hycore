@@ -105,3 +105,10 @@ backward. GPU preflight uses a new output and idle GPU only. Each arm records
 commit, full resolved config, split/sample identities, seed, physical GPU,
 start time, shared checkpoint/features hashes, per-epoch metrics and final
 test selection. Results/checkpoints remain server-local and never committed.
+
+Operational startup: all three assigned processes reserve a small CUDA
+context only after an idle check. H3/H5 then wait for the common prefix;
+foreign compute owners are rechecked before model allocation. The existing
+PyTorch/CUDA package bytes may be copied into an SSD cache to avoid repeated
+shared-HDD cold loading; runtime module paths are recorded in manifests.
+This changes storage location, not framework versions or objective settings.
