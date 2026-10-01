@@ -386,7 +386,9 @@ def main():
                                        batch_size=32, shuffle=False, num_workers=args.workers)
         best_oa = source.get("best_val_oa", -1) if source else -1
         if source and source.get("best_net") is not None:
-            atomic_torch(args.run_dir / "best.pth", {"net": source["best_net"], "epoch": source["best_epoch"], "val_oa": best_oa})
+            atomic_torch(args.run_dir / "best.pth", {"net": source["best_net"], "proxy": None,
+                                                    "epoch": source["best_epoch"], "val_oa": best_oa,
+                                                    "split_sha256": split_sha})
         best_net = source.get("best_net") if source else None
         best_epoch = source.get("best_epoch", 0) if source else 0
         manifest.update(status="running", running_utc=utc_now(), gpu_name=torch.cuda.get_device_name(device),
@@ -406,7 +408,8 @@ def main():
                 best_oa, best_epoch = row["val_oa"], epoch + 1
                 best_net = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
                 atomic_torch(args.run_dir / "best.pth", {"net": best_net, "epoch": best_epoch, "val_oa": best_oa,
-                                                         "split_sha256": split_sha})
+                                                         "proxy": proxy.state_dict() if proxy else None,
+                                                         "args": json_args(args), "split_sha256": split_sha})
             atomic_json(args.run_dir / f"metrics_epoch_{epoch+1:03d}.json", row)
             state = {"net": model.state_dict(), "optimizer": optimizer.state_dict(), "scheduler": scheduler.state_dict(),
                      "epoch": epoch + 1, "args": json_args(args), "rng": capture_rng(), "split_sha256": split_sha,

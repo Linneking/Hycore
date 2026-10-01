@@ -68,8 +68,34 @@ after all 200 epochs. Neither diagnostics nor model selection read test.
 Main RSGD: LR0.1 ->0.005 cosine200, momentum0.9, weight decay2e-4.
 Proxy ordinary-tangent RSGD: LR0.005 ->0.0005 cosine180, momentum0.9,
 weight decay0. HIER ramp20 epochs after the shared20; initial shared
-lambda_inter=lambda_proxy=0.03. Any final diagnostic-driven choice is
-recorded before full dispatch; H3/H5 retain identical weights and budgets.
+lambda_inter=lambda_proxy=0.03. H3/H5 retain identical weights and budgets.
+
+## Bounded diagnostic decision
+
+Four training batches were inspected at random initialization and at the
+previous v3 epoch-20 checkpoint (reference only; not the new initialization).
+At the reference, K3/K5 eligible-anchor coverage was 61.72%/85.16%.
+For T64, negative-pair coverage was 89.80%/91.24%, versus 83.34%/84.81%
+at T50. T64 ancestor collision rates were 2.89%/2.48%; active-triple rates
+were 23.95%/22.84%. Full candidate-triple coverage was 57.83%/41.46%; these
+denominators differ from negative-pair and eligible-anchor coverage.
+
+Selected sample T64 for both arms. T96 increased negative-pair coverage to
+approximately97% with 50% more draws, so was not selected. Proxy T32 gave
+7104 draws/1051 active triples at the reference, collision2.03%; its raw
+loss0.02957 was close to T50's0.02970. Selected proxy T32, K20.
+
+The reference median whole radius was0.99574. Matched ordinary versus
+metric-preconditioned whole-gradient norms were49.791 and0.001207
+(ratio2.424e-5), with identical forward loss. Selected explicit ordinary
+backward for both whole and proxy; this differs from HIER's output hook.
+There is no additional final whole cap. Units/margin/tau stay as above.
+
+Base gates passed: input unchanged; part running statistics unchanged;
+whole statistics update once; full base backward finite. Training split:
+8856 train/984 validation,281 batches/epoch,8992 draws and136 necessary
+padding repeats (1.51%),100% planned unique coverage. GPU preflight peak
+allocated memory was28601.7MiB; full HIER short-run memory is a launch gate.
 
 ## Required gates and records
 
