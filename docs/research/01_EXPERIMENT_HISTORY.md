@@ -60,3 +60,19 @@ Relative to the zero-increment control, the main method improves Spearman by 0.0
 ## Known protocol flaw to fix
 
 The first v2 run evaluated the ModelNet40 test set after every epoch. The next protocol must create a deterministic stratified train/validation split, select checkpoints using validation metrics, and use the official test set only for final reporting.
+
+## V4 completed and V5 review — 2026-10-03
+
+The shared-whole HIER V4 matrix completed200epochs at seed22 on the fixed
+8856/984 train/validation split. Validation-selected final test OA was
+88.3712% for B0,89.5462% for H3 and88.1686% for H5. The shared protocol
+also showed substantial late inference decline. B0 changed part storage,
+BN updates and batch construction, so it is not an original-protocol
+HyCoRe reproduction. See [V4 lessons](12_V4_LESSONS_2026-10-03.md) for
+evidence and limits of causal conclusions.
+
+The user requested lessons and a training-change catalogue before the next
+dual-GPU tests. [V5 review](13_DUAL_GPU_V5_CHANGE_INDEX_2026-10-03.md)
+records coverage calculations, source-fidelity choices, script interfaces
+and acceptance gates. No V5 GPU run has been launched; full training awaits
+review of the current plan.

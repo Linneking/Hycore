@@ -1,6 +1,39 @@
-# Next experiment plan — draft for user review
+# Next experiment plan — current review and historical drafts
 
 Status: **do not execute until reviewed by the user.**
+
+## Current review — 2026-10-03: dual-GPU V5 successor
+
+The user requested V4 lessons and a concrete training-change catalogue for
+review before the next dual-GPU tests and full training. The current proposal
+is [V4 lessons](12_V4_LESSONS_2026-10-03.md) and
+[dual-GPU V5 change index](13_DUAL_GPU_V5_CHANGE_INDEX_2026-10-03.md).
+No V5 GPU job or full matrix has been launched.
+
+- Restore original HyCoRe part overwriting and child/whole BN updates;
+  retain its intra expressions, smoothed CE and base optimizer.
+- Proposed dual-GPU batch: 16 distinct classes x 2 instances per rank;
+  32 disjoint classes x 2 globally. This is an explicit protocol adaptation.
+- Screen K6/8/10 with HIER's released reciprocal rule (at least two nonself
+  positives; skip other anchors), source K including self, and replacement
+  draws. State the released self-negative behavior and all adaptations.
+- Increasing an epoch from138 to200 steps gives expected overall unique
+  coverage66.08%, but largest-class coverage32.98% under class-uniform
+  replacement sampling on the current training split. It cannot meet an
+  80–90% largest-class single-epoch target; sampler/budget choice is pending.
+- Validate differentiable gathering, synchronized hierarchy proxies and
+  DDP gradient scaling before a full run. Keep the validation-selection
+  protocol; do not use the official test set for per-epoch selection.
+- Separate baseline restoration, protocol changes and HIER's incremental
+  effect. Specific curvature/backward, weights and full matrix remain to
+  be resolved by the reviewed diagnostics.
+
+The earlier teacher-based proposal below is retained as historical context.
+Its temporary test-every-epoch debugging exception does not apply to V5.
+V4's separately authorized, completed scope is recorded in
+[its plan](10_HIER_PROXY_V4_PLAN_2026-10-02.md).
+
+## Historical draft — teacher and restricted-scope experiments
 
 ## Revision after user review
 

@@ -1,5 +1,18 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## Current navigation — 2026-10-03
+
+The teacher/equal-radius method below is retained as historical context.
+The shared-whole HIER V4 runs have completed; current work is a reviewed
+proposal for a dual-GPU V5 successor, not an authorized full training run.
+Start with [V4 lessons](12_V4_LESSONS_2026-10-03.md),
+[V5 change index](13_DUAL_GPU_V5_CHANGE_INDEX_2026-10-03.md), and the current
+section of [the experiment plan](04_NEXT_EXPERIMENT_PLAN.md).
+V5 proposes restoring original HyCoRe part overwriting/BN updates, then
+checking a global32-class x2 batch and the released HIER reciprocal rule.
+Sampling coverage, geometry/backward adaptations and the final matrix
+remain subject to the user's review.
+
 ## Research objective
 
 The project studies whether point-cloud representations can encode two complementary forms of hierarchy in hyperbolic space:
