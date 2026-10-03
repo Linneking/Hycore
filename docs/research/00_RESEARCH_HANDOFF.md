@@ -7,7 +7,8 @@ self-k and runs300epochs; the spare GPU runs the original default HyCoRe
 B32 protocol (300epochs,307steps,full9840train). See
 [21: V6 launch and visualization](21_V6_TRAINING_START_2026-10-04.md) and
 the approved current section of [04](04_NEXT_EXPERIMENT_PLAN.md).
-V5epoch200 proxy top-four point-cloud visualization is also being prepared.
+Both jobs are detached and have saved their first full epoch checkpoints;
+V5epoch200 proxy top-four point-cloud visualization has also completed.
 The B32 run is an original-protocol engineering baseline, not matchedglobal64.
 
 The user's requested B32 fidelity audit is complete. See

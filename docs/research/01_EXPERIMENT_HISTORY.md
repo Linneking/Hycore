@@ -9,8 +9,11 @@ and307steps/epoch for300epochs. Original test-every-epoch selection is
 retained for this requested engineering reproduction; H20 keeps validation
 selection and final-test-only evaluation. A V5epoch200 read-only proxy
 top-four point-cloud script is requested first. See[21](21_V6_TRAINING_START_2026-10-04.md)
-for actual implementation, checks and launch status; approval alone is not
-reported as a successful launch.
+for actual implementation, checks and launch status. Both jobs launched at
+01:33Asia/Shanghai with commitb3542cb, completed their first full epoch
+checkpoint and enteredepoch2. H20 usesGPUs1/2 and originalB32 usesGPU3.
+The startup gates and all8856-instance V5 visualization have passed; no final
+V6 training result is reported at launch.
 
 ## B32 source-fidelity audit — 2026-10-03
 
