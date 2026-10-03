@@ -1,5 +1,17 @@
 # Experiment history
 
+## V5 completed — 2026-10-03
+
+Both jobs completed200epochs ×200steps with finite telemetry and one final
+official-test evaluation on the validation-selected best checkpoint.
+H20 bestval94.0041%@179, testOA92.1394%/AA89.1581%; B32 bestval94.5122%@172,
+testOA92.5851%/AA89.3285%. Both epoch200 validationOA is93.0894%; cleantrain
+OA is99.6161%/99.4354%. V4's severe late inference decline did not recur.
+H20 has substantial whole/proxy radial saturation and only about32% proxy
+anchor eligibility late in training. B32 differs in batch and sampling,
+so its advantage is not an isolated estimate of the HIER effect.
+See [19: complete result and monitoring summary](19_V5_FINAL_RESULTS_2026-10-03.md).
+
 ## V5 production launch authorized — 2026-10-03
 
 The user approved200×200 V5-H20 (two local32 ranks, global64) and a spare

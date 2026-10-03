@@ -2,6 +2,12 @@
 
 ## Current navigation — 2026-10-03
 
+V5-H20 and B32 have both completed200epochs and final validation-selected
+test evaluation. See [19: final results and diagnostics](19_V5_FINAL_RESULTS_2026-10-03.md).
+Test OA is92.1394% forH20 and92.5851% forB32. Late inference is stable,
+but radial saturation warrants inspection; B32 is not a matchedglobal64
+zero-HIER control. This final report supersedes the running snapshots below.
+
 For a shareable Chinese introduction to the current progress, difficulties,
 and proposed collaborator tasks, see
 [18: collaborator brief](18_COLLABORATOR_BRIEF_2026-10-03.md).
