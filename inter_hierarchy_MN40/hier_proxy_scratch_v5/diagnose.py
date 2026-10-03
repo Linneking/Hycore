@@ -60,6 +60,8 @@ def main():
     p.add_argument('--data-dir', type=Path, required=True)
     p.add_argument('--run-dir', type=Path, required=True)
     p.add_argument('--reference', type=Path)
+    p.add_argument('--initial-checkpoint', type=Path,
+                   help='Read-only representation reference for bounded joint updates; fresh optimizer')
     p.add_argument('--joint-steps', type=int, default=16)
     p.add_argument('--probe-batches', type=int, default=4)
     p.add_argument('--seed', type=int, default=22)
@@ -84,14 +86,16 @@ def main():
     manifest={'status':'running', 'diagnostic_only':True, 'main_training':False,
               'started_utc':dt.datetime.now(dt.timezone.utc).isoformat(),
               'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),
+              'command_argv':[sys.executable,*sys.argv],
               'config':{k:str(v) if isinstance(v,Path) else v for k,v in vars(args).items()},
               'fixed':{'c':1,'D':256,'P':512,'margin':.1,'tau':.1,'lambda_H':.5,
                        'global_CE_intra_inter':64,'local_encoder_BN':32,'sample_proxy_K':args.topk,
                        'T':50,'nominal_steps':200,'extra_cap':False,'HIER_backward_hook':False,
-                       'source_self_negative':True,'proxy_initialization':'random_tangent'},
+                       'source_self_negative':True,'proxy_initialization':'random_tangent',
+                       'optimizer_state':'fresh'},
               'visible_gpus':os.environ.get('CUDA_VISIBLE_DEVICES'),
               'runtime':{'torch':torch.__version__,'geoopt':geoopt.__version__},
-              'reference_identity':None}
+              'reference_identity':None,'initial_checkpoint_identity':None}
     try:
         points, labels, shards=load_shards(args.data_dir,'train')
         train_ids,val_ids=stratified_split(labels,args.seed,.1)
@@ -100,6 +104,16 @@ def main():
                         training_shards=shards)
         seed_all(args.seed)
         backbone=Hype_pointMLP().to(device); freeze_curvature(backbone)
+        case_source_identity='random_seed'+str(args.seed)
+        if args.initial_checkpoint:
+            initial=torch.load(args.initial_checkpoint,map_location='cpu',weights_only=False)
+            backbone.load_state_dict({k.removeprefix('module.'):v for k,v in initial['net'].items()},strict=True)
+            freeze_curvature(backbone)
+            case_source_identity={'sha256':checkpoint_sha(args.initial_checkpoint),
+                                  'epoch':initial.get('epoch'),
+                                  'role':'representation-reference joint diagnostic; fresh optimizer, not V5 main initialization'}
+            manifest['initial_checkpoint_identity']=case_source_identity
+            del initial
         model=DDP(HyCoReTrainingForward(backbone),device_ids=[local],broadcast_buffers=True)
         proxy=HIERLoss(seed=args.seed).to(device); broadcast_parameters(proxy)
         optimizer=geoopt.optim.RiemannianSGD([x for x in model.parameters() if x.requires_grad],
@@ -173,7 +187,8 @@ def main():
             if rank==0:
                 write_json(args.run_dir/f'step_{step:03d}.json',row)
                 if step<2 or step>=args.joint_steps-2:
-                    cases.append(cpu_case(values,ids,'random_start_short_updates',step,'random_seed22'))
+                    stage='reference_start_short_updates' if args.initial_checkpoint else 'random_start_short_updates'
+                    cases.append(cpu_case(values,ids,stage,step,case_source_identity))
                 print(json.dumps({'step':step,'seconds':float(elapsed),'loss':float(loss.detach()),
                                   'anchors':h_stats['sample']['eligible_anchors']},allow_nan=False),flush=True)
         if args.reference:
