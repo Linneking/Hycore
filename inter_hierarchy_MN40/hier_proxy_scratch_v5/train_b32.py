@@ -472,7 +472,9 @@ def main():
                 atomic_json(args.run_dir / "heartbeat.json", {"status": "epoch_completed",
                     "epoch": epoch + 1, "step": args.steps_per_epoch, "time_utc": utc_now(),
                     "pid": os.getpid(), "validation_oa": val["oa"]})
-                print(json.dumps({"epoch": epoch + 1, "train": epoch_report["training"].get("training"),
+                print(json.dumps({"epoch": epoch + 1,
+                    "train_oa": epoch_report['training']['training']['oa'],
+                    "train_aa": epoch_report['training']['training']['aa_observed_classes'],
                     "validation_oa": val["oa"], "validation_ce": val["ce"], "best": best}), flush=True)
         if not args.skip_final_test:
             selected = torch.load(args.run_dir / "best_checkpoint.pth", map_location="cpu", weights_only=False)
