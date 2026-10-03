@@ -2,6 +2,12 @@
 
 ## Current navigation — 2026-10-03
 
+The user's requested B32 fidelity audit is complete. See
+[20: B32 versus original HyCoRe](20_B32_HYCORE_FIDELITY_AUDIT_2026-10-03.md).
+Core model/alias/BN/loss settings match, but the data split, budget and cosine
+period, RNG flow, workers and selection protocol do not. No training code was
+changed and no new experiment was launched by this audit.
+
 V5-H20 and B32 have both completed200epochs and final validation-selected
 test evaluation. See [19: final results and diagnostics](19_V5_FINAL_RESULTS_2026-10-03.md).
 Test OA is92.1394% forH20 and92.5851% forB32. Late inference is stable,

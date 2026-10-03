@@ -1,5 +1,17 @@
 # Experiment history
 
+## B32 source-fidelity audit — 2026-10-03
+
+Read-only training/source audit confirms that V5-B32 changed more than the
+200-step cap: it also uses a held-out split, 200-epoch cosine period, rewritten
+RNG flow, workers2, and validation selection. The model directories match,
+and original part overwriting, two BN updates, CE/intra margins and weights,
+RiemannianSGD and norm1 clipping are retained. Source default seed22 matches
+B32, whereas the saved94.044% historical run used seed4780/300epochs/workers8.
+Strict hinge-zero and floating-point grouping differences are also disclosed.
+See [20: complete audit](20_B32_HYCORE_FIDELITY_AUDIT_2026-10-03.md).
+No new training or training-code change was performed for this confirmation.
+
 ## V5 completed — 2026-10-03
 
 Both jobs completed200epochs ×200steps with finite telemetry and one final
