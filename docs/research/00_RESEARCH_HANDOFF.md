@@ -2,6 +2,12 @@
 
 ## Current navigation — 2026-10-03
 
+For a shareable Chinese introduction to the current progress, difficulties,
+and proposed collaborator tasks, see
+[18: collaborator brief](18_COLLABORATOR_BRIEF_2026-10-03.md).
+It distinguishes proxy top-four visualization from training K and records
+an in-progress V5 snapshot; it is not a final training report.
+
 The user has now approved launching V5-H20 on two GPUs and an ordinaryB32
 stability diagnostic on the remaining GPU, with all proposed monitoring.
 See [17: reviewed launch and monitoring](17_V5_TRAINING_START_2026-10-03.md).
