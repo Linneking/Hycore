@@ -64,10 +64,16 @@ def main():
     p.add_argument('--probe-batches', type=int, default=4)
     p.add_argument('--seed', type=int, default=22)
     p.add_argument('--proxy-lr', type=float, default=.01)
+    p.add_argument('--topk', type=int, default=8,
+                   help='Shared sample/proxy K, including self')
+    p.add_argument('--skip-cpu-analysis', action='store_true',
+                   help='Only run bounded GPU checks and save features')
     p.add_argument('--workers', type=int, default=2)
     args=p.parse_args()
     if not 1<=args.joint_steps<=24 or not 1<=args.probe_batches<=6:
         p.error('Diagnostic bounds: at most24 optimizer steps and6 reference batches')
+    if not 3<=args.topk<=32:
+        p.error('Shared diagnostic K must be between3 and32')
     torch.set_num_threads(2)
     rank=int(os.environ['RANK']); local=int(os.environ['LOCAL_RANK'])
     if int(os.environ['WORLD_SIZE'])!=2: raise RuntimeError('Exactly two ranks required')
@@ -80,7 +86,7 @@ def main():
               'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),
               'config':{k:str(v) if isinstance(v,Path) else v for k,v in vars(args).items()},
               'fixed':{'c':1,'D':256,'P':512,'margin':.1,'tau':.1,'lambda_H':.5,
-                       'global_CE_intra_inter':64,'local_encoder_BN':32,'sample_proxy_K':8,
+                       'global_CE_intra_inter':64,'local_encoder_BN':32,'sample_proxy_K':args.topk,
                        'T':50,'nominal_steps':200,'extra_cap':False,'HIER_backward_hook':False,
                        'source_self_negative':True,'proxy_initialization':'random_tangent'},
               'visible_gpus':os.environ.get('CUDA_VISIBLE_DEVICES'),
@@ -117,7 +123,7 @@ def main():
             values=global_base_losses(local_out,gold.to(device))
             ids=gather_without_grad(torch.as_tensor(train_ids[subset_ids.numpy()],device=device))
             gen=torch.Generator(device=device).manual_seed(args.seed+step*10007)
-            h_loss,h_stats=proxy(values['mu'],values['gold'],seed=args.seed+step*10007,
+            h_loss,h_stats=proxy(values['mu'],values['gold'],topk=args.topk,seed=args.seed+step*10007,
                                  data_ids=ids,generator=gen)
             gradient_stats={}
             if step in (0,args.joint_steps-1):
@@ -199,10 +205,12 @@ def main():
                    'config':manifest['fixed'],'proxy_count':512,'cases':cases}
             torch.save(cache,args.run_dir/'training_features.pt')
             print('GPU_CHECKS_COMPLETED; CPU_RELATION_ANALYSIS',flush=True)
-            cpu_proxy=HIERLoss(seed=args.seed)
-            sweep=[r for case in cases for r in examine_case(case,cpu_proxy,seed=args.seed)]
-            selfk=[self_negative_audit(case,cpu_proxy,seed=args.seed) for case in cases]
-            lr_cases=proxy_lr_audit(cases[-1],seed=args.seed)
+            sweep=[]; selfk=[]; lr_cases=[]
+            if not args.skip_cpu_analysis:
+                cpu_proxy=HIERLoss(seed=args.seed)
+                sweep=[r for case in cases for r in examine_case(case,cpu_proxy,seed=args.seed)]
+                selfk=[self_negative_audit(case,cpu_proxy,k=args.topk,seed=args.seed) for case in cases]
+                lr_cases=proxy_lr_audit(cases[-1],seed=args.seed,k=args.topk)
             times=[r['step_seconds_max_rank'] for r in rows[3:]] or [r['step_seconds_max_rank'] for r in rows]
             median=statistics.median(times)
             summary={'diagnostic_only':True,'joint_optimizer_steps':args.joint_steps,
