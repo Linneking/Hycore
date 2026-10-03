@@ -43,4 +43,8 @@ V6参数审计对输入副本做额外前向，防止诊断中的part复写修�
 
 ## 启动验收
 
-当前状态：实现与短检查中。正式启动后补充GPU/PID、代码提交、检查结果和首轮checkpoint确认；原始运行身份以新目录manifest与launcher_state为准。所有既有结果目录保持不变。
+启动前验收代码提交为`08edb3e`。服务器CPU关系/监测6项与可视化7项均通过。双卡H20完成2轮×2step，覆盖base-only与joint阶段，并实际保存参数梯度审计、双增强probe及完整checkpoint。原版B32完成2轮×2train/test batch，验证原9840/307step loader与默认配置；smoke未用于生产初始化。
+
+V5epoch200脚本已完成全部8856训练实例推理，当前proxy图165/512合格，固定随机抽出10个代理并生成40个点云的离线HTML与PNG，静态布局已目视检查。该结果不用于V6选模或调参。
+
+当前状态：验收通过，准备正式独立进程启动。正式启动后补充GPU/PID、代码提交和首轮checkpoint确认；原始运行身份以新目录manifest与launcher_state为准。所有既有结果目录保持不变。
