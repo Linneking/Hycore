@@ -4,9 +4,9 @@
 
 The user approved V5-H20 on two idle GPUs and a B32 stability diagnostic on
 the remaining idle GPU. The user also approved all proposed monitoring.
-At this document's preparation, implementation/startup checks are in
-progress. Approval is not a record of successful dispatch; verified startup
-details will be appended after both jobs are running.
+Implementation and bounded startup/recovery checks have passed. Both
+production jobs are detached and running; each completed its first epoch,
+validation and checkpoint before the launch was reported as successful.
 
 Code branch: `codex/hier-v5-main-training`. All production code is developed
 in the authoritative local working copy and transported by GitHub, then
@@ -111,4 +111,39 @@ again from random seed22 with its own new directory.
 
 ## Verified dispatch record
 
-Pending startup checks; no production launch is claimed yet.
+Production code: `6e13ff9f59ad3bec8f7c3db857e6558e37473c03`.
+Run directory basename: `hier_proxy_v5_20261003_1347` (private absolute
+server location remains in the local server map / run manifests).
+Dispatch time: **2026-10-03 13:50:35 Asia/Shanghai**.
+
+| Job | Physical GPUs | Detached parent PID | Verified progress |
+|---|---|---|---|
+| H20 | 1,3 | 660352 (torchrun; two training workers) | epoch1 checkpoint/validation completed; epoch2 step17 |
+| B32 | 2 | 660357 | epoch1 checkpoint/validation completed; epoch2 step33 |
+
+Both are configured for200epochs ×200steps. H20 starts with20base-only
+epochs; the main HIER gradient activates at21. Monitoring is active from
+epoch1. GPU0's existing compute job was not touched.
+
+Before production: sampler5, restored-operator/distributed6 and telemetry4
+checks passed. Each entry point completed a2epoch ×3step smoke, including
+HIER activation and component-gradient audit in the H20 smoke's second
+epoch. Both restored from their epoch1 archive into new diagnostic
+directories and completed the remaining3steps. Restored first-step losses
+matched continuous training; later steps were not bitwise identical.
+Native point grouping/gather backward uses floating atomicAdd; deterministic
+200epoch replay is not promised. No smoke weights initialize production.
+
+Both initial-model hashes match:
+`fd7251e0eb6b397ecaf3862e9cc00a6bc2be9b684329fdc31dc05915b388d29d`.
+Smoke losses/gradients were finite, BN updated twice per real step, and
+proxy replica difference was0. Early gradient clipping did trigger and was
+recorded. This establishes startup correctness, not final accuracy or
+long-term numerical stability.
+
+Each job retains `manifest.json`, `heartbeat.json`, `steps.jsonl` and
+`metrics_epoch_NNN.json`. H20 checkpoints are `last.pth` / `best.pth`;
+B32 checkpoints are `last_checkpoint.pth` / `best_checkpoint.pth`.
+Both archive `checkpoint_epoch_NNN.pth` every20epochs and record per-epoch
+checkpoint identity. Actual progress after this snapshot comes from server
+manifests; no additional complete B0 job or automatic follow-up was queued.

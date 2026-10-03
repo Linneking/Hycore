@@ -1,6 +1,6 @@
 # Next experiment plan — current review and historical drafts
 
-Status: **用户已批准V5-H20双卡主训练与单卡B32稳定性诊断，并批准全部新增监测；正在实现与检查启动入口。启动状态见17，不将批准等同于已运行。**
+Status: **V5-H20双卡与B32单卡任务已启动；两组均完成第一轮验证与checkpoint，正在继续200轮预算。实际启动与监测记录见17。**
 
 ## 已批准主测试：V5-H20，2026-10-03
 
