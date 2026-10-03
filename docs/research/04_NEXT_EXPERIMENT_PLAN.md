@@ -1,10 +1,20 @@
 # Next experiment plan — current review and historical drafts
 
-Status: **V5-H20双卡与B32单卡均完成200轮和验证选中模型的最终test。结果与诊断见[19](19_V5_FINAL_RESULTS_2026-10-03.md)；以下保留已批准配置，不自动授权下一轮训练。**
+Status: **用户于2026-10-04已审阅并授权下述V6双卡H20与单卡原HyCoRe B32，要求启动检查通过后退出对话。V5结果见[19](19_V5_FINAL_RESULTS_2026-10-03.md)。**
+
+## 已批准 V6 启动 — 2026-10-04
+
+- H20：新随机初始化seed22，300epoch×200step；保持V5的固定8856/984划分、c1/D256、global64、part复写、两次普通BN更新、K20/T50/P512、原CE/intra与优化器数值。仅在sample和proxy两图的负候选中排除索引k=i；相同实例ID在不同位置的重复抽样仍保留。两个cosine调度周期相应延长到300轮，下限仍为模型.005、代理.0005；前20轮base-only，随后lambda_H=.5。代理LR仍.01，不采用之前降LR候选。
+- B0_original_B32：按原classification_ModelNet40/main_pointmlp_hycore.py默认运行，完整9840训练样本、batch32、shuffle/drop_last、每轮307step、300epoch、seed22、workers8；保留源码优化器、300轮cosine、增强/RNG/part复写/BN/FPS。用户本次要求源码默认协议，因此保留逐轮官方test与best-test选择，明确作为源码复现工程基线，不作为验证选中或同协议global64的HIER增益证据。
+- 三张完全空闲GPU：两张H20，一张B0_original_B32。每个训练新目录，记录commit/config/seed/GPU/时间；每轮checkpoint与关键监测。H20保留V5所有监测并加入已同意的祖先使用、深度、跨增强稳定性和梯度分项检查。额外probe恢复BN/RNG，不增加optimizer更新。
+- 可视化：只读V5 H20 checkpoint_epoch_200，全部8856训练实例无增强whole1024评估。使用proxy图K20的至少两个非self互惠正候选资格，seed固定随机选10个合格代理；按c1双曲距离展示每个代理最近4个独立训练ID的点云。top4为展示数，与训练K20分开。输出离线可旋转HTML、静态图与选择/权重身份元数据。
+- 代码位于hier_proxy_scratch_v6和独立可视化脚本，保留V5及原HyCoRe入口不变。流程：本地实现与检查、提交推送、服务器干净工作区ff-only更新、短GPU检查与可视化，随后独立进程启动两项300轮训练；不等待训练完成、不自动追加其它实验。
+
+V6改变了self-k规则和训练预算/调度周期，两者必须分别披露。单卡B32与H20的数据划分、batch、抽样和选模协议不同，不能单独隔离HIER目标的因果影响。具体启动身份与验收记录将在[21](21_V6_TRAINING_START_2026-10-04.md)补充。
 
 ## V6 讨论记录 — 2026-10-04
 
-范围：用户已同意新增结构监测；V6 的具体训练变更与启动安排仍待审阅。本次仅解释已有机制并记录约束，没有修改训练代码或启动实验。
+以下记录启动授权之前的讨论；已由上方“已批准V6启动”部分更新。此前范围为新增结构监测及候选解释，没有自动授权训练。
 
 已同意监测：
 

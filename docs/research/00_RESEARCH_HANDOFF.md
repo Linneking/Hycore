@@ -2,6 +2,14 @@
 
 ## Current navigation — 2026-10-03
 
+V6 launch is now authorized (2026-10-04): dual-GPU H20 removes sample/proxy
+self-k and runs300epochs; the spare GPU runs the original default HyCoRe
+B32 protocol (300epochs,307steps,full9840train). See
+[21: V6 launch and visualization](21_V6_TRAINING_START_2026-10-04.md) and
+the approved current section of [04](04_NEXT_EXPERIMENT_PLAN.md).
+V5epoch200 proxy top-four point-cloud visualization is also being prepared.
+The B32 run is an original-protocol engineering baseline, not matchedglobal64.
+
 The user's requested B32 fidelity audit is complete. See
 [20: B32 versus original HyCoRe](20_B32_HYCORE_FIDELITY_AUDIT_2026-10-03.md).
 Core model/alias/BN/loss settings match, but the data split, budget and cosine

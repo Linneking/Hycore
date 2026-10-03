@@ -1,5 +1,17 @@
 # Experiment history
 
+## V6 authorized — 2026-10-04
+
+The user approved dual-GPU H20 with V5 operators/hyperparameters, sample
+and proxy index self-k excluded, and a300epoch cosine/budget. The spare
+single GPU is assigned to original-source HyCoRe default B32, full9840train
+and307steps/epoch for300epochs. Original test-every-epoch selection is
+retained for this requested engineering reproduction; H20 keeps validation
+selection and final-test-only evaluation. A V5epoch200 read-only proxy
+top-four point-cloud script is requested first. See[21](21_V6_TRAINING_START_2026-10-04.md)
+for actual implementation, checks and launch status; approval alone is not
+reported as a successful launch.
+
 ## B32 source-fidelity audit — 2026-10-03
 
 Read-only training/source audit confirms that V5-B32 changed more than the
