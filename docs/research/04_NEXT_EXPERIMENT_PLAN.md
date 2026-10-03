@@ -1,7 +1,72 @@
 # Next experiment plan — current review and historical drafts
 
-Status: **bounded V5 diagnostics reviewed and completed; no main training
-matrix may execute until separately reviewed by the user.**
+Status: **V5基础与追加topK诊断均已完成；下列主测试配置待用户审查，尚未启动主训练。**
+
+## 推荐主测试：V5-H20，2026-10-03（待审查）
+
+追加检测见 [16：topK覆盖、稳定性与实际参数梯度](16_V5_TOPK_FOLLOWUP_2026-10-03.md)。
+选择K20主要依据覆盖改善和已检查的数值/显存预算，不是分类最优或真实形态关系的证据。
+
+### 固定配置
+
+| 项目 | 主测试设置 |
+|---|---|
+| 数据 | 既有seed22固定8856/984训练/验证划分；官方test只在最终选定checkpoint上评估一次 |
+| 初始化 | 新V5随机PointMLP；不加载V4、历史原HyCoRe或teacher权重 |
+| 预算 | 总200epoch，每轮200step；前20轮base预热计入200 |
+| batch | 2GPU，各16个不重复类×2，全局32个类×2＝64；类别均匀、类内有放回，保留相邻类块 |
+| 损失范围 | CE、intra、inter均global64；intra negative是全局child.flip(0) |
+| HyCoRe输入 | 原whole800–1024、part200–600，视图复写；每步两卡共享点数；原FPS固定512首层中心 |
+| BN | 普通训练BN，每卡32，child与whole均更新，DDP广播rank0 buffer；不使用SyncBN或HIER的预训练BN冻结 |
+| 空间/精度 | c=1固定，D=256，FP32；保持HyCoRe原数值球投影 |
+| CE/intra | 原eps=.2平滑CE；`.01×Rcontr + .01×Rhier`；margin4及`1000/Nchild`不变 |
+| HIER关系 | sample/proxy共用K20，K含self；仅sample图同类相似度加1，proxy图只用距离；至少2个非self互惠j，否则跳过i |
+| HIER抽取 | 每个合格i有放回抽j/k各50次；负候选为互惠集合补集，保留源码k=i行为 |
+| inter | 一个`Rsample + Rproxy`，原三个hinge、hard Gumbel、同proxy碰撞mask后包含零值的均值 |
+| HIER数值 | margin=.1，tau=.1；额外tangent cap和Riemannian反向hook关闭，只做shadow监测 |
+| hierarchy proxy | P=512、D=256，seed22随机切空间初始化；不绑定类别、不约束part |
+| 模型优化器 | RiemannianSGD，LR.1，momentum.9，WD2e−4；原模型global norm1裁剪 |
+| proxy优化器 | AdamW，LR预算.01，betas(.9,.999)，eps1e−8，WD.01；单独同步梯度，不混入模型norm1裁剪 |
+| HIER启用 | 第1–20轮λ_H=0且proxy不step，第21–200轮固定λ_H=.5；不再加ramp或动态梯度标定 |
+| 模型选择 | 每轮固定无增强验证，按最高val OA选best，OA相同取较低val CE；记录AA及逐类准确率 |
+
+联合损失：
+
+\[
+L=L_{CE}^{\varepsilon=.2}+.01R_{contr}+.01R_{hier}
+  +\lambda_H(e)(R_{sample}+R_{proxy}).
+\]
+
+两优化器共用200轮相对cosine因子（e为已完成epoch数）：
+
+\[
+s(e)=.05+.95\frac{1+\cos(\pi e/200)}2,\qquad
+lr_{model}=.1s(e),\quad lr_{proxy}=.01s(e).
+\]
+
+proxy前20轮不更新；启用时实际LR约.00977，调度终点.0005。骨干调度不在第21轮重启。共用cosine是结合HyCoRe训练流的适配；CUB发布脚本实际每5轮减半，官方warmup只暂停预训练body更新，不等同于本方案的20轮base-only。
+
+### 归因与最小对照
+
+主配置V5-H20用于检查恢复算子、global64协议下的联合训练。要判断HIER是否有利，至少再有同V5配置的B0：只令λ_H=0，其余训练预算、初始化、数据顺序/增强、BN、输入和验证方式一致。V4 B0不能替代这个对照。
+
+两卡同一时刻只运行一组；若执行对照，推荐先完成新的V5 B0并保存第20轮prefix，再从完全相同prefix接续H20的第21–200轮。两臂各自总预算200轮，不多算20轮。prefix包含模型、optimizer/scheduler、split与sampler身份及各rank RNG状态；不能使用旧V4 prefix。
+
+这组B0恢复HyCoRe核心算子但采用新batch/预算/验证划分，不应称作原训练协议逐参数复现。先区分baseline恢复、协议适配和inter增量三个效果。
+
+### 运行记录与监测
+
+- 始终记录实际唯一训练ID、逐类抽取次数/作为i的次数、任意角色覆盖、有效/碰撞/self-k三元组及两张图的合格anchor。
+- 记录μ/ν深度与半径、shadow cap和贴近原数值球边界比例、proxy径向移动、安全project、非有限值及裁剪前norm。
+- 第21、40、100、160、200轮首batch测CE/intra/HIER共享参数梯度，分别报告欧氏特征层和Mobius层；不能只用μ偏导或全模型平均范数判断协同。
+- 每10轮额外做固定无增强train-eval，和训练模式accuracy、validation一起观察BN/train-eval差距；不借test选模型。
+- 保存best/last及每20轮checkpoint、两个optimizer/scheduler、各rank RNG、sampler/config/commit、GPU和时间；新目录运行，保留旧结果。
+
+当前A/200step理论单轮总体唯一覆盖66.08%，最大类chair约32.98%；继续遵守200step，不把它误写成80–90%覆盖。K20的参考合格率约60.39%，全部40类曾合格，仍有条件覆盖偏差及增强关系不稳定风险。
+
+8步K20参考检测均有限，峰值28.73GiB/卡，净step中位数.6366秒；单臂200×200净step外推约7.07小时，实际总时间更长。短测不是完整训练性能或时间保证。
+
+当前仓库已有诊断组件，主训练入口、恢复/验证/保存循环须在配置审查后完成并做有上限检查。**本建议不是主训练启动记录。**
 
 ## Authorized diagnostic scope — 2026-10-03
 
@@ -15,13 +80,14 @@ The bounded checks have completed; see
 [diagnostic results](15_V5_DIAGNOSTIC_RESULTS_2026-10-03.md).
 The earlier review section below records the proposal before these decisions.
 
-## Current review — 2026-10-03: dual-GPU V5 successor
+## Historical pre-diagnostic review — 2026-10-03: dual-GPU V5 successor
 
 The user requested V4 lessons and a concrete training-change catalogue for
 review before the next dual-GPU tests and full training. The current proposal
 is [V4 lessons](12_V4_LESSONS_2026-10-03.md) and
 [dual-GPU V5 change index](13_DUAL_GPU_V5_CHANGE_INDEX_2026-10-03.md).
-No V5 GPU job or full matrix has been launched.
+This section records the proposal before diagnostics. The current completed
+checks and pending main-test recommendation are recorded above.
 
 - Restore original HyCoRe part overwriting and child/whole BN updates;
   retain its intra expressions, smoothed CE and base optimizer.

@@ -2,11 +2,19 @@
 
 ## Current navigation — 2026-10-03
 
-The user subsequently authorized bounded V5 diagnostics only. They are now
+The user authorized additional K diagnostics and a main-test recommendation.
+The [expanded K results](16_V5_TOPK_FOLLOWUP_2026-10-03.md) are complete:
+64 paired training batches, K10/12/16/20, and an8-step K20 reference-initialized
+joint check including actual parameter gradients. K20/lambda_H.5/proxy LR.01
+is now the recommended candidate. The concrete200epoch settings are at the
+top of [04](04_NEXT_EXPERIMENT_PLAN.md), pending user review; main training
+has not started. Branch `codex/hier-v5-k-selection` contains these diagnostics.
+
+The initial bounded V5 diagnostics were authorized separately. They are now
 complete: [diagnostic plan](14_V5_DIAGNOSTIC_PLAN_2026-10-03.md) and
 [results](15_V5_DIAGNOSTIC_RESULTS_2026-10-03.md). SchemeA/200step,c1,D256,
 random proxies and global64 CE/intra/inter passed the bounded checks; no
-main training has been launched. K10/proxy LR.01 are diagnostic candidates,
+main training has been launched. K10/proxy LR.01 were the initial diagnostic candidates,
 not validated performance-optimal settings.
 
 The teacher/equal-radius method below is retained as historical context.

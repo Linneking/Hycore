@@ -91,3 +91,22 @@ See [V5 diagnostic results](15_V5_DIAGNOSTIC_RESULTS_2026-10-03.md).
 K10 and proxy LR.01 are coverage/numerical candidates only. Mature-reference
 anchor coverage remains low and shadow cap rates increase, so short-run
 success cannot be extrapolated to200epochs.
+
+## V5 expanded K diagnostics and main-test recommendation — 2026-10-03
+
+Additional detection authorized by the user completed64global64 plans with
+two augmented training views each. K10/12/16/20 anchor coverage was
+37.30/42.38/51.94/60.39%; all40classes had eligible anchors in the observed
+window. Paired cross-class reciprocal graph stability remained low and
+radius-dependent; this is not independent morphology evidence.
+
+An8-step K20 joint diagnostic from a read-only V4epoch20 model copy passed.
+Actual shared-encoder HIER/base parameter-gradient norm ratio at lambda.5
+was.327 then.503, correcting the much larger partial-gradient ratio at mu.
+Peak memory was28.73GiB/card; whole output frequently approached the native
+numerical ball boundary, so finite short-run output is not a long-run guarantee.
+
+See [16: expanded results](16_V5_TOPK_FOLLOWUP_2026-10-03.md) and the
+current [main-test settings](04_NEXT_EXPERIMENT_PLAN.md). K20/lambda.5,
+randomP512/D256,c1,proxyLR.01,and20base-only epochs within200total epochs
+are recommended for review. No main training was launched; GPU jobs exited.
