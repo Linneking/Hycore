@@ -2,16 +2,24 @@
 
 ## Current navigation — 2026-10-03
 
+The user subsequently authorized bounded V5 diagnostics only. They are now
+complete: [diagnostic plan](14_V5_DIAGNOSTIC_PLAN_2026-10-03.md) and
+[results](15_V5_DIAGNOSTIC_RESULTS_2026-10-03.md). SchemeA/200step,c1,D256,
+random proxies and global64 CE/intra/inter passed the bounded checks; no
+main training has been launched. K10/proxy LR.01 are diagnostic candidates,
+not validated performance-optimal settings.
+
 The teacher/equal-radius method below is retained as historical context.
-The shared-whole HIER V4 runs have completed; current work is a reviewed
-proposal for a dual-GPU V5 successor, not an authorized full training run.
+The shared-whole HIER V4 runs have completed. The V5 review proposal below
+was followed by the bounded diagnostics linked above; main training remains
+unlaunched.
 Start with [V4 lessons](12_V4_LESSONS_2026-10-03.md),
 [V5 change index](13_DUAL_GPU_V5_CHANGE_INDEX_2026-10-03.md), and the current
 section of [the experiment plan](04_NEXT_EXPERIMENT_PLAN.md).
 V5 proposes restoring original HyCoRe part overwriting/BN updates, then
 checking a global32-class x2 batch and the released HIER reciprocal rule.
-Sampling coverage, geometry/backward adaptations and the final matrix
-remain subject to the user's review.
+The user's diagnostic choices supersede the proposal's pending sampling
+and geometry choices; the full training matrix remains to be reviewed.
 
 ## Research objective
 

@@ -1,6 +1,7 @@
 # Next experiment plan — current review and historical drafts
 
-Status: **do not execute until reviewed by the user.**
+Status: **bounded V5 diagnostics reviewed and completed; no main training
+matrix may execute until separately reviewed by the user.**
 
 ## Authorized diagnostic scope — 2026-10-03
 
@@ -10,6 +11,8 @@ proxies,unchanged numeric margin/tau=.1,disabled extra HIER clipping and
 backward hook with shadow monitoring. See
 [bounded diagnostic plan](14_V5_DIAGNOSTIC_PLAN_2026-10-03.md).
 This authorization does not launch main training or a full experiment matrix.
+The bounded checks have completed; see
+[diagnostic results](15_V5_DIAGNOSTIC_RESULTS_2026-10-03.md).
 The earlier review section below records the proposal before these decisions.
 
 ## Current review — 2026-10-03: dual-GPU V5 successor

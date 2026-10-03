@@ -76,3 +76,18 @@ dual-GPU tests. [V5 review](13_DUAL_GPU_V5_CHANGE_INDEX_2026-10-03.md)
 records coverage calculations, source-fidelity choices, script interfaces
 and acceptance gates. No V5 GPU run has been launched; full training awaits
 review of the current plan.
+
+## V5 bounded diagnostics completed — 2026-10-03
+
+The user authorized schemeA/200step,c1,D256,random proxies,numeric
+margin/tau=.1,no additional HIER cap/backward hook,and global64 for all
+three losses. Source sampling/relations, restored HyCoRe operators and
+distributed gradient checks passed18 CPU checks. A16-step dual-rank joint
+diagnostic completed with finite values, BN updated twice and identical
+proxy replicas. Fixed-feature K/LR checks followed; no main training or
+test/validation model evaluation was launched.
+
+See [V5 diagnostic results](15_V5_DIAGNOSTIC_RESULTS_2026-10-03.md).
+K10 and proxy LR.01 are coverage/numerical candidates only. Mature-reference
+anchor coverage remains low and shadow cap rates increase, so short-run
+success cannot be extrapolated to200epochs.
