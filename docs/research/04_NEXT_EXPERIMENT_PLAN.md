@@ -2,6 +2,16 @@
 
 Status: **do not execute until reviewed by the user.**
 
+## Authorized diagnostic scope — 2026-10-03
+
+The user reviewed the V5 proposal and authorized diagnostics only:
+schemeA,200steps nominal epoch,global64 CE/intra/inter,c1,D256,random
+proxies,unchanged numeric margin/tau=.1,disabled extra HIER clipping and
+backward hook with shadow monitoring. See
+[bounded diagnostic plan](14_V5_DIAGNOSTIC_PLAN_2026-10-03.md).
+This authorization does not launch main training or a full experiment matrix.
+The earlier review section below records the proposal before these decisions.
+
 ## Current review — 2026-10-03: dual-GPU V5 successor
 
 The user requested V4 lessons and a concrete training-change catalogue for
