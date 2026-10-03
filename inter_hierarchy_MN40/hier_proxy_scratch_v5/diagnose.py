@@ -32,6 +32,7 @@ from .distributed import (gather_without_grad, shared_crop_counts,
                           broadcast_parameters, sync_parameter_gradients)
 from .hier_loss import HIERLoss
 from .sweep_k import examine_case, self_negative_audit, proxy_lr_audit
+from .parameter_audit import audit_parameter_gradients
 
 
 def write_json(path, value):
@@ -70,6 +71,8 @@ def main():
                    help='Shared sample/proxy K, including self')
     p.add_argument('--skip-cpu-analysis', action='store_true',
                    help='Only run bounded GPU checks and save features')
+    p.add_argument('--parameter-gradient-audit', action='store_true',
+                   help='Discarded first/last forwards audit actual global parameter components')
     p.add_argument('--workers', type=int, default=2)
     args=p.parse_args()
     if not 1<=args.joint_steps<=24 or not 1<=args.probe_batches<=6:
@@ -130,6 +133,14 @@ def main():
             seed_all(args.seed+step*1009+rank*1000003)
             whole_count,child_count=shared_crop_counts(args.seed,0,step)
             optimizer.zero_grad(set_to_none=True); popt.zero_grad(set_to_none=True)
+            parameter_gradient={}
+            if args.parameter_gradient_audit and step in (0,args.joint_steps-1):
+                parameter_gradient=audit_parameter_gradients(
+                    model,proxy,cloud.to(device),gold.to(device),
+                    torch.as_tensor(train_ids[subset_ids.numpy()],device=device),
+                    whole_count,child_count,topk=args.topk,seed=args.seed+step*10007)
+                # Restore augmentation/crop-center RNG for the actual step.
+                seed_all(args.seed+step*1009+rank*1000003)
             bn=[m for m in backbone.modules() if isinstance(m,torch.nn.modules.batchnorm._BatchNorm)]
             before=[int(m.num_batches_tracked) for m in bn]
             dist.barrier(); torch.cuda.synchronize(device); started=time.perf_counter()
@@ -182,7 +193,8 @@ def main():
                  'shadow_proxy_gradient_elements_over10':proxy_gradient_over10,
                  'proxy_replica_max_difference':float(proxy_diff),
                  'peak_allocated_MiB':torch.cuda.max_memory_allocated(device)/1024**2,
-                 'hier':h_stats,'gradient':gradient_stats,'rank_observations':rank_observations}
+                 'hier':h_stats,'gradient':gradient_stats,'parameter_gradient':parameter_gradient,
+                 'rank_observations':rank_observations}
             rows.append(row)
             if rank==0:
                 write_json(args.run_dir/f'step_{step:03d}.json',row)
