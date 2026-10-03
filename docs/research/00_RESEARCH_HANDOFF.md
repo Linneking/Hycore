@@ -2,6 +2,12 @@
 
 ## Current navigation — 2026-10-03
 
+The user has now approved launching V5-H20 on two GPUs and an ordinaryB32
+stability diagnostic on the remaining GPU, with all proposed monitoring.
+See [17: reviewed launch and monitoring](17_V5_TRAINING_START_2026-10-03.md).
+The production branch is `codex/hier-v5-main-training`. Status in17 and
+server manifests supersedes the earlier pending-review wording below.
+
 The user authorized additional K diagnostics and a main-test recommendation.
 The [expanded K results](16_V5_TOPK_FOLLOWUP_2026-10-03.md) are complete:
 64 paired training batches, K10/12/16/20, and an8-step K20 reference-initialized

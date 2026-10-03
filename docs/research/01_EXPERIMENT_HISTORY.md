@@ -1,5 +1,15 @@
 # Experiment history
 
+## V5 production launch authorized — 2026-10-03
+
+The user approved200×200 V5-H20 (two local32 ranks, global64) and a spare
+single-card B32 operator-stability diagnostic, including all recommended
+monitoring. B32 uses an epoch permutation capped at6400 distinct instances;
+it is not a matchedglobal64 B0 or a full original-protocol reproduction.
+Implementation and bounded startup checks are recorded in
+[17](17_V5_TRAINING_START_2026-10-03.md); actual running status is recorded
+after detached jobs and completed updates/checkpoints have been verified.
+
 ## Environment and resource audit
 
 - Server environment: Python 3.9, PyTorch 2.8.0 + CUDA 12.8, Geoopt 0.5.1.

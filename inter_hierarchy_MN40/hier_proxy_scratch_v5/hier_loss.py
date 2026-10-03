@@ -164,7 +164,8 @@ class HIERLoss(nn.Module):
     def forward(self, mu: torch.Tensor, labels: torch.Tensor, topk: int = 8,
                 proxy_topk: int | None = None, seed: int = 22,
                 data_ids: torch.Tensor | None = None, exclude_self_negative: bool = False,
-                t_per_anchor: int = 50, generator: torch.Generator | None = None) -> tuple[torch.Tensor, dict]:
+                t_per_anchor: int = 50, generator: torch.Generator | None = None,
+                return_mining: bool = False) -> tuple[torch.Tensor, dict]:
         if mu.ndim != 2 or mu.shape[1] != self.dim:
             raise ValueError(f"mu must be [N,{self.dim}]")
         sample = mine_sample_triplets(mu, labels, topk=topk, t_per_anchor=t_per_anchor,
@@ -185,8 +186,11 @@ class HIERLoss(nn.Module):
                 "proxy_numerical_ball_project_count": int((raw_radius > 0.999).sum()),
                 "proxy_numerical_ball_project_fraction": float((raw_radius > 0.999).float().mean()),
             }
-        return sample_loss + proxy_loss, {
+        stats = {
             "sample": {**sample["stats"], **sample_stats}, "proxy": proxy_stats,
             "sample_loss": float(sample_loss.detach()), "proxy_loss": float(proxy_loss.detach()),
             "geometry": geometry,
         }
+        if return_mining:
+            stats["_sample_mining"] = sample
+        return sample_loss + proxy_loss, stats
