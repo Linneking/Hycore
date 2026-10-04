@@ -1,6 +1,18 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
-## Current navigation — 2026-10-03
+## Current navigation — 2026-10-04
+
+V6 H20 and original-source B32 have completed300epochs. The final read-only
+comparison, V6 best99/epoch200/epoch300 proxy top-four visualization and
+actual ancestor monitoring are in
+[22: V5 / V6 results and structure](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md).
+Validation-selected test OA is92.1394% forV5-H20 and91.2480% forV6-H20;
+original-source B32 best-test OA is93.841%, using a different protocol.
+V6 removes contradictory self-k and exhibits sample ancestor depth ordering,
+but higher proxy eligibility does not establish better morphology coverage.
+Matchedglobal64 B0, frozen-proxy objective checks and radius-sensitive
+relation validation are proposed for review; no next main training is launched.
+This completed report supersedes the launch/running status paragraphs below.
 
 V6 launch is now authorized (2026-10-04): dual-GPU H20 removes sample/proxy
 self-k and runs300epochs; the spare GPU runs the original default HyCoRe

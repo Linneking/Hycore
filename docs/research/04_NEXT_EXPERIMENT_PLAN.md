@@ -1,6 +1,14 @@
 # Next experiment plan — current review and historical drafts
 
-Status: **用户于2026-10-04已审阅并授权下述V6双卡H20与单卡原HyCoRe B32，要求启动检查通过后退出对话。V5结果见[19](19_V5_FINAL_RESULTS_2026-10-03.md)。**
+Status: **V6 H20 与原源码 B32 已完成300轮；用户本次授权只读可视化与结果分析，均已完成。完整比较见[22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md)。下方V6启动配置保留为已批准历史记录，后续候选尚待审阅。**
+
+## 结果后的建议顺序 — 2026-10-04，待审阅
+
+1. 同协议global64 B0：V6数据划分、初始化、batch/增强/BN/part、200step及300轮cosine，仅关闭HIER；双卡顺序运行，原源码B32不替代该对照。
+2. 冻结现有whole缓存和相同proxy起点，短测sample/proxy分项梯度及各自更新；监测投影后的径向梯度、角向冲突、祖先端点身份、深度和使用分工。明确问题后再讨论仅代理的cap/hook或平滑有界参数化，不直接给whole加2.3 cap。
+3. 固定pair/triple及独立点云形态信号，验证原关系与半径控制关系；若证据支持，再短测只改变mining、loss仍在原whole上的适配。
+
+保留c1、原CE/intra/part及self-k排除。V6最优验证在99轮、最终proxy检索更集中，当前不优先加epoch/K/T/P或直接调整权重/LR。上述为[22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md)解释的候选，**没有授权排队新的主训练，也没有因结果审计自动启动训练。**
 
 ## 已批准 V6 启动 — 2026-10-04
 

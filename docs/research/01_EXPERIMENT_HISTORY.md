@@ -1,5 +1,26 @@
 # Experiment history
 
+## V6 completed and V5/V6 structure audit — 2026-10-04
+
+V6-H20 completed300x200 updates at12:01:52Asia/Shanghai; original-source
+B32 completed300x307 at09:53:24. H20 bestval94.3089%@99 yields final
+testOA91.2480%/AA88.9169%, versusV5 test92.1394%/AA89.1581%.
+Original B32 best-test93.841%@216 is an engineering source reproduction,
+not a matchedglobal64 or validation-selected control.
+
+Read-only V6 best99/e200/e300 visualizations each evaluated all8856clean
+training instances. At e300,485proxy anchors are eligible, but373 share
+one dresser top-four set; sample-to-nearest-proxy entropy-effective count
+is15.59, versusV5 25.43. Late actual sample ancestors are shallower than
+endpoints and pair is deeper than triple98.17%; proxy ancestor ordering
+and triple usage concentration remain concerns. Single-epoch coverage stays
+about66%, both runs finite and proxy replicas identical. A fixed64batch
+cache control confirms radial sensitivity of late sample reciprocal graphs.
+
+Self-k exclusion, extended cosine/budget and diagnostic input-clone fix are
+reported separately. See[22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md)
+for metrics, units, limits and proposed diagnostics. No new main training.
+
 ## V6 authorized — 2026-10-04
 
 The user approved dual-GPU H20 with V5 operators/hyperparameters, sample
