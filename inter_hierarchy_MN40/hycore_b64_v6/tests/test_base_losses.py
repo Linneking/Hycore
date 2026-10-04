@@ -65,13 +65,15 @@ class SourceBaseLossTests(unittest.TestCase):
                 self.assertEqual(gradient.device.type, "cpu")
                 self.assertTrue(torch.isfinite(gradient).all())
                 self.assertGreater(float(gradient.norm()), 0.)
-                torch.testing.assert_close(gradient, reference, rtol=0, atol=0)
+                # Independent FP32 autograd graphs may accumulate in a
+                # different order; use an absolute floor well below 1e-9.
+                torch.testing.assert_close(gradient, reference, rtol=1e-6, atol=1e-10)
         ball = self.source.PoincareBall(c=1., dim=256)
         global_negative = ball.dist(mu, nu.flip(0)).mean()
         local_flip = torch.cat((nu[:32].flip(0), nu[32:].flip(0)))
         local_negative = ball.dist(mu, local_flip).mean()
         torch.testing.assert_close(actual["negative_distance"], global_negative, rtol=0, atol=0)
-        self.assertGreater(float((global_negative - local_negative).abs()), .1)
+        self.assertGreater(float((global_negative - local_negative).detach().abs()), .1)
 
     def test_zero_hinge_tie_preserves_source_half_gradient(self):
         class TieBall:
