@@ -26,7 +26,7 @@ def main():
         ("Learning rate: model", [("model_lr", "", 1.)], "LR"),
         ("Sample anchor eligibility", [("sample_anchor", "", 100.)], "%"),
         ("Proxy anchor eligibility", [("proxy_anchor", "", 100.)], "%"),
-        ("Noncollision active triples", [("sample_active", "sample", 100.), ("proxy_active", "proxy", 100.)], "%"),
+        ("Noncollision active triples (i != k)", [("sample_distinct_active_fraction", "sample", 100.), ("proxy_distinct_active_fraction", "proxy", 100.)], "%"),
         ("Whole / part near native ball boundary", [("whole_boundary", "whole", 100.), ("part_boundary", "part", 100.)], "%"),
         ("Proxy raw radius > .999 before projection", [("proxy_project", "", 100.)], "%"),
         ("Model gradient norm clipping frequency", [("model_clip_fraction", "", 100.)], "% of steps"),
@@ -56,7 +56,7 @@ def main():
         ax.set_xlabel("Epoch")
     fig.suptitle("V5 / V6 H20 monitoring | same initialization and split; different cosine periods", fontsize=14)
     fig.text(.5, .013, "Shaded: 20 base-only epochs. V5 ends at 200; V6 ends at 300. Boundary figures are training-mode observations.\n"
-             "Active triples exclude pair/triple proxy collisions. Curves are one seed, not uncertainty across seeds.",
+             "Active fractions use noncollision draws with i != k in both runs. Curves are one seed, not uncertainty across seeds.",
              ha="center", fontsize=9)
     fig.tight_layout(rect=(0, .055, 1, .95))
     fig.savefig(args.output_dir / "training_monitoring.png", dpi=160)
