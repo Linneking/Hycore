@@ -1,6 +1,19 @@
 # Next experiment plan — current review and historical drafts
 
-Status: **V6 H20 与原源码 B32 已完成300轮；用户本次授权只读可视化与结果分析，均已完成。完整比较见[22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md)。下方V6启动配置保留为已批准历史记录，后续候选尚待审阅。**
+Status: **用户于2026-10-05批准追加单组 V6 B64 shuffle 双卡基础训练，并明确全部9840训练、原源码逐轮test选模。先短测验收，再挂起300轮主训练；此授权更新下方此前候选的状态。V5/V6 H20及原B32完整结果见[22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md)。**
+
+## 已批准 V6 B64 shuffle 基线 — 2026-10-05
+
+- 从头随机初始化seed22，c1/D256，300epoch，双卡各32；关闭HIER，不建立或优化proxy。
+- 全部9840训练实例，每轮全局shuffle一次、无放回，只保留完整global64；153step、9792个唯一实例、丢弃48个尾部实例。连续64分给rank0前32和rank1后32，不使用DistributedSampler补齐，不强制类别块，不截断到200step或重复遍历补步数。
+- CE、intra均作用于global64，原eps=.2、`.01Rcontr+.01Rhier`、margin4和`1000/Npart`；保留part视图复写、child/whole两次普通local32 BN更新、原FPS512。global child.flip(0)允许自然出现同类negative并记录，不能沿用balanced入口的异类断言。
+- 原RiemannianSGD，LR.1、momentum.9、WD2e−4，300轮cosine到.005，不随B64放大学习率；模型全局L2梯度范数阈值1裁剪。
+- 用户明确选择原源码评估口径：每轮同一官方2468test、按三位小数test OA严格更高保存best，平局不按CE更换。评估batch16以保持与既有原B32一致，同时记录未四舍五入OA/AA、逐类结果、源式batch均值CE和样本加权CE。无验证划分。
+- 保留每步CE/intra/总损失、训练OA/AA、globalflip同类负比例、batch类别数、每轮实际唯一ID/逐类覆盖、丢尾ID、whole/part半径深度及shadowcap、BN/alias/FPS断言、有限性、梯度裁剪、DDP梯度/参数一致性、LR/耗时/显存。每10轮无增强全训练集评估；每轮完整last/best与metrics，每20轮存档，保存两rank RNG、sampler和BN。
+- 新路径`inter_hierarchy_MN40/hycore_b64_v6/`，保留旧HyCoRe和V5/V6入口。全局排列与双卡增强/RNG是显式适配，不宣称与单卡RandomSampler逐位重现。workers4/rank，普通BN不是global64 SyncBN。
+- 本地实现/检查、独立分支提交推送、服务器干净工作区ff-only更新、空闲双卡2epoch×2step短测（部分test且明确smoke），生产重新随机初始化并保存第1轮完整checkpoint后确认挂起。
+
+这组检验原采样方式下的双卡B64稳定性。相比H20，它还改变了抽样、训练数据量和每轮步数（153 vs200），**不是只去掉HIER的严格同协议对照**；相比原B32，它改变globalbatch和优化器更新次数，每epoch覆盖基本相同。详细运行身份将在[23](23_V6_B64_SHUFFLE_START_2026-10-05.md)记录。本次只授权这一组，不自动追加其它训练。
 
 ## 结果后的建议顺序 — 2026-10-04，待审阅
 
