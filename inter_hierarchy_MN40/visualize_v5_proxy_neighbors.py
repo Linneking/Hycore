@@ -26,6 +26,8 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
+V5_FORMAT = "hycore-hier-v5-h20-1"
+V6_FORMAT = "hycore-hier-v6-h20-selfk300-1"
 CLASS_NAMES = (
     "airplane", "bathtub", "bed", "bench", "bookshelf", "bottle", "bowl", "car",
     "chair", "cone", "cup", "curtain", "desk", "door", "dresser", "flower_pot",
@@ -35,9 +37,16 @@ CLASS_NAMES = (
 )
 
 
-def arguments(argv=None):
-    parser = argparse.ArgumentParser(description=__doc__)
+def arguments(argv=None, version="v5"):
+    if version not in ("v5", "v6"):
+        raise ValueError(f"Unknown visualization version: {version}")
+    description = (__doc__ if version == "v5" else
+                   "Read-only V6-H20 same-epoch net/proxy neighbourhoods: clean features, PNG and offline HTML.")
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument("--checkpoint", type=Path, required=True)
+    if version == "v6":
+        parser.add_argument("--expected-epoch", type=int, required=True,
+                            help="Exact epoch represented by both net and proxy (e.g. 300, 200, or best epoch)")
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True,
                         help="A NEW directory; existing results are never overwritten")
@@ -55,6 +64,8 @@ def arguments(argv=None):
         parser.error("batch-size, topk and num-proxies must be positive")
     if args.num_proxies > 512:
         parser.error("num-proxies must be at most 512")
+    if version == "v6" and args.expected_epoch < 1:
+        parser.error("expected-epoch must be positive")
     return args
 
 
@@ -136,8 +147,10 @@ def choose_proxies(eligible, count, seed):
     return np.random.default_rng(seed).choice(eligible_ids, size=count, replace=False)
 
 
-def proxy_graph(proxies, topk=20, seed=22):
-    """Use V5's actual FP32 torch topk/mutual rule, including its tie behavior."""
+def proxy_graph(proxies, topk=20, seed=22, version="v5"):
+    """Use the production FP32 topk/mutual rule; V6 excludes self negatives."""
+    if version not in ("v5", "v6"):
+        raise ValueError(f"Unknown visualization version: {version}")
     from hier_proxy_scratch_v5.relations import mine_reciprocal_triplets, poincare_distance
     import torch
 
@@ -145,19 +158,41 @@ def proxy_graph(proxies, topk=20, seed=22):
         distances = poincare_distance(proxies)
         mined = mine_reciprocal_triplets(torch.exp(-distances), topk=topk,
                                          t_per_anchor=1, seed=seed,
-                                         exclude_self_negative=False)
+                                         exclude_self_negative=(version == "v6"))
     return {"eligible": mined["eligible"].cpu().numpy(),
             "degree": mined["mutual"].sum(-1).cpu().numpy(),
             "mutual": mined["mutual"].cpu().numpy(),
             "negative": mined["negative"].cpu().numpy()}
 
 
-def validate_checkpoint(saved):
-    if saved.get("format") != "hycore-hier-v5-h20-1" or saved.get("epoch") != 200:
-        raise ValueError("Require the complete V5-H20 epoch200 checkpoint")
+def validate_checkpoint(saved, version="v5", expected_epoch=None, checkpoint_name=None):
+    if version == "v5":
+        if saved.get("format") != V5_FORMAT or saved.get("epoch") != 200:
+            raise ValueError("Require the complete V5-H20 epoch200 checkpoint")
+    elif version == "v6":
+        epoch = saved.get("epoch")
+        config = saved.get("training_config")
+        if saved.get("format") != V6_FORMAT or type(epoch) is not int or not isinstance(config, dict):
+            raise ValueError("Require a complete V6-H20 checkpoint with a valid epoch and configuration")
+        if type(expected_epoch) is not int or expected_epoch < 1 or epoch != expected_epoch:
+            raise ValueError(f"V6 checkpoint epoch {epoch} differs from expected epoch {expected_epoch}")
+        if (saved.get("completed_epochs") != epoch or
+                type(config.get("epochs")) is not int or not 1 <= epoch <= config["epochs"]):
+            raise ValueError("V6 net/proxy epoch or training budget is inconsistent")
+        if (config.get("self_negative") is not False or config.get("smoke") is not False or
+                config.get("global_batch") != 64 or config.get("steps_per_epoch") != 200):
+            raise ValueError("V6 checkpoint does not match the reviewed production relation/data protocol")
+        if checkpoint_name == "best.pth" and (
+                (saved.get("best") or {}).get("epoch") != epoch or
+                (saved.get("metrics") or {}).get("best_updated") is not True):
+            raise ValueError("V6 best.pth must contain the complete net/proxy state from its best epoch")
+    else:
+        raise ValueError(f"Unknown visualization version: {version}")
     if saved.get("model_selection_only") or not all(key in saved for key in
             ("net", "proxy", "training_config", "train_ids", "validation_ids")):
         raise ValueError("Require complete contemporaneous net/proxy states and split IDs")
+    if not isinstance(saved["net"], dict) or not saved["net"] or not isinstance(saved["proxy"], dict) or not saved["proxy"]:
+        raise ValueError("Require nonempty contemporaneous net and proxy state dictionaries")
     config = saved["training_config"]
     for key, expected in (("c", 1), ("D", 256), ("P", 512), ("proxy_K", 20)):
         if config.get(key) != expected:
@@ -198,10 +233,15 @@ def state_without_ddp_prefix(state):
     return {name.removeprefix("module."): value for name, value in state.items()}
 
 
-def extract_features(saved, points, ids, batch_size, device_name, seed):
+def extract_features(saved, points, ids, batch_size, device_name, seed, version="v5"):
     import torch
     from models.pointmlp import Hype_pointMLP
-    from hier_proxy_scratch_v5.hier_loss import HIERLoss
+    if version == "v5":
+        from hier_proxy_scratch_v5.hier_loss import HIERLoss
+    elif version == "v6":
+        from inter_hierarchy_MN40.hier_proxy_scratch_v6.hier_loss import HIERLoss
+    else:
+        raise ValueError(f"Unknown visualization version: {version}")
 
     random.seed(seed)
     np.random.seed(seed)
@@ -238,7 +278,7 @@ def extract_features(saved, points, ids, batch_size, device_name, seed):
             if start == 0 or stop == len(ids) or (start // batch_size + 1) % 25 == 0:
                 print(f"Clean features {stop}/{len(ids)}", flush=True)
         ball_proxies = proxy.proxies().detach()
-        graph = proxy_graph(ball_proxies, topk=20, seed=seed)
+        graph = proxy_graph(ball_proxies, topk=20, seed=seed, version=version)
         proxies = ball_proxies.cpu().numpy()
     runtime = {"torch": torch.__version__, "numpy": np.__version__,
                "cuda": torch.version.cuda, "device": str(device),
@@ -248,14 +288,44 @@ def extract_features(saved, points, ids, batch_size, device_name, seed):
     return features, proxies, graph, runtime
 
 
-def ancestor_usage_report(saved):
-    """Preserve observed aggregate support without inventing per-proxy counts.
+def ancestor_usage_report(saved, version="v5"):
+    """Report observed epoch selections only when production telemetry saved them.
 
     V5 training forward requests return_mining, not return_details, and its
     telemetry stores aggregate collision/activity counts. Pair/triple chosen
     proxy IDs are therefore absent from the saved training metrics. Rerunning
     Gumbel choices on clean features would not recover historical usage.
+    V6 instead saves actual choices for the checkpoint's own training epoch.
     """
+    if version == "v6":
+        structure = saved.get("metrics", {}).get("structure") or {}
+        result = {}
+        for graph_name in ("sample", "proxy"):
+            graph_report = structure.get(graph_name) or {}
+            if graph_report.get("proxy_count") != 512:
+                return {"status": "unavailable", "source_epoch": saved.get("epoch"),
+                        "reason": "V6 epoch structure proxy count is absent or inconsistent"}
+            usage = graph_report.get("selected_ancestor_usage") or {}
+            graph = {}
+            for role in ("all_draws/pair", "all_draws/triple",
+                         "active_noncollision/pair", "active_noncollision/triple"):
+                role_report = usage.get(role) or {}
+                counts = role_report.get("counts")
+                if not isinstance(counts, list) or len(counts) != 512 or any(
+                        type(value) is not int or value < 0 for value in counts):
+                    return {"status": "unavailable", "source_epoch": saved.get("epoch"),
+                            "reason": "Complete per-proxy V6 hard-Gumbel selection counts are absent"}
+                if role_report.get("selection_count") != sum(counts):
+                    return {"status": "unavailable", "source_epoch": saved.get("epoch"),
+                            "reason": "V6 epoch per-proxy selection totals are inconsistent"}
+                graph[role] = counts
+            result[graph_name] = graph
+        return {"status": "observed_epoch_aggregate", "source_epoch": saved.get("epoch"),
+                "selection": "actual training hard-Gumbel pair/triple choices",
+                "interpretation": "selection count is neither graph eligibility nor a validated ancestor relation",
+                "per_proxy_counts": result}
+    if version != "v5":
+        raise ValueError(f"Unknown visualization version: {version}")
     hierarchy = saved.get("metrics", {}).get("telemetry", {}).get("hierarchy") or {}
     aggregates = {}
     for name in ("sample_graph", "proxy_graph"):
@@ -291,7 +361,7 @@ def cloud_projection(points, yaw=-.6, pitch=.3):
     return np.column_stack((x, y, depth))
 
 
-def render_png(path, rows, clouds, epoch=200):
+def render_png(path, rows, clouds, epoch=200, version_label="V5-H20"):
     """Pillow orthographic point rendering, with one fixed view for all cells."""
     from PIL import Image, ImageDraw, ImageFont
 
@@ -311,15 +381,21 @@ def render_png(path, rows, clouds, epoch=200):
     height = header + len(rows) * (cell_h + 45 + gutter) + 55
     picture = Image.new("RGB", (width, height), "#edf1f6")
     draw = ImageDraw.Draw(picture)
-    draw.text((left, 22), f"V5-H20 epoch {epoch} | {len(rows)} eligible proxies x {cols} nearest samples",
+    draw.text((left, 22), f"{version_label} epoch {epoch} | {len(rows)} eligible proxies x {cols} nearest samples",
               fill="#13243a", font=title_font)
     draw.text((left, 62), "Clean checkpoint training split | raw high-dimensional hyperbolic distance | distinct IDs",
               fill="#43536a", font=small)
-    draw.text((left, 90), "Random eligible proxies (seed fixed); graph eligibility is not recorded ancestor usage.",
+    note = ("Random eligible proxies (seed fixed); graph eligibility is not recorded ancestor usage."
+            if version_label == "V5-H20" else
+            "Graph eligibility is not ancestor quality; V6 usage counts are selections in this epoch.")
+    draw.text((left, 90), note,
               fill="#43536a", font=small)
     for row_index, row in enumerate(rows):
         y0 = header + row_index * (cell_h + 45 + gutter)
         heading = f"Proxy {row['proxy_id']:03d}  |  radius {row['proxy_radius']:.5f}  |  reciprocal degree {row['reciprocal_degree']}"
+        if row.get("historical_ancestor_usage") is not None:
+            observed = row["historical_ancestor_usage"]
+            heading += f"  |  epoch sample pair/triple {observed['all_draws/pair']}/{observed['all_draws/triple']}"
         draw.text((left, y0), heading, font=font, fill="#13243a")
         for col, neighbor in enumerate(row["neighbors"]):
             x0, y1 = left + col * 360, y0 + 35
@@ -344,7 +420,11 @@ def render_html(path, rows, clouds, metadata):
     """A single offline file. Each canvas supports its own rotation and zoom."""
     payload = {"rows": rows, "clouds": np.round(clouds, 6).tolist(), "metadata": metadata}
     packed = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False).replace("</", "<\\/")
-    title = f"V5-H20 第200轮 · {len(rows)}个代理的最近{len(rows[0]['neighbors'])}例"
+    version_label = metadata.get("version_label", "V5-H20")
+    epoch = metadata.get("epoch", 200)
+    usage_note = ("训练时每个代理被选作共同祖先的次数未记录。" if version_label == "V5-H20"
+                  else "若权重含本轮训练结构记录，代理行显示本轮sample图hard-Gumbel pair/triple选择次数；这是选择频次，不是祖先有效性验证。")
+    title = f"{version_label} 第{epoch}轮 · {len(rows)}个代理的最近{len(rows[0]['neighbors'])}例"
     page = """<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>__TITLE__</title><style>
@@ -362,10 +442,10 @@ canvas:active{cursor:grabbing}.footer{margin:28px 0;color:#52637b;font-size:13px
 </style></head><body><main><h1>__TITLE__</h1>
 <div class="intro">从全部512个代理中，按训练K20互惠规则找到可作为anchor的代理，再用固定随机种子抽取展示对象。
 每格为同一代理最近的不同训练实例，排序采用原始高维双曲距离，未按类别筛选。这里的最近4例是展示设置。
-“有效”仅表示当前代理图具备关系抽取条件；训练时每个代理被选作共同祖先的次数未记录。</div>
+“有效”仅表示当前代理图具备关系抽取条件；__USAGE_NOTE__</div>
 <div class="controls"><button id="reset">重置视角</button><button id="sync">统一当前视角</button>
 <span class="muted">拖动单个点云可旋转；滚轮可缩放；双击重置该格。</span></div><div id="gallery"></div>
-<div class="footer">__SPLIT__ · __COUNT__例 · 无增强前1024点 · epoch200完整模型及代理。原始坐标见selected_clouds.npz，检索记录见neighbors.csv。</div>
+<div class="footer">__SPLIT__ · __COUNT__例 · 无增强前1024点 · __SOURCE_STATE__。原始坐标见selected_clouds.npz，检索记录见neighbors.csv。</div>
 </main><script id="data" type="application/json">__DATA__</script><script>
 'use strict';
 const data=JSON.parse(document.getElementById('data').textContent), viewers=[];
@@ -398,6 +478,10 @@ data.rows.forEach((row,r)=>{
  const head=document.createElement('div');head.className='rowhead';
  const name=document.createElement('h2');name.textContent=`代理 ${String(row.proxy_id).padStart(3,'0')}`;
  const detail=document.createElement('span');detail.className='muted';detail.textContent=`半径 ${row.proxy_radius.toFixed(5)} · K20非self互惠邻居 ${row.reciprocal_degree} · 当前图可用`;
+ if(row.historical_ancestor_usage!==null && row.historical_ancestor_usage!==undefined){
+  const counts=row.historical_ancestor_usage;
+  detail.textContent+=` · 第${data.metadata.epoch}轮sample pair/triple选择 ${counts['all_draws/pair']}/${counts['all_draws/triple']}`;
+ }
  head.append(name,detail);section.append(head);const grid=document.createElement('div');grid.className='grid';section.append(grid);
  row.neighbors.forEach((n,c)=>{const card=document.createElement('article');card.className='card';const caption=document.createElement('div');caption.className='caption';
  const title=document.createElement('strong');title.textContent=`${c+1}. ${n.class_name} · ID ${n.sample_id}`;
@@ -411,12 +495,18 @@ document.getElementById('sync').onclick=()=>{const camera={...(lastView?lastView
 </script></body></html>"""
     page = page.replace("__TITLE__", html.escape(title)).replace("__COLS__", str(len(rows[0]["neighbors"])))
     page = page.replace("__SPLIT__", html.escape(metadata["split"])).replace("__COUNT__", str(metadata["sample_count"]))
+    page = page.replace("__USAGE_NOTE__", html.escape(usage_note))
+    source_state = ("epoch200完整模型及代理" if version_label == "V5-H20"
+                    else f"epoch{epoch}完整模型及同期代理")
+    page = page.replace("__SOURCE_STATE__", html.escape(source_state))
     Path(path).write_text(page.replace("__DATA__", packed), encoding="utf-8")
 
 
-def main(argv=None):
-    args = arguments(argv)
+def main(argv=None, version="v5"):
+    args = arguments(argv, version=version)
     os.environ.setdefault("HDF5_USE_FILE_LOCKING", "FALSE")
+    if version == "v6":
+        sys.path.insert(0, str(REPO))
     sys.path.insert(0, str(REPO / "pointnet2_ops_lib"))
     sys.path.insert(0, str(HERE))
     checkpoint_path = args.checkpoint.resolve(strict=True)
@@ -427,14 +517,16 @@ def main(argv=None):
     report = {"status": "running", "started_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
               "command_argv": [sys.executable, *sys.argv],
               "checkpoint": {"path": str(checkpoint_path), "sha256": sha256(checkpoint_path)},
-              "configuration": {key: str(value) if isinstance(value, Path) else value
-                                for key, value in vars(args).items()}}
+              "configuration": {**{key: str(value) if isinstance(value, Path) else value
+                                     for key, value in vars(args).items()}, "version": version}}
     write_json(output / "summary.json", report)
     try:
         import torch
 
         saved = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
-        train_ids, validation_ids = validate_checkpoint(saved)
+        train_ids, validation_ids = validate_checkpoint(
+            saved, version=version, expected_epoch=getattr(args, "expected_epoch", None),
+            checkpoint_name=checkpoint_path.name)
         ids = train_ids if args.split == "train_ids" else validation_ids
         points, labels, shards = load_training_shards(args.data_dir)
         all_ids = np.concatenate((train_ids, validation_ids))
@@ -442,8 +534,10 @@ def main(argv=None):
             raise ValueError("Checkpoint IDs do not match the 9840-row official training shards")
         if args.topk > len(ids):
             raise ValueError("topk exceeds the split's distinct sample count")
-        features, proxies, graph, runtime = extract_features(saved, points, ids, args.batch_size, args.device, args.seed)
+        features, proxies, graph, runtime = extract_features(
+            saved, points, ids, args.batch_size, args.device, args.seed, version=version)
         selected = choose_proxies(graph["eligible"], args.num_proxies, args.seed)
+        historical_usage = ancestor_usage_report(saved, version=version)
         # All512 are queried against all clean samples. Only the independently
         # sampled eligible rows are visualised. Retrieval has no class boost.
         distance_blocks = [poincare_distances(proxies, features[start:start + 512])
@@ -459,9 +553,14 @@ def main(argv=None):
                 neighbors.append({"sample_id": sample_id, "label": label,
                                   "class_name": CLASS_NAMES[label],
                                   "distance": float(distances[proxy_id, position])})
+            selected_usage = None
+            if historical_usage["status"] == "observed_epoch_aggregate":
+                selected_usage = {role: historical_usage["per_proxy_counts"]["sample"][role][proxy_id]
+                                  for role in ("all_draws/pair", "all_draws/triple",
+                                               "active_noncollision/pair", "active_noncollision/triple")}
             rows.append({"proxy_id": int(proxy_id), "proxy_radius": float(radius[proxy_id]),
                          "reciprocal_degree": int(graph["degree"][proxy_id]),
-                         "eligible": True, "historical_ancestor_usage": None,
+                         "eligible": True, "historical_ancestor_usage": selected_usage,
                          "neighbors": neighbors})
         selected_positions = nearest[selected]
         clouds = points[ids[selected_positions], :1024].copy()
@@ -484,8 +583,10 @@ def main(argv=None):
                 for rank, neighbor in enumerate(row["neighbors"], 1):
                     writer.writerow({key: row[key] for key in fields[:3]} |
                                     {"neighbor_rank": rank} | neighbor)
-        metadata = {"split": args.split, "sample_count": len(ids)}
-        render_png(output / "proxy_neighbors.png", rows, clouds)
+        metadata = {"split": args.split, "sample_count": len(ids),
+                    "version_label": version.upper() + "-H20", "epoch": saved["epoch"]}
+        render_png(output / "proxy_neighbors.png", rows, clouds,
+                   epoch=saved["epoch"], version_label=metadata["version_label"])
         render_html(output / "proxy_neighbors.html", rows, clouds, metadata)
         try:
             commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip()
@@ -496,19 +597,20 @@ def main(argv=None):
             raise RuntimeError("Source checkpoint changed during visualisation")
         report.update(status="complete", finished_utc=dt.datetime.now(dt.timezone.utc).isoformat(),
             wall_seconds=time.perf_counter() - started, code_commit=commit, runtime=runtime,
-            checkpoint={**report["checkpoint"], "epoch": saved["epoch"],
-                        "training_commit": saved.get("commit"), "state_used": "net + proxy; not best_net",
+            checkpoint={**report["checkpoint"], "format": saved["format"], "epoch": saved["epoch"],
+                        "training_commit": saved.get("commit"), "state_used": "same-epoch net + proxy; best_net ignored",
                         "size_bytes": before.st_size},
             dataset={"split": args.split, "sample_count": len(ids), "ids_sha256": ids_sha256(ids),
                      "checkpoint_split_sha256": saved["split_sha256"], "training_shards_sorted": shards,
                      "labels_sha256": ids_sha256(labels[ids]), "test_read": False,
                      "feature_input": "raw first1024 points; no augmentation; full eval mode; whole mu FP32"},
-            geometry={"c": 1, "D": 256, "P": 512, "proxy_mapping": "V5 expmap0_c1 with native .999 numerical projection",
+            geometry={"c": 1, "D": 256, "P": 512, "proxy_mapping": version.upper() + " expmap0_c1 with native .999 numerical projection",
                       "retrieval": "FP64 raw high-dimensional Poincare distance; no label boost; ties by ID then position",
                       "display_normalization_only": "box center and one uniform scale; raw coordinates retained in npz",
                       "distance_formula": "2*asinh(norm(x-y)/sqrt((1-norm(x)^2)*(1-norm(y)^2)))"},
             eligibility={"training_K_including_self": 20, "graph_domain": "all512 checkpoint proxies",
-                         "rule": "source FP32 reciprocal topK; diagonal removed; degree>=2 and negative pool nonempty; self-k allowed",
+                         "rule": "source FP32 reciprocal topK; diagonal removed; degree>=2 and negative pool nonempty; " +
+                                 ("self-k excluded" if version == "v6" else "self-k allowed"),
                          "eligible_count": int(graph["eligible"].sum()),
                          "eligible_proxy_ids": np.flatnonzero(graph["eligible"]).tolist(),
                          "all_proxy_degrees": graph["degree"].tolist(),
@@ -517,7 +619,7 @@ def main(argv=None):
                        "seed": args.seed, "depends_on_class_purity": False,
                        "selected_proxy_ids": selected.tolist(), "display_topk": args.topk,
                        "display_topk_is_training_K": False, "distinct_sample_ids_per_row": True},
-            actual_ancestor_usage=ancestor_usage_report(saved), rows=rows,
+            actual_ancestor_usage=historical_usage, rows=rows,
             artifacts=["proxy_neighbors.png", "proxy_neighbors.html", "neighbors.csv",
                        "selected_clouds.npz", "feature_cache.npz", "summary.json"])
         write_json(output / "summary.json", report)
