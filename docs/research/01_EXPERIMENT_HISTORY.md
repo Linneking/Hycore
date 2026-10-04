@@ -1,5 +1,21 @@
 # Experiment history
 
+## V6 B64 shuffle baseline authorized and detached — 2026-10-05
+
+The user selected full9840training and original every-epoch official test/
+best-test selection. One new300epoch baseline uses153shuffled no-replacement
+global64batches per epoch (9792distinct IDs,48dropped), two local32 ranks,
+original c1/D256 CE+intra, alias/BN/FPS and SGD/cosine/norm1; no HIER/proxy.
+Production code commit `56b40a2b11d3274ff7a9832b8e4cced3b366ec5c`, branch
+`codex/v6-b64-shuffle-baseline`; detached at00:48:45Asia/Shanghai on two idle GPUs.
+Eight sampler, two real source-criterion and six distributed/operator CPU
+checks passed. A fresh2epoch x2step GPU smoke passed with zero gradient and
+parameter replica differences, finite/clipped updates and reloadable full
+checkpoints; partial smoke test results are not experiment results.
+See[23](23_V6_B64_SHUFFLE_START_2026-10-05.md) for production acceptance.
+This changes several H20 protocol factors and is not the pending matched
+balancedglobal64 B0. No additional matrix was launched.
+
 ## V6 completed and V5/V6 structure audit — 2026-10-04
 
 V6-H20 completed300x200 updates at12:01:52Asia/Shanghai; original-source

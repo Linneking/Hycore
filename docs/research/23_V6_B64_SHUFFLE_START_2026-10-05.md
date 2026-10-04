@@ -31,11 +31,13 @@
 
 ## 算子兼容与限制
 
-全局64的连续位置分给 rank0 前32和 rank1 后32，梯度汇总后再计算全局 CE/intra。使用已有的可微 all-gather：反向 SUM 与 DDP 参数梯度平均抵消，不额外乘除 world size。全局 flip 会把负 part 配到另一张卡；不能改成各卡 local flip。
+全局64的连续位置分给 rank0 前32和 rank1 后32，汇总两卡的嵌入和logits后计算全局 CE/intra。使用已有的可微 all-gather：反向 SUM 与 DDP 参数梯度平均抵消，不额外乘除 world size。全局 flip 会把负 part 配到另一张卡；不能改成各卡 local flip。
 
 旧 balanced 入口强制 flip 异类，不能直接用于普通 shuffle。新路径允许源式随机 batch 的同类负配对并监测其比例。intra 的零点使用原 `torch.max` 算子，与 ReLU 在精确零点的梯度区别明确保留。
 
 普通 local32 BN 和单卡 B64 BN 不等价；rank0 buffer 广播也不是 SyncBN。各 rank 的 running mean/var 可不同，梯度与模型参数应同步，BN计数每步均增加2。采样排列和双卡随机流可重现，但不声称与原单卡 DataLoader 的 PyTorch 随机流逐位一致。
+
+原脚本直接使用train batch64时，test分块默认会是32。本次显式使用16，与既有原B32保持相同评估分块；完整test数量和源式选模规则不变。
 
 ## 监测与验收
 
@@ -52,4 +54,19 @@
 
 ## 实际状态
 
-当前为实现与验收阶段；尚未声明正式训练已启动。分支：`codex/v6-b64-shuffle-baseline`。生产提交、GPU、开始时间与启动结果将在确认后补充，完整私有身份以新结果目录manifest为准。
+分支：`codex/v6-b64-shuffle-baseline`。生产提交：`56b40a2b11d3274ff7a9832b8e4cced3b366ec5c`。已按本地提交/推送、服务器干净工作区fetch及pull --ff-only更新。
+
+验收记录：
+
+- 8项采样CPU检查、2项新入口与原源码损失/梯度检查、6项已有分布式/输入算子CPU检查通过。损失值逐值一致，独立FP32梯度图最大约3e−11累加差异，梯度测试容差rtol1e−6/atol1e−10；精确零点hinge半梯度另作严格检查。
+- 独立短测目录完成2轮×2步、共4次更新。每轮实际128个唯一训练ID；每轮只看32例test，均明确标记smoke/partial，不用于报告分类结果或初始化生产。
+- 短测两rank梯度差、更新后参数差均为0；裁剪后范数最大0.99999988，单卡峰值allocated显存28444.64MiB。四步同类flip负数分别0/0/6/2，全部合法且正常通过。
+- BN每步+2、输入alias复写和固定c1断言通过，test/cleantrain评估buffer不变；last/best保存和checksum通过。重新CPU加载checkpoint，确认248模型状态项、126优化器状态项、调度器及两rank RNG/sampler/BN均存在；未宣称断点恢复已测试。
+- 正式任务使用全新结果目录，2026-10-05 00:48:45Asia/Shanghai在两张完全空闲GPU启动，已脱离当前连接运行。生产从头随机seed22，不读取短测权重。服务器路径、PID、GPU编号/UUID仅保存在忽略的本地私有记录和服务器manifest/launcher_state，不提交仓库。
+
+正式挂起验收已通过：
+
+- 第1轮完成153次更新，实际draws/唯一ID均9792，覆盖99.5122%，重复0、补齐0、丢尾48。实际完整test2468例、155个eval batch，buffer保持不变。
+- 第1轮last/best和metrics均保存，last约160.03MB；首末步两rank梯度差/参数差均0。153步损失/梯度保持有限，裁剪前范数最高6.3041、24步触发原norm1裁剪（15.69%），裁剪后最大0.99999982；同类flip负配对比例3.6560%。峰值allocated显存28445.89MiB。
+- 第1轮训练及test/保存统计耗时104.65秒（不含前置初始化）。首次test OA19.7326%只是启动轮监测，不是训练最终结果。
+- 最后验收时heartbeat已到第3轮第4步，manifest保持running，官方全量test已执行，训练进程已脱离当前连接独立运行。后续每轮监测和保存由训练进程自行继续；当前不声明300轮已完成。

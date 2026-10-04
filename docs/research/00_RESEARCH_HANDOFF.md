@@ -1,6 +1,22 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
-## Current navigation — 2026-10-04
+## Current navigation — 2026-10-05
+
+The user approved one additional V6 B64 source-style shuffle baseline:
+full9840train, global64 on two local32 ranks,153updates/epoch with9792unique
+objects and48dropped tail objects,300epochs, no HIER/proxy, original every-epoch
+test and rounded best-test selection. The new entry is
+`inter_hierarchy_MN40.hycore_b64_v6/`, branch `codex/v6-b64-shuffle-baseline`.
+CPU source-loss/sampler and distributed-gradient checks, plus a two-rank
+2epoch x2step smoke passed. The production task was detached at
+2026-10-05 00:48:45Asia/Shanghai on two idle GPUs. See
+[23: B64 configuration and launch checks](23_V6_B64_SHUFFLE_START_2026-10-05.md)
+for the checked current status. Ordinary local32 BN and versioned RNG differ
+from a single-GPU B64 run; this also changes H20 data/sampling/step count and
+is not a matched single-variable HIER control. This launch supersedes the
+earlier no-new-main-training statements below.
+
+## Completed V6 results — 2026-10-04
 
 V6 H20 and original-source B32 have completed300epochs. The final read-only
 comparison, V6 best99/epoch200/epoch300 proxy top-four visualization and
