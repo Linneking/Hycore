@@ -21,6 +21,17 @@
 
 本次source CPU检查确认完整checkpoint有模型/代理optimizer、两scheduler、两rank BN/RNG/sampler、best_net、split和ID；原e20文件160917100字节，独立SHA256为`cacb8ecd394e66c57c1cc0e95f9ab81c62c2dd47c74eba062f781409b8667e50`。生产commit、运行时间/GPU及新目录仅在实际验收后记录，不提前写成已启动。
 
+### 已完成短测与生产派发
+
+- 生产实现commit `f649fcc9a61b9ace22f7b793c3837f379ba6faa2`。六项恢复合同/采样测试在本地及服务器通过。
+- 新目录的双卡恢复短测完成e21的两步，官方test未读取；每rank模型参数、全部BN buffer、optimizer整树、scheduler、sampler、完整RNG和初始模型身份exact核对均通过。
+  每步BN+2、原alias复写、finite、clip与c1检查通过；首/末梯度及更新参数副本差为0。
+  完整短测checkpoint已重载验证且带`continuation_smoke_not_resumable=true`，不用于生产。
+- 正式B0于**2026-10-06 02:26:20 Asia/Shanghai**派发，独立session、父进程脱离SSH。
+  派发前重新确认指定两卡完全空闲；采用原e20 checkpoint，再次核对独立SHA256。
+  进程启动存活检查通过；首个完整e21（200步、984验证、保存）验收尚待后续补充，未把“存活”当成首轮完成。
+- 私有路径/PID/GPU UUID仅在server manifest/launcher_state及忽略的本地记录，不提交仓库。
+
 ## 第一批机制诊断
 
 1. CPU冻结whole/proxy：实际hard-Gumbel选择、端点代理身份重合、sample/proxy项的径向/角向梯度和使用熵；原mining与仅mining半径控制，loss保持原whole。

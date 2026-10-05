@@ -1,5 +1,21 @@
 # Experiment history
 
+## V6 balanced64 B0 authorized, smoke passed and detached — 2026-10-06
+
+User approved the matched B0 first, sustained mechanism experiments afterward
+until usage limits, and no warmup for future newly initialized HIER runs.
+Versioned v6_balanced_b0 preserves historical e20 complete model/momentum/
+300-period scheduler/two-rank BN/RNG/sampler and continues e21–300; only
+HIER/proxy updates are disabled. Six local/server contract tests and a separate
+two-update dual-GPU restore smoke pass, with exact state checks and zero
+gradient/parameter replica difference. Smoke test data were partial and
+nonreportable, no official test was read, and its checkpoint cannot initialize
+production. Code f649fcc on codex/v6-balanced-b0-mechanisms.
+
+Production detached at 02:26:20 Asia/Shanghai after fresh idle-GPU checks,
+using the independently hashed original e20. First full epoch acceptance is
+pending, not implied by PID survival. See [29](29_V6_BALANCED_B0_AND_MECHANISM_LAUNCH_2026-10-06.md).
+
 ## Actual-use subset audit and pending next decisions — 2026-10-06
 
 Read-only NumPy analysis joined matching-epoch sample pair/triple counts to

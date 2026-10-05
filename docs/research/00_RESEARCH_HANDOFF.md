@@ -1,5 +1,23 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## Authorized B0 continuation and sustained diagnostics — 2026-10-06
+
+The user approved V6 matched balanced64 B0 and continuing small mechanism
+experiments until usage limits, with the main training taking priority.
+Future newly initialized HIER runs must enable weight .5 from epoch1 without
+20-epoch warmup. Historical prefixes remain accurately labelled.
+
+[29: launch and diagnostic record](29_V6_BALANCED_B0_AND_MECHANISM_LAUNCH_2026-10-06.md)
+records a strict complete-state historical V6 e20 B0 fork. Code f649fcc,
+branch codex/v6-balanced-b0-mechanisms. Local/server six contract checks and
+two-update dual-GPU restore smoke pass, including exact optimizer/scheduler/
+BN/RNG/sampler restoration and zero gradient/parameter replica difference.
+Production was detached at 02:26:20 Asia/Shanghai, continuing e21–300 with
+original 300-epoch cosine, data/sampling and CE/intra; source checkpoint SHA
+is recorded in29. The first full production epoch is not yet accepted here.
+No smoke checkpoint initializes production. Validation selects the model;
+official test is read only once at the end. Diagnostics use separate resources.
+
 ## Current evidence and pending decisions — 2026-10-06
 
 [28: contradictions, actual-use subsets and next decisions](28_HIER_EVIDENCE_AND_NEXT_DECISIONS_2026-10-06.md)
