@@ -28,6 +28,26 @@ Status: **2026-10-06用户已审阅并批准V6同协议balanced64 B0：先独立
 
 具体启动和诊断身份记录于[29](29_V6_BALANCED_B0_AND_MECHANISM_LAUNCH_2026-10-06.md)。
 
+### 首批结果触发的聚焦扩展（本次持续诊断授权内）
+
+首批4个冻结eval-cache batch显示proxy pair约44%选择其三元组端点；
+2个条件热点batch中，sample的完整ST共享参数梯度明显大于固定祖先hinge梯度，
+且eval与trainBN的比例差异很大。它们是有限面板，不作为长训练因果结论。
+
+- e99/e200/e300各16个相同balanced64计划，CPU重放sample/proxy径向分工与端点重合；
+  e300另做100步冻结whole代理更新，sample/proxy/合用三项与原/等半径mining交叉。
+  继承原AdamW状态、同有效LR；加零梯度动量+decay与fresh同LR decay控制，
+  末端用相同原mining计划无更新评估。固定LR诊断不冒充完整cosine训练。
+- GPU3以自然抽样16个batch扩大e300的eval/trainBN/local32重分组VJP；
+  再对既有2个热点面板补同输入重复Gumbel基线。
+- 对e300热点做base、base+.5sampleST、base+.5sample_fixed配对一步：
+  完整继承模型与RSGD动量、有效LR、norm1裁剪；旧BN固定clean1024读出，
+  判断参数更新的即时径向和角向响应。每批独立还原起点，不能称持续训练。
+- 如上述信号经扩展稳定，再在e20/e99/e200定位时间差异，并补独立点云几何关系信号。
+  source checkpoint/HDF/cache不变；各试验新目录，GPU1/2主训练资源不动。
+
+结果与执行身份另记[30](30_HIER_MECHANISM_DIAGNOSTICS_2026-10-06.md)。
+
 ## 2026-10-06：用户已审阅的诊断设计
 
 本节原为待审阅候选，现按上方最新用户授权执行；具体时长、恢复验收和资源分配以上方为准。

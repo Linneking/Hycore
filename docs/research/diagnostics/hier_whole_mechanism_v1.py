@@ -595,6 +595,7 @@ def main():
                 "semantics": ["Fixed diagnostic inputs, centers, global positions and global-flip negative IDs across conditions.",
                               "Augmentation seeds are diagnostic occurrence seeds, not a claimed replay of historical DataLoader workers.",
                               "Each local32 group restores checkpoint rank0 buffers before part and whole; BN is never global64.",
+                              "Diagnostic batches are independent fixed-checkpoint panels; they do not roll BN buffers forward as a training trajectory.",
                               "VJP sums local32 contributions to global-mean objectives with no additional world-size factor.",
                               "Leaf partials and parameter norms are before optimizer metric correction, clipping and momentum.",
                               "CE mu partial uses the tied Mobius classifier for interpretation; CE VJP uses only logits, avoiding double counting.",
