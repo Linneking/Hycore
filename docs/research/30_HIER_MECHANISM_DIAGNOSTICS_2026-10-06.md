@@ -81,6 +81,19 @@ eval径向margin违反均值99.02%，trainBN39.26%；同输入的BN模式影响�
 4个热点不代表所有dresser或长训练；下一步同面板e20/e99/e200与e300自然16batch，检验时间和覆盖。
 
 聚合数据：[真实一步](diagnostics/results/20261006_one_step_e300_hotspot2_aggregate.json)。
+科学静态图（PNG/PDF均已逐张视觉检查）：
+[CPU分工与偏导](artifacts/hier_mechanism_figures_preview_20261006_v1/proxy_cpu_mechanisms.png)、
+[BN与共享参数](artifacts/hier_mechanism_figures_preview_20261006_v1/whole_bn_parameter_mechanisms.png)、
+[实际总更新与增量](artifacts/hier_mechanism_figures_preview_20261006_v1/one_step_total_and_increment.png)。
+
+重复Gumbel8次的热点面板：相同输入但独立噪声的pair identity agreement约11%，
+triple约2.6–4.8%；跨BN同seed的pair约83–84%、triple约50–54%。
+两种比较不相减作因果分量，28个两两噪声比较也不是28个独立重复。
+trainBN热点sample μ-gradient的noise-vector RMS约0.132/0.094，mean-gradient norm约0.096/0.089。
+因此进一步在source_train自然mining固定三元组下，只改Gumbel seed做8次真实一步，
+同时扩展A/B增强：固定clean crop物理成员与anchor的一组、源式自然重crop的一组。
+各组分别保留crop成员身份，避免相同中心整数掩盖不同物理点。
+
 GPU噪声探针已完成；顺序管理器在前一进程退出后瞬时util未归零时停止了后续启动，
 未打断任何进程。重新确认GPU3完全空闲后在新目录单独执行一步；失败管理器及成功噪声结果保留。
 
