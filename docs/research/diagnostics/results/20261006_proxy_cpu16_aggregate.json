@@ -1,0 +1,1108 @@
+{
+  "purpose": "Derived aggregate only; clean-eval FP32 CPU frozen replay, not historical training or morphology evidence",
+  "metadata": {
+    "e99_16batch": {
+      "status": "complete",
+      "configuration": {
+        "seed": 22,
+        "batches": 16,
+        "plan_epoch": 0,
+        "K": 20,
+        "T": 50,
+        "c": 1,
+        "dtype": "float32",
+        "margin": 0.1,
+        "tau": 0.1,
+        "loss_weight": 0.5,
+        "mining_radius": 0.98,
+        "proxy_steps": 0,
+        "torch_threads": 2
+      },
+      "sampler_identity": {
+        "version": "hier-source-class-batch-v5-1",
+        "epoch": 0,
+        "seed": 22,
+        "steps": 16,
+        "world_size": 2,
+        "classes_per_rank": 16,
+        "instances_per_class": 2,
+        "labels_sha256": "9a3bff24274bda1c6c2fd50d27f6c1ecdaf0a162a5648d02670fa4891b6a515c"
+      },
+      "batch_plan_sha256": "eb5aef1c82e0f05e4a822413af87f6af5a06cf0597ff542036375dc05dce6358",
+      "source_files_unchanged": true,
+      "code_commit": "0fb210ec5dd0b3e58ecde2c458d7e95112517a70",
+      "diagnostic_script_sha256": "50a76c5929aa61f66ff166e694ce77e170a0987d293adfdabbc7f40726d12798",
+      "optimizer_updates": 0,
+      "checks": {
+        "cache_checkpoint_identity": true,
+        "all_ID_label_hashes": true,
+        "proxy_mapping_matches_cache": true,
+        "source_self_k_exclusion": true,
+        "gradient_additivity_and_finite": true,
+        "Rproxy_no_direct_whole_gradient": true,
+        "controlled_proxy_pair_choices_identical": true
+      },
+      "wall_seconds": 32.803651744965464,
+      "checkpoint_sha256": "b33858435e41e3f87c06eff9f68454e3ede9250eac9747a080b411ecb7fb3d06",
+      "cache_sha256": "b82ce66a5ff6fde6c3135655d49c94f028acecb56edc3d640a6338cb01c34ade"
+    },
+    "e200_16batch": {
+      "status": "complete",
+      "configuration": {
+        "seed": 22,
+        "batches": 16,
+        "plan_epoch": 0,
+        "K": 20,
+        "T": 50,
+        "c": 1,
+        "dtype": "float32",
+        "margin": 0.1,
+        "tau": 0.1,
+        "loss_weight": 0.5,
+        "mining_radius": 0.98,
+        "proxy_steps": 0,
+        "torch_threads": 2
+      },
+      "sampler_identity": {
+        "version": "hier-source-class-batch-v5-1",
+        "epoch": 0,
+        "seed": 22,
+        "steps": 16,
+        "world_size": 2,
+        "classes_per_rank": 16,
+        "instances_per_class": 2,
+        "labels_sha256": "9a3bff24274bda1c6c2fd50d27f6c1ecdaf0a162a5648d02670fa4891b6a515c"
+      },
+      "batch_plan_sha256": "eb5aef1c82e0f05e4a822413af87f6af5a06cf0597ff542036375dc05dce6358",
+      "source_files_unchanged": true,
+      "code_commit": "0fb210ec5dd0b3e58ecde2c458d7e95112517a70",
+      "diagnostic_script_sha256": "50a76c5929aa61f66ff166e694ce77e170a0987d293adfdabbc7f40726d12798",
+      "optimizer_updates": 0,
+      "checks": {
+        "cache_checkpoint_identity": true,
+        "all_ID_label_hashes": true,
+        "proxy_mapping_matches_cache": true,
+        "source_self_k_exclusion": true,
+        "gradient_additivity_and_finite": true,
+        "Rproxy_no_direct_whole_gradient": true,
+        "controlled_proxy_pair_choices_identical": true
+      },
+      "wall_seconds": 33.978714066091925,
+      "checkpoint_sha256": "3ed067b09505b0d0d9e1ba65eb5894c631f8a2ede0bc644dc601947851a3a41e",
+      "cache_sha256": "b283d9498736c31b00752b5f63b3be82d16e8198f98bd78790b92725ff5f59d8"
+    },
+    "e300_16batch": {
+      "status": "complete",
+      "configuration": {
+        "seed": 22,
+        "batches": 16,
+        "plan_epoch": 0,
+        "K": 20,
+        "T": 50,
+        "c": 1,
+        "dtype": "float32",
+        "margin": 0.1,
+        "tau": 0.1,
+        "loss_weight": 0.5,
+        "mining_radius": 0.98,
+        "proxy_steps": 0,
+        "torch_threads": 2
+      },
+      "sampler_identity": {
+        "version": "hier-source-class-batch-v5-1",
+        "epoch": 0,
+        "seed": 22,
+        "steps": 16,
+        "world_size": 2,
+        "classes_per_rank": 16,
+        "instances_per_class": 2,
+        "labels_sha256": "9a3bff24274bda1c6c2fd50d27f6c1ecdaf0a162a5648d02670fa4891b6a515c"
+      },
+      "batch_plan_sha256": "eb5aef1c82e0f05e4a822413af87f6af5a06cf0597ff542036375dc05dce6358",
+      "source_files_unchanged": true,
+      "code_commit": "0fb210ec5dd0b3e58ecde2c458d7e95112517a70",
+      "diagnostic_script_sha256": "50a76c5929aa61f66ff166e694ce77e170a0987d293adfdabbc7f40726d12798",
+      "optimizer_updates": 0,
+      "checks": {
+        "cache_checkpoint_identity": true,
+        "all_ID_label_hashes": true,
+        "proxy_mapping_matches_cache": true,
+        "source_self_k_exclusion": true,
+        "gradient_additivity_and_finite": true,
+        "Rproxy_no_direct_whole_gradient": true,
+        "controlled_proxy_pair_choices_identical": true
+      },
+      "wall_seconds": 82.87845975998789,
+      "checkpoint_sha256": "078ca9f789b13dd18e2e83e1e35e453a90eafa90fa21cea16f4f6100d383f6e5",
+      "cache_sha256": "67ebe6e81e70b4355c7eeebcc90bde1aea2225ad12183f40dd1ff50f3cabe1b8"
+    }
+  },
+  "data": {
+    "e99_16batch": {
+      "original": {
+        "draw_counts": {
+          "sample": {
+            "triplets": 51150,
+            "collisions": 645,
+            "noncollision_triplets": 50505,
+            "active_triplets": 5149,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 5149
+          },
+          "proxy": {
+            "triplets": 150400,
+            "collisions": 365,
+            "noncollision_triplets": 150035,
+            "active_triplets": 7901,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 7901
+          }
+        },
+        "endpoint": {
+          "draws": 150035,
+          "pair_endpoint_hits": 25903,
+          "triple_endpoint_hits": 1871,
+          "pair_endpoint_hit_fraction": 0.1726463825107475,
+          "triple_endpoint_hit_fraction": 0.012470423567834172
+        },
+        "losses": {
+          "sample": 0.032139352115336806,
+          "proxy": 0.021561841829679906,
+          "combined": 0.05370119446888566
+        },
+        "sample": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.34368234095201905,
+              "positive_fraction": 0.9401247401247401,
+              "negative_fraction": 0.05987525987525988
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 3.8942935155389473,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 4.131852308193913,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.05040995589412053,
+              "positive_fraction": 0.5890464167799573,
+              "negative_fraction": 0.4109535832200427
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 3.84562745006785,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 3.5345401026063996,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 184,
+              "effective_proxy_count": 42.9598916038354,
+              "entropy": 3.760266927009237
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 139.53730519904357,
+              "entropy": 4.938331986292531
+            }
+          }
+        },
+        "proxy": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.09505824804679465,
+              "positive_fraction": 0.6914919852034526,
+              "negative_fraction": 0.3085080147965475
+            },
+            "pair_min_endpoint_gap": {
+              "mean": -0.035253433449915814,
+              "positive_fraction": 0.26699103542506747,
+              "negative_fraction": 0.6474955843636485
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 0.030700381148495923,
+              "positive_fraction": 0.5958009797713867,
+              "negative_fraction": 0.39550771486653113
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.0419724675737262,
+              "positive_fraction": 0.663966586508037,
+              "negative_fraction": 0.33603341349196303
+            },
+            "pair_min_endpoint_gap": {
+              "mean": -0.04459901371118072,
+              "positive_fraction": 0.24262751550436654,
+              "negative_fraction": 0.6743450196177699
+            },
+            "triple_min_endpoint_gap": {
+              "mean": -0.051265527033953706,
+              "positive_fraction": 0.30793570434122264,
+              "negative_fraction": 0.5344893051512467
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 129.46698951267575,
+              "entropy": 4.863425941407195
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 207,
+              "effective_proxy_count": 32.73335371040342,
+              "entropy": 3.488394549209533
+            }
+          }
+        },
+        "whole_partial": {
+          "sample/whole_ball/all/signed_radial_gradient": {
+            "n": 1024,
+            "mean": 0.046345931394306206,
+            "positive_fraction": 0.6240234375,
+            "negative_fraction": 0.373046875
+          },
+          "sample/whole_ball/class/dresser/signed_radial_gradient": {
+            "n": 26,
+            "mean": 0.02915272145317151,
+            "positive_fraction": 0.5769230769230769,
+            "negative_fraction": 0.4230769230769231
+          },
+          "sample/whole_ball/bottom_radius_1pct/signed_radial_gradient": {
+            "n": 13,
+            "mean": -0.044699539931920856,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "gradient_cosines": {
+          "proxy_tangent": {
+            "mean": 0.039451736877708754,
+            "min": -0.00011053575144615024,
+            "max": 0.10613017529249191
+          },
+          "proxy_ball": {
+            "mean": 0.06375111098168418,
+            "min": -0.007980884052813053,
+            "max": 0.16577407717704773
+          }
+        }
+      },
+      "sample_mining_equal_radius": {
+        "draw_counts": {
+          "sample": {
+            "triplets": 51200,
+            "collisions": 531,
+            "noncollision_triplets": 50669,
+            "active_triplets": 5267,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 5267
+          },
+          "proxy": {
+            "triplets": 150400,
+            "collisions": 365,
+            "noncollision_triplets": 150035,
+            "active_triplets": 7901,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 7901
+          }
+        },
+        "endpoint": {
+          "draws": 150035,
+          "pair_endpoint_hits": 25903,
+          "triple_endpoint_hits": 1871,
+          "pair_endpoint_hit_fraction": 0.1726463825107475,
+          "triple_endpoint_hit_fraction": 0.012470423567834172
+        },
+        "losses": {
+          "sample": 0.031952258199453354,
+          "proxy": 0.021561841829679906,
+          "combined": 0.05351410014554858
+        },
+        "sample": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.34694467357581366,
+              "positive_fraction": 0.9476208332511002,
+              "negative_fraction": 0.052379166748899725
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 3.908674559609858,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 4.147391891904862,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.08176722559594828,
+              "positive_fraction": 0.6381241693563698,
+              "negative_fraction": 0.36187583064363016
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 3.9589955746527754,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 3.663245041229613,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 46.78204316712243,
+              "entropy": 3.845499436284399
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 134.57805027938034,
+              "entropy": 4.90214433020821
+            }
+          }
+        },
+        "proxy": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.09505824804679465,
+              "positive_fraction": 0.6914919852034526,
+              "negative_fraction": 0.3085080147965475
+            },
+            "pair_min_endpoint_gap": {
+              "mean": -0.035253433449915814,
+              "positive_fraction": 0.26699103542506747,
+              "negative_fraction": 0.6474955843636485
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 0.030700381148495923,
+              "positive_fraction": 0.5958009797713867,
+              "negative_fraction": 0.39550771486653113
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.0419724675737262,
+              "positive_fraction": 0.663966586508037,
+              "negative_fraction": 0.33603341349196303
+            },
+            "pair_min_endpoint_gap": {
+              "mean": -0.04459901371118072,
+              "positive_fraction": 0.24262751550436654,
+              "negative_fraction": 0.6743450196177699
+            },
+            "triple_min_endpoint_gap": {
+              "mean": -0.051265527033953706,
+              "positive_fraction": 0.30793570434122264,
+              "negative_fraction": 0.5344893051512467
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 129.46698951267575,
+              "entropy": 4.863425941407195
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 207,
+              "effective_proxy_count": 32.73335371040342,
+              "entropy": 3.488394549209533
+            }
+          }
+        },
+        "whole_partial": {
+          "sample/whole_ball/all/signed_radial_gradient": {
+            "n": 1024,
+            "mean": 0.05160186028106262,
+            "positive_fraction": 0.59375,
+            "negative_fraction": 0.40625
+          },
+          "sample/whole_ball/class/dresser/signed_radial_gradient": {
+            "n": 26,
+            "mean": -0.04793004139523523,
+            "positive_fraction": 0.38461538461538464,
+            "negative_fraction": 0.6153846153846154
+          },
+          "sample/whole_ball/bottom_radius_1pct/signed_radial_gradient": {
+            "n": 13,
+            "mean": -0.02634219872729423,
+            "positive_fraction": 0.07692307692307693,
+            "negative_fraction": 0.9230769230769231
+          }
+        },
+        "gradient_cosines": {
+          "proxy_tangent": {
+            "mean": 0.03840654726809589,
+            "min": -0.035463519394397736,
+            "max": 0.10572704672813416
+          },
+          "proxy_ball": {
+            "mean": 0.05395222274819389,
+            "min": -0.007939092814922333,
+            "max": 0.12940335273742676
+          }
+        }
+      }
+    },
+    "e200_16batch": {
+      "original": {
+        "draw_counts": {
+          "sample": {
+            "triplets": 43500,
+            "collisions": 1037,
+            "noncollision_triplets": 42463,
+            "active_triplets": 9439,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 9439
+          },
+          "proxy": {
+            "triplets": 150400,
+            "collisions": 322,
+            "noncollision_triplets": 150078,
+            "active_triplets": 5929,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 5929
+          }
+        },
+        "endpoint": {
+          "draws": 150078,
+          "pair_endpoint_hits": 24787,
+          "triple_endpoint_hits": 1801,
+          "pair_endpoint_hit_fraction": 0.16516078305947574,
+          "triple_endpoint_hit_fraction": 0.012000426444915311
+        },
+        "losses": {
+          "sample": 0.07581659383140504,
+          "proxy": 0.015573931799735874,
+          "combined": 0.09139052638784051
+        },
+        "sample": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.2262683379269156,
+              "positive_fraction": 0.8391305371735394,
+              "negative_fraction": 0.1608694628264607
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 3.008639203138567,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 3.1337665795684746,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": -0.0054144024507943095,
+              "positive_fraction": 0.5060917470070982,
+              "negative_fraction": 0.4939082529929018
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 3.0287695257375016,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 2.7763095707291705,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 55.11564938157921,
+              "entropy": 4.009433693647949
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 158.04881310839613,
+              "entropy": 5.062903929037708
+            }
+          }
+        },
+        "proxy": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.11524501290202076,
+              "positive_fraction": 0.7335318967470249,
+              "negative_fraction": 0.2664681032529751
+            },
+            "pair_min_endpoint_gap": {
+              "mean": -0.03572497456949319,
+              "positive_fraction": 0.2125428110715761,
+              "negative_fraction": 0.705219952291475
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 0.05068585304206164,
+              "positive_fraction": 0.6168059275843228,
+              "negative_fraction": 0.3752515358680153
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.05457204512951446,
+              "positive_fraction": 0.7051779389441727,
+              "negative_fraction": 0.2948220610558273
+            },
+            "pair_min_endpoint_gap": {
+              "mean": -0.05888825913347388,
+              "positive_fraction": 0.1674818687805701,
+              "negative_fraction": 0.7490301905886322
+            },
+            "triple_min_endpoint_gap": {
+              "mean": -0.039310425826561836,
+              "positive_fraction": 0.26058357227188395,
+              "negative_fraction": 0.5483218080620678
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 152.95005474485188,
+              "entropy": 5.030111428523307
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 218,
+              "effective_proxy_count": 32.74884813446134,
+              "entropy": 3.488867789995901
+            }
+          }
+        },
+        "whole_partial": {
+          "sample/whole_ball/all/signed_radial_gradient": {
+            "n": 1024,
+            "mean": 0.07611524877176112,
+            "positive_fraction": 0.5625,
+            "negative_fraction": 0.4375
+          },
+          "sample/whole_ball/class/dresser/signed_radial_gradient": {
+            "n": 26,
+            "mean": 0.1084100383718928,
+            "positive_fraction": 0.6153846153846154,
+            "negative_fraction": 0.38461538461538464
+          },
+          "sample/whole_ball/bottom_radius_1pct/signed_radial_gradient": {
+            "n": 6,
+            "mean": -0.03754166994864742,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "gradient_cosines": {
+          "proxy_tangent": {
+            "mean": 0.005100202542962506,
+            "min": -0.05403192713856697,
+            "max": 0.06957363337278366
+          },
+          "proxy_ball": {
+            "mean": 0.009077608701772988,
+            "min": -0.09498467296361923,
+            "max": 0.11100610345602036
+          }
+        }
+      },
+      "sample_mining_equal_radius": {
+        "draw_counts": {
+          "sample": {
+            "triplets": 51200,
+            "collisions": 1252,
+            "noncollision_triplets": 49948,
+            "active_triplets": 10913,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 10913
+          },
+          "proxy": {
+            "triplets": 150400,
+            "collisions": 322,
+            "noncollision_triplets": 150078,
+            "active_triplets": 5929,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 5929
+          }
+        },
+        "endpoint": {
+          "draws": 150078,
+          "pair_endpoint_hits": 24787,
+          "triple_endpoint_hits": 1801,
+          "pair_endpoint_hit_fraction": 0.16516078305947574,
+          "triple_endpoint_hit_fraction": 0.012000426444915311
+        },
+        "losses": {
+          "sample": 0.0671642271336168,
+          "proxy": 0.015573931799735874,
+          "combined": 0.0827381603885442
+        },
+        "sample": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.25231735233482694,
+              "positive_fraction": 0.8845999839833427,
+              "negative_fraction": 0.11540001601665732
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 3.137139156788929,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 3.2336950916404614,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.03720346267682368,
+              "positive_fraction": 0.5911298451388253,
+              "negative_fraction": 0.40887015486117473
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 3.264275157188371,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 2.8542840014912736,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 49.26199236876246,
+              "entropy": 3.897152837850165
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 155.66901123351076,
+              "entropy": 5.047732030344608
+            }
+          }
+        },
+        "proxy": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.11524501290202076,
+              "positive_fraction": 0.7335318967470249,
+              "negative_fraction": 0.2664681032529751
+            },
+            "pair_min_endpoint_gap": {
+              "mean": -0.03572497456949319,
+              "positive_fraction": 0.2125428110715761,
+              "negative_fraction": 0.705219952291475
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 0.05068585304206164,
+              "positive_fraction": 0.6168059275843228,
+              "negative_fraction": 0.3752515358680153
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.05457204512951446,
+              "positive_fraction": 0.7051779389441727,
+              "negative_fraction": 0.2948220610558273
+            },
+            "pair_min_endpoint_gap": {
+              "mean": -0.05888825913347388,
+              "positive_fraction": 0.1674818687805701,
+              "negative_fraction": 0.7490301905886322
+            },
+            "triple_min_endpoint_gap": {
+              "mean": -0.039310425826561836,
+              "positive_fraction": 0.26058357227188395,
+              "negative_fraction": 0.5483218080620678
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 152.95005474485188,
+              "entropy": 5.030111428523307
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 218,
+              "effective_proxy_count": 32.74884813446134,
+              "entropy": 3.488867789995901
+            }
+          }
+        },
+        "whole_partial": {
+          "sample/whole_ball/all/signed_radial_gradient": {
+            "n": 1024,
+            "mean": 0.15266097780245502,
+            "positive_fraction": 0.482421875,
+            "negative_fraction": 0.517578125
+          },
+          "sample/whole_ball/class/dresser/signed_radial_gradient": {
+            "n": 26,
+            "mean": 0.27553893267535245,
+            "positive_fraction": 0.5769230769230769,
+            "negative_fraction": 0.4230769230769231
+          },
+          "sample/whole_ball/bottom_radius_1pct/signed_radial_gradient": {
+            "n": 6,
+            "mean": -0.033740609285208244,
+            "positive_fraction": 0.16666666666666666,
+            "negative_fraction": 0.8333333333333334
+          }
+        },
+        "gradient_cosines": {
+          "proxy_tangent": {
+            "mean": 0.001766157803558599,
+            "min": -0.04316090792417526,
+            "max": 0.09179718047380447
+          },
+          "proxy_ball": {
+            "mean": 0.005365568529668963,
+            "min": -0.0778840184211731,
+            "max": 0.12912686169147491
+          }
+        }
+      }
+    },
+    "e300_16batch": {
+      "original": {
+        "draw_counts": {
+          "sample": {
+            "triplets": 43600,
+            "collisions": 616,
+            "noncollision_triplets": 42984,
+            "active_triplets": 8336,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 8336
+          },
+          "proxy": {
+            "triplets": 388000,
+            "collisions": 821,
+            "noncollision_triplets": 387179,
+            "active_triplets": 7414,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 7414
+          }
+        },
+        "endpoint": {
+          "draws": 387179,
+          "pair_endpoint_hits": 171524,
+          "triple_endpoint_hits": 2664,
+          "pair_endpoint_hit_fraction": 0.44300956405176933,
+          "triple_endpoint_hit_fraction": 0.006880538458955677
+        },
+        "losses": {
+          "sample": 0.06391807389445603,
+          "proxy": 0.014418515958823264,
+          "combined": 0.07833659113384783
+        },
+        "sample": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.2286233119423909,
+              "positive_fraction": 0.8753489670575098,
+              "negative_fraction": 0.12465103294249023
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 2.198811004670133,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 2.337603604135712,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": -0.0011763328868688412,
+              "positive_fraction": 0.5167946257197696,
+              "negative_fraction": 0.4832053742802303
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 2.234931526895105,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 2.0073171827563168,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 64.42203419485882,
+              "entropy": 4.165455720474654
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 168.7006333568759,
+              "entropy": 5.128125743883203
+            }
+          }
+        },
+        "proxy": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 3.5020521296661555,
+              "positive_fraction": 0.8209587813388639,
+              "negative_fraction": 0.17859697969156385
+            },
+            "pair_min_endpoint_gap": {
+              "mean": -0.012457768441741705,
+              "positive_fraction": 0.10252363893702912,
+              "negative_fraction": 0.5519230123534593
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 2.1663548799343744,
+              "positive_fraction": 0.6269993982111634,
+              "negative_fraction": 0.3687725832237802
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.057919238242043106,
+              "positive_fraction": 0.6797949824656057,
+              "negative_fraction": 0.29808470461289455
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 0.04554297165437178,
+              "positive_fraction": 0.10561100620447801,
+              "negative_fraction": 0.7372538440787699
+            },
+            "triple_min_endpoint_gap": {
+              "mean": -0.3875318076175147,
+              "positive_fraction": 0.277717831130294,
+              "negative_fraction": 0.5589425411383868
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 496,
+              "effective_proxy_count": 416.5544935688275,
+              "entropy": 6.032017289948443
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 497,
+              "effective_proxy_count": 30.793952461605105,
+              "entropy": 3.4273183220514243
+            }
+          }
+        },
+        "whole_partial": {
+          "sample/whole_ball/all/signed_radial_gradient": {
+            "n": 1024,
+            "mean": 0.029509912242561387,
+            "positive_fraction": 0.537109375,
+            "negative_fraction": 0.462890625
+          },
+          "sample/whole_ball/class/dresser/signed_radial_gradient": {
+            "n": 26,
+            "mean": -0.05951131788046601,
+            "positive_fraction": 0.038461538461538464,
+            "negative_fraction": 0.9615384615384616
+          },
+          "sample/whole_ball/bottom_radius_1pct/signed_radial_gradient": {
+            "n": 9,
+            "mean": -0.031461525734307036,
+            "positive_fraction": 0.1111111111111111,
+            "negative_fraction": 0.8888888888888888
+          }
+        },
+        "gradient_cosines": {
+          "proxy_tangent": {
+            "mean": -0.006856532214442268,
+            "min": -0.03162031248211861,
+            "max": 0.031505946069955826
+          },
+          "proxy_ball": {
+            "mean": -0.00003716355575988928,
+            "min": -0.0005088214529678226,
+            "max": 0.0006982955965213478
+          }
+        }
+      },
+      "sample_mining_equal_radius": {
+        "draw_counts": {
+          "sample": {
+            "triplets": 51150,
+            "collisions": 874,
+            "noncollision_triplets": 50276,
+            "active_triplets": 10856,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 10856
+          },
+          "proxy": {
+            "triplets": 388000,
+            "collisions": 821,
+            "noncollision_triplets": 387179,
+            "active_triplets": 7414,
+            "active_self_k_triplets": 0,
+            "active_distinct_k_triplets": 7414
+          }
+        },
+        "endpoint": {
+          "draws": 387179,
+          "pair_endpoint_hits": 171524,
+          "triple_endpoint_hits": 2664,
+          "pair_endpoint_hit_fraction": 0.44300956405176933,
+          "triple_endpoint_hit_fraction": 0.006880538458955677
+        },
+        "losses": {
+          "sample": 0.06486674025654793,
+          "proxy": 0.014418515958823264,
+          "combined": 0.0792852551676333
+        },
+        "sample": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.2334125810363183,
+              "positive_fraction": 0.8960537831171931,
+              "negative_fraction": 0.1039462168828069
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 2.3141812199325242,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 2.4119085909235456,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.02958931038725789,
+              "positive_fraction": 0.5939572586588062,
+              "negative_fraction": 0.40604274134119384
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 2.4964589423657166,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 2.1337424961845928,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 61.986408060956954,
+              "entropy": 4.1269151361885426
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 188,
+              "effective_proxy_count": 165.44862114180023,
+              "entropy": 5.108660700345587
+            }
+          }
+        },
+        "proxy": {
+          "noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 3.5020521296661555,
+              "positive_fraction": 0.8209587813388639,
+              "negative_fraction": 0.17859697969156385
+            },
+            "pair_min_endpoint_gap": {
+              "mean": -0.012457768441741705,
+              "positive_fraction": 0.10252363893702912,
+              "negative_fraction": 0.5519230123534593
+            },
+            "triple_min_endpoint_gap": {
+              "mean": 2.1663548799343744,
+              "positive_fraction": 0.6269993982111634,
+              "negative_fraction": 0.3687725832237802
+            }
+          },
+          "active_noncollision": {
+            "pair_minus_triple_depth": {
+              "mean": 0.057919238242043106,
+              "positive_fraction": 0.6797949824656057,
+              "negative_fraction": 0.29808470461289455
+            },
+            "pair_min_endpoint_gap": {
+              "mean": 0.04554297165437178,
+              "positive_fraction": 0.10561100620447801,
+              "negative_fraction": 0.7372538440787699
+            },
+            "triple_min_endpoint_gap": {
+              "mean": -0.3875318076175147,
+              "positive_fraction": 0.277717831130294,
+              "negative_fraction": 0.5589425411383868
+            }
+          },
+          "usage": {
+            "all_draws/pair": {
+              "used_proxy_count": 496,
+              "effective_proxy_count": 416.5544935688275,
+              "entropy": 6.032017289948443
+            },
+            "all_draws/triple": {
+              "used_proxy_count": 497,
+              "effective_proxy_count": 30.793952461605105,
+              "entropy": 3.4273183220514243
+            }
+          }
+        },
+        "whole_partial": {
+          "sample/whole_ball/all/signed_radial_gradient": {
+            "n": 1024,
+            "mean": 0.08085927573876006,
+            "positive_fraction": 0.4423828125,
+            "negative_fraction": 0.5576171875
+          },
+          "sample/whole_ball/class/dresser/signed_radial_gradient": {
+            "n": 26,
+            "mean": -0.07319690915196239,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          },
+          "sample/whole_ball/bottom_radius_1pct/signed_radial_gradient": {
+            "n": 9,
+            "mean": -0.016083828726550564,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "gradient_cosines": {
+          "proxy_tangent": {
+            "mean": -0.022861706564981432,
+            "min": -0.05798586830496788,
+            "max": 0.015218828804790974
+          },
+          "proxy_ball": {
+            "mean": -0.0003267428614037726,
+            "min": -0.0008322751382365823,
+            "max": 0.00018414400983601809
+          }
+        }
+      }
+    }
+  }
+}

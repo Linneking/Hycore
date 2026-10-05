@@ -9,7 +9,9 @@ are reported separately and never substituted into these controlled draws.
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
+import hashlib
 from datetime import datetime, timezone
 import itertools
 import json
@@ -27,9 +29,54 @@ from hier_whole_mechanism_v1 import (
 )
 from inter_hierarchy_MN40.hier_proxy_scratch_v5.relations import poincare_distance
 from inter_hierarchy_MN40.hier_proxy_scratch_v6.hier_loss import HIERLoss, ghhc_loss
+from hier_proxy_objective_probe_v1 import (
+    CHECKPOINT_FORMAT, SOURCE_PROTOCOL, validate_checkpoint_protocol,
+)
 
 
 COMPONENTS = ("sample_st", "sample_fixed", "selection_path")
+
+
+def state_map_hash(state):
+    """Same semantic state_dict hash as the source whole mechanism probe."""
+    result = hashlib.sha256()
+    for name, value in state.items():
+        result.update(name.encode())
+        result.update(array_hash(value).encode())
+    return result.hexdigest()
+
+
+def checkpoint_identity(saved, checkpoint_sha):
+    validate_checkpoint_protocol(saved)
+    required = {"net", "proxy", "optimizer", "proxy_optimizer", "scheduler", "proxy_scheduler",
+                "rank_states", "train_ids", "validation_ids", "training_config", "split_sha256",
+                "epoch", "completed_epochs"}
+    if not required.issubset(saved) or saved.get("diagnostic_only", False):
+        raise RuntimeError("Require a complete production V6-H20 checkpoint, including optimizers/rank states")
+    if type(saved["completed_epochs"]) is not int or saved["completed_epochs"] != saved["epoch"]:
+        raise RuntimeError("Invalid complete-checkpoint epoch identity")
+    if len(saved["rank_states"]) != 2 or [row.get("rank") for row in saved["rank_states"]] != [0, 1]:
+        raise RuntimeError("Require both ordered V6 rank states")
+    if saved["training_config"].get("lambda_hier_after_warmup") != .5:
+        raise RuntimeError("Expected source HIER weight .5")
+    train_ids = np.asarray(saved["train_ids"], dtype=np.int64)
+    if train_ids.shape != (8856,) or len(np.unique(train_ids)) != 8856:
+        raise RuntimeError("Expected original distinct V6 train8856 IDs")
+    return {"checkpoint_sha256": checkpoint_sha, "checkpoint_format": CHECKPOINT_FORMAT,
+            "checkpoint_epoch": saved["epoch"], "checkpoint_source_commit": saved.get("commit"),
+            "split_sha256": saved["split_sha256"], "train_ids_sha256": array_hash(train_ids),
+            "backbone_initial_sha256": state_map_hash(saved["net"]),
+            "proxy_initial_sha256": state_map_hash(saved["proxy"])}
+
+
+def validate_probe_identity(manifest, source_identity):
+    if manifest.get("status") != "completed" or manifest.get("optimizer_updates") != 0:
+        raise RuntimeError("Source whole probe must be completed and contain no optimizer updates")
+    if manifest.get("diagnostic_only") is not True or manifest.get("global_batch") != 64 or manifest.get("local_forward_batch") != 32:
+        raise RuntimeError("Require the saved read-only global64/local32 whole probe")
+    for field, expected in source_identity.items():
+        if manifest.get(field) != expected:
+            raise RuntimeError("Source probe/checkpoint identity mismatch: " + field)
 
 
 def cosine(a, b):
@@ -156,11 +203,10 @@ def paired_gradient_summary(reference, current):
     return result
 
 
-def load_probe(directory, batch, requested_conditions, checkpoint_sha):
+def load_probe(directory, batch, requested_conditions, source_identity):
     manifest_path = directory / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    if manifest.get("checkpoint_sha256") != checkpoint_sha:
-        raise RuntimeError("Probe/checkpoint hash mismatch: " + str(directory))
+    validate_probe_identity(manifest, source_identity)
     report_path = directory / f"batch_{batch:03d}.json"
     report = json.loads(report_path.read_text(encoding="utf-8"))
     available = list(report["conditions"])
@@ -251,8 +297,46 @@ def self_test():
     assert summary["sample_st"]["all"]["gradient_vector_noise_rms_mean"] > 0
     changed = one_draw(mu * 1.3, proxy, triplets, 17, tau=.6)
     agreement(first, changed)
+    valid = {"format": CHECKPOINT_FORMAT, "model_selection_only": False, "epoch": 300, "completed_epochs": 300,
+             "training_config": {**SOURCE_PROTOCOL, "self_negative": False, "extra_HIER_tangent_cap": False,
+                                 "HIER_backward_hook": False, "smoke": False, "lambda_hier_after_warmup": .5},
+             "net": {"weight": torch.ones(2)}, "proxy": {"tangent_proxies": torch.ones(512, 256)},
+             "optimizer": {}, "proxy_optimizer": {}, "scheduler": {}, "proxy_scheduler": {},
+             "rank_states": [{"rank": 0}, {"rank": 1}], "train_ids": np.arange(8856),
+             "validation_ids": np.arange(8856, 9840), "split_sha256": "synthetic", "commit": "synthetic"}
+    identity = checkpoint_identity(valid, "synthetic-sha")
+    source_probe = {**identity, "status": "completed", "optimizer_updates": 0, "diagnostic_only": True,
+                    "global_batch": 64, "local_forward_batch": 32}
+    validate_probe_identity(source_probe, identity)
+    for field, bad in (("format", "legacy"), ("completed_epochs", 299), ("model_selection_only", True)):
+        wrong = copy.deepcopy(valid)
+        wrong[field] = bad
+        try:
+            checkpoint_identity(wrong, "synthetic-sha")
+        except (RuntimeError, ValueError):
+            pass
+        else:
+            raise AssertionError("Checkpoint identity gate failed to reject " + field)
+    for field, bad in (("c", .1), ("D", 128), ("sample_K", 10), ("self_negative", True), ("HIER_backward_hook", True), ("smoke", True)):
+        wrong = copy.deepcopy(valid)
+        wrong["training_config"][field] = bad
+        try:
+            checkpoint_identity(wrong, "synthetic-sha")
+        except (RuntimeError, ValueError):
+            pass
+        else:
+            raise AssertionError("Protocol gate failed to reject " + field)
+    for field, bad in (("checkpoint_epoch", 299), ("checkpoint_format", "legacy"), ("status", "running"), ("optimizer_updates", 1)):
+        wrong = {**source_probe, field: bad}
+        try:
+            validate_probe_identity(wrong, identity)
+        except RuntimeError:
+            pass
+        else:
+            raise AssertionError("Probe identity gate failed to reject " + field)
     print(json.dumps({"self_test": "passed", "checks": ["identical seed/input selects identical ancestors and gradients",
-        "independent seed noise baseline", "fixed/direct scalar equivalence", "finite gradient variance", "paired changed geometry"],
+        "independent seed noise baseline", "fixed/direct scalar equivalence", "finite gradient variance", "paired changed geometry",
+        "complete V6 format/protocol gates", "matching source probe epoch/format/hash gates"],
         "noise_baseline": noise["all_draws"]}))
 
 
@@ -307,6 +391,7 @@ def main():
                 "semantics": ["Pair and triple selections use separate sequential Exp(1) noise draws from each dedicated seeded Generator.",
                               "All conditions use common ordered triplet rows, before collision masking, including the same repeated draws.",
                               "Within-input different-seed comparisons are the stochastic baseline; across-condition same-seed comparisons hold noise fixed.",
+                              "Eight independent noise draws yield 28 overlapping pairwise comparisons; those 28 comparisons are dependent summaries, not 28 independent repetitions or a confidence interval.",
                               "Natural saved mining graphs are reported separately, and changing eligible anchors never changes controlled draw rows.",
                               "Gradient variances are Euclidean mu-coordinate partials, before classifier/backbone VJP, optimizer geometry, clipping or momentum.",
                               "BN and noise instability percentages must not be subtracted as additive causal effects."]}
@@ -326,15 +411,15 @@ def main():
         else:
             device = torch.device("cpu")
         saved = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
-        if "proxy" not in saved:
-            raise RuntimeError("Matching H20 proxy checkpoint required")
+        source_identity = checkpoint_identity(saved, checkpoint_sha)
         proxy = HIERLoss().to(device)
         proxy.load_state_dict(saved["proxy"], strict=True)
         with torch.no_grad():
             proxy_points = proxy.proxies().detach()
         manifest.update(status="running", checkpoint_epoch=int(saved.get("completed_epochs", saved.get("epoch", -1))),
                         proxy_points_sha256=array_hash(proxy_points), checkpoint_format=saved.get("format"),
-                        checkpoint_source_commit=saved.get("commit"))
+                        checkpoint_source_commit=saved.get("commit"), source_training_config=saved["training_config"],
+                        loss_uses_source_tau_margin=args.tau == saved["training_config"]["tau"] and args.margin == saved["training_config"]["margin"])
         del saved
         save_json(args.run_dir / "manifest.json", manifest)
         source_hashes, all_reports = {}, []
@@ -344,7 +429,7 @@ def main():
             writer = csv.DictWriter(stream, fieldnames=fieldnames)
             writer.writeheader()
             for batch in range(args.batch_start, args.batch_start + args.batches):
-                probe_rows = [load_probe(directory, batch, args.conditions, checkpoint_sha) for directory in args.probe_dir]
+                probe_rows = [load_probe(directory, batch, args.conditions, source_identity) for directory in args.probe_dir]
                 reference_manifest, reference_report, reference_rows, _ = probe_rows[0]
                 if args.reference_condition not in reference_rows:
                     raise RuntimeError("Reference condition absent from first probe")
@@ -383,6 +468,8 @@ def main():
                             "mu_sha256": array_hash(row["mu"]), "natural_graph": source_graph_summary(ref, row),
                             "same_input_same_seed_repeat": {"ancestors_identical": True, "gradients_close": True},
                             "same_input_independent_noise_baseline": pooled_agreements(baseline),
+                            "noise_repetitions": args.repeats, "dependent_pairwise_comparisons": len(baseline),
+                            "pairwise_uncertainty_semantics": "Pairwise comparisons reuse the same noise repetitions; SD/range describe comparisons, not independent-sample standard errors.",
                             "loss_mean": float(np.mean([draw["loss"] for draw in draws])),
                             "loss_noise_sd": float(np.std([draw["loss"] for draw in draws])),
                             "per_repetition": [{"seed": draw["seed"], "loss": draw["loss"], "sample": draw["stats"],

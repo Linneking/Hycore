@@ -58,6 +58,29 @@ def state_digest(value):
     return result.hexdigest()
 
 
+def validate_optimizer_layout(named, saved):
+    """Match every saved momentum tensor to canonical V6 parameter order."""
+    layout = [(group_index,identity) for group_index,group in enumerate(saved["param_groups"])
+              for identity in group["params"]]
+    identities = [identity for _,identity in layout]
+    if len(layout)!=len(named) or identities!=list(range(len(named))):
+        raise RuntimeError("Expected canonical serialized V6 optimizer parameter order")
+    if set(saved["state"])!=set(identities):
+        raise RuntimeError("Every trainable parameter must retain historical optimizer state")
+    report = []
+    for (group_index,identity),(name,parameter) in zip(layout,named):
+        state = saved["state"][identity]
+        momentum = state.get("momentum_buffer")
+        if not isinstance(momentum,torch.Tensor) or momentum.shape!=parameter.shape or momentum.dtype!=parameter.dtype:
+            raise RuntimeError("Momentum shape/dtype mismatch at "+name)
+        mech.finite_tensor(momentum,"historical momentum "+name)
+        report.append({"parameter":name,"group":group_index,"serialized_id":identity,
+                       "shape":list(parameter.shape),"dtype":str(parameter.dtype),
+                       "momentum_sha256":mech.array_hash(momentum),
+                       "momentum_norm":float(momentum.detach().double().norm())})
+    return report
+
+
 def build_optimizer(parameters, saved):
     import geoopt
     optimizer = geoopt.optim.RiemannianSGD(parameters, lr=.1, momentum=.9, weight_decay=2e-4)
@@ -183,7 +206,16 @@ def validate_source(saved):
     config = saved["training_config"]
     expected = {"seed":22,"epochs":300,"steps_per_epoch":200,"c":1,"D":256,
                 "sample_K":20,"proxy_K":20,"P":512,"T":50,"margin":.1,"tau":.1,
-                "self_negative":False,"lambda_hier_after_warmup":.5}
+                "self_negative":False,"lambda_hier_after_warmup":.5,
+                "architecture":"Hype_pointMLP","num_classes":40,"global_batch":64,
+                "world_size":2,"classes_per_rank":16,"instances_per_class":2,
+                "part_overwrites_whole":True,"FPS_first_stage":512,
+                "extra_HIER_tangent_cap":False,"HIER_backward_hook":False,
+                "precision":"FP32","label_smoothing":.2,
+                "alpha_contrastive":.01,"alpha_radial":.01,
+                "contrastive_margin":4.,"radial_margin":"1000 / child_count",
+                "whole_count_range":[800,1024],"child_count_range":[200,600],
+                "BN":"ordinary local32 training; child and whole update; rank0 buffer broadcast"}
     if any(config.get(key)!=value for key,value in expected.items()):
         raise RuntimeError("Checkpoint is not the reviewed V6 H20 protocol")
     completed = int(saved["completed_epochs"])
@@ -194,6 +226,10 @@ def validate_source(saved):
     scheduler = saved["scheduler"]
     if scheduler.get("last_epoch")!=completed or scheduler.get("T_max")!=300:
         raise RuntimeError("Checkpoint scheduler identity is inconsistent")
+    expected_optimizer={"name":"RiemannianSGD","lr":.1,"min_lr":.005,
+                        "momentum":.9,"weight_decay":2e-4,"norm_clip":1.}
+    if config.get("model_optimizer")!=expected_optimizer:
+        raise RuntimeError("Source model optimizer/config clipping differs from V6")
     groups = saved["optimizer"]["param_groups"]
     if not groups or not saved["optimizer"]["state"] or any(
             group.get("momentum")!=.9 or group.get("weight_decay")!=2e-4 or group.get("lr",0)<=0
@@ -220,6 +256,17 @@ def self_test():
     source_net=copy.deepcopy(toy.state_dict())
     source_opt=copy.deepcopy(optimizer.state_dict())
     source_hash=state_digest(source_opt)
+    layout=validate_optimizer_layout(named,source_opt)
+    assert len(layout)==len(named)
+    corrupted=copy.deepcopy(source_opt)
+    first_identity=corrupted["param_groups"][0]["params"][0]
+    corrupted["state"][first_identity]["momentum_buffer"]=torch.zeros(7)
+    try:
+        validate_optimizer_layout(named,corrupted)
+    except RuntimeError:
+        pass
+    else:
+        raise AssertionError("Corrupted momentum shape was accepted")
     gradients={"base":torch.tensor([2.,-1.,.5,.3,-.7]),
                "base_sample_st":torch.tensor([2.8,-.8,.2,.9,-.6]),
                "base_sample_fixed":torch.tensor([2.1,-.9,.6,.2,-.5])}
@@ -256,7 +303,7 @@ def self_test():
     print({"self_test":"passed","checks":["real RSGD including manifold parameter",
           "full momentum restore exact","independent arm reset repeat exact",
           "direct norm1-clip/SGD match","fresh optimizer demonstrably differs",
-          "source optimizer immutable","signed actual-depth response"]},flush=True)
+          "source optimizer immutable","per-parameter momentum shape/order gate","signed actual-depth response"]},flush=True)
 
 
 def arguments():
@@ -312,6 +359,8 @@ def main():
                 "ST-base/fixed-base differences include the intervention's change to global clipping.",
                 "Readout restores OLD BN, isolating parameter response rather than full training BN drift.",
                 "Saved optimizer LR is the next continuation-step LR after the checkpoint epoch.",
+                "The base arm retains historical H20 model momentum; it is a one-step objective switch, not a from-scratch B0.",
+                "Per-arm repeated no-update readout quantifies baseline numerical noise before interpreting step responses.",
                 "No official test or independent morphology evidence."]}
     try:
         manifest["commit"]=subprocess.check_output(["git","rev-parse","HEAD"],cwd=mech.ROOT,text=True).strip()
@@ -340,10 +389,7 @@ def main():
         backbone.load_state_dict(source_net,strict=True)
         freeze_curvature(backbone)
         named=[(name,p) for name,p in backbone.named_parameters() if p.requires_grad]
-        if sum(len(group["params"]) for group in source_optimizer["param_groups"])!=len(named):
-            raise RuntimeError("Optimizer parameter order/count does not match V6 trainable backbone")
-        if set(source_optimizer["state"])!=set(p for group in source_optimizer["param_groups"] for p in group["params"]):
-            raise RuntimeError("Source optimizer lacks a trainable parameter's historical state")
+        momentum_layout=validate_optimizer_layout(named,source_optimizer)
         old_buffers=mech.snapshot_buffers(backbone)
         rank0=saved["rank_states"][0]
         if state_digest(old_buffers)!=state_digest(rank0["BN_buffers"]):
@@ -372,7 +418,8 @@ def main():
                             "sha256":source_optimizer_sha,"algorithm":"geoopt.RiemannianSGD",
                             "param_groups":[{k:v for k,v in group.items() if k!="params"} for group in source_optimizer["param_groups"]],
                             "historical_state_parameter_count":len(source_optimizer["state"]),
-                            "historical_momentum_elements":momentum_elements},
+                            "historical_momentum_elements":momentum_elements,
+                            "per_parameter_momentum_layout":momentum_layout},
                         source_model_sha256=source_model_sha,proxy_sha256=proxy_hash,
                         train_ids_sha256=mech.array_hash(train_ids),split_sha256=saved["split_sha256"],
                         input_shard_sha256=shard_hashes,gpu_name=torch.cuda.get_device_name(device),
@@ -423,8 +470,11 @@ def main():
                     raise RuntimeError("Independent arm model/BN did not restore")
                 optimizer=build_optimizer([p for _,p in named],source_optimizer)
                 before=clean_readout(backbone,clean_cloud,old_buffers,common_rng,device)
+                start_max_errors={key:float((before[key]-initial_readout[key]).abs().max()) for key in before}
                 for key in before:
                     torch.testing.assert_close(before[key],initial_readout[key],atol=2e-5,rtol=1e-4)
+                no_update_response=response_arrays(initial_readout,before,gold)
+                no_update_summary=response_summary(no_update_response,gold,ids,args.hotspot_ids)
                 # Restore the arm RNG after its start-point gate; no stochastic
                 # optimizer operation is expected, but starting identity stays explicit.
                 mech.restore_selected_rng(common_rng,device)
@@ -433,6 +483,8 @@ def main():
                 response=response_arrays(initial_readout,after,gold)
                 report["arms"][arm]={"restore_optimizer_sha256":source_optimizer_sha,
                     "restore_model_sha256":source_model_sha,"start_readout_match":True,
+                    "no_update_readout_max_abs_error":start_max_errors,
+                    "no_update_readout_response":no_update_summary,
                     "update":update,"actual_clean_oldBN_response":response_summary(response,gold,ids,args.hotspot_ids)}
                 after_readouts[arm]=after
                 manifest["optimizer_updates"]+=1
@@ -442,7 +494,7 @@ def main():
                               logits_after=after["logits"].numpy())
                 np.savez_compressed(args.run_dir/f"batch_{step:03d}_{arm}.npz",**arrays)
                 optimizer.zero_grad(set_to_none=True)
-                del optimizer,before,after,response
+                del optimizer,before,after,response,no_update_response
             report["increments_vs_base"]={}
             for arm in ARMS[1:]:
                 increment=response_arrays(after_readouts["base"],after_readouts[arm],gold)
