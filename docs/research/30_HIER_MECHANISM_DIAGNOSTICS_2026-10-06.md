@@ -38,4 +38,50 @@
 源完整checkpoint身份、输入hash、seed、时间、GPU及所有状态还原检查；原结果不改。
 如来源/finite/state gate失败，保存失败身份、修复入口，再使用新目录。
 
-执行结果待追加；最终test不参与诊断或选配置。
+## 扩展结果：冻结CPU与共享参数
+
+e99/e200/e300各16个相同自然balanced64计划已完成；计划hash一致，全部来源/finite/不变检查通过。
+1024个样本位置含26个dresser位置，底半径1%位置仅13/6/9，不能推广成全体底1%。
+
+| 同协议冻结CPU重放 | e99 | e200 | e300 |
+|---|---:|---:|---:|
+| sample非collision pair比triple深 | 94.01% | 83.91% | 87.53% |
+| active sample子集pair比triple深 | 58.90% | 50.61% | 51.68% |
+| proxy pair端点自身重合 | 17.26% | 16.52% | 44.30% |
+| dresser加权sample径向偏导均值 | +0.02915 | +0.10841 | −0.05951 |
+
+e300 dresser的25/26局部sample偏导为负（欧氏mu梯度下降指向外）；不能直接解释长期或共享参数更新。
+各项约束的是双曲两点距离hinge，并未直接约束原点深序；active draw是困难子集。
+proxy端点作祖先候选是源规则允许的行为。eligible/draw增加不等于loss权重增加，损失仍取draw均值。
+
+e300自然16batch的ST/base共享参数范数比中位数为eval2.045、trainBN0.486、重分组0.169；
+ST/fixed中位数为15.88、4.80、3.54。trainBN的ST/base范围0.094–2.696，作用强度依batch变化。
+eval径向margin违反均值99.02%，trainBN39.26%；同输入的BN模式影响几何/损失。
+同triplet同Gumbel的eval→trainBN pair/triple agreement均值83.17%/52.69%；
+还需结合重复Gumbel噪声、trainBN→重分组直接对照解释。所有VJP重放误差为0。
+
+聚合数据：[CPU16](diagnostics/results/20261006_proxy_cpu16_aggregate.json)、
+[whole自然16](diagnostics/results/20261006_whole_natural16_aggregate.json)。
+
+## e300真实配对一步（条件热点，4个独立ID）
+
+两个固定热点batch完成6次副本RSGD更新；源模型/proxy/HDF/checkpoint不变。
+完整继承H20历史动量和有效LR，三臂norm1均未触发裁剪；各臂无更新读出的mu/logits误差均0。
+主读出固定旧BN和clean1024。base是当前一步移除sample项，不能称从头B0。
+
+| 热点平均原点深度变化 | batch0 | batch1 |
+|---|---:|---:|
+| base实际一步 | +0.003945 | +0.035233 |
+| base+.5sampleST实际一步 | +0.001218 | +0.031929 |
+| ST相对base的增量 | −0.002727 | −0.003304 |
+| fixed祖先相对base的增量 | −0.001177 | −0.000446 |
+
+三臂总体仍向外；HIER的增量在本面板减少向外幅度，完整选择路径影响大于固定祖先直接项。
+局部eval-cache偏导、source_train共享参数作用、带动量实际位移不是同一个量。
+4个热点不代表所有dresser或长训练；下一步同面板e20/e99/e200与e300自然16batch，检验时间和覆盖。
+
+聚合数据：[真实一步](diagnostics/results/20261006_one_step_e300_hotspot2_aggregate.json)。
+GPU噪声探针已完成；顺序管理器在前一进程退出后瞬时util未归零时停止了后续启动，
+未打断任何进程。重新确认GPU3完全空闲后在新目录单独执行一步；失败管理器及成功噪声结果保留。
+
+最终test不参与诊断或选配置。

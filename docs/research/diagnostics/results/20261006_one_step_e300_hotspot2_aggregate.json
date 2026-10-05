@@ -1,0 +1,1976 @@
+{
+  "identity": {
+    "commit": "adece968aa4e549ebfe990ed3acc3595da5db431",
+    "script_sha256": "395c74b6ee601aad1aa1dc9146fe691443109304f0806e58de429e8a98be5632",
+    "checkpoint_sha256": "078ca9f789b13dd18e2e83e1e35e453a90eafa90fa21cea16f4f6100d383f6e5",
+    "checkpoint_epoch": 300,
+    "started_utc": "2026-10-05T19:00:50.589324+00:00",
+    "optimizer_updates": 6,
+    "readout_BN": "checkpoint OLD rank0 buffers, identical in all arms",
+    "sample_weight": 0.5,
+    "new_HIER_warmup_epochs": 0
+  },
+  "checks": {
+    "source_checkpoint_unchanged": true,
+    "data_shards_unchanged": true,
+    "source_model_restored": true,
+    "proxy_unchanged": true,
+    "optimizer_momentum_used": true
+  },
+  "batches": [
+    {
+      "batch": 0,
+      "arms": {
+        "base": {
+          "no_update_readout_max_abs_error": {
+            "mu": 0,
+            "logits": 0
+          },
+          "update": {
+            "preclip_norm": 0.5275018215179443,
+            "postclip_norm": 0.5275018215179443,
+            "clip_scale": 1,
+            "clip_applied": false,
+            "actual_parameter_displacement_norm": 0.007274388801306486,
+            "gradient_assignment_sha256": "41f61b515af687f1c782ab1b31803a47d6f91f0f2637b31ab16f0d8a48665422",
+            "parameter_before_sha256": "35f4912cef48fc8b019c2669ad2fb2b6895cec8c1b3abbfc5c049e7c28fdbf66",
+            "parameter_after_sha256": "ae3fa357f5314cb89b4f915aa1c8b22a51f454f3da5bbec3a6a136c9eca74ff2"
+          },
+          "start_readout_match": true,
+          "response": {
+            "all64": {
+              "depth_before": {
+                "n": 64,
+                "mean": 4.490915150934205,
+                "median": 4.5658087500462194,
+                "min": 2.406923114998534,
+                "max": 5.287816567566804,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 64,
+                "mean": 4.493365584967516,
+                "median": 4.575143699428476,
+                "min": 2.422295358525293,
+                "max": 5.29035883021784,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 64,
+                "mean": 0.0024504340333107028,
+                "median": 0.0033362835773322885,
+                "min": -0.015218236545852193,
+                "max": 0.02361077053998084,
+                "positive_fraction": 0.609375,
+                "negative_fraction": 0.390625
+              },
+              "radius_delta": {
+                "n": 64,
+                "mean": 0.0001018379202625333,
+                "median": 0.00005375459647916081,
+                "min": -0.0010687666919978467,
+                "max": 0.0023160161203833463,
+                "positive_fraction": 0.609375,
+                "negative_fraction": 0.390625
+              },
+              "angular_movement_degrees": {
+                "n": 64,
+                "mean": 0.11927230452026616,
+                "median": 0.09340054059613175,
+                "min": 0.05000786090200117,
+                "max": 0.47486874087361036,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 64,
+                "mean": 0.09042713408078586,
+                "median": 0.07330954568417769,
+                "min": 0.033587183493824946,
+                "max": 0.3966403486717484,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 62,
+              "correct_after_count": 62,
+              "positions": 64
+            },
+            "hotspot": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.444332198539151,
+                "median": 2.406923114998534,
+                "min": 2.406923114998534,
+                "max": 2.481741282079768,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.448277289279484,
+                "median": 2.422295358525293,
+                "min": 2.422295358525293,
+                "max": 2.474259220033675,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.0039450907403328905,
+                "median": -0.007482062046093141,
+                "min": -0.007482062046093141,
+                "max": 0.015372243526758922,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.0006236247141927498,
+                "median": -0.0010687666919978467,
+                "min": -0.0010687666919978467,
+                "max": 0.0023160161203833463,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.4491614314467317,
+                "median": 0.42345412201985305,
+                "min": 0.42345412201985305,
+                "max": 0.47486874087361036,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.046419523887158205,
+                "median": 0.04436046928601437,
+                "min": 0.04436046928601437,
+                "max": 0.04847857848830204,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 0,
+              "correct_after_count": 0,
+              "positions": 2
+            },
+            "class/dresser": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.444332198539151,
+                "median": 2.406923114998534,
+                "min": 2.406923114998534,
+                "max": 2.481741282079768,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.448277289279484,
+                "median": 2.422295358525293,
+                "min": 2.422295358525293,
+                "max": 2.474259220033675,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.0039450907403328905,
+                "median": -0.007482062046093141,
+                "min": -0.007482062046093141,
+                "max": 0.015372243526758922,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.0006236247141927498,
+                "median": -0.0010687666919978467,
+                "min": -0.0010687666919978467,
+                "max": 0.0023160161203833463,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.4491614314467317,
+                "median": 0.42345412201985305,
+                "min": 0.42345412201985305,
+                "max": 0.47486874087361036,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.046419523887158205,
+                "median": 0.04436046928601437,
+                "min": 0.04436046928601437,
+                "max": 0.04847857848830204,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 0,
+              "correct_after_count": 0,
+              "positions": 2
+            }
+          }
+        },
+        "base_sample_st": {
+          "no_update_readout_max_abs_error": {
+            "mu": 0,
+            "logits": 0
+          },
+          "update": {
+            "preclip_norm": 0.5440093874931335,
+            "postclip_norm": 0.5440093874931335,
+            "clip_scale": 1,
+            "clip_applied": false,
+            "actual_parameter_displacement_norm": 0.007304886355996132,
+            "gradient_assignment_sha256": "cd99f0096a30a147388ba6d209ea9f2d00dc2cac6ef758ba92f0749474c393ee",
+            "parameter_before_sha256": "35f4912cef48fc8b019c2669ad2fb2b6895cec8c1b3abbfc5c049e7c28fdbf66",
+            "parameter_after_sha256": "28ae3044c87be460bc2b656389645440e41ad7e6e1c57ee8d761b98b0b57333a"
+          },
+          "start_readout_match": true,
+          "response": {
+            "all64": {
+              "depth_before": {
+                "n": 64,
+                "mean": 4.490915150934205,
+                "median": 4.5658087500462194,
+                "min": 2.406923114998534,
+                "max": 5.287816567566804,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 64,
+                "mean": 4.492538431022042,
+                "median": 4.573300560673843,
+                "min": 2.421665782053851,
+                "max": 5.290707459101739,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 64,
+                "mean": 0.0016232800878368397,
+                "median": 0.003347274328649341,
+                "min": -0.04485706528729061,
+                "max": 0.02786582692806583,
+                "positive_fraction": 0.609375,
+                "negative_fraction": 0.390625
+              },
+              "radius_delta": {
+                "n": 64,
+                "mean": 0.00007515990003626773,
+                "median": 0.00006961305576425048,
+                "min": -0.0017616148933360387,
+                "max": 0.002221746272724756,
+                "positive_fraction": 0.609375,
+                "negative_fraction": 0.390625
+              },
+              "angular_movement_degrees": {
+                "n": 64,
+                "mean": 0.12783802543016093,
+                "median": 0.09534543150183762,
+                "min": 0.05182802913480688,
+                "max": 0.47175328792594695,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 64,
+                "mean": 0.09999790465040007,
+                "median": 0.07673862109306337,
+                "min": 0.03415722426031804,
+                "max": 0.657923521443569,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 62,
+              "correct_after_count": 62,
+              "positions": 64
+            },
+            "hotspot": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.444332198539151,
+                "median": 2.406923114998534,
+                "min": 2.406923114998534,
+                "max": 2.481741282079768,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.4455498789902617,
+                "median": 2.421665782053851,
+                "min": 2.421665782053851,
+                "max": 2.4694339759266724,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.001217680451110592,
+                "median": -0.01230730615309561,
+                "min": -0.01230730615309561,
+                "max": 0.014742667055316794,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.0002300656896943587,
+                "median": -0.0017616148933360387,
+                "min": -0.0017616148933360387,
+                "max": 0.002221746272724756,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.4691419719421829,
+                "median": 0.4665306559584188,
+                "min": 0.4665306559584188,
+                "max": 0.47175328792594695,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.04881359623936932,
+                "median": 0.04750101227623806,
+                "min": 0.04750101227623806,
+                "max": 0.05012618020250058,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 0,
+              "correct_after_count": 0,
+              "positions": 2
+            },
+            "class/dresser": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.444332198539151,
+                "median": 2.406923114998534,
+                "min": 2.406923114998534,
+                "max": 2.481741282079768,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.4455498789902617,
+                "median": 2.421665782053851,
+                "min": 2.421665782053851,
+                "max": 2.4694339759266724,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.001217680451110592,
+                "median": -0.01230730615309561,
+                "min": -0.01230730615309561,
+                "max": 0.014742667055316794,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.0002300656896943587,
+                "median": -0.0017616148933360387,
+                "min": -0.0017616148933360387,
+                "max": 0.002221746272724756,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.4691419719421829,
+                "median": 0.4665306559584188,
+                "min": 0.4665306559584188,
+                "max": 0.47175328792594695,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.04881359623936932,
+                "median": 0.04750101227623806,
+                "min": 0.04750101227623806,
+                "max": 0.05012618020250058,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 0,
+              "correct_after_count": 0,
+              "positions": 2
+            }
+          }
+        },
+        "base_sample_fixed": {
+          "no_update_readout_max_abs_error": {
+            "mu": 0,
+            "logits": 0
+          },
+          "update": {
+            "preclip_norm": 0.5275830626487732,
+            "postclip_norm": 0.5275830626487732,
+            "clip_scale": 1,
+            "clip_applied": false,
+            "actual_parameter_displacement_norm": 0.007278259843587875,
+            "gradient_assignment_sha256": "056c5aacd85c3d50b100874603a50b64500e24265cb66ee49f1838f2ffcb785e",
+            "parameter_before_sha256": "35f4912cef48fc8b019c2669ad2fb2b6895cec8c1b3abbfc5c049e7c28fdbf66",
+            "parameter_after_sha256": "8ed194419008cd25595e9bf177ec5c1f238a72a8aa8381261664d67add4ea2f3"
+          },
+          "start_readout_match": true,
+          "response": {
+            "all64": {
+              "depth_before": {
+                "n": 64,
+                "mean": 4.490915150934205,
+                "median": 4.5658087500462194,
+                "min": 2.406923114998534,
+                "max": 5.287816567566804,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 64,
+                "mean": 4.493174532749013,
+                "median": 4.574179709357889,
+                "min": 2.4225278099342296,
+                "max": 5.291277998107704,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 64,
+                "mean": 0.0022593818148074762,
+                "median": 0.003485484875209721,
+                "min": -0.027669462504942288,
+                "max": 0.02531458473693249,
+                "positive_fraction": 0.609375,
+                "negative_fraction": 0.390625
+              },
+              "radius_delta": {
+                "n": 64,
+                "mean": 0.00009582817808119135,
+                "median": 0.00005825048218388584,
+                "min": -0.0014396689568330068,
+                "max": 0.00235080975660229,
+                "positive_fraction": 0.609375,
+                "negative_fraction": 0.390625
+              },
+              "angular_movement_degrees": {
+                "n": 64,
+                "mean": 0.12471228367778395,
+                "median": 0.09952766946011382,
+                "min": 0.04918994065067908,
+                "max": 0.48074997930999164,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 64,
+                "mean": 0.09540012923187904,
+                "median": 0.07641475859185862,
+                "min": 0.03368450453620886,
+                "max": 0.3903376718388853,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 62,
+              "correct_after_count": 62,
+              "positions": 64
+            },
+            "hotspot": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.444332198539151,
+                "median": 2.406923114998534,
+                "min": 2.406923114998534,
+                "max": 2.481741282079768,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.4471007442536794,
+                "median": 2.4225278099342296,
+                "min": 2.4225278099342296,
+                "max": 2.4716736785731293,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.0027685457145283365,
+                "median": -0.010067603506638712,
+                "min": -0.010067603506638712,
+                "max": 0.015604694935695385,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.00045557039988464165,
+                "median": -0.0014396689568330068,
+                "min": -0.0014396689568330068,
+                "max": 0.00235080975660229,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.4665129295297935,
+                "median": 0.45227587974959543,
+                "min": 0.45227587974959543,
+                "max": 0.48074997930999164,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.0484053813202035,
+                "median": 0.047713339277245255,
+                "min": 0.047713339277245255,
+                "max": 0.04909742336316174,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 0,
+              "correct_after_count": 0,
+              "positions": 2
+            },
+            "class/dresser": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.444332198539151,
+                "median": 2.406923114998534,
+                "min": 2.406923114998534,
+                "max": 2.481741282079768,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.4471007442536794,
+                "median": 2.4225278099342296,
+                "min": 2.4225278099342296,
+                "max": 2.4716736785731293,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.0027685457145283365,
+                "median": -0.010067603506638712,
+                "min": -0.010067603506638712,
+                "max": 0.015604694935695385,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.00045557039988464165,
+                "median": -0.0014396689568330068,
+                "min": -0.0014396689568330068,
+                "max": 0.00235080975660229,
+                "positive_fraction": 0.5,
+                "negative_fraction": 0.5
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.4665129295297935,
+                "median": 0.45227587974959543,
+                "min": 0.45227587974959543,
+                "max": 0.48074997930999164,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.0484053813202035,
+                "median": 0.047713339277245255,
+                "min": 0.047713339277245255,
+                "max": 0.04909742336316174,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 0,
+              "correct_after_count": 0,
+              "positions": 2
+            }
+          }
+        }
+      },
+      "increments_vs_base": {
+        "base_sample_st": {
+          "all64": {
+            "depth_before": {
+              "n": 64,
+              "mean": 4.493365584967516,
+              "median": 4.575143699428476,
+              "min": 2.422295358525293,
+              "max": 5.29035883021784,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 64,
+              "mean": 4.492538431022042,
+              "median": 4.573300560673843,
+              "min": 2.421665782053851,
+              "max": 5.290707459101739,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 64,
+              "mean": -0.000827153945473863,
+              "median": -0.00023241463059608947,
+              "min": -0.029638828741438417,
+              "max": 0.004255056388084988,
+              "positive_fraction": 0.390625,
+              "negative_fraction": 0.609375
+            },
+            "radius_delta": {
+              "n": 64,
+              "mean": -0.000026678020226265572,
+              "median": -0.000006633482800944002,
+              "min": -0.000692848201338192,
+              "max": 0.00011433439585806227,
+              "positive_fraction": 0.390625,
+              "negative_fraction": 0.609375
+            },
+            "angular_movement_degrees": {
+              "n": 64,
+              "mean": 0.02307541935941436,
+              "median": 0.012414188561388902,
+              "min": 0.006402536070979675,
+              "max": 0.3636748019785009,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 64,
+              "mean": 0.020869051841725796,
+              "median": 0.01139216850703963,
+              "min": 0.004085151753013978,
+              "max": 0.5477433505305737,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 62,
+            "correct_after_count": 62,
+            "positions": 64
+          },
+          "hotspot": {
+            "depth_before": {
+              "n": 2,
+              "mean": 2.448277289279484,
+              "median": 2.422295358525293,
+              "min": 2.422295358525293,
+              "max": 2.474259220033675,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 2,
+              "mean": 2.4455498789902617,
+              "median": 2.421665782053851,
+              "min": 2.421665782053851,
+              "max": 2.4694339759266724,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 2,
+              "mean": -0.0027274102892222984,
+              "median": -0.004825244107002469,
+              "min": -0.004825244107002469,
+              "max": -0.0006295764714421281,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "radius_delta": {
+              "n": 2,
+              "mean": -0.0003935590244983911,
+              "median": -0.000692848201338192,
+              "min": -0.000692848201338192,
+              "max": -0.00009426984765859014,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "angular_movement_degrees": {
+              "n": 2,
+              "mean": 0.11567806377798875,
+              "median": 0.06452475602299554,
+              "min": 0.06452475602299554,
+              "max": 0.16683137153298197,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 2,
+              "mean": 0.01205700613024643,
+              "median": 0.006326348004697819,
+              "min": 0.006326348004697819,
+              "max": 0.01778766425579504,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 0,
+            "correct_after_count": 0,
+            "positions": 2
+          },
+          "class/dresser": {
+            "depth_before": {
+              "n": 2,
+              "mean": 2.448277289279484,
+              "median": 2.422295358525293,
+              "min": 2.422295358525293,
+              "max": 2.474259220033675,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 2,
+              "mean": 2.4455498789902617,
+              "median": 2.421665782053851,
+              "min": 2.421665782053851,
+              "max": 2.4694339759266724,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 2,
+              "mean": -0.0027274102892222984,
+              "median": -0.004825244107002469,
+              "min": -0.004825244107002469,
+              "max": -0.0006295764714421281,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "radius_delta": {
+              "n": 2,
+              "mean": -0.0003935590244983911,
+              "median": -0.000692848201338192,
+              "min": -0.000692848201338192,
+              "max": -0.00009426984765859014,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "angular_movement_degrees": {
+              "n": 2,
+              "mean": 0.11567806377798875,
+              "median": 0.06452475602299554,
+              "min": 0.06452475602299554,
+              "max": 0.16683137153298197,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 2,
+              "mean": 0.01205700613024643,
+              "median": 0.006326348004697819,
+              "min": 0.006326348004697819,
+              "max": 0.01778766425579504,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 0,
+            "correct_after_count": 0,
+            "positions": 2
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "depth_before": {
+              "n": 64,
+              "mean": 4.493365584967516,
+              "median": 4.575143699428476,
+              "min": 2.422295358525293,
+              "max": 5.29035883021784,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 64,
+              "mean": 4.493174532749013,
+              "median": 4.574179709357889,
+              "min": 2.4225278099342296,
+              "max": 5.291277998107704,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 64,
+              "mean": -0.0001910522185032265,
+              "median": 0.00006513314994105457,
+              "min": -0.012451225959090095,
+              "max": 0.0030264725058453124,
+              "positive_fraction": 0.5625,
+              "negative_fraction": 0.4375
+            },
+            "radius_delta": {
+              "n": 64,
+              "mean": -0.000006009742181341954,
+              "median": 0.0000010043579590224283,
+              "min": -0.0003709022648351601,
+              "max": 0.00009680399541600604,
+              "positive_fraction": 0.5625,
+              "negative_fraction": 0.4375
+            },
+            "angular_movement_degrees": {
+              "n": 64,
+              "mean": 0.013202062760121014,
+              "median": 0.008299952506395312,
+              "min": 0.0029808578553866673,
+              "max": 0.1474319742393517,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 64,
+              "mean": 0.01170067563434068,
+              "median": 0.0076872170079442794,
+              "min": 0.0022343034366279456,
+              "max": 0.22631443009973307,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 62,
+            "correct_after_count": 62,
+            "positions": 64
+          },
+          "hotspot": {
+            "depth_before": {
+              "n": 2,
+              "mean": 2.448277289279484,
+              "median": 2.422295358525293,
+              "min": 2.422295358525293,
+              "max": 2.474259220033675,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 2,
+              "mean": 2.4471007442536794,
+              "median": 2.4225278099342296,
+              "min": 2.4225278099342296,
+              "max": 2.4716736785731293,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 2,
+              "mean": -0.001176545025804554,
+              "median": -0.0025855414605455707,
+              "min": -0.0025855414605455707,
+              "max": 0.00023245140893646266,
+              "positive_fraction": 0.5,
+              "negative_fraction": 0.5
+            },
+            "radius_delta": {
+              "n": 2,
+              "mean": -0.00016805431430810813,
+              "median": -0.0003709022648351601,
+              "min": -0.0003709022648351601,
+              "max": 0.000034793636218943824,
+              "positive_fraction": 0.5,
+              "negative_fraction": 0.5
+            },
+            "angular_movement_degrees": {
+              "n": 2,
+              "mean": 0.06647930090821667,
+              "median": 0.030299865978038142,
+              "min": 0.030299865978038142,
+              "max": 0.1026587358383952,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 2,
+              "mean": 0.006912954674173633,
+              "median": 0.002966431966298562,
+              "min": 0.002966431966298562,
+              "max": 0.010859477382048704,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 0,
+            "correct_after_count": 0,
+            "positions": 2
+          },
+          "class/dresser": {
+            "depth_before": {
+              "n": 2,
+              "mean": 2.448277289279484,
+              "median": 2.422295358525293,
+              "min": 2.422295358525293,
+              "max": 2.474259220033675,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 2,
+              "mean": 2.4471007442536794,
+              "median": 2.4225278099342296,
+              "min": 2.4225278099342296,
+              "max": 2.4716736785731293,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 2,
+              "mean": -0.001176545025804554,
+              "median": -0.0025855414605455707,
+              "min": -0.0025855414605455707,
+              "max": 0.00023245140893646266,
+              "positive_fraction": 0.5,
+              "negative_fraction": 0.5
+            },
+            "radius_delta": {
+              "n": 2,
+              "mean": -0.00016805431430810813,
+              "median": -0.0003709022648351601,
+              "min": -0.0003709022648351601,
+              "max": 0.000034793636218943824,
+              "positive_fraction": 0.5,
+              "negative_fraction": 0.5
+            },
+            "angular_movement_degrees": {
+              "n": 2,
+              "mean": 0.06647930090821667,
+              "median": 0.030299865978038142,
+              "min": 0.030299865978038142,
+              "max": 0.1026587358383952,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 2,
+              "mean": 0.006912954674173633,
+              "median": 0.002966431966298562,
+              "min": 0.002966431966298562,
+              "max": 0.010859477382048704,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 0,
+            "correct_after_count": 0,
+            "positions": 2
+          }
+        }
+      },
+      "checks": {
+        "same_startpoint": true,
+        "optimizer_momentum_restored": true,
+        "fixed_old_BN_readout": true,
+        "finite_update_and_readout": true,
+        "source_model_restored": true,
+        "proxy_fixed": true,
+        "source_optimizer_copy_unchanged": true
+      }
+    },
+    {
+      "batch": 1,
+      "arms": {
+        "base": {
+          "no_update_readout_max_abs_error": {
+            "mu": 0,
+            "logits": 0
+          },
+          "update": {
+            "preclip_norm": 0.8246386051177979,
+            "postclip_norm": 0.8246386051177979,
+            "clip_scale": 1,
+            "clip_applied": false,
+            "actual_parameter_displacement_norm": 0.008064314723014832,
+            "gradient_assignment_sha256": "1acea549f3421dbe8251ccd0ae78a866ed7ce6420ae5e065414afb627c8cabda",
+            "parameter_before_sha256": "35f4912cef48fc8b019c2669ad2fb2b6895cec8c1b3abbfc5c049e7c28fdbf66",
+            "parameter_after_sha256": "e94a7923c4703edc888df6518a7ddbf465ab582356852d0c8dbcb8a531e75d42"
+          },
+          "start_readout_match": true,
+          "response": {
+            "all64": {
+              "depth_before": {
+                "n": 64,
+                "mean": 4.555597640869007,
+                "median": 4.5298898441797,
+                "min": 2.2007246488761325,
+                "max": 5.84068568787755,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 64,
+                "mean": 4.559198621094237,
+                "median": 4.536367819022381,
+                "min": 2.235231646945852,
+                "max": 5.842304088383564,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 64,
+                "mean": 0.003600980225229644,
+                "median": 0.0029730744503195794,
+                "min": -0.04209631201783326,
+                "max": 0.03595887300866263,
+                "positive_fraction": 0.703125,
+                "negative_fraction": 0.296875
+              },
+              "radius_delta": {
+                "n": 64,
+                "mean": 0.00020296563911908344,
+                "median": 0.00004612384246316381,
+                "min": -0.002668199879923505,
+                "max": 0.006108892980529967,
+                "positive_fraction": 0.703125,
+                "negative_fraction": 0.296875
+              },
+              "angular_movement_degrees": {
+                "n": 64,
+                "mean": 0.17878843081441037,
+                "median": 0.08770184979131593,
+                "min": 0.03445554839008225,
+                "max": 4.909131842297039,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 64,
+                "mean": 0.11274010034871323,
+                "median": 0.06751158872328716,
+                "min": 0.023044160575899045,
+                "max": 1.1918002495934712,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 1,
+              "correct_before_count": 62,
+              "correct_after_count": 63,
+              "positions": 64
+            },
+            "hotspot": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.3835633759545507,
+                "median": 2.2007246488761325,
+                "min": 2.2007246488761325,
+                "max": 2.566402103032969,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.418796311493742,
+                "median": 2.235231646945852,
+                "min": 2.235231646945852,
+                "max": 2.6023609760416315,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.03523293553919116,
+                "median": 0.034506998069719685,
+                "min": 0.034506998069719685,
+                "max": 0.03595887300866263,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.005400095891929357,
+                "median": 0.004691298803328747,
+                "min": 0.004691298803328747,
+                "max": 0.006108892980529967,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.43811721751462573,
+                "median": 0.4301118533453497,
+                "min": 0.4301118533453497,
+                "max": 0.4461225816839018,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.05527208620848896,
+                "median": 0.049395500166732734,
+                "min": 0.049395500166732734,
+                "max": 0.06114867225024519,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 1,
+              "correct_after_count": 1,
+              "positions": 2
+            },
+            "class/dresser": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.3835633759545507,
+                "median": 2.2007246488761325,
+                "min": 2.2007246488761325,
+                "max": 2.566402103032969,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.418796311493742,
+                "median": 2.235231646945852,
+                "min": 2.235231646945852,
+                "max": 2.6023609760416315,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.03523293553919116,
+                "median": 0.034506998069719685,
+                "min": 0.034506998069719685,
+                "max": 0.03595887300866263,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.005400095891929357,
+                "median": 0.004691298803328747,
+                "min": 0.004691298803328747,
+                "max": 0.006108892980529967,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.43811721751462573,
+                "median": 0.4301118533453497,
+                "min": 0.4301118533453497,
+                "max": 0.4461225816839018,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.05527208620848896,
+                "median": 0.049395500166732734,
+                "min": 0.049395500166732734,
+                "max": 0.06114867225024519,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 1,
+              "correct_after_count": 1,
+              "positions": 2
+            }
+          }
+        },
+        "base_sample_st": {
+          "no_update_readout_max_abs_error": {
+            "mu": 0,
+            "logits": 0
+          },
+          "update": {
+            "preclip_norm": 0.88471919298172,
+            "postclip_norm": 0.88471919298172,
+            "clip_scale": 1,
+            "clip_applied": false,
+            "actual_parameter_displacement_norm": 0.008242416195571423,
+            "gradient_assignment_sha256": "61f59f5358d6f7d7d0ed57e5e01972146737bd81d2f35a5fce2a27f1f23be028",
+            "parameter_before_sha256": "35f4912cef48fc8b019c2669ad2fb2b6895cec8c1b3abbfc5c049e7c28fdbf66",
+            "parameter_after_sha256": "88e2fbc8f95f3a85cdee14e7ac86b808b23e9e97f09d7d5a1969d20ee6f8d883"
+          },
+          "start_readout_match": true,
+          "response": {
+            "all64": {
+              "depth_before": {
+                "n": 64,
+                "mean": 4.555597640869007,
+                "median": 4.5298898441797,
+                "min": 2.2007246488761325,
+                "max": 5.84068568787755,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 64,
+                "mean": 4.561311108901435,
+                "median": 4.53728204094643,
+                "min": 2.2318002474644776,
+                "max": 5.843335194410948,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 64,
+                "mean": 0.005713468032428427,
+                "median": 0.003540324009790652,
+                "min": -0.029424930289968287,
+                "max": 0.055962419797673135,
+                "positive_fraction": 0.703125,
+                "negative_fraction": 0.296875
+              },
+              "radius_delta": {
+                "n": 64,
+                "mean": 0.00024060226058340677,
+                "median": 0.0000694570680924711,
+                "min": -0.0018539784517320745,
+                "max": 0.005508985896211072,
+                "positive_fraction": 0.703125,
+                "negative_fraction": 0.296875
+              },
+              "angular_movement_degrees": {
+                "n": 64,
+                "mean": 0.18284244774515812,
+                "median": 0.08278080067326767,
+                "min": 0.029950221435666204,
+                "max": 5.047663903873014,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 64,
+                "mean": 0.1152411486749379,
+                "median": 0.07536046446600671,
+                "min": 0.027470952616481633,
+                "max": 1.2284092971690264,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 1,
+              "correct_before_count": 62,
+              "correct_after_count": 63,
+              "positions": 64
+            },
+            "hotspot": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.3835633759545507,
+                "median": 2.2007246488761325,
+                "min": 2.2007246488761325,
+                "max": 2.566402103032969,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.4154922602771256,
+                "median": 2.2318002474644776,
+                "min": 2.2318002474644776,
+                "max": 2.599184273089773,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.03192888432257468,
+                "median": 0.031075598588345077,
+                "min": 0.031075598588345077,
+                "max": 0.03278217005680428,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.004895831179179633,
+                "median": 0.004282676462148194,
+                "min": 0.004282676462148194,
+                "max": 0.005508985896211072,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.4102253336329359,
+                "median": 0.39159874569155695,
+                "min": 0.39159874569155695,
+                "max": 0.4288519215743148,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.05082098753919601,
+                "median": 0.0460003902112096,
+                "min": 0.0460003902112096,
+                "max": 0.055641584867182424,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 1,
+              "correct_after_count": 1,
+              "positions": 2
+            },
+            "class/dresser": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.3835633759545507,
+                "median": 2.2007246488761325,
+                "min": 2.2007246488761325,
+                "max": 2.566402103032969,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.4154922602771256,
+                "median": 2.2318002474644776,
+                "min": 2.2318002474644776,
+                "max": 2.599184273089773,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.03192888432257468,
+                "median": 0.031075598588345077,
+                "min": 0.031075598588345077,
+                "max": 0.03278217005680428,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.004895831179179633,
+                "median": 0.004282676462148194,
+                "min": 0.004282676462148194,
+                "max": 0.005508985896211072,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.4102253336329359,
+                "median": 0.39159874569155695,
+                "min": 0.39159874569155695,
+                "max": 0.4288519215743148,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.05082098753919601,
+                "median": 0.0460003902112096,
+                "min": 0.0460003902112096,
+                "max": 0.055641584867182424,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 1,
+              "correct_after_count": 1,
+              "positions": 2
+            }
+          }
+        },
+        "base_sample_fixed": {
+          "no_update_readout_max_abs_error": {
+            "mu": 0,
+            "logits": 0
+          },
+          "update": {
+            "preclip_norm": 0.8287914395332336,
+            "postclip_norm": 0.8287914395332336,
+            "clip_scale": 1,
+            "clip_applied": false,
+            "actual_parameter_displacement_norm": 0.008075479418039322,
+            "gradient_assignment_sha256": "9dba85bd2382c528c4a8890487ae6b9671010f97b07e016c863363b6a7eafd62",
+            "parameter_before_sha256": "35f4912cef48fc8b019c2669ad2fb2b6895cec8c1b3abbfc5c049e7c28fdbf66",
+            "parameter_after_sha256": "ca7c0d41a43b630c9fb70c1054ec37af87ad934ae61c753017d8975b5fb4b1de"
+          },
+          "start_readout_match": true,
+          "response": {
+            "all64": {
+              "depth_before": {
+                "n": 64,
+                "mean": 4.555597640869007,
+                "median": 4.5298898441797,
+                "min": 2.2007246488761325,
+                "max": 5.84068568787755,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 64,
+                "mean": 4.5591613415454635,
+                "median": 4.5361034493574595,
+                "min": 2.2351489653777286,
+                "max": 5.84228936848414,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 64,
+                "mean": 0.0035637006764566784,
+                "median": 0.002883209005968723,
+                "min": -0.04213990416222657,
+                "max": 0.03514885303531434,
+                "positive_fraction": 0.6875,
+                "negative_fraction": 0.3125
+              },
+              "radius_delta": {
+                "n": 64,
+                "mean": 0.00020082767296838826,
+                "median": 0.00005083745611556001,
+                "min": -0.0026710176229657323,
+                "max": 0.0060944573820831405,
+                "positive_fraction": 0.6875,
+                "negative_fraction": 0.3125
+              },
+              "angular_movement_degrees": {
+                "n": 64,
+                "mean": 0.17721831424775641,
+                "median": 0.08540211131569699,
+                "min": 0.03351189699007433,
+                "max": 4.901531781101631,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 64,
+                "mean": 0.11127611527675166,
+                "median": 0.06619546901750457,
+                "min": 0.022363024093016774,
+                "max": 1.190126863771355,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 1,
+              "correct_before_count": 62,
+              "correct_after_count": 63,
+              "positions": 64
+            },
+            "hotspot": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.3835633759545507,
+                "median": 2.2007246488761325,
+                "min": 2.2007246488761325,
+                "max": 2.566402103032969,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.418349960723006,
+                "median": 2.2351489653777286,
+                "min": 2.2351489653777286,
+                "max": 2.6015509560682832,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.0347865847684552,
+                "median": 0.03442431650159605,
+                "min": 0.03442431650159605,
+                "max": 0.03514885303531434,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.005340834390568094,
+                "median": 0.004587211399053048,
+                "min": 0.004587211399053048,
+                "max": 0.0060944573820831405,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.43217589933236117,
+                "median": 0.42057473556372593,
+                "min": 0.42057473556372593,
+                "max": 0.4437770631009964,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.05448673921003755,
+                "median": 0.049203793924123995,
+                "min": 0.049203793924123995,
+                "max": 0.059769684495951096,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 1,
+              "correct_after_count": 1,
+              "positions": 2
+            },
+            "class/dresser": {
+              "depth_before": {
+                "n": 2,
+                "mean": 2.3835633759545507,
+                "median": 2.2007246488761325,
+                "min": 2.2007246488761325,
+                "max": 2.566402103032969,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_after": {
+                "n": 2,
+                "mean": 2.418349960723006,
+                "median": 2.2351489653777286,
+                "min": 2.2351489653777286,
+                "max": 2.6015509560682832,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "depth_delta": {
+                "n": 2,
+                "mean": 0.0347865847684552,
+                "median": 0.03442431650159605,
+                "min": 0.03442431650159605,
+                "max": 0.03514885303531434,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "radius_delta": {
+                "n": 2,
+                "mean": 0.005340834390568094,
+                "median": 0.004587211399053048,
+                "min": 0.004587211399053048,
+                "max": 0.0060944573820831405,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "angular_movement_degrees": {
+                "n": 2,
+                "mean": 0.43217589933236117,
+                "median": 0.42057473556372593,
+                "min": 0.42057473556372593,
+                "max": 0.4437770631009964,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "hyperbolic_movement": {
+                "n": 2,
+                "mean": 0.05448673921003755,
+                "median": 0.049203793924123995,
+                "min": 0.049203793924123995,
+                "max": 0.059769684495951096,
+                "positive_fraction": 1,
+                "negative_fraction": 0
+              },
+              "prediction_changed_count": 0,
+              "correct_before_count": 1,
+              "correct_after_count": 1,
+              "positions": 2
+            }
+          }
+        }
+      },
+      "increments_vs_base": {
+        "base_sample_st": {
+          "all64": {
+            "depth_before": {
+              "n": 64,
+              "mean": 4.559198621094237,
+              "median": 4.536367819022381,
+              "min": 2.235231646945852,
+              "max": 5.842304088383564,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 64,
+              "mean": 4.561311108901435,
+              "median": 4.53728204094643,
+              "min": 2.2318002474644776,
+              "max": 5.843335194410948,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 64,
+              "mean": 0.002112487807198783,
+              "median": 0.0011433893414638518,
+              "min": -0.0175725354851739,
+              "max": 0.03713602712231001,
+              "positive_fraction": 0.703125,
+              "negative_fraction": 0.296875
+            },
+            "radius_delta": {
+              "n": 64,
+              "mean": 0.000037636621464323325,
+              "median": 0.000024106152485936505,
+              "min": -0.001069127583103513,
+              "max": 0.0011830527352774123,
+              "positive_fraction": 0.703125,
+              "negative_fraction": 0.296875
+            },
+            "angular_movement_degrees": {
+              "n": 64,
+              "mean": 0.03164793908209334,
+              "median": 0.022436572536575862,
+              "min": 0.007347352091535621,
+              "max": 0.16834047914173783,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 64,
+              "mean": 0.026539262239781564,
+              "median": 0.01917330729936913,
+              "min": 0.005266416750216968,
+              "max": 0.09565404827589556,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 63,
+            "correct_after_count": 63,
+            "positions": 64
+          },
+          "hotspot": {
+            "depth_before": {
+              "n": 2,
+              "mean": 2.418796311493742,
+              "median": 2.235231646945852,
+              "min": 2.235231646945852,
+              "max": 2.6023609760416315,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 2,
+              "mean": 2.4154922602771256,
+              "median": 2.2318002474644776,
+              "min": 2.2318002474644776,
+              "max": 2.599184273089773,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 2,
+              "mean": -0.003304051216616477,
+              "median": -0.0034313994813746085,
+              "min": -0.0034313994813746085,
+              "max": -0.0031767029518583456,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "radius_delta": {
+              "n": 2,
+              "mean": -0.0005042647127497246,
+              "median": -0.0005999070843188958,
+              "min": -0.0005999070843188958,
+              "max": -0.0004086223411805534,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "angular_movement_degrees": {
+              "n": 2,
+              "mean": 0.06570581930237937,
+              "median": 0.04962380444106269,
+              "min": 0.04962380444106269,
+              "max": 0.08178783416369605,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 2,
+              "mean": 0.007672063365835893,
+              "median": 0.005266416750216968,
+              "min": 0.005266416750216968,
+              "max": 0.010077709981454817,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 1,
+            "correct_after_count": 1,
+            "positions": 2
+          },
+          "class/dresser": {
+            "depth_before": {
+              "n": 2,
+              "mean": 2.418796311493742,
+              "median": 2.235231646945852,
+              "min": 2.235231646945852,
+              "max": 2.6023609760416315,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 2,
+              "mean": 2.4154922602771256,
+              "median": 2.2318002474644776,
+              "min": 2.2318002474644776,
+              "max": 2.599184273089773,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 2,
+              "mean": -0.003304051216616477,
+              "median": -0.0034313994813746085,
+              "min": -0.0034313994813746085,
+              "max": -0.0031767029518583456,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "radius_delta": {
+              "n": 2,
+              "mean": -0.0005042647127497246,
+              "median": -0.0005999070843188958,
+              "min": -0.0005999070843188958,
+              "max": -0.0004086223411805534,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "angular_movement_degrees": {
+              "n": 2,
+              "mean": 0.06570581930237937,
+              "median": 0.04962380444106269,
+              "min": 0.04962380444106269,
+              "max": 0.08178783416369605,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 2,
+              "mean": 0.007672063365835893,
+              "median": 0.005266416750216968,
+              "min": 0.005266416750216968,
+              "max": 0.010077709981454817,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 1,
+            "correct_after_count": 1,
+            "positions": 2
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "depth_before": {
+              "n": 64,
+              "mean": 4.559198621094237,
+              "median": 4.536367819022381,
+              "min": 2.235231646945852,
+              "max": 5.842304088383564,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 64,
+              "mean": 4.5591613415454635,
+              "median": 4.5361034493574595,
+              "min": 2.2351489653777286,
+              "max": 5.84228936848414,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 64,
+              "mean": -0.00003727954877296574,
+              "median": -0.00003741360979159225,
+              "min": -0.0012418154341622412,
+              "max": 0.0011815584027941028,
+              "positive_fraction": 0.453125,
+              "negative_fraction": 0.546875
+            },
+            "radius_delta": {
+              "n": 64,
+              "mean": -0.0000021379661506951836,
+              "median": -7.629409741749527e-7,
+              "min": -0.00010408740427569896,
+              "max": 0.000023675869264438987,
+              "positive_fraction": 0.453125,
+              "negative_fraction": 0.546875
+            },
+            "angular_movement_degrees": {
+              "n": 64,
+              "mean": 0.006993434239384914,
+              "median": 0.0054436602349305085,
+              "min": 0.0020089460805210848,
+              "max": 0.02045030051559793,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 64,
+              "mean": 0.006421228316203429,
+              "median": 0.004844201494940087,
+              "min": 0.0013530740136236867,
+              "max": 0.03505440197064425,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 63,
+            "correct_after_count": 63,
+            "positions": 64
+          },
+          "hotspot": {
+            "depth_before": {
+              "n": 2,
+              "mean": 2.418796311493742,
+              "median": 2.235231646945852,
+              "min": 2.235231646945852,
+              "max": 2.6023609760416315,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 2,
+              "mean": 2.418349960723006,
+              "median": 2.2351489653777286,
+              "min": 2.2351489653777286,
+              "max": 2.6015509560682832,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 2,
+              "mean": -0.0004463507707359593,
+              "median": -0.000810019973348286,
+              "min": -0.000810019973348286,
+              "max": -0.00008268156812363259,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "radius_delta": {
+              "n": 2,
+              "mean": -0.00005926150136126296,
+              "median": -0.00010408740427569896,
+              "min": -0.00010408740427569896,
+              "max": -0.000014435598446826958,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "angular_movement_degrees": {
+              "n": 2,
+              "mean": 0.01839534679270876,
+              "median": 0.016746703121550036,
+              "min": 0.016746703121550036,
+              "max": 0.020043990463867487,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 2,
+              "mean": 0.0019178095605805346,
+              "median": 0.0013530740136236867,
+              "min": 0.0013530740136236867,
+              "max": 0.0024825451075373827,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 1,
+            "correct_after_count": 1,
+            "positions": 2
+          },
+          "class/dresser": {
+            "depth_before": {
+              "n": 2,
+              "mean": 2.418796311493742,
+              "median": 2.235231646945852,
+              "min": 2.235231646945852,
+              "max": 2.6023609760416315,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_after": {
+              "n": 2,
+              "mean": 2.418349960723006,
+              "median": 2.2351489653777286,
+              "min": 2.2351489653777286,
+              "max": 2.6015509560682832,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "depth_delta": {
+              "n": 2,
+              "mean": -0.0004463507707359593,
+              "median": -0.000810019973348286,
+              "min": -0.000810019973348286,
+              "max": -0.00008268156812363259,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "radius_delta": {
+              "n": 2,
+              "mean": -0.00005926150136126296,
+              "median": -0.00010408740427569896,
+              "min": -0.00010408740427569896,
+              "max": -0.000014435598446826958,
+              "positive_fraction": 0,
+              "negative_fraction": 1
+            },
+            "angular_movement_degrees": {
+              "n": 2,
+              "mean": 0.01839534679270876,
+              "median": 0.016746703121550036,
+              "min": 0.016746703121550036,
+              "max": 0.020043990463867487,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "hyperbolic_movement": {
+              "n": 2,
+              "mean": 0.0019178095605805346,
+              "median": 0.0013530740136236867,
+              "min": 0.0013530740136236867,
+              "max": 0.0024825451075373827,
+              "positive_fraction": 1,
+              "negative_fraction": 0
+            },
+            "prediction_changed_count": 0,
+            "correct_before_count": 1,
+            "correct_after_count": 1,
+            "positions": 2
+          }
+        }
+      },
+      "checks": {
+        "same_startpoint": true,
+        "optimizer_momentum_restored": true,
+        "fixed_old_BN_readout": true,
+        "finite_update_and_readout": true,
+        "source_model_restored": true,
+        "proxy_fixed": true,
+        "source_optimizer_copy_unchanged": true
+      }
+    }
+  ]
+}
