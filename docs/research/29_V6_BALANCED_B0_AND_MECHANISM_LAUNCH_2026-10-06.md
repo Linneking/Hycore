@@ -32,6 +32,15 @@
   进程启动存活检查通过；首个完整e21（200步、984验证、保存）验收尚待后续补充，未把“存活”当成首轮完成。
 - 私有路径/PID/GPU UUID仅在server manifest/launcher_state及忽略的本地记录，不提交仓库。
 
+### 首个完整生产轮验收
+
+e21于**2026-10-06 02:30:56 Asia/Shanghai**保存完成：200次更新、完整984例验证，OA90.44715447%、CE3.01096090。
+该轮完整checkpoint SHA256为`04a1d9ba790f80bdfaf9d3908ebc271a773a2c936b474b1204539bdae81dfc79`，159931885字节。
+CPU从同一文件字节重载，并再次通过完整B0恢复合同：scheduler last_epoch21、T_max300、source/split/ID、两rank状态、动量与LR齐全，
+`diagnostic_only=false`、HIER关闭且不含训练proxy，验证例数与每轮步数正确。随后已进入e22，主任务启动验收完成。
+
+后续诊断commit仅改变研究文档/新诊断脚本，没有改变运行主任务的B0及其导入依赖。
+
 ## 第一批机制诊断
 
 1. CPU冻结whole/proxy：实际hard-Gumbel选择、端点代理身份重合、sample/proxy项的径向/角向梯度和使用熵；原mining与仅mining半径控制，loss保持原whole。

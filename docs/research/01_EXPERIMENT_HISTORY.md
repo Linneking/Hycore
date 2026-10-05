@@ -13,8 +13,11 @@ nonreportable, no official test was read, and its checkpoint cannot initialize
 production. Code f649fcc on codex/v6-balanced-b0-mechanisms.
 
 Production detached at 02:26:20 Asia/Shanghai after fresh idle-GPU checks,
-using the independently hashed original e20. First full epoch acceptance is
-pending, not implied by PID survival. See [29](29_V6_BALANCED_B0_AND_MECHANISM_LAUNCH_2026-10-06.md).
+using the independently hashed original e20. Full e21 saved at02:30:56 with
+200 updates and984 validation objects; OA90.44715447%, CE3.01096090.
+Its complete checkpoint was reloaded and passed the strict B0 contract,
+scheduler last_epoch21; training proceeded into e22.
+See [29](29_V6_BALANCED_B0_AND_MECHANISM_LAUNCH_2026-10-06.md).
 
 ## Actual-use subset audit and pending next decisions — 2026-10-06
 

@@ -11,9 +11,10 @@ Example (paths supplied by the operator, private output outside Git):
     --cache <feature_cache.npz> --checkpoint <matching_full_checkpoint.pth> \
     --output-dir <new_directory> --batches 16
 
-Optional --proxy-steps 100 runs three separate frozen-whole AdamW arms. No
-backbone is instantiated; no GPU is used. These are optimizer updates and are
-explicitly distinguished from the default no-update probe.
+Optional --proxy-steps 100 runs three frozen-whole AdamW arms per mining mode
+and two inexpensive zero-gradient controls (800 optimizer updates in total).
+No backbone is instantiated; no GPU is used. These are optimizer updates and
+are explicitly distinguished from the default no-update probe.
 """
 from __future__ import annotations
 
@@ -375,19 +376,66 @@ def describe_geometry(whole, tangent):
             "projected_proxy_count": int((tangent.norm(dim=-1).tanh() > .999).sum())}
 
 
+def make_proxy_optimizer(parameter, saved, args, state_kind):
+    """Match checkpoint hyperparameters even when discarding historical m/v."""
+    optimizer = torch.optim.AdamW([parameter], lr=.01, betas=(.9, .999), eps=1e-8, weight_decay=.01)
+    if "proxy_optimizer" not in saved:
+        raise ValueError("Optional optimizer arms require saved proxy_optimizer hyperparameters/state")
+    optimizer.load_state_dict(copy.deepcopy(saved["proxy_optimizer"]))
+    if state_kind == "fresh":
+        optimizer.state.clear()
+    if args.proxy_lr is not None:
+        optimizer.param_groups[0]["lr"] = args.proxy_lr
+    return optimizer
+
+
+@torch.no_grad()
+def evaluate_proxy_structure(args, whole, labels, ids, tangent, plans):
+    """Common original-mining no-update endpoint for every optional arm."""
+    structure = StructureAccumulator()
+    losses = defaultdict(dict)
+    endpoints = defaultdict(lambda: defaultdict(int))
+    draw_counts = defaultdict(lambda: defaultdict(int))
+    for step, plan in enumerate(plans):
+        at = plan["rows"]
+        seed = args.seed + args.plan_epoch * 10000019 + step * 10007
+        terms = forward_terms(whole[at], tangent, labels[at], ids[at], "original", seed, args.mining_radius)
+        reports = {}
+        for component in ("sample", "proxy"):
+            points = terms["whole"] if component == "sample" else terms["proxies"]
+            reports[component] = ancestor_summary(points, terms["proxies"],
+                terms["mining"][component]["triplets"], terms["details"][component])
+            for key in ("triplets", "collisions", "noncollision_triplets", "active_triplets"):
+                draw_counts[component][key] += terms["stats"][component][key]
+        structure.update(reports)
+        for component, loss in terms["losses"].items():
+            add_moments(losses[component], moments([float(loss)]))
+        for domain, record in endpoint_overlap(terms["mining"]["proxy"]["triplets"], terms["details"]["proxy"]).items():
+            for key, value in record.items():
+                endpoints[domain][key] += value
+        del terms
+    result_endpoints = {}
+    for domain, value in endpoints.items():
+        result_endpoints[domain] = {**value,
+            "pair_endpoint_hit_fraction": value["pair_endpoint_hits"] / value["draws"] if value["draws"] else None,
+            "triple_endpoint_hit_fraction": value["triple_endpoint_hits"] / value["draws"] if value["draws"] else None}
+    return {"optimizer_updates": 0, "evaluation_mining": "original",
+        "evaluation_plan_and_seed_rule": "exact same plans and seed + plan_epoch*10000019 + plan_step*10007 as default probe",
+        "batches": len(plans), "draw_counts": dict(draw_counts),
+        "loss_unweighted_batch_distributions": {key: finish_moments(value) for key, value in losses.items()},
+        "actual_cpu_replay_ancestor_structure": structure.summary(),
+        "proxy_ancestor_endpoint_identity_overlap": result_endpoints,
+        "geometry": describe_geometry(whole, tangent)}
+
+
 def optimizer_arms(args, whole, labels, ids, tangent, saved, plans):
     results = {}
+    whole_sha_before, tangent_sha_before = sha_tensor(whole), sha_tensor(tangent)
     for mode in MODES:
         results[mode] = {}
         for component in COMPONENTS:
             parameter = torch.nn.Parameter(tangent.clone())
-            optimizer = torch.optim.AdamW([parameter], lr=.01, betas=(.9, .999), eps=1e-8, weight_decay=.01)
-            if args.optimizer_state == "checkpoint":
-                if "proxy_optimizer" not in saved:
-                    raise ValueError("Optional optimizer continuation requires saved proxy_optimizer")
-                optimizer.load_state_dict(copy.deepcopy(saved["proxy_optimizer"]))
-            if args.proxy_lr is not None:
-                optimizer.param_groups[0]["lr"] = args.proxy_lr
+            optimizer = make_proxy_optimizer(parameter, saved, args, args.optimizer_state)
             rows = []
             for step in range(args.proxy_steps):
                 plan = plans[step % len(plans)]
@@ -419,10 +467,53 @@ def optimizer_arms(args, whole, labels, ids, tangent, saved, plans):
             results[mode][component] = {"steps": args.proxy_steps, "optimizer_initial_state": args.optimizer_state,
                 "optimizer_param_groups": [{k: v for k, v in group.items() if k != "params"} for group in optimizer.param_groups],
                 "history_every10_steps": rows, "final_tangent_sha256": sha_tensor(parameter),
-                "total_displacement": proxy_update_stats(tangent, parameter.detach())}
+                "total_displacement": proxy_update_stats(tangent, parameter.detach()),
+                "common_original_mining_terminal_evaluation": evaluate_proxy_structure(args, whole, labels, ids, parameter.detach(), plans),
+                "interpretation": "Frozen-whole response with fixed LR and AdamW decay; checkpoint m/v include the historical combined objective. This is not a pure instantaneous component-gradient effect."}
             np.savez_compressed(args.output_dir / f"proxy_only_{mode}_{component}.npz",
                 tangent_proxies=parameter.detach().numpy(), proxy_ball=expmap0_c1(parameter).detach().numpy())
             print(f"Optional frozen-whole AdamW arm complete: {mode}/{component}", flush=True)
+    original_proxy_hash = results["original"]["proxy"]["final_tangent_sha256"]
+    controlled_proxy_hash = results["sample_mining_equal_radius"]["proxy"]["final_tangent_sha256"]
+    if original_proxy_hash != controlled_proxy_hash:
+        raise RuntimeError("Proxy-only raw/equal mining controls must produce bit-identical tangent parameters; check random-stream isolation")
+    results["checks"] = {"proxy_only_raw_equal_tangent_sha256_identical": True}
+    # Explicit zero gradients permit AdamW momentum and weight decay updates;
+    # grad=None would skip the parameter and would not provide this control.
+    controls = {}
+    for name, state_kind in (("checkpoint_zero_gradient", "checkpoint"), ("fresh_zero_gradient_decay_only", "fresh")):
+        parameter = torch.nn.Parameter(tangent.clone())
+        optimizer = make_proxy_optimizer(parameter, saved, args, state_kind)
+        rows = []
+        for step in range(args.proxy_steps):
+            optimizer.zero_grad(set_to_none=True)
+            parameter.grad = torch.zeros_like(parameter)
+            before = parameter.detach().clone()
+            optimizer.step()
+            if not bool(torch.isfinite(parameter).all()):
+                raise RuntimeError("Nonfinite zero-gradient AdamW control")
+            if step == 0 or (step + 1) % 10 == 0 or step + 1 == args.proxy_steps:
+                rows.append({"step": step + 1, "actual_optimizer_update": proxy_update_stats(before, parameter.detach())})
+        controls[name] = {"steps": args.proxy_steps, "loss_weight": 0., "gradient_policy": "explicit all-zero tensor",
+            "optimizer_initial_state": state_kind,
+            "optimizer_param_groups": [{k: v for k, v in group.items() if k != "params"} for group in optimizer.param_groups],
+            "history_every10_steps": rows, "final_tangent_sha256": sha_tensor(parameter),
+            "total_displacement": proxy_update_stats(tangent, parameter.detach()),
+            "common_original_mining_terminal_evaluation": evaluate_proxy_structure(args, whole, labels, ids, parameter.detach(), plans),
+            "interpretation": "Historical m/v plus decay" if state_kind == "checkpoint" else "Decay only with checkpoint-matched hyperparameters and zero m/v"}
+        np.savez_compressed(args.output_dir / f"proxy_only_control_{name}.npz",
+            tangent_proxies=parameter.detach().numpy(), proxy_ball=expmap0_c1(parameter).detach().numpy())
+        print(f"Optional zero-gradient AdamW control complete: {name}", flush=True)
+    results["zero_gradient_controls"] = controls
+    if sha_tensor(whole) != whole_sha_before or sha_tensor(tangent) != tangent_sha_before:
+        raise RuntimeError("Optional optimizer arms modified source whole/initial tangent tensors")
+    results["checks"]["whole_and_initial_tangent_tensors_unchanged"] = True
+    results["total_optimizer_updates"] = args.proxy_steps * (len(MODES) * len(COMPONENTS) + len(controls))
+    results["protocol"] = {"loss_weight": args.weight, "warmup_steps": 0,
+        "LR_policy": "held at checkpoint next LR unless explicitly overridden; no scheduler steps",
+        "primary_arm_initial_momentum": args.optimizer_state,
+        "fresh_policy": "discard m/v while retaining the checkpoint LR/betas/eps/decay",
+        "endpoint_evaluation": "same original-mining fixed plans/seeds for all six objective arms and both zero-gradient controls"}
     return results
 
 
@@ -480,8 +571,50 @@ def self_test():
         "triple_proxy_idx": torch.tensor([2]), "per_draw_loss": torch.tensor([1.])})
     assert overlap["noncollision"]["pair_endpoint_hits"] == 1
     assert overlap["noncollision"]["triple_endpoint_hits"] == 1
+    # A small optimizer test verifies the zero-gradient control and matching
+    # LR when fresh moments are requested, without executing optional100.
+    historical_parameter = torch.nn.Parameter(tangent.clone())
+    historical_optimizer = torch.optim.AdamW([historical_parameter], lr=.003, weight_decay=.01)
+    historical_parameter.grad = torch.randn(tangent.shape, generator=generator)
+    historical_optimizer.step()
+    optimizer_saved = {"proxy_optimizer": copy.deepcopy(historical_optimizer.state_dict())}
+    initial_parameter = historical_parameter.detach().clone()
+    test_args = argparse.Namespace(proxy_lr=None, seed=22, plan_epoch=0, mining_radius=.98)
+    zero_endpoints = []
+    for state_kind in ("checkpoint", "fresh"):
+        parameter = torch.nn.Parameter(initial_parameter.clone())
+        optimizer = make_proxy_optimizer(parameter, optimizer_saved, test_args, state_kind)
+        assert optimizer.param_groups[0]["lr"] == .003
+        parameter.grad = torch.zeros_like(parameter)
+        optimizer.step()
+        zero_endpoints.append(parameter.detach().clone())
+    assert not torch.equal(zero_endpoints[0], zero_endpoints[1])
+    assert not torch.equal(zero_endpoints[1], initial_parameter)
+    proxy_only_end_hashes = []
+    for mode in MODES:
+        parameter = torch.nn.Parameter(initial_parameter.clone())
+        optimizer = make_proxy_optimizer(parameter, optimizer_saved, test_args, "checkpoint")
+        for step in range(2):
+            at = plans[step]["rows"]
+            seed = 22 + 6000001 + step * 10007
+            reference_rng = None
+            if mode != "original":
+                with torch.no_grad():
+                    reference = forward_terms(whole[at], parameter, labels[at], ids[at], "original", seed, .98)
+                reference_rng = reference["proxy_rng_state_after_original_sample"]
+                del reference
+            current = forward_terms(whole[at], parameter, labels[at], ids[at], mode, seed, .98, reference_rng)
+            optimizer.zero_grad(set_to_none=True)
+            (.5 * current["losses"]["proxy"]).backward()
+            optimizer.step()
+            del current
+        proxy_only_end_hashes.append(sha_tensor(parameter))
+        terminal = evaluate_proxy_structure(test_args, whole, labels, ids, parameter.detach(), plans)
+        assert terminal["optimizer_updates"] == 0 and terminal["batches"] == 2
+    assert proxy_only_end_hashes[0] == proxy_only_end_hashes[1]
     print(json.dumps({"self_test": "passed", "checks": ["protocol/format/epoch whitelist rejects incorrect identities", "balanced64 plan", "source exact loss/selection replay",
-        "component gradient additivity", "no direct Rproxy whole gradient", "fixed proxy Gumbel control", "endpoint identity"]}), flush=True)
+        "component gradient additivity", "no direct Rproxy whole gradient", "fixed proxy Gumbel control", "endpoint identity",
+        "zero-gradient momentum versus matched-LR decay control", "proxy-only two-step hash invariance", "common terminal no-update structure evaluation"]}), flush=True)
 
 
 def main():
@@ -583,7 +716,7 @@ def main():
             optimizer_updates=0)
         if args.proxy_steps:
             report["optional_proxy_optimizer_arms"] = optimizer_arms(args, whole, labels, ids, tangent, saved, plans)
-            report["optimizer_updates"] = args.proxy_steps * len(MODES) * len(COMPONENTS)
+            report["optimizer_updates"] = report["optional_proxy_optimizer_arms"]["total_optimizer_updates"]
         for key, path in (("cache", args.cache), ("checkpoint", args.checkpoint), ("cache_metadata", args.cache_metadata)):
             if sha_file(path) != input_hashes[key]:
                 raise RuntimeError(f"Source {key} changed during diagnostic")

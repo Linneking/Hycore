@@ -14,7 +14,9 @@ two-update dual-GPU restore smoke pass, including exact optimizer/scheduler/
 BN/RNG/sampler restoration and zero gradient/parameter replica difference.
 Production was detached at 02:26:20 Asia/Shanghai, continuing e21–300 with
 original 300-epoch cosine, data/sampling and CE/intra; source checkpoint SHA
-is recorded in29. The first full production epoch is not yet accepted here.
+is recorded in29. Full e21 acceptance now passes: 200 updates, 984 validation
+objects and a complete checkpoint reloaded on CPU through the strict B0
+contract; scheduler continues at21. Training proceeded into e22.
 No smoke checkpoint initializes production. Validation selects the model;
 official test is read only once at the end. Diagnostics use separate resources.
 
