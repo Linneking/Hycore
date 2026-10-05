@@ -35,11 +35,14 @@ SOURCE_FORMAT = "hycore-hier-v6-h20-selfk300-1"
 
 
 def leaf_components_controlled_noise(outputs, labels, ids, proxy_points,
-                                    mining_seed, gumbel_seed):
+                                    mining_seed, gumbel_seed, base_result=None):
     """Reuse V1 base/nu logic exactly; replace ONLY sample mu/noise results."""
     from inter_hierarchy_MN40.hier_proxy_scratch_v5.relations import poincare_distance
     from inter_hierarchy_MN40.hier_proxy_scratch_v6.hier_loss import ghhc_loss
-    result=mech.leaf_components(outputs,labels,ids,proxy_points,mining_seed)
+    baseline=mech.leaf_components(outputs,labels,ids,proxy_points,mining_seed) if base_result is None else base_result
+    # Copy containers before replacing sample entries; supplied baseline stays immutable.
+    result={**baseline,"losses":dict(baseline["losses"]),
+            "leaf_gradients":{name:dict(values) for name,values in baseline["leaf_gradients"].items()}}
     if gumbel_seed==mining_seed:
         return result
     mu=outputs["mu"].detach().clone().requires_grad_(True)
@@ -354,44 +357,60 @@ def self_test():
     ids=torch.arange(64)
     proxies=torch.randn(32,8,generator=generator)*.1
     seed=123
+    def differences(left,right):
+        rows=[]
+        for component in mech.COMPONENTS:
+            for key in ("mu","nu","logits"):
+                before=left["leaf_gradients"][component][key]
+                delta=(right["leaf_gradients"][component][key]-before).abs()
+                rows.append({"component":component,"variable":key,
+                    "elements":before.numel(),"nonidentical_elements":int((delta>0).sum()),
+                    "max_absolute_difference":float(delta.max()),
+                    "max_relative_difference_floor1e_30":float((delta/before.abs().clamp_min(1e-30)).max()),
+                    "norm_difference":float(delta.norm())})
+        return rows
+    # Measure unmodified V1-versus-V1 at the requested CPU thread count first.
+    threaded_a=mech.leaf_components(outputs,labels,ids,proxies,seed)
+    threaded_b=mech.leaf_components(outputs,labels,ids,proxies,seed)
+    print({"V1_same_source_repeat_baseline":{"torch_threads":torch.get_num_threads(),
+          "gradient_diagnostics":differences(threaded_a,threaded_b)}},flush=True)
+    del threaded_a,threaded_b
+    # This is a deterministic CPU self-test setting, not a change to GPU runs.
+    torch.set_num_threads(1)
+    torch.use_deterministic_algorithms(True)
     old=mech.leaf_components(outputs,labels,ids,proxies,seed)
+    old_repeat=mech.leaf_components(outputs,labels,ids,proxies,seed)
     zero=leaf_components_controlled_noise(outputs,labels,ids,proxies,seed,seed)
-    repeated=leaf_components_controlled_noise(outputs,labels,ids,proxies,seed,seed+1000003)
+    # Reuse one common base result. Only the sample dictionaries are replaced.
+    baseline_sha=state_digest(zero)
+    repeated=leaf_components_controlled_noise(outputs,labels,ids,proxies,seed,seed+1000003,base_result=zero)
+    assert state_digest(zero)==baseline_sha,"Noise replacement mutated supplied base leaf"
     torch.testing.assert_close(old["mining"]["triplets"],zero["mining"]["triplets"],atol=0,rtol=0)
     torch.testing.assert_close(zero["mining"]["triplets"],repeated["mining"]["triplets"],atol=0,rtol=0)
-    diagnostics=[]
+    print({"deterministic_CPU_gate":{"torch_threads":torch.get_num_threads(),
+          "deterministic_algorithms":torch.are_deterministic_algorithms_enabled(),
+          "V1_same_source_repeat":differences(old,old_repeat),
+          "offset0_actual_gradient_diagnostics":differences(old,zero),
+          "all_allowed_absolute_and_relative_tolerances":0.}},flush=True)
     for component in mech.COMPONENTS:
+        assert old["losses"][component]==old_repeat["losses"][component]==zero["losses"][component],component+" scalar"
         for key in ("mu","nu","logits"):
-            before=old["leaf_gradients"][component][key]
-            after=zero["leaf_gradients"][component][key]
-            difference=(after-before).abs()
-            allowed_small_reduction_roundoff=component in ("weighted_sample_st","weighted_sample_fixed") and key=="mu"
-            diagnostics.append({"component":component,"variable":key,
-                "elements":before.numel(),"nonidentical_elements":int((difference>0).sum()),
-                "max_absolute_difference":float(difference.max()),
-                "max_relative_difference_floor1e_30":float((difference/before.abs().clamp_min(1e-30)).max()),
-                "norm_difference":float(difference.norm()),
-                "allowed_absolute_tolerance":1e-9 if allowed_small_reduction_roundoff else 0.,
-                "allowed_relative_tolerance":1e-5 if allowed_small_reduction_roundoff else 0.})
-    print({"offset0_actual_gradient_diagnostics":diagnostics},flush=True)
-    for component in mech.COMPONENTS:
-        assert abs(old["losses"][component]-zero["losses"][component])<1e-7,component+" scalar"
-        for key in ("mu","nu","logits"):
-            allowed_small_reduction_roundoff=component in ("weighted_sample_st","weighted_sample_fixed") and key=="mu"
+            torch.testing.assert_close(old["leaf_gradients"][component][key],old_repeat["leaf_gradients"][component][key],
+                atol=0,rtol=0,msg=component+"/"+key+" deterministic V1 versus V1")
             torch.testing.assert_close(old["leaf_gradients"][component][key],zero["leaf_gradients"][component][key],
-                atol=1e-9 if allowed_small_reduction_roundoff else 0.,
-                rtol=1e-5 if allowed_small_reduction_roundoff else 0.,
-                msg=component+"/"+key+" offset0 versus V1")
+                atol=0,rtol=0,msg=component+"/"+key+" deterministic offset0 versus V1")
             if component in ("ce","weighted_contrastive","weighted_radial"):
                 torch.testing.assert_close(zero["leaf_gradients"][component][key],repeated["leaf_gradients"][component][key],
-                    atol=0,rtol=0,msg=component+"/"+key+" base derivative across noise offsets")
+                    atol=0,rtol=0,msg=component+"/"+key+" same-base derivative across noise offsets")
     for role in ("pair_proxy_idx","triple_proxy_idx"):
         torch.testing.assert_close(old["details"][role],zero["details"][role],atol=0,rtol=0)
     assert not torch.equal(zero["details"]["pair_proxy_idx"],repeated["details"]["pair_proxy_idx"]) or not torch.equal(zero["details"]["triple_proxy_idx"],repeated["details"]["triple_proxy_idx"])
     print({"noise_control_self_test":"passed",
-        "checks":["offset0 V1 losses/choices and base derivatives exact; sample mu reduction atol1e-9/rtol1e-5",
+        "checks":["V1-versus-V1 multithread roundoff measured without changing its code",
+                  "single-thread deterministic CPU offset0 V1 losses/choices/gradients all exact",
                   "offset changes Gumbel only","ordered source triplets stay exact",
-                  "all base component gradients stay exact","different noise changes at least one ancestor"]},flush=True)
+                  "one reused immutable base leaf keeps cross-offset base derivatives exact",
+                  "different noise changes at least one ancestor"]},flush=True)
 
 
 def arguments():
