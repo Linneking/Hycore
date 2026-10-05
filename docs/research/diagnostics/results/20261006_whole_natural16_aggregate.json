@@ -1,0 +1,1632 @@
+{
+  "identity": {
+    "commit": "0fb210ec5dd0b3e58ecde2c458d7e95112517a70",
+    "script_sha256": "49469c17830fc4f80ed76a712326f8422076e86691117d242669b40b3d9f82c0",
+    "checkpoint_sha256": "078ca9f789b13dd18e2e83e1e35e453a90eafa90fa21cea16f4f6100d383f6e5",
+    "checkpoint_epoch": 300,
+    "seed": 22,
+    "plan_epoch": 0,
+    "global_batch": 64,
+    "local_forward_batch": 32,
+    "conditions": [
+      "eval",
+      "train_bn",
+      "train_bn_regrouped"
+    ],
+    "input_mode": "augmented",
+    "panel": "ordinary source balanced64 plans",
+    "completed_batches": 16,
+    "optimizer_updates": 0,
+    "started_utc": "2026-10-05T18:48:42.068797+00:00"
+  },
+  "state_checks": {
+    "model_unchanged": true,
+    "proxy_unchanged": true,
+    "checkpoint_unchanged": true,
+    "input_shards_unchanged": true,
+    "BN_restored": true,
+    "parameter_grad_buffers_empty": true
+  },
+  "batches": [
+    {
+      "batch": 0,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.533350944519043,
+            "part_depth_mean": 4.092360019683838,
+            "whole_minus_part_mean": 0.44099104404449463,
+            "whole_deeper_fraction": 0.75,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.954117774963379,
+            "weighted_contrastive": 0.0032434635795652866,
+            "weighted_radial": 0.02645428664982319,
+            "weighted_sample_st": 0.029735317453742027,
+            "weighted_sample_fixed": 0.029735317453742027
+          },
+          "parameter_gradient": {
+            "base_norm": 1.454026699066162,
+            "combined_preclip_norm": 3.9895665645599365,
+            "st_norm": 3.2884750366210938,
+            "fixed_norm": 0.2146904170513153,
+            "st_base_cosine": 0.31356850266456604,
+            "st_fixed_cosine": 0.24464300274848938
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.209085464477539,
+            "part_depth_mean": 2.8733367919921875,
+            "whole_minus_part_mean": 3.3357486724853516,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.3125
+          },
+          "losses": {
+            "ce": 2.939785957336426,
+            "weighted_contrastive": 0.0033565687481313944,
+            "weighted_radial": 0.00045094205415807664,
+            "weighted_sample_st": 0.004279300104826689,
+            "weighted_sample_fixed": 0.004279300104826689
+          },
+          "parameter_gradient": {
+            "base_norm": 0.571512758731842,
+            "combined_preclip_norm": 0.574421226978302,
+            "st_norm": 0.05388197675347328,
+            "fixed_norm": 0.014934944920241833,
+            "st_base_cosine": 0.007035631686449051,
+            "st_fixed_cosine": 0.1836804449558258
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5790408525754884,
+            "prediction_changed_fraction": 0,
+            "whole_abs_depth_change_mean": 1.675734281539917,
+            "whole_hyperbolic_movement_mean": 4.844411373138428,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8454545140266418,
+            "fixed_draw_triple_ancestor_agreement": 0.5090909004211426
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.212605953216553,
+            "part_depth_mean": 3.070042371749878,
+            "whole_minus_part_mean": 3.1425633430480957,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.5
+          },
+          "losses": {
+            "ce": 2.9372520446777344,
+            "weighted_contrastive": 0.0023589516058564186,
+            "weighted_radial": 0.0014481794787570834,
+            "weighted_sample_st": 0.0067590223625302315,
+            "weighted_sample_fixed": 0.0067590223625302315
+          },
+          "parameter_gradient": {
+            "base_norm": 0.6139401197433472,
+            "combined_preclip_norm": 0.6201632022857666,
+            "st_norm": 0.09030245989561081,
+            "fixed_norm": 0.04037339240312576,
+            "st_base_cosine": -0.004579722881317139,
+            "st_fixed_cosine": -0.7221482992172241
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5694200351493849,
+            "prediction_changed_fraction": 0,
+            "whole_abs_depth_change_mean": 1.6792547702789307,
+            "whole_hyperbolic_movement_mean": 4.210603713989258,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8581817746162415,
+            "fixed_draw_triple_ancestor_agreement": 0.5076363682746887
+          }
+        }
+      }
+    },
+    {
+      "batch": 1,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.6377763748168945,
+            "part_depth_mean": 4.245319843292236,
+            "whole_minus_part_mean": 0.3924568295478821,
+            "whole_deeper_fraction": 0.6875,
+            "radial_margin_violation_fraction": 0.9375
+          },
+          "losses": {
+            "ce": 2.942122459411621,
+            "weighted_contrastive": 0.0010469687404111028,
+            "weighted_radial": 0.016799943521618843,
+            "weighted_sample_st": 0.028510088101029396,
+            "weighted_sample_fixed": 0.028510088101029396
+          },
+          "parameter_gradient": {
+            "base_norm": 1.3614985942840576,
+            "combined_preclip_norm": 3.253708600997925,
+            "st_norm": 2.692291736602783,
+            "fixed_norm": 0.1570238620042801,
+            "st_base_cosine": 0.20298242568969727,
+            "st_fixed_cosine": 0.0929284319281578
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.182805061340332,
+            "part_depth_mean": 3.2651185989379883,
+            "whole_minus_part_mean": 2.9176862239837646,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0
+          },
+          "losses": {
+            "ce": 2.9316446781158447,
+            "weighted_contrastive": 0.001269476837478578,
+            "weighted_radial": 0,
+            "weighted_sample_st": 0.00307167018763721,
+            "weighted_sample_fixed": 0.00307167018763721
+          },
+          "parameter_gradient": {
+            "base_norm": 1.0608736276626587,
+            "combined_preclip_norm": 1.0595647096633911,
+            "st_norm": 0.13011349737644196,
+            "fixed_norm": 0.010263706557452679,
+            "st_base_cosine": -0.0717841312289238,
+            "st_fixed_cosine": 0.12833137810230255
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.6336448598130842,
+            "prediction_changed_fraction": 0,
+            "whole_abs_depth_change_mean": 1.5450283288955688,
+            "whole_hyperbolic_movement_mean": 5.017693519592285,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8317856788635254,
+            "fixed_draw_triple_ancestor_agreement": 0.5453571081161499
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.212262153625488,
+            "part_depth_mean": 3.53024959564209,
+            "whole_minus_part_mean": 2.6820127964019775,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.015625
+          },
+          "losses": {
+            "ce": 2.929971218109131,
+            "weighted_contrastive": 0.0009535240824334323,
+            "weighted_radial": 0.000020764618966495618,
+            "weighted_sample_st": 0.006774975918233395,
+            "weighted_sample_fixed": 0.006774975918233395
+          },
+          "parameter_gradient": {
+            "base_norm": 1.1564744710922241,
+            "combined_preclip_norm": 1.1578346490859985,
+            "st_norm": 0.03799547255039215,
+            "fixed_norm": 0.011158212088048458,
+            "st_base_cosine": 0.020121309906244278,
+            "st_fixed_cosine": 0.27866387367248535
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5944055944055944,
+            "prediction_changed_fraction": 0.015625,
+            "whole_abs_depth_change_mean": 1.5744861364364624,
+            "whole_hyperbolic_movement_mean": 4.121889114379883,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8453571200370789,
+            "fixed_draw_triple_ancestor_agreement": 0.5439285635948181
+          }
+        }
+      }
+    },
+    {
+      "batch": 2,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.533184051513672,
+            "part_depth_mean": 4.3462629318237305,
+            "whole_minus_part_mean": 0.18692076206207275,
+            "whole_deeper_fraction": 0.5625,
+            "radial_margin_violation_fraction": 0.984375
+          },
+          "losses": {
+            "ce": 2.957660675048828,
+            "weighted_contrastive": 0.0005542978760786355,
+            "weighted_radial": 0.01886047050356865,
+            "weighted_sample_st": 0.034586239606142044,
+            "weighted_sample_fixed": 0.034586239606142044
+          },
+          "parameter_gradient": {
+            "base_norm": 1.3782120943069458,
+            "combined_preclip_norm": 4.116274356842041,
+            "st_norm": 3.53170108795166,
+            "fixed_norm": 0.21471451222896576,
+            "st_base_cosine": 0.26456108689308167,
+            "st_fixed_cosine": 0.23903852701187134
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.185915946960449,
+            "part_depth_mean": 3.2754337787628174,
+            "whole_minus_part_mean": 2.9104819297790527,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.015625
+          },
+          "losses": {
+            "ce": 2.9296152591705322,
+            "weighted_contrastive": 0.001043952303007245,
+            "weighted_radial": 0.000012178383258287795,
+            "weighted_sample_st": 0.0033792173489928246,
+            "weighted_sample_fixed": 0.0033792173489928246
+          },
+          "parameter_gradient": {
+            "base_norm": 0.4019688367843628,
+            "combined_preclip_norm": 0.7672695517539978,
+            "st_norm": 0.6051396131515503,
+            "fixed_norm": 0.014034214429557323,
+            "st_base_cosine": 0.12563328444957733,
+            "st_fixed_cosine": 0.07359584420919418
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5313653136531366,
+            "prediction_changed_fraction": 0.015625,
+            "whole_abs_depth_change_mean": 1.6527317762374878,
+            "whole_hyperbolic_movement_mean": 5.174081802368164,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8332075476646423,
+            "fixed_draw_triple_ancestor_agreement": 0.5222641229629517
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.212339401245117,
+            "part_depth_mean": 3.5483412742614746,
+            "whole_minus_part_mean": 2.6639976501464844,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.046875
+          },
+          "losses": {
+            "ce": 2.9267020225524902,
+            "weighted_contrastive": 0.0006868472555652261,
+            "weighted_radial": 0.0000831905344966799,
+            "weighted_sample_st": 0.005199019331485033,
+            "weighted_sample_fixed": 0.005199019331485033
+          },
+          "parameter_gradient": {
+            "base_norm": 0.2820192277431488,
+            "combined_preclip_norm": 0.28879818320274353,
+            "st_norm": 0.07293958961963654,
+            "fixed_norm": 0.025962799787521362,
+            "st_base_cosine": -0.03561712056398392,
+            "st_fixed_cosine": -0.28080034255981445
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5106007067137809,
+            "prediction_changed_fraction": 0.015625,
+            "whole_abs_depth_change_mean": 1.6791553497314453,
+            "whole_hyperbolic_movement_mean": 4.320282936096191,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8641509413719177,
+            "fixed_draw_triple_ancestor_agreement": 0.5169811248779297
+          }
+        }
+      }
+    },
+    {
+      "batch": 3,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.490908622741699,
+            "part_depth_mean": 4.243330478668213,
+            "whole_minus_part_mean": 0.2475777566432953,
+            "whole_deeper_fraction": 0.796875,
+            "radial_margin_violation_fraction": 0.984375
+          },
+          "losses": {
+            "ce": 2.9653608798980713,
+            "weighted_contrastive": 0.00019183468248229474,
+            "weighted_radial": 0.018816858530044556,
+            "weighted_sample_st": 0.030585099011659622,
+            "weighted_sample_fixed": 0.030585099011659622
+          },
+          "parameter_gradient": {
+            "base_norm": 1.4477431774139404,
+            "combined_preclip_norm": 3.5709035396575928,
+            "st_norm": 3.015326738357544,
+            "fixed_norm": 0.245766744017601,
+            "st_base_cosine": 0.17928709089756012,
+            "st_fixed_cosine": 0.023560620844364166
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.209715843200684,
+            "part_depth_mean": 3.3934319019317627,
+            "whole_minus_part_mean": 2.816283941268921,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0
+          },
+          "losses": {
+            "ce": 2.930940628051758,
+            "weighted_contrastive": 0.0008633036050014198,
+            "weighted_radial": 0,
+            "weighted_sample_st": 0.004179888404905796,
+            "weighted_sample_fixed": 0.004179888404905796
+          },
+          "parameter_gradient": {
+            "base_norm": 1.2040807008743286,
+            "combined_preclip_norm": 1.104437232017517,
+            "st_norm": 0.1533128172159195,
+            "fixed_norm": 0.07457786798477173,
+            "st_base_cosine": -0.6892209649085999,
+            "st_fixed_cosine": 0.8664510250091553
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.6090909090909091,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.7188074588775635,
+            "whole_hyperbolic_movement_mean": 4.9463019371032715,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8172881603240967,
+            "fixed_draw_triple_ancestor_agreement": 0.5210169553756714
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.211631774902344,
+            "part_depth_mean": 3.5949411392211914,
+            "whole_minus_part_mean": 2.6166903972625732,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.046875
+          },
+          "losses": {
+            "ce": 2.9306089878082275,
+            "weighted_contrastive": 0.00034443370532244444,
+            "weighted_radial": 0.0000480356793559622,
+            "weighted_sample_st": 0.007168856915086508,
+            "weighted_sample_fixed": 0.007168856915086508
+          },
+          "parameter_gradient": {
+            "base_norm": 1.238366723060608,
+            "combined_preclip_norm": 1.3816050291061401,
+            "st_norm": 0.3046298027038574,
+            "fixed_norm": 0.16858451068401337,
+            "st_base_cosine": 0.37590351700782776,
+            "st_fixed_cosine": 0.9092959761619568
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.6127272727272727,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.720723271369934,
+            "whole_hyperbolic_movement_mean": 4.219350814819336,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8362711668014526,
+            "fixed_draw_triple_ancestor_agreement": 0.5172881484031677
+          }
+        }
+      }
+    },
+    {
+      "batch": 4,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.548483371734619,
+            "part_depth_mean": 4.32598876953125,
+            "whole_minus_part_mean": 0.22249490022659302,
+            "whole_deeper_fraction": 0.6875,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.942781448364258,
+            "weighted_contrastive": 0.001049904036335647,
+            "weighted_radial": 0.019609112292528152,
+            "weighted_sample_st": 0.023210467770695686,
+            "weighted_sample_fixed": 0.023210467770695686
+          },
+          "parameter_gradient": {
+            "base_norm": 1.2755154371261597,
+            "combined_preclip_norm": 3.100649118423462,
+            "st_norm": 2.5637478828430176,
+            "fixed_norm": 0.1508745551109314,
+            "st_base_cosine": 0.21678639948368073,
+            "st_fixed_cosine": 0.2040574997663498
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.193631649017334,
+            "part_depth_mean": 3.226168155670166,
+            "whole_minus_part_mean": 2.967463493347168,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.015625
+          },
+          "losses": {
+            "ce": 2.9340853691101074,
+            "weighted_contrastive": 0.0030677274335175753,
+            "weighted_radial": 0.0001291569642489776,
+            "weighted_sample_st": 0.005364043638110161,
+            "weighted_sample_fixed": 0.005364043638110161
+          },
+          "parameter_gradient": {
+            "base_norm": 0.8825242519378662,
+            "combined_preclip_norm": 0.8803490996360779,
+            "st_norm": 0.1365291029214859,
+            "fixed_norm": 0.014698741026222706,
+            "st_base_cosine": -0.09379781782627106,
+            "st_fixed_cosine": -0.30198803544044495
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.6756238003838771,
+            "prediction_changed_fraction": 0.015625,
+            "whole_abs_depth_change_mean": 1.6451481580734253,
+            "whole_hyperbolic_movement_mean": 4.982327461242676,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8467857241630554,
+            "fixed_draw_triple_ancestor_agreement": 0.6100000143051147
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.211212635040283,
+            "part_depth_mean": 3.455315351486206,
+            "whole_minus_part_mean": 2.755897283554077,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.078125
+          },
+          "losses": {
+            "ce": 2.9296176433563232,
+            "weighted_contrastive": 0.0026778338942676783,
+            "weighted_radial": 0.00010697763354983181,
+            "weighted_sample_st": 0.006664133630692959,
+            "weighted_sample_fixed": 0.006664133630692959
+          },
+          "parameter_gradient": {
+            "base_norm": 0.7698032259941101,
+            "combined_preclip_norm": 0.7716560363769531,
+            "st_norm": 0.0646066963672638,
+            "fixed_norm": 0.04765404015779495,
+            "st_base_cosine": -0.01289896946400404,
+            "st_fixed_cosine": 0.45965108275413513
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.6534839924670434,
+            "prediction_changed_fraction": 0,
+            "whole_abs_depth_change_mean": 1.6627293825149536,
+            "whole_hyperbolic_movement_mean": 4.529571533203125,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8539285659790039,
+            "fixed_draw_triple_ancestor_agreement": 0.6103571653366089
+          }
+        }
+      }
+    },
+    {
+      "batch": 5,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.603826522827148,
+            "part_depth_mean": 4.587453842163086,
+            "whole_minus_part_mean": 0.016372933983802795,
+            "whole_deeper_fraction": 0.484375,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9708287715911865,
+            "weighted_contrastive": 0.0004614441131707281,
+            "weighted_radial": 0.01917863078415394,
+            "weighted_sample_st": 0.034218303859233856,
+            "weighted_sample_fixed": 0.034218303859233856
+          },
+          "parameter_gradient": {
+            "base_norm": 1.2549097537994385,
+            "combined_preclip_norm": 3.5437042713165283,
+            "st_norm": 3.282015085220337,
+            "fixed_norm": 0.17972837388515472,
+            "st_base_cosine": 0.02563910000026226,
+            "st_fixed_cosine": 0.21739177405834198
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.19693660736084,
+            "part_depth_mean": 6.17638635635376,
+            "whole_minus_part_mean": 0.02055024355649948,
+            "whole_deeper_fraction": 0.296875,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9389424324035645,
+            "weighted_contrastive": 0.0012275619665160775,
+            "weighted_radial": 0.019136857241392136,
+            "weighted_sample_st": 0.004235389642417431,
+            "weighted_sample_fixed": 0.004235389642417431
+          },
+          "parameter_gradient": {
+            "base_norm": 0.653479814529419,
+            "combined_preclip_norm": 1.2631175518035889,
+            "st_norm": 0.8667353391647339,
+            "fixed_norm": 0.03612813726067543,
+            "st_base_cosine": 0.36989662051200867,
+            "st_fixed_cosine": -0.2959595024585724
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.6041275797373359,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.5931097269058228,
+            "whole_hyperbolic_movement_mean": 5.146069526672363,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8317856788635254,
+            "fixed_draw_triple_ancestor_agreement": 0.5278571248054504
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.212320327758789,
+            "part_depth_mean": 6.193747520446777,
+            "whole_minus_part_mean": 0.018573105335235596,
+            "whole_deeper_fraction": 0.296875,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9446372985839844,
+            "weighted_contrastive": 0.00035289913648739457,
+            "weighted_radial": 0.019156629219651222,
+            "weighted_sample_st": 0.003336378838866949,
+            "weighted_sample_fixed": 0.003336378838866949
+          },
+          "parameter_gradient": {
+            "base_norm": 2.15999698638916,
+            "combined_preclip_norm": 2.16115140914917,
+            "st_norm": 0.16969265043735504,
+            "fixed_norm": 0.042446158826351166,
+            "st_base_cosine": -0.032185740768909454,
+            "st_fixed_cosine": 0.9182955026626587
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.6022304832713755,
+            "prediction_changed_fraction": 0.015625,
+            "whole_abs_depth_change_mean": 1.6084939241409302,
+            "whole_hyperbolic_movement_mean": 4.234023094177246,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8600000143051147,
+            "fixed_draw_triple_ancestor_agreement": 0.5321428775787354
+          }
+        }
+      }
+    },
+    {
+      "batch": 6,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.540445804595947,
+            "part_depth_mean": 3.9642586708068848,
+            "whole_minus_part_mean": 0.5761871933937073,
+            "whole_deeper_fraction": 0.859375,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9671740531921387,
+            "weighted_contrastive": 0.004820542875677347,
+            "weighted_radial": 0.03127516061067581,
+            "weighted_sample_st": 0.030307337641716003,
+            "weighted_sample_fixed": 0.030307337641716003
+          },
+          "parameter_gradient": {
+            "base_norm": 2.2116451263427734,
+            "combined_preclip_norm": 3.7717444896698,
+            "st_norm": 3.1315231323242188,
+            "fixed_norm": 0.13455598056316376,
+            "st_base_cosine": -0.03413081541657448,
+            "st_fixed_cosine": 0.28176793456077576
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.138672828674316,
+            "part_depth_mean": 2.561911106109619,
+            "whole_minus_part_mean": 3.5767621994018555,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.640625
+          },
+          "losses": {
+            "ce": 2.933945894241333,
+            "weighted_contrastive": 0.008060375228524208,
+            "weighted_radial": 0.002625540131703019,
+            "weighted_sample_st": 0.007121419068425894,
+            "weighted_sample_fixed": 0.007121419068425894
+          },
+          "parameter_gradient": {
+            "base_norm": 0.7288102507591248,
+            "combined_preclip_norm": 0.8768181800842285,
+            "st_norm": 0.5465074777603149,
+            "fixed_norm": 0.16690434515476227,
+            "st_base_cosine": -0.0772624984383583,
+            "st_fixed_cosine": 0.752358615398407
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5307971014492754,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.5982275009155273,
+            "whole_hyperbolic_movement_mean": 5.725338459014893,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.7933333516120911,
+            "fixed_draw_triple_ancestor_agreement": 0.5451852083206177
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.211441993713379,
+            "part_depth_mean": 2.7726035118103027,
+            "whole_minus_part_mean": 3.438838481903076,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.765625
+          },
+          "losses": {
+            "ce": 2.9334425926208496,
+            "weighted_contrastive": 0.004906992893666029,
+            "weighted_radial": 0.003670811653137207,
+            "weighted_sample_st": 0.005001852288842201,
+            "weighted_sample_fixed": 0.005001852288842201
+          },
+          "parameter_gradient": {
+            "base_norm": 1.50057852268219,
+            "combined_preclip_norm": 1.5051815509796143,
+            "st_norm": 0.12541496753692627,
+            "fixed_norm": 0.034258000552654266,
+            "st_base_cosine": -0.004771705716848373,
+            "st_fixed_cosine": 0.5603674054145813
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5413669064748201,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6709964275360107,
+            "whole_hyperbolic_movement_mean": 4.515615463256836,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8662962913513184,
+            "fixed_draw_triple_ancestor_agreement": 0.5329629778862
+          }
+        }
+      }
+    },
+    {
+      "batch": 7,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.593998908996582,
+            "part_depth_mean": 4.131504058837891,
+            "whole_minus_part_mean": 0.46249523758888245,
+            "whole_deeper_fraction": 0.765625,
+            "radial_margin_violation_fraction": 0.984375
+          },
+          "losses": {
+            "ce": 2.961543321609497,
+            "weighted_contrastive": 0.0018454300006851554,
+            "weighted_radial": 0.020069589838385582,
+            "weighted_sample_st": 0.040536340326070786,
+            "weighted_sample_fixed": 0.040536340326070786
+          },
+          "parameter_gradient": {
+            "base_norm": 1.4731957912445068,
+            "combined_preclip_norm": 3.3708648681640625,
+            "st_norm": 2.6875150203704834,
+            "fixed_norm": 0.26429465413093567,
+            "st_base_cosine": 0.2490610033273697,
+            "st_fixed_cosine": 0.1774807721376419
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.204594612121582,
+            "part_depth_mean": 3.0513784885406494,
+            "whole_minus_part_mean": 3.1532158851623535,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.046875
+          },
+          "losses": {
+            "ce": 2.929922103881836,
+            "weighted_contrastive": 0.0025676919613033533,
+            "weighted_radial": 0.00005220867751631886,
+            "weighted_sample_st": 0.0051733446307480335,
+            "weighted_sample_fixed": 0.0051733446307480335
+          },
+          "parameter_gradient": {
+            "base_norm": 0.496794193983078,
+            "combined_preclip_norm": 0.5328441858291626,
+            "st_norm": 0.19770926237106323,
+            "fixed_norm": 0.1100412979722023,
+            "st_base_cosine": -0.009761749766767025,
+            "st_fixed_cosine": 0.8743129968643188
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.45733788395904434,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6105952262878418,
+            "whole_hyperbolic_movement_mean": 5.18927001953125,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8411538600921631,
+            "fixed_draw_triple_ancestor_agreement": 0.5030769109725952
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.2126054763793945,
+            "part_depth_mean": 3.3334009647369385,
+            "whole_minus_part_mean": 2.8792037963867188,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.15625
+          },
+          "losses": {
+            "ce": 2.9271695613861084,
+            "weighted_contrastive": 0.0019560076761990786,
+            "weighted_radial": 0.0002988392661791295,
+            "weighted_sample_st": 0.005323684308677912,
+            "weighted_sample_fixed": 0.005323684308677912
+          },
+          "parameter_gradient": {
+            "base_norm": 0.3890678584575653,
+            "combined_preclip_norm": 0.3923441767692566,
+            "st_norm": 0.05436926335096359,
+            "fixed_norm": 0.02088385447859764,
+            "st_base_cosine": -0.009402011521160603,
+            "st_fixed_cosine": 0.2597194015979767
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.4757785467128028,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6186057329177856,
+            "whole_hyperbolic_movement_mean": 4.489894866943359,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8669230937957764,
+            "fixed_draw_triple_ancestor_agreement": 0.5030769109725952
+          }
+        }
+      }
+    },
+    {
+      "batch": 8,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.528367042541504,
+            "part_depth_mean": 3.7359302043914795,
+            "whole_minus_part_mean": 0.792436957359314,
+            "whole_deeper_fraction": 0.84375,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9705164432525635,
+            "weighted_contrastive": 0.004751857370138168,
+            "weighted_radial": 0.03207562863826752,
+            "weighted_sample_st": 0.023517319932579994,
+            "weighted_sample_fixed": 0.023517319932579994
+          },
+          "parameter_gradient": {
+            "base_norm": 1.4243462085723877,
+            "combined_preclip_norm": 3.1777353286743164,
+            "st_norm": 2.7372653484344482,
+            "fixed_norm": 0.07898050546646118,
+            "st_base_cosine": 0.07384119927883148,
+            "st_fixed_cosine": 0.049499258399009705
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.194231986999512,
+            "part_depth_mean": 2.1863276958465576,
+            "whole_minus_part_mean": 4.007904529571533,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.578125
+          },
+          "losses": {
+            "ce": 2.927396297454834,
+            "weighted_contrastive": 0.009487427771091461,
+            "weighted_radial": 0.001616045250557363,
+            "weighted_sample_st": 0.009079786017537117,
+            "weighted_sample_fixed": 0.009079786017537117
+          },
+          "parameter_gradient": {
+            "base_norm": 0.2429487109184265,
+            "combined_preclip_norm": 0.5603038668632507,
+            "st_norm": 0.46338286995887756,
+            "fixed_norm": 0.09759803116321564,
+            "st_base_cosine": 0.1793661117553711,
+            "st_fixed_cosine": 0.8427759408950806
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5692041522491349,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6658648252487183,
+            "whole_hyperbolic_movement_mean": 5.192822456359863,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8468965888023376,
+            "fixed_draw_triple_ancestor_agreement": 0.5641379356384277
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.208948135375977,
+            "part_depth_mean": 2.311859607696533,
+            "whole_minus_part_mean": 3.8970885276794434,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.609375
+          },
+          "losses": {
+            "ce": 2.9268529415130615,
+            "weighted_contrastive": 0.007441255263984203,
+            "weighted_radial": 0.0024273248855024576,
+            "weighted_sample_st": 0.00994868203997612,
+            "weighted_sample_fixed": 0.00994868203997612
+          },
+          "parameter_gradient": {
+            "base_norm": 0.4500995874404907,
+            "combined_preclip_norm": 0.38023555278778076,
+            "st_norm": 0.2460532933473587,
+            "fixed_norm": 0.07211995124816895,
+            "st_base_cosine": -0.5373618602752686,
+            "st_fixed_cosine": 0.8944664597511292
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.567062818336163,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.680580973625183,
+            "whole_hyperbolic_movement_mean": 4.773374557495117,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8575862050056458,
+            "fixed_draw_triple_ancestor_agreement": 0.5706896781921387
+          }
+        }
+      }
+    },
+    {
+      "batch": 9,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.550543308258057,
+            "part_depth_mean": 4.503650665283203,
+            "whole_minus_part_mean": 0.04689249396324158,
+            "whole_deeper_fraction": 0.59375,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9708333015441895,
+            "weighted_contrastive": 0.00031329269404523075,
+            "weighted_radial": 0.018257668241858482,
+            "weighted_sample_st": 0.027437319979071617,
+            "weighted_sample_fixed": 0.027437319979071617
+          },
+          "parameter_gradient": {
+            "base_norm": 1.5227609872817993,
+            "combined_preclip_norm": 3.834714412689209,
+            "st_norm": 3.2554593086242676,
+            "fixed_norm": 0.3634362518787384,
+            "st_base_cosine": 0.1810087114572525,
+            "st_fixed_cosine": -0.05655466020107269
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.184338092803955,
+            "part_depth_mean": 6.172288417816162,
+            "whole_minus_part_mean": 0.012049943208694458,
+            "whole_deeper_fraction": 0.359375,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.938466787338257,
+            "weighted_contrastive": 0.0005401772214099765,
+            "weighted_radial": 0.018606092780828476,
+            "weighted_sample_st": 0.0047827791422605515,
+            "weighted_sample_fixed": 0.0047827791422605515
+          },
+          "parameter_gradient": {
+            "base_norm": 0.3767908215522766,
+            "combined_preclip_norm": 0.43288516998291016,
+            "st_norm": 0.18789134919643402,
+            "fixed_norm": 0.017275452613830566,
+            "st_base_cosine": 0.07144498825073242,
+            "st_fixed_cosine": 0.24517405033111572
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.6847014925373134,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6337950229644775,
+            "whole_hyperbolic_movement_mean": 5.056827545166016,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8349999785423279,
+            "fixed_draw_triple_ancestor_agreement": 0.5546666383743286
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.204501152038574,
+            "part_depth_mean": 6.206099510192871,
+            "whole_minus_part_mean": -0.0015988126397132874,
+            "whole_deeper_fraction": 0.265625,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9368679523468018,
+            "weighted_contrastive": 0.0004840764158871025,
+            "weighted_radial": 0.018742579966783524,
+            "weighted_sample_st": 0.004879502113908529,
+            "weighted_sample_fixed": 0.004879502113908529
+          },
+          "parameter_gradient": {
+            "base_norm": 0.40633511543273926,
+            "combined_preclip_norm": 0.7395737767219543,
+            "st_norm": 0.3985941708087921,
+            "fixed_norm": 0.04591568186879158,
+            "st_base_cosine": 0.6907192468643188,
+            "st_fixed_cosine": -0.4573052227497101
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.6908752327746741,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.653957724571228,
+            "whole_hyperbolic_movement_mean": 4.354783058166504,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8426666855812073,
+            "fixed_draw_triple_ancestor_agreement": 0.5546666383743286
+          }
+        }
+      }
+    },
+    {
+      "batch": 10,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.542916774749756,
+            "part_depth_mean": 4.107903480529785,
+            "whole_minus_part_mean": 0.4350131154060364,
+            "whole_deeper_fraction": 0.765625,
+            "radial_margin_violation_fraction": 0.953125
+          },
+          "losses": {
+            "ce": 2.974318504333496,
+            "weighted_contrastive": 0.0024891416542232037,
+            "weighted_radial": 0.021975195035338402,
+            "weighted_sample_st": 0.028422288596630096,
+            "weighted_sample_fixed": 0.028422288596630096
+          },
+          "parameter_gradient": {
+            "base_norm": 1.993186116218567,
+            "combined_preclip_norm": 5.095098972320557,
+            "st_norm": 3.937526226043701,
+            "fixed_norm": 0.1558820903301239,
+            "st_base_cosine": 0.41482147574424744,
+            "st_fixed_cosine": 0.21708345413208008
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.163153648376465,
+            "part_depth_mean": 3.016000747680664,
+            "whole_minus_part_mean": 3.147152900695801,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.0625
+          },
+          "losses": {
+            "ce": 2.9304428100585938,
+            "weighted_contrastive": 0.002653515664860606,
+            "weighted_radial": 0.00008190233347704634,
+            "weighted_sample_st": 0.002706577070057392,
+            "weighted_sample_fixed": 0.002706577070057392
+          },
+          "parameter_gradient": {
+            "base_norm": 0.6577022075653076,
+            "combined_preclip_norm": 2.218966007232666,
+            "st_norm": 1.7734119892120361,
+            "fixed_norm": 0.12775687873363495,
+            "st_base_cosine": 0.5813030004501343,
+            "st_fixed_cosine": 0.737105667591095
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5643939393939394,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.620236873626709,
+            "whole_hyperbolic_movement_mean": 5.155154228210449,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8037037253379822,
+            "fixed_draw_triple_ancestor_agreement": 0.5188888907432556
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.206841468811035,
+            "part_depth_mean": 3.235314130783081,
+            "whole_minus_part_mean": 2.971527576446533,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.15625
+          },
+          "losses": {
+            "ce": 2.926612615585327,
+            "weighted_contrastive": 0.00238558161072433,
+            "weighted_radial": 0.0002734504814725369,
+            "weighted_sample_st": 0.0032584427390247583,
+            "weighted_sample_fixed": 0.0032584427390247583
+          },
+          "parameter_gradient": {
+            "base_norm": 0.3680556118488312,
+            "combined_preclip_norm": 0.409089058637619,
+            "st_norm": 0.1801074594259262,
+            "fixed_norm": 0.04785597696900368,
+            "st_base_cosine": -0.004290859214961529,
+            "st_fixed_cosine": 0.9520738124847412
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5626168224299065,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6639251708984375,
+            "whole_hyperbolic_movement_mean": 4.338677406311035,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8533333539962769,
+            "fixed_draw_triple_ancestor_agreement": 0.5388888716697693
+          }
+        }
+      }
+    },
+    {
+      "batch": 11,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.483197212219238,
+            "part_depth_mean": 4.413692951202393,
+            "whole_minus_part_mean": 0.06950445473194122,
+            "whole_deeper_fraction": 0.53125,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9601523876190186,
+            "weighted_contrastive": 0.00008669606904732063,
+            "weighted_radial": 0.016666065901517868,
+            "weighted_sample_st": 0.037807878106832504,
+            "weighted_sample_fixed": 0.037807878106832504
+          },
+          "parameter_gradient": {
+            "base_norm": 1.371411919593811,
+            "combined_preclip_norm": 3.5731608867645264,
+            "st_norm": 2.888312578201294,
+            "fixed_norm": 0.23735342919826508,
+            "st_base_cosine": 0.32226788997650146,
+            "st_fixed_cosine": 0.1584271341562271
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.184179306030273,
+            "part_depth_mean": 6.163731098175049,
+            "whole_minus_part_mean": 0.02044808119535446,
+            "whole_deeper_fraction": 0.390625,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9276390075683594,
+            "weighted_contrastive": 0,
+            "weighted_radial": 0.017156628891825676,
+            "weighted_sample_st": 0.0014000412775203586,
+            "weighted_sample_fixed": 0.0014000412775203586
+          },
+          "parameter_gradient": {
+            "base_norm": 0.08231882005929947,
+            "combined_preclip_norm": 0.09396123141050339,
+            "st_norm": 0.04652472585439682,
+            "fixed_norm": 0.013681942597031593,
+            "st_base_cosine": -0.01503926794975996,
+            "st_fixed_cosine": 0.17942984402179718
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.525830258302583,
+            "prediction_changed_fraction": 0.015625,
+            "whole_abs_depth_change_mean": 1.7009820938110352,
+            "whole_hyperbolic_movement_mean": 4.691173553466797,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8347169756889343,
+            "fixed_draw_triple_ancestor_agreement": 0.5079245567321777
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.205174922943115,
+            "part_depth_mean": 6.202127456665039,
+            "whole_minus_part_mean": 0.003047369420528412,
+            "whole_deeper_fraction": 0.25,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.925473213195801,
+            "weighted_contrastive": 0,
+            "weighted_radial": 0.017330637201666832,
+            "weighted_sample_st": 0.0030427558813244104,
+            "weighted_sample_fixed": 0.0030427558813244104
+          },
+          "parameter_gradient": {
+            "base_norm": 0.04518445208668709,
+            "combined_preclip_norm": 0.11823767423629761,
+            "st_norm": 0.10973332822322845,
+            "fixed_norm": 0.0182685237377882,
+            "st_base_cosine": -0.010731336660683155,
+            "st_fixed_cosine": 0.7746419906616211
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5209471766848816,
+            "prediction_changed_fraction": 0.015625,
+            "whole_abs_depth_change_mean": 1.7219774723052979,
+            "whole_hyperbolic_movement_mean": 4.482047080993652,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8316981196403503,
+            "fixed_draw_triple_ancestor_agreement": 0.505282998085022
+          }
+        }
+      }
+    },
+    {
+      "batch": 12,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.520042419433594,
+            "part_depth_mean": 4.446667671203613,
+            "whole_minus_part_mean": 0.07337407022714615,
+            "whole_deeper_fraction": 0.546875,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9639339447021484,
+            "weighted_contrastive": 0.0006513795233331621,
+            "weighted_radial": 0.01696537435054779,
+            "weighted_sample_st": 0.044827792793512344,
+            "weighted_sample_fixed": 0.044827792793512344
+          },
+          "parameter_gradient": {
+            "base_norm": 3.074697256088257,
+            "combined_preclip_norm": 4.751333236694336,
+            "st_norm": 2.9666881561279297,
+            "fixed_norm": 0.37365445494651794,
+            "st_base_cosine": 0.23756705224514008,
+            "st_fixed_cosine": 0.18225406110286713
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.205197811126709,
+            "part_depth_mean": 6.16899299621582,
+            "whole_minus_part_mean": 0.036204978823661804,
+            "whole_deeper_fraction": 0.359375,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.934469223022461,
+            "weighted_contrastive": 0.0011680619791150093,
+            "weighted_radial": 0.017337065190076828,
+            "weighted_sample_st": 0.006816396955400705,
+            "weighted_sample_fixed": 0.006816396955400705
+          },
+          "parameter_gradient": {
+            "base_norm": 0.9862860441207886,
+            "combined_preclip_norm": 1.0050222873687744,
+            "st_norm": 0.16391409933567047,
+            "fixed_norm": 0.05399636551737785,
+            "st_base_cosine": 0.032336607575416565,
+            "st_fixed_cosine": 0.847679615020752
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.4548611111111111,
+            "prediction_changed_fraction": 0.015625,
+            "whole_abs_depth_change_mean": 1.685155987739563,
+            "whole_hyperbolic_movement_mean": 5.320739269256592,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8335999846458435,
+            "fixed_draw_triple_ancestor_agreement": 0.47519999742507935
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.198432922363281,
+            "part_depth_mean": 6.196206092834473,
+            "whole_minus_part_mean": 0.0022267699241638184,
+            "whole_deeper_fraction": 0.359375,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9400858879089355,
+            "weighted_contrastive": 0.0008354801684617996,
+            "weighted_radial": 0.01767684705555439,
+            "weighted_sample_st": 0.0053682634606957436,
+            "weighted_sample_fixed": 0.0053682634606957436
+          },
+          "parameter_gradient": {
+            "base_norm": 0.9223463535308838,
+            "combined_preclip_norm": 0.9536985158920288,
+            "st_norm": 0.2803693413734436,
+            "fixed_norm": 0.01957494206726551,
+            "st_base_cosine": -0.038586392998695374,
+            "st_fixed_cosine": -0.17278483510017395
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.4676258992805755,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6783909797668457,
+            "whole_hyperbolic_movement_mean": 4.767250061035156,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8463999629020691,
+            "fixed_draw_triple_ancestor_agreement": 0.4819999933242798
+          }
+        }
+      }
+    },
+    {
+      "batch": 13,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.547253608703613,
+            "part_depth_mean": 4.203676223754883,
+            "whole_minus_part_mean": 0.3435770869255066,
+            "whole_deeper_fraction": 0.75,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.963148593902588,
+            "weighted_contrastive": 0.0012168965768069029,
+            "weighted_radial": 0.019712375476956367,
+            "weighted_sample_st": 0.032128430902957916,
+            "weighted_sample_fixed": 0.032128430902957916
+          },
+          "parameter_gradient": {
+            "base_norm": 1.621828556060791,
+            "combined_preclip_norm": 3.806525945663452,
+            "st_norm": 3.373854637145996,
+            "fixed_norm": 0.2603868842124939,
+            "st_base_cosine": 0.04375214874744415,
+            "st_fixed_cosine": 0.04623524099588394
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.156108856201172,
+            "part_depth_mean": 3.153050661087036,
+            "whole_minus_part_mean": 3.003058433532715,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.03125
+          },
+          "losses": {
+            "ce": 2.9309020042419434,
+            "weighted_contrastive": 0.002120130229741335,
+            "weighted_radial": 0.00004948418427375145,
+            "weighted_sample_st": 0.0067443931475281715,
+            "weighted_sample_fixed": 0.0067443931475281715
+          },
+          "parameter_gradient": {
+            "base_norm": 0.6568760871887207,
+            "combined_preclip_norm": 0.7498496770858765,
+            "st_norm": 0.35113978385925293,
+            "fixed_norm": 0.07250373810529709,
+            "st_base_cosine": 0.01643805205821991,
+            "st_fixed_cosine": 0.31495675444602966
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5301645338208409,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6088556051254272,
+            "whole_hyperbolic_movement_mean": 5.832125186920166,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8096296191215515,
+            "fixed_draw_triple_ancestor_agreement": 0.4959259331226349
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.2125654220581055,
+            "part_depth_mean": 3.390063524246216,
+            "whole_minus_part_mean": 2.8225021362304688,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.03125
+          },
+          "losses": {
+            "ce": 2.9291133880615234,
+            "weighted_contrastive": 0.0017305859364569187,
+            "weighted_radial": 0.000032824722438817844,
+            "weighted_sample_st": 0.00970857497304678,
+            "weighted_sample_fixed": 0.00970857497304678
+          },
+          "parameter_gradient": {
+            "base_norm": 1.4071102142333984,
+            "combined_preclip_norm": 1.4378166198730469,
+            "st_norm": 0.26832520961761475,
+            "fixed_norm": 0.04956894740462303,
+            "st_base_cosine": 0.020567862316966057,
+            "st_fixed_cosine": 0.8281744718551636
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5238938053097345,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6653122901916504,
+            "whole_hyperbolic_movement_mean": 4.791068077087402,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8318518400192261,
+            "fixed_draw_triple_ancestor_agreement": 0.5070370435714722
+          }
+        }
+      }
+    },
+    {
+      "batch": 14,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.603246212005615,
+            "part_depth_mean": 4.306361675262451,
+            "whole_minus_part_mean": 0.2968847155570984,
+            "whole_deeper_fraction": 0.75,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9766342639923096,
+            "weighted_contrastive": 0.0014652053359895945,
+            "weighted_radial": 0.02172250859439373,
+            "weighted_sample_st": 0.032812781631946564,
+            "weighted_sample_fixed": 0.032812781631946564
+          },
+          "parameter_gradient": {
+            "base_norm": 1.673518180847168,
+            "combined_preclip_norm": 4.863653182983398,
+            "st_norm": 4.354336738586426,
+            "fixed_norm": 0.20144061744213104,
+            "st_base_cosine": 0.13056164979934692,
+            "st_fixed_cosine": 0.3191949427127838
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.19975471496582,
+            "part_depth_mean": 3.190410614013672,
+            "whole_minus_part_mean": 3.0093441009521484,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.03125
+          },
+          "losses": {
+            "ce": 2.9388630390167236,
+            "weighted_contrastive": 0.0010159941157326102,
+            "weighted_radial": 0.00016157171921804547,
+            "weighted_sample_st": 0.0038558142259716988,
+            "weighted_sample_fixed": 0.0038558142259716988
+          },
+          "parameter_gradient": {
+            "base_norm": 0.32786521315574646,
+            "combined_preclip_norm": 0.34320953488349915,
+            "st_norm": 0.15535086393356323,
+            "fixed_norm": 0.016524413600564003,
+            "st_base_cosine": -0.13643081486225128,
+            "st_fixed_cosine": 0.43442702293395996
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5813528336380256,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.5965087413787842,
+            "whole_hyperbolic_movement_mean": 5.386104106903076,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8237931132316589,
+            "fixed_draw_triple_ancestor_agreement": 0.5162069201469421
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.212186336517334,
+            "part_depth_mean": 3.4735655784606934,
+            "whole_minus_part_mean": 2.7386205196380615,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.296875
+          },
+          "losses": {
+            "ce": 2.9352850914001465,
+            "weighted_contrastive": 0.0008838729117996991,
+            "weighted_radial": 0.0004886460374109447,
+            "weighted_sample_st": 0.003914182540029287,
+            "weighted_sample_fixed": 0.003914182540029287
+          },
+          "parameter_gradient": {
+            "base_norm": 0.4959303140640259,
+            "combined_preclip_norm": 0.4982614815235138,
+            "st_norm": 0.05261223763227463,
+            "fixed_norm": 0.021194560453295708,
+            "st_base_cosine": -0.00872371718287468,
+            "st_fixed_cosine": 0.7198511362075806
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.6029411764705882,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6089400053024292,
+            "whole_hyperbolic_movement_mean": 4.382452011108398,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.867931067943573,
+            "fixed_draw_triple_ancestor_agreement": 0.5158621072769165
+          }
+        }
+      }
+    },
+    {
+      "batch": 15,
+      "conditions": {
+        "eval": {
+          "geometry": {
+            "whole_depth_mean": 4.498156547546387,
+            "part_depth_mean": 3.8488526344299316,
+            "whole_minus_part_mean": 0.6493039131164551,
+            "whole_deeper_fraction": 0.828125,
+            "radial_margin_violation_fraction": 1
+          },
+          "losses": {
+            "ce": 2.9718432426452637,
+            "weighted_contrastive": 0.0035541157703846693,
+            "weighted_radial": 0.029608044773340225,
+            "weighted_sample_st": 0.03794051706790924,
+            "weighted_sample_fixed": 0.03794051706790924
+          },
+          "parameter_gradient": {
+            "base_norm": 2.031167507171631,
+            "combined_preclip_norm": 3.67952036857605,
+            "st_norm": 2.7372078895568848,
+            "fixed_norm": 0.23345810174942017,
+            "st_base_cosine": 0.17338308691978455,
+            "st_fixed_cosine": 0.167084202170372
+          },
+          "replay_max_abs_error": 0
+        },
+        "train_bn": {
+          "geometry": {
+            "whole_depth_mean": 6.187514781951904,
+            "part_depth_mean": 2.620980739593506,
+            "whole_minus_part_mean": 3.5665340423583984,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.546875
+          },
+          "losses": {
+            "ce": 2.931119203567505,
+            "weighted_contrastive": 0.004563547670841217,
+            "weighted_radial": 0.0019147207494825125,
+            "weighted_sample_st": 0.006937898695468903,
+            "weighted_sample_fixed": 0.006937898695468903
+          },
+          "parameter_gradient": {
+            "base_norm": 0.5621869564056396,
+            "combined_preclip_norm": 0.5911088585853577,
+            "st_norm": 0.21788115799427032,
+            "fixed_norm": 0.0768396258354187,
+            "st_base_cosine": -0.05811865255236626,
+            "st_fixed_cosine": 0.7297605276107788
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.5027027027027027,
+            "prediction_changed_fraction": 0.03125,
+            "whole_abs_depth_change_mean": 1.6893579959869385,
+            "whole_hyperbolic_movement_mean": 4.809663772583008,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8788679242134094,
+            "fixed_draw_triple_ancestor_agreement": 0.5128301978111267
+          }
+        },
+        "train_bn_regrouped": {
+          "geometry": {
+            "whole_depth_mean": 6.208845138549805,
+            "part_depth_mean": 2.6767168045043945,
+            "whole_minus_part_mean": 3.5321288108825684,
+            "whole_deeper_fraction": 1,
+            "radial_margin_violation_fraction": 0.59375
+          },
+          "losses": {
+            "ce": 2.9365744590759277,
+            "weighted_contrastive": 0.003848338034003973,
+            "weighted_radial": 0.0022068950347602367,
+            "weighted_sample_st": 0.007020324468612671,
+            "weighted_sample_fixed": 0.007020324468612671
+          },
+          "parameter_gradient": {
+            "base_norm": 0.8846028447151184,
+            "combined_preclip_norm": 0.8910794854164124,
+            "st_norm": 0.0963856503367424,
+            "fixed_norm": 0.0194516871124506,
+            "st_base_cosine": 0.013054914772510529,
+            "st_fixed_cosine": 0.12942524254322052
+          },
+          "replay_max_abs_error": 0,
+          "relation_comparison": {
+            "mutual_graph_jaccard": 0.4851138353765324,
+            "prediction_changed_fraction": 0.015625,
+            "whole_abs_depth_change_mean": 1.7106890678405762,
+            "whole_hyperbolic_movement_mean": 4.193699359893799,
+            "negative_global_positions_unchanged": true,
+            "fixed_draw_semantics": "Reference ordered triplets and identical fresh Gumbel noise; each condition may have a different natural reciprocal graph.",
+            "fixed_draw_pair_ancestor_agreement": 0.8784905672073364,
+            "fixed_draw_triple_ancestor_agreement": 0.5090566277503967
+          }
+        }
+      }
+    }
+  ]
+}
