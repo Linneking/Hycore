@@ -36,34 +36,30 @@ SOURCE_FORMAT = "hycore-hier-v6-h20-selfk300-1"
 
 def leaf_components_controlled_noise(outputs, labels, ids, proxy_points,
                                     mining_seed, gumbel_seed):
-    """V1 scalar/VJP protocol with independent mining and Gumbel seed keys."""
-    from inter_hierarchy_MN40.hier_proxy_scratch_v5.base_protocol import intra_losses,smoothed_ce
-    from inter_hierarchy_MN40.hier_proxy_scratch_v5.relations import mine_sample_triplets,poincare_distance
+    """Reuse V1 base/nu logic exactly; replace ONLY sample mu/noise results."""
+    from inter_hierarchy_MN40.hier_proxy_scratch_v5.relations import poincare_distance
     from inter_hierarchy_MN40.hier_proxy_scratch_v6.hier_loss import ghhc_loss
-    leaves={key:outputs[key].detach().clone().requires_grad_(True) for key in ("mu","nu","logits")}
-    mu,nu,logits=(leaves[key] for key in ("mu","nu","logits"))
-    base=intra_losses(mu,nu,outputs["child_count"])
-    mining=mine_sample_triplets(mu,labels,topk=20,t_per_anchor=50,seed=mining_seed,
-        exclude_self_negative=True,data_ids=ids)
+    result=mech.leaf_components(outputs,labels,ids,proxy_points,mining_seed)
+    if gumbel_seed==mining_seed:
+        return result
+    mu=outputs["mu"].detach().clone().requires_grad_(True)
     distances=poincare_distance(mu,proxy_points.detach())
     generator=torch.Generator(device=mu.device).manual_seed(gumbel_seed)
-    sample,sample_stats,details=ghhc_loss(distances,mining["triplets"],generator=generator,return_details=True)
-    direct=mech.fixed_ancestor_loss(distances,mining["triplets"],
+    sample,sample_stats,details=ghhc_loss(distances,result["mining"]["triplets"],
+        generator=generator,return_details=True)
+    direct=mech.fixed_ancestor_loss(distances,result["mining"]["triplets"],
         details["pair_proxy_idx"].detach(),details["triple_proxy_idx"].detach())
     torch.testing.assert_close(sample.detach(),direct.detach(),atol=2e-6,rtol=2e-5)
-    objectives={"ce":smoothed_ce(logits,labels),
-        "weighted_contrastive":.01*base["intra_contrastive"],
-        "weighted_radial":.01*base["intra_radial"],
-        "weighted_sample_st":.5*sample,"weighted_sample_fixed":.5*direct}
-    gradients={}
-    for name,objective in objectives.items():
-        values=torch.autograd.grad(objective,tuple(leaves.values()),allow_unused=True,retain_graph=True)
-        gradients[name]={key:mech.empty_like_grad(value,leaves[key]) for key,value in zip(leaves,values)}
-        for key,value in gradients[name].items():
-            mech.finite_tensor(value,name+"/"+key)
-    return {"losses":{name:float(value.detach()) for name,value in objectives.items()},
-        "leaf_gradients":gradients,"mining":mining,"sample_stats":sample_stats,
-        "details":{key:value.detach() for key,value in details.items()}}
+    for component,objective in (("weighted_sample_st",.5*sample),("weighted_sample_fixed",.5*direct)):
+        gradient=torch.autograd.grad(objective,mu,retain_graph=True)[0].detach()
+        mech.finite_tensor(gradient,component+"/mu")
+        result["losses"][component]=float(objective.detach())
+        # Rsample depends only on mu. V1's CE/intra and every nu derivative
+        # remain untouched, rather than being recomputed in a rewritten graph.
+        result["leaf_gradients"][component]["mu"]=gradient
+    result["sample_stats"]=sample_stats
+    result["details"]={key:value.detach() for key,value in details.items()}
+    return result
 
 
 def state_digest(value):
@@ -363,15 +359,37 @@ def self_test():
     repeated=leaf_components_controlled_noise(outputs,labels,ids,proxies,seed,seed+1000003)
     torch.testing.assert_close(old["mining"]["triplets"],zero["mining"]["triplets"],atol=0,rtol=0)
     torch.testing.assert_close(zero["mining"]["triplets"],repeated["mining"]["triplets"],atol=0,rtol=0)
+    diagnostics=[]
     for component in mech.COMPONENTS:
-        assert abs(old["losses"][component]-zero["losses"][component])<1e-7
         for key in ("mu","nu","logits"):
-            torch.testing.assert_close(old["leaf_gradients"][component][key],zero["leaf_gradients"][component][key],atol=0,rtol=0)
+            before=old["leaf_gradients"][component][key]
+            after=zero["leaf_gradients"][component][key]
+            difference=(after-before).abs()
+            allowed_small_reduction_roundoff=component in ("weighted_sample_st","weighted_sample_fixed") and key=="mu"
+            diagnostics.append({"component":component,"variable":key,
+                "elements":before.numel(),"nonidentical_elements":int((difference>0).sum()),
+                "max_absolute_difference":float(difference.max()),
+                "max_relative_difference_floor1e_30":float((difference/before.abs().clamp_min(1e-30)).max()),
+                "norm_difference":float(difference.norm()),
+                "allowed_absolute_tolerance":1e-9 if allowed_small_reduction_roundoff else 0.,
+                "allowed_relative_tolerance":1e-5 if allowed_small_reduction_roundoff else 0.})
+    print({"offset0_actual_gradient_diagnostics":diagnostics},flush=True)
+    for component in mech.COMPONENTS:
+        assert abs(old["losses"][component]-zero["losses"][component])<1e-7,component+" scalar"
+        for key in ("mu","nu","logits"):
+            allowed_small_reduction_roundoff=component in ("weighted_sample_st","weighted_sample_fixed") and key=="mu"
+            torch.testing.assert_close(old["leaf_gradients"][component][key],zero["leaf_gradients"][component][key],
+                atol=1e-9 if allowed_small_reduction_roundoff else 0.,
+                rtol=1e-5 if allowed_small_reduction_roundoff else 0.,
+                msg=component+"/"+key+" offset0 versus V1")
             if component in ("ce","weighted_contrastive","weighted_radial"):
-                torch.testing.assert_close(zero["leaf_gradients"][component][key],repeated["leaf_gradients"][component][key],atol=0,rtol=0)
+                torch.testing.assert_close(zero["leaf_gradients"][component][key],repeated["leaf_gradients"][component][key],
+                    atol=0,rtol=0,msg=component+"/"+key+" base derivative across noise offsets")
+    for role in ("pair_proxy_idx","triple_proxy_idx"):
+        torch.testing.assert_close(old["details"][role],zero["details"][role],atol=0,rtol=0)
     assert not torch.equal(zero["details"]["pair_proxy_idx"],repeated["details"]["pair_proxy_idx"]) or not torch.equal(zero["details"]["triple_proxy_idx"],repeated["details"]["triple_proxy_idx"])
     print({"noise_control_self_test":"passed",
-        "checks":["offset0 exact V1 leaf loss/gradient/choices protocol",
+        "checks":["offset0 V1 losses/choices and base derivatives exact; sample mu reduction atol1e-9/rtol1e-5",
                   "offset changes Gumbel only","ordered source triplets stay exact",
                   "all base component gradients stay exact","different noise changes at least one ancestor"]},flush=True)
 
@@ -439,6 +457,7 @@ def main():
                 "The base arm retains historical H20 model momentum; it is a one-step objective switch, not a from-scratch B0.",
                 "Per-arm repeated no-update readout quantifies baseline numerical noise before interpreting step responses.",
                 "Across offsets, source_train natural mining/draws are fixed; Gumbel alone changes.",
+                "Offset0 CPU self-test permits at most1e-9 absolute/1e-5 relative roundoff only for sample mu ST/fixed reductions; CE/intra derivatives and selections remain exact.",
                 "The offset seed rule matches prior Gumbel controls, but their eval-reference draw table can differ.",
                 "No official test or independent morphology evidence."]}
     try:

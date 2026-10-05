@@ -1,0 +1,1940 @@
+{
+  "e99": {
+    "identity": {
+      "code_commit": "c141c592fb80376b67a602a2f9a2df19b4132f3a",
+      "diagnostic_script_sha256": "1bf63835c14258d0f8100eb2624f418cca333a390d0b38387ddc7a37baea0d9a",
+      "cohort_identity_sha256": "846b3e19908e7ef1dbfa9c1b8d4dfb487d9a6cfe93f2138c56e2b2671a15c70a",
+      "configuration": {
+        "classes": [
+          "dresser",
+          "bathtub",
+          "chair",
+          "flower_pot"
+        ],
+        "per_class_limit": 64,
+        "geometry_points": 256,
+        "source_points": 1024,
+        "seed": 22,
+        "K": 20,
+        "T": 50,
+        "margin": 0.1,
+        "tau": 0.1,
+        "mining_radius": 0.98,
+        "gumbel_repeats": 3,
+        "shape_batch_size": 16,
+        "threads": 2
+      },
+      "checks": {
+        "full8856_cache_HDF_label_match": true,
+        "sorted_shard_canonical_identity": true,
+        "source_file_hashes_unchanged": true,
+        "selected_clouds_normalized_finite": true
+      },
+      "optimizer_updates": 0,
+      "wall_seconds": 6.88804146181792
+    },
+    "checkpoint_sha256": "b33858435e41e3f87c06eff9f68454e3ede9250eac9747a080b411ecb7fb3d06",
+    "classes": [
+      {
+        "class": "dresser",
+        "label": 14,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.9170403587443946,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.16967540285222257,
+          "shape_chamfer_vs_whole_angle": 0.1782828133917513
+        },
+        "class_population_coverage": 0.35555555555555557,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 422,
+            "anchors_with_selected_edges": 63,
+            "anchor_equal_mean_chamfer": {
+              "n": 63,
+              "mean": 0.02095465400898817,
+              "quantiles": [
+                0.009223606437444687,
+                0.013634857437328288,
+                0.019956932713588078,
+                0.028221929413184788,
+                0.053345007821917534
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 63,
+              "mean": 0.3955797371986684,
+              "quantiles": [
+                0.0967741935483871,
+                0.2891794001131862,
+                0.3911290322580645,
+                0.5098471986417658,
+                0.6774193548387097
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 433,
+            "anchors_with_selected_edges": 62,
+            "anchor_equal_mean_chamfer": {
+              "n": 62,
+              "mean": 0.020938342771263496,
+              "quantiles": [
+                0.01282498628521959,
+                0.014178284234367311,
+                0.01877513240712384,
+                0.028279845488437434,
+                0.053345007821917534
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 62,
+              "mean": 0.3970882814234441,
+              "quantiles": [
+                0.20967741935483872,
+                0.31634452135301033,
+                0.3800563236047107,
+                0.4983870967741935,
+                0.6756272401433692
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 13,
+            "anchors_with_selected_edges": 20,
+            "anchor_equal_mean_chamfer": {
+              "n": 20,
+              "mean": 0.026155662816017868,
+              "quantiles": [
+                0.007794123142957687,
+                0.010166853076467912,
+                0.01633240282535553,
+                0.05597093626856806,
+                0.07108591496944427
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 20,
+              "mean": 0.4336021505376345,
+              "quantiles": [
+                0.08064516129032258,
+                0.14193548387096774,
+                0.2768817204301075,
+                0.9532258064516129,
+                0.9838709677419355
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 24,
+            "anchors_with_selected_edges": 26,
+            "anchor_equal_mean_chamfer": {
+              "n": 26,
+              "mean": 0.02073934845821375,
+              "quantiles": [
+                0.006181594915688038,
+                0.010280614718794823,
+                0.02013043391828736,
+                0.03091597044840455,
+                0.054334595799446106
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 26,
+              "mean": 0.4088330576233802,
+              "quantiles": [
+                0,
+                0.0967741935483871,
+                0.405241935483871,
+                0.8225806451612904,
+                0.967741935483871
+              ],
+              "positive_fraction": 0.9615384615384616
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 313,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.02472682693728728,
+              "quantiles": [
+                0.011974758980795742,
+                0.016933944017033686,
+                0.0233742771204561,
+                0.03619435761744778,
+                0.05542614823207259
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.5038166169907601,
+              "quantiles": [
+                0.33064516129032256,
+                0.3814516129032258,
+                0.5032258064516129,
+                0.603900293255132,
+                0.7258064516129032
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      },
+      {
+        "class": "bathtub",
+        "label": 1,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.9185022026431718,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.4009729915361447,
+          "shape_chamfer_vs_whole_angle": 0.3685158093639503
+        },
+        "class_population_coverage": 0.6736842105263158,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 445,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.012361894487681557,
+              "quantiles": [
+                0.005847902931763153,
+                0.007788364717271179,
+                0.012156209024582424,
+                0.016596643676360448,
+                0.02975778416213062
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.3641511358281413,
+              "quantiles": [
+                0.08870967741935483,
+                0.20241935483870965,
+                0.3323924731182796,
+                0.5925691244239631,
+                0.6827956989247311
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 426,
+            "anchors_with_selected_edges": 63,
+            "anchor_equal_mean_chamfer": {
+              "n": 63,
+              "mean": 0.012041864822042656,
+              "quantiles": [
+                0.005847902931763153,
+                0.007874108405990734,
+                0.011672014566628556,
+                0.016025022671503183,
+                0.02948426759164584
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 63,
+              "mean": 0.3534829798697484,
+              "quantiles": [
+                0.06720430107526881,
+                0.20424987199180747,
+                0.33064516129032256,
+                0.5775891341256367,
+                0.6388888888888888
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 28,
+            "anchors_with_selected_edges": 22,
+            "anchor_equal_mean_chamfer": {
+              "n": 22,
+              "mean": 0.015710930038370534,
+              "quantiles": [
+                0.007096720393747091,
+                0.0073095800587907435,
+                0.014893268700689077,
+                0.02307260371744633,
+                0.030802909284830093
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 22,
+              "mean": 0.472232404692082,
+              "quantiles": [
+                0.08870967741935484,
+                0.18225806451612905,
+                0.4435483870967742,
+                0.8066532258064519,
+                0.9032258064516129
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 9,
+            "anchors_with_selected_edges": 17,
+            "anchor_equal_mean_chamfer": {
+              "n": 17,
+              "mean": 0.014302501948002507,
+              "quantiles": [
+                0.004799951799213886,
+                0.006274204794317484,
+                0.012701042927801609,
+                0.023363040015101432,
+                0.024560969322919846
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 17,
+              "mean": 0.40180265654648956,
+              "quantiles": [
+                0.016129032258064516,
+                0.07096774193548387,
+                0.3387096774193548,
+                0.8451612903225807,
+                0.967741935483871
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 305,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.015461636369807555,
+              "quantiles": [
+                0.008643245221012168,
+                0.010380138406315102,
+                0.014501671749167144,
+                0.023835166993861397,
+                0.029225553978573193
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.5048470028655261,
+              "quantiles": [
+                0.30483870967741933,
+                0.38870967741935486,
+                0.4906874039938556,
+                0.6372772388901422,
+                0.7511520737327189
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      },
+      {
+        "class": "chair",
+        "label": 8,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 1,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.2750774039241421,
+          "shape_chamfer_vs_whole_angle": 0.2747656997525054
+        },
+        "class_population_coverage": 0.08,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 347,
+            "anchors_with_selected_edges": 62,
+            "anchor_equal_mean_chamfer": {
+              "n": 62,
+              "mean": 0.017123972698242222,
+              "quantiles": [
+                0.01137031042290961,
+                0.012558211701750558,
+                0.016426380797240295,
+                0.02213341743366695,
+                0.028165207111409733
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 62,
+              "mean": 0.3970991201116434,
+              "quantiles": [
+                0.0967741935483871,
+                0.2429618768328446,
+                0.41595925297113756,
+                0.5258307057967498,
+                0.5658602150537634
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 347,
+            "anchors_with_selected_edges": 62,
+            "anchor_equal_mean_chamfer": {
+              "n": 62,
+              "mean": 0.017123972698242222,
+              "quantiles": [
+                0.01137031042290961,
+                0.012558211701750558,
+                0.016426380797240295,
+                0.02213341743366695,
+                0.028165207111409733
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 62,
+              "mean": 0.3970991201116434,
+              "quantiles": [
+                0.0967741935483871,
+                0.2429618768328446,
+                0.41595925297113756,
+                0.5258307057967498,
+                0.5658602150537634
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 0,
+            "anchors_with_selected_edges": 0,
+            "anchor_equal_mean_chamfer": {
+              "n": 0,
+              "mean": null,
+              "quantiles": null,
+              "positive_fraction": null
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 0,
+              "mean": null,
+              "quantiles": null,
+              "positive_fraction": null
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 0,
+            "anchors_with_selected_edges": 0,
+            "anchor_equal_mean_chamfer": {
+              "n": 0,
+              "mean": null,
+              "quantiles": null,
+              "positive_fraction": null
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 0,
+              "mean": null,
+              "quantiles": null,
+              "positive_fraction": null
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 307,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.019675121434929912,
+              "quantiles": [
+                0.011225819058546966,
+                0.015289922025986016,
+                0.0193277087334233,
+                0.024548609709101065,
+                0.027758634959657986
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.5007214930287007,
+              "quantiles": [
+                0.23387096774193547,
+                0.36471774193548384,
+                0.5040322580645161,
+                0.6152329749103943,
+                0.6870967741935484
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      },
+      {
+        "class": "flower_pot",
+        "label": 15,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.8292682926829268,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.18926340450961812,
+          "shape_chamfer_vs_whole_angle": 0.280901157659598
+        },
+        "class_population_coverage": 0.47761194029850745,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 463,
+            "anchors_with_selected_edges": 62,
+            "anchor_equal_mean_chamfer": {
+              "n": 62,
+              "mean": 0.03917812935835085,
+              "quantiles": [
+                0.021126238271020926,
+                0.02457694905513728,
+                0.032150765523381,
+                0.055887622607037495,
+                0.11597599871456624
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 62,
+              "mean": 0.3891822746912441,
+              "quantiles": [
+                0.15053763440860216,
+                0.21129032258064517,
+                0.3755457191365511,
+                0.5643563367622091,
+                0.6435483870967741
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 437,
+            "anchors_with_selected_edges": 62,
+            "anchor_equal_mean_chamfer": {
+              "n": 62,
+              "mean": 0.03592171741606431,
+              "quantiles": [
+                0.01941101479211024,
+                0.023742688814776817,
+                0.031179364746142375,
+                0.05239944471292855,
+                0.09000055072829127
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 62,
+              "mean": 0.3754907146263604,
+              "quantiles": [
+                0.10887096774193548,
+                0.19647288195675294,
+                0.3746816638370119,
+                0.5366681705391383,
+                0.6141439205955336
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 55,
+            "anchors_with_selected_edges": 37,
+            "anchor_equal_mean_chamfer": {
+              "n": 37,
+              "mean": 0.06614607491673113,
+              "quantiles": [
+                0.012265754863619804,
+                0.018967878818511964,
+                0.049972408916801214,
+                0.12504313867539166,
+                0.24268007278442383
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 37,
+              "mean": 0.5381464413722478,
+              "quantiles": [
+                0.08064516129032258,
+                0.12741935483870967,
+                0.46774193548387094,
+                0.9951612903225806,
+                1
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 29,
+            "anchors_with_selected_edges": 33,
+            "anchor_equal_mean_chamfer": {
+              "n": 33,
+              "mean": 0.04168688821785077,
+              "quantiles": [
+                0.019050784409046173,
+                0.022638988867402076,
+                0.03829573839902878,
+                0.061415626853704455,
+                0.0914008617401123
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 33,
+              "mean": 0.48703160638644505,
+              "quantiles": [
+                0.03225806451612903,
+                0.16129032258064518,
+                0.45161290322580644,
+                0.867741935483871,
+                0.9516129032258065
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 308,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.0500572655870319,
+              "quantiles": [
+                0.019181398302316667,
+                0.028562676028481553,
+                0.041535675918890375,
+                0.07640506947751752,
+                0.1387882810086012
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.4905941207510008,
+              "quantiles": [
+                0.29838709677419356,
+                0.3489247311827957,
+                0.4966397849462365,
+                0.6012096774193548,
+                0.6592741935483871
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  "e200": {
+    "identity": {
+      "code_commit": "c141c592fb80376b67a602a2f9a2df19b4132f3a",
+      "diagnostic_script_sha256": "1bf63835c14258d0f8100eb2624f418cca333a390d0b38387ddc7a37baea0d9a",
+      "cohort_identity_sha256": "846b3e19908e7ef1dbfa9c1b8d4dfb487d9a6cfe93f2138c56e2b2671a15c70a",
+      "configuration": {
+        "classes": [
+          "dresser",
+          "bathtub",
+          "chair",
+          "flower_pot"
+        ],
+        "per_class_limit": 64,
+        "geometry_points": 256,
+        "source_points": 1024,
+        "seed": 22,
+        "K": 20,
+        "T": 50,
+        "margin": 0.1,
+        "tau": 0.1,
+        "mining_radius": 0.98,
+        "gumbel_repeats": 3,
+        "shape_batch_size": 16,
+        "threads": 2
+      },
+      "checks": {
+        "full8856_cache_HDF_label_match": true,
+        "sorted_shard_canonical_identity": true,
+        "source_file_hashes_unchanged": true,
+        "selected_clouds_normalized_finite": true
+      },
+      "optimizer_updates": 0,
+      "wall_seconds": 6.704904331825674
+    },
+    "checkpoint_sha256": "3ed067b09505b0d0d9e1ba65eb5894c631f8a2ede0bc644dc601947851a3a41e",
+    "classes": [
+      {
+        "class": "dresser",
+        "label": 14,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.5689277899343544,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.1497068322526477,
+          "shape_chamfer_vs_whole_angle": 0.21270964064868653
+        },
+        "class_population_coverage": 0.35555555555555557,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 300,
+            "anchors_with_selected_edges": 62,
+            "anchor_equal_mean_chamfer": {
+              "n": 62,
+              "mean": 0.02157374492950499,
+              "quantiles": [
+                0.005354339722543955,
+                0.015466018060355314,
+                0.01998561166692525,
+                0.032178381970152256,
+                0.04857164807617664
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 62,
+              "mean": 0.44146724962855527,
+              "quantiles": [
+                0,
+                0.29693548387096774,
+                0.4354166666666667,
+                0.6141705069124425,
+                0.8870967741935484
+              ],
+              "positive_fraction": 0.9838709677419355
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 417,
+            "anchors_with_selected_edges": 63,
+            "anchor_equal_mean_chamfer": {
+              "n": 63,
+              "mean": 0.022011920637798502,
+              "quantiles": [
+                0.005520096747204661,
+                0.014921470613856064,
+                0.02029444685424952,
+                0.034843372531673494,
+                0.045907590072602034
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 63,
+              "mean": 0.44764040644217845,
+              "quantiles": [
+                0.008064516129032258,
+                0.30806451612903224,
+                0.44534050179211465,
+                0.5698511166253102,
+                0.8709677419354839
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 40,
+            "anchors_with_selected_edges": 23,
+            "anchor_equal_mean_chamfer": {
+              "n": 23,
+              "mean": 0.021407863109682998,
+              "quantiles": [
+                0.008541185408830643,
+                0.013250712305307388,
+                0.020758549372355144,
+                0.028644441515207293,
+                0.03667252417653799
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 23,
+              "mean": 0.48385821751880653,
+              "quantiles": [
+                0.06451612903225806,
+                0.10967741935483871,
+                0.5241935483870968,
+                0.7645161290322582,
+                0.8709677419354839
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 157,
+            "anchors_with_selected_edges": 56,
+            "anchor_equal_mean_chamfer": {
+              "n": 56,
+              "mean": 0.024263453272043472,
+              "quantiles": [
+                0.005685853771865368,
+                0.013689497497696906,
+                0.0230896290546904,
+                0.036019264720380306,
+                0.0611062819759051
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 56,
+              "mean": 0.49206803101532365,
+              "quantiles": [
+                0.016129032258064516,
+                0.255066170388751,
+                0.4879032258064516,
+                0.7318548387096774,
+                0.9193548387096774
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 313,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.02472682693728728,
+              "quantiles": [
+                0.011974758980795742,
+                0.016933944017033686,
+                0.0233742771204561,
+                0.03619435761744778,
+                0.05542614823207259
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.5038166169907601,
+              "quantiles": [
+                0.33064516129032256,
+                0.3814516129032258,
+                0.5032258064516129,
+                0.603900293255132,
+                0.7258064516129032
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      },
+      {
+        "class": "bathtub",
+        "label": 1,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.6724137931034483,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.24969812317624507,
+          "shape_chamfer_vs_whole_angle": 0.2574611629524987
+        },
+        "class_population_coverage": 0.6736842105263158,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 369,
+            "anchors_with_selected_edges": 63,
+            "anchor_equal_mean_chamfer": {
+              "n": 63,
+              "mean": 0.013239506479144033,
+              "quantiles": [
+                0.0059469688916578885,
+                0.00853070117533207,
+                0.011963710157821576,
+                0.020268799147258203,
+                0.0251135126584106
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 63,
+              "mean": 0.41855342014715186,
+              "quantiles": [
+                0.13978494623655915,
+                0.24024577572964667,
+                0.4134125636672326,
+                0.5796774193548387,
+                0.7491039426523298
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 407,
+            "anchors_with_selected_edges": 63,
+            "anchor_equal_mean_chamfer": {
+              "n": 63,
+              "mean": 0.01327532042992431,
+              "quantiles": [
+                0.0068145601211914,
+                0.008834922054580994,
+                0.011999087589275505,
+                0.02022313980592622,
+                0.02554891537874937
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 63,
+              "mean": 0.4173050932404249,
+              "quantiles": [
+                0.06451612903225806,
+                0.27905123339658444,
+                0.41577060931899645,
+                0.5809346567411084,
+                0.714516129032258
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 57,
+            "anchors_with_selected_edges": 36,
+            "anchor_equal_mean_chamfer": {
+              "n": 36,
+              "mean": 0.014455290826264813,
+              "quantiles": [
+                0.005833534523844719,
+                0.008413252750566851,
+                0.011780060362070799,
+                0.02220877434592694,
+                0.033174414187669754
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 36,
+              "mean": 0.4831461213517666,
+              "quantiles": [
+                0.06451612903225806,
+                0.23521505376344087,
+                0.4731182795698925,
+                0.7983870967741935,
+                0.8387096774193549
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 95,
+            "anchors_with_selected_edges": 54,
+            "anchor_equal_mean_chamfer": {
+              "n": 54,
+              "mean": 0.013889591082323124,
+              "quantiles": [
+                0.006370856426656246,
+                0.0084087950643152,
+                0.012725553358905017,
+                0.022140404582023623,
+                0.026721738278865814
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 54,
+              "mean": 0.4598538831737756,
+              "quantiles": [
+                0.056451612903225805,
+                0.22903225806451613,
+                0.39890552995391704,
+                0.753225806451613,
+                0.967741935483871
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 305,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.015461636369807555,
+              "quantiles": [
+                0.008643245221012168,
+                0.010380138406315102,
+                0.014501671749167144,
+                0.023835166993861397,
+                0.029225553978573193
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.5048470028655261,
+              "quantiles": [
+                0.30483870967741933,
+                0.38870967741935486,
+                0.4906874039938556,
+                0.6372772388901422,
+                0.7511520737327189
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      },
+      {
+        "class": "chair",
+        "label": 8,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.6699801192842942,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.18976155414414084,
+          "shape_chamfer_vs_whole_angle": 0.253780746204819
+        },
+        "class_population_coverage": 0.08,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 422,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.018122171963672398,
+              "quantiles": [
+                0.009064582968130707,
+                0.01311594369478401,
+                0.01803584781949196,
+                0.022838315442204476,
+                0.04029083251953125
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.4324391985675189,
+              "quantiles": [
+                0.19959677419354838,
+                0.2653225806451613,
+                0.44036502546689305,
+                0.5566397849462367,
+                0.9516129032258065
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 418,
+            "anchors_with_selected_edges": 62,
+            "anchor_equal_mean_chamfer": {
+              "n": 62,
+              "mean": 0.017436947681901134,
+              "quantiles": [
+                0.00960062738574509,
+                0.01343266387061679,
+                0.0172242646299613,
+                0.021289963328608254,
+                0.027653634802184322
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 62,
+              "mean": 0.4133158198868039,
+              "quantiles": [
+                0.12903225806451613,
+                0.2956182795698925,
+                0.4263440860215054,
+                0.5188516680452164,
+                0.7903225806451613
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 85,
+            "anchors_with_selected_edges": 39,
+            "anchor_equal_mean_chamfer": {
+              "n": 39,
+              "mean": 0.021377258606101852,
+              "quantiles": [
+                0.005204109475016594,
+                0.014066741236795981,
+                0.021549196681007743,
+                0.02902451142668725,
+                0.04029083251953125
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 39,
+              "mean": 0.5458972628327468,
+              "quantiles": [
+                0,
+                0.26129032258064516,
+                0.532258064516129,
+                0.8548387096774194,
+                0.9838709677419355
+              ],
+              "positive_fraction": 0.9743589743589743
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 81,
+            "anchors_with_selected_edges": 45,
+            "anchor_equal_mean_chamfer": {
+              "n": 45,
+              "mean": 0.018683542403658587,
+              "quantiles": [
+                0.010998029261827469,
+                0.014803760219365358,
+                0.018130871777733166,
+                0.023602623709787926,
+                0.029924851842224598
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 45,
+              "mean": 0.4894278033794163,
+              "quantiles": [
+                0.16129032258064516,
+                0.34494623655913975,
+                0.5,
+                0.6290322580645161,
+                0.8387096774193549
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 307,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.019675121434929912,
+              "quantiles": [
+                0.011225819058546966,
+                0.015289922025986016,
+                0.0193277087334233,
+                0.024548609709101065,
+                0.027758634959657986
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.5007214930287007,
+              "quantiles": [
+                0.23387096774193547,
+                0.36471774193548384,
+                0.5040322580645161,
+                0.6152329749103943,
+                0.6870967741935484
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      },
+      {
+        "class": "flower_pot",
+        "label": 15,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.616557734204793,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.15142338802677535,
+          "shape_chamfer_vs_whole_angle": 0.06983510888863775
+        },
+        "class_population_coverage": 0.47761194029850745,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 378,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.041064336365273,
+              "quantiles": [
+                0.011056591756641865,
+                0.023101765257729726,
+                0.0378622606625421,
+                0.0662548279715702,
+                0.12136650923639536
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.42172136603613963,
+              "quantiles": [
+                0,
+                0.22967113531629665,
+                0.4124221844934918,
+                0.5845878136200717,
+                0.7741935483870968
+              ],
+              "positive_fraction": 0.984375
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 364,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.042326676053276086,
+              "quantiles": [
+                0.015520764825244745,
+                0.023480686992406845,
+                0.03768776516274859,
+                0.06184418229386212,
+                0.15115753328427672
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.42902273062802654,
+              "quantiles": [
+                0.07526881720430108,
+                0.2231451612903226,
+                0.432078853046595,
+                0.6088709677419355,
+                0.7741935483870968
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 95,
+            "anchors_with_selected_edges": 41,
+            "anchor_equal_mean_chamfer": {
+              "n": 41,
+              "mean": 0.04180779910791389,
+              "quantiles": [
+                0.00988964457064867,
+                0.02133132517337799,
+                0.03797599673271179,
+                0.08023598417639732,
+                0.09447834128513932
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 41,
+              "mean": 0.43404143718856536,
+              "quantiles": [
+                0,
+                0.1935483870967742,
+                0.4838709677419355,
+                0.6433691756272402,
+                0.7258064516129032
+              ],
+              "positive_fraction": 0.975609756097561
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 81,
+            "anchors_with_selected_edges": 39,
+            "anchor_equal_mean_chamfer": {
+              "n": 39,
+              "mean": 0.05470787504955892,
+              "quantiles": [
+                0.009449019096791744,
+                0.02177664628252387,
+                0.044410547241568565,
+                0.09952782423545918,
+                0.1809485573321581
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 39,
+              "mean": 0.4994249478120446,
+              "quantiles": [
+                0.03225806451612903,
+                0.24193548387096775,
+                0.4741935483870968,
+                0.7838709677419357,
+                0.924731182795699
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 308,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.0500572655870319,
+              "quantiles": [
+                0.019181398302316667,
+                0.028562676028481553,
+                0.041535675918890375,
+                0.07640506947751752,
+                0.1387882810086012
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.4905941207510008,
+              "quantiles": [
+                0.29838709677419356,
+                0.3489247311827957,
+                0.4966397849462365,
+                0.6012096774193548,
+                0.6592741935483871
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  "e300": {
+    "identity": {
+      "code_commit": "c141c592fb80376b67a602a2f9a2df19b4132f3a",
+      "diagnostic_script_sha256": "1bf63835c14258d0f8100eb2624f418cca333a390d0b38387ddc7a37baea0d9a",
+      "cohort_identity_sha256": "846b3e19908e7ef1dbfa9c1b8d4dfb487d9a6cfe93f2138c56e2b2671a15c70a",
+      "configuration": {
+        "classes": [
+          "dresser",
+          "bathtub",
+          "chair",
+          "flower_pot"
+        ],
+        "per_class_limit": 64,
+        "geometry_points": 256,
+        "source_points": 1024,
+        "seed": 22,
+        "K": 20,
+        "T": 50,
+        "margin": 0.1,
+        "tau": 0.1,
+        "mining_radius": 0.98,
+        "gumbel_repeats": 3,
+        "shape_batch_size": 16,
+        "threads": 2
+      },
+      "checks": {
+        "full8856_cache_HDF_label_match": true,
+        "sorted_shard_canonical_identity": true,
+        "source_file_hashes_unchanged": true,
+        "selected_clouds_normalized_finite": true
+      },
+      "optimizer_updates": 0,
+      "wall_seconds": 8.706998179201037
+    },
+    "checkpoint_sha256": "078ca9f789b13dd18e2e83e1e35e453a90eafa90fa21cea16f4f6100d383f6e5",
+    "classes": [
+      {
+        "class": "dresser",
+        "label": 14,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.6254901960784314,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.08242226833554508,
+          "shape_chamfer_vs_whole_angle": 0.19506732366162408
+        },
+        "class_population_coverage": 0.35555555555555557,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 400,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.0222454787721309,
+              "quantiles": [
+                0.008470918610692024,
+                0.01324801007596155,
+                0.020053647609208435,
+                0.03230538690900978,
+                0.054575131833553316
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.43557822817787795,
+              "quantiles": [
+                0.08064516129032258,
+                0.20623655913978498,
+                0.47344840596113946,
+                0.605383064516129,
+                0.7741935483870968
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 429,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.02187556585898011,
+              "quantiles": [
+                0.010969950933940709,
+                0.014690984664484858,
+                0.019229134816365935,
+                0.03235530470999388,
+                0.0520265049372728
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.41875295649049926,
+              "quantiles": [
+                0.12903225806451613,
+                0.2711290322580645,
+                0.4221774193548387,
+                0.5919354838709678,
+                0.6505376344086021
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 81,
+            "anchors_with_selected_edges": 33,
+            "anchor_equal_mean_chamfer": {
+              "n": 33,
+              "mean": 0.02587393608377026,
+              "quantiles": [
+                0.01127660647034645,
+                0.018978465658922992,
+                0.02514331042766571,
+                0.035661547218582466,
+                0.052119099135909765
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 33,
+              "mean": 0.5616635740169464,
+              "quantiles": [
+                0.20967741935483872,
+                0.4036866359447005,
+                0.5510752688172044,
+                0.7322580645161291,
+                0.967741935483871
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 110,
+            "anchors_with_selected_edges": 55,
+            "anchor_equal_mean_chamfer": {
+              "n": 55,
+              "mean": 0.02092232817307875,
+              "quantiles": [
+                0.00814322071770827,
+                0.013784939330071211,
+                0.020035787485539913,
+                0.02966284602880478,
+                0.04750484103957812
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 55,
+              "mean": 0.42113345435926075,
+              "quantiles": [
+                0.04032258064516129,
+                0.22580645161290325,
+                0.4539170506912443,
+                0.5903225806451613,
+                0.6935483870967742
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 313,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.02472682693728728,
+              "quantiles": [
+                0.011974758980795742,
+                0.016933944017033686,
+                0.0233742771204561,
+                0.03619435761744778,
+                0.05542614823207259
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.5038166169907601,
+              "quantiles": [
+                0.33064516129032256,
+                0.3814516129032258,
+                0.5032258064516129,
+                0.603900293255132,
+                0.7258064516129032
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      },
+      {
+        "class": "bathtub",
+        "label": 1,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.6757322175732218,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.24365841291494617,
+          "shape_chamfer_vs_whole_angle": 0.13132524409943008
+        },
+        "class_population_coverage": 0.6736842105263158,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 383,
+            "anchors_with_selected_edges": 62,
+            "anchor_equal_mean_chamfer": {
+              "n": 62,
+              "mean": 0.013669067294147444,
+              "quantiles": [
+                0.006630575517192483,
+                0.00932154143229127,
+                0.011754273121854416,
+                0.01920951090287417,
+                0.0321996845304966
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 62,
+              "mean": 0.437276075570426,
+              "quantiles": [
+                0.22983870967741937,
+                0.3233870967741935,
+                0.4225550435227855,
+                0.5327620967741935,
+                0.8548387096774194
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 418,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.014097696988551133,
+              "quantiles": [
+                0.007692214367645127,
+                0.009983452139163596,
+                0.012621174682863057,
+                0.01945708198592258,
+                0.029913672618567942
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.4408025614830109,
+              "quantiles": [
+                0.08870967741935484,
+                0.3204105571847507,
+                0.4493693912199854,
+                0.5458254269449716,
+                0.7741935483870968
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 60,
+            "anchors_with_selected_edges": 39,
+            "anchor_equal_mean_chamfer": {
+              "n": 39,
+              "mean": 0.012750879599994044,
+              "quantiles": [
+                0.005967708304524422,
+                0.007788826711475849,
+                0.010472143185324967,
+                0.02066065348684788,
+                0.030389457941055298
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 39,
+              "mean": 0.42462779156327546,
+              "quantiles": [
+                0.016129032258064516,
+                0.21317204301075268,
+                0.3978494623655914,
+                0.6238709677419356,
+                0.8548387096774194
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 95,
+            "anchors_with_selected_edges": 52,
+            "anchor_equal_mean_chamfer": {
+              "n": 52,
+              "mean": 0.017060105193185106,
+              "quantiles": [
+                0.006359876599162817,
+                0.009972088248468935,
+                0.015652524582533675,
+                0.026518805076678593,
+                0.03742040693759918
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 52,
+              "mean": 0.5430066069683004,
+              "quantiles": [
+                0.08870967741935484,
+                0.24408602150537637,
+                0.5457687473816506,
+                0.8225806451612904,
+                0.967741935483871
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 305,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.015461636369807555,
+              "quantiles": [
+                0.008643245221012168,
+                0.010380138406315102,
+                0.014501671749167144,
+                0.023835166993861397,
+                0.029225553978573193
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.5048470028655261,
+              "quantiles": [
+                0.30483870967741933,
+                0.38870967741935486,
+                0.4906874039938556,
+                0.6372772388901422,
+                0.7511520737327189
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      },
+      {
+        "class": "chair",
+        "label": 8,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.6570155902004454,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.14682713185120147,
+          "shape_chamfer_vs_whole_angle": 0.09562266609981995
+        },
+        "class_population_coverage": 0.08,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 347,
+            "anchors_with_selected_edges": 63,
+            "anchor_equal_mean_chamfer": {
+              "n": 63,
+              "mean": 0.01798080540788421,
+              "quantiles": [
+                0.005435041229551037,
+                0.01209942087353695,
+                0.018756831597004617,
+                0.022614121698730047,
+                0.028662184439599513
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 63,
+              "mean": 0.4389461831003303,
+              "quantiles": [
+                0.07526881720430108,
+                0.29784946236559134,
+                0.4354838709677419,
+                0.624731182795699,
+                0.7741935483870968
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 397,
+            "anchors_with_selected_edges": 63,
+            "anchor_equal_mean_chamfer": {
+              "n": 63,
+              "mean": 0.018353413411303334,
+              "quantiles": [
+                0.005154325859621167,
+                0.013163208765909075,
+                0.018706742208451033,
+                0.023193420770649727,
+                0.027596740052103996
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 63,
+              "mean": 0.45631035637084316,
+              "quantiles": [
+                0.07526881720430108,
+                0.3446236559139785,
+                0.4475806451612903,
+                0.6079404466501243,
+                0.75
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 52,
+            "anchors_with_selected_edges": 35,
+            "anchor_equal_mean_chamfer": {
+              "n": 35,
+              "mean": 0.019151102803349748,
+              "quantiles": [
+                0.008120864629745483,
+                0.010984115535393357,
+                0.01894157410909732,
+                0.027098051458597186,
+                0.036195069551467896
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 35,
+              "mean": 0.5204690585911785,
+              "quantiles": [
+                0.16129032258064516,
+                0.24838709677419354,
+                0.510752688172043,
+                0.7741935483870969,
+                1
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 102,
+            "anchors_with_selected_edges": 47,
+            "anchor_equal_mean_chamfer": {
+              "n": 47,
+              "mean": 0.020598430920187778,
+              "quantiles": [
+                0.009474472142755985,
+                0.014636427536606789,
+                0.02015263180841099,
+                0.027330954062441987,
+                0.03313925117254257
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 47,
+              "mean": 0.5334597426138264,
+              "quantiles": [
+                0.03225806451612903,
+                0.32935483870967747,
+                0.5282258064516129,
+                0.7483870967741936,
+                0.9354838709677419
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 307,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.019675121434929912,
+              "quantiles": [
+                0.011225819058546966,
+                0.015289922025986016,
+                0.0193277087334233,
+                0.024548609709101065,
+                0.027758634959657986
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.5007214930287007,
+              "quantiles": [
+                0.23387096774193547,
+                0.36471774193548384,
+                0.5040322580645161,
+                0.6152329749103943,
+                0.6870967741935484
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      },
+      {
+        "class": "flower_pot",
+        "label": 15,
+        "cohort_size": 64,
+        "pair_count": 2016,
+        "mutual_jaccard": 0.6631578947368421,
+        "all_fixed_pair_spearman": {
+          "shape_chamfer_vs_original_whole_distance": 0.06563997906018153,
+          "shape_chamfer_vs_whole_angle": 0.10968993702412864
+        },
+        "class_population_coverage": 0.47761194029850745,
+        "edges": {
+          "original_mutual": {
+            "unordered_pairs": 380,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.04525481150212052,
+              "quantiles": [
+                0.012791842222213745,
+                0.026973568165505477,
+                0.04089781713178929,
+                0.07337799219038796,
+                0.11291694987033095
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.46246745529984934,
+              "quantiles": [
+                0.10080645161290322,
+                0.2932184750733138,
+                0.4531490015360984,
+                0.6119354838709677,
+                0.829032258064516
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_radius_mutual": {
+            "unordered_pairs": 410,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.046326695370204646,
+              "quantiles": [
+                0.016686969250440598,
+                0.027764875996226106,
+                0.04089832422323525,
+                0.07125954947581417,
+                0.13350204212798011
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.4698563681012864,
+              "quantiles": [
+                0.1774193548387097,
+                0.3486842105263159,
+                0.460415348935273,
+                0.613514173998045,
+                0.8870967741935484
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "original_only": {
+            "unordered_pairs": 65,
+            "anchors_with_selected_edges": 36,
+            "anchor_equal_mean_chamfer": {
+              "n": 36,
+              "mean": 0.052241115803285,
+              "quantiles": [
+                0.01924481987953186,
+                0.024611687287688255,
+                0.044225357472896576,
+                0.08343480061739683,
+                0.1821286827325821
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 36,
+              "mean": 0.5254750526255901,
+              "quantiles": [
+                0.016129032258064516,
+                0.30443548387096775,
+                0.557258064516129,
+                0.8024193548387097,
+                0.9354838709677419
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "equal_only": {
+            "unordered_pairs": 95,
+            "anchors_with_selected_edges": 50,
+            "anchor_equal_mean_chamfer": {
+              "n": 50,
+              "mean": 0.05080982037311928,
+              "quantiles": [
+                0.017269261181354523,
+                0.025961397960782052,
+                0.03969997423700988,
+                0.09079023587650488,
+                0.19645102818806967
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 50,
+              "mean": 0.5106234464460271,
+              "quantiles": [
+                0.1935483870967742,
+                0.27822580645161293,
+                0.489247311827957,
+                0.7709677419354839,
+                0.9193548387096775
+              ],
+              "positive_fraction": 1
+            }
+          },
+          "fixed_random_same_class": {
+            "unordered_pairs": 308,
+            "anchors_with_selected_edges": 64,
+            "anchor_equal_mean_chamfer": {
+              "n": 64,
+              "mean": 0.0500572655870319,
+              "quantiles": [
+                0.019181398302316667,
+                0.028562676028481553,
+                0.041535675918890375,
+                0.07640506947751752,
+                0.1387882810086012
+              ],
+              "positive_fraction": 1
+            },
+            "anchor_equal_mean_shape_rank_percentile": {
+              "n": 64,
+              "mean": 0.4905941207510008,
+              "quantiles": [
+                0.29838709677419356,
+                0.3489247311827957,
+                0.4966397849462365,
+                0.6012096774193548,
+                0.6592741935483871
+              ],
+              "positive_fraction": 1
+            }
+          }
+        }
+      }
+    ]
+  }
+}

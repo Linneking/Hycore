@@ -1,0 +1,1455 @@
+{
+  "identity": {
+    "commit": "c141c592fb80376b67a602a2f9a2df19b4132f3a",
+    "script_sha256": "395c74b6ee601aad1aa1dc9146fe691443109304f0806e58de429e8a98be5632",
+    "checkpoint_sha256": "078ca9f789b13dd18e2e83e1e35e453a90eafa90fa21cea16f4f6100d383f6e5",
+    "checkpoint_epoch": 300,
+    "started_utc": "2026-10-05T19:05:59.669440+00:00",
+    "optimizer_updates": 48,
+    "readout_BN": "checkpoint OLD rank0 buffers, identical in all arms",
+    "sample_weight": 0.5,
+    "new_HIER_warmup_epochs": 0
+  },
+  "checks": {
+    "source_checkpoint_unchanged": true,
+    "data_shards_unchanged": true,
+    "source_model_restored": true,
+    "proxy_unchanged": true,
+    "optimizer_momentum_used": true
+  },
+  "batches": [
+    {
+      "batch": 0,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.0017345827709429884,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.0015750897611970655,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.0017837861879518996,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": -0.00015949300974592295,
+            "median": -0.000030428349047539882,
+            "min": -0.002825674277807888,
+            "max": 0.0012652685714429346,
+            "positive_fraction": 0.46875,
+            "negative_fraction": 0.53125
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": 0.00004920341700891118,
+            "median": 0.0000525827993946848,
+            "min": -0.0017260795268798645,
+            "max": 0.0009602702203381774,
+            "positive_fraction": 0.59375,
+            "negative_fraction": 0.40625
+          }
+        }
+      }
+    },
+    {
+      "batch": 1,
+      "arms": {
+        "base": {
+          "clip": 0.94057121933697,
+          "all_mean": 0.0025868748090308313,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          }
+        },
+        "base_sample_st": {
+          "clip": 0.9417593698465929,
+          "all_mean": 0.003001356876609601,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 0.9398276720632763,
+          "all_mean": 0.0025895279504100227,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": 0.0004144820675787697,
+            "median": 0.00027859915902883614,
+            "min": -0.0065107041383751785,
+            "max": 0.013216036045589075,
+            "positive_fraction": 0.578125,
+            "negative_fraction": 0.421875
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": 0.0000026531413791913705,
+            "median": -0.0000046329725753579964,
+            "min": -0.0012302185961257095,
+            "max": 0.000743032028557522,
+            "positive_fraction": 0.46875,
+            "negative_fraction": 0.53125
+          }
+        }
+      }
+    },
+    {
+      "batch": 2,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.004544059936621575,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.0010051310705279093,
+            "median": -0.024531416086799318,
+            "min": -0.024531416086799318,
+            "max": 0.026541678227855137,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.0076940227655543855,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.0024238034317962676,
+            "median": -0.022115104862402202,
+            "min": -0.022115104862402202,
+            "max": 0.026962711725994737,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.004598203808776638,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.0016205303137699634,
+            "median": -0.023660207005523848,
+            "min": -0.023660207005523848,
+            "max": 0.026901267633063775,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": 0.0031499628289328105,
+            "median": 0.0004210334981396002,
+            "min": -0.009822983811872632,
+            "max": 0.1849157448744947,
+            "positive_fraction": 0.5625,
+            "negative_fraction": 0.4375
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.0014186723612683583,
+            "median": 0.0004210334981396002,
+            "min": 0.0004210334981396002,
+            "max": 0.0024163112243971163,
+            "positive_fraction": 1,
+            "negative_fraction": 0
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": 0.000054143872155063,
+            "median": 0.00008507377617128498,
+            "min": -0.0013522276814130763,
+            "max": 0.0009160590011472181,
+            "positive_fraction": 0.5625,
+            "negative_fraction": 0.4375
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.0006153992432420541,
+            "median": 0.0003595894052086379,
+            "min": 0.0003595894052086379,
+            "max": 0.0008712090812754703,
+            "positive_fraction": 1,
+            "negative_fraction": 0
+          }
+        }
+      }
+    },
+    {
+      "batch": 3,
+      "arms": {
+        "base": {
+          "clip": 0.8287876823019498,
+          "all_mean": 0.0018717290777382767,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.003030743724896867,
+            "median": -0.0119549436277131,
+            "min": -0.0119549436277131,
+            "max": 0.005893456177919365,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_st": {
+          "clip": 0.9035206802587746,
+          "all_mean": 0.0018005165934678324,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.003589737548166827,
+            "median": -0.012805310926023772,
+            "min": -0.012805310926023772,
+            "max": 0.005625835829690118,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 0.8739845443010881,
+          "all_mean": 0.0018653840065263258,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0032635899311028727,
+            "median": -0.011865999208382494,
+            "min": -0.011865999208382494,
+            "max": 0.005338819346176749,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": -0.00007121248427044424,
+            "median": 0.000049563394433960184,
+            "min": -0.0028144085939176833,
+            "max": 0.0017224662499204513,
+            "positive_fraction": 0.546875,
+            "negative_fraction": 0.453125
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0005589938232699598,
+            "median": -0.0008503672983106725,
+            "min": -0.0008503672983106725,
+            "max": -0.0002676203482292472,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": -0.000006345071211950881,
+            "median": 8.499687638163778e-7,
+            "min": -0.002221768242652189,
+            "max": 0.001640674232390893,
+            "positive_fraction": 0.515625,
+            "negative_fraction": 0.484375
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0002328462062060055,
+            "median": -0.0005546368317426165,
+            "min": -0.0005546368317426165,
+            "max": 0.00008894441933060548,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      }
+    },
+    {
+      "batch": 4,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.0037285576719605917,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.003850189307263191,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.0038029017364687376,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": 0.00012163163530259924,
+            "median": -0.00008710403213996187,
+            "min": -0.00380899947067892,
+            "max": 0.006305099678800552,
+            "positive_fraction": 0.484375,
+            "negative_fraction": 0.515625
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": 0.00007434406450814585,
+            "median": 0.00007388575473399328,
+            "min": -0.0010499481036267966,
+            "max": 0.0012767737924699318,
+            "positive_fraction": 0.59375,
+            "negative_fraction": 0.40625
+          }
+        }
+      }
+    },
+    {
+      "batch": 5,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": -0.00034750156834521123,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.09837338560894149,
+            "median": -0.11022508105159012,
+            "min": -0.11022508105159012,
+            "max": -0.08652169016629285,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_st": {
+          "clip": 0.790072675484246,
+          "all_mean": -0.0022397615007762467,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.10200490001934392,
+            "median": -0.11049465548227388,
+            "min": -0.11049465548227388,
+            "max": -0.09351514455641396,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": -0.0002884231944055085,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.09827344530391091,
+            "median": -0.10951856920472913,
+            "min": -0.10951856920472913,
+            "max": -0.08702832140309269,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": -0.0018922599324310355,
+            "median": -0.0006279185549953326,
+            "min": -0.013279000451268175,
+            "max": 0.007798721450812174,
+            "positive_fraction": 0.4375,
+            "negative_fraction": 0.5625
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0036315144104024366,
+            "median": -0.006993454390121112,
+            "min": -0.006993454390121112,
+            "max": -0.0002695744306837611,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": 0.00005907837393970272,
+            "median": -0.00006454993482218896,
+            "min": -0.002575925560234893,
+            "max": 0.0033746358901858287,
+            "positive_fraction": 0.46875,
+            "negative_fraction": 0.53125
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.00009994030503057694,
+            "median": -0.0005066312367998371,
+            "min": -0.0005066312367998371,
+            "max": 0.000706511846860991,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      }
+    },
+    {
+      "batch": 6,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.005083118903958642,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.009073812129292813,
+            "median": -0.009799751858363681,
+            "min": -0.009799751858363681,
+            "max": -0.008347872400221945,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.004528886303031061,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.008798239139825137,
+            "median": -0.010983612783914687,
+            "min": -0.010983612783914687,
+            "max": -0.006612865495735587,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.004954155423445447,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.007187524977869231,
+            "median": -0.0077517292749891276,
+            "min": -0.0077517292749891276,
+            "max": -0.006623320680749334,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": -0.0005542326009275803,
+            "median": 0.00004809888327539369,
+            "min": -0.017377564211543906,
+            "max": 0.006951146051163981,
+            "positive_fraction": 0.515625,
+            "negative_fraction": 0.484375
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.00027557298946767617,
+            "median": -0.0011838609255510057,
+            "min": -0.0011838609255510057,
+            "max": 0.001735006904486358,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": -0.0001289634805131945,
+            "median": -0.00025759791470214566,
+            "min": -0.005397018456450908,
+            "max": 0.0026561700194340787,
+            "positive_fraction": 0.421875,
+            "negative_fraction": 0.578125
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.0018862871514235824,
+            "median": 0.0017245517194726112,
+            "min": 0.0017245517194726112,
+            "max": 0.0020480225833745536,
+            "positive_fraction": 1,
+            "negative_fraction": 0
+          }
+        }
+      }
+    },
+    {
+      "batch": 7,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.0022001983873742303,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.03145842141832689,
+            "median": -0.03820702280303845,
+            "min": -0.03820702280303845,
+            "max": -0.024709820033615326,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.0019217788066622776,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.03201434345420662,
+            "median": -0.041086548900712394,
+            "min": -0.041086548900712394,
+            "max": -0.02294213800770084,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.002122807929544848,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0335013205010497,
+            "median": -0.042257818435532446,
+            "min": -0.042257818435532446,
+            "max": -0.02474482256656696,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": -0.0002784195807119527,
+            "median": -0.00036229524522202183,
+            "min": -0.014163679593324652,
+            "max": 0.00541359570689659,
+            "positive_fraction": 0.4375,
+            "negative_fraction": 0.5625
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0005559220358797301,
+            "median": -0.0028795260976739456,
+            "min": -0.0028795260976739456,
+            "max": 0.0017676820259144854,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": -0.00007739045782938214,
+            "median": -0.00002036463963861479,
+            "min": -0.005031279215400808,
+            "max": 0.0032856528196738566,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0020428990827228155,
+            "median": -0.0040507956324939975,
+            "min": -0.0040507956324939975,
+            "max": -0.00003500253295163347,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      }
+    },
+    {
+      "batch": 8,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.0010082361529867093,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.02624915133500738,
+            "median": -0.03371957300919659,
+            "min": -0.03371957300919659,
+            "max": -0.018778729660818172,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.0033359979446540913,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.02325678378730167,
+            "median": -0.030992290154823188,
+            "min": -0.030992290154823188,
+            "max": -0.015521277419780155,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.000988981625161478,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.02429752807566543,
+            "median": -0.031464908903446,
+            "min": -0.031464908903446,
+            "max": -0.017130147247884864,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": 0.002327761791667382,
+            "median": 0.0008898941504655866,
+            "min": -0.006239130153192107,
+            "max": 0.0738848693496319,
+            "positive_fraction": 0.71875,
+            "negative_fraction": 0.28125
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.00299236754770571,
+            "median": 0.002727282854373403,
+            "min": 0.002727282854373403,
+            "max": 0.003257452241038017,
+            "positive_fraction": 1,
+            "negative_fraction": 0
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": -0.000019254527825231238,
+            "median": -0.00002201578560612205,
+            "min": -0.0031820258729284845,
+            "max": 0.005211576259799067,
+            "positive_fraction": 0.484375,
+            "negative_fraction": 0.515625
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.0019516232593419502,
+            "median": 0.0016485824129333082,
+            "min": 0.0016485824129333082,
+            "max": 0.0022546641057505923,
+            "positive_fraction": 1,
+            "negative_fraction": 0
+          }
+        }
+      }
+    },
+    {
+      "batch": 9,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.0026424572514667302,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.01130274039260204,
+            "median": -0.01229770828708876,
+            "min": -0.01229770828708876,
+            "max": -0.01030777249811532,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.004198506918026847,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.011958609868100156,
+            "median": -0.014176493588464734,
+            "min": -0.014176493588464734,
+            "max": -0.009740726147735579,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.0026389373300917812,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.010518245141603266,
+            "median": -0.011451781209403045,
+            "min": -0.011451781209403045,
+            "max": -0.009584709073803488,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": 0.0015560496665601165,
+            "median": 0.0002750881307642672,
+            "min": -0.006378365920499007,
+            "max": 0.04529453101817271,
+            "positive_fraction": 0.53125,
+            "negative_fraction": 0.46875
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0006558694754981165,
+            "median": -0.0018787853013759737,
+            "min": -0.0018787853013759737,
+            "max": 0.0005670463503797407,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": -0.0000035199213749489977,
+            "median": -0.0000036263344558307153,
+            "min": -0.0018154444981863804,
+            "max": 0.0018305458787466478,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.0007844952509987735,
+            "median": 0.0007230634243118317,
+            "min": 0.0007230634243118317,
+            "max": 0.0008459270776857153,
+            "positive_fraction": 1,
+            "negative_fraction": 0
+          }
+        }
+      }
+    },
+    {
+      "batch": 10,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.003907550495080951,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.012826631795430199,
+            "median": -0.015102655866977344,
+            "min": -0.015102655866977344,
+            "max": -0.010550607723883054,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_st": {
+          "clip": 0.4494434134169762,
+          "all_mean": 0.0004933672897345712,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.018088942626216076,
+            "median": -0.021478010608986686,
+            "min": -0.021478010608986686,
+            "max": -0.014699874643445465,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.0036595699995298075,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.012897967621098294,
+            "median": -0.01644546143965897,
+            "min": -0.01644546143965897,
+            "max": -0.009350473802537618,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": -0.00341418320534638,
+            "median": -0.0020126616886972926,
+            "min": -0.029877075759242366,
+            "max": 0.0090785497294803,
+            "positive_fraction": 0.3125,
+            "negative_fraction": 0.6875
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.005262310830785877,
+            "median": -0.006375354742009343,
+            "min": -0.006375354742009343,
+            "max": -0.004149266919562411,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": -0.0002479804955511436,
+            "median": -0.00007490373739660328,
+            "min": -0.0031273625065137978,
+            "max": 0.002990892333613715,
+            "positive_fraction": 0.484375,
+            "negative_fraction": 0.515625
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.00007133582566809515,
+            "median": -0.0013428055726816268,
+            "min": -0.0013428055726816268,
+            "max": 0.0012001339213454365,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      }
+    },
+    {
+      "batch": 11,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.0024194328103400997,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.02601295208776433,
+            "median": -0.03736124743563085,
+            "min": -0.03736124743563085,
+            "max": -0.014664656739897808,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.002481268835757465,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.024202499437737224,
+            "median": -0.037824975972661434,
+            "min": -0.037824975972661434,
+            "max": -0.010580022902813013,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.0023810379441531956,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.025816793945986127,
+            "median": -0.03745899150703247,
+            "min": -0.03745899150703247,
+            "max": -0.014174596384939786,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": 0.00006183602541736527,
+            "median": 0.00009480857798749298,
+            "min": -0.001781755531697904,
+            "max": 0.0040846338370847945,
+            "positive_fraction": 0.5625,
+            "negative_fraction": 0.4375
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.0018104526500271056,
+            "median": -0.00046372853703058325,
+            "min": -0.00046372853703058325,
+            "max": 0.0040846338370847945,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": -0.000038394866186904075,
+            "median": -0.00006143807380887267,
+            "min": -0.0016435374241101641,
+            "max": 0.0010529057891668359,
+            "positive_fraction": 0.421875,
+            "negative_fraction": 0.578125
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.00019615814177820212,
+            "median": -0.00009774407140161756,
+            "min": -0.00009774407140161756,
+            "max": 0.0004900603549580218,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      }
+    },
+    {
+      "batch": 12,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.004731332726953398,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.014792651049063688,
+            "median": -0.016070617971829293,
+            "min": -0.016070617971829293,
+            "max": -0.013514684126298082,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_st": {
+          "clip": 0.9933608576640001,
+          "all_mean": 0.005181932712323485,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.01529019249258634,
+            "median": -0.015511898783333145,
+            "min": -0.015511898783333145,
+            "max": -0.015068486201839537,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.004816770154789422,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.01593686843225739,
+            "median": -0.016515383580273824,
+            "min": -0.016515383580273824,
+            "max": -0.015358353284240955,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": 0.00045059998537008705,
+            "median": 0.00032859997663781115,
+            "min": -0.005632698295218397,
+            "max": 0.0033445918324206403,
+            "positive_fraction": 0.703125,
+            "negative_fraction": 0.296875
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0004975414435226533,
+            "median": -0.0019972146570350624,
+            "min": -0.0019972146570350624,
+            "max": 0.0010021317699897558,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": 0.00008543742783602426,
+            "median": 0.0001611477448584253,
+            "min": -0.0018436691579428732,
+            "max": 0.0016272335158289408,
+            "positive_fraction": 0.640625,
+            "negative_fraction": 0.359375
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.001144217383193702,
+            "median": -0.0018436691579428732,
+            "min": -0.0018436691579428732,
+            "max": -0.0004447656084445306,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      }
+    },
+    {
+      "batch": 13,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.0009356341210205107,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0213678453883146,
+            "median": -0.030059999011692096,
+            "min": -0.030059999011692096,
+            "max": -0.012675691764937103,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.0008640427871765555,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.025357595552544243,
+            "median": -0.03371168946372993,
+            "min": -0.03371168946372993,
+            "max": -0.017003501641358554,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.0010889417305252058,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.021032757417632553,
+            "median": -0.03092570989588772,
+            "min": -0.03092570989588772,
+            "max": -0.011139804939377385,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": -0.00007159133384395527,
+            "median": -0.0003369279683687054,
+            "min": -0.005982940106016521,
+            "max": 0.019527539959664608,
+            "positive_fraction": 0.453125,
+            "negative_fraction": 0.546875
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.003989750164229644,
+            "median": -0.004327809876421451,
+            "min": -0.004327809876421451,
+            "max": -0.003651690452037837,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": 0.00015330760950469507,
+            "median": 0.00005790410851425065,
+            "min": -0.0010679225600274123,
+            "max": 0.0026092483015913714,
+            "positive_fraction": 0.546875,
+            "negative_fraction": 0.453125
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.00033508797068204643,
+            "median": -0.0008657108841956251,
+            "min": -0.0008657108841956251,
+            "max": 0.001535886825559718,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      }
+    },
+    {
+      "batch": 14,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.0011244203367974381,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.006326971932925307,
+            "median": -0.020622935930181274,
+            "min": -0.020622935930181274,
+            "max": 0.00796899206433066,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.000851016350219197,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.006856284650192945,
+            "median": -0.02166517778206023,
+            "min": -0.02166517778206023,
+            "max": 0.00795260848167434,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.00122045638037864,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.006307631193873675,
+            "median": -0.02007161279268832,
+            "min": -0.02007161279268832,
+            "max": 0.00745635040494097,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": -0.00027340398657824116,
+            "median": 0.00002082821778959243,
+            "min": -0.01679567820777539,
+            "max": 0.004256058029151966,
+            "positive_fraction": 0.53125,
+            "negative_fraction": 0.46875
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.0005293127172676382,
+            "median": -0.0010422418518789556,
+            "min": -0.0010422418518789556,
+            "max": -0.000016383582656320783,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": 0.00009603604358120188,
+            "median": 0.000001804655967774238,
+            "min": -0.0005766472662820377,
+            "max": 0.0011525672631060857,
+            "positive_fraction": 0.515625,
+            "negative_fraction": 0.484375
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.000019340739051632028,
+            "median": -0.0005126416593896899,
+            "min": -0.0005126416593896899,
+            "max": 0.0005513231374929539,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      }
+    },
+    {
+      "batch": 15,
+      "arms": {
+        "base": {
+          "clip": 1,
+          "all_mean": 0.003225528572996045,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.030175439654346548,
+            "median": -0.007761230689522058,
+            "min": -0.007761230689522058,
+            "max": 0.06811210999821515,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_st": {
+          "clip": 1,
+          "all_mean": 0.0030726663602851367,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.029679717646091675,
+            "median": -0.00831475754567812,
+            "min": -0.00831475754567812,
+            "max": 0.06767419283786147,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        },
+        "base_sample_fixed": {
+          "clip": 1,
+          "all_mean": 0.003327826358181629,
+          "noise": {
+            "mu": 0,
+            "logits": 0
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.030178272081843982,
+            "median": -0.007028053420802038,
+            "min": -0.007028053420802038,
+            "max": 0.06738459758449,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      },
+      "increments": {
+        "base_sample_st": {
+          "all64": {
+            "n": 64,
+            "mean": -0.00015286221271090805,
+            "median": -0.0002696437204852131,
+            "min": -0.013086482078524142,
+            "max": 0.0076013560216692255,
+            "positive_fraction": 0.40625,
+            "negative_fraction": 0.59375
+          },
+          "dresser": {
+            "n": 2,
+            "mean": -0.000495722008254873,
+            "median": -0.0005535268561560613,
+            "min": -0.0005535268561560613,
+            "max": -0.00043791716035368466,
+            "positive_fraction": 0,
+            "negative_fraction": 1
+          }
+        },
+        "base_sample_fixed": {
+          "all64": {
+            "n": 64,
+            "mean": 0.00010229778518558441,
+            "median": 0.00009881906315634126,
+            "min": -0.0017846644903132258,
+            "max": 0.0026037466131283438,
+            "positive_fraction": 0.546875,
+            "negative_fraction": 0.453125
+          },
+          "dresser": {
+            "n": 2,
+            "mean": 0.0000028324274974345087,
+            "median": -0.000727512413725151,
+            "min": -0.000727512413725151,
+            "max": 0.00073317726872002,
+            "positive_fraction": 0.5,
+            "negative_fraction": 0.5
+          }
+        }
+      }
+    }
+  ]
+}
