@@ -194,7 +194,14 @@ def proxy_diagnosis(m, baseline):
         report[case] = {}
         for group, mask in [("all", None), ("eligible", m["eligible"])]:
             r = hub_report(nn, m, mask, excluded if case.startswith("remove_") else None)
-            r.pop("hub_counts")
+            counts = r.pop("hub_counts")
+            ranking_radii = baseline["r"] if case == "borrow_b32_radii" else m["r"]
+            remaining = np.setdiff1d(np.arange(len(counts)), excluded) if case.startswith("remove_") else np.arange(len(counts))
+            low = remaining[np.argsort(ranking_radii[remaining],kind="stable")[:int(np.ceil(.01*len(remaining)))]]
+            radius_used = case not in ("whole_equal_radius","both_equal_radius","direction")
+            r["retrieval_radius_lowest_one_percent_slot_share"] = float(counts[low].sum()/counts.sum()) if radius_used else None
+            r["retrieval_radius_hub_spearman"] = spearman(ranking_radii[remaining],counts[remaining]) if radius_used else None
+            r["original_radius_statistics_note"] = "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
             report[case][group] = r
     m["proxy_hubs"] = hub_report(raw, m, m["eligible"])["hub_counts"]
     m["proxy_hubs_angle"] = hub_report(cases["direction"], m, m["eligible"])["hub_counts"]
