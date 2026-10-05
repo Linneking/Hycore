@@ -1,5 +1,28 @@
 # Experiment history
 
+## H20 whole / radial proxy retrieval diagnosis — 2026-10-06
+
+Existing V5e200,V6best99/e200/e300 and six B32/B64 best/last caches were
+analyzed on CPU, ten models aligned to the same8856H20training objects.
+Sorted HDF5 versus glob-order ID mismatch was remapped by shard name/row;
+all labels and final input-cache SHA256 checks pass. Code6e77c59,
+branchcodex/hier-whole-cache-diagnostic. No GPU, inference, optimizer update
+or new main training. Five numerical/identity/rotation checks and interactive
+desktop/320px layout/data-update checks pass.
+
+V6e300 raw top4 covers28IDs, whole equal-radius190, proxy equal-radius30.
+373/485proxies share the largest raw set; whole equal-radius reduces this
+to53, proxy equal-radius retains367. Deleting89lowest-radius objects yields
+51IDs and281repetitions of a new dresser set;87.68%of slots come from the
+remaining bottom1%. Borrowing sourceB32 radii retains concentration but shifts
+identities;99.95%of slots now come from the borrowed bottom1%. Equal whole
+radius and direction rankings are exactly equivalent, not independent evidence.
+
+V6e300 dresser median depth/angle3.558/18.76degrees versus B64last4.568/2.97;
+overall depth medians4.617/4.684. Current controls diagnose frozen retrieval
+radial bias, not which loss caused the class-specific change. Existing baseline
+protocol differences still preclude isolating the HIER objective. See[27](27_HIER_WHOLE_RADIAL_RETRIEVAL_DIAGNOSIS_2026-10-06.md).
+
 ## Original HyCoRe/B64 matched class geometry and no-update batch probes — 2026-10-05
 
 Six best/last checkpoints of historical seed4780 B32, source seed22 B32 and

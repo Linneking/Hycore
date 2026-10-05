@@ -1,5 +1,27 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## Latest H20 whole / radial retrieval diagnosis — 2026-10-06
+
+[27: matched whole geometry and frozen proxy retrieval controls](27_HIER_WHOLE_RADIAL_RETRIEVAL_DIAGNOSIS_2026-10-06.md)
+uses ten existing caches, all aligned to the same8856training objects by HDF5
+shard name and row. H20's sorted-shard IDs differ from26's glob-order IDs;
+canonical remapping passes every label check. No new model forward, GPU,
+optimizer update or main training occurred; all source cache hashes remain unchanged.
+
+V6e300 eligible proxy top4 covers28IDs with raw distance,190with whole
+equal-radius copies,30with proxy equal-radius copies. Removing the lowest
+radius1% only replaces the hotspot:281/485proxies still share one new set,
+and87.68%of slots come from the remaining pool's lowest1%. Borrowing same-ID
+sourceB32 radii with H20 directions/proxies unchanged shifts hotspots but
+retains concentration. This locates a retrieval radial bias, not an isolated
+HIER training effect or proof that proxies coincide.
+
+Dresser whole median depth is3.558and within-class angle18.76degrees at
+V6e300 versus4.568/2.97degrees at B64last. Overall whole median depths are
+4.617/4.684, so the change is class-dependent. Distinguish proxy-to-whole
+retrieval from actual pair/triple ancestor use. The next question is loss-wise
+radial/angular gradients and proxy objective behavior; no next matrix is launched.
+
 ## Latest matched representation audit — 2026-10-05
 
 [26: original HyCoRe versus B64, full class geometry and batch probes](26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md)

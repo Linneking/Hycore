@@ -1,0 +1,1112 @@
+{
+  "date": "2026-10-06",
+  "analysis_code_commit": "6e77c59",
+  "derived_diagnostic_sha256": "e5d29a4c2c6606d920a04f11f5269edaf98829de934e7bb6a0fa4745750da6fe",
+  "canonical_identity": "sorted HDF5 shard name + row; label alignment asserted for every model",
+  "shared_training_objects": 8856,
+  "seed": 22,
+  "quantile_levels": [
+    0.01,
+    0.1,
+    0.5,
+    0.9,
+    0.99
+  ],
+  "models": {
+    "v5_e200": {
+      "kind": "HIER",
+      "source": {
+        "checkpoint_sha256": "7702f5df0fb04e5bf722b97653bad81b2bae57ba8ef9273956071ecd72de858f",
+        "epoch": 200,
+        "cache_sha256": "d3a6bf529bd33aa24994806d2608560d8481dca7160118c783b4e21efe270bf3"
+      },
+      "n": 8856,
+      "depth": [
+        3.567684862715553,
+        4.348988651898001,
+        4.898396590439371,
+        5.631594917663499,
+        6.00275796142769
+      ],
+      "radius": [
+        0.9451068604616697,
+        0.9744898430161366,
+        0.9851933705625785,
+        0.9928598691533782,
+        0.9950683194731065
+      ],
+      "angle": [
+        0.9763541188035094,
+        1.6121951973536128,
+        3.7390139951468777,
+        10.964161113610443,
+        44.17337505746477
+      ],
+      "distance": [
+        0.8880455337707983,
+        1.4519363692554255,
+        3.098247628608642,
+        5.405656139557232,
+        7.580982327073222
+      ],
+      "class_R_mean": 0.9929138281228926,
+      "same_set_proxy_pairs": {
+        "n": 2739,
+        "distance": [
+          0.15234401197773584,
+          0.2762049213692417,
+          1.964433167320721,
+          2.887285204765008,
+          3.000074756716678
+        ],
+        "angle": [
+          2.509784500434801,
+          4.32633672219896,
+          50.83390289804885,
+          76.99074832497968,
+          83.65502341997811
+        ],
+        "coincident_pairs_le_1e_6": 0
+      }
+    },
+    "v6_best99": {
+      "kind": "HIER",
+      "source": {
+        "checkpoint_sha256": "b33858435e41e3f87c06eff9f68454e3ede9250eac9747a080b411ecb7fb3d06",
+        "epoch": 99,
+        "cache_sha256": "b82ce66a5ff6fde6c3135655d49c94f028acecb56edc3d640a6338cb01c34ade"
+      },
+      "n": 8856,
+      "depth": [
+        4.797551624534264,
+        5.718905620573366,
+        6.2125978274772224,
+        6.212610420751669,
+        6.21261706106202
+      ],
+      "radius": [
+        0.9836351637282721,
+        0.9934548853334866,
+        0.9959999669929132,
+        0.9960000172653634,
+        0.9960000437732804
+      ],
+      "angle": [
+        1.5912946904411531,
+        2.9053283716821623,
+        7.595999269973456,
+        27.563161641979995,
+        67.40333374175958
+      ],
+      "distance": [
+        3.7569865386073507,
+        4.942191615780053,
+        6.807913449323474,
+        8.963995195754283,
+        10.881787432774718
+      ],
+      "class_R_mean": 0.9677817092916016,
+      "same_set_proxy_pairs": {
+        "n": 4792,
+        "distance": [
+          0.5686207102621451,
+          0.9760198529516179,
+          2.241512514242318,
+          2.6731627957967423,
+          2.803093967599333
+        ],
+        "angle": [
+          12.553963216520705,
+          22.80559256146241,
+          67.02612017911602,
+          85.72175869399804,
+          90.75672202882626
+        ],
+        "coincident_pairs_le_1e_6": 0
+      }
+    },
+    "v6_e200": {
+      "kind": "HIER",
+      "source": {
+        "checkpoint_sha256": "3ed067b09505b0d0d9e1ba65eb5894c631f8a2ede0bc644dc601947851a3a41e",
+        "epoch": 200,
+        "cache_sha256": "b283d9498736c31b00752b5f63b3be82d16e8198f98bd78790b92725ff5f59d8"
+      },
+      "n": 8856,
+      "depth": [
+        3.984747958820325,
+        4.678433723653697,
+        5.352266107989463,
+        5.992290045792759,
+        6.212610448171959
+      ],
+      "radius": [
+        0.9634847810852735,
+        0.9815840320079907,
+        0.990569867622999,
+        0.9950165738104235,
+        0.9960000173748247
+      ],
+      "angle": [
+        1.265960214189435,
+        2.2662686146752455,
+        5.311052138983491,
+        17.809955392563033,
+        58.33101648314863
+      ],
+      "distance": [
+        1.9087492208518944,
+        2.860966923672634,
+        4.674528286241388,
+        6.892829563876735,
+        9.003060388053262
+      ],
+      "class_R_mean": 0.9829001290771592,
+      "same_set_proxy_pairs": {
+        "n": 2043,
+        "distance": [
+          0.2690613058345726,
+          0.4165008694266123,
+          1.7526224548184899,
+          2.3454163720694403,
+          2.4199694561142135
+        ],
+        "angle": [
+          6.410379911280145,
+          10.2841756446489,
+          54.64846391528361,
+          79.49678097240151,
+          81.50574008048397
+        ],
+        "coincident_pairs_le_1e_6": 0
+      }
+    },
+    "v6_e300": {
+      "kind": "HIER",
+      "source": {
+        "checkpoint_sha256": "078ca9f789b13dd18e2e83e1e35e453a90eafa90fa21cea16f4f6100d383f6e5",
+        "epoch": 300,
+        "cache_sha256": "67ebe6e81e70b4355c7eeebcc90bde1aea2225ad12183f40dd1ff50f3cabe1b8"
+      },
+      "n": 8856,
+      "depth": [
+        3.2696167815389097,
+        3.972837434154279,
+        4.616526773237396,
+        5.191488918678703,
+        5.694774093145937
+      ],
+      "radius": [
+        0.9267432976823881,
+        0.9630553800263216,
+        0.9804194413732992,
+        0.9889341338297193,
+        0.9932955432102114
+      ],
+      "angle": [
+        0.8063104073294328,
+        1.3925398535089764,
+        3.0442977210816764,
+        9.350886477633248,
+        53.90231041173555
+      ],
+      "distance": [
+        0.7187440814766755,
+        1.143695729274182,
+        2.3193486060844584,
+        4.3790037205697026,
+        7.730938779606098
+      ],
+      "class_R_mean": 0.9892606037584531,
+      "same_set_proxy_pairs": {
+        "n": 69853,
+        "distance": [
+          0.5655092684361052,
+          8.741753091259424,
+          10.02285271120133,
+          10.911283731312412,
+          11.225891837054315
+        ],
+        "angle": [
+          4.404239911749336,
+          9.13219852890384,
+          13.803364021985468,
+          121.77484203062737,
+          125.2300073383167
+        ],
+        "coincident_pairs_le_1e_6": 0
+      }
+    },
+    "original_best": {
+      "kind": "HyCoRe",
+      "source": {
+        "checkpoint_sha256": "8bfdd3f721e41a97a89a9d6ba590c457861f1dbc50536ab8fda796aa5706cfdb",
+        "epoch": 229,
+        "cache_sha256": "bbefd28ad1d428a63a297ccedf65cf2d2afdbef3faab31bcf3e17abd4193b221"
+      },
+      "n": 8856,
+      "depth": [
+        2.9626358501528602,
+        4.0820276384153065,
+        4.607303691990302,
+        5.318812585919316,
+        5.701659373795052
+      ],
+      "radius": [
+        0.9017146148213514,
+        0.9668135249590484,
+        0.9802398052421355,
+        0.9902506241562451,
+        0.9933414067022565
+      ],
+      "angle": [
+        1.2399325114394157,
+        1.7293918747079131,
+        2.7550626246152183,
+        6.231083836092512,
+        37.672665439672826
+      ],
+      "distance": [
+        0.9368903595173879,
+        1.243517411020769,
+        1.8901376406698587,
+        3.469029442958865,
+        6.160568645480421
+      ],
+      "class_R_mean": 0.9900748871775523
+    },
+    "original_last": {
+      "kind": "HyCoRe",
+      "source": {
+        "checkpoint_sha256": "5764c7c312fc032ee6bcd2ce725874fef66ecf82a085bf2eb4b1beb0580ff62c",
+        "epoch": 300,
+        "cache_sha256": "854993bb8eec00d621add2b3768824016a70598460bec2aa500ba1958c1f7221"
+      },
+      "n": 8856,
+      "depth": [
+        3.193525804088402,
+        4.04758415378061,
+        4.491255154057234,
+        5.284813091263235,
+        5.7444653408638775
+      ],
+      "radius": [
+        0.9211796572903627,
+        0.9656705170063389,
+        0.9778352527487342,
+        0.989915150475476,
+        0.9936195247848095
+      ],
+      "angle": [
+        0.9606169080377018,
+        1.2975708552658927,
+        2.0179584125275176,
+        4.6497933841438845,
+        22.499458014492646
+      ],
+      "distance": [
+        0.6178540481298616,
+        0.8586656244636243,
+        1.354755840163178,
+        2.7417673546456633,
+        5.3912853677066686
+      ],
+      "class_R_mean": 0.9959831941980024
+    },
+    "source_b32_best": {
+      "kind": "HyCoRe",
+      "source": {
+        "checkpoint_sha256": "2ef30a4973721d21d12ee04917e8c60b01a1e79f5ead1d4b9bc0d05757717358",
+        "epoch": 216,
+        "cache_sha256": "a31f8de49ae92333b8c97c5fbd248b756186ebc8952c658b6fd444b36ebaf0de"
+      },
+      "n": 8856,
+      "depth": [
+        3.0553407239929427,
+        4.12803094345524,
+        4.644962200930983,
+        5.210220905821583,
+        5.868674067533266
+      ],
+      "radius": [
+        0.9100233676745655,
+        0.9682819662580622,
+        0.9809631559313003,
+        0.9891383746864815,
+        0.9943626822900644
+      ],
+      "angle": [
+        1.311681510702909,
+        1.8765831531911585,
+        3.213253243812872,
+        8.749088996034748,
+        43.192452468652085
+      ],
+      "distance": [
+        1.1131577949774614,
+        1.4903459650799624,
+        2.2302272004356465,
+        3.9360577608894074,
+        6.3981838468953365
+      ],
+      "class_R_mean": 0.9876968310310323
+    },
+    "source_b32_last": {
+      "kind": "HyCoRe",
+      "source": {
+        "checkpoint_sha256": "94044fa4d1f2161cd8cf2855eed523893ae14686fc31dcb5895d6d75b7e38e16",
+        "epoch": 300,
+        "cache_sha256": "cca3efe9c8b04050f6f6d51510e29f33686f10567ea546266ef0561328e1a4d0"
+      },
+      "n": 8856,
+      "depth": [
+        3.0495648937638116,
+        3.892682118262962,
+        4.360033529502049,
+        5.123669397627294,
+        5.57812479729499
+      ],
+      "radius": [
+        0.9095272472675768,
+        0.9600337674608723,
+        0.9747665139275616,
+        0.9881622143836617,
+        0.992469169812751
+      ],
+      "angle": [
+        0.8974904984934179,
+        1.3244822788354205,
+        2.0815483099564958,
+        4.394910404276755,
+        15.56814967000487
+      ],
+      "distance": [
+        0.5686762735796379,
+        0.7700429019297527,
+        1.2091563674122217,
+        2.5401407598765546,
+        4.690123223903952
+      ],
+      "class_R_mean": 0.9962031243606411
+    },
+    "b64_best": {
+      "kind": "HyCoRe",
+      "source": {
+        "checkpoint_sha256": "3ba1322a7cf1e0a9516fffaf77b331395220f66acaa834f2b1a88fe681d05f09",
+        "epoch": 267,
+        "cache_sha256": "5cdb6a0e048a39bcca0e2e9ca9c710673da5b9a0ef10d3733cb9b9a2b658d2cd"
+      },
+      "n": 8856,
+      "depth": [
+        3.3605512187245163,
+        4.0345375168508575,
+        4.4779632220169745,
+        5.104623721390713,
+        5.636884844293577
+      ],
+      "radius": [
+        0.9328972619809957,
+        0.9652275358079199,
+        0.9775420040359148,
+        0.9879359678976786,
+        0.9928974037712098
+      ],
+      "angle": [
+        0.9685587071352836,
+        1.337818314099998,
+        2.1630359142131694,
+        5.367599233600172,
+        20.690019837673965
+      ],
+      "distance": [
+        0.7183635053943517,
+        0.9510919468785264,
+        1.4146216966335163,
+        2.9299546603452122,
+        6.297887091231567
+      ],
+      "class_R_mean": 0.9956019277982311
+    },
+    "b64_last": {
+      "kind": "HyCoRe",
+      "source": {
+        "checkpoint_sha256": "a479eee7bc3e0c1532c5beddd716844e12f1d26d8ed8a86bd861f37556e9428a",
+        "epoch": 300,
+        "cache_sha256": "3a456882a66c5d7a5fb9303e5b9bdc67709c727f73b2f5d5a112ecf8b864f405"
+      },
+      "n": 8856,
+      "depth": [
+        3.5522907405743185,
+        4.242573741506172,
+        4.6839264328700185,
+        5.200940623686658,
+        5.92175301708096
+      ],
+      "radius": [
+        0.9442790239531512,
+        0.9716660512846171,
+        0.9816839845633274,
+        0.9890376618885093,
+        0.9946533368306845
+      ],
+      "angle": [
+        0.8316016887783666,
+        1.1432009869521265,
+        1.8151626858664325,
+        4.334270725079792,
+        16.13427645487982
+      ],
+      "distance": [
+        0.7581650828843945,
+        0.9933149873732318,
+        1.4634335085149188,
+        2.9131413677427465,
+        6.528435065192344
+      ],
+      "class_R_mean": 0.9970393325469631
+    }
+  },
+  "retrieval_controls": [
+    {
+      "model": "v5_e200",
+      "case": "raw",
+      "proxies": 165,
+      "distinct_ids": 20,
+      "effective_ids": 14.896415244650909,
+      "top_id_share": 0.1318181818181818,
+      "distinct_top4_sets": 14,
+      "largest_set_proxies": 57,
+      "largest_set_ids": [
+        180,
+        1850,
+        4055,
+        9542
+      ],
+      "lowest_one_percent_slot_share": 0.8757575757575757,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.8757575757575757,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v5_e200",
+      "case": "whole_equal_radius",
+      "proxies": 165,
+      "distinct_ids": 91,
+      "effective_ids": 55.99910973814667,
+      "top_id_share": 0.03484848484848485,
+      "distinct_top4_sets": 52,
+      "largest_set_proxies": 18,
+      "largest_set_ids": [
+        3144,
+        3452,
+        4646,
+        8602
+      ],
+      "lowest_one_percent_slot_share": 0.18787878787878787,
+      "retrieval_radius_lowest_one_percent_slot_share": null,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v5_e200",
+      "case": "proxy_equal_radius",
+      "proxies": 165,
+      "distinct_ids": 22,
+      "effective_ids": 15.347519876624428,
+      "top_id_share": 0.1318181818181818,
+      "distinct_top4_sets": 16,
+      "largest_set_proxies": 56,
+      "largest_set_ids": [
+        180,
+        1850,
+        4055,
+        9542
+      ],
+      "lowest_one_percent_slot_share": 0.8727272727272727,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.8727272727272727,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v5_e200",
+      "case": "borrow_b32_radii",
+      "proxies": 165,
+      "distinct_ids": 21,
+      "effective_ids": 13.680471687124758,
+      "top_id_share": 0.1606060606060606,
+      "distinct_top4_sets": 18,
+      "largest_set_proxies": 31,
+      "largest_set_ids": [
+        1342,
+        4337,
+        4717,
+        8927
+      ],
+      "lowest_one_percent_slot_share": 0.012121212121212121,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9878787878787879,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v5_e200",
+      "case": "remove_lowest_one_percent",
+      "proxies": 165,
+      "distinct_ids": 38,
+      "effective_ids": 26.564321097557745,
+      "top_id_share": 0.08787878787878788,
+      "distinct_top4_sets": 47,
+      "largest_set_proxies": 17,
+      "largest_set_ids": [
+        3144,
+        4646,
+        7880,
+        8314
+      ],
+      "lowest_one_percent_slot_share": null,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.8666666666666667,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_best99",
+      "case": "raw",
+      "proxies": 188,
+      "distinct_ids": 30,
+      "effective_ids": 10.105248104224257,
+      "top_id_share": 0.22606382978723405,
+      "distinct_top4_sets": 32,
+      "largest_set_proxies": 94,
+      "largest_set_ids": [
+        1539,
+        5464,
+        5671,
+        6991
+      ],
+      "lowest_one_percent_slot_share": 0.9986702127659575,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9986702127659575,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_best99",
+      "case": "whole_equal_radius",
+      "proxies": 188,
+      "distinct_ids": 328,
+      "effective_ids": 219.84695565918395,
+      "top_id_share": 0.0199468085106383,
+      "distinct_top4_sets": 165,
+      "largest_set_proxies": 5,
+      "largest_set_ids": [
+        1428,
+        1574,
+        4041,
+        8962
+      ],
+      "lowest_one_percent_slot_share": 0.0797872340425532,
+      "retrieval_radius_lowest_one_percent_slot_share": null,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_best99",
+      "case": "proxy_equal_radius",
+      "proxies": 188,
+      "distinct_ids": 37,
+      "effective_ids": 11.348928117895293,
+      "top_id_share": 0.2247340425531915,
+      "distinct_top4_sets": 39,
+      "largest_set_proxies": 91,
+      "largest_set_ids": [
+        1539,
+        5464,
+        5671,
+        6991
+      ],
+      "lowest_one_percent_slot_share": 0.9827127659574468,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9827127659574468,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_best99",
+      "case": "borrow_b32_radii",
+      "proxies": 188,
+      "distinct_ids": 38,
+      "effective_ids": 13.709251067440178,
+      "top_id_share": 0.20079787234042554,
+      "distinct_top4_sets": 41,
+      "largest_set_proxies": 54,
+      "largest_set_ids": [
+        1342,
+        4337,
+        4445,
+        8927
+      ],
+      "lowest_one_percent_slot_share": 0.10904255319148937,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9973404255319149,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_best99",
+      "case": "remove_lowest_one_percent",
+      "proxies": 188,
+      "distinct_ids": 76,
+      "effective_ids": 37.73942702394665,
+      "top_id_share": 0.07047872340425532,
+      "distinct_top4_sets": 119,
+      "largest_set_proxies": 12,
+      "largest_set_ids": [
+        3568,
+        5010,
+        6337,
+        6415
+      ],
+      "lowest_one_percent_slot_share": null,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9002659574468085,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_e200",
+      "case": "raw",
+      "proxies": 188,
+      "distinct_ids": 39,
+      "effective_ids": 16.562176142734163,
+      "top_id_share": 0.1529255319148936,
+      "distinct_top4_sets": 42,
+      "largest_set_proxies": 56,
+      "largest_set_ids": [
+        287,
+        1333,
+        1495,
+        7903
+      ],
+      "lowest_one_percent_slot_share": 0.9627659574468085,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9627659574468085,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_e200",
+      "case": "whole_equal_radius",
+      "proxies": 188,
+      "distinct_ids": 173,
+      "effective_ids": 105.86537364616443,
+      "top_id_share": 0.026595744680851064,
+      "distinct_top4_sets": 123,
+      "largest_set_proxies": 8,
+      "largest_set_ids": [
+        320,
+        398,
+        2948,
+        9458
+      ],
+      "lowest_one_percent_slot_share": 0.26595744680851063,
+      "retrieval_radius_lowest_one_percent_slot_share": null,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_e200",
+      "case": "proxy_equal_radius",
+      "proxies": 188,
+      "distinct_ids": 41,
+      "effective_ids": 17.453399683535718,
+      "top_id_share": 0.15159574468085107,
+      "distinct_top4_sets": 43,
+      "largest_set_proxies": 48,
+      "largest_set_ids": [
+        287,
+        1333,
+        1495,
+        7903
+      ],
+      "lowest_one_percent_slot_share": 0.9561170212765957,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9561170212765957,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_e200",
+      "case": "borrow_b32_radii",
+      "proxies": 188,
+      "distinct_ids": 31,
+      "effective_ids": 13.572846688131225,
+      "top_id_share": 0.20079787234042554,
+      "distinct_top4_sets": 33,
+      "largest_set_proxies": 41,
+      "largest_set_ids": [
+        1342,
+        4337,
+        4445,
+        8927
+      ],
+      "lowest_one_percent_slot_share": 0.11436170212765957,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9960106382978723,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_e200",
+      "case": "remove_lowest_one_percent",
+      "proxies": 188,
+      "distinct_ids": 65,
+      "effective_ids": 30.779451905263016,
+      "top_id_share": 0.11702127659574468,
+      "distinct_top4_sets": 77,
+      "largest_set_proxies": 25,
+      "largest_set_ids": [
+        610,
+        1982,
+        3833,
+        4657
+      ],
+      "lowest_one_percent_slot_share": null,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9215425531914894,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_e300",
+      "case": "raw",
+      "proxies": 485,
+      "distinct_ids": 28,
+      "effective_ids": 7.131135394567081,
+      "top_id_share": 0.23505154639175257,
+      "distinct_top4_sets": 25,
+      "largest_set_proxies": 373,
+      "largest_set_ids": [
+        2883,
+        6009,
+        7985,
+        9123
+      ],
+      "lowest_one_percent_slot_share": 0.9603092783505155,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9603092783505155,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_e300",
+      "case": "whole_equal_radius",
+      "proxies": 485,
+      "distinct_ids": 190,
+      "effective_ids": 53.04455869206572,
+      "top_id_share": 0.11804123711340206,
+      "distinct_top4_sets": 138,
+      "largest_set_proxies": 53,
+      "largest_set_ids": [
+        2128,
+        3566,
+        5771,
+        7117
+      ],
+      "lowest_one_percent_slot_share": 0.05979381443298969,
+      "retrieval_radius_lowest_one_percent_slot_share": null,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_e300",
+      "case": "proxy_equal_radius",
+      "proxies": 485,
+      "distinct_ids": 30,
+      "effective_ids": 7.579211199308404,
+      "top_id_share": 0.23144329896907218,
+      "distinct_top4_sets": 27,
+      "largest_set_proxies": 367,
+      "largest_set_ids": [
+        2883,
+        6009,
+        7985,
+        9123
+      ],
+      "lowest_one_percent_slot_share": 0.9561855670103093,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9561855670103093,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_e300",
+      "case": "borrow_b32_radii",
+      "proxies": 485,
+      "distinct_ids": 28,
+      "effective_ids": 9.884308328390635,
+      "top_id_share": 0.21701030927835052,
+      "distinct_top4_sets": 28,
+      "largest_set_proxies": 191,
+      "largest_set_ids": [
+        1342,
+        4337,
+        4445,
+        4717
+      ],
+      "lowest_one_percent_slot_share": 0.031443298969072164,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.9994845360824742,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    },
+    {
+      "model": "v6_e300",
+      "case": "remove_lowest_one_percent",
+      "proxies": 485,
+      "distinct_ids": 51,
+      "effective_ids": 18.055183318804637,
+      "top_id_share": 0.1556701030927835,
+      "distinct_top4_sets": 61,
+      "largest_set_proxies": 281,
+      "largest_set_ids": [
+        699,
+        6019,
+        6123,
+        8199
+      ],
+      "lowest_one_percent_slot_share": null,
+      "retrieval_radius_lowest_one_percent_slot_share": 0.8768041237113402,
+      "original_radius_statistics_note": "radius_hub_spearman and lowest_one_percent_slot_share use the unmodified HIER whole radii; retrieval_radius_* use the radii for this control, and the remaining pool after deletion."
+    }
+  ],
+  "comparisons": [
+    {
+      "a": "v5_e200",
+      "b": "v6_best99",
+      "depth_rank_spearman": 0.23168469430528152,
+      "within_class_hyp_knn5_jaccard": 0.05013863796045368,
+      "within_class_angle_knn5_jaccard": 0.05283343012001549
+    },
+    {
+      "a": "v5_e200",
+      "b": "v6_e200",
+      "depth_rank_spearman": 0.3532434113386374,
+      "within_class_hyp_knn5_jaccard": 0.051556831705883197,
+      "within_class_angle_knn5_jaccard": 0.05496856225176009
+    },
+    {
+      "a": "v5_e200",
+      "b": "v6_e300",
+      "depth_rank_spearman": 0.44686875300851275,
+      "within_class_hyp_knn5_jaccard": 0.04569451613828308,
+      "within_class_angle_knn5_jaccard": 0.046621159002595315
+    },
+    {
+      "a": "v5_e200",
+      "b": "original_best",
+      "depth_rank_spearman": 0.16991451768560087,
+      "within_class_hyp_knn5_jaccard": 0.05058717253839205,
+      "within_class_angle_knn5_jaccard": 0.05401368993848669
+    },
+    {
+      "a": "v5_e200",
+      "b": "original_last",
+      "depth_rank_spearman": 0.25780106155692045,
+      "within_class_hyp_knn5_jaccard": 0.04572319367373569,
+      "within_class_angle_knn5_jaccard": 0.04830775655640155
+    },
+    {
+      "a": "v5_e200",
+      "b": "source_b32_best",
+      "depth_rank_spearman": 0.14298159716636946,
+      "within_class_hyp_knn5_jaccard": 0.0509295106178575,
+      "within_class_angle_knn5_jaccard": 0.05481710901765102
+    },
+    {
+      "a": "v5_e200",
+      "b": "source_b32_last",
+      "depth_rank_spearman": 0.25225714257307436,
+      "within_class_hyp_knn5_jaccard": 0.04660457980241178,
+      "within_class_angle_knn5_jaccard": 0.0479999211367775
+    },
+    {
+      "a": "v5_e200",
+      "b": "b64_best",
+      "depth_rank_spearman": 0.16078633682807747,
+      "within_class_hyp_knn5_jaccard": 0.0438918641831921,
+      "within_class_angle_knn5_jaccard": 0.04708268808878565
+    },
+    {
+      "a": "v5_e200",
+      "b": "b64_last",
+      "depth_rank_spearman": 0.18816476918094097,
+      "within_class_hyp_knn5_jaccard": 0.041252186662078257,
+      "within_class_angle_knn5_jaccard": 0.04380090262542837
+    },
+    {
+      "a": "v6_best99",
+      "b": "v5_e200",
+      "depth_rank_spearman": 0.23168469430528152,
+      "within_class_hyp_knn5_jaccard": 0.05013863796045368,
+      "within_class_angle_knn5_jaccard": 0.05283343012001549
+    },
+    {
+      "a": "v6_best99",
+      "b": "v6_e200",
+      "depth_rank_spearman": 0.25715117301397294,
+      "within_class_hyp_knn5_jaccard": 0.06556849629342854,
+      "within_class_angle_knn5_jaccard": 0.07113462669018225
+    },
+    {
+      "a": "v6_best99",
+      "b": "v6_e300",
+      "depth_rank_spearman": 0.21533672326702774,
+      "within_class_hyp_knn5_jaccard": 0.04949025680732998,
+      "within_class_angle_knn5_jaccard": 0.051927399234309814
+    },
+    {
+      "a": "v6_best99",
+      "b": "original_best",
+      "depth_rank_spearman": 0.0141795306844047,
+      "within_class_hyp_knn5_jaccard": 0.06764134440286203,
+      "within_class_angle_knn5_jaccard": 0.07201287621341824
+    },
+    {
+      "a": "v6_best99",
+      "b": "original_last",
+      "depth_rank_spearman": -0.03167476268877334,
+      "within_class_hyp_knn5_jaccard": 0.05515989518360792,
+      "within_class_angle_knn5_jaccard": 0.058567592951061793
+    },
+    {
+      "a": "v6_best99",
+      "b": "source_b32_best",
+      "depth_rank_spearman": -0.0018065113299861812,
+      "within_class_hyp_knn5_jaccard": 0.06879830372377799,
+      "within_class_angle_knn5_jaccard": 0.0732110594915473
+    },
+    {
+      "a": "v6_best99",
+      "b": "source_b32_last",
+      "depth_rank_spearman": -0.018989631756115507,
+      "within_class_hyp_knn5_jaccard": 0.05361265252864169,
+      "within_class_angle_knn5_jaccard": 0.056816470942487214
+    },
+    {
+      "a": "v6_best99",
+      "b": "b64_best",
+      "depth_rank_spearman": 0.039398221188337294,
+      "within_class_hyp_knn5_jaccard": 0.053102282014883644,
+      "within_class_angle_knn5_jaccard": 0.05587235270500853
+    },
+    {
+      "a": "v6_best99",
+      "b": "b64_last",
+      "depth_rank_spearman": 0.05038064374213829,
+      "within_class_hyp_knn5_jaccard": 0.050062911343399144,
+      "within_class_angle_knn5_jaccard": 0.053453581824178024
+    },
+    {
+      "a": "v6_e200",
+      "b": "v5_e200",
+      "depth_rank_spearman": 0.3532434113386374,
+      "within_class_hyp_knn5_jaccard": 0.051556831705883197,
+      "within_class_angle_knn5_jaccard": 0.05496856225176009
+    },
+    {
+      "a": "v6_e200",
+      "b": "v6_best99",
+      "depth_rank_spearman": 0.25715117301397294,
+      "within_class_hyp_knn5_jaccard": 0.06556849629342854,
+      "within_class_angle_knn5_jaccard": 0.07113462669018225
+    },
+    {
+      "a": "v6_e200",
+      "b": "v6_e300",
+      "depth_rank_spearman": 0.40451597763599184,
+      "within_class_hyp_knn5_jaccard": 0.05191754133149797,
+      "within_class_angle_knn5_jaccard": 0.054795600866061576
+    },
+    {
+      "a": "v6_e200",
+      "b": "original_best",
+      "depth_rank_spearman": 0.08708963652658998,
+      "within_class_hyp_knn5_jaccard": 0.05962328472491074,
+      "within_class_angle_knn5_jaccard": 0.06476552530075563
+    },
+    {
+      "a": "v6_e200",
+      "b": "original_last",
+      "depth_rank_spearman": -0.022984844821518996,
+      "within_class_hyp_knn5_jaccard": 0.04972370986937382,
+      "within_class_angle_knn5_jaccard": 0.053508248376134555
+    },
+    {
+      "a": "v6_e200",
+      "b": "source_b32_best",
+      "depth_rank_spearman": 0.07370927681994856,
+      "within_class_hyp_knn5_jaccard": 0.05805184539940638,
+      "within_class_angle_knn5_jaccard": 0.06405754864426952
+    },
+    {
+      "a": "v6_e200",
+      "b": "source_b32_last",
+      "depth_rank_spearman": 0.07549986709725322,
+      "within_class_hyp_knn5_jaccard": 0.04906323038098106,
+      "within_class_angle_knn5_jaccard": 0.05173561821597052
+    },
+    {
+      "a": "v6_e200",
+      "b": "b64_best",
+      "depth_rank_spearman": 0.06905070814997731,
+      "within_class_hyp_knn5_jaccard": 0.04981467142713755,
+      "within_class_angle_knn5_jaccard": 0.05299339699746204
+    },
+    {
+      "a": "v6_e200",
+      "b": "b64_last",
+      "depth_rank_spearman": 0.057549660627011605,
+      "within_class_hyp_knn5_jaccard": 0.04666596765174001,
+      "within_class_angle_knn5_jaccard": 0.04834718816764887
+    },
+    {
+      "a": "v6_e300",
+      "b": "v5_e200",
+      "depth_rank_spearman": 0.44686875300851275,
+      "within_class_hyp_knn5_jaccard": 0.04569451613828308,
+      "within_class_angle_knn5_jaccard": 0.046621159002595315
+    },
+    {
+      "a": "v6_e300",
+      "b": "v6_best99",
+      "depth_rank_spearman": 0.21533672326702774,
+      "within_class_hyp_knn5_jaccard": 0.04949025680732998,
+      "within_class_angle_knn5_jaccard": 0.051927399234309814
+    },
+    {
+      "a": "v6_e300",
+      "b": "v6_e200",
+      "depth_rank_spearman": 0.40451597763599184,
+      "within_class_hyp_knn5_jaccard": 0.05191754133149797,
+      "within_class_angle_knn5_jaccard": 0.054795600866061576
+    },
+    {
+      "a": "v6_e300",
+      "b": "original_best",
+      "depth_rank_spearman": -0.01743994894404891,
+      "within_class_hyp_knn5_jaccard": 0.04796497039044465,
+      "within_class_angle_knn5_jaccard": 0.050765510961987934
+    },
+    {
+      "a": "v6_e300",
+      "b": "original_last",
+      "depth_rank_spearman": -0.013111376108213689,
+      "within_class_hyp_knn5_jaccard": 0.04249697093531782,
+      "within_class_angle_knn5_jaccard": 0.04490722817281083
+    },
+    {
+      "a": "v6_e300",
+      "b": "source_b32_best",
+      "depth_rank_spearman": -0.03171794478016073,
+      "within_class_hyp_knn5_jaccard": 0.04749896043933985,
+      "within_class_angle_knn5_jaccard": 0.050882013449764125
+    },
+    {
+      "a": "v6_e300",
+      "b": "source_b32_last",
+      "depth_rank_spearman": 0.05291098794725586,
+      "within_class_hyp_knn5_jaccard": 0.04325199667340589,
+      "within_class_angle_knn5_jaccard": 0.04529571916089531
+    },
+    {
+      "a": "v6_e300",
+      "b": "b64_best",
+      "depth_rank_spearman": 0.05836892438006332,
+      "within_class_hyp_knn5_jaccard": 0.0424346869130067,
+      "within_class_angle_knn5_jaccard": 0.04430096714988314
+    },
+    {
+      "a": "v6_e300",
+      "b": "b64_last",
+      "depth_rank_spearman": 0.09644268798891363,
+      "within_class_hyp_knn5_jaccard": 0.041363312111957096,
+      "within_class_angle_knn5_jaccard": 0.04208652370915244
+    }
+  ],
+  "limits": [
+    "Existing full clean eval caches; training protocols and checkpoint epochs differ, so descriptive comparisons are not isolated HIER effects.",
+    "Equal-radius copies and borrowed radii are frozen retrieval controls, not training proposals or evidence of morphology.",
+    "Whole equal-radius and direction top4 rankings are mathematically equivalent; reported as a validation check, not independent evidence.",
+    "Proxy-to-sample retrieval differs from actual hard-Gumbel ancestor use and sample-to-proxy assignment.",
+    "All original 256D calculations use FP64 conversion of cached FP32 vectors; no 2D projection is used for distances."
+  ]
+}

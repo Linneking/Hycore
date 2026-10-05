@@ -4,6 +4,14 @@ Status: **已批准的 V6 B64 shuffle 已于2026-10-05 09:24:55完成300轮，be
 
 ## 最新只读诊断依据 — 2026-10-05
 
+补充2026-10-06：[27](27_HIER_WHOLE_RADIAL_RETRIEVAL_DIAGNOSIS_2026-10-06.md)
+已完成用户本次要求的现有缓存CPU诊断。十份H20/B32/B64缓存按文件名＋行号对齐8856ID；
+径向检索控制表明 whole 半径异质性是集中现象的主要因素，删除低半径样本只让新热点接替，
+仅统一 proxy 半径效果很小。Dresser在V6末期更浅且角向更宽，而全体中位深度接近B64。
+这些均为冻结控制，没有改变训练mining/loss/BN，也没有启动梯度更新或主矩阵。
+下一步应解释CE/intra/HIER sample的实际径向/角向梯度及proxy项的移动作用；
+同协议balanced64 B0仍需另行审阅，不因本次诊断自动获准。
+
 用户要求比较原始HyCoRe与B64的batch和逐类whole/part。六权重全量train/test和无参数更新probe已完成，见[26](26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md)。B64没有一致外移或分类崩塌；原版也有弱类和后期拟合差距。三组都呈现明显train/eval BN径向间隔差异，local32组成员还会移动双曲几何而基本保持分类。
 
 在追加主训练前，建议先固定同ID、负配对、part中心，检查train/eval及不同local32组的互惠关系与祖先身份稳定性。该建议仍待审阅，不是自动冻结BN、改SyncBN或增加训练队列的授权。应将BN组别敏感性与完整训练batch的因果效应分别报告。
