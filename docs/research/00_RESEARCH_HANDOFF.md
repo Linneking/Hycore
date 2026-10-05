@@ -1,5 +1,22 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## Current evidence and pending decisions — 2026-10-06
+
+[28: contradictions, actual-use subsets and next decisions](28_HIER_EVIDENCE_AND_NEXT_DECISIONS_2026-10-06.md)
+adds a read-only join by proxy ID between V6 clean-eval caches and matching
+epoch sample ancestor counts. At e300, the 373 repeated top4 sets split into
+92 of 188 sample-used proxies and 281 of 297 eligible boundary proxies unused
+by sample that epoch. At best99 the used subset repeats 94 of 188. Thus the
+expanded eligible denominator exaggerates apparent end-stage sample-use
+retrieval deterioration. The e300 used subset still draws 90.16% of top4 slots
+from the bottom-radius 1%; retrieval bias remains.
+
+Local sample depth ordering is supported; independent within-class morphology
+and the causal HIER increment remain unproven. The current pending proposal
+in [04](04_NEXT_EXPERIMENT_PLAN.md) prioritizes fixed-condition loss/selection
+diagnostics, independent relation validation and a fidelity-checked matched
+balanced64 B0 fork. No new experiment was launched.
+
 ## Latest H20 whole / radial retrieval diagnosis — 2026-10-06
 
 [27: matched whole geometry and frozen proxy retrieval controls](27_HIER_WHOLE_RADIAL_RETRIEVAL_DIAGNOSIS_2026-10-06.md)

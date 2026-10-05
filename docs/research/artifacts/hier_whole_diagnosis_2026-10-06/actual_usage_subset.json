@@ -1,0 +1,15 @@
+{
+  "analysis_date": "2026-10-06",
+  "source": "existing V6 feature_cache.npz and matching summary.json",
+  "mode": "CPU read-only; no inference or optimizer update",
+  "usage_window": "matching checkpoint epoch only; observed_epoch_aggregate",
+  "retrieval_mode": "same checkpoint clean eval; global 8856 whole candidates; four distinct IDs",
+  "used_definition": "sample all_draws pair count + triple count > 0; joined by proxy ID",
+  "boundary_radius_threshold": 0.99899,
+  "interpretation_limit": "Retrieval neighbors are not historical training descendants; unused means unused by sample at the reported epoch only.",
+  "records": [
+    {"checkpoint": "V6 best99", "usage_epoch": 99, "eligible_count": 188, "sample_used_count": 188, "active_sample_used_count": 188, "used_eligible_count": 188, "used_boundary_count": 0, "used_noneligible_count": 0, "eligible_unused_count": 0, "eligible_boundary_count": 0, "used_raw_distinct_ids": 30, "used_direction_distinct_ids": 328, "used_largest_repeated_set_count": 94, "used_largest_set_ids": [1539, 5464, 5671, 6991], "used_bottom_radius_1pct_slot_share": 0.9986702127659575, "used_median_proxy_radius": 0.6907837359663096},
+    {"checkpoint": "V6 e200", "usage_epoch": 200, "eligible_count": 188, "sample_used_count": 188, "active_sample_used_count": 188, "used_eligible_count": 188, "used_boundary_count": 0, "used_noneligible_count": 0, "eligible_unused_count": 0, "eligible_boundary_count": 0, "used_raw_distinct_ids": 39, "used_direction_distinct_ids": 173, "used_largest_repeated_set_count": 56, "used_largest_set_ids": [287, 1333, 1495, 7903], "used_bottom_radius_1pct_slot_share": 0.9627659574468085, "used_median_proxy_radius": 0.6686980000612663},
+    {"checkpoint": "V6 e300", "usage_epoch": 300, "eligible_count": 485, "sample_used_count": 188, "active_sample_used_count": 188, "used_eligible_count": 188, "used_boundary_count": 0, "used_noneligible_count": 0, "eligible_unused_count": 297, "eligible_boundary_count": 297, "used_raw_distinct_ids": 27, "used_direction_distinct_ids": 163, "used_largest_repeated_set_count": 92, "used_largest_set_ids": [2883, 6009, 7985, 9123], "used_bottom_radius_1pct_slot_share": 0.901595744680851, "used_median_proxy_radius": 0.7033931511701235, "unused_eligible_raw_distinct_ids": 6, "unused_eligible_direction_distinct_ids": 28, "unused_eligible_largest_repeated_set_count": 281, "unused_eligible_largest_set_ids": [2883, 6009, 7985, 9123], "unused_eligible_bottom_radius_1pct_slot_share": 0.9974747474747475, "unused_eligible_median_proxy_radius": 0.9990000533968033, "all_eligible_raw_distinct_ids": 28, "all_eligible_direction_distinct_ids": 190, "all_eligible_largest_repeated_set_count": 373, "all_eligible_bottom_radius_1pct_slot_share": 0.9603092783505155, "all_eligible_median_proxy_radius": 0.9990000137347109}
+  ]
+}

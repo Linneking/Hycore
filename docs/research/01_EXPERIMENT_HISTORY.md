@@ -1,5 +1,23 @@
 # Experiment history
 
+## Actual-use subset audit and pending next decisions — 2026-10-06
+
+Read-only NumPy analysis joined matching-epoch sample pair/triple counts to
+V6 best99/e200/e300 clean-eval caches by proxy ID. At each checkpoint, the
+all-draw and active-draw masks coincide with its eligible nonboundary subset
+(188 IDs); this does not assert unchanged identity across checkpoints.
+Their maximum repeated raw top4 counts are 94/56/92; raw ID coverage 30/39/27,
+direction ID coverage 328/173/163. The e300 used subset retains a 90.16%
+bottom-radius 1% slot share. Its 297 extra eligible boundary proxies were
+unused by sample at epoch300; 281 share the same dresser top4, explaining
+373 = 92 + 281. This corrects the denominator interpretation, not the raw
+retrieval result or proof of training descendants.
+
+No inference, GPU, backpropagation or optimizer update. Sanitized subset
+statistics and explanations are in [28](28_HIER_EVIDENCE_AND_NEXT_DECISIONS_2026-10-06.md).
+[04](04_NEXT_EXPERIMENT_PLAN.md) now records pending fixed-condition mechanism
+checks and a matched V6 B0 fork with resume-fidelity conditions; no launch.
+
 ## H20 whole / radial proxy retrieval diagnosis — 2026-10-06
 
 Existing V5e200,V6best99/e200/e300 and six B32/B64 best/last caches were
