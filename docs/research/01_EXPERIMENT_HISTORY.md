@@ -1,5 +1,27 @@
 # Experiment history
 
+## Original HyCoRe/B64 matched class geometry and no-update batch probes — 2026-10-05
+
+Six best/last checkpoints of historical seed4780 B32, source seed22 B32 and
+B64 were evaluated on full9840train and2468test, identical clean1024whole
+and ID-stable nested200/400/600point patches. Alltest OA reproduce original
+logs;12splits/1920class rows and three4batch no-update probes passed matched
+input/checkpoint hashes, finite, unchanged/restored BN/RNG/parameter checks.
+See[26](26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md).
+
+B64 best clean-test whole depth4.139 is shallower than historical4.364 and
+source4.390; final is deeper than both. Original flower_pot was1/20 correct,
+source2/20, B64 3/20. Historical last clean train/test gap6.725pp and B64
+6.583pp show this ordinary gap is not unique to B64. Historical logs also
+contain an early resume/repeatedepoch5 and independent-bestAA metadata trap.
+
+Fixed-input trainBN increases whole–part400 gap to about3.0 from eval below.9
+in allthree models. Regrouping local32 with fixed negative IDs yields mean
+whole hyperbolic movement5.7–6.0 while class prediction changes at most.391%
+in these256probe anchors. This confirms conditional geometry sensitivity,
+not a full training cause or unique B64 failure. No optimizer updates or
+new main training occurred; source paths/checkpoint files remain untouched.
+
 ## V6 B64 completed and two-document handoff — 2026-10-05
 
 B64 finished all300epochs at09:24:55Asia/Shanghai in8h35m08s. Best-test

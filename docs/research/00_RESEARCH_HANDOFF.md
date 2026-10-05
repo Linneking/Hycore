@@ -1,5 +1,24 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## Latest matched representation audit — 2026-10-05
+
+[26: original HyCoRe versus B64, full class geometry and batch probes](26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md)
+compares historical seed4780 B32, source seed22 B32 and B64 best/last under
+identical clean train/test inputs and fixed200/400/600-point patches. All12full
+splits and three no-update probes passed identity, finite and buffer checks.
+Best clean-test whole mean depth is4.364/4.390/4.139 respectively; B64 is
+not uniformly more outward. Original flower_pot is1/20, sourceB32 2/20,
+B64 3/20 at best, so this weak class predates the new split.
+
+A more important finding is BN-mode dependence: fixed overwritten whole and
+patch400 input gives mean whole-minus-part depth gap.767/.831/.575 in eval
+versus3.005/3.117/3.060 in trainBN. Changing local32 membership moves the
+geometry while mostly preserving class predictions. These conditional probes
+do not prove a batch training causal effect; relation stability across BN modes
+and groupings should be checked before interpreting HIER's soft hierarchy.
+No new main training was launched. Full40-class tables and sanitized derived
+statistics/plots are linked from26.
+
 ## Current handoff — 2026-10-05
 
 V6 B64 shuffle has completed all300epochs, finishing at09:24:55Asia/Shanghai.

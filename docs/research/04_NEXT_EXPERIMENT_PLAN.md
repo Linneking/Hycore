@@ -2,6 +2,12 @@
 
 Status: **已批准的 V6 B64 shuffle 已于2026-10-05 09:24:55完成300轮，best-test OA94.1653%@267，final OA93.1524%。结果、全程监测与曲线见[23](23_V6_B64_SHUFFLE_START_2026-10-05.md)；本次工程/技术交接见[25](25_HYCORE_HIER_HPCS_TECHNICAL_HANDOFF_2026-10-05.md)及其私有工程链接。V5/V6 H20及原B32结果见[22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md)。下面保留原批准配置；下一组主训练仍待用户审阅，没有自动排队。**
 
+## 最新只读诊断依据 — 2026-10-05
+
+用户要求比较原始HyCoRe与B64的batch和逐类whole/part。六权重全量train/test和无参数更新probe已完成，见[26](26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md)。B64没有一致外移或分类崩塌；原版也有弱类和后期拟合差距。三组都呈现明显train/eval BN径向间隔差异，local32组成员还会移动双曲几何而基本保持分类。
+
+在追加主训练前，建议先固定同ID、负配对、part中心，检查train/eval及不同local32组的互惠关系与祖先身份稳定性。该建议仍待审阅，不是自动冻结BN、改SyncBN或增加训练队列的授权。应将BN组别敏感性与完整训练batch的因果效应分别报告。
+
 ## 已批准 V6 B64 shuffle 基线 — 2026-10-05
 
 - 从头随机初始化seed22，c1/D256，300epoch，双卡各32；关闭HIER，不建立或优化proxy。
