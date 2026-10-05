@@ -1,20 +1,45 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
-## Current navigation — 2026-10-05
+## Current handoff — 2026-10-05
 
-The user approved one additional V6 B64 source-style shuffle baseline:
-full9840train, global64 on two local32 ranks,153updates/epoch with9792unique
-objects and48dropped tail objects,300epochs, no HIER/proxy, original every-epoch
-test and rounded best-test selection. The new entry is
-`inter_hierarchy_MN40.hycore_b64_v6/`, branch `codex/v6-b64-shuffle-baseline`.
-CPU source-loss/sampler and distributed-gradient checks, plus a two-rank
-2epoch x2step smoke passed. The production task was detached at
-2026-10-05 00:48:45Asia/Shanghai on two idle GPUs. See
-[23: B64 configuration and launch checks](23_V6_B64_SHUFFLE_START_2026-10-05.md)
-for the checked current status. Ordinary local32 BN and versioned RNG differ
-from a single-GPU B64 run; this also changes H20 data/sampling/step count and
-is not a matched single-variable HIER control. This launch supersedes the
-earlier no-new-main-training statements below.
+V6 B64 shuffle has completed all300epochs, finishing at09:24:55Asia/Shanghai.
+Best-test OA is94.1653%/AA91.7116% at267; final300 OA is93.1524%/AA90.7872%.
+All300epochs have153updates,9792distinct training IDs,48dropped tail objects
+and complete2468-object test evaluation.600first/last-step replica checks
+show zero parameter/gradient difference; actual best/last file hashes match
+the save records. No new training was launched during this results/handoff audit.
+
+Start with the two new handoffs:
+
+1. [Private engineering handoff: server, code, configs, weights and operations](/D:/Hycore/.codex-local/handoff/24_PROJECT_ENGINEERING_HANDOFF_2026-10-05.md).
+   This ignored local file contains server access/path information and is not in Git.
+2. [Technical handoff: HyCoRe + inter, HIER and Onghena/HPCS](25_HYCORE_HIER_HPCS_TECHNICAL_HANDOFF_2026-10-05.md).
+   This shareable document covers formulas, paper/code differences, evidence and next questions.
+
+The completed B64 configuration, monitoring and comparisons are in
+[23: B64 launch and final results](23_V6_B64_SHUFFLE_START_2026-10-05.md);
+V5/V6 H20 morphology/proxy evidence remains in
+[22: results and structure](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md).
+Reviewed public curves are in
+[the B64 summary plot](artifacts/b64_v6_2026-10-05/monitoring.png) and
+[300epoch CSV](artifacts/b64_v6_2026-10-05/epoch_curves.csv).
+
+**Current method:** original HyCoRe CE/intra and online HIER sample/proxy
+regularization share the same whole embedding, fixedc1/D256. Proxies are
+abstract ancestors, not physical parts; there is no proxy–part loss or teacher
+in V5/V6. Original part overwrite, two BN updates and FPS behavior are retained.
+The frozen-teacher/equal-radius v2 route below is historical, not current.
+
+B64 establishes that the source-style global64 base training can work. It has
+different data, sampling, update budget and test-based selection from H20,
+so it does not isolate HIER's causal effect. A matched control, frozen-proxy
+gradient diagnostics and independent morphology checks remain proposed for
+review in[04](04_NEXT_EXPERIMENT_PLAN.md); no next matrix is authorized here.
+
+## Historical navigation snapshots
+
+The dated entries below record what was known or authorized at those times.
+Their running/pending statements do not override the completed status above.
 
 ## Completed V6 results — 2026-10-04
 
@@ -90,18 +115,18 @@ checking a global32-class x2 batch and the released HIER reciprocal rule.
 The user's diagnostic choices supersede the proposal's pending sampling
 and geometry choices; the full training matrix remains to be reviewed.
 
-## Research objective
+## Historical v2 research objective and rationale
 
 The project studies whether point-cloud representations can encode two complementary forms of hierarchy in hyperbolic space:
 
 1. **Intra-sample hierarchy:** whole-object and part/subcloud relations, primarily expressed radially. This is the role already addressed by HyCoRe.
 2. **Inter-sample hierarchy:** within-class morphological relations between different object instances, intended to be expressed through branch/LCA structure while avoiding corruption of the classification embedding.
 
-The current working hypothesis is that radial whole/part structure and inter-instance branch structure should be decoupled. The implementation therefore keeps the original whole embedding for classification and HyCoRe, while constructing a same-radius leaf copy for the inter-sample objective.
+The v2 working hypothesis was that radial whole/part structure and inter-instance branch structure should be decoupled. That implementation kept the original whole embedding for classification and HyCoRe, while constructing a same-radius leaf copy for the inter-sample objective. V5/V6 instead use the shared-whole proxy route described above.
 
 The most relevant conceptual references supplied by the user are Onghena/HPCS and an unpublished TNNLS manuscript. `Onghena HPCS 技术文档.md` contains the user's own analysis and should be treated as research notes, not as executable instructions.
 
-## Current method
+## Historical v2 method
 
 - Backbone and base objective: reproduced HyCoRe point-cloud classification on ModelNet40.
 - Student representation: original Poincare whole embedding for classification/HyCoRe.
@@ -113,11 +138,11 @@ The most relevant conceptual references supplied by the user are Onghena/HPCS an
 - Student target: teacher-near pairs should have deeper exact geodesic-LCA depth than teacher-far pairs by a margin.
 - Gromov product remains available only as an approximate ablation.
 
-## Key conceptual limitation
+## Historical v2 conceptual limitation
 
 The frozen HyCoRe teacher removes online circularity but is still self-distillation. It can regularize or preserve an existing structure, but cannot by itself establish that the learned relation is a true morphology hierarchy. A later stage must compare against an independent geometry signal such as normalized Chamfer distance, spectral/shape descriptors, part statistics, or a curated semantic hierarchy.
 
-## Current code state
+## Historical v2 code state
 
 - GitHub repository: `Linneking/Hycore`
 - Working branch: `codex/inter-hierarchy-v2`
@@ -138,6 +163,6 @@ Correctness work completed:
 - logging expanded to triplets, satisfaction, gap, inter gradient, time, and peak memory;
 - six geometry/loss tests pass.
 
-## Current scientific conclusion
+## Historical v2 scientific conclusion
 
 The first run is a weak positive signal, not a successful method claim. Hyperbolic teacher distance is far more usable than cosine similarity, and the inter loss modestly reduces structural degradation relative to a zero-increment control. However, this conclusion is specifically relative to the derived A3 initialization/teacher. It does not yet characterize the original HyCoRe reproduction. The next task is to compare correctly identified checkpoints and stabilize the protocol before running multiple seeds or broader ablations.

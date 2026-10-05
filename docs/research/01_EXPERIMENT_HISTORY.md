@@ -1,5 +1,29 @@
 # Experiment history
 
+## V6 B64 completed and two-document handoff — 2026-10-05
+
+B64 finished all300epochs at09:24:55Asia/Shanghai in8h35m08s. Best-test
+OA94.1653%/AA91.7116%@267; final300 OA93.1524%/AA90.7872%. Every epoch
+used153updates/9792distinct IDs/drop48 and all2468test objects. Actual
+best/last SHA256 matched their save records;600first/last-step replica
+checks were zero, all finite checks passed,15periodic archives exist.
+Full9840 cumulative training coverage was reached by epoch2.
+
+Source B32 best-test is93.841%@216 and final93.233%; B64's single-seed
+best advantage is about.324pp, not a robust batch-size gain. Final B64
+clean-train OA99.7358% exceeds same-epoch test by6.5834pp; flower_pot
+is3/20 correct at best and final. The base model also has high whole
+boundary proximity, so this observation is not specific to HIER.
+Different H20 data/sampling/update/selection protocols preclude treating
+this B64 as a matched zero-HIER control.
+
+See[23: completed B64](23_V6_B64_SHUFFLE_START_2026-10-05.md),
+[25: technical handoff](25_HYCORE_HIER_HPCS_TECHNICAL_HANDOFF_2026-10-05.md),
+and the ignored local
+[24: private engineering handoff](/D:/Hycore/.codex-local/handoff/24_PROJECT_ENGINEERING_HANDOFF_2026-10-05.md).
+Only reviewed derived curves and sanitized documentation enter Git; no
+GPU analysis, new training, checkpoint alteration or result deletion occurred.
+
 ## V6 B64 shuffle baseline authorized and detached — 2026-10-05
 
 The user selected full9840training and original every-epoch official test/

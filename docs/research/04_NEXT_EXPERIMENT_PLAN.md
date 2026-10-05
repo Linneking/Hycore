@@ -1,6 +1,6 @@
 # Next experiment plan — current review and historical drafts
 
-Status: **用户于2026-10-05批准追加单组 V6 B64 shuffle 双卡基础训练，并明确全部9840训练、原源码逐轮test选模。先短测验收，再挂起300轮主训练；此授权更新下方此前候选的状态。V5/V6 H20及原B32完整结果见[22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md)。**
+Status: **已批准的 V6 B64 shuffle 已于2026-10-05 09:24:55完成300轮，best-test OA94.1653%@267，final OA93.1524%。结果、全程监测与曲线见[23](23_V6_B64_SHUFFLE_START_2026-10-05.md)；本次工程/技术交接见[25](25_HYCORE_HIER_HPCS_TECHNICAL_HANDOFF_2026-10-05.md)及其私有工程链接。V5/V6 H20及原B32结果见[22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md)。下面保留原批准配置；下一组主训练仍待用户审阅，没有自动排队。**
 
 ## 已批准 V6 B64 shuffle 基线 — 2026-10-05
 
@@ -13,7 +13,7 @@ Status: **用户于2026-10-05批准追加单组 V6 B64 shuffle 双卡基础训�
 - 新路径`inter_hierarchy_MN40/hycore_b64_v6/`，保留旧HyCoRe和V5/V6入口。全局排列与双卡增强/RNG是显式适配，不宣称与单卡RandomSampler逐位重现。workers4/rank，普通BN不是global64 SyncBN。
 - 本地实现/检查、独立分支提交推送、服务器干净工作区ff-only更新、空闲双卡2epoch×2step短测（部分test且明确smoke），生产重新随机初始化并保存第1轮完整checkpoint后确认挂起。
 
-这组检验原采样方式下的双卡B64稳定性。相比H20，它还改变了抽样、训练数据量和每轮步数（153 vs200），**不是只去掉HIER的严格同协议对照**；相比原B32，它改变globalbatch和优化器更新次数，每epoch覆盖基本相同。详细运行身份将在[23](23_V6_B64_SHUFFLE_START_2026-10-05.md)记录。本次只授权这一组，不自动追加其它训练。
+这组检验原采样方式下的双卡B64稳定性。相比H20，它还改变了抽样、训练数据量和每轮步数（153 vs200），**不是只去掉HIER的严格同协议对照**；相比原B32，它改变globalbatch和优化器更新次数，每epoch覆盖基本相同。详细运行身份、完成结果和监测已在[23](23_V6_B64_SHUFFLE_START_2026-10-05.md)记录。本次只授权这一组，不自动追加其它训练。
 
 ## 结果后的建议顺序 — 2026-10-04，待审阅
 
