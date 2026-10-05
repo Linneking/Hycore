@@ -219,6 +219,10 @@ def load_probe(directory, batch, requested_conditions, source_identity):
         path = directory / f"batch_{batch:03d}_{condition}.npz"
         with np.load(path, allow_pickle=False) as arrays:
             row = {key: arrays[key].copy() for key in ("mu", "ids", "labels", "triplets", "mutual")}
+            for key in ("physical_whole_anchor", "physical_child_anchor", "whole_preoverwrite_original_ids",
+                        "whole_postoverwrite_original_ids", "child_original_ids", "original_point_permutation"):
+                if key in arrays:
+                    row[key] = arrays[key].copy()
         if not np.array_equal(row["ids"], np.asarray(report["ids"])) or not np.array_equal(row["labels"], np.asarray(report["labels"])):
             raise RuntimeError("NPZ/report ID or label mismatch")
         if row["mu"].shape != (64, 256) or row["mutual"].shape != (64, 64):
@@ -235,7 +239,8 @@ def load_probe(directory, batch, requested_conditions, source_identity):
 
 def validate_pairing(first_manifest, first_report, other_manifest, other_report, allow_augmentation):
     for name in ("checkpoint_sha256", "backbone_initial_sha256", "proxy_initial_sha256", "train_ids_sha256",
-                 "input_shard_sha256", "labels_sha256", "input_mode", "seed", "plan_epoch", "hotspot_ids"):
+                 "input_shard_sha256", "labels_sha256", "input_mode", "seed", "plan_epoch", "hotspot_ids",
+                 "augmentation_family", "crop_policy"):
         if first_manifest.get(name) != other_manifest.get(name):
             raise RuntimeError("Cross-probe control mismatch: " + name)
     for name in ("ids", "labels", "global_flip_negative_ids", "whole_points", "part_points", "whole_centers", "part_centers"):
@@ -247,7 +252,7 @@ def validate_pairing(first_manifest, first_report, other_manifest, other_report,
     if changed_input and first_manifest.get("input_mode") != "augmented":
         raise RuntimeError("Augmentation comparison requires augmented input mode")
     return {"input_cloud_changed": changed_input,
-            "comparison": "different augmented input views with fixed IDs/centers/counts/negative mapping" if changed_input else "identical input cloud",
+            "comparison": "different augmented input views with fixed IDs/numeric center indices/counts/negative mapping; physical anchors/members reported separately" if changed_input else "identical input cloud",
             "input_view_metadata": [first_manifest.get("input_view"), other_manifest.get("input_view")],
             "augmentation_view_field_present": "input_view" in first_manifest and "input_view" in other_manifest}
 
@@ -255,11 +260,25 @@ def validate_pairing(first_manifest, first_report, other_manifest, other_report,
 def source_graph_summary(reference, current):
     old, new = reference["mutual"].astype(bool), current["mutual"].astype(bool)
     union = np.count_nonzero(old | new)
-    return {"saved_natural_mutual_graph_jaccard": int(np.count_nonzero(old & new)) / int(union) if union else None,
+    result = {"saved_natural_mutual_graph_jaccard": int(np.count_nonzero(old & new)) / int(union) if union else None,
             "saved_natural_triplets_sha256": array_hash(current["triplets"]),
             "saved_natural_triplet_draws": len(current["triplets"]),
             "saved_natural_mining": current["source_condition"]["mining"],
             "semantics": "Saved natural graph/draws reported separately; controlled Gumbel gradients use only the common reference ordered triplets."}
+    physical = {}
+    for key in ("physical_whole_anchor", "physical_child_anchor"):
+        if key in reference and key in current:
+            physical[key + "_agreement"] = float((reference[key] == current[key]).mean())
+    for key in ("whole_preoverwrite_original_ids", "whole_postoverwrite_original_ids", "child_original_ids"):
+        if key in reference and key in current:
+            values = []
+            for left, right in zip(reference[key], current[key]):
+                a, b = set(left.tolist()), set(right.tolist())
+                values.append(len(a & b) / len(a | b))
+            physical[key + "_jaccard_mean"] = float(np.mean(values))
+    if physical:
+        result["physical_crop_controls"] = physical
+    return result
 
 
 def write_gradient_rows(writer, batch, name, draws, ids, labels, hotspot_ids):
