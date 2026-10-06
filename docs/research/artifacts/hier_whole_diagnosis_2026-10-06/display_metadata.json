@@ -1,0 +1,26 @@
+{
+  "format": "hycore-experiment-display-names-v1",
+  "date": "2026-10-06",
+  "scope": "Presentation metadata only; model IDs, CSV columns, numerical values and source identities remain unchanged.",
+  "naming_document": "../../33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md",
+  "models": {
+    "v5_e200": {"canonical_experiment_name": "V5-HIER64-K20-W20", "display_name": "V5-HIER64-K20-W20 · e200", "legacy_display_name": "V5 H20 · e200"},
+    "v6_best99": {"canonical_experiment_name": "V6-HIER64-K20-W20", "display_name": "V6-HIER64-K20-W20 · best99", "legacy_display_name": "V6 H20 · best99"},
+    "v6_e200": {"canonical_experiment_name": "V6-HIER64-K20-W20", "display_name": "V6-HIER64-K20-W20 · e200", "legacy_display_name": "V6 H20 · e200"},
+    "v6_e300": {"canonical_experiment_name": "V6-HIER64-K20-W20", "display_name": "V6-HIER64-K20-W20 · e300", "legacy_display_name": "V6 H20 · e300"},
+    "original_best": {"canonical_experiment_name": "ORIG-B0-32-S4780", "display_name": "ORIG-B0-32-S4780 · best229", "legacy_display_name": "Historical B32 · best229"},
+    "original_last": {"canonical_experiment_name": "ORIG-B0-32-S4780", "display_name": "ORIG-B0-32-S4780 · last300", "legacy_display_name": "Historical B32 · last300"},
+    "source_b32_best": {"canonical_experiment_name": "V6-B0-32", "display_name": "V6-B0-32 · best216", "legacy_display_name": "Source B32 · best216"},
+    "source_b32_last": {"canonical_experiment_name": "V6-B0-32", "display_name": "V6-B0-32 · last300", "legacy_display_name": "Source B32 · last300"},
+    "b64_best": {"canonical_experiment_name": "V6-B0-64", "display_name": "V6-B0-64 · best267", "legacy_display_name": "B64 · best267"},
+    "b64_last": {"canonical_experiment_name": "V6-B0-64", "display_name": "V6-B0-64 · last300", "legacy_display_name": "B64 · last300"}
+  },
+  "retrieval_controls": {
+    "borrow_b32_radii": {"display_name": "Borrow V6-B0-32 best216 radii", "radius_source_model_id": "source_b32_best"}
+  },
+  "limits": [
+    "B0-32 and B0-64 identify the HyCoRe shuffle batch family; local BN, distributed execution and selection differences must still be disclosed.",
+    "The legacy alias H20 refers to mining K20. The HIER64-K20-W20 runs separately used 20 base-only warmup epochs.",
+    "The completed matched balanced64 zero-HIER experiment is V6-B64, a different experiment from model IDs b64_best and b64_last here."
+  ]
+}

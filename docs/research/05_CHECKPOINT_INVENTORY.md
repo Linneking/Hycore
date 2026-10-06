@@ -1,10 +1,12 @@
 # Server checkpoint inventory
 
+实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。历史路径与数值保持原样。
+
 Inventory scope: `/mnt/BBB5090/jhr/HyCoRe/`, searched recursively for `*.pth`, `*.pt`, and `*.ckpt` on 2026-09-22.
 
 ## ModelNet40 / inter-hierarchy checkpoints
 
-### Original HyCoRe reproduction
+### ORIG-B0-32-S4780
 
 Directory:
 
@@ -14,7 +16,7 @@ classification_ModelNet40/checkpoints/Hype_PointNet-Offv_pointmlp_hycore_var-478
 
 | File | Epoch | Current/checkpoint OA | Best OA | Best AA | Identity |
 |---|---:|---:|---:|---:|---|
-| `best_checkpoint.pth` | 229 | 94.044 | 94.044 | 91.545 | Original HyCoRe reproduction used as source for A1/A2/A3 |
+| `best_checkpoint.pth` | 229 | 94.044 | 94.044 | 91.545 | ORIG-B0-32-S4780 used as source for A1/A2/A3 |
 | `last_checkpoint.pth` | 299 | 92.828 | 94.044 | 91.545 | Final epoch, not the best model |
 
 The original training code uses label-smoothed cross-entropy plus `0.01 * triplet + 0.01 * hierarchy`; it is not pure InfoNCE.

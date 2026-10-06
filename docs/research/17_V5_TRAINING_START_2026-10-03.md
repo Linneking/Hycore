@@ -1,8 +1,10 @@
-# V5 main training and B32 stability diagnostic — 2026-10-03
+# V5-HIER64-K20-W20 main training and V5-B0-32-CAP200 stability diagnostic — 2026-10-03
+
+命名提示：本文展示名称按[统一实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)更新；原名称可查映射。文件名、运行目录、代码字段与既有结果身份保留。
 
 ## Authorization and status
 
-The user approved V5-H20 on two idle GPUs and a B32 stability diagnostic on
+The user approved V5-HIER64-K20-W20 on two idle GPUs and a V5-B0-32-CAP200 stability diagnostic on
 the remaining idle GPU. The user also approved all proposed monitoring.
 Implementation and bounded startup/recovery checks have passed. Both
 production jobs are detached and running; each completed its first epoch,
@@ -14,7 +16,7 @@ server `fetch` / `pull --ff-only`. Existing runs are preserved.
 
 ## Reviewed experiment settings
 
-| Setting | V5-H20 | B32 stability diagnostic |
+| Setting | V5-HIER64-K20-W20 | V5-B0-32-CAP200 stability diagnostic |
 |---|---|---|
 | Budget | 200 epochs ×200 steps, includes20 base-only epochs | 200 epochs ×200 steps |
 | Initialization | New random HyCoRe PointMLP, seed22 | Same seed22 random model |
@@ -37,13 +39,13 @@ server `fetch` / `pull --ff-only`. Existing runs are preserved.
 | Selection | Highest validationOA, tie lower validationCE | Same |
 | Official test | Once at completion on validation-selected best | Same |
 
-An epoch permutation would supply276 complete B32 batches on this split.
+An epoch permutation would supply276 complete batch32 batches on this split.
 The200step cap is retained; single-epoch unique coverage is6400/8856=72.27%.
 This is a source-operator stability diagnostic with an adapted training
 budget/split, not a complete original-protocol reproduction or matched
 global64 zero-HIER control. No virtual64 gradient-cache run is launched.
 
-H20 will preserve its new epoch20 checkpoint/prefix. A later strict V5-B0
+V5-HIER64-K20-W20 will preserve its new epoch20 checkpoint/prefix. A later strict V5-B64
 requires separate authorization; it is not queued as part of this launch.
 
 ## Monitoring approved by the user
@@ -56,8 +58,8 @@ Every optimizer step:
   reach/exceed counts; proxy gradient norm separately, with no proxy mixing
   into model clipping.
 - Global input sample IDs/classes, unique-ID coverage, repeat counts and
-  per-class draw counts. For B32 also same-class negative-pair counts.
-- H20 eligible anchors, zero/one-positive cases, positions and uniqueIDs in
+  per-class draw counts. For V5-B0-32-CAP200 also same-class negative-pair counts.
+- V5-HIER64-K20-W20 eligible anchors, zero/one-positive cases, positions and uniqueIDs in
   i/j/k roles, per-class/ID anchor participation, candidate triple/pair
   coverage, repeated draws, proxy collisions, active hinges and self-k.
   Sample and proxy graphs have distinct denominators. Warmup relation
@@ -65,7 +67,7 @@ Every optimizer step:
 - Whole/part depth and radius, proportion near the native numerical ball
   boundary, shadow tangent2.3 cap and inverse-metric factors. Native output
   boundary contact is not a measurement of preprojection trigger count.
-- H20 proxy radial statistics, numerical ball projection count and maximum
+- V5-HIER64-K20-W20 proxy radial statistics, numerical ball projection count and maximum
   replica difference after synchronized optimizer updates.
 - Child/whole BN update counts, original alias and FPS/crop observations.
 - Heartbeat, step timing, memory and resolved learning rates.
@@ -88,15 +90,15 @@ and do not update BN.
 
 First batch of epochs21/40/100/160/200: actual CE/intra/HIER parameter
 gradient component norms and cosines, divided into shared encoder,
-Euclidean feature layers, Mobius embedding, and classifier. B32 reports
-CE/intra only. H20's discarded audit restores RNG and BN buffers.
+Euclidean feature layers, Mobius embedding, and classifier. V5-B0-32-CAP200 reports
+CE/intra only. V5-HIER64-K20-W20's discarded audit restores RNG and BN buffers.
 
 ## Acceptance before dispatch
 
 1. Existing operator/sampler/distributed correctness gates plus telemetry
    aggregation checks.
 2. Bounded two-epoch smoke for each entry point with HIER active in the
-   second H20 smoke epoch; finite updates and complete monitoring.
+   second V5-HIER64-K20-W20 smoke epoch; finite updates and complete monitoring.
 3. Validation and best/last checkpoint writing; an epoch-boundary restore
    into a new diagnostic directory.
 4. Inspect live `nvidia-smi` again before smoke and main allocation; only
@@ -118,16 +120,16 @@ Dispatch time: **2026-10-03 13:50:35 Asia/Shanghai**.
 
 | Job | Physical GPUs | Detached parent PID | Verified progress |
 |---|---|---|---|
-| H20 | 1,3 | 660352 (torchrun; two training workers) | epoch1 checkpoint/validation completed; epoch2 step17 |
-| B32 | 2 | 660357 | epoch1 checkpoint/validation completed; epoch2 step33 |
+| V5-HIER64-K20-W20 | 1,3 | 660352 (torchrun; two training workers) | epoch1 checkpoint/validation completed; epoch2 step17 |
+| V5-B0-32-CAP200 | 2 | 660357 | epoch1 checkpoint/validation completed; epoch2 step33 |
 
-Both are configured for200epochs ×200steps. H20 starts with20base-only
+Both are configured for200epochs ×200steps. V5-HIER64-K20-W20 starts with20base-only
 epochs; the main HIER gradient activates at21. Monitoring is active from
 epoch1. GPU0's existing compute job was not touched.
 
 Before production: sampler5, restored-operator/distributed6 and telemetry4
 checks passed. Each entry point completed a2epoch ×3step smoke, including
-HIER activation and component-gradient audit in the H20 smoke's second
+HIER activation and component-gradient audit in the V5-HIER64-K20-W20 smoke's second
 epoch. Both restored from their epoch1 archive into new diagnostic
 directories and completed the remaining3steps. Restored first-step losses
 matched continuous training; later steps were not bitwise identical.
@@ -142,8 +144,8 @@ recorded. This establishes startup correctness, not final accuracy or
 long-term numerical stability.
 
 Each job retains `manifest.json`, `heartbeat.json`, `steps.jsonl` and
-`metrics_epoch_NNN.json`. H20 checkpoints are `last.pth` / `best.pth`;
-B32 checkpoints are `last_checkpoint.pth` / `best_checkpoint.pth`.
+`metrics_epoch_NNN.json`. V5-HIER64-K20-W20 checkpoints are `last.pth` / `best.pth`;
+V5-B0-32-CAP200 checkpoints are `last_checkpoint.pth` / `best_checkpoint.pth`.
 Both archive `checkpoint_epoch_NNN.pth` every20epochs and record per-epoch
 checkpoint identity. Actual progress after this snapshot comes from server
-manifests; no additional complete B0 job or automatic follow-up was queued.
+manifests; no additional complete V5-B64 job or automatic follow-up was queued.

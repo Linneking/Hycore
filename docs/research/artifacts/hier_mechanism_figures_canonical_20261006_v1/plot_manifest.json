@@ -1,0 +1,212 @@
+{
+  "status": "complete",
+  "format": "hier-mechanism-figures-v1",
+  "inputs": {
+    "proxy": {
+      "basename": "20261006_proxy_cpu16_aggregate.json",
+      "sha256": "14de096d2e3803f56a53576049bfef154a04c498d70eb7a18d45016ed198a718"
+    },
+    "whole": {
+      "basename": "20261006_whole_natural16_aggregate.json",
+      "sha256": "3aa09ea016f936b68977d69bea2e1b946ca69937c76f87fdcec4a0c8953d30aa"
+    },
+    "one_step": {
+      "basename": "20261006_one_step_e300_hotspot2_aggregate.json",
+      "sha256": "44c6bc141e80e19dbdd6deeab901116f46df1e819b7847dc79925cc12db11758"
+    }
+  },
+  "figures": {
+    "proxy": {
+      "files": [
+        "proxy_cpu_mechanisms.png",
+        "proxy_cpu_mechanisms.pdf"
+      ],
+      "plotted_values": {
+        "epochs": [
+          99,
+          200,
+          300
+        ],
+        "sample_order_noncollision_percent": [
+          94.01247401247402,
+          83.91305371735393,
+          87.53489670575098
+        ],
+        "sample_order_active_percent": [
+          58.90464167799573,
+          50.60917470070982,
+          51.67946257197696
+        ],
+        "proxy_pair_endpoint_percent": [
+          17.26463825107475,
+          16.516078305947573,
+          44.30095640517693
+        ],
+        "dresser_mu_radial_partial_mean": [
+          0.02915272145317151,
+          0.1084100383718928,
+          -0.05951131788046601
+        ],
+        "dresser_positions": [
+          26,
+          26,
+          26
+        ]
+      }
+    },
+    "whole": {
+      "files": [
+        "whole_bn_parameter_mechanisms.png",
+        "whole_bn_parameter_mechanisms.pdf"
+      ],
+      "plotted_values": {
+        "checkpoint_epoch": 300,
+        "conditions": [
+          "eval",
+          "train_bn",
+          "train_bn_regrouped"
+        ],
+        "plotted_metrics": {
+          "st_base": {
+            "paired_batches": 16,
+            "condition_medians": [
+              2.045124161662689,
+              0.48624380938364364,
+              0.16888957238795171
+            ],
+            "nonplotted_nonfinite_or_nonpositive_values": 0
+          },
+          "st_fixed": {
+            "paired_batches": 16,
+            "condition_medians": [
+              15.882823025219754,
+              4.795464369296326,
+              3.536309337707197
+            ],
+            "nonplotted_nonfinite_or_nonpositive_values": 0
+          },
+          "gap": {
+            "paired_batches": 16,
+            "condition_medians": [
+              0.3202309012413025,
+              2.9852609634399414,
+              2.7472589015960693
+            ],
+            "nonplotted_nonfinite_or_nonpositive_values": 0
+          },
+          "violation": {
+            "paired_batches": 16,
+            "condition_medians": [
+              100.0,
+              18.75,
+              39.84375
+            ],
+            "nonplotted_nonfinite_or_nonpositive_values": 0
+          },
+          "pair_agreement": {
+            "paired_batches": 16,
+            "condition_medians": [
+              83.34037661552429,
+              85.57573854923248
+            ],
+            "nonplotted_nonfinite_or_nonpositive_values": 0
+          },
+          "triple_agreement": {
+            "paired_batches": 16,
+            "condition_medians": [
+              51.99529230594635,
+              51.71346366405487
+            ],
+            "nonplotted_nonfinite_or_nonpositive_values": 0
+          }
+        }
+      }
+    },
+    "one_step": {
+      "files": [
+        "one_step_total_and_increment.png",
+        "one_step_total_and_increment.pdf"
+      ],
+      "plotted_values": {
+        "checkpoint_epoch": 300,
+        "batches": 2,
+        "responses": {
+          "all64": {
+            "total_mean_depth_delta": {
+              "base": [
+                0.0024504340333107028,
+                0.003600980225229644
+              ],
+              "base_sample_st": [
+                0.0016232800878368397,
+                0.005713468032428427
+              ],
+              "base_sample_fixed": [
+                0.0022593818148074762,
+                0.0035637006764566784
+              ]
+            },
+            "incremental_mean_depth_delta_vs_base": {
+              "base_sample_st": [
+                -0.000827153945473863,
+                0.002112487807198783
+              ],
+              "base_sample_fixed": [
+                -0.0001910522185032265,
+                -3.727954877296574e-05
+              ]
+            }
+          },
+          "hotspot": {
+            "total_mean_depth_delta": {
+              "base": [
+                0.0039450907403328905,
+                0.03523293553919116
+              ],
+              "base_sample_st": [
+                0.001217680451110592,
+                0.03192888432257468
+              ],
+              "base_sample_fixed": [
+                0.0027685457145283365,
+                0.0347865847684552
+              ]
+            },
+            "incremental_mean_depth_delta_vs_base": {
+              "base_sample_st": [
+                -0.0027274102892222984,
+                -0.003304051216616477
+              ],
+              "base_sample_fixed": [
+                -0.001176545025804554,
+                -0.0004463507707359593
+              ]
+            }
+          }
+        },
+        "clip_applied_by_arm": {
+          "base": [
+            false,
+            false
+          ],
+          "base_sample_st": [
+            false,
+            false
+          ],
+          "base_sample_fixed": [
+            false,
+            false
+          ]
+        },
+        "max_no_update_readout_error": 0.0
+      }
+    }
+  },
+  "skipped_optional": [],
+  "started_utc": "2026-10-06T11:46:12.075553+00:00",
+  "finished_utc": "2026-10-06T11:46:32.197941+00:00",
+  "wall_seconds": 20.122400637716055,
+  "matplotlib_version": "3.4.2",
+  "source_aggregates_unchanged": true,
+  "source_hashes_in_figures": false
+}

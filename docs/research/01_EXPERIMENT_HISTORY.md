@@ -1,6 +1,8 @@
 # Experiment history
 
-## V6 matched B0 completed and final artifacts checked — 2026-10-06 18:40
+实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
+
+## V6-B64 completed and final artifacts checked — 2026-10-06 18:40
 
 Production finished12:13:15 Asia/Shanghai, continuing the complete shared
 historical e20 through300. All280 new epochs are present with200 updates,
@@ -8,29 +10,29 @@ historical e20 through300. All280 new epochs are present with200 updates,
 Validation-selected best is231, OA94.3089%; its single official test is
 OA91.8558%, AA89.9994%,2468 objects. Best and e300 archive actual hashes
 match recorded identities; manifest/heartbeat/console agree, process exited.
-Historical H20 best99 has the same validation OA and test OA91.2480%,
-AA88.9169%; B0 is+0.6078 OA points/15 objects in this single-seed historical
-comparison. B0 last validation OA91.2602%, clean train97.9788%, so late
+Historical V6-HIER64-K20-W20 best99 has the same validation OA and test OA91.2480%,
+AA88.9169%; V6-B64 is+0.6078 OA points/15 objects in this single-seed historical
+comparison. V6-B64 last validation OA91.2602%, clean train97.9788%, so late
 validation decline also occurs without HIER. Geometry comparisons pending.
 See [32](32_V6_BALANCED_B0_COMPLETED_2026-10-06.md). No new experiment launched.
 
-## Completed mechanism evidence and B0 progress — 2026-10-06 08:41
+## Completed mechanism evidence and V6-B64 progress — 2026-10-06 08:41
 
 Read-only consolidation of completed natural16, shape4x64 and matched e40
 results, plus10/10 completed augmentation/Gumbel/one-step jobs. The conditional
 Gumbel8 panels add48 replica updates: all16 panel-repeat hotspot ST increments
 relative to base are inward, but all16 total ST hotspot movements remain outward.
 Natural16 direction and clipping qualification prevent a population collapse claim.
-Matched e40 training OA is H20 94.9526%, B0 95.0090%; four inspected classes
-have deeper H20 embeddings. Independent shape signals weaken from99 to300,
-without a matched B0 shape comparison. Frozen-proxy six arms performed600
+Matched e40 training OA is V6-HIER64-K20-W20 94.9526%, V6-B64 95.0090%; four inspected classes
+have deeper V6-HIER64-K20-W20 embeddings. Independent shape signals weaken from99 to300,
+without a matched V6-B64 shape comparison. Frozen-proxy six arms performed600
 updates, then failed the strict proxy-only paired endpoint gate; controls pending.
-B0 completed198 epochs, training199, best validation94.1057% at191; official
+V6-B64 completed198 epochs, training199, best validation94.1057% at191; official
 test unread. See [31](31_HIER_MECHANISM_FINDINGS_AND_B0_STATUS_2026-10-06.md).
 
-## V6 balanced64 B0 authorized, smoke passed and detached — 2026-10-06
+## V6-B64 authorized, smoke passed and detached — 2026-10-06
 
-User approved the matched B0 first, sustained mechanism experiments afterward
+User approved the matched V6-B64 first, sustained mechanism experiments afterward
 until usage limits, and no warmup for future newly initialized HIER runs.
 Versioned v6_balanced_b0 preserves historical e20 complete model/momentum/
 300-period scheduler/two-rank BN/RNG/sampler and continues e21–300; only
@@ -43,7 +45,7 @@ production. Code f649fcc on codex/v6-balanced-b0-mechanisms.
 Production detached at 02:26:20 Asia/Shanghai after fresh idle-GPU checks,
 using the independently hashed original e20. Full e21 saved at02:30:56 with
 200 updates and984 validation objects; OA90.44715447%, CE3.01096090.
-Its complete checkpoint was reloaded and passed the strict B0 contract,
+Its complete checkpoint was reloaded and passed the strict V6-B64 contract,
 scheduler last_epoch21; training proceeded into e22.
 See [29](29_V6_BALANCED_B0_AND_MECHANISM_LAUNCH_2026-10-06.md).
 
@@ -63,12 +65,13 @@ retrieval result or proof of training descendants.
 No inference, GPU, backpropagation or optimizer update. Sanitized subset
 statistics and explanations are in [28](28_HIER_EVIDENCE_AND_NEXT_DECISIONS_2026-10-06.md).
 [04](04_NEXT_EXPERIMENT_PLAN.md) now records pending fixed-condition mechanism
-checks and a matched V6 B0 fork with resume-fidelity conditions; no launch.
+checks and a matched V6-B64 fork with resume-fidelity conditions; no launch.
 
-## H20 whole / radial proxy retrieval diagnosis — 2026-10-06
+## V6-HIER64-K20-W20 whole / radial proxy retrieval diagnosis — 2026-10-06
 
-Existing V5e200,V6best99/e200/e300 and six B32/B64 best/last caches were
-analyzed on CPU, ten models aligned to the same8856H20training objects.
+Existing V5-HIER64-K20-W20 e200, V6-HIER64-K20-W20 best99/e200/e300 and six
+ORIG-B0-32-S4780/V6-B0-32/V6-B0-64 best/last caches were analyzed on CPU,
+ten models aligned to the same8856 HIER training objects.
 Sorted HDF5 versus glob-order ID mismatch was remapped by shard name/row;
 all labels and final input-cache SHA256 checks pass. Code6e77c59,
 branchcodex/hier-whole-cache-diagnostic. No GPU, inference, optimizer update
@@ -79,62 +82,62 @@ V6e300 raw top4 covers28IDs, whole equal-radius190, proxy equal-radius30.
 373/485proxies share the largest raw set; whole equal-radius reduces this
 to53, proxy equal-radius retains367. Deleting89lowest-radius objects yields
 51IDs and281repetitions of a new dresser set;87.68%of slots come from the
-remaining bottom1%. Borrowing sourceB32 radii retains concentration but shifts
+remaining bottom1%. Borrowing V6-B0-32 radii retains concentration but shifts
 identities;99.95%of slots now come from the borrowed bottom1%. Equal whole
 radius and direction rankings are exactly equivalent, not independent evidence.
 
-V6e300 dresser median depth/angle3.558/18.76degrees versus B64last4.568/2.97;
+V6e300 dresser median depth/angle3.558/18.76degrees versus V6-B0-64 last4.568/2.97;
 overall depth medians4.617/4.684. Current controls diagnose frozen retrieval
 radial bias, not which loss caused the class-specific change. Existing baseline
 protocol differences still preclude isolating the HIER objective. See[27](27_HIER_WHOLE_RADIAL_RETRIEVAL_DIAGNOSIS_2026-10-06.md).
 
-## Original HyCoRe/B64 matched class geometry and no-update batch probes — 2026-10-05
+## Original HyCoRe/V6-B0-64 matched class geometry and no-update batch probes — 2026-10-05
 
-Six best/last checkpoints of historical seed4780 B32, source seed22 B32 and
-B64 were evaluated on full9840train and2468test, identical clean1024whole
+Six best/last checkpoints of ORIG-B0-32-S4780, V6-B0-32 and
+V6-B0-64 were evaluated on full9840train and2468test, identical clean1024whole
 and ID-stable nested200/400/600point patches. Alltest OA reproduce original
 logs;12splits/1920class rows and three4batch no-update probes passed matched
 input/checkpoint hashes, finite, unchanged/restored BN/RNG/parameter checks.
 See[26](26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md).
 
-B64 best clean-test whole depth4.139 is shallower than historical4.364 and
+V6-B0-64 best clean-test whole depth4.139 is shallower than historical4.364 and
 source4.390; final is deeper than both. Original flower_pot was1/20 correct,
-source2/20, B64 3/20. Historical last clean train/test gap6.725pp and B64
-6.583pp show this ordinary gap is not unique to B64. Historical logs also
+source2/20, V6-B0-64 3/20. Historical last clean train/test gap6.725pp and V6-B0-64
+6.583pp show this ordinary gap is not unique to V6-B0-64. Historical logs also
 contain an early resume/repeatedepoch5 and independent-bestAA metadata trap.
 
 Fixed-input trainBN increases whole–part400 gap to about3.0 from eval below.9
 in allthree models. Regrouping local32 with fixed negative IDs yields mean
 whole hyperbolic movement5.7–6.0 while class prediction changes at most.391%
 in these256probe anchors. This confirms conditional geometry sensitivity,
-not a full training cause or unique B64 failure. No optimizer updates or
+not a full training cause or unique V6-B0-64 failure. No optimizer updates or
 new main training occurred; source paths/checkpoint files remain untouched.
 
-## V6 B64 completed and two-document handoff — 2026-10-05
+## V6-B0-64 completed and two-document handoff — 2026-10-05
 
-B64 finished all300epochs at09:24:55Asia/Shanghai in8h35m08s. Best-test
+V6-B0-64 finished all300epochs at09:24:55Asia/Shanghai in8h35m08s. Best-test
 OA94.1653%/AA91.7116%@267; final300 OA93.1524%/AA90.7872%. Every epoch
 used153updates/9792distinct IDs/drop48 and all2468test objects. Actual
 best/last SHA256 matched their save records;600first/last-step replica
 checks were zero, all finite checks passed,15periodic archives exist.
 Full9840 cumulative training coverage was reached by epoch2.
 
-Source B32 best-test is93.841%@216 and final93.233%; B64's single-seed
-best advantage is about.324pp, not a robust batch-size gain. Final B64
+V6-B0-32 best-test is93.841%@216 and final93.233%; V6-B0-64's single-seed
+best advantage is about.324pp, not a robust batch-size gain. Final V6-B0-64
 clean-train OA99.7358% exceeds same-epoch test by6.5834pp; flower_pot
 is3/20 correct at best and final. The base model also has high whole
 boundary proximity, so this observation is not specific to HIER.
-Different H20 data/sampling/update/selection protocols preclude treating
-this B64 as a matched zero-HIER control.
+Different V6-HIER64-K20-W20 data/sampling/update/selection protocols preclude treating
+this V6-B0-64 as a matched zero-HIER control.
 
-See[23: completed B64](23_V6_B64_SHUFFLE_START_2026-10-05.md),
+See[23: completed V6-B0-64](23_V6_B64_SHUFFLE_START_2026-10-05.md),
 [25: technical handoff](25_HYCORE_HIER_HPCS_TECHNICAL_HANDOFF_2026-10-05.md),
 and the ignored local
 [24: private engineering handoff](/D:/Hycore/.codex-local/handoff/24_PROJECT_ENGINEERING_HANDOFF_2026-10-05.md).
 Only reviewed derived curves and sanitized documentation enter Git; no
 GPU analysis, new training, checkpoint alteration or result deletion occurred.
 
-## V6 B64 shuffle baseline authorized and detached — 2026-10-05
+## V6-B0-64 baseline authorized and detached — 2026-10-05
 
 The user selected full9840training and original every-epoch official test/
 best-test selection. One new300epoch baseline uses153shuffled no-replacement
@@ -147,15 +150,15 @@ checks passed. A fresh2epoch x2step GPU smoke passed with zero gradient and
 parameter replica differences, finite/clipped updates and reloadable full
 checkpoints; partial smoke test results are not experiment results.
 See[23](23_V6_B64_SHUFFLE_START_2026-10-05.md) for production acceptance.
-This changes several H20 protocol factors and is not the pending matched
-balancedglobal64 B0. No additional matrix was launched.
+This changes several V6-HIER64-K20-W20 protocol factors and is not the pending matched
+balancedglobal64 V6-B64. No additional matrix was launched.
 
 ## V6 completed and V5/V6 structure audit — 2026-10-04
 
-V6-H20 completed300x200 updates at12:01:52Asia/Shanghai; original-source
-B32 completed300x307 at09:53:24. H20 bestval94.3089%@99 yields final
+V6-HIER64-K20-W20 completed300x200 updates at12:01:52Asia/Shanghai; original-source
+V6-B0-32 completed300x307 at09:53:24. V6-HIER64-K20-W20 bestval94.3089%@99 yields final
 testOA91.2480%/AA88.9169%, versusV5 test92.1394%/AA89.1581%.
-Original B32 best-test93.841%@216 is an engineering source reproduction,
+Original V6-B0-32 best-test93.841%@216 is an engineering source reproduction,
 not a matchedglobal64 or validation-selected control.
 
 Read-only V6 best99/e200/e300 visualizations each evaluated all8856clean
@@ -173,27 +176,27 @@ for metrics, units, limits and proposed diagnostics. No new main training.
 
 ## V6 authorized — 2026-10-04
 
-The user approved dual-GPU H20 with V5 operators/hyperparameters, sample
+The user approved dual-GPU V6-HIER64-K20-W20 with V5 operators/hyperparameters, sample
 and proxy index self-k excluded, and a300epoch cosine/budget. The spare
-single GPU is assigned to original-source HyCoRe default B32, full9840train
+single GPU is assigned to V6-B0-32, full9840train
 and307steps/epoch for300epochs. Original test-every-epoch selection is
-retained for this requested engineering reproduction; H20 keeps validation
+retained for this requested engineering reproduction; V6-HIER64-K20-W20 keeps validation
 selection and final-test-only evaluation. A V5epoch200 read-only proxy
 top-four point-cloud script is requested first. See[21](21_V6_TRAINING_START_2026-10-04.md)
 for actual implementation, checks and launch status. Both jobs launched at
 01:33Asia/Shanghai with commitb3542cb, completed their first full epoch
-checkpoint and enteredepoch2. H20 usesGPUs1/2 and originalB32 usesGPU3.
+checkpoint and enteredepoch2. V6-HIER64-K20-W20 usesGPUs1/2 and V6-B0-32 usesGPU3.
 The startup gates and all8856-instance V5 visualization have passed; no final
 V6 training result is reported at launch.
 
-## B32 source-fidelity audit — 2026-10-03
+## V5-B0-32-CAP200 source-fidelity audit — 2026-10-03
 
-Read-only training/source audit confirms that V5-B32 changed more than the
+Read-only training/source audit confirms that V5-B0-32-CAP200 changed more than the
 200-step cap: it also uses a held-out split, 200-epoch cosine period, rewritten
 RNG flow, workers2, and validation selection. The model directories match,
 and original part overwriting, two BN updates, CE/intra margins and weights,
 RiemannianSGD and norm1 clipping are retained. Source default seed22 matches
-B32, whereas the saved94.044% historical run used seed4780/300epochs/workers8.
+V5-B0-32-CAP200, whereas the saved94.044% historical run used seed4780/300epochs/workers8.
 Strict hinge-zero and floating-point grouping differences are also disclosed.
 See [20: complete audit](20_B32_HYCORE_FIDELITY_AUDIT_2026-10-03.md).
 No new training or training-code change was performed for this confirmation.
@@ -202,20 +205,20 @@ No new training or training-code change was performed for this confirmation.
 
 Both jobs completed200epochs ×200steps with finite telemetry and one final
 official-test evaluation on the validation-selected best checkpoint.
-H20 bestval94.0041%@179, testOA92.1394%/AA89.1581%; B32 bestval94.5122%@172,
+V5-HIER64-K20-W20 bestval94.0041%@179, testOA92.1394%/AA89.1581%; V5-B0-32-CAP200 bestval94.5122%@172,
 testOA92.5851%/AA89.3285%. Both epoch200 validationOA is93.0894%; cleantrain
 OA is99.6161%/99.4354%. V4's severe late inference decline did not recur.
-H20 has substantial whole/proxy radial saturation and only about32% proxy
-anchor eligibility late in training. B32 differs in batch and sampling,
+V5-HIER64-K20-W20 has substantial whole/proxy radial saturation and only about32% proxy
+anchor eligibility late in training. V5-B0-32-CAP200 differs in batch and sampling,
 so its advantage is not an isolated estimate of the HIER effect.
 See [19: complete result and monitoring summary](19_V5_FINAL_RESULTS_2026-10-03.md).
 
 ## V5 production launch authorized — 2026-10-03
 
-The user approved200×200 V5-H20 (two local32 ranks, global64) and a spare
-single-card B32 operator-stability diagnostic, including all recommended
-monitoring. B32 uses an epoch permutation capped at6400 distinct instances;
-it is not a matchedglobal64 B0 or a full original-protocol reproduction.
+The user approved200×200 V5-HIER64-K20-W20 (two local32 ranks, global64) and a spare
+single-card V5-B0-32-CAP200 operator-stability diagnostic, including all recommended
+monitoring. V5-B0-32-CAP200 uses an epoch permutation capped at6400 distinct instances;
+it is not a matchedglobal64 V5-B64 or a full original-protocol reproduction.
 Implementation and bounded startup checks are recorded in
 [17](17_V5_TRAINING_START_2026-10-03.md); actual running status is recorded
 after detached jobs and completed updates/checkpoints have been verified.
@@ -285,8 +288,8 @@ The first v2 run evaluated the ModelNet40 test set after every epoch. The next p
 
 The shared-whole HIER V4 matrix completed200epochs at seed22 on the fixed
 8856/984 train/validation split. Validation-selected final test OA was
-88.3712% for B0,89.5462% for H3 and88.1686% for H5. The shared protocol
-also showed substantial late inference decline. B0 changed part storage,
+88.3712% for LEGACY-V4-B32-Q4x8-BN1,89.5462% for LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1 and88.1686% for LEGACY-V4-HIER32-K5-W20-R20-Q4x8-BN1. The shared protocol
+also showed substantial late inference decline. LEGACY-V4-B32-Q4x8-BN1 changed part storage,
 BN updates and batch construction, so it is not an original-protocol
 HyCoRe reproduction. See [V4 lessons](12_V4_LESSONS_2026-10-03.md) for
 evidence and limits of causal conclusions.

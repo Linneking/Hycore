@@ -1,4 +1,6 @@
-# Original HyCoRe shared disk projection
+# ORIG-B0-32-S4780 shared disk projection
+
+命名提示：本文展示名称按[统一实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)更新；原名称可查映射。文件名、运行目录、代码字段与既有结果身份保留。
 
 ## Purpose
 
@@ -6,7 +8,7 @@ Visualize the spatial organization of original HyCoRe whole-object embeddings us
 
 `chair, lamp, table, sofa, stool, desk, bed, bookshelf`
 
-An additional overview includes all 40 ModelNet40 categories. All 2,468 unaugmented test objects were embedded with the original epoch-229 HyCoRe checkpoint. No training was performed.
+An additional overview includes all 40 ModelNet40 categories. All 2,468 unaugmented test objects were embedded with the ORIG-B0-32-S4780 epoch-229 checkpoint. No training was performed.
 
 ## Projection definitions
 

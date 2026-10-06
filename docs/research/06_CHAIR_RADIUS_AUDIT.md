@@ -1,4 +1,6 @@
-# Original HyCoRe chair-radius audit
+# ORIG-B0-32-S4780 chair-radius audit
+
+实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。历史路径与数值保持原样。
 
 ## Scope
 

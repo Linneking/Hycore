@@ -28,6 +28,8 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
 V5_FORMAT = "hycore-hier-v5-h20-1"
 V6_FORMAT = "hycore-hier-v6-h20-selfk300-1"
+# Presentation names remain separate from version_label and checkpoint format.
+CANONICAL_DISPLAY_NAMES = {"V5-H20": "V5-HIER64-K20-W20", "V6-H20": "V6-HIER64-K20-W20"}
 CLASS_NAMES = (
     "airplane", "bathtub", "bed", "bench", "bookshelf", "bottle", "bowl", "car",
     "chair", "cone", "cup", "curtain", "desk", "door", "dresser", "flower_pot",
@@ -381,7 +383,7 @@ def render_png(path, rows, clouds, epoch=200, version_label="V5-H20"):
     height = header + len(rows) * (cell_h + 45 + gutter) + 55
     picture = Image.new("RGB", (width, height), "#edf1f6")
     draw = ImageDraw.Draw(picture)
-    draw.text((left, 22), f"{version_label} epoch {epoch} | {len(rows)} eligible proxies x {cols} nearest samples",
+    draw.text((left, 22), f"{CANONICAL_DISPLAY_NAMES.get(version_label, version_label)} epoch {epoch} | {len(rows)} eligible proxies x {cols} nearest samples",
               fill="#13243a", font=title_font)
     draw.text((left, 62), "Clean checkpoint training split | raw high-dimensional hyperbolic distance | distinct IDs",
               fill="#43536a", font=small)
@@ -424,7 +426,8 @@ def render_html(path, rows, clouds, metadata):
     epoch = metadata.get("epoch", 200)
     usage_note = ("训练时每个代理被选作共同祖先的次数未记录。" if version_label == "V5-H20"
                   else "若权重含本轮训练结构记录，代理行显示本轮sample图hard-Gumbel pair/triple选择次数；这是选择频次，不是祖先有效性验证。")
-    title = f"{version_label} 第{epoch}轮 · {len(rows)}个代理的最近{len(rows[0]['neighbors'])}例"
+    display_name = metadata.get("canonical_display_name", CANONICAL_DISPLAY_NAMES.get(version_label, version_label))
+    title = f"{display_name} 第{epoch}轮 · {len(rows)}个代理的最近{len(rows[0]['neighbors'])}例"
     page = """<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>__TITLE__</title><style>
@@ -584,7 +587,8 @@ def main(argv=None, version="v5"):
                     writer.writerow({key: row[key] for key in fields[:3]} |
                                     {"neighbor_rank": rank} | neighbor)
         metadata = {"split": args.split, "sample_count": len(ids),
-                    "version_label": version.upper() + "-H20", "epoch": saved["epoch"]}
+                    "version_label": version.upper() + "-H20", "epoch": saved["epoch"],
+                    "canonical_display_name": CANONICAL_DISPLAY_NAMES[version.upper() + "-H20"]}
         render_png(output / "proxy_neighbors.png", rows, clouds,
                    epoch=saved["epoch"], version_label=metadata["version_label"])
         render_html(output / "proxy_neighbors.html", rows, clouds, metadata)
@@ -597,6 +601,7 @@ def main(argv=None, version="v5"):
             raise RuntimeError("Source checkpoint changed during visualisation")
         report.update(status="complete", finished_utc=dt.datetime.now(dt.timezone.utc).isoformat(),
             wall_seconds=time.perf_counter() - started, code_commit=commit, runtime=runtime,
+            canonical_display_name=metadata["canonical_display_name"],
             checkpoint={**report["checkpoint"], "format": saved["format"], "epoch": saved["epoch"],
                         "training_commit": saved.get("commit"), "state_used": "same-epoch net + proxy; best_net ignored",
                         "size_bytes": before.st_size},

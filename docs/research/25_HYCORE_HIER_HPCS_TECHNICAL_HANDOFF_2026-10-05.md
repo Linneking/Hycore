@@ -1,6 +1,8 @@
 # 技术交接：HyCoRe + inter 的思想、论文依据与当前困难
 
-日期：2026-10-05，Asia/Shanghai。面向新接手同学。本文件可独立介绍方法与证据；服务器、权重位置、运行命令及配置身份见同日的 [本地私有工程交接](/D:/Hycore/.codex-local/handoff/24_PROJECT_ENGINEERING_HANDOFF_2026-10-05.md)，该文件不进入共享仓库。完整 V5/V6 结构统计见 [22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md)，B64 的配置与验收见 [23](23_V6_B64_SHUFFLE_START_2026-10-05.md)。
+命名提示：本文展示名称按[统一实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)更新；原名称可查映射。文件名、运行目录、代码字段与既有结果身份保留。
+
+日期：2026-10-05，Asia/Shanghai。面向新接手同学。本文件可独立介绍方法与证据；服务器、权重位置、运行命令及配置身份见同日的 [本地私有工程交接](/D:/Hycore/.codex-local/handoff/24_PROJECT_ENGINEERING_HANDOFF_2026-10-05.md)，该文件不进入共享仓库。完整 V5/V6 结构统计见 [22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md)，V6-B0-64 的配置与验收见 [23](23_V6_B64_SHUFFLE_START_2026-10-05.md)。
 
 ## 1. 先理解我们想解决什么
 
@@ -24,8 +26,8 @@
 | legacy / 最初 HypHC | 类内三元组、旧特征相似度缓存、Gromov 积软排序；曾有广播和 ID 顺序错误 | 历史代码，保留复现 |
 | v2：冻结 teacher + 等半径 + 精确几何 LCA | teacher 的类内距离排名；student 构造同方向、同半径的叶子副本，以降低半径对亲缘排名的干扰 | 历史对照，非 V5/V6 训练 |
 | V3/V4：共享 whole + HIER proxy | 引入在线 sample/proxy 祖先目标；早期分开 in/out、修改算子/BN/采样等造成多重混杂 | 中间版本，不能当原 HyCoRe 基线 |
-| V5/V6 H20 | 原 HyCoRe 操作恢复；同一个 whole 上一个 inter＝sample + proxy；全局64训练 | 当前被验证的结合路线 |
-| V6 原 B32 / 新 B64 shuffle | 不含 HIER，用于确认基础训练能否恢复、batch 与协议是否稳定 | 基础训练基线 |
+| V5-HIER64-K20-W20 / V6-HIER64-K20-W20 | 原 HyCoRe 操作恢复；同一个 whole 上一个 inter＝sample + proxy；全局64训练 | 当前被验证的结合路线 |
+| V6-B0-32 / V6-B0-64 | 不含 HIER，用于确认基础训练能否恢复、batch 与协议是否稳定 | 基础训练基线 |
 
 冻结 HyCoRe teacher 是 **自蒸馏**。即使它提供稳定的相似度，也不能据此声称找到了独立的真实形态层次。等半径可以作为诊断控制；当前并未把 whole 的训练半径统一，也未恢复旧 teacher 路线。
 
@@ -93,9 +95,9 @@ L_{base}=L_{CE}+.01R_{contr}+.01R_{hier}.
 
 \(R_{hier}\) 直接规定 part 比 whole 浅多少；小 part 要求更大间隔。\(R_{contr}\) 用正负测地距离帮助实例/类别分开。可以把它们理解为主要从深度和亲缘两方面配合，但 \(R_{contr}\) 的完整双曲距离同时含半径和方向，**它不是严格的纯角度损失**。两个式子也不强制每个 part 与 whole 共线。
 
-原论文式(6)把负 part 描述为来自异类物体；原发布代码只是 `pos_child_mu.flip(0)`，配合随机 shuffle，并不检查类别。新 B64 保留这个源码行为，记录同类负配对比例；H20 的全局类别块布局使 flip 配到另一类。这是论文语义、源码实现及本项目协议之间应分别披露的差异。
+原论文式(6)把负 part 描述为来自异类物体；原发布代码只是 `pos_child_mu.flip(0)`，配合随机 shuffle，并不检查类别。V6-B0-64 保留这个源码行为，记录同类负配对比例；HIER64-K20-W20 的全局类别块布局使 flip 配到另一类。这是论文语义、源码实现及本项目协议之间应分别披露的差异。
 
-原源码通过 `torch.max(value, zero)` 实现 hinge。V5/V6 H20 使用同公式的 ReLU；新 B64 保留源码 `torch.max`。在一般非零位置相同，精确零点的梯度约定不同；不能隐去这一细节，也没有证据将分类差距归因于该稀有边界。
+原源码通过 `torch.max(value, zero)` 实现 hinge。V5-HIER64-K20-W20 / V6-HIER64-K20-W20 使用同公式的 ReLU；V6-B0-64 保留源码 `torch.max`。在一般非零位置相同，精确零点的梯度约定不同；不能隐去这一细节，也没有证据将分类差距归因于该稀有边界。
 
 ### 3.4 part 复写、BN 和 FPS 为什么不能随意改
 
@@ -105,7 +107,7 @@ L_{base}=L_{CE}+.01R_{contr}+.01R_{hier}.
 - 每 step 先 part forward，再 whole forward，普通 BN 更新两次。共享权重不代表两张卡共享同一批 BN 统计。local32 的普通 BN、SyncBN 和单卡64 BN 是不同训练协议。
 - 首层 FPS 固定请求512中心。part 少于512点时可能重复索引；当前保留原请求。FPS 是选点中心的网络操作，与上面的输入视图复写是两个操作。
 
-V4 曾同时改 part 存储、BN 更新及 batch，基线明显失常。恢复后 V5、原 B32 和新 B64 均没有 V4 那样的严重推理崩溃。这个证据支持先保持源码操作；不能单独宣布 part 复写或 BN 中某一项已被证明为唯一原因。
+V4 曾同时改 part 存储、BN 更新及 batch，基线明显失常。恢复后 V5、原 V6-B0-32 和V6-B0-64 均没有 V4 那样的严重推理崩溃。这个证据支持先保持源码操作；不能单独宣布 part 复写或 BN 中某一项已被证明为唯一原因。
 
 ## 4. HIER：关系、祖先和三个 hinge 到底如何工作
 
@@ -154,7 +156,7 @@ k\sim \mathrm{Uniform}(\{0,\ldots,B-1\}\setminus(R_K(i)\cup\{i\})),
 - j 是互惠近邻，不是由“同类”定义的固定 positive；k 是互惠集合补集，不是由“异类”定义的固定 negative。
 - 只有单向近邻也会进入负池；不能写成“所有 topK 外样本才是 negative”。
 - 同类 +1 优先帮助同类位置进 topK，但 K20 有足够空位容纳跨类关系。它不是用 cosine +1，也不是只在同类内部挖三元组。
-- H20 全局32类×2，一个 i 只有一个其它同类位置。满足两个非self互惠候选通常必然包含至少一个跨类 j 候选；它体现软结构要超出类标签，也说明在每类两例时，训练不会以大量细粒度类内三元组为主。后期实测约93.6%的被抽 j 是跨类。
+- HIER64-K20-W20 全局32类×2，一个 i 只有一个其它同类位置。满足两个非self互惠候选通常必然包含至少一个跨类 j 候选；它体现软结构要超出类标签，也说明在每类两例时，训练不会以大量细粒度类内三元组为主。后期实测约93.6%的被抽 j 是跨类。
 - 集合定义一般允许同类 k，但在当前每类两位置、K20、同类+1且正常距离数值条件下，另一个同类位置会优先进入双方topK，属于互惠正池；V6的非self k通常是异类。V5同类k主要来自源码self-k。每类实例更多、K较小或关系规则不同才可能让其它同类位置落入负池；不能把“一般允许”误说成当前配置频繁发生。
 
 代理图使用 \(S_{pq}=\exp[-d_1(p,q)]\)，没有标签加分；其它 K20、资格和抽样规则相同。
@@ -224,7 +226,7 @@ i=k 不是同代理碰撞。若 i=k 且 pair/triple 祖先不同，\(h_i\) 和 \
 
 官方类内有放回代码注释明确提到非均匀类别数量。它用类别均匀抽样保证批内类别广度，却不保证每个epoch遍历全部实例，也没有通过该 sampler 确保大类无遗漏。类别平衡和实例覆盖是不同目标。
 
-当前 H20 两卡各16类×2，全局32类×2＝64；每轮200步并不自动遍历数据。V6末40轮单轮唯一实例覆盖约65.98%，累计多轮可覆盖所有8856训练ID。新 B64 则整轮shuffle，无放回，9792/9840＝99.5122%覆盖，丢48尾部。它有不同的类别构成，不是把H20的有放回抽关系简单改成全数据遍历。
+当前 HIER64-K20-W20 两卡各16类×2，全局32类×2＝64；每轮200步并不自动遍历数据。V6末40轮单轮唯一实例覆盖约65.98%，累计多轮可覆盖所有8856训练ID。V6-B0-64 则整轮shuffle，无放回，9792/9840＝99.5122%覆盖，丢48尾部。它有不同的类别构成，不是把HIER64-K20-W20的有放回抽关系简单改成全数据遍历。
 
 源码：[HIER sampler.py](https://github.com/sung-yeon-kim/HIER-CVPR23/blob/3986a744a1a54fd357e307d1cb3f2e81910b9ffc/hier/sampler.py)、[CUB 示例](https://github.com/sung-yeon-kim/HIER-CVPR23/blob/3986a744a1a54fd357e307d1cb3f2e81910b9ffc/scripts/Resnet50/hier_CUB.sh)。
 
@@ -255,7 +257,7 @@ V5/V6 固定 c1，**不启用这个额外 hook 和2.3切空间cap**；保留影�
 
 ### 5.1 学习率与损失权重不要混称
 
-当前 H20 的联合目标为
+当前 HIER64-K20-W20 的联合目标为
 
 \[
 L=L_{CE}+.01R_{contr}+.01R_{hier}
@@ -361,38 +363,38 @@ w_{ij}=(1+\cos(z_i,z_j))/2.
 
 | 实验 | 数据/采样/预算/选模 | test OA / AA | 可以支持的结论 |
 |---|---|---:|---|
-| V4 B0 | 8856/984，改过part/BN/batch，200轮 | 88.3712% / 见历史报告 | 该早期基础协议异常，不能作原HyCoRe性能基线 |
-| V5 H20 | 8856/984，balancedglobal64，200×200，val选模 | 92.1394% / 89.1581% | 恢复算子后严重后期崩溃缓解；没有isolated HIER增益证据 |
-| V6 H20 | 同split/batch，300×200，self-k排除，val选模 | 91.2480% / 88.9169% | 修正self-k并延长训练，没有提高最终分类结果 |
-| V6原源码B32 | 全9840、shuffle/drop_last，300×307，逐轮test选模 | 93.841% / 90.812%，best216 | 原基础训练能恢复到正常水平；不同协议工程基线 |
-| V6新B64 shuffle | 全9840、两卡local32、global64，300×153，逐轮test选模 | **94.1653% / 91.7116%，best267** | 双卡global64原式采样的基础训练可达到正常水平 |
+| LEGACY-V4-B32-Q4x8-BN1 | 8856/984，改过part/BN/batch，200轮 | 88.3712% / 见历史报告 | 该早期基础协议异常，不能作原HyCoRe性能基线 |
+| V5-HIER64-K20-W20 | 8856/984，balancedglobal64，200×200，val选模 | 92.1394% / 89.1581% | 恢复算子后严重后期崩溃缓解；没有isolated HIER增益证据 |
+| V6-HIER64-K20-W20 | 同split/batch，300×200，self-k排除，val选模 | 91.2480% / 88.9169% | 修正self-k并延长训练，没有提高最终分类结果 |
+| V6-B0-32 | 全9840、shuffle/drop_last，300×307，逐轮test选模 | 93.841% / 90.812%，best216 | 原基础训练能恢复到正常水平；不同协议工程基线 |
+| V6-B0-64 | 全9840、两卡local32、global64，300×153，逐轮test选模 | **94.1653% / 91.7116%，best267** | 双卡global64原式采样的基础训练可达到正常水平 |
 
-新B64于2026-10-05 09:24:55完成，耗时8小时35分08秒。epoch300 test OA93.1524%、AA90.7872%；clean train OA99.7358%、AA99.6444%。它不是每轮准确率不波动、没有拟合差距的模型，也不应用最后一轮替代best结果。
+V6-B0-64于2026-10-05 09:24:55完成，耗时8小时35分08秒。epoch300 test OA93.1524%、AA90.7872%；clean train OA99.7358%、AA99.6444%。它不是每轮准确率不波动、没有拟合差距的模型，也不应用最后一轮替代best结果。
 
-B64相对源码B32的best OA高约.324个百分点，约多对8个test实例，是单种子工程结果；更新次数、随机流、分布式BN等不同，不能归因于batch64必然更好。H20与两种source-style基线还有训练样本量、每轮覆盖、步数、模型选择等差别，**不能拿94.1653−91.2480宣布HIER导致该差值**。H20使用validation选模、只最终test一次；B32/B64经用户明确要求逐轮test选模，best-test有选模优势，不是同一科研评估口径。
+V6-B0-64相对V6-B0-32的best OA高约.324个百分点，约多对8个test实例，是单种子工程结果；更新次数、随机流、分布式BN等不同，不能归因于batch64必然更好。HIER64-K20-W20与两种source-style基线还有训练样本量、每轮覆盖、步数、模型选择等差别，**不能拿94.1653−91.2480宣布HIER导致该差值**。HIER64-K20-W20使用validation选模、只最终test一次；V6-B0-32/V6-B0-64经用户明确要求逐轮test选模，best-test有选模优势，不是同一科研评估口径。
 
-### 7.2 B64 基础监测及其对解释的影响
+### 7.2 V6-B0-64 基础监测及其对解释的影响
 
-300轮均完成153step、9792不同ID、drop48、完整test2468，所有loss/gradient检查有限；600个每轮首末步检查的双rank参数/梯度最大差为0。B64没有HIER或proxy，所以没有HIER合格率指标是正常情况。
+300轮均完成153step、9792不同ID、drop48、完整test2468，所有loss/gradient检查有限；600个每轮首末步检查的双rank参数/梯度最大差为0。V6-B0-64没有HIER或proxy，所以没有HIER合格率指标是正常情况。
 
-| 指标 | 新B64 shuffle | 原源码B32 |
+| 指标 | V6-B0-64 | 原V6-B0-32 |
 |---|---:|---:|
 | 末40轮test OA均值 | 93.2466% | 93.0865% |
 | 末40轮跨轮标准差 | .3576个百分点 | .3280个百分点 |
 | 末40轮test OA范围 | 92.2609–94.1653% | 92.504–93.760% |
 | 总墙钟耗时 | 8小时35分08秒 | 8小时20分23秒 |
 
-B64墙钟时间约增加2.95%，不是两倍；它使用两卡，GPU占用总时仍需另外计算。末40轮四个固定clean train测点均值99.6621%，在相同epoch的train−test差平均6.7731个百分点；epoch300差6.5834个百分点。best267没有对应clean train测点，不能拼接270轮的clean train。
+V6-B0-64墙钟时间约增加2.95%，不是两倍；它使用两卡，GPU占用总时仍需另外计算。末40轮四个固定clean train测点均值99.6621%，在相同epoch的train−test差平均6.7731个百分点；epoch300差6.5834个百分点。best267没有对应clean train测点，不能拼接270轮的clean train。
 
-![B64基础训练与原源码B32比较及监测](artifacts/b64_v6_2026-10-05/monitoring.png)
+![V6-B0-64基础训练与原V6-B0-32比较及监测](artifacts/b64_v6_2026-10-05/monitoring_canonical.png)
 
 图的分类对比面板为epoch21–300，完整1–300派生值见[CSV](artifacts/b64_v6_2026-10-05/epoch_curves.csv)。clean-train每10轮评估；边界比例为训练模式sampled positions。此图比较基础训练的稳定性，不隔离HIER效果。
 
-**大量whole贴边并不只出现在HIER训练。** B64末40轮训练模式whole接近原球边界的比例72.8375%，part .0023%；\(R_{hier}\) 均值.136009（乘.01后.00136009），\(R_{contr}\) .467729。epoch300平均whole/part深度6.1012/3.0301。无HIER的原intra本来就会推动whole更深，因此不能把H20的whole贴边直接归因于inter。
+**大量whole贴边并不只出现在HIER训练。** V6-B0-64末40轮训练模式whole接近原球边界的比例72.8375%，part .0023%；\(R_{hier}\) 均值.136009（乘.01后.00136009），\(R_{contr}\) .467729。epoch300平均whole/part深度6.1012/3.0301。无HIER的原intra本来就会推动whole更深，因此不能把HIER64-K20-W20的whole贴边直接归因于inter。
 
-B64末40轮whole的shadow cap比例98.6198%，part .2770%。这里是**从最终embedding反算logmap后是否超过2.3的反事实统计**，不是实际触发过HIER cap，也不是记录HyCoRe网络真实中间特征已被截断。H20末40轮whole/part贴边比例86.42/20.29%与B64不同，但数据、采样、预算、评估协议未匹配；这值得控制诊断，不能直接宣称HIER造成两者全部差异。
+V6-B0-64末40轮whole的shadow cap比例98.6198%，part .2770%。这里是**从最终embedding反算logmap后是否超过2.3的反事实统计**，不是实际触发过HIER cap，也不是记录HyCoRe网络真实中间特征已被截断。HIER64-K20-W20末40轮whole/part贴边比例86.42/20.29%与V6-B0-64不同，但数据、采样、预算、评估协议未匹配；这值得控制诊断，不能直接宣称HIER造成两者全部差异。
 
-后续[26的统一原HyCoRe/B64逐类诊断](26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md)给出更具体的边界：best clean test whole贴边率在历史B32/源码B32/B64仅.0405/.1216/.0810%，训练模式比例不能直接当推理表示结论。同一权重、相同已复写whole与part400，eval gap为.767/.831/.575，train BN gap为3.005/3.117/3.060。改变local32成员、固定负实例ID，会移动双曲几何但几乎不改分类。这个原版也存在的BN依赖，要求我们单独验证HIER邻居和祖先在分组/推理模式之间是否稳定；不能只从CE正常或intra训练loss低推断统一树已形成。
+后续[26的统一原HyCoRe/V6-B0-64逐类诊断](26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md)给出更具体的边界：best clean test whole贴边率在ORIG-B0-32-S4780/V6-B0-32/V6-B0-64仅.0405/.1216/.0810%，训练模式比例不能直接当推理表示结论。同一权重、相同已复写whole与part400，eval gap为.767/.831/.575，train BN gap为3.005/3.117/3.060。改变local32成员、固定负实例ID，会移动双曲几何但几乎不改分类。这个原版也存在的BN依赖，要求我们单独验证HIER邻居和祖先在分组/推理模式之间是否稳定；不能只从CE正常或intra训练loss低推断统一树已形成。
 
 ### 7.3 有关系可训不等于形态层次成功
 
@@ -436,9 +438,9 @@ CE没有数学上必然与HIER冲突的证明，也没有无冲突保证。另�
 
 ### A. 先隔离基础协议与HIER的增量
 
-新shuffle B64已表明global64基础训练可正常恢复。严格HIER增量仍需要 **matched对照**：same split、same sampler、same global64、same预算/BN/增强/随机流和val选模，仅令 \(\lambda_H=0\)。现有B64同时换fulltrain、shuffle、153step和test选模，未完成这个因果对照。
+V6-B0-64已表明global64基础训练可正常恢复。严格HIER增量仍需要 **matched对照**：same split、same sampler、same global64、same预算/BN/增强/随机流和val选模，仅令 \(\lambda_H=0\)。现有V6-B0-64同时换fulltrain、shuffle、153step和test选模，未完成这个因果对照。
 
-如考虑把HIER搬到原式shuffle B64，应先只读测试每batch的类别数、同类候选数、合格anchor/角色/ID覆盖及负flip类别；不得假设它自然满足H20所有关系要求。方案最终需要同时保留一致基础协议和关系资格，不能只为了凑足三元组改变不记录的采样因素。
+如考虑把HIER搬到原式shuffle V6-B0-64，应先只读测试每batch的类别数、同类候选数、合格anchor/角色/ID覆盖及负flip类别；不得假设它自然满足HIER64-K20-W20所有关系要求。方案最终需要同时保留一致基础协议和关系资格，不能只为了凑足三元组改变不记录的采样因素。
 
 ### B. 冻结whole，对proxy目标做短诊断
 
@@ -455,7 +457,7 @@ CE没有数学上必然与HIER冲突的证明，也没有无冲突保证。另�
 
 这最适合交给已经复现原HIER的同学：
 
-1. 固定图像HIER与点云H20的检查协议，锁定checkpoint、数据ID和高维距离定义。
+1. 固定图像HIER与点云HIER64-K20-W20的检查协议，锁定checkpoint、数据ID和高维距离定义。
 2. 除“每代理最近4例”，还展示 **实际训练选中的pair/triple祖先及其endpoint**；两种检索都保留失败例，不按好看程度筛选。
 3. 同时比较原双曲近邻与方向/等半径控制，量top4重复、唯一实例覆盖、低半径样本占比、代理使用熵。
 4. 相同实例两份增强比较互惠边Jaccard、pair/triple祖先保持率；固定样本跨checkpoint比较，避免批次变化伪装趋势。
@@ -471,17 +473,17 @@ CE没有数学上必然与HIER冲突的证明，也没有无冲突保证。另�
 
 ## 10. 接手时的阅读与复核清单
 
-建议顺序：本文件 → [本地私有工程交接](/D:/Hycore/.codex-local/handoff/24_PROJECT_ENGINEERING_HANDOFF_2026-10-05.md) → [22完整结构证据](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md) → [23新B64](23_V6_B64_SHUFFLE_START_2026-10-05.md) → 原三篇论文及相应loss源码。没有私有服务器访问权限的同学可跳过工程文件；本文、22/23及官方源码足以开始方法与只读分析。
+建议顺序：本文件 → [本地私有工程交接](/D:/Hycore/.codex-local/handoff/24_PROJECT_ENGINEERING_HANDOFF_2026-10-05.md) → [22完整结构证据](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md) → [23新V6-B0-64](23_V6_B64_SHUFFLE_START_2026-10-05.md) → 原三篇论文及相应loss源码。没有私有服务器访问权限的同学可跳过工程文件；本文、22/23及官方源码足以开始方法与只读分析。
 
 | 要回答的问题 | 首先查的代码或记录 |
 |---|---|
 | 原HyCoRe CE/intra/输入/训练到底是什么 | `classification_ModelNet40/main_pointmlp_hycore.py`、`hutil.py`、`models/pointmlp.py` |
-| H20 whole/part如何global64反传 | `hier_proxy_scratch_v5/base_protocol.py`、`distributed.py` |
+| HIER64-K20-W20 whole/part如何global64反传 | `hier_proxy_scratch_v5/base_protocol.py`、`distributed.py` |
 | 同类+1、K含self、资格>=2、负池定义 | `hier_proxy_scratch_v5/relations.py` |
 | 当前self-k排除和祖先loss | `hier_proxy_scratch_v6/hier_loss.py` |
 | 当前训练配置、优化器与评估 | `hier_proxy_scratch_v6/train.py`、[21](21_V6_TRAINING_START_2026-10-04.md) |
 | 真实祖先深度、使用和增强稳定性 | `hier_proxy_scratch_v6/structure_monitor.py`、[22](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md) |
-| B64原式采样基线 | `hycore_b64_v6/sampling.py`、`train.py`、[23](23_V6_B64_SHUFFLE_START_2026-10-05.md) |
+| V6-B0-64原式采样基线 | `hycore_b64_v6/sampling.py`、`train.py`、[23](23_V6_B64_SHUFFLE_START_2026-10-05.md) |
 | 每代理近四点云和几何分析 | `visualize_v6_proxy_neighbors.py`、`analyze_proxy_feature_geometry.py` |
 | HPCS 的正确相似度、LCA和聚类loss | `资料库/HPCS/hpcs/distances/cosine.py`、`lca.py`、`loss/ultrametric_loss.py` |
 

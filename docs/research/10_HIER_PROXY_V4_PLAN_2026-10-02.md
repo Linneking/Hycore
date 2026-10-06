@@ -1,5 +1,10 @@
 # Shared-whole HIER v4: authorized diagnostic and 200-epoch matrix
 
+命名提示：本文展示名称按[统一实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)更新；原名称可查映射。文件名、运行目录、代码字段与既有结果身份保留。
+
+历史映射：B0 → LEGACY-V4-B32-Q4x8-BN1；H3 → LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1；H5 → LEGACY-V4-HIER32-K5-W20-R20-Q4x8-BN1。
+三组均为 global32 的 4×8 类内队列协议，child 独立存储，每步仅 whole 更新 BN 运行统计；HIER 组先 W20，再 R20。旧简称属于运行身份，保留在代码字段与结果目录中。
+
 The user approved this successor on 2026-10-02 and explicitly authorized
 bounded foundational diagnostics followed by three comparable 200-epoch
 trajectories on completely idle GPUs. This supersedes the execution scope
@@ -13,11 +18,11 @@ The shared 20 epochs count toward each trajectory's total 200 epochs.
 
 | Arm | Objective after epoch 20 | Sample K |
 |---|---|---|
-| B0 | CE + 0.01 (contrastive + radial intra) | none |
-| H3 | B0 + ramp * (lambda_inter inter + lambda_proxy proxy) | 3 |
-| H5 | same HIER objective and coefficients as H3 | 5 |
+| LEGACY-V4-B32-Q4x8-BN1 | CE + 0.01 (contrastive + radial intra) | none |
+| LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1 | LEGACY-V4-B32-Q4x8-BN1 + ramp * (lambda_inter inter + lambda_proxy proxy) | 3 |
+| LEGACY-V4-HIER32-K5-W20-R20-Q4x8-BN1 | same HIER objective and coefficients as LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1 | 5 |
 
-H3/H5 differ only in sample K. B0 isolates the incremental HIER objective
+LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1/LEGACY-V4-HIER32-K5-W20-R20-Q4x8-BN1 differ only in sample K. LEGACY-V4-B32-Q4x8-BN1 isolates the incremental HIER objective
 under the corrected shared protocol. There is no early stopping. Maximum
 validation OA selects the checkpoint, and official test is evaluated once
 after all 200 epochs. Neither diagnostics nor model selection read test.
@@ -68,7 +73,7 @@ after all 200 epochs. Neither diagnostics nor model selection read test.
 Main RSGD: LR0.1 ->0.005 cosine200, momentum0.9, weight decay2e-4.
 Proxy ordinary-tangent RSGD: LR0.005 ->0.0005 cosine180, momentum0.9,
 weight decay0. HIER ramp20 epochs after the shared20; initial shared
-lambda_inter=lambda_proxy=0.03. H3/H5 retain identical weights and budgets.
+lambda_inter=lambda_proxy=0.03. LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1/LEGACY-V4-HIER32-K5-W20-R20-Q4x8-BN1 retain identical weights and budgets.
 
 ## Bounded diagnostic decision
 
@@ -107,7 +112,7 @@ start time, shared checkpoint/features hashes, per-epoch metrics and final
 test selection. Results/checkpoints remain server-local and never committed.
 
 Operational startup: all three assigned processes reserve a small CUDA
-context only after an idle check. H3/H5 then wait for the common prefix;
+context only after an idle check. LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1/LEGACY-V4-HIER32-K5-W20-R20-Q4x8-BN1 then wait for the common prefix;
 foreign compute owners are rechecked before model allocation. The existing
 PyTorch/CUDA package bytes may be copied into an SSD cache to avoid repeated
 shared-HDD cold loading; runtime module paths are recorded in manifests.
@@ -116,14 +121,14 @@ This changes storage location, not framework versions or objective settings.
 ## Launch gate result
 
 All14 CPU numerical/protocol checks passed. A3-epoch smoke trajectory
-(shared1-epoch prefix,2batches per epoch) completed for B0/H3/H5. Actual
+(shared1-epoch prefix,2batches per epoch) completed for LEGACY-V4-B32-Q4x8-BN1/LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1/LEGACY-V4-HIER32-K5-W20-R20-Q4x8-BN1. Actual
 HIER sample/proxy gradients were finite and nonzero; no extra whole
 projection occurred. Peak allocated memory in the last smoke epoch was
-28390.8/28394.2/28393.2MiB for B0/H3/H5. These are runtime gates, not
+28390.8/28394.2/28393.2MiB for LEGACY-V4-B32-Q4x8-BN1/LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1/LEGACY-V4-HIER32-K5-W20-R20-Q4x8-BN1. These are runtime gates, not
 classification-performance measurements. The full run removes the batch
 limit, uses20 shared prefix epochs and200 total epochs, workers4.
 
 Runtime versions verified: PyTorch2.8.0+cu128, Geoopt0.5.1, NumPy1.26.4,
-SciPy1.13.1, h5py3.14.0. Physical assignment: B0 GPU1, H3 GPU2, H5 GPU3;
+SciPy1.13.1, h5py3.14.0. Physical assignment: LEGACY-V4-B32-Q4x8-BN1 GPU1, LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1 GPU2, LEGACY-V4-HIER32-K5-W20-R20-Q4x8-BN1 GPU3;
 GPU2 is RTX5090D and the other two RTX5090, so runtime is not a hardware
 matched comparison. Source labels/checkpoint identity remain explicit.

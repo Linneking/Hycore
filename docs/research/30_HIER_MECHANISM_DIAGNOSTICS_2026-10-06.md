@@ -1,9 +1,11 @@
 # HIER机制诊断：分离选择、BN和实际更新
 
-日期：2026-10-06。用户授权主B0独立运行后持续小规模机制诊断和据证据执行新计划。
+实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
+
+日期：2026-10-06。用户授权主V6-B64独立运行后持续小规模机制诊断和据证据执行新计划。
 本文件只记录可核验聚合与方法；完整checkpoint、特征、逐draw记录及服务器路径不入库。
 
-主任务V6同协议balanced64 B0已完成首个续训轮e21的200步、984例validation及可恢复checkpoint验收。
+主任务V6-B64已完成首个续训轮e21的200步、984例validation及可恢复checkpoint验收。
 独立后台继续e22–300；诊断仅CPU及额外GPU3。生产身份与限制见[29](29_V6_BALANCED_B0_AND_MECHANISM_LAUNCH_2026-10-06.md)。
 
 ## 首批有限面板
@@ -66,8 +68,8 @@ eval径向margin违反均值99.02%，trainBN39.26%；同输入的BN模式影响�
 ## e300真实配对一步（条件热点，4个独立ID）
 
 两个固定热点batch完成6次副本RSGD更新；源模型/proxy/HDF/checkpoint不变。
-完整继承H20历史动量和有效LR，三臂norm1均未触发裁剪；各臂无更新读出的mu/logits误差均0。
-主读出固定旧BN和clean1024。base是当前一步移除sample项，不能称从头B0。
+完整继承V6-HIER64-K20-W20历史动量和有效LR，三臂norm1均未触发裁剪；各臂无更新读出的mu/logits误差均0。
+主读出固定旧BN和clean1024。base是当前一步移除sample项，不能称从头V6-B64。
 
 | 热点平均原点深度变化 | batch0 | batch1 |
 |---|---:|---:|
@@ -82,9 +84,9 @@ eval径向margin违反均值99.02%，trainBN39.26%；同输入的BN模式影响�
 
 聚合数据：[真实一步](diagnostics/results/20261006_one_step_e300_hotspot2_aggregate.json)。
 科学静态图（PNG/PDF均已逐张视觉检查）：
-[CPU分工与偏导](artifacts/hier_mechanism_figures_preview_20261006_v1/proxy_cpu_mechanisms.png)、
-[BN与共享参数](artifacts/hier_mechanism_figures_preview_20261006_v1/whole_bn_parameter_mechanisms.png)、
-[实际总更新与增量](artifacts/hier_mechanism_figures_preview_20261006_v1/one_step_total_and_increment.png)。
+[CPU分工与偏导](artifacts/hier_mechanism_figures_canonical_20261006_v1/proxy_cpu_mechanisms.png)、
+[BN与共享参数](artifacts/hier_mechanism_figures_canonical_20261006_v1/whole_bn_parameter_mechanisms.png)、
+[实际总更新与增量](artifacts/hier_mechanism_figures_canonical_20261006_v1/one_step_total_and_increment.png)。
 
 重复Gumbel8次的热点面板：相同输入但独立噪声的pair identity agreement约11%，
 triple约2.6–4.8%；跨BN同seed的pair约83–84%、triple约50–54%。
@@ -100,4 +102,4 @@ GPU噪声探针已完成；顺序管理器在前一进程退出后瞬时util未�
 最终test不参与诊断或选配置。
 
 最新自然16裁剪解释、四类独立形状、同协议e40与Gumbel8真实一步结果，
-以及B0当前训练状态和失败诊断边界，见[31](31_HIER_MECHANISM_FINDINGS_AND_B0_STATUS_2026-10-06.md)。
+以及V6-B64当前训练状态和失败诊断边界，见[31](31_HIER_MECHANISM_FINDINGS_AND_B0_STATUS_2026-10-06.md)。

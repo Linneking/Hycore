@@ -41,3 +41,5 @@ Production commits: V5 `6e13ff9f59ad3bec8f7c3db857e6558e37473c03`;
 V6 `b3542cb7372f25758a44d2fa7bd048829947c924`.
 The extended V6 cosine period is a protocol difference, not only a longer
 tail of the V5 trajectory. These are one-seed results.
+
+Current display names are V5-HIER64-K20-W20 and V6-HIER64-K20-W20. The original CSV/run IDs remain unchanged; the same curves with standardized labels are in [the canonical figure](../v5_v6_canonical_2026-10-06/training_monitoring.png). See [the naming convention](../../33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md).

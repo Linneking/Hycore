@@ -1,19 +1,21 @@
-# V6同协议balanced64 B0与持续机制诊断
+# V6-B64与持续机制诊断
 
-2026-10-06。用户已批准先独立启动主B0，再持续小规模机制诊断与据新证据形成的新实验，直到使用限额；诊断不阻碍主任务。实现分支`codex/v6-balanced-b0-mechanisms`。当前条目为执行记录，将在实际启动验收后补充身份与状态。
+实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
+
+2026-10-06。用户已批准先独立启动主V6-B64，再持续小规模机制诊断与据新证据形成的新实验，直到使用限额；诊断不阻碍主任务。实现分支`codex/v6-balanced-b0-mechanisms`。当前条目为执行记录，将在实际启动验收后补充身份与状态。
 
 ## 主任务定义
 
-- 起点为原V6完整`checkpoint_epoch_020.pth`，format `hycore-hier-v6-h20-selfk300-1`；已完成4000次CE/intra更新，不含HIER更新。
+- 起点为V6-HIER64-K20-W20完整`checkpoint_epoch_020.pth`，format `hycore-hier-v6-h20-selfk300-1`；已完成4000次CE/intra更新，不含HIER更新。
 - 继续e21–300，每轮200步、global64，两rank local32。8856/984训练/验证划分，seed22、32类×2有放回、workers2、eval32。
 - 保留CE、`.01Rcontr+.01Rhier`、whole/part alias复写、child/whole两次普通BN、原FPS512、c1/D256、范数1裁剪。
 - 模型RiemannianSGD LR.1到.005、momentum.9、WD2e-4、T_max300；恢复时scheduler last_epoch20，LR `.09896201103485577`，不重启cosine或动量。
-- 仅关闭HIER及proxy更新。HIER的mining私有随机流、专用Gumbel generator与augmentation/模型随机流独立，B0不需要dummy HIER消费。
+- 仅关闭HIER及proxy更新。HIER的mining私有随机流、专用Gumbel generator与augmentation/模型随机流独立，V6-B64不需要dummy HIER消费。
 - 两rank BN/RNG/sampler完整恢复；源sampler均epoch19，下步set_epoch20。原源码不变，新入口严格核对完整源身份。
 - 源e20最佳验证OA90.95528455%，恰为e20模型；作为共同前缀的候选保留。e21–300继续验证选模，最终选定模型官方test一次。
-- e99/e200/e300固定结构存档；旧H20为同协议历史参照，未重放到可核对存档前不称逐位配对复现。
+- e99/e200/e300固定结构存档；旧V6-HIER64-K20-W20为同协议历史参照，未重放到可核对存档前不称逐位配对复现。
 
-本次不重新跑20轮基础训练。用户要求的“后续HIER无需warmup”应用于新HIER：从头训练第一轮lambda_H=.5；从旧checkpoint分叉则分叉首步启用，并如实记录继承的前缀。B0自身始终没有HIER。
+本次不重新跑20轮基础训练。用户要求的“后续HIER无需warmup”应用于新HIER：从头训练第一轮lambda_H=.5；从旧checkpoint分叉则分叉首步启用，并如实记录继承的前缀。V6-B64自身始终没有HIER。
 
 ## 执行与资源
 
@@ -27,7 +29,7 @@
 - 新目录的双卡恢复短测完成e21的两步，官方test未读取；每rank模型参数、全部BN buffer、optimizer整树、scheduler、sampler、完整RNG和初始模型身份exact核对均通过。
   每步BN+2、原alias复写、finite、clip与c1检查通过；首/末梯度及更新参数副本差为0。
   完整短测checkpoint已重载验证且带`continuation_smoke_not_resumable=true`，不用于生产。
-- 正式B0于**2026-10-06 02:26:20 Asia/Shanghai**派发，独立session、父进程脱离SSH。
+- 正式V6-B64于**2026-10-06 02:26:20 Asia/Shanghai**派发，独立session、父进程脱离SSH。
   派发前重新确认指定两卡完全空闲；采用原e20 checkpoint，再次核对独立SHA256。
   进程启动存活检查通过；首个完整e21（200步、984验证、保存）验收尚待后续补充，未把“存活”当成首轮完成。
 - 私有路径/PID/GPU UUID仅在server manifest/launcher_state及忽略的本地记录，不提交仓库。
@@ -36,10 +38,10 @@
 
 e21于**2026-10-06 02:30:56 Asia/Shanghai**保存完成：200次更新、完整984例验证，OA90.44715447%、CE3.01096090。
 该轮完整checkpoint SHA256为`04a1d9ba790f80bdfaf9d3908ebc271a773a2c936b474b1204539bdae81dfc79`，159931885字节。
-CPU从同一文件字节重载，并再次通过完整B0恢复合同：scheduler last_epoch21、T_max300、source/split/ID、两rank状态、动量与LR齐全，
+CPU从同一文件字节重载，并再次通过完整V6-B64恢复合同：scheduler last_epoch21、T_max300、source/split/ID、两rank状态、动量与LR齐全，
 `diagnostic_only=false`、HIER关闭且不含训练proxy，验证例数与每轮步数正确。随后已进入e22，主任务启动验收完成。
 
-后续诊断commit仅改变研究文档/新诊断脚本，没有改变运行主任务的B0及其导入依赖。
+后续诊断commit仅改变研究文档/新诊断脚本，没有改变运行主任务的V6-B64及其导入依赖。
 
 ## 第一批机制诊断
 

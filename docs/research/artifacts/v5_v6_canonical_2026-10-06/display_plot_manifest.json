@@ -1,0 +1,19 @@
+{
+  "format": "hycore-canonical-display-plot-v1",
+  "status": "complete",
+  "input_csv": "../v5_v6_2026-10-04/epoch_curves.csv",
+  "input_csv_sha256": "c6ef530472f2cace32e96f1d18194692d88d6ad4079c48c52bfe12283d2448cd",
+  "input_rows": 500,
+  "display_names": {
+    "v5_H20": "V5-HIER64-K20-W20",
+    "v6_H20": "V6-HIER64-K20-W20"
+  },
+  "plot_code": "../../../../inter_hierarchy_MN40/plot_v5_v6_monitoring.py",
+  "plot_code_sha256": "7fc06d7afabbf419fc345b70a09d52e7a392d72546f1e9872d316e763d0d2283",
+  "outputs": [
+    "training_monitoring.png",
+    "training_monitoring.pdf"
+  ],
+  "input_unchanged": true,
+  "numerical_operation": "The same original row filtering, field scaling, epoch limits and panel metrics are retained; only display names change."
+}

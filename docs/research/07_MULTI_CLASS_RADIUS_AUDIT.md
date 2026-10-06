@@ -1,4 +1,6 @@
-# Original HyCoRe multi-class radius audit
+# ORIG-B0-32-S4780 multi-class radius audit
+
+命名提示：本文展示名称按[统一实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)更新；原名称可查映射。文件名、运行目录、代码字段与既有结果身份保留。
 
 ## Scope and implementation
 
@@ -8,7 +10,7 @@ The deterministic radius-audit script now accepts `--class-label` and `--class-n
 - table (label 33): four-leg, trestle/pedestal, long/round, and cabinet-like variants;
 - sofa (label 30): armchair-like, straight, curved, and different arm/back structures.
 
-All results use the original HyCoRe best checkpoint at epoch 229 and deterministic, unaugmented ModelNet40 test point clouds. No training or A3 comparison was performed.
+All results use the ORIG-B0-32-S4780 best checkpoint at epoch 229 and deterministic, unaugmented ModelNet40 test point clouds. No training or A3 comparison was performed.
 
 ## Summary
 

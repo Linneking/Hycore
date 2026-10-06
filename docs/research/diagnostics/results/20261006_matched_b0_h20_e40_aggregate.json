@@ -1,4 +1,9 @@
 {
+  "canonical_experiments": {
+    "B0": "V6-B64",
+    "H20": "V6-HIER64-K20-W20"
+  },
+  "naming_document": "../../33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md",
   "checkpoint_epoch": 40,
   "object_count": 8856,
   "H20_oa_percent": 94.95257452574526,

@@ -20,6 +20,7 @@ def main():
         rows = list(csv.DictReader(stream))
     args.output_dir.mkdir(parents=True, exist_ok=False)
     colors = {"v5_H20": "#2668a5", "v6_H20": "#df7928"}
+    display_names = {"v5_H20": "V5-HIER64-K20-W20", "v6_H20": "V6-HIER64-K20-W20"}
     panels = [
         ("Validation OA", [("val_oa", "", 1.)], "%"),
         ("Clean training OA (every 10 epochs)", [("clean_train_oa", "", 1.)], "%"),
@@ -42,7 +43,7 @@ def main():
                 ax.plot(x, y, color=color, lw=1.35, alpha=.88,
                         ls="-" if number == 0 else "--",
                         marker="o" if field == "clean_train_oa" else None,
-                        markersize=3, label=run.replace("_H20", "") + (" " + label if label else ""))
+                        markersize=3, label=display_names[run] + (" " + label if label else ""))
         ax.axvspan(1, 20, color="#eeeeee", zorder=0)
         ax.axvline(200, color="#999999", ls=":", lw=.9)
         ax.set_title(title, fontsize=10)
@@ -54,7 +55,7 @@ def main():
             ax.set_ylim(80, 100)
     for ax in axes[-1]:
         ax.set_xlabel("Epoch")
-    fig.suptitle("V5 / V6 H20 monitoring | same initialization and split; different cosine periods", fontsize=14)
+    fig.suptitle("V5-HIER64-K20-W20 / V6-HIER64-K20-W20 | different cosine periods", fontsize=14)
     fig.text(.5, .013, "Shaded: 20 base-only epochs. V5 ends at 200; V6 ends at 300. Boundary figures are training-mode observations.\n"
              "Active fractions use noncollision draws with i != k in both runs. Curves are one seed, not uncertainty across seeds.",
              ha="center", fontsize=9)

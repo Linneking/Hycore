@@ -1,4 +1,7 @@
 {
+  "canonical_experiment": "V6-B64",
+  "canonical_comparison_experiment": "V6-HIER64-K20-W20",
+  "naming_document": "../../33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md",
   "checked_at_shanghai": "2026-10-06T18:40:37.413454+08:00",
   "status": "completed",
   "started_utc": "2026-10-05T18:26:32.927385+00:00",

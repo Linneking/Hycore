@@ -34,6 +34,8 @@ Never pull into a dirty server worktree. Do not use `git reset --hard` to resolv
 
 ## Experiment identity
 
+Use the canonical display names in [33: experiment naming](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md) and [the registry](experiment_registry.json). B0-32/B0-64 mean original HyCoRe shuffle sampling; B32/B64 mean HIER class-balanced sampling with HIER disabled; HIER32/HIER64 add HIER. Prefix the implementation version; record K and warmup separately for HIER, and preserve historical run IDs, paths and metric field names. Every new manifest records both the canonical experiment name and the immutable storage/run ID. A one-step diagnostic arm named base is not a separately trained baseline.
+
 Every run directory must contain or log:
 
 - Git commit SHA and branch;

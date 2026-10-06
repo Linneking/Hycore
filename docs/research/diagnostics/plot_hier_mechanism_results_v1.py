@@ -84,7 +84,7 @@ def proxy_figure(document, output_dir, dpi):
     dresser = [row[1]["whole_partial"][partial_key]["mean"] for row in rows]
     dresser_n = [row[1]["whole_partial"][partial_key]["n"] for row in rows]
     fig, axes = plt.subplots(1, 3, figsize=(12.5, 4.5))
-    fig.suptitle("V6 frozen-cache mechanism replay", fontsize=14, y=.985)
+    fig.suptitle("V6-HIER64-K20-W20 frozen-cache mechanism replay", fontsize=14, y=.985)
     axes[0].plot(x, all_order, "o-", color=COLORS["blue"], label="All noncollision draws", lw=1.8)
     axes[0].plot(x, active_order, "s-", color=COLORS["orange"], label="Active noncollision draws", lw=1.8)
     point_labels(axes[0], x, all_order, lambda v: f"{v:.1f}", COLORS["blue"])
@@ -104,7 +104,8 @@ def proxy_figure(document, output_dir, dpi):
     magnitude = max(max(abs(v) for v in dresser), .02)
     axes[2].set_ylim(-1.25 * magnitude, 1.45 * magnitude)
     for ax in axes:
-        ax.set_xticks(x, [str(epoch) for epoch in epochs])
+        ax.set_xticks(x)
+        ax.set_xticklabels([str(epoch) for epoch in epochs])
         ax.set_xlabel("Checkpoint epoch")
         ax.grid(axis="y", alpha=.18)
         ax.set_axisbelow(True)
@@ -133,7 +134,8 @@ def paired_panel(ax, values, labels, title, ylabel, logarithmic=False, percent=F
     medians = np.nanmedian(plotted, axis=0)
     ax.plot(x, medians, "D", color="#111111", ms=5, zorder=5)
     ax.set(title=title, ylabel=ylabel)
-    ax.set_xticks(x, labels)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
     if logarithmic:
         ax.set_yscale("log")
     if percent:
@@ -159,7 +161,7 @@ def whole_figure(document, output_dir, dpi):
         metrics["violation"].append([row["geometry"]["radial_margin_violation_fraction"] for row in rows])
     fig, axes = plt.subplots(2, 3, figsize=(12.5, 7.6))
     epoch = document.get("identity", {}).get("checkpoint_epoch", "?")
-    fig.suptitle(f"V6 e{epoch}: paired BN and gradient diagnosis", fontsize=14, y=.985)
+    fig.suptitle(f"V6-HIER64-K20-W20 e{epoch}: paired BN and gradient diagnosis", fontsize=14, y=.985)
     plotted = {}
     plotted["st_base"] = paired_panel(axes[0, 0], metrics["st_base"], labels, "A  ST / base gradient norm", "All model parameters: norm ratio", logarithmic=True)
     plotted["st_fixed"] = paired_panel(axes[0, 1], metrics["st_fixed"], labels, "B  ST / fixed-ancestor norm", "All model parameters: norm ratio", logarithmic=True)
@@ -196,7 +198,7 @@ def one_step_figure(document, output_dir, dpi):
     x = np.arange(len(batches))
     fig, axes = plt.subplots(2, 2, figsize=(10.3, 7.4))
     epoch = document.get("identity", {}).get("checkpoint_epoch", "?")
-    fig.suptitle(f"V6 e{epoch}: actual one-step responses", fontsize=14, y=.985)
+    fig.suptitle(f"V6-HIER64-K20-W20 e{epoch}: actual one-step responses", fontsize=14, y=.985)
     extracted = {}
     for column, group in enumerate(("all64", "hotspot")):
         total = {arm: [response_group(batch["arms"][arm], group)["depth_delta"]["mean"] for batch in batches] for arm in arms}
@@ -210,7 +212,8 @@ def one_step_figure(document, output_dir, dpi):
         axes[1, column].set_title(f"{'C' if column == 0 else 'D'}  Increment vs base: {'all64' if column == 0 else 'hotspots'}")
     for ax in axes.flat:
         ax.axhline(0, color="#555555", lw=.8)
-        ax.set_xticks(x, [f"Batch {batch['batch'] + 1}" for batch in batches])
+        ax.set_xticks(x)
+        ax.set_xticklabels([f"Batch {batch['batch'] + 1}" for batch in batches])
         ax.set_ylabel("Mean depth change")
         ax.grid(axis="y", alpha=.18)
         ax.set_axisbelow(True)
@@ -219,7 +222,7 @@ def one_step_figure(document, output_dir, dpi):
     axes[1, 0].legend(frameon=False, fontsize=8)
     caption = (f"{len(batches)} independent forced-hotspot panels; each arm restores the same model, RiemannianSGD momentum, LR and OLD BN readout buffers.\n"
         "Positive total depth change is outward from the shared start; positive increment is deeper than the base arm. These are different comparisons.\n"
-        "Proxies are fixed; historical H20 momentum is retained. Batch means are not uncertainty intervals or evidence of a long-run training cause.")
+        "Proxies are fixed; V6-HIER64-K20-W20 momentum is retained. Batch means are not uncertainty intervals or evidence of a long-run training cause.")
     files = finish_figure(fig, output_dir, "one_step_total_and_increment", dpi, caption, .17)
     return files, {"checkpoint_epoch": epoch, "batches": len(batches), "responses": extracted,
         "clip_applied_by_arm": {arm: [batch["arms"][arm]["update"]["clip_applied"] for batch in batches] for arm in arms},

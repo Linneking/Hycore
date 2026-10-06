@@ -1,48 +1,50 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
-## V6 matched balanced64 B0 completed — 2026-10-06 18:40
+实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
-[32: B0 completed result](32_V6_BALANCED_B0_COMPLETED_2026-10-06.md) supersedes
-earlier running snapshots. B0 finished300 at12:13:15 Asia/Shanghai and evaluated
+## V6-B64 completed — 2026-10-06 18:40
+
+[32: V6-B64 completed result](32_V6_BALANCED_B0_COMPLETED_2026-10-06.md) supersedes
+earlier running snapshots. V6-B64 finished300 at12:13:15 Asia/Shanghai and evaluated
 the validation-selected e231 model once on2468 official test objects.
-Best validation OA94.3089%, test OA91.8558%, AA89.9994%; historical H20 has
+Best validation OA94.3089%, test OA91.8558%, AA89.9994%; historical V6-HIER64-K20-W20 has
 the same best validation OA at99 and test OA91.2480%, AA88.9169%.
-B0 is+0.6078 test OA points (15 more correct objects), a single-seed historical
+V6-B64 is+0.6078 test OA points (15 more correct objects), a single-seed historical
 comparison without a bitwise replay claim. All280 continuation epochs have
 200 updates,984 validation objects, finite telemetry and HIER0; actual best
 and final archive hashes match saved identities. Process exited, GPUs released.
 e300 validation OA91.2602% also shows late decline without HIER. Same-epoch
 geometry and independent shape comparisons remain pending; no new run launched.
 
-## Latest mechanism findings and B0 status — 2026-10-06 08:41
+## Latest mechanism findings and V6-B64 status — 2026-10-06 08:41
 
-[31: mechanism findings and B0 status](31_HIER_MECHANISM_FINDINGS_AND_B0_STATUS_2026-10-06.md)
+[31: mechanism findings and V6-B64 status](31_HIER_MECHANISM_FINDINGS_AND_B0_STATUS_2026-10-06.md)
 records the completed natural16, shape4x64, matched e40 and conditional Gumbel8
 one-step evidence. HIER reduces outward movement on the four fixed e300 hotspots
 under all eight noise repetitions, while their total update remains outward;
-the natural population direction is not uniform. Matched e40 H20 is deeper than
-B0 on the four inspected classes, without established classification benefit.
-B0 has completed198 epochs and is training199; best validation OA94.1057%
+the natural population direction is not uniform. Matched e40 V6-HIER64-K20-W20 is deeper than
+V6-B64 on the four inspected classes, without established classification benefit.
+V6-B64 has completed198 epochs and is training199; best validation OA94.1057%
 at191, no official test read. The bounded diagnostic queue completed10/10.
 The proxy100-step strict endpoint gate failed after600 actual updates; its
-recovery and independent matched B0 morphology comparison remain pending.
+recovery and independent matched V6-B64 morphology comparison remain pending.
 
-## Authorized B0 continuation and sustained diagnostics — 2026-10-06
+## Authorized V6-B64 continuation and sustained diagnostics — 2026-10-06
 
-The user approved V6 matched balanced64 B0 and continuing small mechanism
+The user approved V6-B64 and continuing small mechanism
 experiments until usage limits, with the main training taking priority.
 Future newly initialized HIER runs must enable weight .5 from epoch1 without
 20-epoch warmup. Historical prefixes remain accurately labelled.
 
 [29: launch and diagnostic record](29_V6_BALANCED_B0_AND_MECHANISM_LAUNCH_2026-10-06.md)
-records a strict complete-state historical V6 e20 B0 fork. Code f649fcc,
+records a strict complete-state historical V6-HIER64-K20-W20 e20 fork for V6-B64. Code f649fcc,
 branch codex/v6-balanced-b0-mechanisms. Local/server six contract checks and
 two-update dual-GPU restore smoke pass, including exact optimizer/scheduler/
 BN/RNG/sampler restoration and zero gradient/parameter replica difference.
 Production was detached at 02:26:20 Asia/Shanghai, continuing e21–300 with
 original 300-epoch cosine, data/sampling and CE/intra; source checkpoint SHA
 is recorded in29. Full e21 acceptance now passes: 200 updates, 984 validation
-objects and a complete checkpoint reloaded on CPU through the strict B0
+objects and a complete checkpoint reloaded on CPU through the strict V6-B64
 contract; scheduler continues at21. Training proceeded into e22.
 No smoke checkpoint initializes production. Validation selects the model;
 official test is read only once at the end. Diagnostics use separate resources.
@@ -62,13 +64,13 @@ Local sample depth ordering is supported; independent within-class morphology
 and the causal HIER increment remain unproven. The current pending proposal
 in [04](04_NEXT_EXPERIMENT_PLAN.md) prioritizes fixed-condition loss/selection
 diagnostics, independent relation validation and a fidelity-checked matched
-balanced64 B0 fork. No new experiment was launched.
+balanced64 V6-B64 fork. No new experiment was launched.
 
-## Latest H20 whole / radial retrieval diagnosis — 2026-10-06
+## Latest V6-HIER64-K20-W20 whole / radial retrieval diagnosis — 2026-10-06
 
 [27: matched whole geometry and frozen proxy retrieval controls](27_HIER_WHOLE_RADIAL_RETRIEVAL_DIAGNOSIS_2026-10-06.md)
 uses ten existing caches, all aligned to the same8856training objects by HDF5
-shard name and row. H20's sorted-shard IDs differ from26's glob-order IDs;
+shard name and row. V6-HIER64-K20-W20's sorted-shard IDs differ from26's glob-order IDs;
 canonical remapping passes every label check. No new model forward, GPU,
 optimizer update or main training occurred; all source cache hashes remain unchanged.
 
@@ -76,25 +78,25 @@ V6e300 eligible proxy top4 covers28IDs with raw distance,190with whole
 equal-radius copies,30with proxy equal-radius copies. Removing the lowest
 radius1% only replaces the hotspot:281/485proxies still share one new set,
 and87.68%of slots come from the remaining pool's lowest1%. Borrowing same-ID
-sourceB32 radii with H20 directions/proxies unchanged shifts hotspots but
+V6-B0-32 radii with V6-HIER64-K20-W20 directions/proxies unchanged shifts hotspots but
 retains concentration. This locates a retrieval radial bias, not an isolated
 HIER training effect or proof that proxies coincide.
 
 Dresser whole median depth is3.558and within-class angle18.76degrees at
-V6e300 versus4.568/2.97degrees at B64last. Overall whole median depths are
+V6e300 versus4.568/2.97degrees at V6-B0-64 last. Overall whole median depths are
 4.617/4.684, so the change is class-dependent. Distinguish proxy-to-whole
 retrieval from actual pair/triple ancestor use. The next question is loss-wise
 radial/angular gradients and proxy objective behavior; no next matrix is launched.
 
 ## Latest matched representation audit — 2026-10-05
 
-[26: original HyCoRe versus B64, full class geometry and batch probes](26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md)
-compares historical seed4780 B32, source seed22 B32 and B64 best/last under
+[26: original HyCoRe versus V6-B0-64, full class geometry and batch probes](26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md)
+compares ORIG-B0-32-S4780, V6-B0-32 and V6-B0-64 best/last under
 identical clean train/test inputs and fixed200/400/600-point patches. All12full
 splits and three no-update probes passed identity, finite and buffer checks.
-Best clean-test whole mean depth is4.364/4.390/4.139 respectively; B64 is
-not uniformly more outward. Original flower_pot is1/20, sourceB32 2/20,
-B64 3/20 at best, so this weak class predates the new split.
+Best clean-test whole mean depth is4.364/4.390/4.139 respectively; V6-B0-64 is
+not uniformly more outward. Original flower_pot is1/20, V6-B0-32 2/20,
+V6-B0-64 3/20 at best, so this weak class predates the new split.
 
 A more important finding is BN-mode dependence: fixed overwritten whole and
 patch400 input gives mean whole-minus-part depth gap.767/.831/.575 in eval
@@ -107,7 +109,7 @@ statistics/plots are linked from26.
 
 ## Current handoff — 2026-10-05
 
-V6 B64 shuffle has completed all300epochs, finishing at09:24:55Asia/Shanghai.
+V6-B0-64 has completed all300epochs, finishing at09:24:55Asia/Shanghai.
 Best-test OA is94.1653%/AA91.7116% at267; final300 OA is93.1524%/AA90.7872%.
 All300epochs have153updates,9792distinct training IDs,48dropped tail objects
 and complete2468-object test evaluation.600first/last-step replica checks
@@ -121,12 +123,12 @@ Start with the two new handoffs:
 2. [Technical handoff: HyCoRe + inter, HIER and Onghena/HPCS](25_HYCORE_HIER_HPCS_TECHNICAL_HANDOFF_2026-10-05.md).
    This shareable document covers formulas, paper/code differences, evidence and next questions.
 
-The completed B64 configuration, monitoring and comparisons are in
-[23: B64 launch and final results](23_V6_B64_SHUFFLE_START_2026-10-05.md);
-V5/V6 H20 morphology/proxy evidence remains in
+The completed V6-B0-64 configuration, monitoring and comparisons are in
+[23: V6-B0-64 launch and final results](23_V6_B64_SHUFFLE_START_2026-10-05.md);
+V5-HIER64-K20-W20 and V6-HIER64-K20-W20 morphology/proxy evidence remains in
 [22: results and structure](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md).
 Reviewed public curves are in
-[the B64 summary plot](artifacts/b64_v6_2026-10-05/monitoring.png) and
+[the V6-B0-64 summary plot](artifacts/b64_v6_2026-10-05/monitoring_canonical.png) and
 [300epoch CSV](artifacts/b64_v6_2026-10-05/epoch_curves.csv).
 
 **Current method:** original HyCoRe CE/intra and online HIER sample/proxy
@@ -135,8 +137,8 @@ abstract ancestors, not physical parts; there is no proxy–part loss or teacher
 in V5/V6. Original part overwrite, two BN updates and FPS behavior are retained.
 The frozen-teacher/equal-radius v2 route below is historical, not current.
 
-B64 establishes that the source-style global64 base training can work. It has
-different data, sampling, update budget and test-based selection from H20,
+V6-B0-64 establishes that the source-style global64 base training can work. It has
+different data, sampling, update budget and test-based selection from V6-HIER64-K20-W20,
 so it does not isolate HIER's causal effect. A matched control, frozen-proxy
 gradient diagnostics and independent morphology checks remain proposed for
 review in[04](04_NEXT_EXPERIMENT_PLAN.md); no next matrix is authorized here.
@@ -148,37 +150,37 @@ Their running/pending statements do not override the completed status above.
 
 ## Completed V6 results — 2026-10-04
 
-V6 H20 and original-source B32 have completed300epochs. The final read-only
+V6-HIER64-K20-W20 and V6-B0-32 have completed300epochs. The final read-only
 comparison, V6 best99/epoch200/epoch300 proxy top-four visualization and
 actual ancestor monitoring are in
 [22: V5 / V6 results and structure](22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md).
-Validation-selected test OA is92.1394% forV5-H20 and91.2480% forV6-H20;
-original-source B32 best-test OA is93.841%, using a different protocol.
+Validation-selected test OA is92.1394% for V5-HIER64-K20-W20 and91.2480% for V6-HIER64-K20-W20;
+V6-B0-32 best-test OA is93.841%, using a different protocol.
 V6 removes contradictory self-k and exhibits sample ancestor depth ordering,
 but higher proxy eligibility does not establish better morphology coverage.
-Matchedglobal64 B0, frozen-proxy objective checks and radius-sensitive
+Matchedglobal64 V6-B64, frozen-proxy objective checks and radius-sensitive
 relation validation are proposed for review; no next main training is launched.
 This completed report supersedes the launch/running status paragraphs below.
 
-V6 launch is now authorized (2026-10-04): dual-GPU H20 removes sample/proxy
+V6 launch is now authorized (2026-10-04): dual-GPU V6-HIER64-K20-W20 removes sample/proxy
 self-k and runs300epochs; the spare GPU runs the original default HyCoRe
-B32 protocol (300epochs,307steps,full9840train). See
+V6-B0-32 protocol (300epochs,307steps,full9840train). See
 [21: V6 launch and visualization](21_V6_TRAINING_START_2026-10-04.md) and
 the approved current section of [04](04_NEXT_EXPERIMENT_PLAN.md).
 Both jobs are detached and have saved their first full epoch checkpoints;
 V5epoch200 proxy top-four point-cloud visualization has also completed.
-The B32 run is an original-protocol engineering baseline, not matchedglobal64.
+The V6-B0-32 run is an original-protocol engineering baseline, not matchedglobal64.
 
-The user's requested B32 fidelity audit is complete. See
-[20: B32 versus original HyCoRe](20_B32_HYCORE_FIDELITY_AUDIT_2026-10-03.md).
+The user's requested V5-B0-32-CAP200 fidelity audit is complete. See
+[20: V5-B0-32-CAP200 versus original HyCoRe](20_B32_HYCORE_FIDELITY_AUDIT_2026-10-03.md).
 Core model/alias/BN/loss settings match, but the data split, budget and cosine
 period, RNG flow, workers and selection protocol do not. No training code was
 changed and no new experiment was launched by this audit.
 
-V5-H20 and B32 have both completed200epochs and final validation-selected
+V5-HIER64-K20-W20 and V5-B0-32-CAP200 have both completed200epochs and final validation-selected
 test evaluation. See [19: final results and diagnostics](19_V5_FINAL_RESULTS_2026-10-03.md).
-Test OA is92.1394% forH20 and92.5851% forB32. Late inference is stable,
-but radial saturation warrants inspection; B32 is not a matchedglobal64
+Test OA is92.1394% for V5-HIER64-K20-W20 and92.5851% for V5-B0-32-CAP200. Late inference is stable,
+but radial saturation warrants inspection; V5-B0-32-CAP200 is not a matchedglobal64
 zero-HIER control. This final report supersedes the running snapshots below.
 
 For a shareable Chinese introduction to the current progress, difficulties,
@@ -187,7 +189,7 @@ and proposed collaborator tasks, see
 It distinguishes proxy top-four visualization from training K and records
 an in-progress V5 snapshot; it is not a final training report.
 
-The user has now approved launching V5-H20 on two GPUs and an ordinaryB32
+The user has now approved launching V5-HIER64-K20-W20 on two GPUs and an V5-B0-32-CAP200
 stability diagnostic on the remaining GPU, with all proposed monitoring.
 See [17: reviewed launch and monitoring](17_V5_TRAINING_START_2026-10-03.md).
 The production branch is `codex/hier-v5-main-training`. Status in17 and

@@ -18,6 +18,20 @@ import numpy as np
 
 NAMES = "airplane bathtub bed bench bookshelf bottle bowl car chair cone cup curtain desk door dresser flower_pot glass_box guitar keyboard lamp laptop mantel monitor night_stand person piano plant radio range_hood sink sofa stairs stool table tent toilet tv_stand vase wardrobe xbox".split()
 
+# Display names are independent of immutable cache/run IDs and numerical schema.
+DISPLAY_NAMES = {
+    "v5_e200": "V5-HIER64-K20-W20 · e200",
+    "v6_best99": "V6-HIER64-K20-W20 · best99",
+    "v6_e200": "V6-HIER64-K20-W20 · e200",
+    "v6_e300": "V6-HIER64-K20-W20 · e300",
+    "original_best": "ORIG-B0-32-S4780 · best229",
+    "original_last": "ORIG-B0-32-S4780 · last300",
+    "source_b32_best": "V6-B0-32 · best216",
+    "source_b32_last": "V6-B0-32 · last300",
+    "b64_best": "V6-B0-64 · best267",
+    "b64_last": "V6-B0-64 · last300",
+}
+
 
 def digest(path):
     h = hashlib.sha256()
@@ -263,6 +277,7 @@ def main():
         assert m["canonical_shards"] == ref["canonical_shards"]
         models[m["name"]] = m
         results[m["name"]] = summarize_model(m)
+        results[m["name"]]["display_name"] = DISPLAY_NAMES.get(m["name"], m["name"])
         print("geometry",m["name"],"matched",len(ids),"depth",results[m["name"]]["depth"][2],flush=True)
     baseline = models[config["radius_baseline"]]
     for name, m in models.items():

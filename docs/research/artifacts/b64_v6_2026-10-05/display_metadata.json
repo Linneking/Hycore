@@ -1,0 +1,35 @@
+{
+  "format": "hycore-experiment-display-names-v1",
+  "date": "2026-10-06",
+  "scope": "Presentation metadata only; original CSV columns and source run IDs remain unchanged.",
+  "naming_document": "../../33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md",
+  "experiments": {
+    "b64": {
+      "canonical_experiment_name": "V6-B0-64",
+      "legacy_display_name": "V6 B64 shuffle",
+      "batch_sampling": "HyCoRe shuffle, no replacement",
+      "global_batch": 64,
+      "hier_weight": 0
+    },
+    "b32": {
+      "canonical_experiment_name": "V6-B0-32",
+      "legacy_display_name": "Original-source B32",
+      "batch_sampling": "HyCoRe shuffle, no replacement",
+      "global_batch": 32,
+      "hier_weight": 0
+    }
+  },
+  "csv_field_prefix_display_names": {
+    "b64_": "V6-B0-64",
+    "b32_": "V6-B0-32"
+  },
+  "unprefixed_geometry_and_clipping_fields_experiment": "V6-B0-64",
+  "figure_title": "V6-B0-64 versus V6-B0-32: HyCoRe shuffle baselines",
+  "legacy_figure": "monitoring.png",
+  "canonical_figure": "monitoring_canonical.png",
+  "canonical_figure_pdf": "monitoring_canonical.pdf",
+  "limits": [
+    "The legacy monitoring image may retain the names B64 and B32 baked into its pixels; interpret it with this mapping.",
+    "V6-B0-64 changes global batch and distributed execution from V6-B0-32; these are not matched HIER-balanced B64/B32 experiments."
+  ]
+}

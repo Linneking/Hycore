@@ -1,0 +1,1011 @@
+{
+  "schema_version": 1,
+  "updated_local_date": "2026-10-06",
+  "timezone": "Asia/Shanghai",
+  "purpose": "统一展示名和旧身份映射，不改动源run ID、路径、日志、metrics字段和结果数值。",
+  "naming_convention_document": "docs/research/33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md",
+  "alias_resolution_policy": "必须同时匹配method_line、version及alias scope；不按B0、B32、B64或H20裸字符串全局解析。",
+  "global_batch_definition": "族名称32/64表示global batch；local32双rank为global64。",
+  "families": [
+    {
+      "family": "B0-32",
+      "sampling": "hycore_shuffle_without_replacement_drop_last",
+      "global_batch": 32,
+      "hier": false
+    },
+    {
+      "family": "B0-64",
+      "sampling": "hycore_shuffle_without_replacement_drop_last",
+      "global_batch": 64,
+      "hier": false
+    },
+    {
+      "family": "B32",
+      "sampling": "hier_source_class_balanced",
+      "global_batch": 32,
+      "hier": false
+    },
+    {
+      "family": "B64",
+      "sampling": "hier_source_class_balanced",
+      "global_batch": 64,
+      "hier": false
+    },
+    {
+      "family": "HIER32",
+      "sampling": "hier_source_class_balanced",
+      "global_batch": 32,
+      "hier": true
+    },
+    {
+      "family": "HIER64",
+      "sampling": "hier_source_class_balanced",
+      "global_batch": 64,
+      "hier": true
+    }
+  ],
+  "runs": [
+    {
+      "canonical_id": "orig_b0_32_s4780",
+      "display_name": "ORIG-B0-32-S4780",
+      "family": "B0-32",
+      "version": "ORIG",
+      "method_line": "original_hycore",
+      "status": "historical_completed",
+      "aliases": [
+        {
+          "scope": "historical_original_hycore",
+          "values": [
+            "var-4780",
+            "historical original HyCoRe",
+            "original_best",
+            "original_last"
+          ]
+        }
+      ],
+      "source_run_id": "Hype_PointNet-Offv_pointmlp_hycore_var-4780",
+      "seed": 4780,
+      "representation": {
+        "dimension": 256,
+        "curvature": 1,
+        "verification_evidence": [
+          "docs/research/20_B32_HYCORE_FIDELITY_AUDIT_2026-10-03.md",
+          "docs/research/26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md",
+          "classification_ModelNet40/models/pointmlp.py"
+        ]
+      },
+      "objective": {
+        "ce": true,
+        "hycore_intra": true,
+        "hier": false,
+        "lambda_hier": 0,
+        "proxy_optimizer": false
+      },
+      "batch": {
+        "global": 32,
+        "local_per_rank": 32,
+        "world_size": 1
+      },
+      "sampler": {
+        "type": "hycore_shuffle_without_replacement_drop_last",
+        "draws_per_nominal_epoch": 9824,
+        "unique_ids_per_nominal_epoch": 9824,
+        "dropped_tail_per_nominal_epoch": 16
+      },
+      "data": {
+        "train_count": 9840,
+        "validation_count": 0,
+        "official_test_count": 2468,
+        "validation_fraction": 0,
+        "split_seed": null
+      },
+      "budget": {
+        "total_epochs": 300,
+        "updates_per_nominal_epoch": 307,
+        "nominal_total_model_updates": 92100,
+        "verified_actual_total_model_updates": null,
+        "notes": "历史存在早期resume/重复epoch5；不把名义预算当作重新验收的实际计数。"
+      },
+      "selection": {
+        "metric": "official_test_OA",
+        "official_test_access": "every_epoch_historical",
+        "notes": "历史源码/环境快照不完整，不承诺逐位重放。"
+      },
+      "initialization": {
+        "kind": "historical_random_start_with_early_resume",
+        "initial_model_sha256": null,
+        "teacher": null
+      },
+      "provenance": {
+        "code_entry": "classification_ModelNet40/main_pointmlp_hycore.py",
+        "production_commit": null,
+        "evidence_documents": [
+          "docs/research/20_B32_HYCORE_FIDELITY_AUDIT_2026-10-03.md",
+          "docs/research/26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md"
+        ]
+      },
+      "limitations": [
+        "历史seed4780与源码默认seed22不同",
+        "实际完整更新计数未在本次重验"
+      ]
+    },
+    {
+      "canonical_id": "v5_b0_32_cap200_s22",
+      "display_name": "V5-B0-32-CAP200",
+      "family": "B0-32",
+      "version": "V5",
+      "method_line": "shared_whole_proxy_v5",
+      "status": "completed",
+      "aliases": [
+        {
+          "scope": "v5_shuffle_stability_main",
+          "values": [
+            "B32",
+            "V5-B32",
+            "B32 stability diagnostic"
+          ]
+        }
+      ],
+      "source_run_id": "B32",
+      "seed": 22,
+      "representation": {
+        "dimension": 256,
+        "curvature": 1
+      },
+      "objective": {
+        "ce": true,
+        "hycore_intra": true,
+        "hier": false,
+        "lambda_hier": 0,
+        "proxy_optimizer": false
+      },
+      "batch": {
+        "global": 32,
+        "local_per_rank": 32,
+        "world_size": 1
+      },
+      "sampler": {
+        "type": "hycore_shuffle_without_replacement_capped",
+        "steps_cap": 200,
+        "draws_per_epoch": 6400,
+        "unique_ids_per_epoch": 6400,
+        "unseen_ids_per_epoch": 2456
+      },
+      "data": {
+        "train_count": 8856,
+        "validation_count": 984,
+        "official_test_count": 2468,
+        "validation_fraction": 0.1,
+        "split_seed": 22
+      },
+      "budget": {
+        "total_epochs": 200,
+        "updates_per_epoch": 200,
+        "total_model_updates": 40000
+      },
+      "selection": {
+        "metric": "validation_OA",
+        "tie_break": "lower_validation_CE",
+        "official_test_access": "once_after_training_on_validation_selected_model"
+      },
+      "initialization": {
+        "kind": "random_start",
+        "teacher": null
+      },
+      "hier_schedule": {
+        "warmup_epochs": null,
+        "hier_start_epoch": null
+      },
+      "operators": {
+        "part_overwrites_whole": true,
+        "bn_running_updates_per_step": 2,
+        "fps_request": 512
+      },
+      "provenance": {
+        "code_entry": "inter_hierarchy_MN40/hier_proxy_scratch_v5/train_b32.py",
+        "production_commit": "6e13ff9f59ad3bec8f7c3db857e6558e37473c03",
+        "evidence_documents": [
+          "docs/research/17_V5_TRAINING_START_2026-10-03.md",
+          "docs/research/19_V5_FINAL_RESULTS_2026-10-03.md",
+          "docs/research/20_B32_HYCORE_FIDELITY_AUDIT_2026-10-03.md"
+        ]
+      },
+      "limitations": [
+        "恢复原核心算子与shuffle规则，但split/预算/RNG/workers/selection改变",
+        "不是现代balanced B32"
+      ]
+    },
+    {
+      "canonical_id": "v6_b0_32_s22",
+      "display_name": "V6-B0-32",
+      "family": "B0-32",
+      "version": "V6",
+      "method_line": "source_hycore_wrapper",
+      "status": "completed",
+      "aliases": [
+        {
+          "scope": "v6_original_source_shuffle32_main",
+          "values": [
+            "B0_original_B32",
+            "original_source_B32",
+            "original-source B32",
+            "source_b32_best",
+            "source_b32_last"
+          ]
+        }
+      ],
+      "source_run_id": "B0_original_B32",
+      "seed": 22,
+      "representation": {
+        "dimension": 256,
+        "curvature": 1
+      },
+      "objective": {
+        "ce": true,
+        "hycore_intra": true,
+        "hier": false,
+        "lambda_hier": 0,
+        "proxy_optimizer": false
+      },
+      "batch": {
+        "global": 32,
+        "local_per_rank": 32,
+        "world_size": 1
+      },
+      "sampler": {
+        "type": "hycore_shuffle_without_replacement_drop_last",
+        "draws_per_epoch": 9824,
+        "unique_ids_per_epoch": 9824,
+        "dropped_tail_per_epoch": 16
+      },
+      "data": {
+        "train_count": 9840,
+        "validation_count": 0,
+        "official_test_count": 2468,
+        "validation_fraction": 0,
+        "split_seed": null
+      },
+      "budget": {
+        "total_epochs": 300,
+        "updates_per_epoch": 307,
+        "total_model_updates": 92100
+      },
+      "selection": {
+        "metric": "official_test_OA",
+        "official_test_access": "every_epoch",
+        "source_rounding_decimals": 3,
+        "tie_break": "strictly_greater_OA_only"
+      },
+      "initialization": {
+        "kind": "random_start",
+        "teacher": null
+      },
+      "operators": {
+        "part_overwrites_whole": true,
+        "bn_running_updates_per_step": 2,
+        "fps_request": 512,
+        "workers": 8,
+        "source_rng_flow": true
+      },
+      "provenance": {
+        "code_entry": "inter_hierarchy_MN40/hier_proxy_scratch_v6/train_original_b32.py",
+        "production_commit": "b3542cb7372f25758a44d2fa7bd048829947c924",
+        "evidence_documents": [
+          "docs/research/21_V6_TRAINING_START_2026-10-04.md",
+          "docs/research/22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md"
+        ]
+      },
+      "limitations": [
+        "seed22源码默认工程复现，与历史S4780不同",
+        "不是balanced global64 HIER关闭对照"
+      ]
+    },
+    {
+      "canonical_id": "v6_b0_64_s22",
+      "display_name": "V6-B0-64",
+      "family": "B0-64",
+      "version": "V6",
+      "method_line": "distributed_shuffle_hycore",
+      "status": "completed",
+      "aliases": [
+        {
+          "scope": "v6_shuffle64_main",
+          "values": [
+            "B64_shuffle",
+            "B64 shuffle",
+            "B64",
+            "b64_best",
+            "b64_last"
+          ]
+        }
+      ],
+      "source_run_id": "B64_shuffle",
+      "seed": 22,
+      "representation": {
+        "dimension": 256,
+        "curvature": 1
+      },
+      "objective": {
+        "ce": true,
+        "hycore_intra": true,
+        "hier": false,
+        "lambda_hier": 0,
+        "proxy_optimizer": false
+      },
+      "batch": {
+        "global": 64,
+        "local_per_rank": 32,
+        "world_size": 2
+      },
+      "sampler": {
+        "type": "hycore_global_shuffle_without_replacement_drop_last",
+        "draws_per_epoch": 9792,
+        "unique_ids_per_epoch": 9792,
+        "dropped_tail_per_epoch": 48,
+        "rank_assignment": "first32_rank0_last32_rank1"
+      },
+      "data": {
+        "train_count": 9840,
+        "validation_count": 0,
+        "official_test_count": 2468,
+        "validation_fraction": 0,
+        "split_seed": null
+      },
+      "budget": {
+        "total_epochs": 300,
+        "updates_per_epoch": 153,
+        "total_model_updates": 45900
+      },
+      "selection": {
+        "metric": "official_test_OA",
+        "official_test_access": "every_epoch",
+        "source_rounding_decimals": 3,
+        "tie_break": "strictly_greater_OA_only"
+      },
+      "initialization": {
+        "kind": "random_start",
+        "teacher": null
+      },
+      "operators": {
+        "part_overwrites_whole": true,
+        "bn_running_updates_per_step": 2,
+        "bn": "ordinary_local32_not_syncbn",
+        "loss_scope": "global64",
+        "fps_request": 512,
+        "workers_per_rank": 4,
+        "eval_batch": 16
+      },
+      "provenance": {
+        "code_entry": "inter_hierarchy_MN40/hycore_b64_v6/train.py",
+        "production_commit": "56b40a2b11d3274ff7a9832b8e4cced3b366ec5c",
+        "evidence_documents": [
+          "docs/research/23_V6_B64_SHUFFLE_START_2026-10-05.md"
+        ]
+      },
+      "limitations": [
+        "原采样规则的64版显式适配，不承诺原单卡随机流逐位重放",
+        "不是现代balanced B64"
+      ]
+    },
+    {
+      "canonical_id": "v6_b64_s22",
+      "display_name": "V6-B64",
+      "family": "B64",
+      "version": "V6",
+      "method_line": "shared_whole_proxy_v6_matched_off",
+      "status": "completed",
+      "aliases": [
+        {
+          "scope": "v6_matched_balanced64_main",
+          "values": [
+            "B0_balanced",
+            "V6 matched balanced64 B0",
+            "matched balanced64 B0",
+            "V6 balanced64 B0"
+          ]
+        }
+      ],
+      "source_run_id": "B0_balanced",
+      "seed": 22,
+      "representation": {
+        "dimension": 256,
+        "curvature": 1
+      },
+      "objective": {
+        "ce": true,
+        "hycore_intra": true,
+        "hier": false,
+        "lambda_hier": 0,
+        "proxy_optimizer": false
+      },
+      "batch": {
+        "global": 64,
+        "local_per_rank": 32,
+        "world_size": 2
+      },
+      "sampler": {
+        "type": "hier_source_class_balanced",
+        "global_classes": 32,
+        "instances_per_class": 2,
+        "class_selection": "uniform_distinct_without_replacement_per_batch",
+        "instance_selection": "with_replacement_within_class",
+        "class_blocks_contiguous": true,
+        "classes_disjoint_between_ranks": true
+      },
+      "data": {
+        "train_count": 8856,
+        "validation_count": 984,
+        "official_test_count": 2468,
+        "validation_fraction": 0.1,
+        "split_seed": 22
+      },
+      "budget": {
+        "total_epochs": 300,
+        "shared_prefix_epochs": 20,
+        "new_continuation_epochs": 280,
+        "updates_per_epoch": 200,
+        "total_model_updates_including_prefix": 60000,
+        "new_continuation_model_updates": 56000
+      },
+      "selection": {
+        "metric": "validation_OA",
+        "tie_break": "lower_validation_CE",
+        "official_test_access": "once_after_training_on_validation_selected_model"
+      },
+      "initialization": {
+        "kind": "complete_state_fork_at_epoch20",
+        "source_canonical_id": "v6_hier64_k20_w20_s22",
+        "source_checkpoint_epoch": 20,
+        "source_checkpoint_sha256": "cacb8ecd394e66c57c1cc0e95f9ab81c62c2dd47c74eba062f781409b8667e50",
+        "restored": [
+          "model",
+          "model_optimizer_momentum",
+          "scheduler",
+          "rank_bn",
+          "rank_rng",
+          "sampler",
+          "split",
+          "train_ids"
+        ],
+        "teacher": null
+      },
+      "hier_schedule": {
+        "warmup_epochs": null,
+        "hier_start_epoch": null,
+        "hier_disabled_entire_trajectory": true,
+        "shared_base_only_prefix_epochs": 20
+      },
+      "operators": {
+        "part_overwrites_whole": true,
+        "bn_running_updates_per_step": 2,
+        "bn": "ordinary_local32_not_syncbn",
+        "loss_scope": "global64",
+        "fps_request": 512
+      },
+      "provenance": {
+        "code_entry": "inter_hierarchy_MN40/v6_balanced_b0/train.py",
+        "production_commit": "f649fcc9a61b9ace22f7b793c3837f379ba6faa2",
+        "evidence_documents": [
+          "docs/research/29_V6_BALANCED_B0_AND_MECHANISM_LAUNCH_2026-10-06.md",
+          "docs/research/32_V6_BALANCED_B0_COMPLETED_2026-10-06.md"
+        ]
+      },
+      "limitations": [
+        "同协议历史对照，非逐位历史DDP/worker重放",
+        "20轮是继承共同base前缀，不是重训warmup"
+      ]
+    },
+    {
+      "canonical_id": "v5_hier64_k20_w20_s22",
+      "display_name": "V5-HIER64-K20-W20",
+      "family": "HIER64",
+      "version": "V5",
+      "method_line": "shared_whole_proxy_v5",
+      "status": "completed",
+      "aliases": [
+        {
+          "scope": "v5_hier64_main",
+          "values": [
+            "H20",
+            "V5-H20"
+          ]
+        }
+      ],
+      "source_run_id": "H20",
+      "seed": 22,
+      "representation": {
+        "dimension": 256,
+        "curvature": 1
+      },
+      "objective": {
+        "ce": true,
+        "hycore_intra": true,
+        "hier": true,
+        "lambda_hier": 0.5,
+        "hier_terms": [
+          "sample_triplet",
+          "proxy_triplet"
+        ],
+        "proxy_optimizer": true
+      },
+      "batch": {
+        "global": 64,
+        "local_per_rank": 32,
+        "world_size": 2
+      },
+      "sampler": {
+        "type": "hier_source_class_balanced",
+        "global_classes": 32,
+        "instances_per_class": 2,
+        "class_selection": "uniform_distinct_without_replacement_per_batch",
+        "instance_selection": "with_replacement_within_class",
+        "class_blocks_contiguous": true,
+        "classes_disjoint_between_ranks": true
+      },
+      "data": {
+        "train_count": 8856,
+        "validation_count": 984,
+        "official_test_count": 2468,
+        "validation_fraction": 0.1,
+        "split_seed": 22
+      },
+      "budget": {
+        "total_epochs": 200,
+        "updates_per_epoch": 200,
+        "total_model_updates": 40000
+      },
+      "selection": {
+        "metric": "validation_OA",
+        "tie_break": "lower_validation_CE",
+        "official_test_access": "once_after_training_on_validation_selected_model"
+      },
+      "initialization": {
+        "kind": "random_start",
+        "teacher": null
+      },
+      "hier_schedule": {
+        "warmup_epochs": 20,
+        "hier_start_epoch": 21,
+        "ramp_epochs": 0,
+        "lambda_active": 0.5
+      },
+      "hier_config": {
+        "sample_k": 20,
+        "proxy_k": 20,
+        "triples_per_eligible_anchor": 50,
+        "proxy_count": 512,
+        "self_k_excluded": false,
+        "proxy_learning_rate_initial": 0.01
+      },
+      "operators": {
+        "part_overwrites_whole": true,
+        "bn_running_updates_per_step": 2,
+        "bn": "ordinary_local32_not_syncbn",
+        "loss_scope": "global64",
+        "fps_request": 512
+      },
+      "provenance": {
+        "code_entry": "inter_hierarchy_MN40/hier_proxy_scratch_v5/train.py",
+        "production_commit": "6e13ff9f59ad3bec8f7c3db857e6558e37473c03",
+        "evidence_documents": [
+          "docs/research/17_V5_TRAINING_START_2026-10-03.md",
+          "docs/research/19_V5_FINAL_RESULTS_2026-10-03.md"
+        ]
+      },
+      "limitations": [
+        "H20中的20为K20；W20是独立协议字段",
+        "没有完成同V5协议B64关闭对照"
+      ]
+    },
+    {
+      "canonical_id": "v6_hier64_k20_w20_s22",
+      "display_name": "V6-HIER64-K20-W20",
+      "family": "HIER64",
+      "version": "V6",
+      "method_line": "shared_whole_proxy_v6",
+      "status": "completed",
+      "aliases": [
+        {
+          "scope": "v6_hier64_main",
+          "values": [
+            "H20",
+            "V6-H20"
+          ]
+        }
+      ],
+      "source_run_id": "H20",
+      "seed": 22,
+      "representation": {
+        "dimension": 256,
+        "curvature": 1
+      },
+      "objective": {
+        "ce": true,
+        "hycore_intra": true,
+        "hier": true,
+        "lambda_hier": 0.5,
+        "hier_terms": [
+          "sample_triplet",
+          "proxy_triplet"
+        ],
+        "proxy_optimizer": true
+      },
+      "batch": {
+        "global": 64,
+        "local_per_rank": 32,
+        "world_size": 2
+      },
+      "sampler": {
+        "type": "hier_source_class_balanced",
+        "global_classes": 32,
+        "instances_per_class": 2,
+        "class_selection": "uniform_distinct_without_replacement_per_batch",
+        "instance_selection": "with_replacement_within_class",
+        "class_blocks_contiguous": true,
+        "classes_disjoint_between_ranks": true
+      },
+      "data": {
+        "train_count": 8856,
+        "validation_count": 984,
+        "official_test_count": 2468,
+        "validation_fraction": 0.1,
+        "split_seed": 22
+      },
+      "budget": {
+        "total_epochs": 300,
+        "updates_per_epoch": 200,
+        "total_model_updates": 60000
+      },
+      "selection": {
+        "metric": "validation_OA",
+        "tie_break": "lower_validation_CE",
+        "official_test_access": "once_after_training_on_validation_selected_model"
+      },
+      "initialization": {
+        "kind": "random_start",
+        "teacher": null
+      },
+      "hier_schedule": {
+        "warmup_epochs": 20,
+        "hier_start_epoch": 21,
+        "ramp_epochs": 0,
+        "lambda_active": 0.5
+      },
+      "hier_config": {
+        "sample_k": 20,
+        "proxy_k": 20,
+        "triples_per_eligible_anchor": 50,
+        "proxy_count": 512,
+        "self_k_excluded": true,
+        "proxy_learning_rate_initial": 0.01
+      },
+      "operators": {
+        "part_overwrites_whole": true,
+        "bn_running_updates_per_step": 2,
+        "bn": "ordinary_local32_not_syncbn",
+        "loss_scope": "global64",
+        "fps_request": 512
+      },
+      "provenance": {
+        "code_entry": "inter_hierarchy_MN40/hier_proxy_scratch_v6/train.py",
+        "production_commit": "b3542cb7372f25758a44d2fa7bd048829947c924",
+        "evidence_documents": [
+          "docs/research/21_V6_TRAINING_START_2026-10-04.md",
+          "docs/research/22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md"
+        ]
+      },
+      "limitations": [
+        "相同实例ID在不同抽样位置仍按源采样处理",
+        "H20中的20为K20；W20是独立协议字段"
+      ]
+    }
+  ],
+  "unrun_slots": [
+    {
+      "family": "B32",
+      "method_line": "modern_hier_source_sampler",
+      "status": "not_run",
+      "global_batch": 32,
+      "composition": {
+        "classes": 16,
+        "instances_per_class": 2
+      },
+      "notes": "未发现已完成V5/V6主训练；旧shuffle B32和历史4x8控制不作为证据。"
+    },
+    {
+      "family": "HIER32",
+      "method_line": "modern_hier_source_sampler",
+      "status": "not_run",
+      "global_batch": 32,
+      "composition": {
+        "classes": 16,
+        "instances_per_class": 2
+      },
+      "notes": "未发现已完成V5/V6主训练；历史V3/V4另列。"
+    },
+    {
+      "family": "B64",
+      "version": "V5",
+      "status": "historical_proposed_not_run",
+      "notes": "仅历史待批准计划，没有完成主运行；V6-B64不能充作V5结果。"
+    }
+  ],
+  "future_hier_policy": {
+    "display_warmup_suffix": "W0",
+    "warmup_epochs": 0,
+    "hier_start_epoch": 1,
+    "lambda_source": "resolved_run_manifest",
+    "status": "policy_only_no_new_run",
+    "notes": "不重标历史W20；seed/预算/具体版本由实际运行身份记录。"
+  },
+  "legacy_runs": [
+    {
+      "legacy_id": "proxy_v1_pilot",
+      "method_line": "proxy_v1_frozen_reference",
+      "version": "V1",
+      "status": "historical_unknown",
+      "aliases": [
+        {
+          "scope": "proxy_v1",
+          "values": [
+            "B0",
+            "B1",
+            "B2"
+          ]
+        }
+      ],
+      "display_mapping": {
+        "B0": "LEGACY-V1-BASE40",
+        "B1": "LEGACY-V1-HIER40-IN",
+        "B2": "LEGACY-V1-HIER40-INOUT"
+      },
+      "global_batch": 40,
+      "local_batch": 40,
+      "composition": {
+        "classes": 5,
+        "instances_per_class": 8
+      },
+      "seed_default": 22,
+      "data": {
+        "train_count": 9840,
+        "validation_count": 0,
+        "official_test_count": 2468,
+        "validation_fraction": 0,
+        "split_seed": null
+      },
+      "budget": {
+        "epochs_default": 25,
+        "updates_per_epoch_default": 246,
+        "actual_completed_epochs": null
+      },
+      "initialization": "original_e229_pretrained",
+      "trainable_scope": "hyperbolic_embedding_and_classification_head; frozen_euclidean_backbone_and_bn",
+      "relations": "fixed_original_multiview_reference",
+      "selection": "predetermined_final_checkpoint; final_test_only_in_code",
+      "provenance": {
+        "code_entry": "inter_hierarchy_MN40/hier_proxy_v1/train.py",
+        "production_commit": null,
+        "evidence_documents": [
+          "inter_hierarchy_MN40/hier_proxy_v1/README.md",
+          "docs/research/09_HIER_PROXY_HANDOFF_2026-09-28.md"
+        ]
+      },
+      "notes": "默认CLI参数不作为已完成运行验收，legacy B0不是原协议复刻。"
+    },
+    {
+      "legacy_id": "proxy_v2_online_screen",
+      "method_line": "proxy_v2_online_frozen_backbone",
+      "version": "V2",
+      "status": "historical_unknown",
+      "aliases": [
+        {
+          "scope": "proxy_v2_online",
+          "values": [
+            "B1_scale1",
+            "B2_scale1",
+            "B1_scale2",
+            "B2_scale2",
+            "B2_scale3_warmstart30"
+          ]
+        }
+      ],
+      "display_mapping": {
+        "B1": "LEGACY-PROXY-V2-HIER40-IN",
+        "B2": "LEGACY-PROXY-V2-HIER40-INOUT"
+      },
+      "global_batch": 40,
+      "local_batch": 40,
+      "composition": {
+        "classes": 5,
+        "instances_per_class": 8
+      },
+      "seed_default": 22,
+      "data": {
+        "train_count": 9840,
+        "validation_count": 0,
+        "official_test_count": 2468,
+        "validation_fraction": 0,
+        "split_seed": null
+      },
+      "budget": {
+        "screen_epochs": 8,
+        "warmstart_separate_run_epochs": 30,
+        "updates_per_epoch_default": 246,
+        "actual_completion_verified": false
+      },
+      "initialization": "original_e229_pretrained",
+      "trainable_scope": "hyperbolic_embedding_and_classification_head; frozen_euclidean_backbone_and_bn",
+      "relations": "online_student_detached_mining",
+      "selection": "per_epoch_test_engineering_diagnostic; no_test_early_stopping",
+      "provenance": {
+        "code_entry": "inter_hierarchy_MN40/hier_proxy_v2_online/train.py",
+        "production_commit": null,
+        "evidence_documents": [
+          "inter_hierarchy_MN40/hier_proxy_v2_online/README.md",
+          "docs/research/09_HIER_PROXY_HANDOFF_2026-09-28.md"
+        ]
+      },
+      "notes": "scale字段与8轮/30轮身份必须分开；不是教师equal-radius inter-v2。"
+    },
+    {
+      "legacy_id": "proxy_scratch_v3",
+      "method_line": "proxy_scratch_v3_in_out",
+      "version": "V3",
+      "status": "historical_unknown",
+      "aliases": [
+        {
+          "scope": "proxy_scratch_v3",
+          "values": [
+            "B1_scale3",
+            "B2_scale3",
+            "warmup"
+          ]
+        }
+      ],
+      "display_mapping": {
+        "B1_scale3": "LEGACY-V3-HIER32-IN-SCALE3",
+        "B2_scale3": "LEGACY-V3-HIER32-INOUT-SCALE3",
+        "warmup": "LEGACY-V3-BASE32-PREFIX20"
+      },
+      "global_batch": 32,
+      "local_batch": 32,
+      "composition": {
+        "classes": 4,
+        "instances_per_class": 8
+      },
+      "seed": 22,
+      "data": {
+        "train_count": 9840,
+        "validation_count": 0,
+        "official_test_count": 2468,
+        "validation_fraction": 0,
+        "split_seed": null
+      },
+      "sampler": {
+        "type": "class_balanced_resampled_per_batch",
+        "within_batch_instances": "without_replacement_when_class_pool_at_least8",
+        "cross_batch_repeats": true
+      },
+      "budget": {
+        "planned_total_epochs": 300,
+        "updates_per_epoch": 307,
+        "actual_completed_epochs": null
+      },
+      "hier_schedule": {
+        "shared_prefix_epochs": 20,
+        "ramp_epochs": 20,
+        "target_scale": 3
+      },
+      "initialization": "random_start_then_shared_complete_epoch20",
+      "trainable_scope": "all_main_model_parameters",
+      "selection": "per_epoch_test_engineering_diagnostic; no_auto_best_checkpoint",
+      "provenance": {
+        "code_entry": "inter_hierarchy_MN40/hier_proxy_scratch_v3/train.py",
+        "production_commit": "1d7f8e7695a98ee37ea46099541a90a9a6d391fc",
+        "evidence_documents": [
+          "docs/research/09_HIER_PROXY_HANDOFF_2026-09-28.md"
+        ]
+      },
+      "notes": "无同协议完整B0；09仅后期快照，最终300轮本次未验收。"
+    },
+    {
+      "legacy_id": "proxy_scratch_v4",
+      "method_line": "proxy_scratch_v4_copy_bn1_queue",
+      "version": "V4",
+      "status": "completed",
+      "aliases": [
+        {
+          "scope": "proxy_scratch_v4",
+          "values": [
+            "B0",
+            "H3",
+            "H5"
+          ]
+        }
+      ],
+      "display_mapping": {
+        "B0": "LEGACY-V4-B32-Q4x8-BN1",
+        "H3": "LEGACY-V4-HIER32-K3-W20-R20-Q4x8-BN1",
+        "H5": "LEGACY-V4-HIER32-K5-W20-R20-Q4x8-BN1"
+      },
+      "global_batch": 32,
+      "local_batch": 32,
+      "composition": {
+        "classes": 4,
+        "instances_per_class": 8
+      },
+      "seed": 22,
+      "data": {
+        "train_count": 8856,
+        "validation_count": 984,
+        "official_test_count": 2468,
+        "validation_fraction": 0.1,
+        "split_seed": 22
+      },
+      "sampler": {
+        "type": "per_class_covering_queue_with_padding",
+        "draws_per_epoch": 8992,
+        "unique_ids_per_epoch": 8856,
+        "padding_repeats_per_epoch": 136
+      },
+      "budget": {
+        "total_epochs": 200,
+        "updates_per_epoch": 281,
+        "total_model_updates": 56200
+      },
+      "hier_schedule": {
+        "shared_prefix_epochs": 20,
+        "ramp_epochs": 20
+      },
+      "hier_config": {
+        "sample_k_by_arm": {
+          "H3": 3,
+          "H5": 5
+        },
+        "proxy_k": 20,
+        "proxy_count": 256,
+        "sample_t": 64,
+        "proxy_t": 32
+      },
+      "operators": {
+        "part_overwrites_whole": false,
+        "child_storage": "independent_copy",
+        "bn_running_updates_per_step": 1
+      },
+      "selection": {
+        "metric": "validation_OA",
+        "tie_break": "lower_validation_CE",
+        "official_test_access": "once_after_training_on_validation_selected_model"
+      },
+      "initialization": "random_start_with_shared_epoch20_prefix",
+      "provenance": {
+        "code_entry": "inter_hierarchy_MN40/hier_proxy_scratch_v4/train.py",
+        "production_commit": "dc417173a04d873cdf05acc62d182d275f09054b",
+        "evidence_documents": [
+          "docs/research/10_HIER_PROXY_V4_PLAN_2026-10-02.md",
+          "docs/research/12_V4_LESSONS_2026-10-03.md"
+        ]
+      },
+      "notes": "源别名B0为改算子的历史队列控制，非B0-32复刻，也非现代源式16x2 B32。"
+    }
+  ],
+  "diagnostic_arm_policy": {
+    "names": [
+      "base",
+      "sampleST",
+      "sample_fixed",
+      "ST",
+      "fixed"
+    ],
+    "full_training_baseline": false,
+    "notes": "一步base臂恢复H20动量与历史状态，不能映射为B0-32/B0-64/B32/B64主训练。"
+  },
+  "archive_policy": {
+    "rename_source_directories": false,
+    "rename_source_run_ids": false,
+    "rewrite_original_metrics_fields": false,
+    "modify_checkpoint_identity": false,
+    "public_paths": "repository_relative_only",
+    "server_details": "private_ignored_handoff_only"
+  }
+}
