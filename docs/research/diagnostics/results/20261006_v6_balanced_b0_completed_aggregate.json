@@ -1,0 +1,65 @@
+{
+  "checked_at_shanghai": "2026-10-06T18:40:37.413454+08:00",
+  "status": "completed",
+  "started_utc": "2026-10-05T18:26:32.927385+00:00",
+  "finished_utc": "2026-10-06T04:13:15.561996+00:00",
+  "production_commit": "f649fcc9a61b9ace22f7b793c3837f379ba6faa2",
+  "completed_epochs": 300,
+  "inherited_prefix_epochs": 20,
+  "continuation_epochs": 280,
+  "continuation_optimizer_updates": 56000,
+  "best": {
+    "epoch": 231,
+    "val_aa": 91.83073043823242,
+    "val_ce": 2.997306955539114,
+    "val_oa": 94.3089430894309
+  },
+  "final_validation": {
+    "val_count": 984,
+    "val_oa": 91.26016260162602,
+    "val_aa": 87.53900527954102,
+    "val_ce": 3.024534690670851
+  },
+  "final_clean_train": {
+    "train_eval_count": 8856,
+    "train_eval_oa": 97.97877145438122,
+    "train_eval_aa": 97.66480326652527
+  },
+  "selected_best_test": {
+    "selected_by": "validation OA then lower CE",
+    "test_count": 2468,
+    "test_oa": 91.85575364667747,
+    "test_aa": 89.99940752983093,
+    "test_ce": 3.0138863226582977
+  },
+  "official_test_evaluations": 1,
+  "source_prefix_sha256": "cacb8ecd394e66c57c1cc0e95f9ab81c62c2dd47c74eba062f781409b8667e50",
+  "split_sha256": "3bbf0c79b3cb9581caeafe3f7f12caa6861f236f0159512a5998d5e9bcf25105",
+  "best_checkpoint_sha256": "023e35900a2f19ec2c3c603d4ab16957b0271e2ef491cfa604ff4aeed7922bef",
+  "last_checkpoint_sha256": "17aca3e471908ff8db1a7ffc1c835312e98f306b7922e8f25e12ac0dab3fb8a5",
+  "checks": {
+    "best_hash_matches_final_test": true,
+    "last_archive_hash_matches_manifest": true,
+    "same_split_as_H20": true,
+    "continuation_epochs21to300_checked": true,
+    "all_continuation_epochs200updates_and984validation_and_finite_and_HIERzero_checked": true,
+    "best_final_test_epoch_agree": true
+  },
+  "H20_comparison": {
+    "best": {
+      "epoch": 99,
+      "val_aa": 92.19918251037598,
+      "val_ce": 2.979588500852507,
+      "val_oa": 94.3089430894309
+    },
+    "selected_best_test": {
+      "test_count": 2468,
+      "test_oa": 91.24797406807131,
+      "test_aa": 88.91686201095581
+    },
+    "B0_minus_H20_test_OA_points": 0.6077795786061557,
+    "B0_minus_H20_test_AA_points": 1.082545518875122,
+    "B0_additional_correct_test_objects": 15,
+    "interpretation": "Single-seed same-protocol historical comparison, not a bitwise paired replay or multi-seed causal estimate."
+  }
+}

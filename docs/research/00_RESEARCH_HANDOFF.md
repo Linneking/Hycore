@@ -1,5 +1,19 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## V6 matched balanced64 B0 completed — 2026-10-06 18:40
+
+[32: B0 completed result](32_V6_BALANCED_B0_COMPLETED_2026-10-06.md) supersedes
+earlier running snapshots. B0 finished300 at12:13:15 Asia/Shanghai and evaluated
+the validation-selected e231 model once on2468 official test objects.
+Best validation OA94.3089%, test OA91.8558%, AA89.9994%; historical H20 has
+the same best validation OA at99 and test OA91.2480%, AA88.9169%.
+B0 is+0.6078 test OA points (15 more correct objects), a single-seed historical
+comparison without a bitwise replay claim. All280 continuation epochs have
+200 updates,984 validation objects, finite telemetry and HIER0; actual best
+and final archive hashes match saved identities. Process exited, GPUs released.
+e300 validation OA91.2602% also shows late decline without HIER. Same-epoch
+geometry and independent shape comparisons remain pending; no new run launched.
+
 ## Latest mechanism findings and B0 status — 2026-10-06 08:41
 
 [31: mechanism findings and B0 status](31_HIER_MECHANISM_FINDINGS_AND_B0_STATUS_2026-10-06.md)

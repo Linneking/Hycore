@@ -1,5 +1,19 @@
 # Experiment history
 
+## V6 matched B0 completed and final artifacts checked — 2026-10-06 18:40
+
+Production finished12:13:15 Asia/Shanghai, continuing the complete shared
+historical e20 through300. All280 new epochs are present with200 updates,
+984 validation objects, finite telemetry and HIER weight0 (56000 new updates).
+Validation-selected best is231, OA94.3089%; its single official test is
+OA91.8558%, AA89.9994%,2468 objects. Best and e300 archive actual hashes
+match recorded identities; manifest/heartbeat/console agree, process exited.
+Historical H20 best99 has the same validation OA and test OA91.2480%,
+AA88.9169%; B0 is+0.6078 OA points/15 objects in this single-seed historical
+comparison. B0 last validation OA91.2602%, clean train97.9788%, so late
+validation decline also occurs without HIER. Geometry comparisons pending.
+See [32](32_V6_BALANCED_B0_COMPLETED_2026-10-06.md). No new experiment launched.
+
 ## Completed mechanism evidence and B0 progress — 2026-10-06 08:41
 
 Read-only consolidation of completed natural16, shape4x64 and matched e40
