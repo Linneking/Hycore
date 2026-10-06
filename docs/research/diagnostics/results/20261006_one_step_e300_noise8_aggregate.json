@@ -1,0 +1,261 @@
+{
+  "checkpoint_epoch": 300,
+  "conditional_hotspot_objects": 4,
+  "batches": 2,
+  "independent_Gumbel_repeats": 8,
+  "optimizer_updates": 48,
+  "semantics": "Same checkpoint, input, natural ordered triplets and base objective; Gumbel noise varies. Each arm inherits H20 RSGD momentum and restores old BN for readout. Conditional one-step evidence, not a rolling trajectory or population estimate.",
+  "checks": {
+    "all_runs_completed": true,
+    "all_batch_state_checks_pass": true,
+    "fixed_input_and_triplets_across_noise": true
+  },
+  "by_batch": {
+    "0": {
+      "hotspot_ST_increment": {
+        "n": 8,
+        "mean": -0.0015659327403900192,
+        "min": -0.0027274102892222984,
+        "max": -0.00041825192155631186,
+        "positive": 0,
+        "negative": 8
+      },
+      "hotspot_fixed_increment": {
+        "n": 8,
+        "mean": -0.0006538682259562001,
+        "min": -0.001338556651969025,
+        "max": -0.00009275742132341946,
+        "positive": 0,
+        "negative": 8
+      },
+      "all64_ST_increment": {
+        "n": 8,
+        "mean": -0.00024966302550946586,
+        "min": -0.000827153945473863,
+        "max": 0.0001875961525729941,
+        "positive": 2,
+        "negative": 6
+      },
+      "base_hotspot_total": {
+        "n": 8,
+        "mean": 0.0039450907403328905,
+        "min": 0.0039450907403328905,
+        "max": 0.0039450907403328905,
+        "positive": 8,
+        "negative": 0
+      },
+      "ST_hotspot_total": {
+        "n": 8,
+        "mean": 0.0023791579999428714,
+        "min": 0.001217680451110592,
+        "max": 0.0035268388187765787,
+        "positive": 8,
+        "negative": 0
+      }
+    },
+    "1": {
+      "hotspot_ST_increment": {
+        "n": 8,
+        "mean": -0.0015487555183205937,
+        "min": -0.003304051216616477,
+        "max": -0.00016882321594002825,
+        "positive": 0,
+        "negative": 8
+      },
+      "hotspot_fixed_increment": {
+        "n": 8,
+        "mean": -0.00045878982281946645,
+        "min": -0.0007567156235046557,
+        "max": -0.00013784340032940712,
+        "positive": 0,
+        "negative": 8
+      },
+      "all64_ST_increment": {
+        "n": 8,
+        "mean": 0.0009445013015134621,
+        "min": -0.000019191245591611283,
+        "max": 0.0024423080787007306,
+        "positive": 7,
+        "negative": 1
+      },
+      "base_hotspot_total": {
+        "n": 8,
+        "mean": 0.03523293553919116,
+        "min": 0.03523293553919116,
+        "max": 0.03523293553919116,
+        "positive": 8,
+        "negative": 0
+      },
+      "ST_hotspot_total": {
+        "n": 8,
+        "mean": 0.03368418002087056,
+        "min": 0.03192888432257468,
+        "max": 0.03506411232325113,
+        "positive": 8,
+        "negative": 0
+      }
+    }
+  },
+  "rows": [
+    {
+      "repeat": 0,
+      "batch": 0,
+      "hotspot_ST_increment": -0.0027274102892222984,
+      "hotspot_fixed_increment": -0.001176545025804554,
+      "all64_ST_increment": -0.000827153945473863,
+      "base_hotspot_total": 0.0039450907403328905,
+      "ST_hotspot_total": 0.001217680451110592,
+      "fixed_hotspot_total": 0.0027685457145283365
+    },
+    {
+      "repeat": 0,
+      "batch": 1,
+      "hotspot_ST_increment": -0.003304051216616477,
+      "hotspot_fixed_increment": -0.0004463507707359593,
+      "all64_ST_increment": 0.002112487807198783,
+      "base_hotspot_total": 0.03523293553919116,
+      "ST_hotspot_total": 0.03192888432257468,
+      "fixed_hotspot_total": 0.0347865847684552
+    },
+    {
+      "repeat": 1,
+      "batch": 0,
+      "hotspot_ST_increment": -0.0009335136749020201,
+      "hotspot_fixed_increment": -0.00028003066804194177,
+      "all64_ST_increment": 0.0001875961525729941,
+      "base_hotspot_total": 0.0039450907403328905,
+      "ST_hotspot_total": 0.0030115770654308704,
+      "fixed_hotspot_total": 0.0036650600722909488
+    },
+    {
+      "repeat": 1,
+      "batch": 1,
+      "hotspot_ST_increment": -0.0013762396344823014,
+      "hotspot_fixed_increment": -0.0003575253581766802,
+      "all64_ST_increment": 0.0005297978737633102,
+      "base_hotspot_total": 0.03523293553919116,
+      "ST_hotspot_total": 0.033856695904708856,
+      "fixed_hotspot_total": 0.03487541018101448
+    },
+    {
+      "repeat": 2,
+      "batch": 0,
+      "hotspot_ST_increment": -0.0017075697579844729,
+      "hotspot_fixed_increment": -0.0006028209978439225,
+      "all64_ST_increment": 0.00010056485687139766,
+      "base_hotspot_total": 0.0039450907403328905,
+      "ST_hotspot_total": 0.0022375209823484177,
+      "fixed_hotspot_total": 0.003342269742488968
+    },
+    {
+      "repeat": 2,
+      "batch": 1,
+      "hotspot_ST_increment": -0.0014686931035454709,
+      "hotspot_fixed_increment": -0.0004167692569114756,
+      "all64_ST_increment": 0.001703722770685999,
+      "base_hotspot_total": 0.03523293553919116,
+      "ST_hotspot_total": 0.033764242435645686,
+      "fixed_hotspot_total": 0.03481616628227968
+    },
+    {
+      "repeat": 3,
+      "batch": 0,
+      "hotspot_ST_increment": -0.0013712342302547587,
+      "hotspot_fixed_increment": -0.001338556651969025,
+      "all64_ST_increment": -0.0003136395319560878,
+      "base_hotspot_total": 0.0039450907403328905,
+      "ST_hotspot_total": 0.002573856510078132,
+      "fixed_hotspot_total": 0.0026065340883638655
+    },
+    {
+      "repeat": 3,
+      "batch": 1,
+      "hotspot_ST_increment": -0.0023748811176442786,
+      "hotspot_fixed_increment": -0.00047512180403530557,
+      "all64_ST_increment": 0.0024423080787007306,
+      "base_hotspot_total": 0.03523293553919116,
+      "ST_hotspot_total": 0.03285805442154688,
+      "fixed_hotspot_total": 0.03475781373515585
+    },
+    {
+      "repeat": 4,
+      "batch": 0,
+      "hotspot_ST_increment": -0.0012459633035266648,
+      "hotspot_fixed_increment": -0.0011897204185509214,
+      "all64_ST_increment": -0.0003612551741320538,
+      "base_hotspot_total": 0.0039450907403328905,
+      "ST_hotspot_total": 0.0026991274368062257,
+      "fixed_hotspot_total": 0.002755370321781969
+    },
+    {
+      "repeat": 4,
+      "batch": 1,
+      "hotspot_ST_increment": -0.00016882321594002825,
+      "hotspot_fixed_increment": -0.0007567156235046557,
+      "all64_ST_increment": -0.000019191245591611283,
+      "base_hotspot_total": 0.03523293553919116,
+      "ST_hotspot_total": 0.03506411232325113,
+      "fixed_hotspot_total": 0.0344762199156865
+    },
+    {
+      "repeat": 5,
+      "batch": 0,
+      "hotspot_ST_increment": -0.00041825192155631186,
+      "hotspot_fixed_increment": -0.0003519036951087351,
+      "all64_ST_increment": -0.00036866303133367695,
+      "base_hotspot_total": 0.0039450907403328905,
+      "ST_hotspot_total": 0.0035268388187765787,
+      "fixed_hotspot_total": 0.0035931870452241554
+    },
+    {
+      "repeat": 5,
+      "batch": 1,
+      "hotspot_ST_increment": -0.0014030826365858395,
+      "hotspot_fixed_increment": -0.00037349759086380274,
+      "all64_ST_increment": 0.00022056475107653378,
+      "base_hotspot_total": 0.03523293553919116,
+      "ST_hotspot_total": 0.03382985290260532,
+      "fixed_hotspot_total": 0.034859437948327354
+    },
+    {
+      "repeat": 6,
+      "batch": 0,
+      "hotspot_ST_increment": -0.002035284934085446,
+      "hotspot_fixed_increment": -0.00009275742132341946,
+      "all64_ST_increment": -0.000021590275807045756,
+      "base_hotspot_total": 0.0039450907403328905,
+      "ST_hotspot_total": 0.0019098058062474443,
+      "fixed_hotspot_total": 0.003852333319009471
+    },
+    {
+      "repeat": 6,
+      "batch": 1,
+      "hotspot_ST_increment": -0.0014705452629590887,
+      "hotspot_fixed_increment": -0.00013784340032940712,
+      "all64_ST_increment": 0.00022861898321293456,
+      "base_hotspot_total": 0.03523293553919116,
+      "ST_hotspot_total": 0.03376239027623207,
+      "fixed_hotspot_total": 0.03509509213886175
+    },
+    {
+      "repeat": 7,
+      "batch": 0,
+      "hotspot_ST_increment": -0.0020882338115881804,
+      "hotspot_fixed_increment": -0.00019861092900708144,
+      "all64_ST_increment": -0.00039316325481739134,
+      "base_hotspot_total": 0.0039450907403328905,
+      "ST_hotspot_total": 0.00185685692874471,
+      "fixed_hotspot_total": 0.003746479811325809
+    },
+    {
+      "repeat": 7,
+      "batch": 1,
+      "hotspot_ST_increment": -0.0008237279587912649,
+      "hotspot_fixed_increment": -0.0007064947779984454,
+      "all64_ST_increment": 0.00033770139306101704,
+      "base_hotspot_total": 0.03523293553919116,
+      "ST_hotspot_total": 0.03440920758039989,
+      "fixed_hotspot_total": 0.03452644076119271
+    }
+  ]
+}

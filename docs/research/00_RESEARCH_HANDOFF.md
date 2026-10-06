@@ -1,5 +1,18 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## Latest mechanism findings and B0 status — 2026-10-06 08:41
+
+[31: mechanism findings and B0 status](31_HIER_MECHANISM_FINDINGS_AND_B0_STATUS_2026-10-06.md)
+records the completed natural16, shape4x64, matched e40 and conditional Gumbel8
+one-step evidence. HIER reduces outward movement on the four fixed e300 hotspots
+under all eight noise repetitions, while their total update remains outward;
+the natural population direction is not uniform. Matched e40 H20 is deeper than
+B0 on the four inspected classes, without established classification benefit.
+B0 has completed198 epochs and is training199; best validation OA94.1057%
+at191, no official test read. The bounded diagnostic queue completed10/10.
+The proxy100-step strict endpoint gate failed after600 actual updates; its
+recovery and independent matched B0 morphology comparison remain pending.
+
 ## Authorized B0 continuation and sustained diagnostics — 2026-10-06
 
 The user approved V6 matched balanced64 B0 and continuing small mechanism

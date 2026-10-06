@@ -1,5 +1,19 @@
 # Experiment history
 
+## Completed mechanism evidence and B0 progress — 2026-10-06 08:41
+
+Read-only consolidation of completed natural16, shape4x64 and matched e40
+results, plus10/10 completed augmentation/Gumbel/one-step jobs. The conditional
+Gumbel8 panels add48 replica updates: all16 panel-repeat hotspot ST increments
+relative to base are inward, but all16 total ST hotspot movements remain outward.
+Natural16 direction and clipping qualification prevent a population collapse claim.
+Matched e40 training OA is H20 94.9526%, B0 95.0090%; four inspected classes
+have deeper H20 embeddings. Independent shape signals weaken from99 to300,
+without a matched B0 shape comparison. Frozen-proxy six arms performed600
+updates, then failed the strict proxy-only paired endpoint gate; controls pending.
+B0 completed198 epochs, training199, best validation94.1057% at191; official
+test unread. See [31](31_HIER_MECHANISM_FINDINGS_AND_B0_STATUS_2026-10-06.md).
+
 ## V6 balanced64 B0 authorized, smoke passed and detached — 2026-10-06
 
 User approved the matched B0 first, sustained mechanism experiments afterward
