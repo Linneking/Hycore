@@ -2,6 +2,19 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## V7 launched under delegated decision authority — 2026-10-07 02:52
+
+The latest user explicitly delegated final V7 decisions and requested launch then exit.
+The unique V7-HIER64-K20-W0 e300 run detached on GPU1/2 at02:48:51 Shanghai,
+code165981f, run v7_hier64_20261007_0250. Five CPU tests and separate four-update
+dual-GPU smoke passed. W0/lambda0.1, calibrated initial depth2.240048 from16
+zero-update batches (whole median2.488942), post-AdamW proxy parameter cap depth6,
+original balanced64/base protocol and validation selection. At02:52:07 e1step59
+is finite with replica difference0, official test unread; no completed epoch yet.
+The bounded128-update CPU comparison completed. Background parent is PID1;
+interactive work exits while main continues. Final decision and handoff are
+[36](36_V7_PROXY_SAFETY_DECISION_AND_LAUNCH_2026-10-07.md); this supersedes pending-review statements below.
+
 ## V7 single-run design requested — 2026-10-07
 
 The user chose V7: HIER from the first update with lower weight, and proxy

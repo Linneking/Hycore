@@ -2,6 +2,16 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## V7-HIER64-K20-W0 detached — 2026-10-07 02:52
+
+Explicit final decision authority received; unique300x200 run started02:48:51
+Shanghai on idle GPU1/2, code165981f, new run v7_hier64_20261007_0250.
+Five CPU contracts and2x2-update dual-GPU smoke passed, no official test read.
+W0/lambda0.1, actual calibrated proxy depth2.240048, post-step parameter depthcap6;
+V6 base protocol/global64 preserved. e1step59 verified finite and proxy replicas exact;
+no full epoch or accuracy result claimed. Separate128-update CPU mechanism comparison
+completed, extra experiments stopped, main remains detached. See[36](36_V7_PROXY_SAFETY_DECISION_AND_LAUNCH_2026-10-07.md).
+
 ## V6-B64 completed and final artifacts checked — 2026-10-06 18:40
 
 Production finished12:13:15 Asia/Shanghai, continuing the complete shared
