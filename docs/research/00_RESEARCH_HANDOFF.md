@@ -16,6 +16,15 @@ BN/RNG. AdamW proxy movement need not scale proportionally with lambda.
 No new production entry point or training has been started. Historical
 first-epoch lambda0.5 recommendations below do not override this new design.
 
+[35](35_HIER_MARGIN_BOUNDARY_AND_PROXY_GRADIENT_AUDIT_2026-10-07.md) adds a CPU audit:
+no missing margin unit/factor, but released numerical distances differ
+substantially from the current exact c1 formula near the boundary. A same-ID
+join of existing gradients finds negligible late sample gradients for297
+boundary proxies and almost purely angular proxy parameter gradients;
+many tangent parameters already exceed the projection saturation threshold.
+These results do not isolate the cause of initial outward movement. V7
+preflight should check fixed-relation numerics and actual AdamW displacement.
+
 ## V6-B64 completed — 2026-10-06 18:40
 
 [32: V6-B64 completed result](32_V6_BALANCED_B0_COMPLETED_2026-10-06.md) supersedes

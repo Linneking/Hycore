@@ -1,0 +1,286 @@
+{
+  "format": "hier-margin-distance-scale-cpu-audit-v1",
+  "scope": "CPU geometry only; existing train caches; no GPU/model/gradient/optimizer/test access",
+  "script_sha256": "b3014042707e79f4d3d4aa4a58c9123e1385d3c4c1424becd559cb2c0d03d554",
+  "official_pmath_sha256": "24049bbecc5aed577109877303e9788432fc5555c2417229e3f3c9d327749475",
+  "current_relations_sha256": "483c518514ded02b4072fd7881431f2ca635fdaa8d772e0a90c7afa07e713648",
+  "toy_boundary": {
+    "opposite_current": 15.200804669000828,
+    "opposite_released": 12.206067645522225,
+    "same_ray_current": 1.3877962387488914,
+    "same_ray_released": 0.9166506908273495
+  },
+  "toy_hinges": {
+    "sample_origin_depths": [
+      1.0986122886681098,
+      0.9694005571881035,
+      1.0986122886681098
+    ],
+    "proxy_origin_depths": [
+      2.9444389791664407,
+      2.1972245773362196
+    ],
+    "distance_rows": [
+      [
+        1.8458266904983311,
+        3.295836866004329
+      ],
+      [
+        1.9750384219783372,
+        3.1666251345243235
+      ],
+      [
+        4.04305126783455,
+        1.09861228866811
+      ]
+    ],
+    "hinges": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pair_minimax_index": 0,
+    "triple_minimax_index": 1
+  },
+  "fixtures": {
+    "0.1": {
+      "pairs": 992,
+      "c": 0.1,
+      "current_reference_max_abs_error": 3.497202527569243e-15,
+      "current_max": 7.290039231571662,
+      "released_max": 7.2899128773084145,
+      "absolute_difference_quantiles": {
+        "min": 1.8166969001920386e-06,
+        "median": 4.6734984689544845e-05,
+        "p90": 8.371831359648141e-05,
+        "p99": 0.00011542325995948843,
+        "max": 0.00012635426324703047
+      },
+      "fraction_difference_gt_margin_0_1": 0.0
+    },
+    "1.0": {
+      "pairs": 992,
+      "c": 1.0,
+      "current_reference_max_abs_error": 8.881784197001252e-16,
+      "current_max": 8.212856314397225,
+      "released_max": 8.204521841521037,
+      "absolute_difference_quantiles": {
+        "min": 1.8276204455935918e-06,
+        "median": 0.0002475989625385644,
+        "p90": 0.0018630447832472356,
+        "p99": 0.0072200909390328595,
+        "max": 0.01108118126627744
+      },
+      "fraction_difference_gt_margin_0_1": 0.0
+    }
+  },
+  "caches": {
+    "best_e099": {
+      "source_name": "best_e099/feature_cache.npz",
+      "sha256": "b82ce66a5ff6fde6c3135655d49c94f028acecb56edc3d640a6338cb01c34ade",
+      "proxy_count": 512,
+      "whole_key": "mu",
+      "distances": {
+        "torch.float32/proxy_proxy": {
+          "pairs": 261632,
+          "c": 1.0,
+          "current_reference_max_abs_error": 9.5367431640625e-07,
+          "current_max": 14.754013061523438,
+          "released_max": 12.204710006713867,
+          "absolute_difference_quantiles": {
+            "min": 1.189112663269043e-05,
+            "median": 0.0228424072265625,
+            "p90": 1.793562889099121,
+            "p99": 2.340378761291504,
+            "max": 2.5493030548095703
+          },
+          "fraction_difference_gt_margin_0_1": 0.3999434319960861
+        },
+        "torch.float32/whole64_proxy": {
+          "pairs": 32768,
+          "c": 1.0,
+          "current_reference_max_abs_error": 9.5367431640625e-07,
+          "current_max": 13.542582511901855,
+          "released_max": 12.204710006713867,
+          "absolute_difference_quantiles": {
+            "min": 0.0012664794921875,
+            "median": 0.7006731033325195,
+            "p90": 1.0539677619934082,
+            "p99": 1.1285888671875,
+            "max": 1.3378725051879883
+          },
+          "fraction_difference_gt_margin_0_1": 0.628814697265625
+        },
+        "torch.float64/proxy_proxy": {
+          "pairs": 261632,
+          "c": 1.0,
+          "current_reference_max_abs_error": 1.7763568394002505e-15,
+          "current_max": 14.7540190546512,
+          "released_max": 12.206067645522225,
+          "absolute_difference_quantiles": {
+            "min": 1.1815198574238739e-05,
+            "median": 0.02272369331886015,
+            "p90": 1.792684062388909,
+            "p99": 2.3390074014870237,
+            "max": 2.5479514091289754
+          },
+          "fraction_difference_gt_margin_0_1": 0.3999434319960861
+        },
+        "torch.float64/whole64_proxy": {
+          "pairs": 32768,
+          "c": 1.0,
+          "current_reference_max_abs_error": 1.7763568394002505e-15,
+          "current_max": 13.542580002316276,
+          "released_max": 12.206067645522225,
+          "absolute_difference_quantiles": {
+            "min": 0.0012605567783960936,
+            "median": 0.6956149715866946,
+            "p90": 1.0526152022850563,
+            "p99": 1.127222122410195,
+            "max": 1.3365123567940511
+          },
+          "fraction_difference_gt_margin_0_1": 0.628814697265625
+        }
+      },
+      "source_unchanged": true
+    },
+    "e200": {
+      "source_name": "e200/feature_cache.npz",
+      "sha256": "b283d9498736c31b00752b5f63b3be82d16e8198f98bd78790b92725ff5f59d8",
+      "proxy_count": 512,
+      "whole_key": "mu",
+      "distances": {
+        "torch.float32/proxy_proxy": {
+          "pairs": 261632,
+          "c": 1.0,
+          "current_reference_max_abs_error": 9.5367431640625e-07,
+          "current_max": 14.72885799407959,
+          "released_max": 12.204710006713867,
+          "absolute_difference_quantiles": {
+            "min": 5.185604095458984e-06,
+            "median": 0.021002769470214844,
+            "p90": 1.792470932006836,
+            "p99": 2.4680614471435547,
+            "max": 2.5241479873657227
+          },
+          "fraction_difference_gt_margin_0_1": 0.3999969422700587
+        },
+        "torch.float32/whole64_proxy": {
+          "pairs": 32768,
+          "c": 1.0,
+          "current_reference_max_abs_error": 9.5367431640625e-07,
+          "current_max": 13.203287124633789,
+          "released_max": 12.204710006713867,
+          "absolute_difference_quantiles": {
+            "min": 0.0005702972412109375,
+            "median": 0.3198084831237793,
+            "p90": 0.5749090194702148,
+            "p99": 0.8638742828369139,
+            "max": 0.9985771179199219
+          },
+          "fraction_difference_gt_margin_0_1": 0.6328125
+        },
+        "torch.float64/proxy_proxy": {
+          "pairs": 261632,
+          "c": 1.0,
+          "current_reference_max_abs_error": 1.7763568394002505e-15,
+          "current_max": 14.728839006651326,
+          "released_max": 12.206067645522225,
+          "absolute_difference_quantiles": {
+            "min": 5.158797758114675e-06,
+            "median": 0.02091281107422649,
+            "p90": 1.7925788352482006,
+            "p99": 2.466691343264383,
+            "max": 2.5227713611291005
+          },
+          "fraction_difference_gt_margin_0_1": 0.3999969422700587
+        },
+        "torch.float64/whole64_proxy": {
+          "pairs": 32768,
+          "c": 1.0,
+          "current_reference_max_abs_error": 1.7763568394002505e-15,
+          "current_max": 13.203291725253505,
+          "released_max": 12.206067645522225,
+          "absolute_difference_quantiles": {
+            "min": 0.0005764648598338695,
+            "median": 0.3179712430282029,
+            "p90": 0.5738271253256956,
+            "p99": 0.8625422486696284,
+            "max": 0.9972240797312804
+          },
+          "fraction_difference_gt_margin_0_1": 0.6328125
+        }
+      },
+      "source_unchanged": true
+    },
+    "e300": {
+      "source_name": "e300/feature_cache.npz",
+      "sha256": "67ebe6e81e70b4355c7eeebcc90bde1aea2225ad12183f40dd1ff50f3cabe1b8",
+      "proxy_count": 512,
+      "whole_key": "mu",
+      "distances": {
+        "torch.float32/proxy_proxy": {
+          "pairs": 261632,
+          "c": 1.0,
+          "current_reference_max_abs_error": 9.5367431640625e-07,
+          "current_max": 14.774767875671387,
+          "released_max": 12.204710006713867,
+          "absolute_difference_quantiles": {
+            "min": 2.6151537895202637e-06,
+            "median": 0.023286819458007812,
+            "p90": 1.7925100326538086,
+            "p99": 2.533390998840332,
+            "max": 2.5700578689575195
+          },
+          "fraction_difference_gt_margin_0_1": 0.3999969422700587
+        },
+        "torch.float32/whole64_proxy": {
+          "pairs": 32768,
+          "c": 1.0,
+          "current_reference_max_abs_error": 9.5367431640625e-07,
+          "current_max": 12.280069351196289,
+          "released_max": 11.930510520935059,
+          "absolute_difference_quantiles": {
+            "min": 0.00023126602172851562,
+            "median": 0.15361404418945312,
+            "p90": 0.3027907371520996,
+            "p99": 0.40267244338989255,
+            "max": 0.409942626953125
+          },
+          "fraction_difference_gt_margin_0_1": 0.5833740234375
+        },
+        "torch.float64/proxy_proxy": {
+          "pairs": 261632,
+          "c": 1.0,
+          "current_reference_max_abs_error": 1.7763568394002505e-15,
+          "current_max": 14.77475048730245,
+          "released_max": 12.206067645522225,
+          "absolute_difference_quantiles": {
+            "min": 2.7091985044386258e-06,
+            "median": 0.02335344328653477,
+            "p90": 1.7926066824980966,
+            "p99": 2.5320354675360655,
+            "max": 2.568682841780225
+          },
+          "fraction_difference_gt_margin_0_1": 0.3999969422700587
+        },
+        "torch.float64/whole64_proxy": {
+          "pairs": 32768,
+          "c": 1.0,
+          "current_reference_max_abs_error": 1.7763568394002505e-15,
+          "current_max": 12.280072537115913,
+          "released_max": 11.933358891368957,
+          "absolute_difference_quantiles": {
+            "min": 0.0002329660710911341,
+            "median": 0.15209196722787954,
+            "p90": 0.3000266315203092,
+            "p99": 0.4000098940443412,
+            "max": 0.40393304019606724
+          },
+          "fraction_difference_gt_margin_0_1": 0.5833740234375
+        }
+      },
+      "source_unchanged": true
+    }
+  }
+}

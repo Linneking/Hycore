@@ -1,0 +1,1329 @@
+{
+  "format": "hier-boundary-proxy-gradient-read-only-join-v1",
+  "date": "2026-10-07",
+  "canonical_experiment_name": "V6-HIER64-K20-W20",
+  "group_definition": {
+    "used188": "Fixed proxy row IDs with at least one sample hard pair/triple ancestor choice during actual epoch300.",
+    "boundary297": "Fixed epoch300 proxy IDs: eligible=true, clean-eval mapped coordinate radius >= .99899, and no actual epoch300 sample hard pair/triple ancestor choice.",
+    "identity_source_basename": "proxy_usage_trajectory_20261006/aggregate.json",
+    "identity_source_sha256": "e72d66540aa7921a366c658645241054fa8b730aefb1cbc83efb87e1e06af631",
+    "same_ids_used_at_all_source_epochs": true
+  },
+  "method": {
+    "new_gpu_calls": 0,
+    "new_model_forwards": 0,
+    "new_backward_calls": 0,
+    "new_optimizer_steps": 0,
+    "source_script_basename": "hier_proxy_objective_probe_v1.py",
+    "source_array_key": "modes.original.per_proxy_partial_gradient_mean_over_batches",
+    "signed_radial_statistic": "For each fixed proxy, average g dot unit(position) over the same16 frozen clean-eval batches; group means, sign counts and scalar L2 are computed from these per-proxy averages.",
+    "norm_statistic": "For each fixed proxy, average FP32 gradient vector norm over16 batches, then average those values over the group; this is NOT the norm of the mean gradient vector.",
+    "sign_semantics": "Positive radial partial derivative means ordinary Euclidean gradient descent tends inward; negative means outward. These are not inherited AdamW displacements.",
+    "proxy_parameterization": "Euclidean tangent parameters mapped by expmap0 with numerical coordinate-radius safety projection .999; at saturation tangent radial derivatives are nearly flat.",
+    "configuration": {
+      "seed": 22,
+      "batches": 16,
+      "plan_epoch": 0,
+      "K": 20,
+      "T": 50,
+      "c": 1,
+      "dtype": "float32",
+      "margin": 0.1,
+      "tau": 0.1,
+      "loss_weight": 0.5,
+      "mining_radius": 0.98,
+      "proxy_steps": 0,
+      "torch_threads": 2
+    }
+  },
+  "epochs": {
+    "99": {
+      "source_basename": "e99_16batch/summary.json",
+      "source_sha256": "60a2e9df719ed87e2277148d2427362e3e5793014c3740072f4bb9f0f89e228e",
+      "source_files_unchanged": true,
+      "batch_plan_sha256": "eb5aef1c82e0f05e4a822413af87f6af5a06cf0597ff542036375dc05dce6358",
+      "completed_zero_update_source_checks": {
+        "cache_checkpoint_identity": true,
+        "all_ID_label_hashes": true,
+        "proxy_mapping_matches_cache": true,
+        "source_self_k_exclusion": true,
+        "gradient_additivity_and_finite": true,
+        "Rproxy_no_direct_whole_gradient": true,
+        "controlled_proxy_pair_choices_identical": true
+      },
+      "all512_geometry": {
+        "projected_proxy_count": 317,
+        "tangent_norm_median": 9.459929466247559,
+        "tangent_norm_quantiles": [
+          0.7226983904838562,
+          0.7549724090099335,
+          0.816765183210373,
+          9.459929466247559,
+          10.681585597991944,
+          10.999878749847412,
+          11.160259246826172
+        ]
+      },
+      "groups": {
+        "used188": {
+          "sample/proxy_tangent": {
+            "signed_radial": {
+              "n": 188,
+              "mean": -0.0000124578266890659,
+              "median": 0.0002063317661225028,
+              "mean_abs": 0.0004698114459886818,
+              "min": -0.007036730675281433,
+              "max": 0.0013937587912096205,
+              "positive_count": 147,
+              "negative_count": 41,
+              "zero_count": 0,
+              "positive_gt_1e_12": 147,
+              "negative_lt_minus1e_12": 41,
+              "l2_scalar_rows": 0.013176646930218205
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0010135067477537699,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.008231108236941509
+            }
+          },
+          "sample/proxy_ball": {
+            "signed_radial": {
+              "n": 188,
+              "mean": -0.00007023650827217742,
+              "median": 0.0004032943888319096,
+              "mean_abs": 0.0010137207525231175,
+              "min": -0.015487950479837309,
+              "max": 0.0037713833826273913,
+              "positive_count": 147,
+              "negative_count": 41,
+              "zero_count": 0,
+              "positive_gt_1e_12": 147,
+              "negative_lt_minus1e_12": 41,
+              "l2_scalar_rows": 0.029690206868923947
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.001832288419113551,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.01653378168703057
+            }
+          },
+          "proxy/proxy_tangent": {
+            "signed_radial": {
+              "n": 188,
+              "mean": 0.00005233554486846032,
+              "median": -0.000007983957914348139,
+              "mean_abs": 0.000364249548121673,
+              "min": -0.001182143128971802,
+              "max": 0.0033638641398283653,
+              "positive_count": 93,
+              "negative_count": 95,
+              "zero_count": 0,
+              "positive_gt_1e_12": 93,
+              "negative_lt_minus1e_12": 95,
+              "l2_scalar_rows": 0.007423362441189703
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0009628806652106873,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.004176359070697799
+            }
+          },
+          "proxy/proxy_ball": {
+            "signed_radial": {
+              "n": 188,
+              "mean": 0.0001299442345670585,
+              "median": -0.000019573117754134728,
+              "mean_abs": 0.0007280211740106447,
+              "min": -0.0020424307185749058,
+              "max": 0.005920598181546666,
+              "positive_count": 93,
+              "negative_count": 95,
+              "zero_count": 0,
+              "positive_gt_1e_12": 93,
+              "negative_lt_minus1e_12": 95,
+              "l2_scalar_rows": 0.015128997008566038
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0015811733621613382,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.006640597639488988
+            }
+          },
+          "combined/proxy_tangent": {
+            "signed_radial": {
+              "n": 188,
+              "mean": 0.00003987771505115444,
+              "median": 0.00012693289090748294,
+              "mean_abs": 0.0006833506125384335,
+              "min": -0.006726511539454805,
+              "max": 0.003689380617288407,
+              "positive_count": 116,
+              "negative_count": 72,
+              "zero_count": 0,
+              "positive_gt_1e_12": 116,
+              "negative_lt_minus1e_12": 72,
+              "l2_scalar_rows": 0.016072097449606054
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.001574121505717948,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.008146250460413285
+            }
+          },
+          "combined/proxy_ball": {
+            "signed_radial": {
+              "n": 188,
+              "mean": 0.00005970772462918748,
+              "median": 0.00025592953079467406,
+              "mean_abs": 0.0014565529143377768,
+              "min": -0.014805153510678792,
+              "max": 0.006493526205304079,
+              "positive_count": 116,
+              "negative_count": 72,
+              "zero_count": 0,
+              "positive_gt_1e_12": 116,
+              "negative_lt_minus1e_12": 72,
+              "l2_scalar_rows": 0.035740398143860985
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.002732235877877603,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.01607031814637594
+            }
+          },
+          "gradient_additivity_max_abs_error": {
+            "proxy_tangent": 1.7826096154749393e-10,
+            "proxy_ball": 4.374669515527785e-10
+          }
+        },
+        "boundary297": {
+          "sample/proxy_tangent": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 5.633029642808821e-15,
+              "median": 6.887662211849341e-39,
+              "mean_abs": 5.633029733447318e-15,
+              "min": -1.34598167903753e-20,
+              "max": 1.6730097709822503e-12,
+              "positive_count": 156,
+              "negative_count": 140,
+              "zero_count": 1,
+              "positive_gt_1e_12": 1,
+              "negative_lt_minus1e_12": 0,
+              "l2_scalar_rows": 1.6730097709822507e-12
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 6.378924741759377e-15,
+              "nonzero_rows": 4,
+              "max_row_mean_norm": 1.894540569109609e-12
+            }
+          },
+          "sample/proxy_ball": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 8.334025589952132e-14,
+              "median": 3.199475001644606e-26,
+              "mean_abs": 8.334027340462681e-14,
+              "min": -2.5994110304359403e-18,
+              "max": 2.4752053264822087e-11,
+              "positive_count": 180,
+              "negative_count": 117,
+              "zero_count": 0,
+              "positive_gt_1e_12": 1,
+              "negative_lt_minus1e_12": 0,
+              "l2_scalar_rows": 2.4752053264822588e-11
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 8.997268713373256e-14,
+              "nonzero_rows": 10,
+              "max_row_mean_norm": 2.6721878141765416e-11
+            }
+          },
+          "proxy/proxy_tangent": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 1.6120665526876772e-10,
+              "median": -6.661338147751018e-16,
+              "mean_abs": 1.67508016551442e-10,
+              "min": -8.99170515771989e-10,
+              "max": 4.833964221793866e-8,
+              "positive_count": 142,
+              "negative_count": 155,
+              "zero_count": 0,
+              "positive_gt_1e_12": 3,
+              "negative_lt_minus1e_12": 2,
+              "l2_scalar_rows": 4.8349484551930586e-8
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.000016816706539500784,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.0001003614956329419
+            }
+          },
+          "proxy/proxy_ball": {
+            "signed_radial": {
+              "n": 297,
+              "mean": -3.8921550906506994e-10,
+              "median": 8.594948651726871e-10,
+              "mean_abs": 3.960750917784011e-8,
+              "min": -2.2516542230711793e-7,
+              "max": 7.151742003920492e-7,
+              "positive_count": 153,
+              "negative_count": 144,
+              "zero_count": 0,
+              "positive_gt_1e_12": 153,
+              "negative_lt_minus1e_12": 144,
+              "l2_scalar_rows": 0.0000011249276136431766
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.00015343919535932697,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.0003665519575406506
+            }
+          },
+          "combined/proxy_tangent": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 1.6121293277517703e-10,
+              "median": -6.661338147751018e-16,
+              "mean_abs": 1.675142940576425e-10,
+              "min": -8.991705157643513e-10,
+              "max": 4.8341506637310586e-8,
+              "positive_count": 142,
+              "negative_count": 155,
+              "zero_count": 0,
+              "positive_gt_1e_12": 3,
+              "negative_lt_minus1e_12": 2,
+              "l2_scalar_rows": 4.8351348591783723e-8
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0000168167065416717,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.00010036149627770392
+            }
+          },
+          "combined/proxy_ball": {
+            "signed_radial": {
+              "n": 297,
+              "mean": -3.891332134672355e-10,
+              "median": 8.594948651726871e-10,
+              "mean_abs": 3.9607591473413945e-8,
+              "min": -2.2516542230711793e-7,
+              "max": 7.151986421809198e-7,
+              "positive_count": 153,
+              "negative_count": 144,
+              "zero_count": 0,
+              "positive_gt_1e_12": 153,
+              "negative_lt_minus1e_12": 144,
+              "l2_scalar_rows": 0.000001124943152700522
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.00015343919536903584,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.0003665519575406506
+            }
+          },
+          "gradient_additivity_max_abs_error": {
+            "proxy_tangent": 1.9140960094455066e-13,
+            "proxy_ball": 3.1026439420043725e-13
+          }
+        },
+        "all512": {
+          "sample/proxy_tangent": {
+            "signed_radial": {
+              "n": 512,
+              "mean": -0.000004574358234110089,
+              "median": 3.5035241784273647e-38,
+              "mean_abs": 0.00017250889032725038,
+              "min": -0.007036730675281433,
+              "max": 0.0013937587912096205,
+              "positive_count": 318,
+              "negative_count": 193,
+              "zero_count": 1,
+              "positive_gt_1e_12": 148,
+              "negative_lt_minus1e_12": 41,
+              "l2_scalar_rows": 0.013176646930218205
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0003721470089445566,
+              "nonzero_rows": 193,
+              "max_row_mean_norm": 0.008231108236941509
+            }
+          },
+          "sample/proxy_ball": {
+            "signed_radial": {
+              "n": 512,
+              "mean": -0.00002578996783232763,
+              "median": 7.7236169359626e-26,
+              "mean_abs": 0.00037222558886594473,
+              "min": -0.015487950479837309,
+              "max": 0.0037713833826273913,
+              "positive_count": 337,
+              "negative_count": 175,
+              "zero_count": 0,
+              "positive_gt_1e_12": 148,
+              "negative_lt_minus1e_12": 41,
+              "l2_scalar_rows": 0.029690206868923947
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0006727934039461167,
+              "nonzero_rows": 203,
+              "max_row_mean_norm": 0.01653378168703057
+            }
+          },
+          "proxy/proxy_tangent": {
+            "signed_radial": {
+              "n": 512,
+              "mean": 0.00001921706778986593,
+              "median": -8.881784196998705e-16,
+              "mean_abs": 0.0001337479957148392,
+              "min": -0.001182143128971802,
+              "max": 0.0033638641398283653,
+              "positive_count": 246,
+              "negative_count": 266,
+              "zero_count": 0,
+              "positive_gt_1e_12": 97,
+              "negative_lt_minus1e_12": 98,
+              "l2_scalar_rows": 0.007423362441352263
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.00036427183846734525,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.004176359070697799
+            }
+          },
+          "proxy/proxy_ball": {
+            "signed_radial": {
+              "n": 512,
+              "mean": 0.00004771296355110748,
+              "median": -1.0054244273858569e-9,
+              "mean_abs": 0.0002673462133906532,
+              "min": -0.0020424307185749058,
+              "max": 0.005920598181546666,
+              "positive_count": 253,
+              "negative_count": 259,
+              "zero_count": 0,
+              "positive_gt_1e_12": 253,
+              "negative_lt_minus1e_12": 259,
+              "l2_scalar_rows": 0.015128997056842723
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0006763723682353391,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.006640597639488988
+            }
+          },
+          "combined/proxy_tangent": {
+            "signed_radial": {
+              "n": 512,
+              "mean": 0.000014642708407479358,
+              "median": 2.33146835171289e-15,
+              "mean_abs": 0.00025091791780902385,
+              "min": -0.006726511539454805,
+              "max": 0.003689380617288407,
+              "positive_count": 269,
+              "negative_count": 243,
+              "zero_count": 0,
+              "positive_gt_1e_12": 120,
+              "negative_lt_minus1e_12": 75,
+              "l2_scalar_rows": 0.016072097449681143
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0005887118345923813,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.008146250460413285
+            }
+          },
+          "combined/proxy_ball": {
+            "signed_radial": {
+              "n": 512,
+              "mean": 0.000021922995106563023,
+              "median": 4.658233068826593e-9,
+              "mean_abs": 0.0005348539618402896,
+              "min": -0.014805153510678792,
+              "max": 0.006493526205304079,
+              "positive_count": 276,
+              "negative_count": 236,
+              "zero_count": 0,
+              "positive_gt_1e_12": 276,
+              "negative_lt_minus1e_12": 236,
+              "l2_scalar_rows": 0.035740398164297124
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0010990281357311448,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.01607031814637594
+            }
+          },
+          "gradient_additivity_max_abs_error": {
+            "proxy_tangent": 1.7826096154749393e-10,
+            "proxy_ball": 4.374669515527785e-10
+          }
+        }
+      }
+    },
+    "200": {
+      "source_basename": "e200_16batch/summary.json",
+      "source_sha256": "7642901903ffdcb6b31376bcd95ff313120aaa4870db6d634c5639fca3416673",
+      "source_files_unchanged": true,
+      "batch_plan_sha256": "eb5aef1c82e0f05e4a822413af87f6af5a06cf0597ff542036375dc05dce6358",
+      "completed_zero_update_source_checks": {
+        "cache_checkpoint_identity": true,
+        "all_ID_label_hashes": true,
+        "proxy_mapping_matches_cache": true,
+        "source_self_k_exclusion": true,
+        "gradient_additivity_and_finite": true,
+        "Rproxy_no_direct_whole_gradient": true,
+        "controlled_proxy_pair_choices_identical": true
+      },
+      "all512_geometry": {
+        "projected_proxy_count": 324,
+        "tangent_norm_median": 8.779939651489258,
+        "tangent_norm_quantiles": [
+          0.6827926635742188,
+          0.726511190533638,
+          0.776810371875763,
+          8.779939651489258,
+          9.080582904815675,
+          9.202969074249268,
+          9.290072441101074
+        ]
+      },
+      "groups": {
+        "used188": {
+          "sample/proxy_tangent": {
+            "signed_radial": {
+              "n": 188,
+              "mean": -0.0000379427193825134,
+              "median": 0.0005590045798271603,
+              "mean_abs": 0.0011316660261228514,
+              "min": -0.01369300449732691,
+              "max": 0.0014605243250116473,
+              "positive_count": 151,
+              "negative_count": 37,
+              "zero_count": 0,
+              "positive_gt_1e_12": 151,
+              "negative_lt_minus1e_12": 37,
+              "l2_scalar_rows": 0.027205806299020377
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0018175439020613707,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.015315530879888684
+            }
+          },
+          "sample/proxy_ball": {
+            "signed_radial": {
+              "n": 188,
+              "mean": -0.0002697369915173969,
+              "median": 0.0009842395661507908,
+              "mean_abs": 0.0022798170079548125,
+              "min": -0.02824652660638094,
+              "max": 0.003157822721732373,
+              "positive_count": 151,
+              "negative_count": 37,
+              "zero_count": 0,
+              "positive_gt_1e_12": 151,
+              "negative_lt_minus1e_12": 37,
+              "l2_scalar_rows": 0.05751407422780166
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0031613279873072123,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.029546204605139792
+            }
+          },
+          "proxy/proxy_tangent": {
+            "signed_radial": {
+              "n": 188,
+              "mean": 0.00002378443544744711,
+              "median": -0.000012465961162888561,
+              "mean_abs": 0.00026571044212399757,
+              "min": -0.000938842109462712,
+              "max": 0.0021084927102492657,
+              "positive_count": 92,
+              "negative_count": 96,
+              "zero_count": 0,
+              "positive_gt_1e_12": 92,
+              "negative_lt_minus1e_12": 96,
+              "l2_scalar_rows": 0.005105389628742254
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0009380688742648177,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.003331192856421694
+            }
+          },
+          "proxy/proxy_ball": {
+            "signed_radial": {
+              "n": 188,
+              "mean": 0.00004212355500584181,
+              "median": -0.00002613557580843917,
+              "mean_abs": 0.0005014841150621703,
+              "min": -0.0016342477442776726,
+              "max": 0.0034588869784784038,
+              "positive_count": 92,
+              "negative_count": 96,
+              "zero_count": 0,
+              "positive_gt_1e_12": 92,
+              "negative_lt_minus1e_12": 96,
+              "l2_scalar_rows": 0.009528623323901421
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.001438439670850846,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.004735968061140738
+            }
+          },
+          "combined/proxy_tangent": {
+            "signed_radial": {
+              "n": 188,
+              "mean": -0.000014158285737756673,
+              "median": 0.0005463050457592544,
+              "mean_abs": 0.0011805908522250202,
+              "min": -0.013534771744161844,
+              "max": 0.0031902460341370897,
+              "positive_count": 151,
+              "negative_count": 37,
+              "zero_count": 0,
+              "positive_gt_1e_12": 151,
+              "negative_lt_minus1e_12": 37,
+              "l2_scalar_rows": 0.027851146632436416
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0021965652311269454,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.01520466135116294
+            }
+          },
+          "combined/proxy_ball": {
+            "signed_radial": {
+              "n": 188,
+              "mean": -0.00022761345064910673,
+              "median": 0.0009926803461439704,
+              "mean_abs": 0.0023842075721774636,
+              "min": -0.027920120512135327,
+              "max": 0.005233454725384945,
+              "positive_count": 151,
+              "negative_count": 37,
+              "zero_count": 0,
+              "positive_gt_1e_12": 151,
+              "negative_lt_minus1e_12": 37,
+              "l2_scalar_rows": 0.058862925946043136
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.003683800789990818,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.029259106377139688
+            }
+          },
+          "gradient_additivity_max_abs_error": {
+            "proxy_tangent": 1.422677087248303e-9,
+            "proxy_ball": 6.837126420577988e-10
+          }
+        },
+        "boundary297": {
+          "sample/proxy_tangent": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 7.536251176491216e-36,
+              "median": -3.76525534247764e-39,
+              "mean_abs": 1.8325257765897745e-35,
+              "min": -5.559441757496468e-34,
+              "max": 3.148879002152219e-33,
+              "positive_count": 140,
+              "negative_count": 157,
+              "zero_count": 0,
+              "positive_gt_1e_12": 0,
+              "negative_lt_minus1e_12": 0,
+              "l2_scalar_rows": 3.245666045318059e-33
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0,
+              "nonzero_rows": 0,
+              "max_row_mean_norm": 0
+            }
+          },
+          "sample/proxy_ball": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 7.0065391833643005e-25,
+              "median": 2.461284080665258e-26,
+              "mean_abs": 1.7220423664618363e-24,
+              "min": -6.229175004282559e-23,
+              "max": 2.4039903332710276e-22,
+              "positive_count": 181,
+              "negative_count": 116,
+              "zero_count": 0,
+              "positive_gt_1e_12": 0,
+              "negative_lt_minus1e_12": 0,
+              "l2_scalar_rows": 2.540471216926604e-22
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 1.5656201728571985e-24,
+              "nonzero_rows": 17,
+              "max_row_mean_norm": 2.4090135873798287e-22
+            }
+          },
+          "proxy/proxy_tangent": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 1.1590738490181926e-15,
+              "median": 1.7763567786024754e-15,
+              "mean_abs": 2.4783260895665256e-14,
+              "min": -7.909228827429192e-13,
+              "max": 2.706723734035857e-13,
+              "positive_count": 162,
+              "negative_count": 135,
+              "zero_count": 0,
+              "positive_gt_1e_12": 0,
+              "negative_lt_minus1e_12": 0,
+              "l2_scalar_rows": 1.0564131671647063e-12
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.000016916205514065813,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.00005599377550425048
+            }
+          },
+          "proxy/proxy_ball": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 1.8469068221656134e-8,
+              "median": 8.974215402052232e-9,
+              "mean_abs": 3.9517773633247285e-8,
+              "min": -8.890860468593192e-8,
+              "max": 5.751300669327563e-7,
+              "positive_count": 179,
+              "negative_count": 118,
+              "zero_count": 0,
+              "positive_gt_1e_12": 179,
+              "negative_lt_minus1e_12": 118,
+              "l2_scalar_rows": 0.0000012323369382979178
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.00014440459951469968,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.000377503129670137
+            }
+          },
+          "combined/proxy_tangent": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 1.159073849018187e-15,
+              "median": 1.7763567786024754e-15,
+              "mean_abs": 2.478326089566525e-14,
+              "min": -7.909228827429192e-13,
+              "max": 2.706723734035857e-13,
+              "positive_count": 162,
+              "negative_count": 135,
+              "zero_count": 0,
+              "positive_gt_1e_12": 0,
+              "negative_lt_minus1e_12": 0,
+              "l2_scalar_rows": 1.056413167164706e-12
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.000016916205514065813,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.00005599377550425048
+            }
+          },
+          "combined/proxy_ball": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 1.8469068221656134e-8,
+              "median": 8.974215402052232e-9,
+              "mean_abs": 3.9517773633247285e-8,
+              "min": -8.890860468593192e-8,
+              "max": 5.751300669327563e-7,
+              "positive_count": 179,
+              "negative_count": 118,
+              "zero_count": 0,
+              "positive_gt_1e_12": 179,
+              "negative_lt_minus1e_12": 118,
+              "l2_scalar_rows": 0.0000012323369382979178
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.00014440459951469968,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.000377503129670137
+            }
+          },
+          "gradient_additivity_max_abs_error": {
+            "proxy_tangent": 1.6155871338926322e-27,
+            "proxy_ball": 2.415367388654841e-22
+          }
+        },
+        "all512": {
+          "sample/proxy_tangent": {
+            "signed_radial": {
+              "n": 512,
+              "mean": -0.000013932092273266639,
+              "median": 2.445120085206516e-38,
+              "mean_abs": 0.0004155336189669845,
+              "min": -0.01369300449732691,
+              "max": 0.0014605243250116473,
+              "positive_count": 305,
+              "negative_count": 207,
+              "zero_count": 0,
+              "positive_gt_1e_12": 151,
+              "negative_lt_minus1e_12": 37,
+              "l2_scalar_rows": 0.027205806299020377
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0006673794015381596,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.015315530879888684
+            }
+          },
+          "sample/proxy_ball": {
+            "signed_radial": {
+              "n": 512,
+              "mean": -0.00009904405157279417,
+              "median": 7.511426266119352e-26,
+              "mean_abs": 0.0008371203076084077,
+              "min": -0.02824652660638094,
+              "max": 0.003157822721732373,
+              "positive_count": 345,
+              "negative_count": 167,
+              "zero_count": 0,
+              "positive_gt_1e_12": 151,
+              "negative_lt_minus1e_12": 37,
+              "l2_scalar_rows": 0.05751407422780166
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.001160800120339367,
+              "nonzero_rows": 209,
+              "max_row_mean_norm": 0.029546204605139792
+            }
+          },
+          "proxy/proxy_tangent": {
+            "signed_radial": {
+              "n": 512,
+              "mean": 0.000008733347389965699,
+              "median": 1.3877626649508183e-15,
+              "mean_abs": 0.00009756555298507874,
+              "min": -0.000938842109462712,
+              "max": 0.0021084927102492657,
+              "positive_count": 267,
+              "negative_count": 245,
+              "zero_count": 0,
+              "positive_gt_1e_12": 92,
+              "negative_lt_minus1e_12": 96,
+              "l2_scalar_rows": 0.005105389628742254
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.00035526324904064914,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.003331192856421694
+            }
+          },
+          "proxy/proxy_ball": {
+            "signed_radial": {
+              "n": 512,
+              "mean": 0.000015477646183061057,
+              "median": 8.285245028434194e-9,
+              "mean_abs": 0.00018416354179271512,
+              "min": -0.0016342477442776726,
+              "max": 0.0034588869784784038,
+              "positive_count": 283,
+              "negative_count": 229,
+              "zero_count": 0,
+              "positive_gt_1e_12": 283,
+              "negative_lt_minus1e_12": 229,
+              "l2_scalar_rows": 0.009528623406352878
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0006191931684760863,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.004735968061140738
+            }
+          },
+          "combined/proxy_tangent": {
+            "signed_radial": {
+              "n": 512,
+              "mean": -0.000005198745545226316,
+              "median": 1.1129983252644212e-14,
+              "mean_abs": 0.00043349820356904795,
+              "min": -0.013534771744161844,
+              "max": 0.0031902460341370897,
+              "positive_count": 326,
+              "negative_count": 186,
+              "zero_count": 0,
+              "positive_gt_1e_12": 151,
+              "negative_lt_minus1e_12": 37,
+              "l2_scalar_rows": 0.027851146632436416
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0008173673800759616,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.01520466135116294
+            }
+          },
+          "combined/proxy_ball": {
+            "signed_radial": {
+              "n": 512,
+              "mean": -0.00008356641058086536,
+              "median": 2.5381030639437676e-8,
+              "mean_abs": 0.0008754760612022369,
+              "min": -0.027920120512135327,
+              "max": 0.005233454725384945,
+              "positive_count": 342,
+              "negative_count": 170,
+              "zero_count": 0,
+              "positive_gt_1e_12": 342,
+              "negative_lt_minus1e_12": 170,
+              "l2_scalar_rows": 0.058862925959390244
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0014436617044102948,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.029259106377139688
+            }
+          },
+          "gradient_additivity_max_abs_error": {
+            "proxy_tangent": 1.422677087248303e-9,
+            "proxy_ball": 6.837126420577988e-10
+          }
+        }
+      }
+    },
+    "300": {
+      "source_basename": "e300_16batch/summary.json",
+      "source_sha256": "cb4c7df9edca7deee929631899febd01f180b456dfcb30b860c005bfb1d7bf21",
+      "source_files_unchanged": true,
+      "batch_plan_sha256": "eb5aef1c82e0f05e4a822413af87f6af5a06cf0597ff542036375dc05dce6358",
+      "completed_zero_update_source_checks": {
+        "cache_checkpoint_identity": true,
+        "all_ID_label_hashes": true,
+        "proxy_mapping_matches_cache": true,
+        "source_self_k_exclusion": true,
+        "gradient_additivity_and_finite": true,
+        "Rproxy_no_direct_whole_gradient": true,
+        "controlled_proxy_pair_choices_identical": true
+      },
+      "all512_geometry": {
+        "projected_proxy_count": 323,
+        "tangent_norm_median": 7.221341609954834,
+        "tangent_norm_quantiles": [
+          0.7658565044403076,
+          0.8036678004264831,
+          0.834656810760498,
+          7.221341609954834,
+          7.51002836227417,
+          7.63886872291565,
+          7.715840816497803
+        ]
+      },
+      "groups": {
+        "used188": {
+          "sample/proxy_tangent": {
+            "signed_radial": {
+              "n": 188,
+              "mean": -0.00003393141229482953,
+              "median": 0.000457001175050209,
+              "mean_abs": 0.0008966817380861899,
+              "min": -0.006841452304797713,
+              "max": 0.0025244994103559293,
+              "positive_count": 140,
+              "negative_count": 48,
+              "zero_count": 0,
+              "positive_gt_1e_12": 140,
+              "negative_lt_minus1e_12": 48,
+              "l2_scalar_rows": 0.017969639877044682
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0016468288863748929,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.008038701271289028
+            }
+          },
+          "sample/proxy_ball": {
+            "signed_radial": {
+              "n": 188,
+              "mean": -0.00026270067390618486,
+              "median": 0.0008938825742461631,
+              "mean_abs": 0.001931801309098696,
+              "min": -0.016350296878954396,
+              "max": 0.004600716310960706,
+              "positive_count": 140,
+              "negative_count": 48,
+              "zero_count": 0,
+              "positive_gt_1e_12": 140,
+              "negative_lt_minus1e_12": 48,
+              "l2_scalar_rows": 0.04113564597795848
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0029721158361548697,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.017330141563434154
+            }
+          },
+          "proxy/proxy_tangent": {
+            "signed_radial": {
+              "n": 188,
+              "mean": 0.000014276263398418743,
+              "median": -0.000017971279845596655,
+              "mean_abs": 0.00011855066787628715,
+              "min": -0.00041332012278871844,
+              "max": 0.0011433437894083909,
+              "positive_count": 82,
+              "negative_count": 106,
+              "zero_count": 0,
+              "positive_gt_1e_12": 82,
+              "negative_lt_minus1e_12": 106,
+              "l2_scalar_rows": 0.002562650412964017
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.00047842165979579084,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.002450776930345455
+            }
+          },
+          "proxy/proxy_ball": {
+            "signed_radial": {
+              "n": 188,
+              "mean": 0.00003056336928844734,
+              "median": -0.000035253197438578354,
+              "mean_abs": 0.0002482834109266773,
+              "min": -0.0009875224604911637,
+              "max": 0.0024843988358043134,
+              "positive_count": 82,
+              "negative_count": 106,
+              "zero_count": 0,
+              "positive_gt_1e_12": 82,
+              "negative_lt_minus1e_12": 106,
+              "l2_scalar_rows": 0.00546938506517176
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0008160870793640823,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.004464373745577177
+            }
+          },
+          "combined/proxy_tangent": {
+            "signed_radial": {
+              "n": 188,
+              "mean": -0.000019655146376969865,
+              "median": 0.00044856921446978504,
+              "mean_abs": 0.0008906967138328586,
+              "min": -0.006858919725345913,
+              "max": 0.002662978851731168,
+              "positive_count": 140,
+              "negative_count": 48,
+              "zero_count": 0,
+              "positive_gt_1e_12": 140,
+              "negative_lt_minus1e_12": 48,
+              "l2_scalar_rows": 0.017930936324555866
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0017568435742309992,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.008040476772293914
+            }
+          },
+          "combined/proxy_ball": {
+            "signed_radial": {
+              "n": 188,
+              "mean": -0.00023213732005414618,
+              "median": 0.0008735564149304764,
+              "mean_abs": 0.0019186731369367689,
+              "min": -0.016392041579820216,
+              "max": 0.00485308499992243,
+              "positive_count": 140,
+              "negative_count": 48,
+              "zero_count": 0,
+              "positive_gt_1e_12": 140,
+              "negative_lt_minus1e_12": 48,
+              "l2_scalar_rows": 0.04104809291213026
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0031360505274491556,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.017338962439680472
+            }
+          },
+          "gradient_additivity_max_abs_error": {
+            "proxy_tangent": 3.402647053007968e-10,
+            "proxy_ball": 4.674802767112851e-10
+          }
+        },
+        "boundary297": {
+          "sample/proxy_tangent": {
+            "signed_radial": {
+              "n": 297,
+              "mean": -5.547272589519009e-36,
+              "median": 3.324444960919282e-38,
+              "mean_abs": 1.2893057101583762e-34,
+              "min": -7.23258164173937e-33,
+              "max": 6.358725018809836e-33,
+              "positive_count": 159,
+              "negative_count": 138,
+              "zero_count": 0,
+              "positive_gt_1e_12": 0,
+              "negative_lt_minus1e_12": 0,
+              "l2_scalar_rows": 1.3613643747086158e-32
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0,
+              "nonzero_rows": 0,
+              "max_row_mean_norm": 0
+            }
+          },
+          "sample/proxy_ball": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 9.737235560781622e-25,
+              "median": -5.727017370187703e-26,
+              "mean_abs": 2.7321603190299063e-24,
+              "min": -4.938316251670457e-23,
+              "max": 1.7087250960538448e-22,
+              "positive_count": 132,
+              "negative_count": 165,
+              "zero_count": 0,
+              "positive_gt_1e_12": 0,
+              "negative_lt_minus1e_12": 0,
+              "l2_scalar_rows": 2.292738273874245e-22
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 3.911005011377539e-24,
+              "nonzero_rows": 27,
+              "max_row_mean_norm": 2.7955894466203576e-22
+            }
+          },
+          "proxy/proxy_tangent": {
+            "signed_radial": {
+              "n": 297,
+              "mean": -2.526283540044245e-13,
+              "median": -4.571343303894082e-14,
+              "mean_abs": 1.2294811870079921e-12,
+              "min": -2.5553781313192303e-11,
+              "max": 1.5287326959878555e-11,
+              "positive_count": 135,
+              "negative_count": 162,
+              "zero_count": 0,
+              "positive_gt_1e_12": 42,
+              "negative_lt_minus1e_12": 59,
+              "l2_scalar_rows": 4.580887378665268e-11
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.00028270219806815993,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.002408777005484808
+            }
+          },
+          "proxy/proxy_ball": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 0.0013121152452547336,
+              "median": 0.003073177764274959,
+              "mean_abs": 0.03290854591772593,
+              "min": -0.15769178383197868,
+              "max": 0.17724519409239292,
+              "positive_count": 155,
+              "negative_count": 142,
+              "zero_count": 0,
+              "positive_gt_1e_12": 155,
+              "negative_lt_minus1e_12": 142,
+              "l2_scalar_rows": 0.7724943927333334
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.07899011551954475,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.3680515133892186
+            }
+          },
+          "combined/proxy_tangent": {
+            "signed_radial": {
+              "n": 297,
+              "mean": -2.5277189799144677e-13,
+              "median": -5.438444833361089e-14,
+              "mean_abs": 1.2296247309950144e-12,
+              "min": -2.5553781313192303e-11,
+              "max": 1.5287326959878555e-11,
+              "positive_count": 135,
+              "negative_count": 162,
+              "zero_count": 0,
+              "positive_gt_1e_12": 42,
+              "negative_lt_minus1e_12": 59,
+              "l2_scalar_rows": 4.5808908053130927e-11
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.00028270219806509765,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.002408777005484808
+            }
+          },
+          "combined/proxy_ball": {
+            "signed_radial": {
+              "n": 297,
+              "mean": 0.0013121152481945144,
+              "median": 0.003073177764274959,
+              "mean_abs": 0.03290854591478615,
+              "min": -0.15769178383197868,
+              "max": 0.17724519409239292,
+              "positive_count": 155,
+              "negative_count": 142,
+              "zero_count": 0,
+              "positive_gt_1e_12": 155,
+              "negative_lt_minus1e_12": 142,
+              "l2_scalar_rows": 0.7724943927202438
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.07899011551640898,
+              "nonzero_rows": 297,
+              "max_row_mean_norm": 0.3680515133892186
+            }
+          },
+          "gradient_additivity_max_abs_error": {
+            "proxy_tangent": 4.263256414560601e-14,
+            "proxy_ball": 8.731149137020111e-10
+          }
+        },
+        "all512": {
+          "sample/proxy_tangent": {
+            "signed_radial": {
+              "n": 512,
+              "mean": -0.000012459190452007718,
+              "median": 1.8165061140050662e-37,
+              "mean_abs": 0.00032925032570352286,
+              "min": -0.006841452304797713,
+              "max": 0.0025244994103559293,
+              "positive_count": 313,
+              "negative_count": 199,
+              "zero_count": 0,
+              "positive_gt_1e_12": 140,
+              "negative_lt_minus1e_12": 48,
+              "l2_scalar_rows": 0.017969639877044682
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.000604694981715781,
+              "nonzero_rows": 188,
+              "max_row_mean_norm": 0.008038701271289028
+            }
+          },
+          "sample/proxy_ball": {
+            "signed_radial": {
+              "n": 512,
+              "mean": -0.00009646040369992726,
+              "median": 9.668965564339228e-26,
+              "mean_abs": 0.0007093332931846774,
+              "min": -0.016350296878954396,
+              "max": 0.004600716310960706,
+              "positive_count": 289,
+              "negative_count": 223,
+              "zero_count": 0,
+              "positive_gt_1e_12": 140,
+              "negative_lt_minus1e_12": 48,
+              "l2_scalar_rows": 0.04113564597795848
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0010913237835881162,
+              "nonzero_rows": 222,
+              "max_row_mean_norm": 0.017330141563434154
+            }
+          },
+          "proxy/proxy_tangent": {
+            "signed_radial": {
+              "n": 512,
+              "mean": 0.000005242065265217031,
+              "median": -5.739165246558889e-14,
+              "mean_abs": 0.00004353032414093212,
+              "min": -0.00041332012278871844,
+              "max": 0.0011433437894083909,
+              "positive_count": 233,
+              "negative_count": 279,
+              "zero_count": 0,
+              "positive_gt_1e_12": 125,
+              "negative_lt_minus1e_12": 166,
+              "l2_scalar_rows": 0.0025626504129640172
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0003408008833349076,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.002450776930345455
+            }
+          },
+          "proxy/proxy_ball": {
+            "signed_radial": {
+              "n": 512,
+              "mean": 0.0007921603983051546,
+              "median": -3.0515347971583895e-8,
+              "mean_abs": 0.019347686952435952,
+              "min": -0.15769178383197868,
+              "max": 0.17724519409239292,
+              "positive_count": 252,
+              "negative_count": 260,
+              "zero_count": 0,
+              "positive_gt_1e_12": 252,
+              "negative_lt_minus1e_12": 260,
+              "l2_scalar_rows": 0.7735969495106549
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.04640964946098743,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.3680515133892186
+            }
+          },
+          "combined/proxy_tangent": {
+            "signed_radial": {
+              "n": 512,
+              "mean": -0.000007217124261766741,
+              "median": 6.889822913580534e-14,
+              "mean_abs": 0.00032705270039069394,
+              "min": -0.006858919725345913,
+              "max": 0.002662978851731168,
+              "positive_count": 291,
+              "negative_count": 221,
+              "zero_count": 0,
+              "positive_gt_1e_12": 183,
+              "negative_lt_minus1e_12": 108,
+              "l2_scalar_rows": 0.017930936324555866
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.0008102214300398094,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.008040476772293914
+            }
+          },
+          "combined/proxy_ball": {
+            "signed_radial": {
+              "n": 512,
+              "mean": 0.0006956999906424736,
+              "median": 0.000829837576020509,
+              "mean_abs": 0.01996103317824998,
+              "min": -0.15769178383197868,
+              "max": 0.17724519409239292,
+              "positive_count": 310,
+              "negative_count": 202,
+              "zero_count": 0,
+              "positive_gt_1e_12": 310,
+              "negative_lt_minus1e_12": 202,
+              "l2_scalar_rows": 0.7746659099448608
+            },
+            "vector_norm": {
+              "mean_of_per_batch_norms": 0.04726151103776218,
+              "nonzero_rows": 512,
+              "max_row_mean_norm": 0.3680515133892186
+            }
+          },
+          "gradient_additivity_max_abs_error": {
+            "proxy_tangent": 3.402647053007968e-10,
+            "proxy_ball": 8.731149137020111e-10
+          }
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Existing source diagnostics are frozen clean-eval FP32 CPU replay, without training augmentation, backbone forward, training BN or original CUDA Gumbel replay.",
+    "Cohorts are fixed by epoch300 identities; they are not reselected separately at each source epoch.",
+    "Ball-space gradients are pre-map partial derivatives; tangent-space gradients include expmap0 and numerical projection. Large ball radial derivatives can coexist with negligible tangent radial derivatives.",
+    "Signs of near-zero FP32 tangent radial residuals do not identify a reliable radial force.",
+    "Reported FP32 vector norm zero can result from underflow; sample gradients around1e-24 in ball space and1e-34 in tangent space are numerically negligible, not mathematically proven exactly zero.",
+    "No new actual optimizer displacement was measured; inherited AdamW moments, coordinate preconditioning and weight decay can produce motion different from plain gradient descent.",
+    "e99/e200/e300 snapshots cannot identify which loss caused the initial boundary overshoot after epoch20.",
+    "Previously failed100-step proxy-only endpoint comparison remains excluded; this join uses only completed zero-update16-batch summaries."
+  ]
+}
