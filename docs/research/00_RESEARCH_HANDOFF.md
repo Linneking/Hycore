@@ -2,6 +2,20 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## V7 single-run design requested — 2026-10-07
+
+The user chose V7: HIER from the first update with lower weight, and proxy
+initialization inside the whole median; budget is one complete e300 run,
+with other cards reserved for bounded diagnostics. The concrete proposal is
+[34](34_V7_SINGLE_RUN_PLAN_2026-10-07.md), pending review through
+[04](04_NEXT_EXPERIMENT_PLAN.md): dual-GPU global64, W0, lambda0.1,
+one-time exact proxy depth min(5,0.9*m0), retaining the V6 base protocol.
+Depth5 is not guaranteed inside an untrained whole distribution. Initial
+geometry calibration has zero optimizer updates and restores production
+BN/RNG. AdamW proxy movement need not scale proportionally with lambda.
+No new production entry point or training has been started. Historical
+first-epoch lambda0.5 recommendations below do not override this new design.
+
 ## V6-B64 completed — 2026-10-06 18:40
 
 [32: V6-B64 completed result](32_V6_BALANCED_B0_COMPLETED_2026-10-06.md) supersedes
