@@ -6,6 +6,7 @@ Public inventory values use relative names; private server paths stay local.
 from __future__ import annotations
 
 import json
+import hashlib
 import math
 from pathlib import Path
 import re
@@ -50,6 +51,16 @@ def _is_run(path: Path) -> bool:
 # Explicit alias used by checkpoint extraction without changing path rules.
 resolve_run_dir = resolve_run
 
+
+def audit_run_key(path):
+    """Public stable identity: an arm basename plus hashed parent namespace.
+
+    H20 is shared by multiple versions. Never align runs by that basename alone.
+    The private absolute path is not part of the exported identifier.
+    """
+    run = Path(path).resolve()
+    namespace = run.parent.name + "/" + run.name
+    return run.name + "_" + hashlib.sha256(namespace.encode("utf-8")).hexdigest()[:12]
 
 def read_json(path: Path, warnings: list[str] | None = None) -> dict:
     """Read a small JSON object, preserving malformed/missing as unavailable."""

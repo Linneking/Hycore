@@ -70,5 +70,16 @@ class CliIsolationTests(unittest.TestCase):
             self.assertFalse(out.exists())
 
 
+    def test_versions_with_same_arm_basename_receive_different_public_keys(self):
+        from tools.hier_postrun_audit.inventory import audit_run_key
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            old = root / "version5" / "H20"; new = root / "version6" / "H20"
+            old.mkdir(parents=True); new.mkdir(parents=True)
+            self.assertNotEqual(audit_run_key(old), audit_run_key(new))
+            self.assertEqual(audit_run_key(old), audit_run_key(old))
+            self.assertNotIn(str(root), audit_run_key(old))
+
+
 if __name__ == "__main__":
     unittest.main()

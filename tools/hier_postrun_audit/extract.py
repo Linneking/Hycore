@@ -34,7 +34,12 @@ def resolve_run(path):
 def load_cpu_checkpoint(path):
     """Only the explicitly supplied user's own run checkpoints are trusted here."""
     import torch
-    return torch.load(path, map_location="cpu", weights_only=False)
+    try:
+        return torch.load(path, map_location="cpu", weights_only=False, mmap=True)
+    except RuntimeError as exc:
+        if "mmap" not in str(exc):
+            raise
+        return torch.load(path, map_location="cpu", weights_only=False)
 
 
 def checkpoint_epoch(saved, alias=None):
@@ -102,7 +107,7 @@ def reset_inference_rng(torch_module, numpy_module, seed):
     numpy_module.random.seed(seed)
 
 
-def choose_checkpoints(run_dir, policy="standard", maximum=12, checkpoint_loader=None):
+def choose_checkpoints(run_dir, policy="standard", maximum=12, checkpoint_loader=None, epochs=None):
     run = Path(run_dir)
     manifest = json.loads((run / "manifest.json").read_text(encoding="utf-8-sig"))
     config = manifest.get("training_config", manifest.get("config", {}))
@@ -127,7 +132,13 @@ def choose_checkpoints(run_dir, policy="standard", maximum=12, checkpoint_loader
             del saved
     last_epoch = actual_aliases.get("last", max(files, default=0))
     best_epoch = actual_aliases.get("best")
-    if policy == "standard":
+    if epochs is not None:
+        tokens = [value.strip() for value in (epochs.split(",") if isinstance(epochs, str) else epochs)]
+        requested = {actual_aliases.get(value) if value in ("last", "best", "initialization") else int(value) for value in tokens}
+        missing_requested = sorted(value for value in requested if value is not None and value not in files)
+        files = {epoch: path for epoch, path in files.items() if epoch in requested}
+        manifest["requested_epochs_missing"] = missing_requested
+    elif policy == "standard":
         warmup = int(config.get("warmup_epochs", 0))
         requested = {0, 1, 5, 20, 40, 99, 100, 160, 200, last_epoch, warmup, warmup + 1}
         if best_epoch is not None:
@@ -188,11 +199,11 @@ def state_digest(state):
 
 def extract_features(run_dir, output_dir, data_dir, gpu, policy="standard", maximum=12,
                      population="panel", per_class=32, seed=22, batch_size=32,
-                     max_seconds=3600, with_pointclouds=False):
+                     max_seconds=3600, with_pointclouds=False, epochs=None):
     started = time.monotonic()
     started_utc = dt.datetime.now(dt.timezone.utc).isoformat()
     import numpy as np
-    from .inventory import resolve_run_dir
+    from .inventory import resolve_run_dir, audit_run_key
     run = resolve_run_dir(run_dir)
     out = Path(output_dir).resolve()
     if out == run or run in out.parents:
@@ -201,7 +212,7 @@ def extract_features(run_dir, output_dir, data_dir, gpu, policy="standard", maxi
         raise FileExistsError("Feature export requires a fresh output directory")
     if batch_size < 1 or per_class < 1 or maximum < 1 or max_seconds <= 0:
         raise ValueError("Invalid export budget")
-    selected, source_manifest = choose_checkpoints(run, policy, maximum)
+    selected, source_manifest = choose_checkpoints(run, policy, maximum, epochs=epochs)
     if source_manifest.get("status") != "completed":
         raise ValueError("GPU export requires a completed source run")
     uuid = idle_gpu(gpu)
@@ -381,13 +392,22 @@ def extract_features(run_dir, output_dir, data_dir, gpu, policy="standard", maxi
             np.savez_compressed(path, **cache)
             if sha256(checkpoint) != before_sha:
                 raise RuntimeError("Source checkpoint changed during read-only extraction")
-            spec = {"epoch": epoch, "cache": str(path), "c": c, "run_key": run.name,
+            spec = {"epoch": epoch, "cache": str(path), "c": c, "run_key": audit_run_key(run),
+                    "storage_run_id": run.name, "source_commit": source_commit,
+                    "version": "v" + saved["format"].split("-v")[-1].split("-")[0] if "-v" in str(saved.get("format")) else None,
+                    "display_name": source_manifest.get("canonical_experiment_name", run.name),
+                    "tau": config.get("tau", .1), "margin": config.get("margin", .1),
+                    "lambda_hier": config.get("lambda_hier_after_warmup", 0.) if epoch > config.get("warmup_epochs", 0) else 0.,
+                    "exclude_self_negative": not config.get("self_negative", False),
+                    "sample_K": config.get("sample_K", 20), "proxy_K": config.get("proxy_K", 20),
+                    "training_config": config,
                     "label": "e%d" % epoch, "sample_pool_sha256": pool_sha,
                     "input_sha256": input_sha, "input_mode": input_mode,
                     "inference_condition": inference_condition,
                     "proxy_mapping": mapping,
                     "proxy_id_policy": "stable saved parameter rows within this source run",
-                    "checkpoint_sha256": before_sha, "checkpoint_file": checkpoint.name}
+                    "checkpoint_sha256": before_sha, "checkpoint_file": checkpoint.name,
+                    "optimizer_checkpoint": str(checkpoint), "trusted_checkpoint": True}
             specs.append(spec)
             manifest["completed_checkpoint_identities"].append({"epoch": epoch, "file": checkpoint.name,
                 "sha256": before_sha, "format": saved.get("format"), "source_commit": saved.get("commit", source_commit),

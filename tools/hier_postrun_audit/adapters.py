@@ -12,7 +12,7 @@ import math
 from pathlib import Path, PureWindowsPath
 import re
 
-from .inventory import inventory_run, iter_epoch_rows, read_json, resolve_run
+from .inventory import inventory_run, iter_epoch_rows, read_json, resolve_run, audit_run_key
 
 
 def _get(value, path):
@@ -342,6 +342,13 @@ def normalize_run(path: str | Path, name: str | None = None, inventory: dict | N
                 "best": public_config(manifest.get("best")), "final_test": public_config(manifest.get("final_test"))}
     display_name, name_source = _display_name(run_dir, manifest, config, name)
     identity["display_name_source"] = name_source
+    if not identity.get("final_test"):
+        for filename in ("final_test.json", "final_selected_test.json", "official_test.json"):
+            saved_test = read_json(run_dir / filename)
+            if saved_test:
+                identity["saved_final_test"] = public_config(saved_test)
+                identity["saved_final_test_source"] = filename
+                break
     normalized = {}
     for raw, source in iter_epoch_rows(run_dir, warnings):
         raw = dict(raw)
@@ -462,7 +469,7 @@ def normalize_run(path: str | Path, name: str | None = None, inventory: dict | N
     warnings.append("Epoch activation-set overlap is training usage turnover, not retention of each proxy's nearest sample IDs; fixed-ID snapshots are required for that question.")
     if inventory["capabilities"]["training_geometry"]:
         warnings.append("Training-forward geometry is not clean fixed-panel trajectory; changing augmentation/batches/BN can change these observations.")
-    return {"schema_version": 1, "run_id": run_dir.name,
+    return {"schema_version": 1, "run_id": run_dir.name, "storage_run_id": run_dir.name, "audit_run_key": audit_run_key(run_dir),
             "display_name": display_name,
             "identity": identity, "metadata": metadata, "inventory": inventory,
             "epochs": epochs, "proxy_usage": proxy_usage, "availability": availability,

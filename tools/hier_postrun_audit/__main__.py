@@ -54,6 +54,7 @@ def arguments():
     run.add_argument("--out-dir", type=Path, required=True)
     run.add_argument("--snapshot-spec", type=Path)
     run.add_argument("--pointcloud-pool", type=Path, help="Optional existing NPZ with actual clouds/sample_ids/labels for galleries")
+    run.add_argument("--epochs", help="Explicit saved epochs/aliases, e.g. 20,100,200,best,last; missing epochs are reported")
     run.add_argument("--extract", action="store_true", help="Explicitly export clean snapshots on one idle GPU")
     run.add_argument("--allow-incomplete", action="store_true", help="Watermark an incomplete source run")
     run.add_argument("--no-plots", action="store_true", help="Explicit numerical-only export; no HTML report")
@@ -123,6 +124,8 @@ def main():
     try:
         analyses = [normalize_run(path, name=args.name if index == 0 else None, inventory=inventories[index])
                     for index, path in enumerate(paths)]
+        for item in analyses:
+            item["run_id"] = item["audit_run_key"]
         write_json(out / "normalized_runs.json", analyses)
         epoch_table(out / "epochs.csv", analyses)
         snapshots = None
@@ -133,7 +136,7 @@ def main():
                 policy=args.checkpoint_policy, maximum=args.max_checkpoints,
                 population=args.population, per_class=args.per_class, seed=args.seed,
                 batch_size=args.batch_size, max_seconds=args.max_seconds,
-                with_pointclouds=args.with_pointclouds)
+                with_pointclouds=args.with_pointclouds, epochs=args.epochs)
             specs = attach_export_usage(exported["snapshots"], analyses[0])
             manifest["export_status"] = exported["manifest"]["status"]
             pointcloud_pool = exported.get("pointcloud_pool")
