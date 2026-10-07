@@ -2,6 +2,17 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## V7-HIER64-K20-W0 completed — 2026-10-07 14:43
+
+Read-only audit16:00 confirms300x200 updates,984 validation objects per epoch,
+finite telemetry, W0/lambda0.1 and exact proxy replicas. Process exited andGPU1/2
+released. Best validation187 OA93.8008%; selected official test OA92.2204%,
+AA89.7204%,2468 objects. Actual best/last SHA256 match. Post-step parameter cap6
+holds in FP32 tolerance and proxy numerical projection count0 throughout.
+Last validationOA91.0569%, clean train98.4982%; whole depth remains near boundary.
+Single-seed historical testOA gains: +0.9724points vsV6-HIER64, +0.3647 vsV6-B64;
+testAA is lower thanV6-B64. See[37](37_V7_COMPLETED_2026-10-07.md). No new experiment.
+
 ## V7-HIER64-K20-W0 detached — 2026-10-07 02:52
 
 Explicit final decision authority received; unique300x200 run started02:48:51

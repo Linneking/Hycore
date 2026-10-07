@@ -2,6 +2,18 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## V7 completed — 2026-10-07 16:00 check
+
+V7-HIER64-K20-W0 completed300 at14:43:33 Shanghai,60000 updates; process exited,
+GPU1/2 released. Validation selected187 (OA93.8008%); its one official test is
+OA92.2204%, AA89.7204%,2468 objects. Every epoch has200 updates and984 validation
+objects, finite scalar summaries, lambda0.1 and proxy replica difference0.
+Proxy numerical projection count remains0; post-step parameter cap holds within
+FP32 tolerance. Actual best/last hashes match saved identities. e300 validation
+OA91.0569% shows late decline. Classification changes are a single-seed multi-factor
+historical comparison; whole depth still near its boundary, top4/shape checks pending.
+See[37](37_V7_COMPLETED_2026-10-07.md). No new experiment launched; below are historical snapshots.
+
 ## V7 launched under delegated decision authority — 2026-10-07 02:52
 
 The latest user explicitly delegated final V7 decisions and requested launch then exit.
