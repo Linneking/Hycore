@@ -1,0 +1,137 @@
+{
+  "schema_version": "hier-system-audit-v2-acceptance",
+  "date": "2026-10-07",
+  "status": "completed_and_reviewed",
+  "branch": "codex/hier-cross-version-audit",
+  "tested_execution_commit": "a067326adc7472cf65f0dbff68cf43bb691df51c",
+  "CPU_system_execution_commit": "7d5aba7e9c0897eff95965c03da405d04d1885f0",
+  "source_export_execution_commit": "ab6be6666404cf7fde9f9c044a03ff507781af0d",
+  "tests": {
+    "server_test_count": 151,
+    "server_passed": 151,
+    "server_failed": 0,
+    "server_skipped": 0,
+    "elapsed_seconds": 184.547,
+    "private_test_log_sha256": "6ba35086ed57c8c8b30988b45699a404bdbc26cfd50f1f0c5a984fb35d573df7",
+    "includes_real_CPU_Torch_Geoopt_VJP_equivalence": true,
+    "includes_replay_failure_and_budget_expiry_counterexamples": true,
+    "includes_immutable_sources_and_offline_link_contracts": true
+  },
+  "frozen_exports": {
+    "checkpoint_count": 31,
+    "training_objects_per_checkpoint": 8856,
+    "epochs": {
+      "V5-HIER64-K20-W20": [20, 40, 100, 160, 179, 200],
+      "V6-HIER64-K20-W20": [20, 40, 99, 100, 160, 200, 300],
+      "V7-HIER64-K20-W0": [0, 1, 5, 20, 40, 99, 100, 160, 187, 200, 300],
+      "V6-B64": [40, 99, 100, 160, 200, 231, 300]
+    },
+    "condition": "clean first1024/eval BN; inference batch32; seed22; full saved training split",
+    "same_actual_input_SHA_verified": true,
+    "input_sha256": "ef5b8b23effa61204ad7d71e32f6087b96cc5be52b41e2cedce7e4d447b1209b",
+    "stable_object_ID_label_and_pool_identity_verified": true,
+    "missing_epochs_not_fabricated": true,
+    "baseline_proxy_data_not_applicable": true
+  },
+  "controlled_extensions": {
+    "mechanism_checkpoints": 11,
+    "mechanism_query_budget": 64,
+    "Gumbel_noise_repeats": 8,
+    "shape_checkpoints": 15,
+    "shape_queries": 320,
+    "shape_queries_per_class": 8,
+    "shape_candidate_objects": 8856,
+    "shape_FPS_points": 64,
+    "shape_modes": ["native", "center_unit_rms"],
+    "object_and_class_bootstrap_repeats": 200,
+    "shape_rotation_preserved": true,
+    "cached_whole_partials_encoder_partials_and_saved_Adam_state_separated": true,
+    "cross_version_proxy_parameter_rows_not_paired": true
+  },
+  "frozen_encoder": {
+    "epoch": 200,
+    "method": "two_pass_feature_adjoint_vjp",
+    "global_objective_objects": 64,
+    "microbatch_size": 16,
+    "condition": "fixed clean crop / eval BN / original alias overwrite; distinct from frozen export and augmented training BN",
+    "same_actual_input_crop_label_model_source_conditions_verified": true,
+    "input_sha256": "8c0093c9a39d971b4e43765020ebc18088dbadc7426f4ce987dfd8ceefb04544",
+    "audit_module_sha256": "2ed6011124c9c14a94f065e6e9e3fdd0fde4ab6bcda699da8a6c97acd24f1372",
+    "replays_per_run": 8,
+    "maximum_feature_difference_all_runs": 0.0,
+    "source_checkpoints_BN_parameters_grad_buffers_inputs_and_RNG_preserved": true,
+    "measurements": [
+      {
+        "run": "V5-HIER64-K20-W20",
+        "physical_gpu": 1,
+        "checkpoint_sha256": "7702f5df0fb04e5bf722b97653bad81b2bae57ba8ef9273956071ecd72de858f",
+        "lambda_hier": 0.5,
+        "weighted_HIER_base_encoder_gradient_norm_ratio": 3.114050767878103,
+        "HIER_base_encoder_gradient_cosine": 0.2668115198612213,
+        "total_base_encoder_gradient_cosine": 0.5217066407203674,
+        "proxy_only_encoder_gradient_norm": 0.0,
+        "elapsed_seconds": 71.16931197000667,
+        "peak_allocated_MiB": 9654.52294921875
+      },
+      {
+        "run": "V6-HIER64-K20-W20",
+        "physical_gpu": 2,
+        "checkpoint_sha256": "3ed067b09505b0d0d9e1ba65eb5894c631f8a2ede0bc644dc601947851a3a41e",
+        "lambda_hier": 0.5,
+        "weighted_HIER_base_encoder_gradient_norm_ratio": 1.738457908874803,
+        "HIER_base_encoder_gradient_cosine": 0.25003358721733093,
+        "total_base_encoder_gradient_cosine": 0.6504145860671997,
+        "proxy_only_encoder_gradient_norm": 0.0,
+        "elapsed_seconds": 71.29404955403879,
+        "peak_allocated_MiB": 9676.939453125
+      },
+      {
+        "run": "V7-HIER64-K20-W0",
+        "physical_gpu": 3,
+        "checkpoint_sha256": "d145b85bcf1b20c28cee666818ac97e73b828c7365b4104ee10073834178e1dc",
+        "lambda_hier": 0.1,
+        "weighted_HIER_base_encoder_gradient_norm_ratio": 0.24155308590495597,
+        "HIER_base_encoder_gradient_cosine": 0.22179999947547913,
+        "total_base_encoder_gradient_cosine": 0.9799904823303223,
+        "proxy_only_encoder_gradient_norm": 0.0,
+        "elapsed_seconds": 71.33886388270184,
+        "peak_allocated_MiB": 9751.39306640625
+      }
+    ]
+  },
+  "delivery": {
+    "local_directory_basename": "hier_system_v2_reviewed_20261007",
+    "storage": "Private Codex visualization output; full delivery is outside Git",
+    "HTML": "report.html",
+    "public_file_count": 547,
+    "PNG_count": 257,
+    "SVG_count": 257,
+    "source_files_unchanged": true,
+    "relative_offline_links_checked_on_server_and_local": 786,
+    "missing_offline_links": 0,
+    "downloaded_public_file_hashes_verified": 546,
+    "archive_bytes": 58999272,
+    "archive_sha256": "1661d6ccda8fbf5785a5e41a028663765d3964e1d21975eddad0936b6a6a292c",
+    "representative_scientific_figures_visually_reviewed": true,
+    "weights_NPZ_full_logs_private_specs_and_raw_normalized_runs_excluded": true
+  },
+  "read_only": {
+    "optimizer_updates": 0,
+    "new_validation_forwards": 0,
+    "new_test_forwards": 0,
+    "source_results_modified": false,
+    "other_users_processes_interrupted": false,
+    "failed_probe_attempts_preserved_and_not_counted_as_success": true
+  },
+  "interpretation": {
+    "single_seed_joint_changes": true,
+    "V6_removes_degenerate_self_k_candidates_original_implementation_allowed": true,
+    "V7_numerical_saturation_fixed": true,
+    "V7_sample_ancestor_participation_increased": true,
+    "raw_nearest_four_coverage_not_recovered": true,
+    "independent_shape_benefit_over_matched_baseline_is_mixed": true,
+    "genuine_semantic_hierarchy_not_established": true,
+    "classification_gain_not_attributed_to_one_parameter": true,
+    "details": "40_HIER_SYSTEM_AUDIT_RESULTS_2026-10-07.md and hier_system_v2_20261007_interpretation.json"
+  }
+}

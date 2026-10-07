@@ -37,3 +37,7 @@ V5→V6涉及self-negative修正与训练长度；V6→V7同时改变warmup、�
 共享编码器探针保留真实global64 CE/intra/HIER与原crop alias，但固定clean/eval BN、零优化更新。直接保留所有编码器图时超过单卡内存；激活重算先因Geoopt TorchScript包装early-stop异常失败，关闭early-stop后仍因JIT重排内部保存张量触发metadata检查。三个失败尝试各留独立目录和failed状态，不将其计入完成证据；随后改用分批重放的链式VJP，保持global64目标而限制单批图的内存。CPU小模型和真实双曲算子的一致性检查不能替代真实PointMLP验收，必须待实际探针成功后才能报告编码器结论。
 
 正式判断见[40](40_HIER_SYSTEM_AUDIT_RESULTS_2026-10-07.md)，精简公开证据见[interpretation JSON](diagnostics/hier_system_v2_20261007_interpretation.json)。原始导出、模型、全日志及完整报告不入Git。
+
+最终验收使用代码`a067326adc7472cf65f0dbff68cf43bb691df51c`：服务器完整151项测试全部通过、无跳过（184.547秒）。三个e200真实编码器r4探针全部完成（71.17/71.29/71.34秒），每个8次重放、最大特征误差0；显存峰值9654.52/9676.94/9751.39 MiB。source checkpoint不变，优化器更新及新增validation/test前向均为0。
+
+`delivery`生成新公共目录，不修改已经完成的CPU系统报告或失败尝试。3个成功探针的真实有序64对象、标签、输入SHA、裁剪中心、seed、eval条件和模型实现SHA一致；所有786个离线相对文件链接有效。最终257组PNG/SVG包括实际点云四例、代理ID热图、径向分布、形态对照和真实共享编码器梯度。公共交付不包含模型、NPZ、完整日志、私有工作spec或原始normalized runs。

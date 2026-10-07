@@ -66,7 +66,7 @@ Modules: `longitudinal.py` (censored dormancy, reactivation, cumulative usage), 
 
 Shape queries use both original coordinates and centered unit RMS, keep rotations, and use deterministic FPS64. Class purity is auxiliary, neither geometric validation nor a genuine hierarchy proof. Generalization conclusions use existing saved final test only. This single-seed historical comparison changes several parameters, so benefits are joint observations rather than isolated causal effects.
 
-Tests (CPU, no model/GPU):
+Tests (CPU; no production checkpoint or GPU required):
 ```bash
 python -m unittest discover -s tools/hier_postrun_audit/tests -v
 ```
@@ -85,6 +85,10 @@ python -m tools.hier_postrun_audit backbone \
 The global objective uses the same ordered64 training objects and the actual
 HyCoRe crop alias, CE/intra and versioned HIER operators. Microbatches limit
 encoder memory under eval BN; they do not change the global64 mining/loss.
+The default stages features without retaining encoder graphs, calculates global
+feature adjoints, then replays one child/whole microbatch at a time and accumulates
+the actual parameter VJP. Saved forward RNG and feature equality are checked
+before success. It avoids activation-checkpoint hooks across scripted geometry.
 The probe preserves parameters, BN buffers, existing gradients, inputs and RNG,
 records input/crop identity, and performs no optimizer step. This condition is
 different from both clean first1024 export and augmented training BN. Failed

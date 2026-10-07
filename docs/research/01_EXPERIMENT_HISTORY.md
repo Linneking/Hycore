@@ -10,6 +10,10 @@ V6采样纠错已验证，V7 e300数值饱和323→0、样本祖先188→267；r
 覆盖28→27，形态收益未持续全面超过B64。源数据不变、零优化更新、不新增
 validation/test前向。结果和判读见[40](40_HIER_SYSTEM_AUDIT_RESULTS_2026-10-07.md)，
 公开精简证据见[JSON](diagnostics/hier_system_v2_20261007_interpretation.json)。
+最终151项服务器测试全部通过、无skip；三版e200真实编码器探针的8次重放
+误差均0。V7加权HIER/base参数梯度比约0.242，V6约1.738，属于固定eval
+条件观察。257组PNG/SVG及786个离线链接经本地/服务器校验；验收记录见
+[v2 acceptance](diagnostics/results/20261007_hier_system_audit_v2_acceptance.json)。
 下述v1接收记录保留为历史阶段，当前能力与结论以v2为准。
 
 Implemented `tools/hier_postrun_audit/` and[38](38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md).

@@ -15,6 +15,12 @@ sample ancestor usage. Raw top4 coverage remains concentrated, and independent
 shape gains over B64 are mixed. Training/eval geometry, retrieval/actual ancestors,
 cached partials/shared encoder gradients/Adam state have separate meanings.
 No source results were changed, no optimizer update or new test forward was made.
+Final151 server tests passed without skips. Three real e200 shared-encoder probes
+passed exact feature replay on the same64 objects/crops. V7's weighted HIER/base
+gradient norm ratio is0.242 versus V6's1.738 under this fixed eval condition;
+this does not establish actual Adam displacement or isolated training causality.
+Acceptance is recorded in
+[v2 acceptance](diagnostics/results/20261007_hier_system_audit_v2_acceptance.json).
 The following completion/status entries are historical; geometry findings in40
 supersede their pending top4/shape statements.
 
