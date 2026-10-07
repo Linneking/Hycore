@@ -102,6 +102,8 @@ def analyze(repo,cache,normalized,output,epoch=300):
     if len(np.unique(ids))!=len(ids):raise ValueError('Repeated candidate ID')
     proxy=expmap0(a['proxy_tangent'][po],1,numeric_radius_fraction=.999)
     wg,pg=ball_geometry(whole,1),ball_geometry(proxy,1)
+    if not wg['direction_defined'].all() or not pg['direction_defined'].all():
+        raise ValueError('Equal-radius/direction control needs nonzero whole and proxy directions')
     logs=json.loads(Path(normalized).read_text())
     if len(logs)!=1:raise ValueError('Exactly one normalized run required')
     log=logs[0]
