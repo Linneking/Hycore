@@ -53,7 +53,7 @@ def _format(value):
     return _escape(value)
 
 
-def _availability(analysis, snapshots, figures=None):
+def _availability(analysis, snapshots, figures=None, extensions=None):
     entries = []
     for record in analysis.get("availability", []):
         sources = record.get("source", "")
@@ -72,17 +72,20 @@ def _availability(analysis, snapshots, figures=None):
     baseline = proxy_disabled and no_proxy_observations
     run_id = analysis.get("run_id")
     snapshot_rows = [row for row in (snapshots or {}).get("snapshots", []) if row.get("run_key", row.get("run_id")) == run_id]
+    extensions = extensions or {}
+    mechanism_rows = [row for row in (extensions.get("mechanisms") or {}).get("snapshots", []) if row.get("run_key") == run_id]
+    shape_rows = [row for row in (extensions.get("structure") or {}).get("snapshots", []) if row.get("run_key") == run_id]
     observed = {
         "whole depth": any(k.startswith("whole_depth") for k in keys),
         "proxy depth": any(k.startswith("proxy_depth") for k in keys),
         "projection": any(any(token in k for token in ("projection", "overcap", "over_cap", "cap_hit", "numerical_saturation")) for k in keys),
         "sample usage": any(r.get("component") == "sample" for r in usage),
         "noncollision": any(r.get("domain") in ("noncollision", "active_noncollision") for r in usage),
-        "gradient activation": any("grad_active" in k or "gradient_active" in k for k in keys),
+        "gradient activation": any("grad_active" in k or "gradient_active" in k for k in keys) or any(row.get("gradient_summaries") for row in mechanism_rows),
         "fixed snapshots": bool(snapshot_rows),
         "retrieval": any(row.get("retrieval", {}).get("available") for row in snapshot_rows),
-        "controlled stability": bool(analysis.get("controlled_stability")),
-        "independent structure": bool(analysis.get("independent_structure")),
+        "controlled stability": bool(analysis.get("controlled_stability")) or any(row.get("components") for row in mechanism_rows),
+        "independent structure": bool(analysis.get("independent_structure")) or bool(shape_rows),
         "object thumbnails": any(figure.get("kind") == "object_gallery" and figure.get("run_id") == run_id for figure in (figures or [])),
     }
     existing = {str(entry["metric"]).lower() for entry in entries}
@@ -172,7 +175,7 @@ def render_report(analyses, snapshots, output_dir, extensions=None):
             cells.extend(_format(row.get("metrics", {}).get(key)) for key in primary)
             rows.append(f'<tr data-epoch="{_escape(row.get("epoch", ""))}">' + "".join("<td>" + cell + "</td>" for cell in cells) + "</tr>")
         epoch_tables.append(f'<section class="run-section" data-run="{_escape(run_id)}"><h3>{_escape(display)}: saved epoch table</h3><p><a href="tables/{html.escape(table_file.name)}">All scalar fields (CSV)</a>{temporal_link}</p><div class="table-scroll"><table><thead><tr>' + "".join("<th>" + _escape(h) + "</th>" for h in heads) + "</tr></thead><tbody>" + "".join(rows) + "</tbody></table></div></section>")
-        entries = _availability(analysis, snapshots, figures)
+        entries = _availability(analysis, snapshots, figures, extensions)
         availability_tables.append(f'<section class="run-section" data-run="{_escape(run_id)}"><h3>{_escape(display)}: availability</h3><div class="table-scroll"><table><thead><tr><th>Observation</th><th>Status</th><th>Source</th><th>Reason / limits</th></tr></thead><tbody>' + "".join(f'<tr><td>{_escape(e["metric"])}</td><td class="{_escape(e["status"])}">{_escape(e["status"])}</td><td>{_escape(e["source"])}</td><td>{_escape(e["reason"])}</td></tr>' for e in entries) + "</tbody></table></div></section>")
         identity_text = "; ".join(key + "=" + str(value) for key, value in public["identity"].items()) or "Identity metadata missing"
         metadata_text = "; ".join(key + "=" + str(value) for key, value in public["metadata"].items())
@@ -189,9 +192,9 @@ def render_report(analyses, snapshots, output_dir, extensions=None):
             selection = row.get("selection", {})
             values = [row.get("display_name", row.get("run_key"))] + [selection.get(key) for key in selection_fields]
             overview.append('<tr>' + ''.join('<td>'+_format(v)+'</td>' for v in values) + '</tr>')
-        overview.append('</tbody></table></div><p>Correctness, protocol, geometry and classification effects are recorded separately in the <a href="comparison/comparison_benefit_ledger.csv">benefit ledger</a>. Single-seed historical comparisons with multiple parameter changes describe joint outcomes.</p></section>')
+        overview.append('</tbody></table></div><p>Correctness, protocol, geometry and classification effects are recorded separately in the <a href="comparison_benefit_ledger.csv">benefit ledger</a>. Single-seed historical comparisons with multiple parameter changes describe joint outcomes.</p></section>')
     module_links = []
-    for key, relative in (("longitudinal", "longitudinal/longitudinal_summary.json"), ("mechanisms", "mechanisms/mechanism_summary.json"), ("structure", "structure/structure_summary.json"), ("comparison", "comparison/comparison_summary.json"), ("backbone", "backbone/backbone_summary.json")):
+    for key, relative in (("longitudinal", "longitudinal_summary.json"), ("mechanisms", "mechanisms/mechanism_summary.json"), ("structure", "structure/structure_summary.json"), ("comparison", "comparison_summary.json"), ("backbone", "backbone/backbone_summary.json"), ("redundancy", "redundancy/redundancy_summary.json")):
         result = extensions.get(key)
         if result is not None:
             status = result.get("status", "measured")
