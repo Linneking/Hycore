@@ -121,7 +121,7 @@ def main():
     manifest_path = out / "audit_manifest.json"
     write_json(manifest_path, manifest)
     try:
-        analyses = [normalize_run(path, name=args.name if index == 0 else None)
+        analyses = [normalize_run(path, name=args.name if index == 0 else None, inventory=inventories[index])
                     for index, path in enumerate(paths)]
         write_json(out / "normalized_runs.json", analyses)
         epoch_table(out / "epochs.csv", analyses)

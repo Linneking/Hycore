@@ -308,10 +308,11 @@ def _display_name(run_dir, manifest, config, explicit_name=None):
     return arm, "unresolved storage identifier; no global alias guessing"
 
 
-def normalize_run(path: str | Path, name: str | None = None) -> dict:
+def normalize_run(path: str | Path, name: str | None = None, inventory: dict | None = None) -> dict:
     """Normalize a run into small public scalar/usage summaries for reports."""
     run_dir = resolve_run(path)
-    inventory = inventory_run(run_dir)
+    if inventory is None:
+        inventory = inventory_run(run_dir)
     warnings = list(inventory["warnings"])
     manifest = read_json(run_dir / "manifest.json", warnings)
     config = {**(manifest.get("fixed") or {}), **(manifest.get("training_config") or manifest.get("config") or {})}

@@ -128,7 +128,16 @@ def _decorate(ax, rows, metadata, ylabel):
 def _legend(ax):
     handles, labels = ax.get_legend_handles_labels()
     if handles:
-        ax.legend(handles, labels, fontsize=8, loc="best")
+        # Keep explanatory labels outside the observations, particularly when
+        # many source-defined hierarchy fields share a panel.
+        compact = []
+        for label in labels:
+            label = label.replace("active noncollision", "live hinge").replace("all draws", "all")
+            label = label.replace("effective proxy count", "effective IDs").replace("used proxy count", "used IDs")
+            label = label.replace("positive fraction", "+ fraction").replace("negative fraction", "− fraction")
+            compact.append(label)
+        ax.legend(handles, compact, fontsize=8, loc="upper center", bbox_to_anchor=(0.5, -0.20),
+                  ncol=2 if len(handles) > 1 else 1, frameon=False)
 
 
 def save_figures(analyses, snapshots, output_dir):
@@ -244,7 +253,6 @@ def save_figures(analyses, snapshots, output_dir):
         for stem, predicate, title, ylabel, note in [
             ("boundary_fractions", lambda k: any(w in k for w in ("boundary", "saturation", "projection", "over_cap", "overcap", "cap_hit")) and any(w in k for w in ("fraction", "share", "ratio")), "Boundary / projection fractions", "Recorded fraction", "Coordinate boundary proximity, forward projection and parameter cap events are different mechanisms; field names retain these definitions."),
             ("boundary_counts", lambda k: any(w in k for w in ("boundary", "saturation", "projection", "over_cap", "overcap", "cap_hit")) and any(w in k for w in ("count", "events")), "Boundary / constraint event counts", "Recorded count", "Repeated per-step cap events can exceed the number of distinct proxies. A missing count is never interpreted as zero."),
-            ("proxy_activation", lambda k: ("proxy" in k and any(w in k for w in ("used", "effective", "live_hinge", "gradient_active", "grad_active"))) and "count" in k and "norm" not in k, "Proxy usage and activation", "Count / effective count", "Hard-selected, noncollision-selected, live-hinge and nonzero-gradient proxies have distinct definitions; absent definitions remain unavailable."),
             ("proxy_usage_fractions", lambda k: "proxy" in k and "used" in k and "fraction" in k, "Proxy usage fractions", "Fraction of proxy IDs", "Fractions retain their all-draw/noncollision/live-hinge selection definition; they are not gradient-active fractions."),
             ("triplet_health", lambda k: (k.startswith("sample_") or k.startswith("proxy_")) and any(w in k for w in ("collision_fraction", "active_fraction", "active_noncollision_fraction", "self_k_fraction", "repeat_fraction", "cross_class_j_fraction")), "Triplet validity and activation", "Recorded fraction", "Proxy collision, equal object identity and a positive hinge are distinct conditions. A zero collision-masked loss does not imply a satisfied hierarchy."),
             ("relation_coverage", lambda k: (k.startswith("sample_") or k.startswith("proxy_")) and any(w in k for w in ("anchor_coverage", "candidate_triplet_coverage", "any_role_position_coverage", "eligible_training_fraction")), "Training relation coverage", "Recorded fraction", "Training role coverage describes sampled relations; repeated augmentation or class-balanced draws do not imply unique full-dataset coverage."),
@@ -257,6 +265,33 @@ def save_figures(analyses, snapshots, output_dir):
                 subset = keys[offset:offset + 9]
                 lines(stem + ("_" + str(offset // 9 + 1) if len(keys) > 9 else ""), title,
                       [(k, k.replace("_", " ")) for k in subset], ylabel, note)
+        for component in ("sample", "proxy"):
+            canonical = []
+            for domain, label, color in (("all_draws", "All hard selections", "#2563eb"),
+                                         ("noncollision", "Noncollision", "#dc2626"),
+                                         ("active_noncollision", "Live hinge", "#059669")):
+                for measure, suffix, style in (("used_proxy_count", "used IDs", "-"),
+                                               ("effective_proxy_count", "effective IDs", "--")):
+                    key = component + "_" + domain + "_" + measure
+                    if _has(rows, key):
+                        canonical.append((key, label + ": " + suffix, color, style))
+            if canonical:
+                fig, ax = plt.subplots(figsize=(9, 5.1))
+                for key, label, color, style in canonical:
+                    values = _series(rows, key)
+                    ax.plot(epochs, values, label=label, color=color, linestyle=style, linewidth=1.3,
+                            marker="." if any(not math.isfinite(v) for v in values) else None, markersize=4)
+                ax.set_title(f"{display}: {component} ancestor proxy activation")
+                _decorate(ax, rows, metadata, "Proxy IDs / effective number")
+                _legend(ax)
+                save(fig, run_id, component + "_proxy_activation", component.title() + " ancestor proxy activation",
+                     "Solid: distinct hard-selected proxy IDs. Dashed: exp(entropy) effective number from the same domain's counts. All draws, noncollision draws and positive-hinge noncollision draws are separate definitions. Missing domains are omitted, not zero; duplicate all-draw aliases are excluded.")
+            else:
+                fallback = [(component + "_used_proxy_count", "Stored used-ID count"),
+                            (component + "_effective_proxy_count", "Stored effective count")]
+                lines(component + "_proxy_activation_stored", component.title() + " proxy activation (stored definition)",
+                      fallback, "Stored count / effective number",
+                      "Canonical all-draw/noncollision/live-hinge counts were not saved. These fallback fields retain their stored definition; they are not assigned a missing activation domain.")
         lines("proxy_parameters", "Saved proxy tangent parameters", [("proxy_tangent_norm_mean", "Mean parameter norm"), ("proxy_tangent_norm_max", "Maximum parameter norm"),
               ("proxy_parameter_median_tangent_norm_mean", "Mean of post-cap batch medians"), ("proxy_parameter_max_tangent_norm_mean", "Mean of post-cap batch maxima"),
               ("proxy_parameter_max_tangent_norm", "Maximum observed post-cap parameter norm")], "Euclidean tangent parameter norm",

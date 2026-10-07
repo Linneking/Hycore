@@ -195,6 +195,8 @@ def extract_features(run_dir, output_dir, data_dir, gpu, policy="standard", maxi
     from .inventory import resolve_run_dir
     run = resolve_run_dir(run_dir)
     out = Path(output_dir).resolve()
+    if out == run or run in out.parents:
+        raise ValueError("Feature export output must be outside its source run directory")
     if out.exists():
         raise FileExistsError("Feature export requires a fresh output directory")
     if batch_size < 1 or per_class < 1 or maximum < 1 or max_seconds <= 0:

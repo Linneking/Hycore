@@ -98,5 +98,17 @@ class ExtractContractTests(unittest.TestCase):
         fake_numpy.random.seed.assert_called_once_with(22)
 
 
+    def test_export_cannot_create_files_inside_the_source_even_when_called_directly(self):
+        from tools.hier_postrun_audit.extract import extract_features
+        with tempfile.TemporaryDirectory() as folder:
+            run = Path(folder) / "source"
+            run.mkdir()
+            (run / "manifest.json").write_text('{"status":"completed"}')
+            (run / "metrics.jsonl").touch()
+            with self.assertRaisesRegex(ValueError, "outside"):
+                extract_features(run, run / "audit", Path(folder), 0)
+            self.assertFalse((run / "audit").exists())
+
+
 if __name__ == "__main__":
     unittest.main()
