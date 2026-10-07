@@ -2,6 +2,15 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## Post-training audit method — 2026-10-07
+
+The user requested a reusable full-system HIER audit rather than isolated endpoint checks.
+See[38](38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md) and `tools/hier_postrun_audit/`.
+The first implementation reads versioned epoch logs on CPU, reports missing fields,
+and supports explicitly supplied fixed-input snapshots and opt-in clean GPU export.
+Training usage, live hinges, nearest-object retention and independent shape validation
+have separate definitions. No new training or GPU replay is automatically launched.
+
 ## V7 completed — 2026-10-07 16:00 check
 
 V7-HIER64-K20-W0 completed300 at14:43:33 Shanghai,60000 updates; process exited,
