@@ -1,0 +1,1576 @@
+{
+  "schema": "hier_hotspot_depth_audit_v1",
+  "epoch": 300,
+  "started_utc": "2026-10-07T17:02:56.293632+00:00",
+  "identity": {
+    "cache_sha256": "6a6ffb32b55c647ab0f5004f9ea306fa4cbc739199fe48bd295c806053902cfd",
+    "cache_file": "e300_whole_cache.npz",
+    "normalized_sha256": "c1e3d7e8fe00fa7324fc2c63e4784f30967c53368f82183a4388a3b1166a1551",
+    "input_sha256": "ef5b8b23effa61204ad7d71e32f6087b96cc5be52b41e2cedce7e4d447b1209b",
+    "code_commit": "9cb3a299780ed0902eae3d47ee7084b428c74c07",
+    "script_sha256": "6865e1b6ab0590f6327459ddea8d52c0847854081c71c6d976ad36804e00fdfc",
+    "run_key": "V7_HIER64_K20_W0_98dedcccba91"
+  },
+  "protocol": {
+    "c": 1,
+    "seed": 22,
+    "candidate_count": 8856,
+    "proxy_count": 512,
+    "display_topk": 4,
+    "retrieval": "full geodesic ranking, no label boost/prefilter",
+    "GPU": null,
+    "teacher": null,
+    "activation_scope": "same epoch sample noncollision combined hard ancestors",
+    "input_condition": "clean first1024/eval BN; seed=22; batch_size=32; FPS=pointnet2_index0_source"
+  },
+  "controls": {
+    "whole_equal_median": {
+      "target_whole_depth": 4.807996128146467,
+      "proxies_unchanged": true,
+      "whole_directions_unchanged": true,
+      "exact_top4_agreement_with_direction": 1.0,
+      "retrieval": {
+        "proxy_count": 512,
+        "slot_count": 2048,
+        "covered_sample_count": 221,
+        "unique_quartets": 207,
+        "max_repeated_quartet": 45,
+        "top_four_sample_slot_share": 0.28076171875,
+        "groups": {
+          "sample_used": {
+            "proxy_count": 267,
+            "covered_sample_count": 172,
+            "distinct_quartets": 116,
+            "max_repeated_quartet": 17
+          },
+          "sample_inactive": {
+            "proxy_count": 245,
+            "covered_sample_count": 63,
+            "distinct_quartets": 92,
+            "max_repeated_quartet": 45
+          },
+          "shallow_depth_le3": {
+            "proxy_count": 267,
+            "covered_sample_count": 172,
+            "distinct_quartets": 116,
+            "max_repeated_quartet": 17
+          },
+          "deep_depth_ge5": {
+            "proxy_count": 189,
+            "covered_sample_count": 45,
+            "distinct_quartets": 82,
+            "max_repeated_quartet": 45
+          }
+        },
+        "leading_quartets": [
+          {
+            "count": 45,
+            "proxy_depth": {
+              "n": 45,
+              "min": 5.161272138269246,
+              "median": 5.948204392206471,
+              "max": 5.998222294145618,
+              "mean": 5.918109614593355,
+              "std_population": 0.1280208978744799
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 45,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 45,
+            "extreme_proxy_pair": {
+              "min_depth": 5.161272138269246,
+              "max_depth": 5.998222294145618,
+              "depth_gap": 0.8369501558763721,
+              "angular_separation_deg": 20.86107942668323
+            },
+            "anonymous_quartet_rank": 1
+          },
+          {
+            "count": 33,
+            "proxy_depth": {
+              "n": 33,
+              "min": 4.084202187126757,
+              "median": 4.78798445854536,
+              "max": 5.952952755862857,
+              "mean": 4.768582038786852,
+              "std_population": 0.3684475154275707
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 33,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 2,
+            "extreme_proxy_pair": {
+              "min_depth": 4.084202187126757,
+              "max_depth": 5.952952755862857,
+              "depth_gap": 1.8687505687361003,
+              "angular_separation_deg": 15.655655493282646
+            },
+            "anonymous_quartet_rank": 2
+          },
+          {
+            "count": 17,
+            "proxy_depth": {
+              "n": 17,
+              "min": 2.1750400428234222,
+              "median": 2.2334883046110185,
+              "max": 2.291364358074519,
+              "mean": 2.2362253795828386,
+              "std_population": 0.030154124972219233
+            },
+            "sample_used_proxy_count": 17,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 17,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.1750400428234222,
+              "max_depth": 2.291364358074519,
+              "depth_gap": 0.11632431525109688,
+              "angular_separation_deg": 45.35139117908988
+            },
+            "anonymous_quartet_rank": 3
+          },
+          {
+            "count": 16,
+            "proxy_depth": {
+              "n": 16,
+              "min": 2.2403130297871856,
+              "median": 2.303281151997023,
+              "max": 2.323868761012142,
+              "mean": 2.292644980901496,
+              "std_population": 0.027577295967354514
+            },
+            "sample_used_proxy_count": 16,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 16,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2403130297871856,
+              "max_depth": 2.323868761012142,
+              "depth_gap": 0.08355573122495619,
+              "angular_separation_deg": 21.027623444205165
+            },
+            "anonymous_quartet_rank": 4
+          },
+          {
+            "count": 12,
+            "proxy_depth": {
+              "n": 12,
+              "min": 2.1660205108179196,
+              "median": 2.2747558950279876,
+              "max": 2.29952258144543,
+              "mean": 2.254081205567952,
+              "std_population": 0.04530436924467031
+            },
+            "sample_used_proxy_count": 12,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 12,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.1660205108179196,
+              "max_depth": 2.29952258144543,
+              "depth_gap": 0.13350207062751052,
+              "angular_separation_deg": 6.798760042603848
+            },
+            "anonymous_quartet_rank": 5
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.170904014687702,
+              "median": 2.234185417889836,
+              "max": 2.2573289555861225,
+              "mean": 2.23031061665383,
+              "std_population": 0.022140976303866966
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.170904014687702,
+              "max_depth": 2.2573289555861225,
+              "depth_gap": 0.08642494089842057,
+              "angular_separation_deg": 6.47666330823742
+            },
+            "anonymous_quartet_rank": 6
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.433816193633777,
+              "median": 2.461101010939414,
+              "max": 2.552216199368035,
+              "mean": 2.475257026679525,
+              "std_population": 0.03581714299829329
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.433816193633777,
+              "max_depth": 2.552216199368035,
+              "depth_gap": 0.1184000057342578,
+              "angular_separation_deg": 8.441176752882866
+            },
+            "anonymous_quartet_rank": 7
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.408810770953557,
+              "median": 2.454490839357142,
+              "max": 2.527194188380217,
+              "mean": 2.4559451058040125,
+              "std_population": 0.02776609183748103
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.408810770953557,
+              "max_depth": 2.527194188380217,
+              "depth_gap": 0.11838341742666003,
+              "angular_separation_deg": 9.45339739616735
+            },
+            "anonymous_quartet_rank": 8
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.2690379875200297,
+              "median": 2.3076765145376954,
+              "max": 2.3507817082637805,
+              "mean": 2.3053686698901332,
+              "std_population": 0.028956087254644762
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2690379875200297,
+              "max_depth": 2.3507817082637805,
+              "depth_gap": 0.0817437207437508,
+              "angular_separation_deg": 5.3796258703398445
+            },
+            "anonymous_quartet_rank": 9
+          },
+          {
+            "count": 10,
+            "proxy_depth": {
+              "n": 10,
+              "min": 2.2660813669292716,
+              "median": 2.2909490880975523,
+              "max": 2.3102402768926433,
+              "mean": 2.2911893910707866,
+              "std_population": 0.013203338998107227
+            },
+            "sample_used_proxy_count": 10,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 10,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2660813669292716,
+              "max_depth": 2.3102402768926433,
+              "depth_gap": 0.044158909963371684,
+              "angular_separation_deg": 7.383568757370306
+            },
+            "anonymous_quartet_rank": 10
+          },
+          {
+            "count": 9,
+            "proxy_depth": {
+              "n": 9,
+              "min": 5.940921948367907,
+              "median": 5.946490461401673,
+              "max": 5.980240882512719,
+              "mean": 5.952027249721437,
+              "std_population": 0.012261948173369813
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 9,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 9,
+            "extreme_proxy_pair": {
+              "min_depth": 5.940921948367907,
+              "max_depth": 5.980240882512719,
+              "depth_gap": 0.03931893414481191,
+              "angular_separation_deg": 16.879715343460546
+            },
+            "anonymous_quartet_rank": 11
+          },
+          {
+            "count": 7,
+            "proxy_depth": {
+              "n": 7,
+              "min": 2.2600438012663187,
+              "median": 3.3982664003550185,
+              "max": 3.4094155568569318,
+              "mean": 3.1728479627321406,
+              "std_population": 0.40627562805561496
+            },
+            "sample_used_proxy_count": 2,
+            "sample_inactive_proxy_count": 5,
+            "shallow_depth_le3_count": 2,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2600438012663187,
+              "max_depth": 3.4094155568569318,
+              "depth_gap": 1.149371755590613,
+              "angular_separation_deg": 39.05920919345096
+            },
+            "anonymous_quartet_rank": 12
+          }
+        ],
+        "quartets_with_proxy_depth_span_ge2": 0,
+        "quartets_with_proxy_depth_span_ge3": 0
+      }
+    },
+    "whole_equal_depth2": {
+      "target_whole_depth": 2.0,
+      "proxies_unchanged": true,
+      "whole_directions_unchanged": true,
+      "exact_top4_agreement_with_direction": 1.0,
+      "retrieval": {
+        "proxy_count": 512,
+        "slot_count": 2048,
+        "covered_sample_count": 221,
+        "unique_quartets": 207,
+        "max_repeated_quartet": 45,
+        "top_four_sample_slot_share": 0.28076171875,
+        "groups": {
+          "sample_used": {
+            "proxy_count": 267,
+            "covered_sample_count": 172,
+            "distinct_quartets": 116,
+            "max_repeated_quartet": 17
+          },
+          "sample_inactive": {
+            "proxy_count": 245,
+            "covered_sample_count": 63,
+            "distinct_quartets": 92,
+            "max_repeated_quartet": 45
+          },
+          "shallow_depth_le3": {
+            "proxy_count": 267,
+            "covered_sample_count": 172,
+            "distinct_quartets": 116,
+            "max_repeated_quartet": 17
+          },
+          "deep_depth_ge5": {
+            "proxy_count": 189,
+            "covered_sample_count": 45,
+            "distinct_quartets": 82,
+            "max_repeated_quartet": 45
+          }
+        },
+        "leading_quartets": [
+          {
+            "count": 45,
+            "proxy_depth": {
+              "n": 45,
+              "min": 5.161272138269246,
+              "median": 5.948204392206471,
+              "max": 5.998222294145618,
+              "mean": 5.918109614593355,
+              "std_population": 0.1280208978744799
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 45,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 45,
+            "extreme_proxy_pair": {
+              "min_depth": 5.161272138269246,
+              "max_depth": 5.998222294145618,
+              "depth_gap": 0.8369501558763721,
+              "angular_separation_deg": 20.86107942668323
+            },
+            "anonymous_quartet_rank": 1
+          },
+          {
+            "count": 33,
+            "proxy_depth": {
+              "n": 33,
+              "min": 4.084202187126757,
+              "median": 4.78798445854536,
+              "max": 5.952952755862857,
+              "mean": 4.768582038786852,
+              "std_population": 0.3684475154275707
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 33,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 2,
+            "extreme_proxy_pair": {
+              "min_depth": 4.084202187126757,
+              "max_depth": 5.952952755862857,
+              "depth_gap": 1.8687505687361003,
+              "angular_separation_deg": 15.655655493282646
+            },
+            "anonymous_quartet_rank": 2
+          },
+          {
+            "count": 17,
+            "proxy_depth": {
+              "n": 17,
+              "min": 2.1750400428234222,
+              "median": 2.2334883046110185,
+              "max": 2.291364358074519,
+              "mean": 2.2362253795828386,
+              "std_population": 0.030154124972219233
+            },
+            "sample_used_proxy_count": 17,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 17,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.1750400428234222,
+              "max_depth": 2.291364358074519,
+              "depth_gap": 0.11632431525109688,
+              "angular_separation_deg": 45.35139117908988
+            },
+            "anonymous_quartet_rank": 3
+          },
+          {
+            "count": 16,
+            "proxy_depth": {
+              "n": 16,
+              "min": 2.2403130297871856,
+              "median": 2.303281151997023,
+              "max": 2.323868761012142,
+              "mean": 2.292644980901496,
+              "std_population": 0.027577295967354514
+            },
+            "sample_used_proxy_count": 16,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 16,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2403130297871856,
+              "max_depth": 2.323868761012142,
+              "depth_gap": 0.08355573122495619,
+              "angular_separation_deg": 21.027623444205165
+            },
+            "anonymous_quartet_rank": 4
+          },
+          {
+            "count": 12,
+            "proxy_depth": {
+              "n": 12,
+              "min": 2.1660205108179196,
+              "median": 2.2747558950279876,
+              "max": 2.29952258144543,
+              "mean": 2.254081205567952,
+              "std_population": 0.04530436924467031
+            },
+            "sample_used_proxy_count": 12,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 12,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.1660205108179196,
+              "max_depth": 2.29952258144543,
+              "depth_gap": 0.13350207062751052,
+              "angular_separation_deg": 6.798760042603848
+            },
+            "anonymous_quartet_rank": 5
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.170904014687702,
+              "median": 2.234185417889836,
+              "max": 2.2573289555861225,
+              "mean": 2.23031061665383,
+              "std_population": 0.022140976303866966
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.170904014687702,
+              "max_depth": 2.2573289555861225,
+              "depth_gap": 0.08642494089842057,
+              "angular_separation_deg": 6.47666330823742
+            },
+            "anonymous_quartet_rank": 6
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.433816193633777,
+              "median": 2.461101010939414,
+              "max": 2.552216199368035,
+              "mean": 2.475257026679525,
+              "std_population": 0.03581714299829329
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.433816193633777,
+              "max_depth": 2.552216199368035,
+              "depth_gap": 0.1184000057342578,
+              "angular_separation_deg": 8.441176752882866
+            },
+            "anonymous_quartet_rank": 7
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.408810770953557,
+              "median": 2.454490839357142,
+              "max": 2.527194188380217,
+              "mean": 2.4559451058040125,
+              "std_population": 0.02776609183748103
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.408810770953557,
+              "max_depth": 2.527194188380217,
+              "depth_gap": 0.11838341742666003,
+              "angular_separation_deg": 9.45339739616735
+            },
+            "anonymous_quartet_rank": 8
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.2690379875200297,
+              "median": 2.3076765145376954,
+              "max": 2.3507817082637805,
+              "mean": 2.3053686698901332,
+              "std_population": 0.028956087254644762
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2690379875200297,
+              "max_depth": 2.3507817082637805,
+              "depth_gap": 0.0817437207437508,
+              "angular_separation_deg": 5.3796258703398445
+            },
+            "anonymous_quartet_rank": 9
+          },
+          {
+            "count": 10,
+            "proxy_depth": {
+              "n": 10,
+              "min": 2.2660813669292716,
+              "median": 2.2909490880975523,
+              "max": 2.3102402768926433,
+              "mean": 2.2911893910707866,
+              "std_population": 0.013203338998107227
+            },
+            "sample_used_proxy_count": 10,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 10,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2660813669292716,
+              "max_depth": 2.3102402768926433,
+              "depth_gap": 0.044158909963371684,
+              "angular_separation_deg": 7.383568757370306
+            },
+            "anonymous_quartet_rank": 10
+          },
+          {
+            "count": 9,
+            "proxy_depth": {
+              "n": 9,
+              "min": 5.940921948367907,
+              "median": 5.946490461401673,
+              "max": 5.980240882512719,
+              "mean": 5.952027249721437,
+              "std_population": 0.012261948173369813
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 9,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 9,
+            "extreme_proxy_pair": {
+              "min_depth": 5.940921948367907,
+              "max_depth": 5.980240882512719,
+              "depth_gap": 0.03931893414481191,
+              "angular_separation_deg": 16.879715343460546
+            },
+            "anonymous_quartet_rank": 11
+          },
+          {
+            "count": 7,
+            "proxy_depth": {
+              "n": 7,
+              "min": 2.2600438012663187,
+              "median": 3.3982664003550185,
+              "max": 3.4094155568569318,
+              "mean": 3.1728479627321406,
+              "std_population": 0.40627562805561496
+            },
+            "sample_used_proxy_count": 2,
+            "sample_inactive_proxy_count": 5,
+            "shallow_depth_le3_count": 2,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2600438012663187,
+              "max_depth": 3.4094155568569318,
+              "depth_gap": 1.149371755590613,
+              "angular_separation_deg": 39.05920919345096
+            },
+            "anonymous_quartet_rank": 12
+          }
+        ],
+        "quartets_with_proxy_depth_span_ge2": 0,
+        "quartets_with_proxy_depth_span_ge3": 0
+      }
+    },
+    "whole_equal_depth6": {
+      "target_whole_depth": 6.0,
+      "proxies_unchanged": true,
+      "whole_directions_unchanged": true,
+      "exact_top4_agreement_with_direction": 1.0,
+      "retrieval": {
+        "proxy_count": 512,
+        "slot_count": 2048,
+        "covered_sample_count": 221,
+        "unique_quartets": 207,
+        "max_repeated_quartet": 45,
+        "top_four_sample_slot_share": 0.28076171875,
+        "groups": {
+          "sample_used": {
+            "proxy_count": 267,
+            "covered_sample_count": 172,
+            "distinct_quartets": 116,
+            "max_repeated_quartet": 17
+          },
+          "sample_inactive": {
+            "proxy_count": 245,
+            "covered_sample_count": 63,
+            "distinct_quartets": 92,
+            "max_repeated_quartet": 45
+          },
+          "shallow_depth_le3": {
+            "proxy_count": 267,
+            "covered_sample_count": 172,
+            "distinct_quartets": 116,
+            "max_repeated_quartet": 17
+          },
+          "deep_depth_ge5": {
+            "proxy_count": 189,
+            "covered_sample_count": 45,
+            "distinct_quartets": 82,
+            "max_repeated_quartet": 45
+          }
+        },
+        "leading_quartets": [
+          {
+            "count": 45,
+            "proxy_depth": {
+              "n": 45,
+              "min": 5.161272138269246,
+              "median": 5.948204392206471,
+              "max": 5.998222294145618,
+              "mean": 5.918109614593355,
+              "std_population": 0.1280208978744799
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 45,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 45,
+            "extreme_proxy_pair": {
+              "min_depth": 5.161272138269246,
+              "max_depth": 5.998222294145618,
+              "depth_gap": 0.8369501558763721,
+              "angular_separation_deg": 20.86107942668323
+            },
+            "anonymous_quartet_rank": 1
+          },
+          {
+            "count": 33,
+            "proxy_depth": {
+              "n": 33,
+              "min": 4.084202187126757,
+              "median": 4.78798445854536,
+              "max": 5.952952755862857,
+              "mean": 4.768582038786852,
+              "std_population": 0.3684475154275707
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 33,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 2,
+            "extreme_proxy_pair": {
+              "min_depth": 4.084202187126757,
+              "max_depth": 5.952952755862857,
+              "depth_gap": 1.8687505687361003,
+              "angular_separation_deg": 15.655655493282646
+            },
+            "anonymous_quartet_rank": 2
+          },
+          {
+            "count": 17,
+            "proxy_depth": {
+              "n": 17,
+              "min": 2.1750400428234222,
+              "median": 2.2334883046110185,
+              "max": 2.291364358074519,
+              "mean": 2.2362253795828386,
+              "std_population": 0.030154124972219233
+            },
+            "sample_used_proxy_count": 17,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 17,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.1750400428234222,
+              "max_depth": 2.291364358074519,
+              "depth_gap": 0.11632431525109688,
+              "angular_separation_deg": 45.35139117908988
+            },
+            "anonymous_quartet_rank": 3
+          },
+          {
+            "count": 16,
+            "proxy_depth": {
+              "n": 16,
+              "min": 2.2403130297871856,
+              "median": 2.303281151997023,
+              "max": 2.323868761012142,
+              "mean": 2.292644980901496,
+              "std_population": 0.027577295967354514
+            },
+            "sample_used_proxy_count": 16,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 16,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2403130297871856,
+              "max_depth": 2.323868761012142,
+              "depth_gap": 0.08355573122495619,
+              "angular_separation_deg": 21.027623444205165
+            },
+            "anonymous_quartet_rank": 4
+          },
+          {
+            "count": 12,
+            "proxy_depth": {
+              "n": 12,
+              "min": 2.1660205108179196,
+              "median": 2.2747558950279876,
+              "max": 2.29952258144543,
+              "mean": 2.254081205567952,
+              "std_population": 0.04530436924467031
+            },
+            "sample_used_proxy_count": 12,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 12,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.1660205108179196,
+              "max_depth": 2.29952258144543,
+              "depth_gap": 0.13350207062751052,
+              "angular_separation_deg": 6.798760042603848
+            },
+            "anonymous_quartet_rank": 5
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.170904014687702,
+              "median": 2.234185417889836,
+              "max": 2.2573289555861225,
+              "mean": 2.23031061665383,
+              "std_population": 0.022140976303866966
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.170904014687702,
+              "max_depth": 2.2573289555861225,
+              "depth_gap": 0.08642494089842057,
+              "angular_separation_deg": 6.47666330823742
+            },
+            "anonymous_quartet_rank": 6
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.433816193633777,
+              "median": 2.461101010939414,
+              "max": 2.552216199368035,
+              "mean": 2.475257026679525,
+              "std_population": 0.03581714299829329
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.433816193633777,
+              "max_depth": 2.552216199368035,
+              "depth_gap": 0.1184000057342578,
+              "angular_separation_deg": 8.441176752882866
+            },
+            "anonymous_quartet_rank": 7
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.408810770953557,
+              "median": 2.454490839357142,
+              "max": 2.527194188380217,
+              "mean": 2.4559451058040125,
+              "std_population": 0.02776609183748103
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.408810770953557,
+              "max_depth": 2.527194188380217,
+              "depth_gap": 0.11838341742666003,
+              "angular_separation_deg": 9.45339739616735
+            },
+            "anonymous_quartet_rank": 8
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.2690379875200297,
+              "median": 2.3076765145376954,
+              "max": 2.3507817082637805,
+              "mean": 2.3053686698901332,
+              "std_population": 0.028956087254644762
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2690379875200297,
+              "max_depth": 2.3507817082637805,
+              "depth_gap": 0.0817437207437508,
+              "angular_separation_deg": 5.3796258703398445
+            },
+            "anonymous_quartet_rank": 9
+          },
+          {
+            "count": 10,
+            "proxy_depth": {
+              "n": 10,
+              "min": 2.2660813669292716,
+              "median": 2.2909490880975523,
+              "max": 2.3102402768926433,
+              "mean": 2.2911893910707866,
+              "std_population": 0.013203338998107227
+            },
+            "sample_used_proxy_count": 10,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 10,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2660813669292716,
+              "max_depth": 2.3102402768926433,
+              "depth_gap": 0.044158909963371684,
+              "angular_separation_deg": 7.383568757370306
+            },
+            "anonymous_quartet_rank": 10
+          },
+          {
+            "count": 9,
+            "proxy_depth": {
+              "n": 9,
+              "min": 5.940921948367907,
+              "median": 5.946490461401673,
+              "max": 5.980240882512719,
+              "mean": 5.952027249721437,
+              "std_population": 0.012261948173369813
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 9,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 9,
+            "extreme_proxy_pair": {
+              "min_depth": 5.940921948367907,
+              "max_depth": 5.980240882512719,
+              "depth_gap": 0.03931893414481191,
+              "angular_separation_deg": 16.879715343460546
+            },
+            "anonymous_quartet_rank": 11
+          },
+          {
+            "count": 7,
+            "proxy_depth": {
+              "n": 7,
+              "min": 2.2600438012663187,
+              "median": 3.3982664003550185,
+              "max": 3.4094155568569318,
+              "mean": 3.1728479627321406,
+              "std_population": 0.40627562805561496
+            },
+            "sample_used_proxy_count": 2,
+            "sample_inactive_proxy_count": 5,
+            "shallow_depth_le3_count": 2,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2600438012663187,
+              "max_depth": 3.4094155568569318,
+              "depth_gap": 1.149371755590613,
+              "angular_separation_deg": 39.05920919345096
+            },
+            "anonymous_quartet_rank": 12
+          }
+        ],
+        "quartets_with_proxy_depth_span_ge2": 0,
+        "quartets_with_proxy_depth_span_ge3": 0
+      }
+    },
+    "raw": {
+      "retrieval": {
+        "proxy_count": 512,
+        "slot_count": 2048,
+        "covered_sample_count": 27,
+        "unique_quartets": 23,
+        "max_repeated_quartet": 287,
+        "top_four_sample_slot_share": 0.8046875,
+        "groups": {
+          "sample_used": {
+            "proxy_count": 267,
+            "covered_sample_count": 26,
+            "distinct_quartets": 22,
+            "max_repeated_quartet": 133
+          },
+          "sample_inactive": {
+            "proxy_count": 245,
+            "covered_sample_count": 9,
+            "distinct_quartets": 3,
+            "max_repeated_quartet": 221
+          },
+          "shallow_depth_le3": {
+            "proxy_count": 267,
+            "covered_sample_count": 26,
+            "distinct_quartets": 22,
+            "max_repeated_quartet": 133
+          },
+          "deep_depth_ge5": {
+            "proxy_count": 189,
+            "covered_sample_count": 5,
+            "distinct_quartets": 2,
+            "max_repeated_quartet": 188
+          }
+        },
+        "leading_quartets": [
+          {
+            "count": 287,
+            "proxy_depth": {
+              "n": 287,
+              "min": 2.1599794118645077,
+              "median": 5.9249283039094,
+              "max": 5.9999992807815214,
+              "mean": 4.943116602636647,
+              "std_population": 1.5304957613650367
+            },
+            "sample_used_proxy_count": 66,
+            "sample_inactive_proxy_count": 221,
+            "shallow_depth_le3_count": 66,
+            "deep_depth_ge5_count": 188,
+            "extreme_proxy_pair": {
+              "min_depth": 2.1599794118645077,
+              "max_depth": 5.9999992807815214,
+              "depth_gap": 3.8400198689170137,
+              "angular_separation_deg": 98.50729728717532
+            },
+            "anonymous_quartet_rank": 1
+          },
+          {
+            "count": 154,
+            "proxy_depth": {
+              "n": 154,
+              "min": 2.106911101270774,
+              "median": 2.2884110601147585,
+              "max": 5.99880459445361,
+              "mean": 2.4904002973726587,
+              "std_population": 0.5314878309908353
+            },
+            "sample_used_proxy_count": 133,
+            "sample_inactive_proxy_count": 21,
+            "shallow_depth_le3_count": 133,
+            "deep_depth_ge5_count": 1,
+            "extreme_proxy_pair": {
+              "min_depth": 2.106911101270774,
+              "max_depth": 5.99880459445361,
+              "depth_gap": 3.8918934931828355,
+              "angular_separation_deg": 101.36216089140531
+            },
+            "anonymous_quartet_rank": 2
+          },
+          {
+            "count": 17,
+            "proxy_depth": {
+              "n": 17,
+              "min": 2.216429097642341,
+              "median": 2.238187978882322,
+              "max": 2.260538967133031,
+              "mean": 2.238718827769359,
+              "std_population": 0.012984720640252063
+            },
+            "sample_used_proxy_count": 17,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 17,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.216429097642341,
+              "max_depth": 2.260538967133031,
+              "depth_gap": 0.044109869490689846,
+              "angular_separation_deg": 6.467294794992364
+            },
+            "anonymous_quartet_rank": 3
+          },
+          {
+            "count": 15,
+            "proxy_depth": {
+              "n": 15,
+              "min": 2.433816193633777,
+              "median": 2.4647213476702494,
+              "max": 2.5154137373953347,
+              "mean": 2.46793294889615,
+              "std_population": 0.025253047610368458
+            },
+            "sample_used_proxy_count": 15,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 15,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.433816193633777,
+              "max_depth": 2.5154137373953347,
+              "depth_gap": 0.08159754376155748,
+              "angular_separation_deg": 9.981207296681253
+            },
+            "anonymous_quartet_rank": 4
+          },
+          {
+            "count": 5,
+            "proxy_depth": {
+              "n": 5,
+              "min": 2.4361085132838367,
+              "median": 2.445840537538326,
+              "max": 2.4685131956822906,
+              "mean": 2.448994708322127,
+              "std_population": 0.011060433498666618
+            },
+            "sample_used_proxy_count": 5,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 5,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.4361085132838367,
+              "max_depth": 2.4685131956822906,
+              "depth_gap": 0.03240468239845384,
+              "angular_separation_deg": 16.72707156904104
+            },
+            "anonymous_quartet_rank": 5
+          },
+          {
+            "count": 5,
+            "proxy_depth": {
+              "n": 5,
+              "min": 2.395167628536183,
+              "median": 2.4464251566590236,
+              "max": 2.4755799090005293,
+              "mean": 2.4345328343846426,
+              "std_population": 0.029638098625181
+            },
+            "sample_used_proxy_count": 5,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 5,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.395167628536183,
+              "max_depth": 2.4755799090005293,
+              "depth_gap": 0.08041228046434634,
+              "angular_separation_deg": 41.80771907832807
+            },
+            "anonymous_quartet_rank": 6
+          },
+          {
+            "count": 4,
+            "proxy_depth": {
+              "n": 4,
+              "min": 2.444289255695035,
+              "median": 2.464527929185949,
+              "max": 2.552216199368035,
+              "mean": 2.481390328358742,
+              "std_population": 0.04184467358302481
+            },
+            "sample_used_proxy_count": 4,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 4,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.444289255695035,
+              "max_depth": 2.552216199368035,
+              "depth_gap": 0.10792694367300015,
+              "angular_separation_deg": 8.722622013208419
+            },
+            "anonymous_quartet_rank": 7
+          },
+          {
+            "count": 3,
+            "proxy_depth": {
+              "n": 3,
+              "min": 2.402569226828326,
+              "median": 2.419239867261695,
+              "max": 2.46236184203166,
+              "mean": 2.428056978707227,
+              "std_population": 0.02519385241013751
+            },
+            "sample_used_proxy_count": 3,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 3,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.402569226828326,
+              "max_depth": 2.46236184203166,
+              "depth_gap": 0.0597926152033339,
+              "angular_separation_deg": 4.179877633359633
+            },
+            "anonymous_quartet_rank": 8
+          },
+          {
+            "count": 3,
+            "proxy_depth": {
+              "n": 3,
+              "min": 4.885329839994585,
+              "median": 4.894464332858844,
+              "max": 4.897347460491841,
+              "mean": 4.8923805444484225,
+              "std_population": 0.005122657592081924
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 3,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 4.885329839994585,
+              "max_depth": 4.897347460491841,
+              "depth_gap": 0.01201762049725641,
+              "angular_separation_deg": 0.23817963157528202
+            },
+            "anonymous_quartet_rank": 9
+          },
+          {
+            "count": 2,
+            "proxy_depth": {
+              "n": 2,
+              "min": 2.170904014687702,
+              "median": 2.199162400408215,
+              "max": 2.227420786128728,
+              "mean": 2.199162400408215,
+              "std_population": 0.02825838572051298
+            },
+            "sample_used_proxy_count": 2,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 2,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.170904014687702,
+              "max_depth": 2.227420786128728,
+              "depth_gap": 0.05651677144102596,
+              "angular_separation_deg": 9.746909298590985
+            },
+            "anonymous_quartet_rank": 10
+          },
+          {
+            "count": 2,
+            "proxy_depth": {
+              "n": 2,
+              "min": 2.4372806542210967,
+              "median": 2.4627503511211675,
+              "max": 2.4882200480212378,
+              "mean": 2.4627503511211675,
+              "std_population": 0.025469696900070504
+            },
+            "sample_used_proxy_count": 2,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 2,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.4372806542210967,
+              "max_depth": 2.4882200480212378,
+              "depth_gap": 0.05093939380014101,
+              "angular_separation_deg": 32.79726676197786
+            },
+            "anonymous_quartet_rank": 11
+          },
+          {
+            "count": 2,
+            "proxy_depth": {
+              "n": 2,
+              "min": 2.4223378792802888,
+              "median": 2.4458421903923546,
+              "max": 2.4693465015044205,
+              "mean": 2.4458421903923546,
+              "std_population": 0.023504311112065857
+            },
+            "sample_used_proxy_count": 2,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 2,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.4223378792802888,
+              "max_depth": 2.4693465015044205,
+              "depth_gap": 0.04700862222413171,
+              "angular_separation_deg": 4.333381131923753
+            },
+            "anonymous_quartet_rank": 12
+          }
+        ],
+        "quartets_with_proxy_depth_span_ge2": 2,
+        "quartets_with_proxy_depth_span_ge3": 2
+      }
+    },
+    "direction": {
+      "retrieval": {
+        "proxy_count": 512,
+        "slot_count": 2048,
+        "covered_sample_count": 221,
+        "unique_quartets": 207,
+        "max_repeated_quartet": 45,
+        "top_four_sample_slot_share": 0.28076171875,
+        "groups": {
+          "sample_used": {
+            "proxy_count": 267,
+            "covered_sample_count": 172,
+            "distinct_quartets": 116,
+            "max_repeated_quartet": 17
+          },
+          "sample_inactive": {
+            "proxy_count": 245,
+            "covered_sample_count": 63,
+            "distinct_quartets": 92,
+            "max_repeated_quartet": 45
+          },
+          "shallow_depth_le3": {
+            "proxy_count": 267,
+            "covered_sample_count": 172,
+            "distinct_quartets": 116,
+            "max_repeated_quartet": 17
+          },
+          "deep_depth_ge5": {
+            "proxy_count": 189,
+            "covered_sample_count": 45,
+            "distinct_quartets": 82,
+            "max_repeated_quartet": 45
+          }
+        },
+        "leading_quartets": [
+          {
+            "count": 45,
+            "proxy_depth": {
+              "n": 45,
+              "min": 5.161272138269246,
+              "median": 5.948204392206471,
+              "max": 5.998222294145618,
+              "mean": 5.918109614593355,
+              "std_population": 0.1280208978744799
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 45,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 45,
+            "extreme_proxy_pair": {
+              "min_depth": 5.161272138269246,
+              "max_depth": 5.998222294145618,
+              "depth_gap": 0.8369501558763721,
+              "angular_separation_deg": 20.86107942668323
+            },
+            "anonymous_quartet_rank": 1
+          },
+          {
+            "count": 33,
+            "proxy_depth": {
+              "n": 33,
+              "min": 4.084202187126757,
+              "median": 4.78798445854536,
+              "max": 5.952952755862857,
+              "mean": 4.768582038786852,
+              "std_population": 0.3684475154275707
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 33,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 2,
+            "extreme_proxy_pair": {
+              "min_depth": 4.084202187126757,
+              "max_depth": 5.952952755862857,
+              "depth_gap": 1.8687505687361003,
+              "angular_separation_deg": 15.655655493282646
+            },
+            "anonymous_quartet_rank": 2
+          },
+          {
+            "count": 17,
+            "proxy_depth": {
+              "n": 17,
+              "min": 2.1750400428234222,
+              "median": 2.2334883046110185,
+              "max": 2.291364358074519,
+              "mean": 2.2362253795828386,
+              "std_population": 0.030154124972219233
+            },
+            "sample_used_proxy_count": 17,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 17,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.1750400428234222,
+              "max_depth": 2.291364358074519,
+              "depth_gap": 0.11632431525109688,
+              "angular_separation_deg": 45.35139117908988
+            },
+            "anonymous_quartet_rank": 3
+          },
+          {
+            "count": 16,
+            "proxy_depth": {
+              "n": 16,
+              "min": 2.2403130297871856,
+              "median": 2.303281151997023,
+              "max": 2.323868761012142,
+              "mean": 2.292644980901496,
+              "std_population": 0.027577295967354514
+            },
+            "sample_used_proxy_count": 16,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 16,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2403130297871856,
+              "max_depth": 2.323868761012142,
+              "depth_gap": 0.08355573122495619,
+              "angular_separation_deg": 21.027623444205165
+            },
+            "anonymous_quartet_rank": 4
+          },
+          {
+            "count": 12,
+            "proxy_depth": {
+              "n": 12,
+              "min": 2.1660205108179196,
+              "median": 2.2747558950279876,
+              "max": 2.29952258144543,
+              "mean": 2.254081205567952,
+              "std_population": 0.04530436924467031
+            },
+            "sample_used_proxy_count": 12,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 12,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.1660205108179196,
+              "max_depth": 2.29952258144543,
+              "depth_gap": 0.13350207062751052,
+              "angular_separation_deg": 6.798760042603848
+            },
+            "anonymous_quartet_rank": 5
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.170904014687702,
+              "median": 2.234185417889836,
+              "max": 2.2573289555861225,
+              "mean": 2.23031061665383,
+              "std_population": 0.022140976303866966
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.170904014687702,
+              "max_depth": 2.2573289555861225,
+              "depth_gap": 0.08642494089842057,
+              "angular_separation_deg": 6.47666330823742
+            },
+            "anonymous_quartet_rank": 6
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.433816193633777,
+              "median": 2.461101010939414,
+              "max": 2.552216199368035,
+              "mean": 2.475257026679525,
+              "std_population": 0.03581714299829329
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.433816193633777,
+              "max_depth": 2.552216199368035,
+              "depth_gap": 0.1184000057342578,
+              "angular_separation_deg": 8.441176752882866
+            },
+            "anonymous_quartet_rank": 7
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.408810770953557,
+              "median": 2.454490839357142,
+              "max": 2.527194188380217,
+              "mean": 2.4559451058040125,
+              "std_population": 0.02776609183748103
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.408810770953557,
+              "max_depth": 2.527194188380217,
+              "depth_gap": 0.11838341742666003,
+              "angular_separation_deg": 9.45339739616735
+            },
+            "anonymous_quartet_rank": 8
+          },
+          {
+            "count": 11,
+            "proxy_depth": {
+              "n": 11,
+              "min": 2.2690379875200297,
+              "median": 2.3076765145376954,
+              "max": 2.3507817082637805,
+              "mean": 2.3053686698901332,
+              "std_population": 0.028956087254644762
+            },
+            "sample_used_proxy_count": 11,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 11,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2690379875200297,
+              "max_depth": 2.3507817082637805,
+              "depth_gap": 0.0817437207437508,
+              "angular_separation_deg": 5.3796258703398445
+            },
+            "anonymous_quartet_rank": 9
+          },
+          {
+            "count": 10,
+            "proxy_depth": {
+              "n": 10,
+              "min": 2.2660813669292716,
+              "median": 2.2909490880975523,
+              "max": 2.3102402768926433,
+              "mean": 2.2911893910707866,
+              "std_population": 0.013203338998107227
+            },
+            "sample_used_proxy_count": 10,
+            "sample_inactive_proxy_count": 0,
+            "shallow_depth_le3_count": 10,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2660813669292716,
+              "max_depth": 2.3102402768926433,
+              "depth_gap": 0.044158909963371684,
+              "angular_separation_deg": 7.383568757370306
+            },
+            "anonymous_quartet_rank": 10
+          },
+          {
+            "count": 9,
+            "proxy_depth": {
+              "n": 9,
+              "min": 5.940921948367907,
+              "median": 5.946490461401673,
+              "max": 5.980240882512719,
+              "mean": 5.952027249721437,
+              "std_population": 0.012261948173369813
+            },
+            "sample_used_proxy_count": 0,
+            "sample_inactive_proxy_count": 9,
+            "shallow_depth_le3_count": 0,
+            "deep_depth_ge5_count": 9,
+            "extreme_proxy_pair": {
+              "min_depth": 5.940921948367907,
+              "max_depth": 5.980240882512719,
+              "depth_gap": 0.03931893414481191,
+              "angular_separation_deg": 16.879715343460546
+            },
+            "anonymous_quartet_rank": 11
+          },
+          {
+            "count": 7,
+            "proxy_depth": {
+              "n": 7,
+              "min": 2.2600438012663187,
+              "median": 3.3982664003550185,
+              "max": 3.4094155568569318,
+              "mean": 3.1728479627321406,
+              "std_population": 0.40627562805561496
+            },
+            "sample_used_proxy_count": 2,
+            "sample_inactive_proxy_count": 5,
+            "shallow_depth_le3_count": 2,
+            "deep_depth_ge5_count": 0,
+            "extreme_proxy_pair": {
+              "min_depth": 2.2600438012663187,
+              "max_depth": 3.4094155568569318,
+              "depth_gap": 1.149371755590613,
+              "angular_separation_deg": 39.05920919345096
+            },
+            "anonymous_quartet_rank": 12
+          }
+        ],
+        "quartets_with_proxy_depth_span_ge2": 0,
+        "quartets_with_proxy_depth_span_ge3": 0
+      }
+    }
+  },
+  "validation": {
+    "stable_distance_first16_proxies_agree": true
+  },
+  "read_only": {
+    "source_cache_unchanged": true,
+    "optimizer_updates": 0,
+    "encoder_forwards": 0,
+    "test_forwards": 0
+  },
+  "independent_validation": {
+    "previous_64_proxy_rows_raw_ordered_matches": 64,
+    "previous_64_proxy_rows_direction_ordered_matches": 64,
+    "all512_equal_whole_direction_ordered_matches": 512,
+    "randomized_property_test": "64 proxies / 500 candidates / 256D; whole depths2,4.808,6, float64; complete top4 agreement"
+  },
+  "privacy_scope": "Public aggregate counts and radial/angle summaries only; complete sample/proxy identity mappings stay local."
+}

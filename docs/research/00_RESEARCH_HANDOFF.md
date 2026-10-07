@@ -4,6 +4,13 @@
 
 ## Radial selection diagnosis — 2026-10-08
 
+[43](43_V7_WHOLE_ONLY_EQUAL_DEPTH_HOTSPOTS_2026-10-08.md) adds full512proxy
+raw versus WHOLE-only equal-depth retrieval on the same8856 e300 inputs.
+Coverage27→221, maximum repeatedquartet287→45. Raw mainquartet contains the
+four shallowestwhole objects;two proxies atdepth2.160 and6.000,98.5degrees
+apart,share it. Equalwholedepths2/4.808/6 all exactly match direction ranks.
+This is retrieval evidence, distinct from training ancestor activation.
+
 [42](42_HIER_RADIAL_SELECTION_DIAGNOSIS_2026-10-08.md) interprets V7 e5 against
 actual per-role selections and same-ID lifetime records. Of247 sample-inactive
 proxies,62 return at e148–185 and185 do not return;31 returners were already at
