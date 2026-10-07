@@ -202,6 +202,8 @@ def _analyze_one(spec, index, output):
               "sample_pool_sha256": identity_hash, "declared_sample_pool_sha": declared_hash,
               "inputmode": inputmode, "input_sha256": input_sha,
               "inference_condition": inference_condition, "epoch_identity_available": True}
+    if spec.get("checkpoint_sha256"):
+        source.update(checkpoint_name=spec.get("checkpoint_file", spec.get("checkpoint_name")), checkpoint_sha256=spec["checkpoint_sha256"], source_commit=spec.get("source_commit"))
     if spec.get("checkpoint"):
         source.update(checkpoint_name=Path(spec["checkpoint"]).name,
                       checkpoint_sha256=_file_hash(spec["checkpoint"]),

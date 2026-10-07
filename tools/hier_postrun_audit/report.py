@@ -67,7 +67,7 @@ def _availability(analysis, snapshots, figures=None):
     keys = {str(k) for row in analysis.get("epochs", []) for k, value in row.get("metrics", {}).items() if _numeric(value)}
     usage = analysis.get("proxy_usage", [])
     config = analysis.get("identity", {}).get("config", {})
-    proxy_disabled = "proxy_optimizer" in config and config.get("proxy_optimizer") in (False, None)
+    proxy_disabled = ("proxy_optimizer" in config and config.get("proxy_optimizer") in (False, None)) or config.get("HIER") is False or config.get("proxy_updates") is False
     no_proxy_observations = not usage and not any(k.startswith("proxy_depth") or k.startswith("proxy_radius") for k in keys)
     baseline = proxy_disabled and no_proxy_observations
     run_id = analysis.get("run_id")
@@ -111,7 +111,7 @@ def _safe_analysis(analysis):
                        for row in analysis.get("epochs", [])]}
 
 
-def render_report(analyses, snapshots, output_dir):
+def render_report(analyses, snapshots, output_dir, extensions=None):
     """Render PNG/SVG plus a local HTML report, without network dependencies.
 
     Existing output files are rejected so this entry point cannot silently
@@ -122,9 +122,11 @@ def render_report(analyses, snapshots, output_dir):
     if (output_dir / "report.html").exists():
         raise FileExistsError("Report output already contains report.html; choose a new immutable audit directory.")
     rendered = save_figures(analyses, snapshots, output_dir)
-    figures = rendered["figures"]
+    extensions = extensions or {}
+    figures = list(extensions.get("figures", [])) + rendered["figures"]
     warnings = [_public_text(w) for analysis in analyses for w in analysis.get("warnings", [])]
     warnings.extend(_public_text(w) for w in rendered.get("warnings", []))
+    warnings.extend(_public_text(w) for w in extensions.get("warnings", []))
     warnings = list(dict.fromkeys(warnings))
     table_dir = output_dir / "tables"
     table_dir.mkdir(exist_ok=True)
@@ -177,6 +179,25 @@ def render_report(analyses, snapshots, output_dir):
         identities.append(f'<li data-run="{_escape(run_id)}"><strong>{_escape(display)}</strong>: {_escape(identity_text)}<br>{_escape(metadata_text)}</li>')
     data_path = output_dir / "report_data.json"
     data_path.write_text(json.dumps({"schema_version": 1, "runs": safe_data, "warnings": warnings}, ensure_ascii=False, allow_nan=False, indent=2), encoding="utf8")
+    overview = []
+    comparison = extensions.get("comparison") or {}
+    selection_fields = ("selected_epoch", "selected_validation_oa_pct", "saved_final_test_oa_pct", "saved_final_test_aa_pct")
+    comparison_runs = comparison.get("runs", [])
+    if comparison_runs:
+        overview.append('<section class="run-section" data-run="all_runs"><h2>Cross-version evidence</h2><p>Selection is read from the saved validation decision. Final test values are existing results; no new test forward or model reselection.</p><div class="table-scroll"><table><thead><tr><th>Run</th><th>Selected epoch</th><th>Validation OA %</th><th>Saved test OA %</th><th>Saved test AA %</th></tr></thead><tbody>')
+        for row in comparison_runs:
+            selection = row.get("selection", {})
+            values = [row.get("display_name", row.get("run_key"))] + [selection.get(key) for key in selection_fields]
+            overview.append('<tr>' + ''.join('<td>'+_format(v)+'</td>' for v in values) + '</tr>')
+        overview.append('</tbody></table></div><p>Correctness, protocol, geometry and classification effects are recorded separately in the <a href="comparison/comparison_benefit_ledger.csv">benefit ledger</a>. Single-seed historical comparisons with multiple parameter changes describe joint outcomes.</p></section>')
+    module_links = []
+    for key, relative in (("longitudinal", "longitudinal/longitudinal_summary.json"), ("mechanisms", "mechanisms/mechanism_summary.json"), ("structure", "structure/structure_summary.json"), ("comparison", "comparison/comparison_summary.json"), ("backbone", "backbone/backbone_summary.json")):
+        result = extensions.get(key)
+        if result is not None:
+            status = result.get("status", "measured")
+            module_links.append('<li><a href="'+relative+'">'+_escape(key)+'</a>: '+_escape(status)+'</li>')
+    if module_links:
+        overview.append('<section class="run-section" data-run="all_runs"><h2>Controlled checks</h2><ul>'+''.join(module_links)+'</ul><p>Cached whole/proxy gradients are partial derivatives of the HIER objective. Encoder gradients, Adam moment state and actual observed parameter displacement have separate definitions. Independent shape uses a fixed subset of query objects and full-pool retrieval; class purity is an auxiliary label statistic.</p></section>')
     figure_blocks = []
     for figure in figures:
         figure_blocks.append(f'<figure class="run-section" data-run="{_escape(figure["run_id"])}"><h3>{_escape(figure["title"])}</h3><a class="image-link" href="{html.escape(figure["png"])}" target="_blank" rel="noopener"><img loading="lazy" src="{html.escape(figure["png"])}" alt="{_escape(figure["title"])}"></a><figcaption>{_escape(figure["note"])} <a href="{html.escape(figure["svg"])}">Vector SVG</a></figcaption></figure>')
@@ -209,11 +230,11 @@ def render_report(analyses, snapshots, output_dir):
     document = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HIER post-training audit</title><style>
 body{font:15px/1.5 system-ui,sans-serif;color:#182033;background:#f3f5f8;margin:0}main{max-width:1160px;margin:auto;padding:24px}h1{font-size:27px}h2{font-size:22px;margin-top:30px}h3{font-size:17px}p{max-width:1000px}.controls{position:sticky;top:0;background:#fff;z-index:2;display:flex;gap:14px;flex-wrap:wrap;padding:13px;border:1px solid #d8deea;border-radius:8px}.controls input{width:85px}.controls select,.controls input{padding:5px}.run-section,figure{background:#fff;border:1px solid #d8deea;border-radius:8px;margin:14px 0;padding:16px}figure img{display:block;width:100%;height:auto}figcaption{color:#445269;font-size:13px}.table-scroll{overflow:auto;max-height:560px}table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:8px;text-align:left;border-bottom:1px solid #e1e6ef;vertical-align:top}th{background:#f8fafc;white-space:nowrap;position:sticky;top:0}.available{color:#087f5b}.partial{color:#9a6700}.missing{color:#b42318}a{color:#1759b8}.limit{padding:14px;background:#fff8e5;border-left:4px solid #c78b17}[hidden]{display:none!important}@media(max-width:600px){main{padding:12px}.run-section,figure{padding:9px}h1{font-size:23px}}
 </style></head><body><main><h1>HIER post-training audit</h1><p>Saved evidence across training versions, with explicit identity, definitions and missing-data limits. This report is fully offline. Click any figure to view its original PNG; SVG files support publication-quality reuse.</p><div class="controls"><label>Run <select id="run">__OPTIONS__</select></label><label>Epoch from <input id="epoch-min" type="number" placeholder="All"></label><label>to <input id="epoch-max" type="number" placeholder="All"></label><span>Epoch filter applies to table rows; plots preserve the full saved timeline.</span></div>
-__INCOMPLETE__<h2>Identity and interpretation</h2><ul>__IDENTITIES__</ul><div class="limit">Training-forward sampled geometry and frozen clean/eval fixed-pool geometry are separate observations. Hard-selected ancestors, noncollision ancestors, live-hinge proxies and gradient-active proxies are separate activation definitions. Nearest top-k objects are retrieval, not HIER training descendants. Cross-version comparisons require matching pools, update counts and protocol; stochastic usage changes need same-input noise controls before a mechanistic claim. No low-dimensional projection is represented as the original hyperbolic geometry.</div>
+__INCOMPLETE____OVERVIEW__<h2>Identity and interpretation</h2><ul>__IDENTITIES__</ul><div class="limit">Training-forward sampled geometry and frozen clean/eval fixed-pool geometry are separate observations. Hard-selected ancestors, noncollision ancestors, live-hinge proxies and gradient-active proxies are separate activation definitions. Nearest top-k objects are retrieval, not HIER training descendants. Cross-version comparisons require matching pools, update counts and protocol; stochastic usage changes need same-input noise controls before a mechanistic claim. No low-dimensional projection is represented as the original hyperbolic geometry.</div>
 <h2>Data availability</h2>__AVAILABILITY__<h2>Observed trajectories</h2>__FIGURES__<h2>Saved epoch records</h2>__EPOCH_TABLES__<h2>Object relation previews</h2>__OBJECT_TABLES__<h2>Warnings</h2>__WARNINGS__<p><a href="report_data.json">Public scalar data JSON</a>. Empty table cells mean unavailable, never zero. Existing reports are not overwritten.</p></main><script>
-(function(){const run=document.getElementById('run'), lo=document.getElementById('epoch-min'), hi=document.getElementById('epoch-max');function update(){const id=run.value,min=lo.value===''?-Infinity:Number(lo.value),max=hi.value===''?Infinity:Number(hi.value);document.querySelectorAll('[data-run]').forEach(el=>{el.hidden=id!=='all'&&el.dataset.run!==id});document.querySelectorAll('tr[data-epoch]').forEach(el=>{const e=Number(el.dataset.epoch);el.hidden=e<min||e>max})}run.addEventListener('change',update);lo.addEventListener('input',update);hi.addEventListener('input',update);update()})();
+(function(){const run=document.getElementById('run'), lo=document.getElementById('epoch-min'), hi=document.getElementById('epoch-max');function update(){const id=run.value,min=lo.value===''?-Infinity:Number(lo.value),max=hi.value===''?Infinity:Number(hi.value);document.querySelectorAll('[data-run]').forEach(el=>{el.hidden=id!=='all'&&el.dataset.run!=='all_runs'&&el.dataset.run!==id});document.querySelectorAll('tr[data-epoch]').forEach(el=>{const e=Number(el.dataset.epoch);el.hidden=e<min||e>max})}run.addEventListener('change',update);lo.addEventListener('input',update);hi.addEventListener('input',update);update()})();
 </script></body></html>"""
-    replacements = {"__OPTIONS__": options, "__INCOMPLETE__": incomplete_notice, "__IDENTITIES__": "".join(identities), "__AVAILABILITY__": "".join(availability_tables),
+    replacements = {"__OVERVIEW__": "".join(overview), "__OPTIONS__": options, "__INCOMPLETE__": incomplete_notice, "__IDENTITIES__": "".join(identities), "__AVAILABILITY__": "".join(availability_tables),
                     "__FIGURES__": "".join(figure_blocks) or "<p>No eligible saved figure series. See availability reasons.</p>",
                     "__EPOCH_TABLES__": "".join(epoch_tables), "__OBJECT_TABLES__": "".join(object_tables) or "<p>No supplied retrieval snapshots or object thumbnails; none were fabricated.</p>", "__WARNINGS__": warning_html}
     for key, value in replacements.items():
