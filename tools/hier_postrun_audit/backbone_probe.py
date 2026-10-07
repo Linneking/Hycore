@@ -98,11 +98,15 @@ def clean_alias_forward(model, clouds, labels, sample_ids, *, whole_count=1024,
         before_child = whole.detach().clone()
         _, child, _ = get_children_alias(whole, child_count, centers=child_centers[start:end].tolist())
         if activation_checkpoint:
-            from torch.utils.checkpoint import checkpoint
-            child_mu, _ = checkpoint(model, child, emb=True, use_reentrant=False,
-                                     preserve_rng_state=True)
-            whole_mu, _ = checkpoint(model, whole, emb=True, use_reentrant=False,
-                                     preserve_rng_state=True)
+            from torch.utils.checkpoint import checkpoint, set_checkpoint_early_stop
+            # Geoopt's scripted project can wrap checkpoint's Python
+            # _StopRecomputationError as an opaque TorchScript RuntimeError.
+            # The frame captures this setting at forward construction.
+            with set_checkpoint_early_stop(False):
+                child_mu, _ = checkpoint(model, child, emb=True, use_reentrant=False,
+                                         preserve_rng_state=True)
+                whole_mu, _ = checkpoint(model, whole, emb=True, use_reentrant=False,
+                                         preserve_rng_state=True)
         else:
             child_mu, _ = model(child, emb=True)
             whole_mu, _ = model(whole, emb=True)
@@ -129,6 +133,7 @@ def clean_alias_forward(model, clouds, labels, sample_ids, *, whole_count=1024,
                                "classifier_on_concatenated_mu": True,
                                "activation_checkpoint": bool(activation_checkpoint),
                                "checkpoint_use_reentrant": False,
+                               "checkpoint_early_stop": False,
                                "checkpoint_preserve_rng_state": True},
             "microbatches": stats}
 
@@ -364,6 +369,7 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
                                        "TF32_matmul": torch.backends.cuda.matmul.allow_tf32,
                                        "activation_checkpoint": bool(activation_checkpoint),
                                        "checkpoint_use_reentrant": False,
+                                       "checkpoint_early_stop": False,
                                        "checkpoint_preserve_rng_state": True})
         _save(output / "backbone_probe_summary.json", report)
         manifest.update(status="completed", elapsed_seconds=time.monotonic() - started,

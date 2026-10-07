@@ -166,6 +166,49 @@ class BackboneTorchTests(unittest.TestCase):
         self.assertTrue(all(parameter.grad is None for parameter in plain.parameters()))
         self.assertTrue(all(parameter.grad is None for parameter in recomputed.parameters()))
 
+    def test_real_geoopt_scripted_project_recompute_gradient_equivalence(self):
+        import copy
+        import torch
+        import geoopt
+        from geoopt.manifolds.stereographic import math as scripted_math
+        from tools.hier_postrun_audit.backbone_probe import probe_model_batch
+        self.assertTrue(hasattr(scripted_math._project, "graph"))
+        class GeooptModel(torch.nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.encoder = torch.nn.Linear(3, 4)
+                self.manifold = geoopt.PoincareBall(c=1.)
+                self.manifold.requires_grad_(False)
+                self.hyper_weight = torch.nn.Parameter(.5 * torch.eye(4))
+                self.classifier = torch.nn.Linear(4, 4)
+
+            def forward(self, points, emb=False):
+                x = self.manifold.expmap0(.15 * self.encoder(points.mean(dim=-1)))
+                mu = self.manifold.mobius_matvec(self.hyper_weight, x)
+                return (mu, mu) if emb else (mu, self.classifier(mu))
+        torch.manual_seed(491)
+        ordinary = GeooptModel()
+        recomputed = copy.deepcopy(ordinary)
+        clouds, labels, ids = self._data()
+        tangent = np.random.default_rng(29).normal(size=(8, 4)).astype(np.float32) * .2
+        args = {"proxy_tangent": tangent,
+                "config": {"lambda_hier": .1, "tau": 1., "margin": .5,
+                           "sample_K": 4, "proxy_K": 3, "t_per_anchor": 5},
+                "whole_count": 16, "child_count": 8, "microbatch_size": 2, "seed": 22}
+        first = probe_model_batch(ordinary, clouds, labels, ids, activation_checkpoint=False, **args)
+        second = probe_model_batch(recomputed, clouds, labels, ids, activation_checkpoint=True, **args)
+        for group, record in first["parameter_groups"].items():
+            for name, value in record["norms"].items():
+                self.assertAlmostEqual(value, second["parameter_groups"][group]["norms"][name], places=6)
+            for name in ("sample_vs_base", "hier_vs_base", "total_vs_base"):
+                left, right = record[name]["cosine"], second["parameter_groups"][group][name]["cosine"]
+                if left is not None:
+                    self.assertAlmostEqual(left, right, places=6)
+        for name, value in first["objective_values"].items():
+            self.assertAlmostEqual(value, second["objective_values"][name], places=6)
+        self.assertFalse(second["input_identity"]["checkpoint_early_stop"])
+        self.assertTrue(all(parameter.grad is None for parameter in recomputed.parameters()))
+
     def test_invalid_flip_negative_rejected(self):
         from tools.hier_postrun_audit.backbone_probe import probe_model_batch
         clouds, labels, ids = self._data()
