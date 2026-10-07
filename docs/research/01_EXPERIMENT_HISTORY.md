@@ -4,6 +4,14 @@
 
 ## Reusable post-training audit accepted — 2026-10-07
 
+用户批准后完成v2扩展与V5/V6/V7、matched B64真实串联：31个冻结检查点、
+每个全8856训练对象，相同输入SHA；11组固定噪声机制、15组独立形状检验。
+V6采样纠错已验证，V7 e300数值饱和323→0、样本祖先188→267；raw top4
+覆盖28→27，形态收益未持续全面超过B64。源数据不变、零优化更新、不新增
+validation/test前向。结果和判读见[40](40_HIER_SYSTEM_AUDIT_RESULTS_2026-10-07.md)，
+公开精简证据见[JSON](diagnostics/hier_system_v2_20261007_interpretation.json)。
+下述v1接收记录保留为历史阶段，当前能力与结论以v2为准。
+
 Implemented `tools/hier_postrun_audit/` and[38](38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md).
 CPU-only V7 audit reads all300 epoch summaries and outputs44 PNG/SVG scientific
 figures plus offline HTML. No new training, GPU replay or official-test forward.

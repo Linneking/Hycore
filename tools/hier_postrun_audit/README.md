@@ -70,3 +70,44 @@ Tests (CPU, no model/GPU):
 ```bash
 python -m unittest discover -s tools/hier_postrun_audit/tests -v
 ```
+
+Frozen shared-encoder probes are separate, explicit GPU actions. Use one own
+trusted checkpoint spec and one entirely idle physical GPU per process:
+
+```bash
+python -m tools.hier_postrun_audit backbone \
+  --snapshot-spec <completed-export>/feature_exports/snapshot_spec.json \
+  --epoch 200 --out-dir <new-backbone-probe> \
+  --data-dir <ModelNet40-hdf5-dir> --gpu <idle-physical-index> \
+  --microbatch-size 16 --max-seconds 600 --seed 22
+```
+
+The global objective uses the same ordered64 training objects and the actual
+HyCoRe crop alias, CE/intra and versioned HIER operators. Microbatches limit
+encoder memory under eval BN; they do not change the global64 mining/loss.
+The probe preserves parameters, BN buffers, existing gradients, inputs and RNG,
+records input/crop identity, and performs no optimizer step. This condition is
+different from both clean first1024 export and augmented training BN. Failed
+attempts retain failed manifests in their own folders and are never successful
+evidence. Parameter-gradient ratios are before clipping/Adam; they do not imply
+the actual next update displacement.
+
+Bundle a completed CPU system report and successful probes into a fresh public
+offline delivery, preserving the source reports:
+
+```bash
+python -m tools.hier_postrun_audit delivery \
+  --system-dir <completed-system-audit> \
+  --backbone-dir <v5-backbone-probe> --backbone-dir <v6-backbone-probe> \
+  --backbone-dir <v7-backbone-probe> --out-dir <new-public-delivery>
+```
+
+Delivery copies only public HTML/JSON/CSV/PNG/SVG. Weights, NPZ, raw logs,
+working specs and normalized raw runs stay private. It verifies source hashes
+and every offline file link, and gates joint encoder interpretation on identical
+ordered64 IDs/labels, actual cloud bytes, crop centers, seed, model source and
+inference conditions. It compares each run's own scalar HIER/base gradient
+ratio and cosine; model parameter rows are never paired across runs.
+
+The real V5/V6/V7 plus matched B64 execution and findings are documented in
+[40: system audit results](../../docs/research/40_HIER_SYSTEM_AUDIT_RESULTS_2026-10-07.md).

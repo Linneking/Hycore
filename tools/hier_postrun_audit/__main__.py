@@ -76,7 +76,7 @@ def arguments():
     probe.add_argument("--data-dir", type=Path, required=True)
     probe.add_argument("--gpu", type=int, required=True)
     probe.add_argument("--seed", type=int, default=22)
-    probe.add_argument("--microbatch-size", type=int, default=32)
+    probe.add_argument("--microbatch-size", type=int, default=16)
     probe.add_argument("--max-seconds", type=float, default=600.)
     system = sub.add_parser("system", help="Join immutable exports, controlled mechanisms, shape and cross-version evidence")
     system.add_argument("--artifact-dir", type=Path, action="append", required=True)
@@ -96,6 +96,11 @@ def arguments():
     system.add_argument("--shape-per-class", type=int, default=8)
     system.add_argument("--bootstrap", type=int, default=200)
     system.add_argument("--seed", type=int, default=22)
+    delivery = sub.add_parser("delivery", help="Copy public immutable CPU evidence and completed real backbone probes into a fresh offline delivery")
+    delivery.add_argument("--system-dir", type=Path, required=True)
+    delivery.add_argument("--backbone-dir", type=Path, action="append", default=[])
+    delivery.add_argument("--out-dir", type=Path, required=True)
+    delivery.add_argument("--no-plots", action="store_true")
     return parser.parse_args()
 
 
@@ -121,6 +126,12 @@ def main():
     args = arguments()
     if args.command == "inventory":
         print(json.dumps(inventory_run(args.run_dir), ensure_ascii=False, indent=2, allow_nan=False))
+        return
+    if args.command == "delivery":
+        from .delivery import build_delivery
+        result = build_delivery(args.system_dir, args.backbone_dir, args.out_dir,
+                                make_plots=not args.no_plots)
+        print(json.dumps({key: result[key] for key in ("status", "backbone_success_count", "sources_unchanged")}, ensure_ascii=False), flush=True)
         return
     if args.command == "backbone":
         from .backbone_probe import run_backbone_probe

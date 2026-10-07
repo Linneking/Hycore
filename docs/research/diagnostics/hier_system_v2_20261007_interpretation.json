@@ -1,0 +1,386 @@
+{
+  "schema_version": "hier-system-curated-interpretation-v1",
+  "date": "2026-10-07",
+  "status": "independently_reviewed_saved_outputs",
+  "language": "zh-CN",
+  "public_artifact_root": "hier_system_v2_review_20261007_110037/system",
+  "scope": {
+    "single_seed_joint_changes": true,
+    "claim_type": "descriptive evidence; no isolated causal attribution",
+    "official_test_forward_during_audit": false,
+    "model_reselection_during_audit": false,
+    "source_results_modified": false,
+    "V5_lifetime_ids_available": false,
+    "limitations": [
+      "V5→V6同时包含self-k修正和训练预算/调度变化，不能将分类变化归因于self-k修正。",
+      "V6→V7同时改变warmup、权重、初始化和代理参数约束，不能分离各因素的独立效果。",
+      "代理ID仅在同run内配对，跨run不匹配。",
+      "固定clean/eval候选表征与实际增强训练、训练态BN的whole表征是不同群体。",
+      "代理到全候选池的最近邻四元组不是训练中hard-Gumbel选出的祖先关系。",
+      "类别纯度不是独立形态层次真值，Chamfer只是有明确尺度/点数限制的独立几何信号。",
+      "已有单run bootstrap区间不等于配对差值区间，不能根据区间重叠判断显著性。"
+    ]
+  },
+  "run_keys": {
+    "V5": "H20_17e64d7057fc",
+    "V6": "H20_26a4caef0b5c",
+    "V7": "V7_HIER64_K20_W0_98dedcccba91",
+    "matched_B64": "B0_balanced_90871afb70a6"
+  },
+  "sources": {
+    "lifetime": {
+      "file": "longitudinal_summary.json",
+      "fields": "runs[].groups[component=sample,domain=noncollision,role=combined].views.optimization_observed",
+      "identity_history_fields": "proxies[].zero_spans; per_epoch; observed_epochs"
+    },
+    "proxy_cohorts": {
+      "file": "snapshots/snapshot_summary.json",
+      "fields": "snapshots[].proxy.training_activation; snapshots[].arrays_file",
+      "array_fields": "proxy_used_mask; proxy_tangent_norm; proxy_depth; proxy_ids"
+    },
+    "independent_shape": {
+      "file": "structure/structure_summary.json",
+      "whole_fields": "snapshots[].shape.native.whole_relations.{hyperbolic,direction}",
+      "proxy_fields": "snapshots[].shape.native.proxy_relations.methods.{hyperbolic,direction}.proxy_rows"
+    },
+    "mechanisms": {
+      "file": "mechanisms/mechanism_summary.json",
+      "noise_fields": "snapshots[].components.sample.noise_summary.independent_noise_pair_agreement",
+      "temporal_fields": "transitions[].same_query_same_noise.sample",
+      "gradient_fields": "snapshots[].gradient_summaries.sample"
+    },
+    "saved_outcomes": {
+      "file": "comparison_summary.json",
+      "fields": "runs[].selection; pairs[].benefit_ledger",
+      "selection_policy": "Read recorded validation-selected identities and their saved final test; no reselection."
+    }
+  },
+  "V6_late_sample_ancestor_pool": {
+    "domain": "sample/noncollision/combined; optimization_observed",
+    "from_epoch": 99,
+    "to_epoch": 300,
+    "observed_epoch_count": 202,
+    "proxy_population_denominator": 512,
+    "union_used_proxy_count": 188,
+    "intersection_used_proxy_count": 186,
+    "final_used_proxy_count": 188,
+    "new_proxy_entries_relative_to_epoch99": 0,
+    "epochs_with_a_different_set_from_epoch99": 33,
+    "adjacent_epoch_set_change_count": 4,
+    "temporary_absence_intervals": [
+      {"from_epoch": 106, "to_epoch": 120, "proxy_count": 1},
+      {"from_epoch": 124, "to_epoch": 141, "proxy_count": 1}
+    ],
+    "interpretation": "至少e99之后，确实是同一188个代理池；其中两个代理短暂停用，不能写成每一轮都严格188个。"
+  },
+  "sample_ancestor_lifetimes": {
+    "domain": "sample/noncollision/combined; optimization_observed",
+    "proxy_population_denominator": 512,
+    "reactivation_definition": "Only a saved consecutive inactive-to-used transition after earlier use within the same observed segment counts.",
+    "zero_count_semantics": "No recorded hard-Gumbel ancestor selections; not a statement of zero gradient or no parameter update.",
+    "V6": {
+      "observed_epochs": [21, 300],
+      "observed_epoch_count": 280,
+      "ever_used_count": 432,
+      "never_used_in_optimization_window_count": 80,
+      "final_used_count": 188,
+      "final_inactive_count": 324,
+      "final_inactive_previously_used_in_optimization_count": 244,
+      "reactivated_proxy_count": 21,
+      "reactivation_event_count": 23,
+      "longest_contiguous_observed_zero_epochs": 280,
+      "final_effective_proxy_count": 155.461095,
+      "final_selection_gini": 0.7556774346,
+      "warmup_note": "e1–20 monitor-only counts are excluded. All-observed ever-used512 must not be reported as optimization-window ever-used512."
+    },
+    "V7": {
+      "observed_epochs": [1, 300],
+      "observed_epoch_count": 300,
+      "ever_used_count": 512,
+      "never_used_in_optimization_window_count": 0,
+      "final_used_count": 267,
+      "final_inactive_count": 245,
+      "final_inactive_previously_used_in_optimization_count": 245,
+      "reactivated_proxy_count": 79,
+      "reactivation_event_count": 376,
+      "longest_contiguous_observed_zero_epochs": 299,
+      "final_effective_proxy_count": 197.588397,
+      "final_selection_gini": 0.6892618625
+    },
+    "other_component_at_epoch300": {
+      "domain": "proxy/noncollision/combined",
+      "V6_used_count": 512,
+      "V7_used_count": 510,
+      "interpretation": "sample-inactive代理不能直接称为全局死亡代理。"
+    }
+  },
+  "epoch300_proxy_cohorts": {
+    "proxy_population_denominator": 512,
+    "group_definition": "Saved snapshot proxy_used_mask attached from actual epoch sample ancestor counts.",
+    "depth_units": "Full unsquared origin geodesic distance at c=1.",
+    "numerical_saturation_definition": "Stored tangent norm exceeds atanh(0.999), so the declared mapping reaches the numeric ball projection radius.",
+    "V6": {
+      "used": {
+        "count": 188,
+        "numerically_saturated_count": 0,
+        "median_origin_depth": 1.7479705280476476,
+        "median_stored_tangent_norm": 0.8739852640238239
+      },
+      "inactive": {
+        "count": 324,
+        "numerically_saturated_count": 323,
+        "median_origin_depth": 7.600402334500399,
+        "median_stored_tangent_norm": 7.374796912542207
+      }
+    },
+    "V7": {
+      "used": {
+        "count": 267,
+        "numerically_saturated_count": 0,
+        "median_origin_depth": 2.2717058370184247,
+        "median_stored_tangent_norm": 1.1358529185092126
+      },
+      "inactive": {
+        "count": 245,
+        "numerically_saturated_count": 0,
+        "median_origin_depth": 5.939171256157207,
+        "median_stored_tangent_norm": 2.9695856280786006
+      }
+    },
+    "interpretation": "V7解决数值饱和，但浅层used与较深inactive两群仍然存在；整体中位数变化不能解释为所有代理统一收缩。"
+  },
+  "hotspot_before_HIER_optimization": {
+    "run": "V6",
+    "epoch": 20,
+    "phase": "monitor-only warmup",
+    "numerically_saturated_proxy_count": 0,
+    "proxy_count_denominator": 512,
+    "candidate_count_denominator": 8856,
+    "retrieval_k": 4,
+    "retrieval_slot_count": 2048,
+    "hyperbolic_unique_sample_count": 7,
+    "largest_identical_top4_proxy_count": 477,
+    "interpretation": "热点在HIER开始优化、代理发生数值投影饱和之前已经存在，不能只归因于训练后代理被推向球边界。"
+  },
+  "independent_whole_shape": {
+    "status": "completed",
+    "snapshot_count": 15,
+    "candidate_pools_match": true,
+    "audit_object_denominator": 320,
+    "class_denominator": 40,
+    "audit_objects_per_class": 8,
+    "within_class_peer_count_per_query": 7,
+    "full_candidate_count": 8856,
+    "shape_points_per_object": 64,
+    "topk": 4,
+    "same_class_random_control_objects_per_query": 20,
+    "scale_for_values_below": "native",
+    "also_audited": "center_unit_rms",
+    "gain_definition": "1 - selected-neighbour mean Chamfer / same-class random-control mean Chamfer; larger means more geometrically similar neighbours relative to the declared control.",
+    "aggregation": "Object-balanced means over the same 320 query IDs. Eight per class makes these overall means equally class-balanced.",
+    "epoch_order": [100, 200, 300],
+    "values": {
+      "matched_B64": {
+        "hyperbolic_within_class_spearman": [0.1847098214285714, 0.15457589285714285, 0.1464285714285714],
+        "direction_within_class_spearman": [0.20837053571428568, 0.1737723214285714, 0.14274553571428572],
+        "hyperbolic_chamfer_gain": [0.2527600562451746, 0.24071984078788383, 0.2619540323323087],
+        "direction_chamfer_gain": [0.3627332465038899, 0.2891681784710465, 0.2611709136805048]
+      },
+      "V6": {
+        "hyperbolic_within_class_spearman": [0.2185267857142857, 0.17723214285714278, 0.15848214285714285],
+        "direction_within_class_spearman": [0.23426339285714284, 0.1591517857142857, 0.16138392857142855],
+        "hyperbolic_chamfer_gain": [0.27835933988698836, 0.28923039681379925, 0.21186152885813353],
+        "direction_chamfer_gain": [0.3042286827366401, 0.3089443797127651, 0.20902367628301732]
+      },
+      "V7": {
+        "hyperbolic_within_class_spearman": [0.23381696428571427, 0.16707589285714283, 0.18325892857142856],
+        "direction_within_class_spearman": [0.22622767857142856, 0.17488839285714283, 0.17790178571428567],
+        "hyperbolic_chamfer_gain": [0.3176821216297554, 0.26074120074496043, 0.24166357321631135],
+        "direction_chamfer_gain": [0.33633700347947126, 0.27734477167183635, 0.25502059411747563]
+      }
+    },
+    "paired_epoch300_V7_minus_B64_description": {
+      "hyperbolic_spearman_mean_delta": 0.03683035714285714,
+      "hyperbolic_spearman_positive_class_count": 24,
+      "hyperbolic_gain_mean_delta": -0.020290459115997337,
+      "hyperbolic_gain_positive_class_count": 18,
+      "direction_spearman_mean_delta": 0.03515624999999999,
+      "direction_spearman_positive_class_count": 24,
+      "direction_gain_mean_delta": -0.006150319563029173,
+      "direction_gain_positive_class_count": 18,
+      "class_denominator": 40,
+      "object_denominator": 320,
+      "paired_difference_confidence_interval": null,
+      "interpretation": "同对象描述性差分，不是显著性检验；指标与类别收益不一致，不能声称whole形态结构全面或持续优于B64。"
+    }
+  },
+  "epoch300_proxy_shape_and_repeated_weighting": {
+    "audit_proxy_row_denominator": 64,
+    "total_proxy_population": 512,
+    "sampling": "Evenly spaced stable proxy rows, not an iid proxy sample.",
+    "scale": "native",
+    "control": "Random quartets preserve the selected quartet label multiset; controls are sampled separately for each proxy row.",
+    "deduplicated_mean_definition": "Average proxy-row enrichment within each unique unordered top-4 set, then give each unique set equal weight.",
+    "confidence_interval": null,
+    "V6": {
+      "hyperbolic": {
+        "mean_proxy_weighted_gain": -0.2815281591643468,
+        "mean_unique_quartet_weighted_gain": -0.1534322051944361,
+        "unique_objects": 23,
+        "unique_classes": 8,
+        "unique_quartets": 14,
+        "largest_quartet_proxy_count": 44,
+        "largest_quartet_labels": [14, 14, 14, 14],
+        "positive_gain_proxy_rows": 4
+      },
+      "direction": {
+        "mean_proxy_weighted_gain": 0.07086728213478666,
+        "mean_unique_quartet_weighted_gain": 0.07302979440505576,
+        "unique_objects": 91,
+        "unique_classes": 20,
+        "unique_quartets": 37,
+        "positive_gain_proxy_rows": 42
+      },
+      "full_512_proxy_retrieval": {
+        "hyperbolic_unique_objects": 28,
+        "direction_unique_objects": 191
+      }
+    },
+    "V7": {
+      "hyperbolic": {
+        "mean_proxy_weighted_gain": 0.5032780948298725,
+        "mean_unique_quartet_weighted_gain": 0.29638542465227125,
+        "unique_objects": 21,
+        "unique_classes": 4,
+        "unique_quartets": 11,
+        "largest_quartet_proxy_count": 33,
+        "second_largest_quartet_proxy_count": 18,
+        "top_two_quartets_proxy_count": 51,
+        "top_two_quartets_labels": [15, 15, 15, 15],
+        "positive_gain_proxy_rows": 62
+      },
+      "direction": {
+        "mean_proxy_weighted_gain": -0.08428926907933715,
+        "mean_unique_quartet_weighted_gain": -0.03434800521126817,
+        "unique_objects": 69,
+        "unique_classes": 11,
+        "unique_quartets": 42,
+        "positive_gain_proxy_rows": 29
+      },
+      "full_512_proxy_retrieval": {
+        "hyperbolic_unique_objects": 27,
+        "direction_unique_objects": 221
+      }
+    },
+    "full_retrieval_denominators": {
+      "candidate_objects": 8856,
+      "proxies": 512,
+      "k": 4,
+      "slots": 2048
+    },
+    "interpretation": "V7捕获的原始双曲热点本身更几何一致，但少量四元组重复加权可给出漂亮均值；这不代表覆盖或广泛形态关系发现已修复。64行审查与全512覆盖的分母必须分开。"
+  },
+  "mechanism_selection_stability": {
+    "query_count_per_component": 64,
+    "noise_draw_count": 8,
+    "independent_noise_pair_count": 28,
+    "denominator_note": "Every agreement compares 64 fixed queries. The 28 draw pairs share eight noises and are not 28 independent experiments.",
+    "cross_run_query_identity": "Query plans are fixed within each run but mined separately by run; across-run aggregates are descriptive, not paired-query comparisons.",
+    "fixed_weight_different_noise_at_epoch300": {
+      "component": "sample",
+      "V6": {
+        "pair_ancestor_id_agreement": 0.109375,
+        "triple_ancestor_id_agreement": 0.04352678571428571,
+        "active_hinge_mask_agreement": 0.9123883928571429,
+        "selected_proxy_set_jaccard": 0.3806133257013736
+      },
+      "V7": {
+        "pair_ancestor_id_agreement": 0.14899553571428573,
+        "triple_ancestor_id_agreement": 0.08482142857142858,
+        "active_hinge_mask_agreement": 0.8738839285714286,
+        "selected_proxy_set_jaccard": 0.3681827644302131
+      }
+    },
+    "same_query_same_noise_epoch200_to300": {
+      "component": "sample",
+      "matched_noise_draw_count": 8,
+      "V6": {
+        "pair_ancestor_id_agreement": 0.4453125,
+        "triple_ancestor_id_agreement": 0.333984375,
+        "active_hinge_mask_agreement": 0.80859375,
+        "selected_proxy_set_jaccard": 0.4838304968965346
+      },
+      "V7": {
+        "pair_ancestor_id_agreement": 0.40625,
+        "triple_ancestor_id_agreement": 0.443359375,
+        "active_hinge_mask_agreement": 0.830078125,
+        "selected_proxy_set_jaccard": 0.47940729559732914
+      }
+    },
+    "same_checkpoint_same_seed_reproducibility": {
+      "mechanism_snapshot_count": 11,
+      "pair_ancestor_id_agreement": 1.0,
+      "triple_ancestor_id_agreement": 1.0,
+      "active_hinge_mask_agreement": 1.0,
+      "absolute_loss_change": 0.0
+    },
+    "interpretation": "实现可复现；换噪声时祖先身份仍明显变化。较高mask agreement不是较高祖先ID agreement，V7没有在所有稳定性指标上优于V6。"
+  },
+  "local_gradient_scope": {
+    "epoch": 300,
+    "run": "V7",
+    "component": "sample",
+    "lambda_hier": 0.1,
+    "weighted_whole_ball_gradient_norm": 0.7074984908103943,
+    "weighted_whole_ball_radial_norm": 0.7072717547416687,
+    "weighted_whole_ball_angular_norm": 0.017922300845384598,
+    "query_count": 64,
+    "gradient_repeat": 0,
+    "interpretation": "球坐标局部偏导的径向范数明显大于角向；这不是共享编码器梯度，也不是AdamW实际位移，不能据此宣称径向因果机制已确认。"
+  },
+  "saved_validation_selected_outcomes": {
+    "units": "OA/AA in percent; differences are measured in percentage points",
+    "selection": "saved validation-OA selected checkpoint",
+    "validation_count": null,
+    "validation_count_note": "Not present in the extracted selection record; no denominator inferred here.",
+    "official_test_count_denominator": 2468,
+    "AA_denominator_note": "Reported class-average accuracy; the per-class test counts are not expanded in this curated file.",
+    "V5": {
+      "selected_epoch": 179,
+      "validation_OA_pct": 94.0040650406504,
+      "validation_AA_pct": 90.74321985244751,
+      "saved_final_test_OA_pct": 92.13938411669368,
+      "saved_final_test_AA_pct": 89.15813565254211
+    },
+    "V6": {
+      "selected_epoch": 99,
+      "validation_OA_pct": 94.3089430894309,
+      "validation_AA_pct": 92.19918251037598,
+      "saved_final_test_OA_pct": 91.24797406807131,
+      "saved_final_test_AA_pct": 88.91686201095581
+    },
+    "V7": {
+      "selected_epoch": 187,
+      "validation_OA_pct": 93.80081300813008,
+      "validation_AA_pct": 90.76539874076843,
+      "saved_final_test_OA_pct": 92.22042139384116,
+      "saved_final_test_AA_pct": 89.72035646438599
+    },
+    "matched_B64": {
+      "selected_epoch": 231,
+      "validation_OA_pct": 94.3089430894309,
+      "validation_AA_pct": 91.83073043823242,
+      "saved_final_test_OA_pct": 91.85575364667747,
+      "saved_final_test_AA_pct": 89.99940752983093
+    },
+    "interpretation": "V7相对V6的saved test OA恢复，但相对B64的OA/AA方向不同且validation不占优；单seed联合改动不能证明HIER目标的稳定净收益。"
+  },
+  "curated_conclusions": [
+    "V6的self-k修正得到验证，不能因此宣称数值饱和或分类问题同时解决。",
+    "V7的数值饱和消除和样本祖先使用范围扩大得到验证，但浅深两群与热点覆盖仍然存在。",
+    "V7原始双曲热点的形态一致性改善，不等于广泛类内形态结构发现。",
+    "固定clean whole的几何收益随指标、checkpoint和类别变化，尚不支持持续全面优于匹配B64。",
+    "祖先身份稳定性、非碰撞hinge稳定性、代理池激活稳定性应分开报告。",
+    "分类结果、实现正确性、训练协议和inter目标本身的效果必须分开解释。"
+  ]
+}

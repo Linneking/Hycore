@@ -73,7 +73,7 @@ def gradient_comparison(first, second):
 
 
 def clean_alias_forward(model, clouds, labels, sample_ids, *, whole_count=1024,
-                        child_count=256, microbatch_size=32, seed=22, activation_checkpoint=True):
+                        child_count=256, microbatch_size=16, seed=22, activation_checkpoint=False):
     """Use actual crop aliasing but explicit same-ID crop centers/eval BN."""
     import torch
     from inter_hierarchy_MN40.hier_proxy_scratch_v5.base_protocol import get_children_alias
@@ -191,9 +191,9 @@ def _flat_grad(loss, parameters):
                       for parameter, gradient in zip(parameters, gradients)])
 
 
-def probe_model_batch(model, clouds, labels, sample_ids, *, proxy_tangent=None,
+def _probe_model_batch_graph(model, clouds, labels, sample_ids, *, proxy_tangent=None,
                       config=None, seed=22, whole_count=1024, child_count=256,
-                      microbatch_size=32, activation_checkpoint=True):
+                      microbatch_size=16, activation_checkpoint=False):
     """Testable low-level probe on an already loaded model; CPU or GPU."""
     import torch
     config = {} if config is None else dict(config)
@@ -274,8 +274,8 @@ def probe_model_batch(model, clouds, labels, sample_ids, *, proxy_tangent=None,
 
 
 def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
-                       whole_count=1024, child_count=256, microbatch_size=32,
-                       max_seconds=600, activation_checkpoint=True):
+                       whole_count=1024, child_count=256, microbatch_size=16,
+                       max_seconds=600, activation_checkpoint=False, gradient_method="two_pass_vjp"):
     """Run one own trusted checkpoint in a fresh process on an explicit idle GPU."""
     started = time.monotonic()
     output = Path(output_dir).resolve()
@@ -338,7 +338,13 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
         if resolve_proxy_mapping(saved, saved.get("training_config", {})) != {"numeric_radius_fraction": .999}:
             raise ValueError("Backbone probe supports only the inspected live proxy map")
     output.mkdir(parents=True, exist_ok=False)
+    try:
+        audit_code_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip()
+    except (OSError, subprocess.CalledProcessError):
+        audit_code_commit = None
+    audit_module_sha = sha256(Path(__file__))
     manifest = {"format": "hier-frozen-backbone-gradient-v1", "status": "running",
+                "audit_code_commit": audit_code_commit, "audit_module_sha256": audit_module_sha,
                 "started_utc": dt.datetime.now(dt.timezone.utc).isoformat(), "physical_gpu": int(gpu),
                 "source_checkpoint_file": checkpoint_path.name, "source_checkpoint_sha256": source_sha,
                 "epoch": epoch, "run_key": spec.get("run_key"), "seed": seed,
@@ -353,13 +359,15 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
         report = probe_model_batch(model, clouds, labels, ids, proxy_tangent=proxy_tangent,
                                    config=config, seed=seed, whole_count=whole_count,
                                    child_count=child_count, microbatch_size=microbatch_size,
-                                   activation_checkpoint=activation_checkpoint)
+                                   activation_checkpoint=activation_checkpoint,
+                                   gradient_method=gradient_method, deadline=started + max_seconds)
         torch.cuda.synchronize()
         if sha256(checkpoint_path) != source_sha:
             raise RuntimeError("Source checkpoint changed during the probe")
         report.update(run_key=spec.get("run_key"), display_name=spec.get("display_name"),
                       epoch=epoch, checkpoint_sha256=source_sha, source_checkpoint_file=checkpoint_path.name,
                       source_shards=shards, source_commit=spec.get("source_commit"),
+                      audit_code_commit=audit_code_commit, audit_module_sha256=audit_module_sha,
                       train_labels_sha256=labels_sha,
                       recorded_train_labels_identity_verified=expected_labels_sha is not None,
                       model_source_sha256=sha256(REPO / "inter_hierarchy_MN40/models/pointmlp.py"),
@@ -367,6 +375,7 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
                                        "microbatch_size": microbatch_size, "seed": seed,
                                        "whole_count": whole_count, "child_count": child_count,
                                        "TF32_matmul": torch.backends.cuda.matmul.allow_tf32,
+                                       "gradient_method": report.get("gradient_method", "ordinary_graph"),
                                        "activation_checkpoint": bool(activation_checkpoint),
                                        "checkpoint_use_reentrant": False,
                                        "checkpoint_early_stop": False,
@@ -380,3 +389,257 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
         manifest.update(status="failed", error=repr(exc), elapsed_seconds=time.monotonic() - started)
         _save(output / "backbone_probe_manifest.json", manifest)
         raise
+
+
+def _capture_forward_rng():
+    import torch
+    return {"python": random.getstate(), "numpy": np.random.get_state(),
+            "cpu": torch.get_rng_state().clone(),
+            "cuda": torch.cuda.get_rng_state_all() if torch.cuda.is_initialized() else None}
+
+
+def _restore_forward_rng(state):
+    import torch
+    random.setstate(state["python"])
+    np.random.set_state(state["numpy"])
+    torch.set_rng_state(state["cpu"])
+    if state["cuda"] is not None:
+        torch.cuda.set_rng_state_all(state["cuda"])
+
+
+@contextmanager
+def _replayed_forward_rng(state):
+    current = _capture_forward_rng()
+    try:
+        _restore_forward_rng(state)
+        yield
+    finally:
+        _restore_forward_rng(current)
+
+
+def _stage_features(model, clouds, labels, sample_ids, *, whole_count,
+                    child_count, microbatch_size, seed, deadline=None):
+    """No encoder graph is retained; save actual input/RNG for exact replay."""
+    import torch
+    from inter_hierarchy_MN40.hier_proxy_scratch_v5.base_protocol import get_children_alias
+    clouds = np.asarray(clouds, dtype=np.float32)
+    labels, sample_ids = np.asarray(labels).reshape(-1), np.asarray(sample_ids).reshape(-1)
+    if clouds.ndim != 3 or clouds.shape[2] != 3 or len(labels) != len(clouds) or len(sample_ids) != len(clouds):
+        raise ValueError("Probe needs aligned clouds[N,P,3], labels and fixed sample IDs")
+    if not 1 <= child_count <= whole_count <= clouds.shape[1] or microbatch_size < 1:
+        raise ValueError("Invalid fixed crop/microbatch counts")
+    if np.any(labels == labels[::-1]):
+        raise ValueError("Fixed global flip negative shares an anchor class")
+    cloud_sha = _array_sha(clouds)
+    rng = np.random.default_rng(seed)
+    whole_centers = rng.integers(0, clouds.shape[1], size=len(clouds))
+    child_centers = rng.integers(0, whole_count, size=len(clouds))
+    device = next(model.parameters()).device
+    records, whole_features, child_features, stats = [], [], [], []
+    with torch.no_grad():
+        for start in range(0, len(clouds), microbatch_size):
+            if deadline is not None and time.monotonic() > deadline:
+                raise TimeoutError("Backbone probe budget reached at feature-stage boundary")
+            end = min(start + microbatch_size, len(clouds))
+            source = torch.as_tensor(clouds[start:end].copy(), device=device).transpose(1, 2).contiguous()
+            _, whole, _ = get_children_alias(source, whole_count, centers=whole_centers[start:end].tolist())
+            before_child = whole.detach().clone()
+            _, child, _ = get_children_alias(whole, child_count, centers=child_centers[start:end].tolist())
+            record = {"start": start, "end": end,
+                      "child_input": child.detach().cpu().clone(),
+                      "whole_input": whole.detach().cpu().clone()}
+            record["child_rng"] = _capture_forward_rng()
+            nu, _ = model(child, emb=True)
+            record["child_feature"] = nu.detach().cpu().clone()
+            record["whole_rng"] = _capture_forward_rng()
+            mu, _ = model(whole, emb=True)
+            record["whole_feature"] = mu.detach().cpu().clone()
+            child_features.append(record["child_feature"])
+            whole_features.append(record["whole_feature"])
+            records.append(record)
+            stats.append({"microbatch_size": end - start,
+                          "child_aliases_whole": child.untyped_storage().data_ptr() == whole.untyped_storage().data_ptr(),
+                          "whole_changed_by_child": not bool(torch.equal(whole, before_child))})
+            del source, whole, child, before_child, mu, nu
+    if _array_sha(clouds) != cloud_sha:
+        raise RuntimeError("Original probe point clouds changed")
+    mu = torch.cat(whole_features).to(device).requires_grad_(True)
+    nu = torch.cat(child_features).to(device).requires_grad_(True)
+    values = {"mu": mu, "nu": nu, "logits": model.classifier(mu),
+              "gold": torch.as_tensor(labels, dtype=torch.long, device=device),
+              "sample_ids": sample_ids, "child_count": child_count,
+              "input_identity": {"input_sha256": cloud_sha, "sample_ids": sample_ids.tolist(),
+                                 "labels": labels.tolist(), "whole_count": whole_count,
+                                 "child_count": child_count, "microbatch_size": microbatch_size,
+                                 "whole_centers": whole_centers.tolist(), "child_centers": child_centers.tolist(),
+                                 "crop_seed": seed, "mode": "clean fixed crop / eval BN / original alias overwrite",
+                                 "classifier_on_concatenated_mu": True,
+                                 "gradient_method": "two_pass_feature_adjoint_vjp",
+                                 "activation_checkpoint": False, "checkpoint_early_stop": False},
+              "microbatches": stats}
+    return values, records
+
+
+def _flatten_returned_gradients(gradients, parameters):
+    import torch
+    # Avoid allocating a full zero tensor on the GPU for an unused parameter.
+    return torch.cat([torch.zeros(parameter.numel(), dtype=torch.float32) if gradient is None
+                      else gradient.detach().float().cpu().reshape(-1)
+                      for parameter, gradient in zip(parameters, gradients)])
+
+
+def _vjp_report(model, values, losses, stats, vectors, tangent, config, replay):
+    import torch
+    weight = float(config.get("lambda_hier", 0.))
+    named = [(name, parameter) for name, parameter in model.named_parameters() if parameter.requires_grad]
+    indices = {"all_model": [], "shared_encoder": [], "classifier": []}
+    offset = 0
+    for name, parameter in named:
+        positions = torch.arange(offset, offset + parameter.numel())
+        indices["all_model"].append(positions)
+        indices["classifier" if name.startswith("classifier.") else "shared_encoder"].append(positions)
+        offset += parameter.numel()
+    indices = {name: torch.cat(parts) if parts else torch.empty(0, dtype=torch.long)
+               for name, parts in indices.items()}
+    vectors["base"] = vectors["ce"] + vectors["weighted_intra"]
+    if tangent is not None:
+        vectors["hier_unweighted"] = vectors["sample"] + vectors["proxy"]
+        vectors["hier_weighted"] = weight * vectors["hier_unweighted"]
+        vectors["total"] = vectors["base"] + vectors["hier_weighted"]
+        losses["hier_unweighted"] = losses["sample"] + losses["proxy"]
+        losses["hier_weighted"] = weight * losses["hier_unweighted"]
+        losses["total"] = losses["base"] + losses["hier_weighted"]
+    else:
+        vectors["total"] = vectors["base"]
+        losses["total"] = losses["base"]
+    groups = {}
+    for name, positions in indices.items():
+        group = {"parameter_elements": len(positions),
+                 "norms": {key: float(vector[positions].norm()) for key, vector in vectors.items()}}
+        if tangent is not None:
+            group.update(hier_vs_base=gradient_comparison(vectors["hier_weighted"][positions], vectors["base"][positions]),
+                         sample_vs_base=gradient_comparison(vectors["sample"][positions], vectors["base"][positions]),
+                         total_vs_base=gradient_comparison(vectors["total"][positions], vectors["base"][positions]))
+        groups[name] = group
+    whole_partials, proxy_partials = {}, {}
+    for name, loss in losses.items():
+        gradient, = torch.autograd.grad(loss, (values["mu"],), retain_graph=True, allow_unused=True)
+        whole_partials[name] = gradient_summary(values["mu"], gradient, values["sample_ids"])
+        if tangent is not None:
+            gradient, = torch.autograd.grad(loss, (tangent,), retain_graph=True, allow_unused=True)
+            proxy_partials[name] = gradient_summary(tangent, gradient, np.arange(len(tangent)))
+    return {"format": "hier-frozen-backbone-gradient-v1",
+            "scope": "Actual shared-parameter partials under fixed clean crops/eval BN; no optimizer step or train-BN causal claim",
+            "gradient_method": "two_pass_feature_adjoint_vjp",
+            "lambda_hier": weight, "objective_values": {key: float(value.detach()) for key, value in losses.items()},
+            "hier_stats": stats, "parameter_groups": groups,
+            "whole_ball_partials": whole_partials, "proxy_tangent_partials": proxy_partials,
+            "input_identity": values["input_identity"], "microbatches": values["microbatches"],
+            "replay_validation": replay,
+            "gradient_identity": {"model_parameter_names": [name for name, _ in named],
+                                  "model_parameter_elements": offset, "before_clipping": True,
+                                  "no_optimizer_state_consulted": True,
+                                  "global_objective_size": len(values["sample_ids"]),
+                                  "encoder_graph_scope": "one role / microbatch at a time"},
+            "read_only": {"optimizer_updates": 0, "BN_parameters_grad_buffers_unchanged": True,
+                          "RNG_restored": True, "source_clouds_unchanged": True,
+                          "new_validation_forwards": 0, "new_test_forwards": 0}}
+
+
+def _probe_model_batch_vjp(model, clouds, labels, sample_ids, *, proxy_tangent=None,
+                           config=None, seed=22, whole_count=1024, child_count=256,
+                           microbatch_size=16, deadline=None):
+    """Global feature adjoints followed by bounded actual encoder VJPs."""
+    import torch
+    config = {} if config is None else dict(config)
+    weight = float(config.get("lambda_hier", 0.))
+    if not np.isfinite(weight) or weight < 0:
+        raise ValueError("Invalid actual HIER objective weight")
+    named = [(name, parameter) for name, parameter in model.named_parameters() if parameter.requires_grad]
+    if not named:
+        raise ValueError("Probe requires trainable model parameter identities")
+    parameters = [parameter for _, parameter in named]
+    with preserved_model(model):
+        torch.manual_seed(seed)
+        if next(model.parameters()).is_cuda:
+            torch.cuda.manual_seed_all(seed)
+        values, records = _stage_features(model, clouds, labels, sample_ids,
+                                          whole_count=whole_count, child_count=child_count,
+                                          microbatch_size=microbatch_size, seed=seed, deadline=deadline)
+        tangent = None if proxy_tangent is None else torch.as_tensor(
+            np.asarray(proxy_tangent).copy(), dtype=values["mu"].dtype,
+            device=values["mu"].device).requires_grad_(True)
+        if deadline is not None and time.monotonic() > deadline:
+            raise TimeoutError("Backbone probe budget reached before global feature objective")
+        losses, stats = _loss_components(values, tangent, config, seed)
+        primitive = {name: loss for name, loss in losses.items() if name != "base"}
+        # Direct classifier partials plus exact global feature adjoints.
+        vectors, adjoints = {}, {}
+        for name, loss in primitive.items():
+            if deadline is not None and time.monotonic() > deadline:
+                raise TimeoutError("Backbone probe budget reached at feature-adjoint boundary")
+            vectors[name] = _flat_grad(loss, parameters)
+            pair = torch.autograd.grad(loss, (values["mu"], values["nu"]),
+                                       retain_graph=True, allow_unused=True)
+            adjoints[name] = {role: (torch.zeros_like(values[key]) if gradient is None else gradient.detach())
+                              for role, key, gradient in zip(("whole", "child"), ("mu", "nu"), pair)}
+        replay = {"available": True, "passed": False,
+                  "expected_forward_replays": 2 * len(records), "rtol": 1e-5, "atol": 1e-6,
+                  "max_absolute_feature_difference": 0., "forward_replays": 0,
+                  "same_actual_forward_RNG": True, "records": []}
+        device = values["mu"].device
+        for record in records:
+            for role in ("child", "whole"):
+                if deadline is not None and time.monotonic() > deadline:
+                    raise TimeoutError("Backbone probe budget reached at encoder replay boundary")
+                start, end = record["start"], record["end"]
+                # Restore the actual original forward stream, not a guessed seed.
+                with _replayed_forward_rng(record[role + "_rng"]):
+                    replay_input = record[role + "_input"].to(device)
+                    feature, _ = model(replay_input, emb=True)
+                    original = record[role + "_feature"].to(device)
+                    absolute = float((feature.detach() - original).abs().max())
+                    if not torch.allclose(feature.detach(), original, rtol=1e-5, atol=1e-6):
+                        raise RuntimeError("Same-input/RNG encoder replay differs from first-pass " + role + " features")
+                    replay["max_absolute_feature_difference"] = max(replay["max_absolute_feature_difference"], absolute)
+                    replay["forward_replays"] += 1
+                    replay["records"].append({"role": role, "start": start, "end": end,
+                                               "max_absolute_difference": absolute})
+                    active = [name for name in primitive
+                              if bool((adjoints[name][role][start:end] != 0).any())]
+                    for index, name in enumerate(active):
+                        if deadline is not None and time.monotonic() > deadline:
+                            raise TimeoutError("Backbone probe budget reached at loss VJP boundary")
+                        gradient = torch.autograd.grad(
+                            feature, parameters, grad_outputs=adjoints[name][role][start:end],
+                            retain_graph=index < len(active) - 1, allow_unused=True)
+                        vectors[name].add_(_flatten_returned_gradients(gradient, parameters))
+                        del gradient
+                    del feature, original, replay_input
+        if replay["forward_replays"] != replay["expected_forward_replays"]:
+            raise RuntimeError("Encoder replay did not validate every staged role and microbatch")
+        if deadline is not None and time.monotonic() > deadline:
+            raise TimeoutError("Backbone probe budget reached before gradient report")
+        replay["passed"] = True
+        return _vjp_report(model, values, losses, stats, vectors, tangent, config, replay)
+
+
+def probe_model_batch(model, clouds, labels, sample_ids, *, proxy_tangent=None,
+                      config=None, seed=22, whole_count=1024, child_count=256,
+                      microbatch_size=16, activation_checkpoint=False,
+                      gradient_method="two_pass_vjp", deadline=None):
+    """Use bounded VJPs by default; ordinary graph is a tiny reference control."""
+    if gradient_method == "two_pass_vjp":
+        if activation_checkpoint:
+            raise ValueError("Two-pass VJP does not use activation-checkpoint hooks")
+        return _probe_model_batch_vjp(model, clouds, labels, sample_ids,
+                                      proxy_tangent=proxy_tangent, config=config, seed=seed,
+                                      whole_count=whole_count, child_count=child_count,
+                                      microbatch_size=microbatch_size, deadline=deadline)
+    if gradient_method == "ordinary":
+        return _probe_model_batch_graph(model, clouds, labels, sample_ids,
+                                        proxy_tangent=proxy_tangent, config=config, seed=seed,
+                                        whole_count=whole_count, child_count=child_count,
+                                        microbatch_size=microbatch_size,
+                                        activation_checkpoint=activation_checkpoint)
+    raise ValueError("Unknown backbone gradient method")

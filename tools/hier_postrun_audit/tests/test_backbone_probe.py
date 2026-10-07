@@ -113,7 +113,7 @@ class BackboneTorchTests(unittest.TestCase):
         self.assertAlmostEqual(gradient_comparison(first, -first)["cosine"], -1., places=6)
         self.assertIsNone(gradient_comparison(torch.zeros_like(first), first)["cosine"])
 
-    def test_nonreentrant_checkpoint_preserves_all_loss_gradients_and_random_streams(self):
+    def test_two_pass_vjp_preserves_all_loss_gradients_and_random_streams(self):
         import copy
         import random
         import torch
@@ -131,7 +131,8 @@ class BackboneTorchTests(unittest.TestCase):
                 self.classifier = original.classifier
 
             def forward(self, points, emb=False):
-                features = self.bn(self.encoder((points + .03 * torch.rand_like(points)).mean(dim=-1)))
+                jitter = .03 * torch.rand_like(points) + .01 * random.random() + .01 * np.random.random()
+                features = self.bn(self.encoder((points + jitter).mean(dim=-1)))
                 mu = .65 * torch.tanh(features)
                 mu = mu * (.8 / mu.norm(dim=-1, keepdim=True).clamp_min(1e-12)).clamp(max=1)
                 return (mu, mu) if emb else (mu, self.classifier(mu))
@@ -144,11 +145,19 @@ class BackboneTorchTests(unittest.TestCase):
                              "sample_K": 4, "proxy_K": 3, "t_per_anchor": 5},
                   "whole_count": 16, "child_count": 8, "microbatch_size": 2, "seed": 22}
         cpu_rng, python_rng = torch.get_rng_state().clone(), random.getstate()
+        numpy_rng = np.random.get_state()
         original_state = state_digest(plain.state_dict())
-        before = probe_model_batch(plain, clouds, labels, ids, activation_checkpoint=False, **kwargs)
-        after = probe_model_batch(recomputed, clouds, labels, ids, activation_checkpoint=True, **kwargs)
+        before = probe_model_batch(plain, clouds, labels, ids, gradient_method="ordinary", activation_checkpoint=False, **kwargs)
+        after = probe_model_batch(recomputed, clouds, labels, ids, gradient_method="two_pass_vjp", activation_checkpoint=False, **kwargs)
         self.assertTrue(torch.equal(cpu_rng, torch.get_rng_state()))
         self.assertEqual(python_rng, random.getstate())
+        numpy_after = np.random.get_state()
+        self.assertEqual(numpy_rng[0], numpy_after[0])
+        np.testing.assert_array_equal(numpy_rng[1], numpy_after[1])
+        self.assertEqual(numpy_rng[2:], numpy_after[2:])
+        self.assertTrue(after["replay_validation"]["passed"])
+        self.assertEqual(after["replay_validation"]["forward_replays"], 8)
+        self.assertEqual(after["replay_validation"]["expected_forward_replays"], 8)
         self.assertEqual(state_digest(plain.state_dict()), original_state)
         self.assertEqual(state_digest(recomputed.state_dict()), original_state)
         for name, value in before["objective_values"].items():
@@ -166,7 +175,7 @@ class BackboneTorchTests(unittest.TestCase):
         self.assertTrue(all(parameter.grad is None for parameter in plain.parameters()))
         self.assertTrue(all(parameter.grad is None for parameter in recomputed.parameters()))
 
-    def test_real_geoopt_scripted_project_recompute_gradient_equivalence(self):
+    def test_real_geoopt_scripted_project_two_pass_gradient_equivalence(self):
         import copy
         import torch
         import geoopt
@@ -195,8 +204,8 @@ class BackboneTorchTests(unittest.TestCase):
                 "config": {"lambda_hier": .1, "tau": 1., "margin": .5,
                            "sample_K": 4, "proxy_K": 3, "t_per_anchor": 5},
                 "whole_count": 16, "child_count": 8, "microbatch_size": 2, "seed": 22}
-        first = probe_model_batch(ordinary, clouds, labels, ids, activation_checkpoint=False, **args)
-        second = probe_model_batch(recomputed, clouds, labels, ids, activation_checkpoint=True, **args)
+        first = probe_model_batch(ordinary, clouds, labels, ids, gradient_method="ordinary", activation_checkpoint=False, **args)
+        second = probe_model_batch(recomputed, clouds, labels, ids, gradient_method="two_pass_vjp", activation_checkpoint=False, **args)
         for group, record in first["parameter_groups"].items():
             for name, value in record["norms"].items():
                 self.assertAlmostEqual(value, second["parameter_groups"][group]["norms"][name], places=6)
@@ -206,8 +215,70 @@ class BackboneTorchTests(unittest.TestCase):
                     self.assertAlmostEqual(left, right, places=6)
         for name, value in first["objective_values"].items():
             self.assertAlmostEqual(value, second["objective_values"][name], places=6)
-        self.assertFalse(second["input_identity"]["checkpoint_early_stop"])
+        self.assertFalse(second["input_identity"]["activation_checkpoint"])
+        self.assertEqual(second["gradient_method"], "two_pass_feature_adjoint_vjp")
+        self.assertTrue(second["replay_validation"]["available"])
+        self.assertTrue(second["replay_validation"]["passed"])
+        self.assertEqual(second["replay_validation"]["forward_replays"], second["replay_validation"]["expected_forward_replays"])
         self.assertTrue(all(parameter.grad is None for parameter in recomputed.parameters()))
+
+    def test_two_pass_rejects_same_rng_replay_feature_mismatch(self):
+        import random
+        import torch
+        from tools.hier_postrun_audit.backbone_probe import probe_model_batch
+        from tools.hier_postrun_audit.extract import state_digest
+        original = self._model()
+        class DriftingModel(torch.nn.Module):
+            def __init__(self, source):
+                super().__init__()
+                self.encoder, self.bn, self.classifier = source.encoder, source.bn, source.classifier
+                self.forward_calls = 0
+
+            def forward(self, points, emb=False):
+                self.forward_calls += 1
+                features = self.bn(self.encoder(points.mean(dim=-1)))
+                # An untracked, non-RNG change cannot be recreated by replay.
+                mu = .2 * torch.tanh(features + .01 * self.forward_calls)
+                return (mu, mu) if emb else (mu, self.classifier(mu))
+        model = DriftingModel(original)
+        model.train()
+        state = state_digest(model.state_dict())
+        cpu_rng, python_rng = torch.get_rng_state().clone(), random.getstate()
+        clouds, labels, ids = self._data()
+        before = clouds.copy()
+        with self.assertRaisesRegex(RuntimeError, "replay differs from first-pass"):
+            probe_model_batch(model, clouds, labels, ids, whole_count=16, child_count=8,
+                              microbatch_size=2, gradient_method="two_pass_vjp")
+        self.assertEqual(model.forward_calls, 9)  # Eight staged forwards, then refused first replay.
+        self.assertEqual(state_digest(model.state_dict()), state)
+        self.assertTrue(model.training)
+        self.assertTrue(torch.equal(cpu_rng, torch.get_rng_state()))
+        self.assertEqual(python_rng, random.getstate())
+        np.testing.assert_array_equal(before, clouds)
+        self.assertTrue(all(parameter.grad is None for parameter in model.parameters()))
+
+    def test_two_pass_expired_budget_refused_before_any_model_forward(self):
+        import random
+        import time
+        import torch
+        from unittest.mock import patch
+        from tools.hier_postrun_audit.backbone_probe import probe_model_batch
+        from tools.hier_postrun_audit.extract import state_digest
+        model = self._model()
+        model.train()
+        state = state_digest(model.state_dict())
+        cpu_rng, python_rng = torch.get_rng_state().clone(), random.getstate()
+        clouds, labels, ids = self._data()
+        with patch.object(model, "forward", wraps=model.forward) as forward:
+            with self.assertRaisesRegex(TimeoutError, "feature-stage boundary"):
+                probe_model_batch(model, clouds, labels, ids, whole_count=16, child_count=8,
+                                  microbatch_size=2, deadline=time.monotonic() - 1.)
+            forward.assert_not_called()
+        self.assertEqual(state_digest(model.state_dict()), state)
+        self.assertTrue(model.training)
+        self.assertTrue(torch.equal(cpu_rng, torch.get_rng_state()))
+        self.assertEqual(python_rng, random.getstate())
+        self.assertTrue(all(parameter.grad is None for parameter in model.parameters()))
 
     def test_invalid_flip_negative_rejected(self):
         from tools.hier_postrun_audit.backbone_probe import probe_model_batch

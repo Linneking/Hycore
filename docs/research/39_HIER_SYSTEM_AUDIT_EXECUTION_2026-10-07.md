@@ -27,3 +27,13 @@
 V5→V6涉及self-negative修正与训练长度；V6→V7同时改变warmup、权重、初始化和post-Adam参数约束。单seed历史比较只能判断这些联合变化后观察到什么，不能分配单独因果贡献。空间更靠内、代理更多或关系更稳定本身不等于层次更有效。
 
 代码置于独立`tools/hier_postrun_audit/`目录。输出离线HTML、PNG/SVG、JSON/CSV、能力缺失表与收益账本。运行中错误由agent修复并重验；最终把经过审查的简洁结果和解释入Git，保留私有全量证据。
+
+## 实际执行与调试
+
+31个真实检查点的固定输入导出全部完成：V5 6、V6 7、V7 11、B64 7。每个8856对象、D256、c1，四源实际输入SHA相同。CPU系统审查完成11个机制及15个独立形状检查点，输出256组PNG/SVG；源文件摘要前后相同。
+
+首轮完整服务器契约测试131项全部通过。真实缓存暴露的字段兼容、映射返回值、quantile字段和旧Matplotlib标签接口错误均已修正并加回归检查。V5/V6同名H20使用源身份生成独立run key，避免误连轨迹。warmup计数与实际优化使用分开，B64没有代理是“不适用”，不伪装为缺失故障。
+
+共享编码器探针保留真实global64 CE/intra/HIER与原crop alias，但固定clean/eval BN、零优化更新。直接保留所有编码器图时超过单卡内存；激活重算先因Geoopt TorchScript包装early-stop异常失败，关闭early-stop后仍因JIT重排内部保存张量触发metadata检查。三个失败尝试各留独立目录和failed状态，不将其计入完成证据；随后改用分批重放的链式VJP，保持global64目标而限制单批图的内存。CPU小模型和真实双曲算子的一致性检查不能替代真实PointMLP验收，必须待实际探针成功后才能报告编码器结论。
+
+正式判断见[40](40_HIER_SYSTEM_AUDIT_RESULTS_2026-10-07.md)，精简公开证据见[interpretation JSON](diagnostics/hier_system_v2_20261007_interpretation.json)。原始导出、模型、全日志及完整报告不入Git。

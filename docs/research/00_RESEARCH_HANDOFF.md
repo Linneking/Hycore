@@ -4,12 +4,19 @@
 
 ## Post-training audit method — 2026-10-07
 
-The user requested a reusable full-system HIER audit rather than isolated endpoint checks.
-See[38](38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md) and `tools/hier_postrun_audit/`.
-The first implementation reads versioned epoch logs on CPU, reports missing fields,
-and supports explicitly supplied fixed-input snapshots and opt-in clean GPU export.
-Training usage, live hinges, nearest-object retention and independent shape validation
-have separate definitions. No new training or GPU replay is automatically launched.
+The user approved [38](38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md) and authorized
+implementation/debugging and a real V5/V6/V7 audit with matched B64.
+See [40: system audit results](40_HIER_SYSTEM_AUDIT_RESULTS_2026-10-07.md),
+[39: execution](39_HIER_SYSTEM_AUDIT_EXECUTION_2026-10-07.md), and
+`tools/hier_postrun_audit/`. The audit joins31 frozen checkpoints, identical8856
+training inputs,11 controlled mechanism panels and15 independent shape panels.
+V6 fixes invalid mining; V7 eliminates proxy numerical saturation and broadens
+sample ancestor usage. Raw top4 coverage remains concentrated, and independent
+shape gains over B64 are mixed. Training/eval geometry, retrieval/actual ancestors,
+cached partials/shared encoder gradients/Adam state have separate meanings.
+No source results were changed, no optimizer update or new test forward was made.
+The following completion/status entries are historical; geometry findings in40
+supersede their pending top4/shape statements.
 
 ## V7 completed — 2026-10-07 16:00 check
 
