@@ -12,6 +12,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import subprocess
 
 import numpy as np
 
@@ -69,7 +70,12 @@ def analyze(repo, cache, normalized, epoch, output, query_count=512, repeats=8):
     result = dict(schema='hier_selection_radial_diagnosis_v1', epoch=epoch,
         started_utc=dt.datetime.now(dt.timezone.utc).isoformat(),
         identity=dict(cache_file=cache.name, cache_sha256=before,
-                      normalized_sha256=sha(normalized), run_key=log['run_id']),
+                      normalized_sha256=sha(normalized), run_key=log['run_id'],
+                      code_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),
+                      script_sha256=sha(__file__), torch_version=torch.__version__,
+                      input_sha256=str(a.get('input_sha256',''))),
+        config=dict(c=1.,sample_K=20,proxy_K=20,tau=.1,margin=.1,lambda_hier=.1,
+                    seed=22,queries_per_component=query_count,noise_repeats=repeats,teacher=None,GPU=None),
         selection_scope='epoch training sample noncollision pair+triple; endpoint snapshot depths',
         inference_scope='fixed clean first1024/eval BN; not augmented training geometry',
         radial_units='full origin hyperbolic distance d0, c=1; d0=2*atanh(radius)',
@@ -126,18 +132,26 @@ def analyze(repo, cache, normalized, epoch, output, query_count=512, repeats=8):
             ii,jj,kk = torch.tensor([[compact[int(i)] for i in row] for row in rows]).unbind(-1)
             pc = torch.maximum(d[ii],d[jj]); tc = torch.maximum(pc,d[kk])
             cr = {}
+            pair_pi = torch.softmax(-pc/.1,-1)
+            triple_pi = torch.softmax(-tc/.1,-1)
+            noncollision = 1 - (pair_pi * triple_pi).sum(-1)
+            if bool((noncollision <= 0).any()):
+                raise ValueError('Degenerate noncollision probability')
             for role,cost in [('pair',pc),('triple',tc)]:
-                probability = torch.softmax(-cost/.1,-1)
+                probability = pair_pi if role == 'pair' else triple_pi
+                other = triple_pi if role == 'pair' else pair_pi
                 s = torch.tensor(selected)
                 cr[role] = dict(query_count=len(rows),
                      expected_not_selected_group_probability_mean=float(probability[:,~s].sum(-1).mean()),
+                     expected_not_selected_group_probability_given_noncollision_mean=float(((probability*(1-other))[:,~s].sum(-1)/noncollision).mean()),
+                     mean_noncollision_probability=float(noncollision.mean()),
                      deterministic_argmin_not_selected_fraction=float((~s[cost.argmin(-1)]).float().mean()),
                      best_not_selected_minus_best_selected_cost=distribution((cost[:,~s].min(-1).values-cost[:,s].min(-1).values).numpy()))
             controls[name] = cr
     result['fixed_query_radial_controls'] = controls
     result['controls_scope'] = dict(query_plan_sha256=plan['query_plan_sha256'],sample_batch_size=64,
         query_count=len(rows),seed=22,tau=.1,
-        note='Directions and mined query IDs frozen. Exact categorical probabilities softmax(-maxcost/tau); radial controls change geometry, not trained models.')
+        note='Directions and mined query IDs frozen. Exact all-draw categorical probabilities softmax(-maxcost/tau), and exact independent pair/triple noncollision conditioning. Query means equally weighted; radial controls change geometry, not trained models.')
     probe = audit_snapshot(snapshot,plan,noise_repeats=repeats,seed=22,gradient_repeats=repeats,compare_source_operator=False)
     gradient_groups = {}
     for component in ['sample','proxy']:
@@ -158,6 +172,23 @@ def analyze(repo, cache, normalized, epoch, output, query_count=512, repeats=8):
         gradient_groups[component] = groups
     result['fixed_query_gradients'] = gradient_groups
     result['gradient_scope'] = 'Eight ST autograd noise repeats, unweighted tangent partials; signed derivative predicts plain GD only, not saved AdamW displacement.'
+    trajectory = []
+    for p in sorted(cache.parent.glob('e*_whole_cache.npz')):
+        e = int(p.name.split('_')[0][1:])
+        if e not in [0,1,5,20,40,99,100,160,187,200,300]:
+            continue
+        with np.load(p,allow_pickle=False) as z:
+            if not np.array_equal(z['proxy_ids'],ids):
+                raise ValueError('Trajectory proxy identities differ')
+            pd = ball_geometry(expmap0(z['proxy_tangent'],1,numeric_radius_fraction=.999),1)['depth']
+            wd = ball_geometry(z['mu'],1)['depth']
+        rec = [r for r in log['proxy_usage'] if r['epoch']==e and (r['component'],r['domain'],r['role'])==('sample','noncollision','combined')]
+        trajectory.append(dict(epoch=e,whole_clean=distribution(wd),
+             fixed_e5_selected=distribution(pd[selected]),fixed_e5_not_selected=distribution(pd[~selected]),
+             at_V7_parameter_depth_cap6=int((pd>=6-1e-5).sum()),
+             actual_epoch_sample_used_count=sum(c>0 for c in rec[0]['counts']) if len(rec)==1 else None,
+             source_cache_sha256=sha(p)))
+    result['trajectory_by_fixed_e5_group'] = trajectory
     result['read_only'] = dict(cache_unchanged=sha(cache)==before,optimizer_updates=0,
                               encoder_forwards=0,test_forwards=0,gpu_used=False)
     if not result['read_only']['cache_unchanged']:
