@@ -113,6 +113,59 @@ class BackboneTorchTests(unittest.TestCase):
         self.assertAlmostEqual(gradient_comparison(first, -first)["cosine"], -1., places=6)
         self.assertIsNone(gradient_comparison(torch.zeros_like(first), first)["cosine"])
 
+    def test_nonreentrant_checkpoint_preserves_all_loss_gradients_and_random_streams(self):
+        import copy
+        import random
+        import torch
+        from tools.hier_postrun_audit.backbone_probe import probe_model_batch
+        from tools.hier_postrun_audit.extract import state_digest
+        torch.manual_seed(71)
+        model = self._model()
+        # ModelNet FPS consumes random values even under eval mode. Exercise
+        # that property with a small genuinely random differentiable forward.
+        class StochasticModel(torch.nn.Module):
+            def __init__(self, original):
+                super().__init__()
+                self.encoder = original.encoder
+                self.bn = original.bn
+                self.classifier = original.classifier
+
+            def forward(self, points, emb=False):
+                features = self.bn(self.encoder((points + .03 * torch.rand_like(points)).mean(dim=-1)))
+                mu = .65 * torch.tanh(features)
+                mu = mu * (.8 / mu.norm(dim=-1, keepdim=True).clamp_min(1e-12)).clamp(max=1)
+                return (mu, mu) if emb else (mu, self.classifier(mu))
+        plain = StochasticModel(model)
+        recomputed = copy.deepcopy(plain)
+        clouds, labels, ids = self._data()
+        tangent = np.random.default_rng(29).normal(size=(8, 4)).astype(np.float32) * .2
+        kwargs = {"proxy_tangent": tangent,
+                  "config": {"lambda_hier": .1, "tau": 1., "margin": .5,
+                             "sample_K": 4, "proxy_K": 3, "t_per_anchor": 5},
+                  "whole_count": 16, "child_count": 8, "microbatch_size": 2, "seed": 22}
+        cpu_rng, python_rng = torch.get_rng_state().clone(), random.getstate()
+        original_state = state_digest(plain.state_dict())
+        before = probe_model_batch(plain, clouds, labels, ids, activation_checkpoint=False, **kwargs)
+        after = probe_model_batch(recomputed, clouds, labels, ids, activation_checkpoint=True, **kwargs)
+        self.assertTrue(torch.equal(cpu_rng, torch.get_rng_state()))
+        self.assertEqual(python_rng, random.getstate())
+        self.assertEqual(state_digest(plain.state_dict()), original_state)
+        self.assertEqual(state_digest(recomputed.state_dict()), original_state)
+        for name, value in before["objective_values"].items():
+            self.assertAlmostEqual(value, after["objective_values"][name], places=6)
+        for group, values in before["parameter_groups"].items():
+            for name, value in values["norms"].items():
+                self.assertAlmostEqual(value, after["parameter_groups"][group]["norms"][name], places=6)
+            for comparison in ("hier_vs_base", "sample_vs_base", "total_vs_base"):
+                for name, value in values.get(comparison, {}).items():
+                    if isinstance(value, float):
+                        self.assertAlmostEqual(value, after["parameter_groups"][group][comparison][name], places=6)
+        for name, values in before["whole_ball_partials"].items():
+            self.assertAlmostEqual(values["gradient_norm"], after["whole_ball_partials"][name]["gradient_norm"], places=6)
+            self.assertAlmostEqual(values["signed_radial_mean"], after["whole_ball_partials"][name]["signed_radial_mean"], places=6)
+        self.assertTrue(all(parameter.grad is None for parameter in plain.parameters()))
+        self.assertTrue(all(parameter.grad is None for parameter in recomputed.parameters()))
+
     def test_invalid_flip_negative_rejected(self):
         from tools.hier_postrun_audit.backbone_probe import probe_model_batch
         clouds, labels, ids = self._data()

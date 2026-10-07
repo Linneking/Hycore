@@ -635,6 +635,8 @@ def analyze_mechanisms(specs, output_dir, query_count=64, noise_repeats=8,
                 compact[-1]["adam_state"]["first_moment"] = {key: value
                     for key, value in result["adam_state"]["first_moment"].items() if key != "per_id"}
         summary = {"format": manifest["format"], "scope": manifest["scope"],
+                   "status": "partial_budget" if manifest["status"] == "partial_budget" else "completed",
+                   "budget": manifest["budget"], "completed_snapshots": len(results),
                    "snapshots": compact, "transitions": transitions, "warnings": warnings,
                    "limits": ["Frozen clean panel differs from actual augmented training query population.",
                               "Whole partials are ball-coordinate gradients, not model/shared-encoder gradients.",

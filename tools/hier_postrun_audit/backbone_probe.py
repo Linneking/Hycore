@@ -73,7 +73,7 @@ def gradient_comparison(first, second):
 
 
 def clean_alias_forward(model, clouds, labels, sample_ids, *, whole_count=1024,
-                        child_count=256, microbatch_size=32, seed=22):
+                        child_count=256, microbatch_size=32, seed=22, activation_checkpoint=True):
     """Use actual crop aliasing but explicit same-ID crop centers/eval BN."""
     import torch
     from inter_hierarchy_MN40.hier_proxy_scratch_v5.base_protocol import get_children_alias
@@ -97,8 +97,15 @@ def clean_alias_forward(model, clouds, labels, sample_ids, *, whole_count=1024,
         _, whole, _ = get_children_alias(source, whole_count, centers=whole_centers[start:end].tolist())
         before_child = whole.detach().clone()
         _, child, _ = get_children_alias(whole, child_count, centers=child_centers[start:end].tolist())
-        child_mu, _ = model(child, emb=True)
-        whole_mu, _ = model(whole, emb=True)
+        if activation_checkpoint:
+            from torch.utils.checkpoint import checkpoint
+            child_mu, _ = checkpoint(model, child, emb=True, use_reentrant=False,
+                                     preserve_rng_state=True)
+            whole_mu, _ = checkpoint(model, whole, emb=True, use_reentrant=False,
+                                     preserve_rng_state=True)
+        else:
+            child_mu, _ = model(child, emb=True)
+            whole_mu, _ = model(whole, emb=True)
         nu.append(child_mu)
         mu.append(whole_mu)
         stats.append({"microbatch_size": len(whole), "child_aliases_whole":
@@ -119,7 +126,10 @@ def clean_alias_forward(model, clouds, labels, sample_ids, *, whole_count=1024,
                                "whole_centers": whole_centers.tolist(),
                                "child_centers": child_centers.tolist(), "crop_seed": seed,
                                "mode": "clean fixed crop / eval BN / original alias overwrite",
-                               "classifier_on_concatenated_mu": True},
+                               "classifier_on_concatenated_mu": True,
+                               "activation_checkpoint": bool(activation_checkpoint),
+                               "checkpoint_use_reentrant": False,
+                               "checkpoint_preserve_rng_state": True},
             "microbatches": stats}
 
 
@@ -178,7 +188,7 @@ def _flat_grad(loss, parameters):
 
 def probe_model_batch(model, clouds, labels, sample_ids, *, proxy_tangent=None,
                       config=None, seed=22, whole_count=1024, child_count=256,
-                      microbatch_size=32):
+                      microbatch_size=32, activation_checkpoint=True):
     """Testable low-level probe on an already loaded model; CPU or GPU."""
     import torch
     config = {} if config is None else dict(config)
@@ -203,7 +213,8 @@ def probe_model_batch(model, clouds, labels, sample_ids, *, proxy_tangent=None,
         if next(model.parameters()).is_cuda:
             torch.cuda.manual_seed_all(seed)
         values = clean_alias_forward(model, clouds, labels, sample_ids, whole_count=whole_count,
-                                     child_count=child_count, microbatch_size=microbatch_size, seed=seed)
+                                     child_count=child_count, microbatch_size=microbatch_size, seed=seed,
+                                     activation_checkpoint=activation_checkpoint)
         tangent = None if proxy_tangent is None else torch.as_tensor(
             np.asarray(proxy_tangent).copy(), dtype=values["mu"].dtype,
             device=values["mu"].device).requires_grad_(True)
@@ -259,7 +270,7 @@ def probe_model_batch(model, clouds, labels, sample_ids, *, proxy_tangent=None,
 
 def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
                        whole_count=1024, child_count=256, microbatch_size=32,
-                       max_seconds=600):
+                       max_seconds=600, activation_checkpoint=True):
     """Run one own trusted checkpoint in a fresh process on an explicit idle GPU."""
     started = time.monotonic()
     output = Path(output_dir).resolve()
@@ -336,7 +347,8 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
         model = model.to("cuda:0")
         report = probe_model_batch(model, clouds, labels, ids, proxy_tangent=proxy_tangent,
                                    config=config, seed=seed, whole_count=whole_count,
-                                   child_count=child_count, microbatch_size=microbatch_size)
+                                   child_count=child_count, microbatch_size=microbatch_size,
+                                   activation_checkpoint=activation_checkpoint)
         torch.cuda.synchronize()
         if sha256(checkpoint_path) != source_sha:
             raise RuntimeError("Source checkpoint changed during the probe")
@@ -349,7 +361,10 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
                       input_condition={"mode": "fixed clean crop evalBN original alias",
                                        "microbatch_size": microbatch_size, "seed": seed,
                                        "whole_count": whole_count, "child_count": child_count,
-                                       "TF32_matmul": torch.backends.cuda.matmul.allow_tf32})
+                                       "TF32_matmul": torch.backends.cuda.matmul.allow_tf32,
+                                       "activation_checkpoint": bool(activation_checkpoint),
+                                       "checkpoint_use_reentrant": False,
+                                       "checkpoint_preserve_rng_state": True})
         _save(output / "backbone_probe_summary.json", report)
         manifest.update(status="completed", elapsed_seconds=time.monotonic() - started,
                         source_unchanged=True, peak_allocated_MiB=torch.cuda.max_memory_allocated() / 1024**2)

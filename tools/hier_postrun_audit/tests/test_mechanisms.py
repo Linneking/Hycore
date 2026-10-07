@@ -185,6 +185,19 @@ class MechanismTorchTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "parameters differ"):
                 _load(spec)
 
+    def test_budget_partial_status_propagates_without_invented_snapshots(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as folder:
+            source = self._cache(folder, "a.npz")
+            with patch("tools.hier_postrun_audit.mechanisms.time.monotonic", side_effect=[0., 2., 3.]):
+                result = analyze_mechanisms([source], Path(folder) / "audit", max_seconds=1.)
+            self.assertEqual(result["status"], "partial_budget")
+            self.assertEqual(result["completed_snapshots"], 0)
+            self.assertEqual(result["snapshots"], [])
+            manifest = json.loads((Path(folder)/"audit"/"mechanism_manifest.json").read_text())
+            self.assertEqual(manifest["status"], result["status"])
+            self.assertTrue(Path(source["cache"]).is_file())
+
     def test_changed_clean_input_refuses_temporal_claim(self):
         with tempfile.TemporaryDirectory() as folder:
             first = self._cache(folder, "a.npz")
