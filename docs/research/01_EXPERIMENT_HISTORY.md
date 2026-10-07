@@ -2,6 +2,16 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## Frozen radial selection diagnosis — 2026-10-08
+
+用户要求原版径向统计与V7比较，并追问e5深层代理退出。读取已有完整8856
+训练对象缓存、512代理及实际使用计数，新增CPU固定64对象/512查询、8噪声
+生产ST梯度诊断；全部条件固定，仅径向移位对照，不更新参数。未选247代理
+sample祖先概率近零，移到浅层中位深度后非碰撞pair/triple概率约7.5%/17.0%；
+多数梯度极弱。62代理后期恢复、185未恢复，反驳永久硬退出解释。浅深两群
+不是pair/triple两群；原版proxy完整统计已补，whole完整缓存缺失。见
+[42](42_HIER_RADIAL_SELECTION_DIAGNOSIS_2026-10-08.md)与其公共标量证据。无新训练/GPU。
+
 ## Reusable post-training audit accepted — 2026-10-07
 
 用户批准后完成v2扩展与V5/V6/V7、matched B64真实串联：31个冻结检查点、

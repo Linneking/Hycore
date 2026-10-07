@@ -2,6 +2,19 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## Radial selection diagnosis — 2026-10-08
+
+[42](42_HIER_RADIAL_SELECTION_DIAGNOSIS_2026-10-08.md) interprets V7 e5 against
+actual per-role selections and same-ID lifetime records. Of247 sample-inactive
+proxies,62 return at e148–185 and185 do not return;31 returners were already at
+the parameter depthcap6 in e5. A frozen64-object/512-query CPU radial control
+raises this group's noncollision pair/triple probability from almost0 to
+7.5%/17.0% without changing directions. Most sample gradients are tiny.
+This supports radial competition and weak feedback, not a hard depth exclusion
+or a unique cause of early outward movement. Original proxy/argmin statistics
+are recoverable, but original whole caches are absent from the local review.
+No new training, optimizer update, encoder/test forward or GPU use.
+
 ## Post-training audit method — 2026-10-07
 
 The user approved [38](38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md) and authorized
