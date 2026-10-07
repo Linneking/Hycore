@@ -2,6 +2,16 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## Reusable post-training audit accepted — 2026-10-07
+
+Implemented `tools/hier_postrun_audit/` and[38](38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md).
+CPU-only V7 audit reads all300 epoch summaries and outputs44 PNG/SVG scientific
+figures plus offline HTML. No new training, GPU replay or official-test forward.
+Fixed-object caches are still required for nearest-object retention/shape evidence.
+The reviewed scalar/figure delivery stays outside Git; only the concise
+[acceptance record](diagnostics/results/20261007_hier_postrun_audit_v1_acceptance.json)
+is committed. V5/V6/V7 adapters preserve missing epochs and distinct activation domains.
+
 ## V7-HIER64-K20-W0 completed — 2026-10-07 14:43
 
 Read-only audit16:00 confirms300x200 updates,984 validation objects per epoch,

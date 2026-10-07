@@ -148,5 +148,20 @@ class GeometryTests(unittest.TestCase):
                 analyze_snapshots([], root / "new_report")
 
 
+    def test_zero_direction_rejects_angular_controls_without_fabricating_neighbours(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            cache = root / "origin.npz"
+            np.savez(cache, mu=np.array([[.1, 0.], [-.1, 0.], [.2, .1], [.3, .1]]),
+                     sample_ids=np.arange(4), labels=np.array([0, 0, 1, 1]),
+                     proxy_ball=np.array([[0., 0.], [.15, .1]]), proxy_ids=np.arange(2))
+            result = analyze_snapshots([{"cache": str(cache), "epoch": 1, "c": 1,
+                "run_key": "test", "equal_radius_fraction": .5}], root / "audit")
+            retrieval = result["snapshots"][0]["retrieval"]
+            self.assertTrue(retrieval["hyperbolic"]["available"])
+            self.assertFalse(retrieval["direction"]["available"])
+            self.assertFalse(retrieval["equal_radius_hyperbolic"]["available"])
+
+
 if __name__ == "__main__":
     unittest.main()

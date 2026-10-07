@@ -1,0 +1,56 @@
+{
+  "format": "hier-postrun-audit-v1-acceptance",
+  "date": "2026-10-07",
+  "production_run_id": "V7_HIER64_K20_W0",
+  "production_code_commit": "165981fb396eb2366dc1c0cf81ca3938219aec3d",
+  "initial_audit_code_commit": "c8b6f5d24e77fcbb14079f9cdc3aa56b4de4b171",
+  "report_code_commit": "33d349e08daed00b530e89014496a71b72631816",
+  "initial_audit_id": "postrun_audit_v1_v7_20261007_091004",
+  "reviewed_visual_audit_id": "postrun_audit_v1_v7_visual_r2_20261007_091809",
+  "normalized_evidence_sha256": "146a9502b921b107c0adeb8493166bcb9ef92b077b67af7c60e7d32183320738",
+  "observed_epochs": 300,
+  "first_epoch": 1,
+  "last_epoch": 300,
+  "available_checkpoint_files": 21,
+  "figures_png": 44,
+  "figures_svg": 44,
+  "actual_dataset_snapshots_supplied": 0,
+  "GPU_used": false,
+  "optimizer_updates": 0,
+  "new_validation_forward": false,
+  "new_test_forward": false,
+  "local_suite": {
+    "tests": 43,
+    "passed": 42,
+    "skipped": 1,
+    "skip_reason": "local Matplotlib unavailable"
+  },
+  "server_full_suite_report_revision": {
+    "tests": 42,
+    "passed": 42,
+    "skipped": 0,
+    "wall_seconds": 89.972,
+    "gallery_pixel_fixture": "synthetic original-3D-cloud fixture; no model/GPU"
+  },
+  "reviewed_images": [
+    "whole_depth",
+    "sample_noncollision_ID_usage",
+    "sample_proxy_activation"
+  ],
+  "epoch300_observations": {
+    "training_whole_median_origin_depth": 6.212600804353544,
+    "sample_noncollision_used_proxy_count": 267,
+    "sample_noncollision_effective_proxy_count": 197.58839715675316,
+    "definition": "sample pair+triple hard-selection counts during actual epoch; not fixed-panel nearest-object retention"
+  },
+  "missing_for_this_V7_report": [
+    "fixed same-input embeddings",
+    "actual V7 point-cloud top4 galleries",
+    "fixed-query Gumbel noise control",
+    "per-proxy nonzero-gradient activation",
+    "independent shape validation"
+  ],
+  "privacy": "Public HTML/scalar artifacts checked; full delivery kept outside Git; no raw logs/checkpoints/datasets/host identifiers committed",
+  "inference_condition_policy": "Source run, sample IDs/labels, input SHA, eval mode, proxy IDs and declared inference-condition dictionaries must match for temporal comparisons",
+  "latest_snapshot_correction": "Zero-direction proxies/candidates make direction and equal-radius controls explicitly unavailable while native hyperbolic retrieval remains available"
+}

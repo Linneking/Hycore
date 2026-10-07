@@ -285,8 +285,8 @@ def _analyze_one(spec, index, output):
             if spec.get("equal_radius_fraction") is not None:
                 metrics.append("equal_radius_hyperbolic")
             for metric in metrics:
-                valid_proxy = pgeom["direction_defined"] if metric == "direction" else np.ones(len(proxy), dtype=bool)
-                if metric == "direction" and not geometry["direction_defined"].all():
+                valid_proxy = pgeom["direction_defined"] if metric in ("direction", "equal_radius_hyperbolic") else np.ones(len(proxy), dtype=bool)
+                if metric in ("direction", "equal_radius_hyperbolic") and not geometry["direction_defined"].all():
                     result["retrieval"][metric] = {"available": False, "reason": "Zero-radius candidate has undefined direction"}
                     continue
                 if not valid_proxy.all():
