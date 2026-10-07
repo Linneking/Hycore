@@ -1,4 +1,4 @@
-# HIER post-training audit v1
+# HIER post-training audit v2
 
 Read-only reports for HyCoRe V5/V6/V7 and classification baselines. See [the research plan](../../docs/research/38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md) for definitions and interpretation limits.
 
@@ -48,7 +48,23 @@ GPU export is **opt-in**. It rechecks an idle GPU before allocation, uses saved 
 
 Implemented: epoch geometry and usage trajectories; hard/noncollision/live-hinge activation; proxy ID usage heatmaps and JSD/rank/Jaccard; general-c depth; saved tangent vs mapped position; paired frozen snapshot displacement; raw/direction/equal-radius retrieval coverage, concentration and top4 retention; optional real point-cloud galleries.
 
-Planned extensions remain explicitly unavailable until measured: fixed-query/Gumbel noise controls, exact per-proxy gradient activation, full dormancy history, independent shape hierarchy validation, class-conditioned failure cards. No report invents those fields.
+Extended system audit joins completed exports without rerunning production training:
+
+```bash
+python -m tools.hier_postrun_audit system \
+  --artifact-dir <v5-audit> --artifact-dir <v6-audit> \
+  --artifact-dir <v7-audit> --artifact-dir <matched-b64-audit> \
+  --out-dir <new-system-audit> \
+  --mechanism-epochs 100,200,best,last --structure-epochs 100,200,best,last \
+  --query-count 64 --noise-repeats 8 --shape-points 64 --shape-per-class 8 \
+  --bootstrap 200 --mechanism-seconds 1800 --structure-seconds 1800 --seed 22
+```
+
+Artifacts contain `normalized_runs.json`, `feature_exports/snapshot_spec.json`, actual clouds and saved snapshot analysis. `system` writes a fresh directory, verifies input/checkpoint/cache identity and qualifies duplicate storage names (e.g. two H20 arms) before any temporal join. Retrieval uses the exported candidate pool; independent shape queries use a bounded stratified subset. Use `--population full` during export for full training-pool coverage. `--epochs 20,100,200,best,last` explicitly chooses only existing checkpoint identities; aliases are deduplicated by actual epoch.
+
+Modules: `longitudinal.py` (censored dormancy, reactivation, cumulative usage), `mechanisms.py` (fixed balanced64 mining, eight Gumbel repeats, component partial gradients and saved Adam state), `structure.py` (independent Chamfer, object/class bootstrap, chance-adjusted shape neighbours and clean training failure slices), `comparison.py` (same-epoch/update evidence, recorded validation-selected final results, separate benefit ledger), and `system.py` (bounded orchestration and scientific report). Missing capabilities remain explicit. Cached HIER gradients do not imply shared encoder or optimizer update direction; the separate frozen backbone probe measures genuine encoder gradients and performs zero optimizer updates. Reference distance operators are labelled numerical counterfactuals, never silently substituted for the production loss.
+
+Shape queries use both original coordinates and centered unit RMS, keep rotations, and use deterministic FPS64. Class purity is auxiliary, neither geometric validation nor a genuine hierarchy proof. Generalization conclusions use existing saved final test only. This single-seed historical comparison changes several parameters, so benefits are joint observations rather than isolated causal effects.
 
 Tests (CPU, no model/GPU):
 ```bash

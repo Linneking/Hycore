@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 import numpy as np
 from tools.hier_postrun_audit.redundancy import analyze_redundancy, save_redundancy_figures
 
@@ -117,6 +118,27 @@ class RedundancyTests(unittest.TestCase):
             text = (root / "audit" / "redundancy_summary.json").read_text()
             self.assertNotIn(str(source), text)
             json.loads(text)
+
+    def test_coordinate_and_geodesic_tolerances_have_distinct_boundary_units(self):
+        with tempfile.TemporaryDirectory() as folder:
+            spec = {**self.spec(), "proxy_ids": [7, 8], "proxy_coords": [[.999, 0.], [.999 - 1e-8, 0.]]}
+            row = analyze_redundancy([spec], Path(folder) / "one", coordinate_tolerance=1e-7,
+                                      geodesic_tolerance=5e-6)["snapshots"][0]
+            self.assertEqual(row["near_pairs"]["coordinate_near_pair_count"], 1)
+            self.assertEqual(row["near_pairs"]["geodesic_near_pair_count"], 0)
+
+    def test_wall_budget_is_partial_with_sources_kept(self):
+        with tempfile.TemporaryDirectory() as folder:
+            calls = [0]
+            def clock():
+                calls[0] += 1
+                return 0. if calls[0] == 1 else 100.
+            with patch("tools.hier_postrun_audit.redundancy.time.monotonic", side_effect=clock):
+                answer = analyze_redundancy([self.spec()], Path(folder) / "one", max_seconds=1)
+            self.assertEqual(answer["status"], "partial_budget")
+            self.assertEqual(answer["snapshots"], [])
+            self.assertTrue(answer["sources_unchanged"])
+            self.assertTrue(answer["warnings"])
 
     @unittest.skipUnless(MATPLOTLIB, "Server validates real PNG/SVG when local matplotlib unavailable")
     def test_report_figure_has_identity_and_files(self):

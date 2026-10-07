@@ -229,6 +229,12 @@ def probe_model_batch(model, clouds, labels, sample_ids, *, proxy_tangent=None,
                              total_vs_base=gradient_comparison(vectors["total"][positions],
                                                                vectors["base"][positions]))
             groups[name] = group
+        if tangent is not None:
+            losses["hier_unweighted"] = losses["sample"] + losses["proxy"]
+            losses["hier_weighted"] = weight * losses["hier_unweighted"]
+            losses["total"] = losses["base"] + losses["hier_weighted"]
+        else:
+            losses["total"] = losses["base"]
         whole_partials, proxy_partials = {}, {}
         for name, loss in losses.items():
             gradient, = torch.autograd.grad(loss, (values["mu"],), retain_graph=True, allow_unused=True)

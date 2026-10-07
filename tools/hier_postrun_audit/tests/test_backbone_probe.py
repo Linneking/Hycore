@@ -42,7 +42,7 @@ class BackboneTorchTests(unittest.TestCase):
                 super().__init__()
                 self.encoder = torch.nn.Linear(3, 4)
                 self.bn = torch.nn.BatchNorm1d(4)
-                self.classifier = torch.nn.Linear(4, 3)
+                self.classifier = torch.nn.Linear(4, 4)
 
             def forward(self, points, emb=False):
                 features = self.bn(self.encoder(points.mean(dim=-1)))
@@ -54,8 +54,8 @@ class BackboneTorchTests(unittest.TestCase):
 
     def _data(self):
         rng = np.random.default_rng(251)
-        clouds = rng.normal(size=(6, 16, 3)).astype(np.float32)
-        return clouds, np.repeat(np.arange(3), 2), np.arange(100, 106)
+        clouds = rng.normal(size=(8, 16, 3)).astype(np.float32)
+        return clouds, np.repeat(np.arange(4), 2), np.arange(100, 108)
 
     def test_encoder_base_gradients_bn_rng_inputs_and_existing_grad_buffers_preserved(self):
         import random

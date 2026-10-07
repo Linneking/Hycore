@@ -204,13 +204,13 @@ def _snapshot_metrics(snapshot):
     whole, proxy = snapshot.get("whole", {}), snapshot.get("proxy", {})
     retrieval = snapshot.get("retrieval", {})
     result = {"whole_depth_mean": whole.get("depth_quantiles", {}).get("mean"),
-              "whole_depth_median": whole.get("depth_quantiles", {}).get("median"),
-              "proxy_depth_median": proxy.get("depth_quantiles", {}).get("median"),
-              "proxy_parameter_norm_median": proxy.get("parameter_tangent_norm_quantiles", {}).get("median"),
+              "whole_depth_median": whole.get("depth_quantiles", {}).get("p50", whole.get("depth_quantiles", {}).get("median")),
+              "proxy_depth_median": proxy.get("depth_quantiles", {}).get("p50", proxy.get("depth_quantiles", {}).get("median")),
+              "proxy_parameter_norm_median": proxy.get("parameter_tangent_norm_quantiles", {}).get("p50", proxy.get("parameter_tangent_norm_quantiles", {}).get("median")),
               "proxy_numeric_projection_count": proxy.get("numeric_projection_count")}
     for method in ("hyperbolic", "direction", "equal_radius_hyperbolic"):
         value = retrieval.get(method, {})
-        if not value.get("available"):
+        if not value.get("available", retrieval.get("available", False)) or not value:
             continue
         prefix = method + "_"
         for section, fields in {"coverage": ("unique_samples", "unique_fraction"),
@@ -519,7 +519,8 @@ def _figures(runs, pairs, output):
         present = [(i, r["selection"]["saved_final_test_oa_pct"]) for i, r in enumerate(selected)
                    if _finite(r["selection"]["saved_final_test_oa_pct"])]
         if present: ax.scatter([i + .12 for i, _ in present], [v for _, v in present], label="Saved selected-model final test OA", marker="s")
-        ax.set_xticks(x, [r["display_name"] for r in selected], rotation=15, ha="right")
+        ax.set_xticks(x)
+        ax.set_xticklabels([r["display_name"] for r in selected], rotation=15, ha="right")
         ax.set_ylabel("OA (%)"); ax.grid(axis="y", alpha=.2); ax.legend(fontsize=8)
         save(fig, "comparison_saved_selected_results", "Saved validation-selected model results",
              "No model was reselected and no test forward was added. Validation and test use different populations; single-seed differences with several configuration changes are not causal HIER benefits.")

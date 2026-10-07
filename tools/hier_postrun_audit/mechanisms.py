@@ -98,11 +98,14 @@ def _load(spec):
         if _sha(checkpoint_path) != checkpoint_hash:
             raise ValueError("Source checkpoint changed during reading")
     tangent = arrays.get("proxy_tangent")
-    if tangent is None and checkpoint is not None:
+    saved_tangent = None
+    if checkpoint is not None:
         values = [value for key, value in checkpoint.get("proxy", {}).items()
                   if str(key).split(".")[-1] == "tangent_proxies"]
         if len(values) == 1:
-            tangent = values[0].detach().cpu().numpy().copy()
+            saved_tangent = values[0].detach().cpu().numpy().copy()
+            if tangent is None:
+                tangent = saved_tangent.copy()
         elif len(values) > 1:
             raise ValueError("Ambiguous saved proxy parameters")
     if tangent is None:
@@ -115,14 +118,24 @@ def _load(spec):
         raise ValueError("Explicit stable proxy IDs must identify every tangent parameter row")
     order, proxy_order = np.argsort(ids, kind="stable"), np.argsort(proxy_ids, kind="stable")
     optimizer = checkpoint.get("proxy_optimizer") if checkpoint is not None else None
-    # Adam state row order is checkpoint parameter order: reorder it with IDs too.
-    if optimizer and not np.array_equal(proxy_order, np.arange(len(proxy_order))):
+    checkpoint_order = np.arange(len(proxy_ids))
+    if saved_tangent is not None:
+        checkpoint_ids = unique_ids(spec.get("checkpoint_proxy_ids", np.arange(len(saved_tangent))), "checkpoint_proxy_ids")
+        if set(checkpoint_ids.tolist()) != set(proxy_ids.tolist()):
+            raise ValueError("Saved checkpoint proxy identities do not match cache identities")
+        checkpoint_order = np.argsort(checkpoint_ids, kind="stable")
+        if not np.array_equal(saved_tangent[checkpoint_order], tangent[proxy_order]):
+            raise ValueError("Cache proxy parameters differ from the optimizer checkpoint identity")
+    elif optimizer:
+        raise ValueError("Saved optimizer state lacks corresponding proxy parameter identity")
+    # Moments follow checkpoint parameter row order, not the cache's row order.
+    if optimizer and not np.array_equal(checkpoint_order, np.arange(len(checkpoint_order))):
         optimizer = dict(optimizer)
         optimizer["state"] = {key: dict(value) for key, value in optimizer.get("state", {}).items()}
         for value in optimizer["state"].values():
             for key in ("exp_avg", "exp_avg_sq", "max_exp_avg_sq"):
                 if key in value and tuple(value[key].shape) == tuple(tangent.shape):
-                    value[key] = value[key][proxy_order].clone()
+                    value[key] = value[key][checkpoint_order].clone()
     input_sha = spec.get("input_sha256", metadata.get("input_sha256"))
     input_mode = spec.get("input_mode", spec.get("inputmode", metadata.get("input_mode", metadata.get("inputmode"))))
     inference = spec.get("inference_condition", metadata.get("inference_condition"))

@@ -67,6 +67,17 @@ class MechanismIdentityTests(unittest.TestCase):
         self.assertIn("input_sha256", _compatibility(plan, snapshot))
 
 
+    def test_inference_contract_change_refuses_temporal_pairing(self):
+        identity = {"sample_pool_sha256": "same_pool", "input_sha256": "same_input",
+                    "input_mode": "eval", "inference_condition_sha256": "FPS_A"}
+        plan = {"run_key": "own", "reference_identity": identity,
+                "proxy_ids": [0], "sample_ids": [10, 20], "labels": [0, 0],
+                "mining_parameters": {"exclude_self_negative": True}}
+        snapshot = {"run_key": "own", "identity": {**identity, "inference_condition_sha256": "FPS_B"},
+                    "proxy_ids": np.array([0]), "sample_ids": np.array([10, 20]),
+                    "labels": np.array([0, 0]), "exclude_self_negative": True}
+        self.assertIn("inference_condition_sha256", _compatibility(plan, snapshot))
+
 @unittest.skipUnless(TORCH, "CPU PyTorch is not installed on this local runtime")
 class MechanismTorchTests(unittest.TestCase):
     def test_gradient_sign_and_angular_decomposition(self):
@@ -149,6 +160,30 @@ class MechanismTorchTests(unittest.TestCase):
             self.assertEqual(manifest["optimizer_updates"], 0)
             self.assertEqual(manifest["GPU_forwards"], 0)
             self.assertEqual(manifest["status"], "completed")
+
+    def test_optimizer_checkpoint_alias_validates_parameters_and_moment_row_identity(self):
+        import torch
+        with tempfile.TemporaryDirectory() as folder:
+            spec = self._cache(folder, "cache.npz", reorder=True)
+            with np.load(spec["cache"], allow_pickle=False) as cache:
+                saved_tangent = torch.from_numpy(cache["proxy_tangent"][::-1].copy())
+            first = torch.arange(8, dtype=torch.float32)[:, None].expand(8, 4).clone()
+            checkpoint = {"epoch": 2, "proxy": {"tangent_proxies": saved_tangent},
+                          "proxy_optimizer": {"state": {0: {"step": torch.tensor(3.),
+                                                            "exp_avg": first,
+                                                            "exp_avg_sq": torch.ones_like(first)}},
+                                              "param_groups": [{"params": [0], "lr": .01,
+                                                                "betas": (.9, .999), "eps": 1e-8}]}}
+            path = Path(folder) / "own_full.pth"
+            torch.save(checkpoint, path)
+            spec.update(optimizer_checkpoint=str(path), trusted_checkpoint=True)
+            loaded = _load(spec)
+            torch.testing.assert_close(loaded["optimizer"]["state"][0]["exp_avg"], first)
+            self.assertEqual(loaded["identity"]["optimizer_checkpoint_file"], "own_full.pth")
+            checkpoint["proxy"]["tangent_proxies"] = saved_tangent + .1
+            torch.save(checkpoint, path)
+            with self.assertRaisesRegex(ValueError, "parameters differ"):
+                _load(spec)
 
     def test_changed_clean_input_refuses_temporal_claim(self):
         with tempfile.TemporaryDirectory() as folder:

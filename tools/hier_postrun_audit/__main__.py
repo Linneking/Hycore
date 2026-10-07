@@ -34,7 +34,7 @@ def read_specs(path):
     value = json.loads(source.read_text(encoding="utf-8-sig"))
     specs = value if isinstance(value, list) else value["snapshots"]
     for spec in specs:
-        for key in ("cache", "checkpoint", "proxy_cache"):
+        for key in ("cache", "checkpoint", "optimizer_checkpoint", "proxy_cache"):
             if spec.get(key):
                 candidate = Path(spec[key])
                 if not candidate.is_absolute():
@@ -69,6 +69,33 @@ def arguments():
         command.add_argument("--batch-size", type=int, default=32)
         command.add_argument("--seed", type=int, default=22)
         command.add_argument("--with-pointclouds", action="store_true")
+    probe = sub.add_parser("backbone", help="One explicitly selected checkpoint: frozen shared encoder gradients on an idle GPU")
+    probe.add_argument("--snapshot-spec", type=Path, required=True)
+    probe.add_argument("--epoch", type=int, required=True)
+    probe.add_argument("--out-dir", type=Path, required=True)
+    probe.add_argument("--data-dir", type=Path, required=True)
+    probe.add_argument("--gpu", type=int, required=True)
+    probe.add_argument("--seed", type=int, default=22)
+    probe.add_argument("--microbatch-size", type=int, default=32)
+    probe.add_argument("--max-seconds", type=float, default=600.)
+    system = sub.add_parser("system", help="Join immutable exports, controlled mechanisms, shape and cross-version evidence")
+    system.add_argument("--artifact-dir", type=Path, action="append", required=True)
+    system.add_argument("--out-dir", type=Path, required=True)
+    system.add_argument("--pointcloud-pool", type=Path)
+    system.add_argument("--snapshot-spec", type=Path, action="append", default=[])
+    system.add_argument("--mechanism-epochs", default="100,200,best,last")
+    system.add_argument("--structure-epochs", default="100,200,best,last")
+    system.add_argument("--skip-mechanisms", action="store_true")
+    system.add_argument("--skip-structure", action="store_true")
+    system.add_argument("--no-plots", action="store_true")
+    system.add_argument("--query-count", type=int, default=64)
+    system.add_argument("--noise-repeats", type=int, default=8)
+    system.add_argument("--mechanism-seconds", type=float, default=1800.)
+    system.add_argument("--structure-seconds", type=float, default=1800.)
+    system.add_argument("--shape-points", type=int, default=64)
+    system.add_argument("--shape-per-class", type=int, default=8)
+    system.add_argument("--bootstrap", type=int, default=200)
+    system.add_argument("--seed", type=int, default=22)
     return parser.parse_args()
 
 
@@ -94,6 +121,29 @@ def main():
     args = arguments()
     if args.command == "inventory":
         print(json.dumps(inventory_run(args.run_dir), ensure_ascii=False, indent=2, allow_nan=False))
+        return
+    if args.command == "backbone":
+        from .backbone_probe import run_backbone_probe
+        selected = [spec for spec in read_specs(args.snapshot_spec) if spec.get("epoch") == args.epoch]
+        if len(selected) != 1:
+            raise ValueError("Backbone probe requires exactly one explicit actual saved epoch in the supplied spec")
+        result = run_backbone_probe(selected[0], args.out_dir, args.data_dir, args.gpu,
+            seed=args.seed, microbatch_size=args.microbatch_size, max_seconds=args.max_seconds)
+        print(json.dumps({"status":"completed","epoch":result["epoch"],"optimizer_updates":0},ensure_ascii=False),flush=True)
+        return
+    if args.command == "system":
+        from .system import run_system_audit
+        result = run_system_audit(args.artifact_dir, args.out_dir,
+            pointcloud_pool=args.pointcloud_pool, snapshot_spec_files=args.snapshot_spec,
+            mechanism_epochs=args.mechanism_epochs.split(","), structure_epochs=args.structure_epochs.split(","),
+            do_mechanisms=not args.skip_mechanisms, do_structure=not args.skip_structure,
+            make_plots=not args.no_plots, render=not args.no_plots,
+            max_mechanism_snapshots=16, max_structure_snapshots=20,
+            mechanism_options={"query_count":args.query_count,"noise_repeats":args.noise_repeats,
+                               "max_seconds":args.mechanism_seconds,"seed":args.seed},
+            structure_options={"shape_points":args.shape_points,"per_class":args.shape_per_class,
+                               "bootstrap":args.bootstrap,"max_seconds":args.structure_seconds,"seed":args.seed})
+        print(json.dumps({"status":result.get("status", result.get("manifest", {}).get("status")),"output_dir":str(args.out_dir)},ensure_ascii=False),flush=True)
         return
     if args.extract and (args.gpu is None or args.data_dir is None):
         raise ValueError("--extract requires explicit --gpu and --data-dir")

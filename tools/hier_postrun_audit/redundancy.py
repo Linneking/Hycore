@@ -72,11 +72,11 @@ def _load(spec):
     ids = unique_ids(np.arange(len(coords)) if declared_ids is None else declared_ids, "proxy_ids")
     if len(ids) != len(coords):
         raise ValueError("Proxy coordinates and IDs differ")
+    if tangent is not None and len(tangent) != len(coords):
+        raise ValueError("Stored tangent and coordinate rows differ")
     order = np.argsort(ids, kind="stable")
     coords, ids = coords[order], ids[order]
     tangent = tangent[order] if tangent is not None else None
-    if tangent is not None and len(tangent) != len(coords):
-        raise ValueError("Stored tangent and coordinate rows differ")
     return {**identity, "available": True, "proxy_ids_stable": stable, "proxy_id_policy": spec.get("proxy_id_policy"),
             "proxy_id_pool_sha256": pool_hash(ids), "dimension": coords.shape[1], "proxy_count": len(ids),
             "proxy_mapping": mapping,
