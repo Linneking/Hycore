@@ -2,6 +2,18 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## 原版HIER best完整几何对照 — 2026-10-08
+
+用户提供三份best与12份全缓存，并确认此次只看best。完成SHA/完整身份、官方
+映射及全池官方FP32距离复核，whole train/eval/aug全部在d0≈4.6的cap薄壳，
+std3–6e−7；官方NN4覆盖CUB1647/Cars1664/SOP432。原版SOP本身存在方向热点。
+V7e300统一whole深度覆盖27→221；保留代理半径、随机方向五seed则等深度覆盖
+1210–1295、raw仅5，支持径向偏置与方向冗余共同作用，不支持覆盖即结构证据。
+恢复40批冻结sample角色，CUB/Cars pair与triple集合几乎完全重叠，SOP差98.6%
+在±1e−4内；不是固定两层代理。增强全量对照及7数学/4身份/4角色核验通过。
+见[45](45_ORIGINAL_HIER_BEST_GEOMETRY_AUDIT_2026-10-08.md)。CPU虚拟环境，零
+训练更新/图像前向/GPU/下载；完整ID保留私有。没有启动新实验。
+
 ## V7 frozen direction evolution and hotspot identities — 2026-10-08
 
 用户要求数据和合理解释；完成11快照/6基线同8856对象审查，完整缓存身份及

@@ -2,6 +2,21 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## Original HIER best complete geometry — 2026-10-08
+
+The user supplied3 original best checkpoints and12 complete CUB/Cars/SOP caches,
+and confirmed best-only scope. [45](45_ORIGINAL_HIER_BEST_GEOMETRY_AUDIT_2026-10-08.md)
+verifies hashes, sample identities, official proxy maps and full official FP32 NN4.
+All original whole are on the cap shell d0≈4.6 (std3–6e−7), including augmentations;
+official train coverage1647/1664/432. Original SOP has angular hotspots. V7e300
+whole-only equal-depth coverage27→221; frozen random proxy directions yield
+1210–1295, while raw random coverage is only5. Both radial bias and current angular
+redundancy matter; coverage alone is not learned hierarchy evidence. Original
+sample pair/triple role sets mostly overlap, not two fixed proxy layers. Complete
+whole caches are now available, superseding older missing-cache statements below.
+CPU-only frozen audit; no training, image forward, GPU or dataset download. Full
+IDs remain private; reusable scripts and anonymous aggregate evidence are recorded.
+
 ## Frozen direction and hotspot evolution — 2026-10-08
 
 [44](44_V7_DIRECTION_EVOLUTION_AND_HOTSPOTS_2026-10-08.md) joins11 V7 snapshots
