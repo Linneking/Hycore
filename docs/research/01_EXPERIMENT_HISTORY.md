@@ -2,6 +2,18 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## V7 frozen direction evolution and hotspot identities — 2026-10-08
+
+用户要求数据和合理解释；完成11快照/6基线同8856对象审查，完整缓存身份及
+标签均核对，基线保留9840全池排名。新增全类方向、LOO、热点排除亲和、
+代理方向冗余、同ID径向轨迹和基线映射脚本，输出六组科学图与离线报告。
+whole早期按类别分离；末期raw花盆占88.13%，direction只1/2048槽。
+最热四例e200仍深、无raw槽，e300才最浅；原HyCoRe last同ID接近最深端。
+去径向后laptop方向集中仍在，193个inactive代理形成方向冗余群；全类亲和
+去热点后稳健，但同代理e5到e300最近类别仅1.95%保持，不支持稳定类别绑定。
+无前向/训练/GPU，源SHA不变，7项数学性质测试及全512行既有检索复核通过。
+见[44](44_V7_DIRECTION_EVOLUTION_AND_HOTSPOTS_2026-10-08.md)。完整ID交付保持私有。
+
 ## Frozen radial selection diagnosis — 2026-10-08
 
 用户要求原版径向统计与V7比较，并追问e5深层代理退出。读取已有完整8856

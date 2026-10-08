@@ -2,6 +2,21 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## Frozen direction and hotspot evolution — 2026-10-08
+
+[44](44_V7_DIRECTION_EVOLUTION_AND_HOTSPOTS_2026-10-08.md) joins11 V7 snapshots
+and6 historical baseline caches, canonical8856 shared object identities verified.
+Whole directional LOO macro accuracy is80.50% at e5,92.98% at e20,98.96% at e300;
+whole common direction disperses while proxy common direction concentrates.
+Final raw flower_pot slots1805/2048 versus direction1/2048; the hottest four are
+the shallowest four only at e300, still deep with zero raw slots at e200 and deep
+in ORIG last. Equal-depth direction retrieval retains laptop concentration and
+inactive proxy direction redundancy. All-class affinity is robust to removing
+hotspots, but fixed proxy class preference is not temporally stable. Raw reverse
+retrieval does not establish a causal training feedback loop. No new training,
+encoder/optimizer/test forward or GPU use. Seven mathematical tests passed;
+complete IDs stay private, anonymous aggregate evidence accompanies the scripts.
+
 ## Radial selection diagnosis — 2026-10-08
 
 [43](43_V7_WHOLE_ONLY_EQUAL_DEPTH_HOTSPOTS_2026-10-08.md) adds full512proxy
