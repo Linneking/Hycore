@@ -1,0 +1,381 @@
+{
+  "kind": "existing_material_compilation",
+  "new_experiments": 0,
+  "new_figures": 0,
+  "figures": [
+    {
+      "file": "figures/01_hpcs_pipeline.png",
+      "source": "Onghena/HPCS官方仓库原图",
+      "source_filename": "summary.png",
+      "sha256": "a73fb5dd2244596e1ffdbbac216cab71caa72e5f3f1b1be958551b1136cade5a",
+      "use": "文献：点级特征与分割树"
+    },
+    {
+      "file": "figures/02_hier_overview.png",
+      "source": "HIER官方仓库misc/overview.png",
+      "source_filename": "overview.png",
+      "sha256": "34a058688150290b25e99721267f08b52112df9d7b05fe89184d00540cf6e534",
+      "use": "文献：pair与triple祖先"
+    },
+    {
+      "file": "figures/03_v4_accuracy.png",
+      "source": "V4已完成审查/accuracy_overview.png",
+      "source_filename": "accuracy_overview.png",
+      "sha256": "af9953df97f2e383b78183d269ec9c8442d927dcb1bd660f9abe36570ba4240a",
+      "use": "V4：训练上升与验证下降；保留旧图例"
+    },
+    {
+      "file": "figures/04_v5_v6_monitoring.png",
+      "source": "研究artifacts/v5_v6_canonical_2026-10-06",
+      "source_filename": "training_monitoring.png",
+      "sha256": "3f231b072607328514ad33fb73d91cfea6ef3501caf7509e3aca9387ee091de4",
+      "use": "V5/V6：协议、合格率及边界"
+    },
+    {
+      "file": "figures/05_selected_results.png",
+      "source": "系统v2已审查报告",
+      "source_filename": "comparison_saved_selected_results.png",
+      "sha256": "e10aee6b0bce817a741a8c8c53663d1be1649b1d6b9904641c51390858fc0625",
+      "use": "验证选中模型的分类结果",
+      "svg_file": "figures/05_selected_results.svg",
+      "svg_sha256": "755dc11aa112c67ac21b86842107329a87774afbcbd323282d7cbc444a23b57f"
+    },
+    {
+      "file": "figures/06_boundary_saturation.png",
+      "source": "系统v2已审查报告",
+      "source_filename": "comparison_boundary_and_saturation.png",
+      "sha256": "f998e0826953080932ff22d8ba88ab9bb7d1f793940c55d68def2200be052d74",
+      "use": "V7消除代理数值投影饱和",
+      "svg_file": "figures/06_boundary_saturation.svg",
+      "svg_sha256": "c04089f8830800e86d690b1762a7ff657032673e3a965f49b257e9efa327d359"
+    },
+    {
+      "file": "figures/07_v7_e5_depth.png",
+      "source": "系统v2/V7 e5固定池快照",
+      "source_filename": "V7_HIER64_K20_W0_98dedcccba91_cc818e1d_snapshot_e5_depth_distribution.png",
+      "sha256": "6e5fbcd51246372d57e9bd07876f5156cc40f211daf4e7f36e7d2b47fd452b13",
+      "use": "浅层sample-used与深层sample-inactive",
+      "svg_file": "figures/07_v7_e5_depth.svg",
+      "svg_sha256": "1468d09c9ec2039648e7f593526cc162c4fba3a7c0eb90c1af52aa2d87ed3359"
+    },
+    {
+      "file": "figures/08_fixed_e5_trajectory.png",
+      "source": "V7径向选择审查",
+      "source_filename": "fixed_e5_groups_trajectory.png",
+      "sha256": "597e46a56710971158b0de1aa69650fbe05a917b779ade52c4ec73e1965313aa",
+      "use": "固定e5组的后续轨迹",
+      "svg_file": "figures/08_fixed_e5_trajectory.svg",
+      "svg_sha256": "00a99f253e6254432d0544defc5afca09d9ddbf96688d4407d46c67d3944db31"
+    },
+    {
+      "file": "figures/09_e5_radial_control.png",
+      "source": "V7径向选择审查",
+      "source_filename": "e5_radial_selection_controls.png",
+      "sha256": "4b2cf77340a541a12154c4160d4c8e15aa526ab2e63a72a4217015946b38f09f",
+      "use": "冻结径向移位与祖先竞争",
+      "svg_file": "figures/09_e5_radial_control.svg",
+      "svg_sha256": "cf1fdd5094e2d67ce63acea0860bf88b304539fdc0d5fdd2a07a8646c5791e59"
+    },
+    {
+      "file": "figures/10_v7_evolution.png",
+      "source": "V7方向热点review_final",
+      "source_filename": "01_evolution_overview.png",
+      "sha256": "32c035fa27ebe0a9cd870e3ea2947fae3415cf298a5177f391452142104aba5e",
+      "use": "whole与代理的径向/方向演化；部分曲线为全512",
+      "svg_file": "figures/10_v7_evolution.svg",
+      "svg_sha256": "51ba247e16e3a24d9b7ffb29b54b4f3cb37f9fd6b6c01381fb5eb5499cc0b0a5"
+    },
+    {
+      "file": "figures/11_whole_class_angles.png",
+      "source": "V7方向热点review_final",
+      "source_filename": "02_whole_class_center_angles.png",
+      "sha256": "4b6868f2b2b671e8d6b8a0e69f6d29279d1a913fd374f90a0e578549705fb80b",
+      "use": "whole类别方向分离",
+      "svg_file": "figures/11_whole_class_angles.svg",
+      "svg_sha256": "d5e3d8ae4cf2fb31a25cf9bf4c4d33d1757e253eac848a113fda3568cfa5c79a"
+    },
+    {
+      "file": "figures/12_proxy_class_affinity.png",
+      "source": "V7方向热点review_final",
+      "source_filename": "05_proxy_class_affinity.png",
+      "sha256": "4554ad4e4afaf644c32931c153fd9eeaacc81e504b59c293a3e601860683c004",
+      "use": "used/inactive分别显示的类别亲和",
+      "svg_file": "figures/12_proxy_class_affinity.svg",
+      "svg_sha256": "ed1094f045067811625c6b9347e71dad32184a1fbf212c1b169e91d632159989"
+    },
+    {
+      "file": "figures/13_class_depth_hotspots.png",
+      "source": "V7方向热点review_final",
+      "source_filename": "03_class_depth_and_hotspots.png",
+      "sha256": "82c319ea3d300994aea7a24a417956969996de6f4875439148434b044914e214",
+      "use": "花盆极浅尾部与laptop方向热点",
+      "svg_file": "figures/13_class_depth_hotspots.svg",
+      "svg_sha256": "d5be909107f512c852a69c5bc49a6af66b6176ba60b0fe79e0cb852f06dd01a4"
+    },
+    {
+      "file": "figures/14_hotspot_trajectory.png",
+      "source": "V7方向热点review_final",
+      "source_filename": "04_fixed_hotspot_trajectories_and_baselines.png",
+      "sha256": "0d4cbbc7cad888e2c251dfd38d7d081ccbb59de454495bee0fdbe0f2d96c7a3c",
+      "use": "同对象跨期及原HyCoRe基线",
+      "svg_file": "figures/14_hotspot_trajectory.svg",
+      "svg_sha256": "bfc9f00d856dde5b4a2828bb3afa8e5e4838f8999562b834dd61c4d39bc0e6c4"
+    },
+    {
+      "file": "figures/15_radial_advantage.png",
+      "source": "V7方向热点review_final",
+      "source_filename": "06_radial_advantage_geometry.png",
+      "sha256": "c42ac36ec6320fdf09da975ba22c926c02f060bef6212287a52139be6cb84a78",
+      "use": "径向优势盖过方向接近",
+      "svg_file": "figures/15_radial_advantage.svg",
+      "svg_sha256": "d2aa3918911d5a03d1908d06d48c9031e98fdac80db4692ce4be28b4c49c334a"
+    },
+    {
+      "file": "figures/16_original_v7_depth.png",
+      "source": "原版HIER最终综合审查",
+      "source_filename": "geometry_01_depth_distributions.png",
+      "sha256": "7b9831aaccacf56ac63a2cac8da4831b4976f8f6bb5543a83884f632f63ec288",
+      "use": "CUB/Cars/SOP与V7六格深度对照"
+    },
+    {
+      "file": "figures/17_dimensionless_radius.png",
+      "source": "原版HIER最终综合审查",
+      "source_filename": "geometry_02_dimensionless_radial_ranges.png",
+      "sha256": "d775e15538d07dd8fcdb49242f2a581fcb906acc3b0069ddc3aa04e4bea38453",
+      "use": "不同曲率的无量纲几何范围"
+    },
+    {
+      "file": "figures/18_coverage_quartets.png",
+      "source": "原版HIER完整几何review_final",
+      "source_filename": "03_coverage_and_repeated_quartets.png",
+      "sha256": "3458217264c32ba82e80eead393b308aa173f60eba7445fa7cd53c65e6752247",
+      "use": "原始与等whole深度覆盖及重复四例",
+      "svg_file": "figures/18_coverage_quartets.svg",
+      "svg_sha256": "cefd7f5e05e745858a2773850cbebfd8d7ad7047671d8eecd7e6c7141326f59a"
+    },
+    {
+      "file": "figures/19_original_proxy_angles.png",
+      "source": "原版HIER最终综合审查",
+      "source_filename": "direction_01_proxy_radial_angular_groups.png",
+      "sha256": "bdee40f14eff1ec132cbabf2968a77b0d29d11bf20d8db3a33b4c7a75adf87d2",
+      "use": "代理深度与方向、cap分组"
+    },
+    {
+      "file": "figures/20_direction_spectrum.png",
+      "source": "原版HIER最终综合审查",
+      "source_filename": "direction_02_direction_spectrum_common_pole.png",
+      "sha256": "0e9cb87994cf401226bf5ad1e8824c5988949e80942c2ea745d81bdc70cc8928",
+      "use": "SOP共同方向与有效秩"
+    },
+    {
+      "file": "figures/21_direction_controls.png",
+      "source": "原版HIER最终综合审查",
+      "source_filename": "direction_04_direction_controls_semantic_hotspots.png",
+      "sha256": "d77293a98538fedb2ec1124e4d54e7555d7d9db10ac1d0d12f8cddfad4fad7e7",
+      "use": "固定方向控制与热点粗类"
+    },
+    {
+      "file": "figures/22_image_epoch_activation.png",
+      "source": "原版HIER最终综合审查",
+      "source_filename": "image_epoch_activation_domains.png",
+      "sha256": "db90cbad9b0c81c4d02e46cc03ca1a4f431eb272013e69b568cbde7a38856d80",
+      "use": "完整图像无更新epoch、激活及径向梯度",
+      "svg_file": "figures/22_image_epoch_activation.svg",
+      "svg_sha256": "506a8b05ad745caba833fbdedca2956438b2cb95ae13d07b61beb4a04a97aa4c"
+    },
+    {
+      "file": "figures/23_pair_triple_overlap.png",
+      "source": "原版HIER最终综合审查",
+      "source_filename": "activation_03_pair_triple_role_overlap.png",
+      "sha256": "a4c199d00f73973395a57eb2f63afd35d23458acf26e9b9b04fa30b7f8eb79c6",
+      "use": "pair/triple并非固定两群"
+    },
+    {
+      "file": "figures/24_independent_shape.png",
+      "source": "系统v2已审查报告",
+      "source_filename": "cross_version_native_shape.png",
+      "sha256": "7453915ae321e6e800db93874449bf8ce50233506a4b5bd63882e9ba388f24d4",
+      "use": "独立形态检查与同协议B64",
+      "svg_file": "figures/24_independent_shape.svg",
+      "svg_sha256": "c36e360cb869ec6d03cd9f534ebe749bcd87b9c49b4c0de1c9a7ca70c6bee585"
+    },
+    {
+      "file": "figures/25_shuffle_baseline.png",
+      "source": "研究artifacts/b64_v6_2026-10-05",
+      "source_filename": "monitoring_canonical.png",
+      "sha256": "ac677711ec359c31911d9ed36f6466ce0ab07444158d5cf1d2a8a52e39b19b14",
+      "use": "附录：原采样B0-64训练曲线"
+    },
+    {
+      "file": "figures/26_bn_geometry.png",
+      "source": "研究artifacts/hycore_b64_geometry_2026-10-05",
+      "source_filename": "overall_depths.png",
+      "sha256": "acce33d1db13e944f8320139906df5d7a50932670cd05e1f1cb58f44b67d7c33",
+      "use": "附录：原HyCoRe与B0-32/B0-64几何"
+    },
+    {
+      "file": "figures/27_single_step.png",
+      "source": "研究artifacts/hier_mechanism_figures_canonical_20261006_v1",
+      "source_filename": "one_step_total_and_increment.png",
+      "sha256": "dd2697246d11f4b5686534a4093c1b763e3eae68d4c353aee16a56c207ecb2fd",
+      "use": "附录：即时增量与总更新方向"
+    }
+  ],
+  "sources": [
+    {
+      "file": "sources/S01.txt",
+      "original_document": "01_EXPERIMENT_HISTORY.md",
+      "sha256": "19697f019ef9e9c35983df610741699d88c616feb799dad581abfcc2af43f515"
+    },
+    {
+      "file": "sources/S04.txt",
+      "original_document": "04_NEXT_EXPERIMENT_PLAN.md",
+      "sha256": "f975da7c3778cacc5f56123cd4bdf07932719544b97c950fc8847511b6f9c23c"
+    },
+    {
+      "file": "sources/S09.txt",
+      "original_document": "09_HIER_PROXY_HANDOFF_2026-09-28.md",
+      "sha256": "8832ba190bca730ad83b3fed3063919aad6a4b49b75c3753dfcc49b4056212e4"
+    },
+    {
+      "file": "sources/S10.txt",
+      "original_document": "10_HIER_PROXY_V4_PLAN_2026-10-02.md",
+      "sha256": "2d30f175d0fca2d9111b3df198e87aba4ff3e74e6dc69bdd59bbeac5270bef65"
+    },
+    {
+      "file": "sources/S12.txt",
+      "original_document": "12_V4_LESSONS_2026-10-03.md",
+      "sha256": "dcd05a37bb6509ad33b8f4a4b030a340eb12e9f67cb04c3a0d1ce7b5a56e5319"
+    },
+    {
+      "file": "sources/S13.txt",
+      "original_document": "13_DUAL_GPU_V5_CHANGE_INDEX_2026-10-03.md",
+      "sha256": "0be3cf11eb1cb16d1253d445e503aca2ebc00824b0c778e92eb71adad0117cc1"
+    },
+    {
+      "file": "sources/S19.txt",
+      "original_document": "19_V5_FINAL_RESULTS_2026-10-03.md",
+      "sha256": "9129daee345df27cb314d315d044ef8d8f0c6613a5971e925526b570b5c8a804"
+    },
+    {
+      "file": "sources/S20.txt",
+      "original_document": "20_B32_HYCORE_FIDELITY_AUDIT_2026-10-03.md",
+      "sha256": "af6a37a156847992ef18354b91bacc90186a9f3113422aa74e90dba49bc0512f"
+    },
+    {
+      "file": "sources/S22.txt",
+      "original_document": "22_V5_V6_RESULTS_AND_STRUCTURE_2026-10-04.md",
+      "sha256": "12a00bca267f9e825055a67178e5a3a487f496c85a84a6d91ffa401afca56e19"
+    },
+    {
+      "file": "sources/S23.txt",
+      "original_document": "23_V6_B64_SHUFFLE_START_2026-10-05.md",
+      "sha256": "ebe977a3b94cee7e5ab15da5ef35eb732513f9f0069fecf19915246182f318fc"
+    },
+    {
+      "file": "sources/S25.txt",
+      "original_document": "25_HYCORE_HIER_HPCS_TECHNICAL_HANDOFF_2026-10-05.md",
+      "sha256": "10561c351084c78f0418692e0f1ab1af18c9064202ca832a56cfdd1d0ee73bfe"
+    },
+    {
+      "file": "sources/S26.txt",
+      "original_document": "26_ORIGINAL_HYCORE_B64_CLASS_GEOMETRY_2026-10-05.md",
+      "sha256": "e32be19ed5de2cfa07d899de2deab82398201a226f011432760148b8ec30c44e"
+    },
+    {
+      "file": "sources/S27.txt",
+      "original_document": "27_HIER_WHOLE_RADIAL_RETRIEVAL_DIAGNOSIS_2026-10-06.md",
+      "sha256": "d7c2432143d7372ae1d51566d65bfb5d41abbd7d828b841fbbfd8f0780cefb09"
+    },
+    {
+      "file": "sources/S28.txt",
+      "original_document": "28_HIER_EVIDENCE_AND_NEXT_DECISIONS_2026-10-06.md",
+      "sha256": "818cb092d459276a3d0ac9fd93a75d5307e68be93ceac347141e74bf0df76731"
+    },
+    {
+      "file": "sources/S31.txt",
+      "original_document": "31_HIER_MECHANISM_FINDINGS_AND_B0_STATUS_2026-10-06.md",
+      "sha256": "3fbb14dabfb65b2ddf6aff070eb4bb129d13cb4b08fd8d776c326346e8441cd7"
+    },
+    {
+      "file": "sources/S32.txt",
+      "original_document": "32_V6_BALANCED_B0_COMPLETED_2026-10-06.md",
+      "sha256": "5eec22105befa9318fb9566d3a4843d0a73e1abfad310475e882d34533eb0fe9"
+    },
+    {
+      "file": "sources/S33.txt",
+      "original_document": "33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md",
+      "sha256": "f41226b3839a30bf5d641d2ffc28925669dfc0cc448af36cbd4351b64db6adc2"
+    },
+    {
+      "file": "sources/S34.txt",
+      "original_document": "34_V7_SINGLE_RUN_PLAN_2026-10-07.md",
+      "sha256": "9636f699ed89a4f9a5dcd94e647316e6167d77a8f0033039db0e89f9e432ce54"
+    },
+    {
+      "file": "sources/S35.txt",
+      "original_document": "35_HIER_MARGIN_BOUNDARY_AND_PROXY_GRADIENT_AUDIT_2026-10-07.md",
+      "sha256": "36c665a1b879413dc6daea8aa401868b8c8c6cbe8288dc0467aacefb5e8f4f97"
+    },
+    {
+      "file": "sources/S36.txt",
+      "original_document": "36_V7_PROXY_SAFETY_DECISION_AND_LAUNCH_2026-10-07.md",
+      "sha256": "7e762ff721c705126637093bdd4fb367dedc34cf4cdf21f8979adc9429e05916"
+    },
+    {
+      "file": "sources/S37.txt",
+      "original_document": "37_V7_COMPLETED_2026-10-07.md",
+      "sha256": "1d2081e2bfa082648b952b2f3c484997f57b3b5ca486e4d6d501a1e6dad70549"
+    },
+    {
+      "file": "sources/S38.txt",
+      "original_document": "38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md",
+      "sha256": "9cb9e8ad3593136e0e940307e8c30604fa63024314a4aae8d097afe54a129392"
+    },
+    {
+      "file": "sources/S40.txt",
+      "original_document": "40_HIER_SYSTEM_AUDIT_RESULTS_2026-10-07.md",
+      "sha256": "f08e62b4688aae4f949e399678a33ec980f8ff599ed721b15d6d87a0a21d527b"
+    },
+    {
+      "file": "sources/S42.txt",
+      "original_document": "42_HIER_RADIAL_SELECTION_DIAGNOSIS_2026-10-08.md",
+      "sha256": "fc855a1b18d86b72a56b55e4f55187aafb79482f9bbda59756a7403f0e2102c1"
+    },
+    {
+      "file": "sources/S43.txt",
+      "original_document": "43_V7_WHOLE_ONLY_EQUAL_DEPTH_HOTSPOTS_2026-10-08.md",
+      "sha256": "d012532f44b0a4a361bfdfaccca62a7fd86efc847f0a35be980ba8a8a2471e23"
+    },
+    {
+      "file": "sources/S44.txt",
+      "original_document": "44_V7_DIRECTION_EVOLUTION_AND_HOTSPOTS_2026-10-08.md",
+      "sha256": "a9e1b0c7ae4d956f6fef6d436f0e849af40e4e729d4034a03732c658c6ead949"
+    },
+    {
+      "file": "sources/S45.txt",
+      "original_document": "45_ORIGINAL_HIER_BEST_GEOMETRY_AUDIT_2026-10-08.md",
+      "sha256": "03972bb286e19ee74e411d86b67b0a50b3ef27bc724726423046ce28fdcde6ef"
+    },
+    {
+      "file": "sources/S46.txt",
+      "original_document": "46_ORIGINAL_HIER_SOP_MECHANISM_AND_ACTIVATION_2026-10-08.md",
+      "sha256": "12b873d9bac43d11b4e67096463a6536eea852458564bdd58603911a1bdf2c0e"
+    },
+    {
+      "file": "sources/V4_completed_result_review.txt",
+      "original_document": "V4 completed/RESULT_REVIEW_2026-10-02.md",
+      "sha256": "468492357d8ccc3297dbee4fafe5b94fce1f8300f3652458e2c11e978ac6907f"
+    },
+    {
+      "file": "sources/V7_active_geometry.json",
+      "original_document": "hier_v7_active_geometry_clarification_20261008/clarification.json",
+      "sha256": "d3b31a7992ca3ca283443714956e86e16c81e7dd32c981894b97cfc4f4be34fd"
+    },
+    {
+      "file": "sources/HIER_LICENSE.txt",
+      "original_document": "HIER-CVPR23/LICENSE (MIT)",
+      "sha256": "b75faf658bc6d995a2a09d9621de44ab454ec34ca6f5d90b0dde86fcbaca235c"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "new_experiments": 0,
+  "new_scientific_figures": 0,
+  "existing_png_figures": 27,
+  "existing_svg_figures": 14,
+  "existing_source_documents": 31,
+  "verified_source_copy_hashes": 72,
+  "verified_local_markdown_links": 193,
+  "display_math_blocks": 27,
+  "main_chinese_characters": 11688,
+  "primary_duration_minutes": 75,
+  "duration_variants_minutes": [
+    60,
+    75,
+    90
+  ],
+  "review": "three independent source reviews; all required corrections applied"
+}

@@ -1,0 +1,5 @@
+*.md text eol=lf
+*.json text eol=lf
+figures/*.png binary
+figures/*.svg -text -diff
+sources/* -text -diff
