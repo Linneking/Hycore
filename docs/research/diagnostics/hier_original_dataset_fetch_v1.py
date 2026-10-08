@@ -34,7 +34,7 @@ DATASETS = {
         'bytes': 3083860082, 'sha256': 'b04fa78210e69fab050ce73939550e1cd0f96890bdd98ec9fee732c3b756ef48',
         'jpeg_count': 120053},
     'cars_annotations': {'file': 'cars_annos_original.mat', 'urls': [
-        'https://hf-mirror.com/datasets/XiN0919/FGVC/resolve/921e8dce38536cd5982739d85d5e9235d2cb2a76/cars_annos.mat'],
+        'https://hf-mirror.com/datasets/XiN0919/FGVC/resolve/0d13c2f9f45e6d76fc2a329d561989c7c903d027/cars_annos.mat'],
         'bytes': 394471},
 }
 LOCK = threading.Lock()
