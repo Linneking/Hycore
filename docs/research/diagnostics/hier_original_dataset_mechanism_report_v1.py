@@ -155,7 +155,7 @@ def plot_image_epoch(image, direction, extra, output, copied):
         for i in good:
             axs[0,col].text(i,vals[i]+max(v for v in vals if v is not None)*.025,str(vals[i]),ha="center",fontsize=9)
         axs[0,col].axhline(512,ls="--",c="#777777",lw=.8)
-        axs[0,col].set_ylim(0,max(v for v in vals if v is not None)*1.15)
+        axs[0,col].set_ylim(0,max(v for v in vals if v is not None)*1.35)
         axs[0,col].text(.02,.97,f"Ancestors: {r.get('replay_batches')} image batches\nGradients: first {r.get('gradient_batches')} batches",va="top",fontsize=9,transform=axs[0,col].transAxes)
         radial_vals=[]
         radial_labels=[]

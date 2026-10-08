@@ -2,6 +2,10 @@
 
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
+## 原版 HIER 三数据集热点机制与激活来源 — 2026-10-08
+
+[46](46_ORIGINAL_HIER_SOP_MECHANISM_AND_ACTIVATION_2026-10-08.md) 补充完整高维方向与官方分项激活：三组whole都在d0≈4.6薄壳，SOP代理R=.6482、497/512超过forward cap；CUB/Cars代理R约.044/.047，越cap数9/1。SOP整体旋转覆盖432→880–1065，方向减均值→1778但同细类纯度下降，因此覆盖改善不等于结构收益。缓存一轮长度窗口和真实图像32/44/330批全部完成，三组sample有效祖先及前2batch两个分项full-ST梯度均512个；图像SOP径向梯度占比2.59e−6/1.82e−6，仍有角梯度。36张clean anchor前向与原缓存最低余弦>.999999，网络/BN/lcas与源SHA保持，零参数更新。公开数据三集已下载验收；权重和缓存副本经用户明确授权放项目服务器私有新目录。三个best的LR/WD、轮次和每轮步数不同，不能把SOP几何差异完全归因于数据域。20实现测试通过；完整ID/数据/权重/日志均不进Git。
+
 ## Original HIER best complete geometry — 2026-10-08
 
 The user supplied3 original best checkpoints and12 complete CUB/Cars/SOP caches,
