@@ -322,6 +322,7 @@ def main():
         torch.backends.cudnn.deterministic = True
     cls, hypnn, pmath, sampler_cls = official_runtime(args.reference)
     checkpoint_hash, cache_hash, map_hash = map(sha256, (args.checkpoint, args.clean_cache, args.sample_map))
+    identity_hash = sha256(args.identity_map) if args.identity_map else None
     checkpoint = safe_checkpoint(args.checkpoint)
     source_checkpoint_hash = checkpoint.get('source_checkpoint_sha256', checkpoint_hash)
     margs = checkpoint['args']
@@ -341,10 +342,13 @@ def main():
     paths = resolve_paths(source_paths, args.dataset, args.images_root, identity)
     tangent = checkpoint['cluster_loss']['lcas'].detach().float().cpu().clone()
     model = OriginalWhole(hypnn, margs)
-    model.load_state_dict(unwrapped_state(checkpoint['stduent']), strict=True)
+    network_state = unwrapped_state(checkpoint['stduent'])
+    model.load_state_dict(network_state, strict=True)
     assert len(model.state_dict()) == 632
+    assert all(torch.equal(value, network_state[key]) for key, value in model.state_dict().items()), \
+        'A saved state value was changed during model loading.'
     model.requires_grad_(False)
-    del checkpoint
+    del checkpoint, network_state
     model.to(device).train(True)
     state_before = state_fingerprint(model)
     transform, clean_transform = build_transforms()
@@ -427,9 +431,7 @@ def main():
     assert sha256(args.checkpoint) == checkpoint_hash and sha256(args.clean_cache) == cache_hash
     assert sha256(args.sample_map) == map_hash
     if args.identity_map:
-        identity_hash = sha256(args.identity_map)
-    else:
-        identity_hash = None
+        assert sha256(args.identity_map) == identity_hash
     result = summarize_counts(counts, gradients, depth)
     result.update(whole_depth_sampled_slots=basic_stats(np.concatenate(whole_depth)),
                   proxy_depth=basic_stats(depth), distinct_sampled_objects=int(np.unique(plan).size),
