@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-15：V8配置已批准，授权实现、验收及后台启动
+
+用户已同意上一轮明确的优化配置，并要求“开始编码挂到服务器上进行训练，问题自行解决，挂起后退出”。单卡16类×2例，两卡类别不重复；c=0.1、最终共享mu的cap2.3及一次hook，gamma500/delta2，两intra系数各0.01，HIER系数0.5、W0；主模型RSGD0.1→0.005、代理AdamW0.01→0.0005，300轮余弦。该授权覆盖下方仅数值候选的等待状态，允许独立smoke和唯一完整e300主训练。实现和真实启动状态见[50](50_V8_IMPLEMENTATION_AND_LAUNCH_2026-10-15.md)。只使用两张完全空闲GPU；不足两张时允许任务后台等待再自动验收和启动，不能中断其他进程。验证选模与最终一次test保持。
+
 ## 2026-10-15：V8官方HIER几何适配，数值可行性已核查
 
 用户提出让HyCoRe适配官方HIER的c=0.1、切空间cap2.3及梯度放缩，并先要求源码与数值核查。结果与候选见[49：V8几何和margin可行性](49_V8_HIER_GEOMETRY_AND_MARGIN_FEASIBILITY_2026-10-15.md)。cap2.3对应最终共享表示深度4.6；原part–whole margin=1000/N需要同时审查Rcontr的margin4。按深度预算倍率0.74043缩放不能排除两项目标在小part时的联合冲突，候选是只对HyCoRe的两项margin共同乘0.5（gamma500、delta2），保留官方HIER margin/tau0.1。全链曲率、最终mu的cap/hook位置、代理初始化及官方数值距离均需明确；采样/优化协议与几何变更分开记录，self-k修复保留。CPU解析核查完成，候选尚未实现成训练入口；本条不授权启动新实验矩阵。

@@ -39,12 +39,15 @@ class InverseMetric(torch.autograd.Function):
 
 
 def to_ball(tangent, c=C, clip_r=CLIP_R, hook=True):
+    # The released implementation constructs c in default FP32 before casting.
+    curvature = torch.as_tensor(c).type_as(tangent)
+    sqrt_c = curvature.sqrt()
     norm = tangent.norm(dim=-1, keepdim=True) + 1e-5
     tangent = tangent * (clip_r / norm).clamp(max=1.)
     norm = tangent.norm(dim=-1, keepdim=True).clamp_min(1e-5)
-    result = (math.sqrt(c) * norm).clamp(-15, 15).tanh() * tangent / (math.sqrt(c) * norm)
+    result = (sqrt_c * norm).clamp(-15, 15).tanh() * tangent / (sqrt_c * norm)
     radius = result.norm(dim=-1, keepdim=True).clamp_min(1e-5)
-    result = result * ((1 - 1e-3) / math.sqrt(c) / radius).clamp(max=1.)
+    result = result * ((1 - 1e-3) / sqrt_c / radius).clamp(max=1.)
     return InverseMetric.apply(result, c) if hook else result
 
 
@@ -94,11 +97,13 @@ def _distance_block(x, y, c):
     num = num + (1 - c * x2)[:, :, None] * y
     denominator = 1 + 2 * c * xy + c * c * x2 * y2
     difference = num / (denominator[..., None] + 1e-5)
-    return 2 / math.sqrt(c) * Artanh.apply(math.sqrt(c) * difference.norm(dim=-1))
+    sqrt_c = c.sqrt()
+    return 2 / sqrt_c * Artanh.apply(sqrt_c * difference.norm(dim=-1))
 
 
 def official_distance(x, y=None, c=C, block=32):
     y = x if y is None else y
+    c = torch.as_tensor(c).type_as(x)
     parts = []
     for start in range(0, len(x), block):
         a = x[start:start + block]

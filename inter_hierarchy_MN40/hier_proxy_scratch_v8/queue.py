@@ -97,6 +97,30 @@ def run_logged(command, log, env, cwd, timeout=None):
             raise
 
 
+def cache_data(source, name, root):
+    cache = Path('/tmp') / ('hycore_v8_data_' + name)
+    cache.mkdir(exist_ok=False)
+    records = []
+    train_files = sorted(source.glob('*train*.h5'))
+    if not train_files:
+        raise RuntimeError('No source training HDF5 files')
+    for original in train_files:
+        before = original.stat()
+        target = cache / original.name
+        shutil.copyfile(original, target)
+        after = original.stat()
+        if before.st_size != target.stat().st_size or before.st_mtime_ns != after.st_mtime_ns:
+            raise RuntimeError('Training data changed while copied')
+        records.append({'file': original.name, 'bytes': target.stat().st_size,
+                        'sha256': hashlib.sha256(target.read_bytes()).hexdigest()})
+    # Test bytes are not read here; evaluation follows these links once at the end.
+    for original in source.glob('*test*.h5'):
+        (cache / original.name).symlink_to(original.resolve())
+    write(root / 'training_data_cache.json', {'source': str(source), 'cache': str(cache),
+                                            'train_files': records, 'test_content_read': False})
+    return cache
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo', type=Path, required=True)
@@ -120,6 +144,7 @@ def main():
         env.update(OMP_NUM_THREADS='2', MKL_NUM_THREADS='2', OPENBLAS_NUM_THREADS='2',
                    PYTHONUNBUFFERED='1', HDF5_USE_FILE_LOCKING='FALSE',
                    V8_SOURCE_COMMIT=args.expected_commit, V8_SOURCE_BRANCH=args.source_branch)
+        env.setdefault('PYTHONPYCACHEPREFIX', '/tmp/hycore_v8_pycache_' + args.root.name)
         env['PYTHONPATH'] = str(snapshot) + ':' + env.get('PYTHONPATH', '')
         env.pop('CUDA_VISIBLE_DEVICES', None)
         cpu_commands = [
@@ -129,6 +154,9 @@ def main():
         for index, command in enumerate(cpu_commands):
             if run_logged(command, args.root / f'cpu_check_{index}.log', env, snapshot, timeout=1200) != 0:
                 raise RuntimeError(f'CPU contract {index} failed; inspect its log')
+        state.update(status='preparing_training_data', cpu_checks_passed=True, updated_utc=now())
+        write(path, state)
+        cached_data = cache_data(args.data_dir, args.root.name, args.root)
         state.update(status='waiting_for_two_idle_gpus', cpu_checks_passed=True, updated_utc=now())
         write(path, state)
         attempts = 0
@@ -144,7 +172,7 @@ def main():
             locks = []
             try:
                 for row in chosen:
-                    lock = open(f"/tmp/hycore_gpu_{row['index']}.lock", 'a+')
+                    lock = open(f"/tmp/hycore_{os.getuid()}_gpu_{row['index']}.lock", 'a+')
                     locks.append(lock)
                     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
                 time.sleep(10)
@@ -158,7 +186,7 @@ def main():
                 smoke = args.root / f'smoke_{attempts:02d}'
                 base = [sys.executable, '-m', 'torch.distributed.run', '--standalone', '--nproc_per_node=2',
                         '--module', 'inter_hierarchy_MN40.hier_proxy_scratch_v8.train',
-                        '--data-dir', str(args.data_dir)]
+                        '--data-dir', str(cached_data)]
                 state.update(status='smoke_running', gpus=chosen, smoke_dir=str(smoke), updated_utc=now())
                 write(path, state)
                 smoke_command = base + ['--run-dir', str(smoke), '--epochs', '2', '--steps-per-epoch', '2',
