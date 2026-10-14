@@ -1,0 +1,58 @@
+{
+  "recorded_utc": "2026-10-14T18:23:30.160548+00:00",
+  "run_id": "v8_hier64_20261015_022043",
+  "canonical_name": "V8-HIER64-K20-W0",
+  "code_commit": "14f8a7201cd108a77bde3b2ec9c3053e3cc07579",
+  "queue_status": "waiting_for_two_idle_gpus",
+  "production_started": false,
+  "unit_contracts_passed": 9,
+  "unit_contracts_skipped": 0,
+  "global64_ddp_and_parameter_audit_contract": "passed",
+  "runtime": {
+    "python": "3.9.25",
+    "torch": "2.8.0+cu128",
+    "geoopt": "0.5.1",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "h5py": "3.14.0"
+  },
+  "train_data": {
+    "objects": 9840,
+    "train_objects": 8856,
+    "validation_objects": 984,
+    "classes": 40,
+    "shapes": [
+      [
+        2048,
+        2048,
+        3
+      ],
+      [
+        2048,
+        2048,
+        3
+      ],
+      [
+        2048,
+        2048,
+        3
+      ],
+      [
+        2048,
+        2048,
+        3
+      ],
+      [
+        1648,
+        2048,
+        3
+      ]
+    ],
+    "split_sha256": "3bbf0c79b3cb9581caeafe3f7f12caa6861f236f0159512a5998d5e9bcf25105",
+    "labels_sha256": "5191071bd57f54d62aad093330e3742ea32f24be56c9ba1e202126bb62785854"
+  },
+  "official_test_content_read": false,
+  "cuda_initialized_by_cpu_checks": false,
+  "status": "queued_waiting_for_two_completely_idle_gpus",
+  "gpu_smoke": "not run yet; automatic before production"
+}

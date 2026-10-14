@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## V8已部署，后台等待两张空闲GPU — 2026-10-15
+
+用户批准统一c=.1、最终共享mu的cap2.3/hook、gamma500/delta2、HIER权重.5、W0；两rank各16类×2例，保留双优化器300轮cosine与验证选模。独立V8入口已实现，9项CPU合同与global64 Gloo/参数审计通过，真实数据9840→8856/984及split身份核对。有效任务`v8_hier64_20261015_022043`固定代码14f8a72，已独立后台运行；02:23:30 Asia/Shanghai仍等待两张完全空闲卡，尚无GPU短验收或主训练更新。空闲后自动先2×2 smoke再全新初始化e300。见[50：实现与后台交接](50_V8_IMPLEMENTATION_AND_LAUNCH_2026-10-15.md)及私有`.codex-local/handoff/50_V8_ENGINEERING_HANDOFF_2026-10-15.md`。本条为最新状态；下方V7及c1方法描述保留为历史。
+
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
 ## 原版 HIER 三数据集热点机制与激活来源 — 2026-10-08
