@@ -53,7 +53,7 @@ def freeze_source(repo, root, expected):
         raise RuntimeError('Checkout commit changed before snapshot')
     paths = subprocess.check_output(['git', '-C', str(repo), 'ls-files', '-z', '--',
                                     'inter_hierarchy_MN40', 'pointnet2_ops_lib']).split(b'\0')
-    snapshot = root / 'code'
+    snapshot = Path('/tmp') / ('hycore_v8_code_' + root.name)
     snapshot.mkdir(exist_ok=False)
     hashes = {}
     for encoded in paths:
@@ -76,7 +76,7 @@ def freeze_source(repo, root, expected):
     destination.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(ext, destination)
     hashes[str(destination.relative_to(snapshot))] = hashlib.sha256(destination.read_bytes()).hexdigest()
-    write(root / 'source_identity.json', {'commit': actual, 'files': hashes,
+    write(root / 'source_identity.json', {'commit': actual, 'snapshot': str(snapshot), 'files': hashes,
                                         'compiled_extension_origin': str(ext), 'frozen_utc': now()})
     return snapshot
 

@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-15",
+  "tested_implementation_commit": "5556dc5",
+  "branch": "codex/v8-hier-geometry-training-20261015",
+  "official_hier_source_commit": "3986a744a1a54fd357e307d1cb3f2e81910b9ffc",
+  "unit_contracts": {"passed": 8, "failed": 0, "skipped": 0},
+  "official_equivalence": "FP32 and FP64 forward/backward mapping and pairwise distances passed against separately loaded official source",
+  "global64_ddp_contract": "passed: Gloo two ranks, local32, global32class x2, compared with one-process global objective",
+  "parameter_audit_contract": "passed: discarded no_sync parameter-component audit restores buffers/RNG and does not change actual DDP/proxy gradients",
+  "ddp_fixture": {"input_dim": 6, "embedding_dim": 8, "proxies": 32, "device": "CPU", "full_PointMLP_GPU_smoke": "pending idle GPUs"},
+  "training_entrypoint_import_and_help": "passed with existing compiled pointnet2 extension; no GPU allocation",
+  "runtime_repair": "Python3.9.25 standard library and light dependencies on temporary disk; existing Torch2.8/Geoopt0.5.1/NumPy1.26.4 cached numeric packages reused",
+  "scope": "CPU contracts only; no production model update; no official test or GPU use"
+}
