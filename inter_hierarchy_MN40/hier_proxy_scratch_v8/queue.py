@@ -47,6 +47,15 @@ def idle_gpus(rows):
             and row['free_MiB'] >= 30000]
 
 
+def device_environment(chosen):
+    # UUID selection avoids CUDA FASTEST_FIRST vs nvidia-smi PCI index mismatch,
+    # especially when RTX5090 and RTX5090D share the host.
+    uuids = ','.join(row['uuid'] for row in chosen)
+    return {'CUDA_VISIBLE_DEVICES': uuids, 'CUDA_DEVICE_ORDER': 'PCI_BUS_ID',
+            'HYCORE_PHYSICAL_GPUS': ','.join(str(row['index']) for row in chosen),
+            'HYCORE_PHYSICAL_GPU_UUIDS': uuids}
+
+
 def freeze_source(repo, root, expected):
     actual = subprocess.check_output(['git', '-C', str(repo), 'rev-parse', 'HEAD'], text=True).strip()
     if actual != expected:
@@ -179,9 +188,7 @@ def main():
                 still_idle = {row['uuid'] for row in idle_gpus(query_gpus())}
                 if not all(row['uuid'] in still_idle for row in chosen):
                     continue
-                gpu_ids = ','.join(str(row['index']) for row in chosen)
-                env.update(CUDA_VISIBLE_DEVICES=gpu_ids, HYCORE_PHYSICAL_GPUS=gpu_ids,
-                           HYCORE_PHYSICAL_GPU_UUIDS=','.join(row['uuid'] for row in chosen))
+                env.update(device_environment(chosen))
                 attempts += 1
                 smoke = args.root / f'smoke_{attempts:02d}'
                 base = [sys.executable, '-m', 'torch.distributed.run', '--standalone', '--nproc_per_node=2',

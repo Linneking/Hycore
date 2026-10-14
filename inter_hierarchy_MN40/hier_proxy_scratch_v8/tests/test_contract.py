@@ -122,6 +122,13 @@ class GeometryContract(unittest.TestCase):
                 {'index': 3, 'compute_busy': False, 'utilization': 0, 'free_MiB': 29000}]
         self.assertEqual([row['index'] for row in idle_gpus(rows)], [1])
 
+    def test_queue_pins_physical_uuids_instead_of_cuda_indices(self):
+        from ..queue import device_environment
+        env = device_environment([{'index': 1, 'uuid': 'GPU-a'}, {'index': 3, 'uuid': 'GPU-b'}])
+        self.assertEqual(env['CUDA_VISIBLE_DEVICES'], 'GPU-a,GPU-b')
+        self.assertEqual(env['HYCORE_PHYSICAL_GPUS'], '1,3')
+        self.assertEqual(env['CUDA_DEVICE_ORDER'], 'PCI_BUS_ID')
+
     def test_telemetry_physical_depth_units(self):
         monitor = EpochTelemetry([1, 2], [0, 1], num_classes=40)
         points = to_ball(torch.tensor([[2., 0.], [2.3, 0.]], dtype=torch.float64), hook=False)
