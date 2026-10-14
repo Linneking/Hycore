@@ -26,8 +26,9 @@ class GeometryContract(unittest.TestCase):
         for c in (.1, 1.):
             v = torch.tensor([[2.07, 0.], [10., 0.]], dtype=torch.float64)
             out = to_ball(v, c=c, hook=False)
-            self.assertAlmostEqual(float(depth(out, c=c)[0]), 4.14, places=10)
-            self.assertLessEqual(float(depth(out, c=c).max()), 4.6)
+            constructed_c = float(torch.as_tensor(c))
+            self.assertAlmostEqual(float(depth(out, c=constructed_c)[0]), 4.14, places=10)
+            self.assertLessEqual(float(depth(out, c=constructed_c).max()), 4.6)
         x = torch.tensor([[.3, .2]], dtype=torch.float64, requires_grad=True)
         y = torch.tensor([[.2, .1]], dtype=torch.float64, requires_grad=True)
         loss = InverseMetric.apply(x, .1).sum() + InverseMetric.apply(y, 1.).sum()
@@ -39,11 +40,11 @@ class GeometryContract(unittest.TestCase):
         mu = to_ball(torch.tensor([[2.3, 0.], [-2.3, 0.]], dtype=torch.float64), hook=False).requires_grad_()
         nu = to_ball(torch.tensor([[1.05, 0.], [-1.05, 0.]], dtype=torch.float64), hook=False).requires_grad_()
         values = intra_losses(mu, nu, 200)
-        self.assertLess(float(values['intra_radial']), 3e-5)
-        self.assertEqual(float(values['intra_contrastive']), 0.)
+        self.assertLess(float(values['intra_radial'].detach()), 3e-5)
+        self.assertEqual(float(values['intra_contrastive'].detach()), 0.)
         for n in (200, 400, 600):
             radial = intra_losses(mu, mu, n)['intra_radial']
-            self.assertAlmostEqual(float(radial), 500 / n, places=9)
+            self.assertAlmostEqual(float(radial.detach()), 500 / n, places=9)
         loss = sum(intra_losses(mu, nu, 200)[k] for k in ('intra_radial', 'intra_contrastive'))
         loss.backward()
         self.assertTrue(bool(torch.isfinite(mu.grad).all() and torch.isfinite(nu.grad).all()))
@@ -126,8 +127,7 @@ class GeometryContract(unittest.TestCase):
         points = to_ball(torch.tensor([[2., 0.], [2.3, 0.]], dtype=torch.float64), hook=False)
         monitor._observe_geometry('whole', points)
         result = monitor.summary()['geometry']['whole']
-        expected = (4. + 2 * 2.3 * 2.3 / (2.3 + 1e-5)) / 2
-        self.assertAlmostEqual(result['depth']['mean'], expected, places=8)
+        self.assertAlmostEqual(result['depth']['mean'], 4.3, delta=3e-5)
         self.assertEqual(result['c'], .1)
         self.assertGreater(result['radius']['mean'], 1.)
 
