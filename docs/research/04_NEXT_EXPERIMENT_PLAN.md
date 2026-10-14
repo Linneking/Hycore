@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-15：V8官方HIER几何适配，数值可行性已核查
+
+用户提出让HyCoRe适配官方HIER的c=0.1、切空间cap2.3及梯度放缩，并先要求源码与数值核查。结果与候选见[49：V8几何和margin可行性](49_V8_HIER_GEOMETRY_AND_MARGIN_FEASIBILITY_2026-10-15.md)。cap2.3对应最终共享表示深度4.6；原part–whole margin=1000/N需要同时审查Rcontr的margin4。按深度预算倍率0.74043缩放不能排除两项目标在小part时的联合冲突，候选是只对HyCoRe的两项margin共同乘0.5（gamma500、delta2），保留官方HIER margin/tau0.1。全链曲率、最终mu的cap/hook位置、代理初始化及官方数值距离均需明确；采样/优化协议与几何变更分开记录，self-k修复保留。CPU解析核查完成，候选尚未实现成训练入口；本条不授权启动新实验矩阵。
+
 实验展示名统一遵循[33：实验命名规范](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md)。旧文件名、运行ID及代码字段保留用于溯源；本次只规范称呼。
 
 Status: **唯一V7已于2026-10-07 14:43:33完成300轮；16:00只读核查通过，GPU1/2释放。验证选中e187（OA93.8008%），最终test OA92.2204%、AA89.7204%。全程代理数值投影计数0，参数cap保持有效。完成记录见[37](37_V7_COMPLETED_2026-10-07.md)，配置与启动身份见[36](36_V7_PROXY_SAFETY_DECISION_AND_LAUNCH_2026-10-07.md)。未启动新实验；下方为历史计划。**
