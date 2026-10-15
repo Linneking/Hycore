@@ -1,5 +1,9 @@
 # Experiment history
 
+## V8新账户及两组无HIER对照 — 2026-10-15
+
+用户确认新服务器单卡也采用V8 c=.1/cap2.3/hook、gamma500/delta2。完成普通账户和Conda配置，两卡V8-B64与单卡V8-B0-32-C01于11:41启动，代码85fc812。12项CPU合同、global64双进程梯度合同与各2×2 GPU smoke通过；正式首轮完整984验证及checkpoint通过，进入e2。无HIER调用、代理参数或代理优化器；旧主V8继续，初始化/划分SHA一致。没有最终效果结论。见[52](52_V8_CONTROLS_ACCOUNT_AND_LAUNCH_2026-10-15.md)。
+
 ## V8实现与后台排队 — 2026-10-15
 
 按用户明确授权完成V8-HIER64-K20-W0：统一官方HIER几何c=.1/cap2.3/一次hook及Gaussian代理初始化，HyCoRe gamma500/delta2、两项系数各.01、HIER系数.5，首步联合训练；主干RSGD与代理AdamW各自300轮余弦。9项合同和CPU双进程global64参数梯度检查通过，真实8856/984划分核对。源码快照14f8a72及有效后台任务`v8_hier64_20261015_022043`已固定，02:23:30仍无两张空闲卡，未使用GPU、未读test、未开始主训练；自动等待后依次GPU smoke与e300。无OA或结构收益结论。原Conda标准库I/O异常通过同版本私有快速运行时绕开，原环境未改。实际身份和交接见[50](50_V8_IMPLEMENTATION_AND_LAUNCH_2026-10-15.md)。

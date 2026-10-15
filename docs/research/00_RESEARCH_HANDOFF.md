@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## V8新服务器两组对照已启动 — 2026-10-15
+
+用户确认单卡也保留V8的cap/hook/margin。V8-B64（两卡global64、关闭HIER）与V8-B0-32-C01（单卡shuffle32、关闭HIER）11:41启动，首轮完整984验证及checkpoint通过，进入e2。三组初始化/划分一致；旧主V8继续，不迁移。代码85fc812，12项CPU合同、双进程梯度与两组GPU smoke通过。参见[52](52_V8_CONTROLS_ACCOUNT_AND_LAUNCH_2026-10-15.md)。下方排队记录为更早快照。
+
 ## V8已部署，后台等待两张空闲GPU — 2026-10-15
 
 用户批准统一c=.1、最终共享mu的cap2.3/hook、gamma500/delta2、HIER权重.5、W0；两rank各16类×2例，保留双优化器300轮cosine与验证选模。独立V8入口已实现，9项CPU合同与global64 Gloo/参数审计通过，真实数据9840→8856/984及split身份核对。有效任务`v8_hier64_20261015_022043`固定代码14f8a72，已独立后台运行；02:23:30 Asia/Shanghai仍等待两张完全空闲卡，尚无GPU短验收或主训练更新。空闲后自动先2×2 smoke再全新初始化e300。见[50：实现与后台交接](50_V8_IMPLEMENTATION_AND_LAUNCH_2026-10-15.md)及私有`.codex-local/handoff/50_V8_ENGINEERING_HANDOFF_2026-10-15.md`。本条为最新状态；下方V7及c1方法描述保留为历史。

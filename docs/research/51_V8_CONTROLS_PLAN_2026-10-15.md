@@ -1,14 +1,14 @@
 # V8 对照实验安排 — 2026-10-15
 
-状态：用户已审阅并明确修订：单卡也采用V8的cap/hook和margin，授权按此实施。旧服务器上已启动的V8主训练继续运行，不迁移、不重复提交。
+状态：用户已审阅并明确修订：单卡也采用V8的cap/hook和margin。两组已于11:41后台启动，首轮完整验证/checkpoint核查通过，见[52](52_V8_CONTROLS_ACCOUNT_AND_LAUNCH_2026-10-15.md)。旧V8继续，不迁移、不重复提交。
 
 ## 对照与作用
 
 | 实验 | 资源 | 采样 | 几何与损失 | 主要比较 |
 |---|---|---|---|---|
 | V8-HIER64-K20-W0（已启动） | 旧服务器两卡 | 每卡16类×2例，global64 | c=.1，最终共享表示cap2.3、一次逆度量hook；gamma500/delta2；HIER系数.5 | 主方法 |
-| V8-B64（待启动） | 新服务器两卡 | 与V8主训练一致 | 与主训练一致，唯一目标差异为HIER权重0；不更新代理 | 与主训练比较HIER增量 |
-| V8-B0-32-C01（待启动） | 新服务器单卡 | batch32、shuffle、drop_last | 与V8相同c=.1、最终cap2.3、一次hook、gamma500/delta2，两intra系数各.01；HIER关闭 | V8几何下的HyCoRe shuffle参照 |
+| V8-B64（已启动） | 新服务器两卡 | 与V8主训练一致 | 与主训练一致，HIER关闭；没有代理训练 | 与主训练比较HIER增量 |
+| V8-B0-32-C01（已启动） | 新服务器单卡 | batch32、shuffle、drop_last | 与V8相同c=.1、最终cap2.3、一次hook、gamma500/delta2，两intra系数各.01；HIER关闭 | V8几何下的HyCoRe shuffle参照 |
 
 用户修订后的单卡实验继承原版HyCoRe的batch32 shuffle方式，但几何和margin采用V8适配，不应再称为完全原版复刻。旧提议的gamma1000/delta4、无cap/hook方案不执行。
 
