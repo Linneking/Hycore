@@ -1,5 +1,9 @@
 # Experiment history
 
+## V8 postrun：主模型与无HIER双卡对照完成 — 2026-10-16
+
+V8-HIER64 best e221，val OA94.2073%、test OA92.7877%/AA90.0372%；V8-B64 best e132，val OA94.3089%、test OA92.9092%/AA90.3157%。仅差3测试对象，当前单seed不支持HIER分类收益。复用并适配V7全系统审查，对照原版CUB/Cars/SOP：V8末期sample祖先均512、热点NN4覆盖231、等whole深度1051、510代理forward cap；whole径向分散与方向冗余仍在。固定e300全池Chamfer富集较B64有条件配对正差，best与其他形态指标不一致。18组图及14张汇总表见[53](53_V8_SYSTEM_AUDIT_2026-10-16.md)。零训练更新、无新增val/test，154项合同通过。V8-B0-32-C01尚未完成，采集时e283、best249 val94.5122%；不得与最终结果混用。
+
 ## V8新账户及两组无HIER对照 — 2026-10-15
 
 用户确认新服务器单卡也采用V8 c=.1/cap2.3/hook、gamma500/delta2。完成普通账户和Conda配置，两卡V8-B64与单卡V8-B0-32-C01于11:41启动，代码85fc812。12项CPU合同、global64双进程梯度合同与各2×2 GPU smoke通过；正式首轮完整984验证及checkpoint通过，进入e2。无HIER调用、代理参数或代理优化器；旧主V8继续，初始化/划分SHA一致。没有最终效果结论。见[52](52_V8_CONTROLS_ACCOUNT_AND_LAUNCH_2026-10-15.md)。

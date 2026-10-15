@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## V8完整主/对照系统审查 — 2026-10-16
+
+[53：V8审查](53_V8_SYSTEM_AUDIT_2026-10-16.md)已完成：V8-HIER64与同协议V8-B64均e300，主模型test OA92.7877%，B64为92.9092%（差3对象、单seed）。新增24个8856对象快照，与V7及原版CUB/Cars/SOP比较；18组科学图、14张汇总CSV、8个冻结机制快照、12个独立形态快照、3个真实编码器梯度探针。V8 e300 sample非碰撞/正hinge祖先均512；NN4覆盖27(V7)→231(V8)，等whole深度后1051；510代理forward cap，clean whole中位数3.741，最浅1%占72.17%近邻槽。休眠改善、热点仍在，形态仅局部正面证据，不能宣称普遍收益。154项测试、只读/输入身份/图文链接通过，无新test或optimizer更新。单卡V8-B0-32-C01采集时仍e283、best249，未填最终结果。源适配ad53d36/7ebc081，报告另在专用分支提交。下方为历史启动快照。
+
 ## V8新服务器两组对照已启动 — 2026-10-15
 
 用户确认单卡也保留V8的cap/hook/margin。V8-B64（两卡global64、关闭HIER）与V8-B0-32-C01（单卡shuffle32、关闭HIER）11:41启动，首轮完整984验证及checkpoint通过，进入e2。三组初始化/划分一致；旧主V8继续，不迁移。代码85fc812，12项CPU合同、双进程梯度与两组GPU smoke通过。参见[52](52_V8_CONTROLS_ACCOUNT_AND_LAUNCH_2026-10-15.md)。下方排队记录为更早快照。

@@ -1,6 +1,6 @@
 # HIER post-training audit v2
 
-Read-only reports for HyCoRe V5/V6/V7 and classification baselines. See [the research plan](../../docs/research/38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md) for definitions and interpretation limits.
+Read-only reports for HyCoRe V5/V6/V7/V8 and classification baselines. See [the research plan](../../docs/research/38_HIER_POSTRUN_AUDIT_PLAN_2026-10-07.md) for definitions and interpretation limits.
 
 Run from the repository root:
 
@@ -115,3 +115,24 @@ ratio and cosine; model parameter rows are never paired across runs.
 
 The real V5/V6/V7 plus matched B64 execution and findings are documented in
 [40: system audit results](../../docs/research/40_HIER_SYSTEM_AUDIT_RESULTS_2026-10-07.md).
+
+
+## V8 official c=.1 geometry (2026-10-16)
+
+The explicit V8 checkpoint adapter installs the final shared-mu tangent cap2.3
+and exactly one inverse-metric hook before loading model weights. Proxy mapping
+uses the source forward cap2.3 and epsilon1e-5; mechanisms/backbone probes use
+the production c=.1 mobius distance and V8 intra gamma500/delta2. Legacy c=1
+operators are retained and are never silently reused for V8. No-HIER V8 B64
+and shuffle32 controls use the same backbone cap/hook but have no proxy loss.
+
+A forward cap is not a post-step parameter projection. Raw tangent norms above
+2.3 must not be plotted as ball depth or labelled q=.999 numeric saturation.
+Keep training usage, positive-hinge usage, frozen Gumbel queries and reverse
+full-pool NN4 separate. Original CUB/Cars/SOP comparisons retain their own
+data/task/dimension identity; coverage is not independent hierarchy evidence.
+
+The completed V8/V7/original-HIER review, eighteen scientific figures, aggregate
+tables and replication notes are linked from
+[53: V8 system audit](../../docs/research/53_V8_SYSTEM_AUDIT_2026-10-16.md).
+The source adapter contracts and existing suite passed154 CPU tests.
