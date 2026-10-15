@@ -251,7 +251,7 @@ def _structure(row, epoch, updates, metrics, sources):
 
 def _version(run_id, manifest):
     text = " ".join(str(value) for value in (run_id, manifest.get("protocol", ""), manifest.get("canonical_experiment_name", "")))
-    matched = re.search(r"(?:^|[^a-z])v([5-7])(?:[^0-9]|$)", text, flags=re.I)
+    matched = re.search(r"(?:^|[^a-z])v([5-8])(?:[^0-9]|$)", text, flags=re.I)
     return "V" + matched.group(1) if matched else None
 
 

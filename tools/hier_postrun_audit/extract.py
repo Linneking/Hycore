@@ -15,6 +15,7 @@ REPO = Path(__file__).resolve().parents[2]
 OWN_PROXY_FORMATS = {
     "hycore-hier-v5-h20-1", "hycore-hier-v6-h20-selfk300-1",
     "hycore-hier-v7-w0-projected-proxy-1",
+    "hycore-hier-v8-c01-official-geometry-1",
 }
 
 
@@ -65,6 +66,12 @@ def resolve_proxy_mapping(saved, config=None):
     if saved.get("format") not in OWN_PROXY_FORMATS:
         raise ValueError("Unknown proxy checkpoint format; an explicit version adapter is required")
     config = saved.get("training_config", {}) if config is None else config
+    if saved.get("format") == "hycore-hier-v8-c01-official-geometry-1":
+        if (not math.isclose(float(config.get("c", 0)), .1, abs_tol=1e-7) or
+                config.get("extra_HIER_tangent_cap") is not True or
+                float(config.get("clip_r", 0)) != 2.3 or config.get("HIER_backward_hook") is not True):
+            raise ValueError("V8 mapping requires inspected c=.1/cap2.3/hook configuration")
+        return {"numeric_radius_fraction": .999, "source_tangent_cap": 2.3, "source_cap_epsilon": 1e-5}
     if not math.isclose(float(config.get("c", float("nan"))), 1., rel_tol=0., abs_tol=1e-7):
         raise ValueError("Inspected own proxy formats require c=1")
     cap_enabled = config.get("extra_HIER_tangent_cap")
@@ -216,7 +223,7 @@ def extract_features(run_dir, output_dir, data_dir, gpu, policy="standard", maxi
     if source_manifest.get("status") != "completed":
         raise ValueError("GPU export requires a completed source run")
     uuid = idle_gpu(gpu)
-    os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu)
+    os.environ["CUDA_VISIBLE_DEVICES"] = uuid
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     import torch
     if torch.cuda.is_initialized():
@@ -341,6 +348,9 @@ def extract_features(run_dir, output_dir, data_dir, gpu, policy="standard", maxi
             config = saved.get("training_config", source_config)
             mapping = resolve_proxy_mapping(saved, config)
             model = Hype_pointMLP()
+            if saved.get("format") in ("hycore-hier-v8-c01-official-geometry-1", "hycore-v8-c01-controls-1"):
+                from inter_hierarchy_MN40.hier_proxy_scratch_v8.geometry import configure_backbone
+                model = configure_backbone(model)
             net = {key.removeprefix("module."): value for key, value in saved["net"].items()}
             model.load_state_dict(net, strict=True)
             model.requires_grad_(False)

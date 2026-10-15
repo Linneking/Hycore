@@ -144,6 +144,11 @@ def _loss_components(values, proxy_tangent, config, seed):
     from inter_hierarchy_MN40.hier_proxy_scratch_v5.relations import (
         mine_reciprocal_triplets, mine_sample_triplets, poincare_distance)
     from inter_hierarchy_MN40.hier_proxy_scratch_v6.hier_loss import expmap0_c1, ghhc_loss
+    is_v8 = abs(float(config.get("c", 1.)) - .1) < 1e-7
+    if is_v8:
+        from inter_hierarchy_MN40.hier_proxy_scratch_v8.base_protocol import intra_losses
+        from .mechanisms import _kernel
+        mine_reciprocal_triplets, mine_sample_triplets, poincare_distance, expmap0_c1, ghhc_loss = _kernel({"version": "v8"})
     ce = smoothed_ce(values["logits"], values["gold"], epsilon=float(config.get("label_smoothing", .2)))
     intra = intra_losses(values["mu"], values["nu"], values["child_count"])
     weighted_intra = (float(config.get("alpha_contrastive", .01)) * intra["intra_contrastive"] +
@@ -176,7 +181,7 @@ def _loss_components(values, proxy_tangent, config, seed):
     losses.update(sample=sample_loss, proxy=proxy_loss)
     stats.update(sample={**sample_mined["stats"], **sample_stats},
                  proxy={**proxy_mined["stats"], **proxy_stats},
-                 production_operator="v5_v6_v7_c1_full_unsquared_asinh",
+                 production_operator="v8_c01_official_mobius_eps" if is_v8 else "v5_v6_v7_c1_full_unsquared_asinh",
                  margin=margin, tau=tau)
     return losses, stats
 
@@ -288,8 +293,8 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
     checkpoint_path = Path(spec.get("optimizer_checkpoint") or spec.get("checkpoint", "")).resolve()
     if not checkpoint_path.is_file() or checkpoint_path == output or output in checkpoint_path.parents:
         raise ValueError("Explicit existing checkpoint and separate fresh output are required")
-    idle_gpu(int(gpu))
-    os.environ["CUDA_VISIBLE_DEVICES"], os.environ["CUDA_DEVICE_ORDER"] = str(gpu), "PCI_BUS_ID"
+    gpu_uuid = idle_gpu(int(gpu))
+    os.environ["CUDA_VISIBLE_DEVICES"], os.environ["CUDA_DEVICE_ORDER"] = gpu_uuid, "PCI_BUS_ID"
     import torch
     if torch.cuda.is_initialized():
         raise RuntimeError("Use a fresh process; CUDA was initialized before explicit idle-GPU selection")
@@ -303,8 +308,9 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
     if spec.get("epoch") is not None and int(spec["epoch"]) != epoch:
         raise ValueError("Backbone checkpoint is not the declared actual epoch")
     config = {**saved.get("training_config", {}), **spec}
-    if float(config.get("c", 0)) != 1.:
-        raise ValueError("Frozen HyCoRe/HIER objective adapter requires actual c=1")
+    is_v8 = saved.get("format") in ("hycore-hier-v8-c01-official-geometry-1", "hycore-v8-c01-controls-1")
+    if float(config.get("c", 0)) != 1. and not (is_v8 and abs(float(config.get("c", 0)) - .1) < 1e-7):
+        raise ValueError("Frozen objective requires an explicit inspected version/curvature")
     points, all_labels, shards = load_training_shards(data_dir)
     labels_sha = hashlib.sha256(all_labels.astype(np.int64).tobytes()).hexdigest()
     expected_labels_sha = spec.get("train_labels_sha256", saved.get("train_labels_sha256"))
@@ -325,6 +331,9 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
     if len(ids) != 64 or np.any(labels == labels[::-1]):
         raise ValueError("Probe requires64 ordered objects with different-class global-flip negatives")
     model = Hype_pointMLP()
+    if is_v8:
+        from inter_hierarchy_MN40.hier_proxy_scratch_v8.geometry import configure_backbone
+        model = configure_backbone(model)
     model.load_state_dict({key.removeprefix("module."): value for key, value in saved["net"].items()}, strict=True)
     model.manifold.requires_grad_(False)
     model.manifold2.requires_grad_(False)
@@ -335,7 +344,7 @@ def run_backbone_probe(spec, output_dir, data_dir, gpu, fixed_ids=None, seed=22,
     proxy_tangent = proxy_values[0].detach().cpu().numpy() if proxy_values else None
     if proxy_tangent is not None:
         from .extract import resolve_proxy_mapping
-        if resolve_proxy_mapping(saved, saved.get("training_config", {})) != {"numeric_radius_fraction": .999}:
+        if not is_v8 and resolve_proxy_mapping(saved, saved.get("training_config", {})) != {"numeric_radius_fraction": .999}:
             raise ValueError("Backbone probe supports only the inspected live proxy map")
     output.mkdir(parents=True, exist_ok=False)
     try:

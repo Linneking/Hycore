@@ -9,6 +9,7 @@ from __future__ import annotations
 import ast
 import hashlib
 import json
+import math
 from pathlib import Path
 import pickle
 import time
@@ -80,15 +81,16 @@ def _load(spec):
     if labels.dtype.kind not in "iuUS":
         raise ValueError("Labels must contain integer or string identities")
     c = float(spec.get("c", metadata.get("c", metadata.get("curvature", 0))))
-    if c != 1.:
-        raise ValueError("Mechanism production adapter currently supports only the actual c=1 V5/V6/V7 kernel")
     ball_geometry(whole, c)
     version = str(spec.get("version", "")).lower()
-    if version not in ("v5", "v6", "v7"):
+    if version not in ("v5", "v6", "v7", "v8"):
         raise ValueError("Mechanism audit requires explicit version=v5/v6/v7")
     mapping = spec.get("proxy_mapping")
-    if not isinstance(mapping, dict) or mapping.get("numeric_radius_fraction") != .999 or mapping.get("source_tangent_cap") is not None:
-        raise ValueError("Only declared production .999 projection without extra forward tangent cap is supported")
+    if version == "v8":
+        if not math.isclose(c, .1, abs_tol=1e-7) or mapping != {"numeric_radius_fraction": .999, "source_tangent_cap": 2.3, "source_cap_epsilon": 1e-5}:
+            raise ValueError("V8 mechanism requires c=.1 and exact official cap mapping")
+    elif c != 1. or not isinstance(mapping, dict) or mapping.get("numeric_radius_fraction") != .999 or mapping.get("source_tangent_cap") is not None:
+        raise ValueError("Legacy mechanisms require c=1 and declared .999 projection without extra tangent cap")
     checkpoint = None
     checkpoint_hash = None
     checkpoint_path = spec.get("optimizer_checkpoint") or spec.get("checkpoint")
@@ -171,7 +173,17 @@ def _load(spec):
     return result
 
 
-def _kernel():
+def _kernel(snapshot=None):
+    if snapshot is not None and snapshot.get("version") == "v8":
+        import torch
+        from inter_hierarchy_MN40.hier_proxy_scratch_v5.relations import mine_reciprocal_triplets
+        from inter_hierarchy_MN40.hier_proxy_scratch_v6.hier_loss import ghhc_loss
+        from inter_hierarchy_MN40.hier_proxy_scratch_v8.geometry import official_distance, to_ball
+        def sample_mining(whole, labels, topk, t_per_anchor, seed, exclude_self_negative, data_ids=None):
+            similarity = torch.exp(-official_distance(whole).detach()) + (labels[:, None] == labels[None, :]).to(whole.dtype)
+            return mine_reciprocal_triplets(similarity, topk, t_per_anchor, seed, exclude_self_negative, labels=labels, data_ids=data_ids)
+        return mine_reciprocal_triplets, sample_mining, official_distance, to_ball, ghhc_loss
+
     from inter_hierarchy_MN40.hier_proxy_scratch_v5.relations import (
         mine_reciprocal_triplets, mine_sample_triplets, poincare_distance)
     from inter_hierarchy_MN40.hier_proxy_scratch_v6.hier_loss import expmap0_c1, ghhc_loss
@@ -231,7 +243,7 @@ def _balanced_positions(labels, size=64, seed=22):
 def make_query_plan(snapshot, query_count=64, seed=22, sample_batch_size=64):
     """Freeze query object/proxy IDs mined once at this run's first snapshot."""
     import torch
-    reciprocal, sample_mining, distance, expmap, _ = _kernel()
+    reciprocal, sample_mining, distance, expmap, _ = _kernel(snapshot)
     spec = snapshot["spec"]
     topk = int(spec.get("sample_K", spec.get("topk", 20)))
     proxy_topk = int(spec.get("proxy_K", spec.get("proxy_topk", topk)))
@@ -428,7 +440,7 @@ def _aggregate_noise(draws):
 def audit_snapshot(snapshot, plan, noise_repeats=8, seed=22, gradient_repeats=1,
                    compare_source_operator=True):
     import torch
-    _, _, distance, expmap, ghhc = _kernel()
+    _, _, distance, expmap, ghhc = _kernel(snapshot)
     sample_rows = _remap(plan["sample_query_ids"], snapshot["sample_ids"])
     proxy_rows = _remap(plan["proxy_query_ids"], snapshot["proxy_ids"])
     # Only query endpoints need differentiable whole-to-proxy distances.
@@ -445,7 +457,13 @@ def audit_snapshot(snapshot, plan, noise_repeats=8, seed=22, gradient_repeats=1,
     initial_tangent = torch.as_tensor(snapshot["tangent"], dtype=torch.float32)
     before_whole, before_tangent = _tensor_digest(initial_whole), _tensor_digest(initial_tangent)
     source, source_identity = (reference_distance(spec.get("official_pmath"))
-                               if compare_source_operator else (None, None))
+                               if compare_source_operator and snapshot["version"] != "v8" else (None, None))
+    if compare_source_operator and snapshot["version"] == "v8":
+        from inter_hierarchy_MN40.hier_proxy_scratch_v5.relations import poincare_distance as stable_c1
+        def source(x, y=None):
+            return stable_c1(x * math.sqrt(.1), None if y is None else y * math.sqrt(.1)) / math.sqrt(.1)
+        source_identity = {"operator": "exact_asinh_c01_counterfactual", "role": "same coordinates, alternate stable distance; not production"}
+
     components = {}
     source_components = {}
     for name, triples in (("sample", compact_rows), ("proxy", proxy_rows)):
@@ -528,7 +546,7 @@ def audit_snapshot(snapshot, plan, noise_repeats=8, seed=22, gradient_repeats=1,
         raise RuntimeError("Frozen parameter/cache copy changed")
     return {"epoch": snapshot["epoch"], "run_key": snapshot["run_key"],
             "version": snapshot["version"], "identity": snapshot["identity"],
-            "production_operator": PRODUCTION_OPERATOR,
+            "production_operator": "v8_c01_official_mobius_eps" if snapshot["version"] == "v8" else PRODUCTION_OPERATOR,
             "margin_distance_units": margin, "gumbel_distance_scale_tau": tau,
             "lambda_hier": weight, "noise_plan": {name: [draw["seed"] for draw in component["noise_draws"]]
                 for name, component in components.items()}, "components": components,
