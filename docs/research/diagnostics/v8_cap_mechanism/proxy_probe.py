@@ -172,7 +172,7 @@ def static(root, out, device, cases):
     write(out / "static.json", rows)
 
 
-def trajectories(root, out, device, steps, cases, core_only=False):
+def trajectories(root, out, device, steps, cases, core_only=False, transport_only=False):
     trials = []
     for name in cases:
         trials += [(name, "both_eps8", "both", 1e-8, .01, True, False),
@@ -187,6 +187,8 @@ def trajectories(root, out, device, steps, cases, core_only=False):
                (last, "both_whole_shell", "both", 1e-8, .01, True, True)]
     if not core_only:
         trials += extras
+    if transport_only:
+        trials = [(first, "both_transport", "both", 1e-8, .01, True, False)]
     for case, variant, comp, eps, lr, hook, shell in trials:
         _, pool, labels, _ = load_case(root, case)
         dim = pool.shape[1]
@@ -227,6 +229,14 @@ def trajectories(root, out, device, steps, cases, core_only=False):
             loss.backward()
             before = u.detach().clone()
             grad = decompose_gradient(u, u.grad)
+            if transport_only and "exp_avg" in optimizer.state[u]:
+                # Mechanism intervention on private state, only where the
+                # actual forward cap suppresses the raw radial degree.
+                with torch.no_grad():
+                    r = u.norm(dim=-1, keepdim=True)
+                    direction = u / r.clamp_min(1e-12)
+                    m = optimizer.state[u]["exp_avg"]
+                    m.sub_((r > 2.3).to(m.dtype) * (m * direction).sum(-1, keepdim=True) * direction)
             optimizer.step()
             move = decompose_update(before, u)
             if step % 8 == 0 or step + 1 == steps:
@@ -253,6 +263,7 @@ def main():
     p.add_argument("--static-cases", default="v8_e0,v8_e1,v8_e5,v8_e20,v8_e100,v8_e300,cub,cars,sop")
     p.add_argument("--trajectory-cases", default="v8_e5,v8_e300,cub,sop")
     p.add_argument("--core-only", action="store_true")
+    p.add_argument("--transport-only", action="store_true")
     a = p.parse_args()
     if os.environ.get("CUDA_VISIBLE_DEVICES") != a.gpu_uuid:
         raise RuntimeError("Must pin exactly the checked idle GPU UUID")
@@ -269,9 +280,9 @@ def main():
           source_updates=0, test_forwards=0))
     device = torch.device("cuda:0")
     if a.mode in ("static", "all"): static(a.inputs, a.out, device, a.static_cases.split(","))
-    if a.mode in ("trajectory", "all"): trajectories(a.inputs, a.out, device, a.steps, a.trajectory_cases.split(","), a.core_only)
+    if a.mode in ("trajectory", "all"): trajectories(a.inputs, a.out, device, a.steps, a.trajectory_cases.split(","), a.core_only, a.transport_only)
     write(a.out / "manifest.json", dict(status="completed", seconds=time.time()-start,
-          mode=a.mode, source_updates=0, private_copy_optimizer_updates=a.steps*(2*len(a.trajectory_cases.split(","))+(0 if a.core_only else 6)) if a.mode!="static" else 0,
+          mode=a.mode, source_updates=0, private_copy_optimizer_updates=(a.steps if a.transport_only else a.steps*(2*len(a.trajectory_cases.split(","))+(0 if a.core_only else 6))) if a.mode!="static" else 0,
           test_forwards=0, limits="Frozen encoder/features; not a complete-training causal ablation"))
     print("CAP_PROXY_REPLAY_COMPLETED", flush=True)
 
