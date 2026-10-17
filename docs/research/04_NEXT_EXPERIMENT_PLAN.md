@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-18：完整9840协议的两组V8对照获直接授权
+
+用户要求在旧服务器按空闲情况安排单卡V8-B0-32 shuffle及双卡V8-B64无HIER，维持主实验官方9840/2468与每轮test选模；完整300轮。V8几何、margin、seed22、优化器保持；B0为307步/轮，B64为200步/轮。允许后台独立等空闲后短验收并自动启动，不要求三张卡同时空闲。见[56：两组对照及排队协议](56_V8_FULLTRAIN_CONTROLS_2026-10-18.md)。用户直接指令覆盖本次旧版validation/test默认约束，不启动额外矩阵。
+
 ## 2026-10-17：完整9840训练池与test选模的单条V8已获直接授权
 
 用户要求两卡重跑V8-HIER64，使用原版HyCoRe全部9840训练对象，每轮官方2468 test选best，batch保留类别抽样双卡global64；随后指定新服务器执行。该明确授权覆盖本次旧有默认validation/test约束，无需再次审阅等待。300×200步、seed22与既有V8几何/损失/优化设置保持，独立版本和新目录。见[55：本次协议及验收](55_V8_FULLTRAIN_TEST_SELECTION_2026-10-17.md)。测试不反向，但按test选模的结果单独标记；未启动其他矩阵。

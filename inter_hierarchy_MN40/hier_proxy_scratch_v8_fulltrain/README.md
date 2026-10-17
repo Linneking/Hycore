@@ -24,3 +24,9 @@ checkpoint's recorded full test evaluation, not an extra final forward.
 Queue freezes tracked source and binary identities, checks protocol and
 geometry/DDP contracts, waits for two completely idle UUID-pinned GPUs,
 runs2x2 smoke, and launches a fresh full training in a unique directory.
+
+Fulltrain controls: controls.py provides B64 (200steps/tworanks) and B0-32-C01
+(307shuffle32steps/singlerank;9824distinctslots/drop16). Both have zero HIER
+calls and no proxies. controls_queue.py prepares once and independently
+schedules each arm: two idle devices permit B64; one permits B0-32. It never
+requires three simultaneous idle devices, and each arm has its own2x2smoke.
