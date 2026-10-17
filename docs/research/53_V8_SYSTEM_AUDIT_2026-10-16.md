@@ -2,6 +2,8 @@
 
 日期：2026-10-16。已完成V8-HIER64与V8-B64的全量审查，并与V7及原版HIER的CUB、Cars、SOP best分别比较。
 
+2026-10-17补记：单卡V8-B0-32-C01现已完成，best e249、val OA94.5122%、test OA92.6256%；五份固定权重复测与协议对照见[54](54_V7_V8_RESULTS_PROTOCOL_REVIEW_2026-10-17.md)。下文和本目录原报告保留2026-10-16采集状态，未覆盖旧审查结果。
+
 优先阅读：[可视化报告](53_V8_SYSTEM_AUDIT_2026-10-16/report.html)；[完整Markdown](53_V8_SYSTEM_AUDIT_2026-10-16/report.md)。报告包含18组PNG/SVG科学图、14张匿名汇总CSV和[机器可读汇总](53_V8_SYSTEM_AUDIT_2026-10-16/summary.json)。
 
 ## 当前判断

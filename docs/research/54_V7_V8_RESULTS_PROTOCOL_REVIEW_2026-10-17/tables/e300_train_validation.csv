@@ -1,0 +1,5 @@
+﻿model,epoch,val_oa,val_aa,clean_train_oa,clean_train_aa,clean_train_n,test_last,note
+V7-HIER64-K20-W0,300,91.0569105691057,87.13838458061218,98.49819331526649,98.5456109046936,8856,,"test belongs to selected best, not e300; no e300 test added"
+V8-HIER64-K20-W0,300,93.29268292682927,90.04256129264832,99.77416440831075,99.77254867553711,8856,,"test belongs to selected best, not e300; no e300 test added"
+V8-B64,300,93.08943089430895,89.87480998039246,99.80803974706414,99.88496899604797,8856,,"test belongs to selected best, not e300; no e300 test added"
+V8-B0-32-C01,300,93.1910569105691,89.92295265197754,99.66124661246613,99.63798522949219,8856,,"test belongs to selected best, not e300; no e300 test added"

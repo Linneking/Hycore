@@ -1,0 +1,2 @@
+﻿model,epoch_metadata,epoch_numbering,seed,train_n,held_out_val_n,held_out_val_oa,held_out_val_aa,modern984_in_sample_oa,modern984_in_sample_aa,test_n,test_oa,test_aa,selected_by,checkpoint_sha256
+ORIG-B0-32-S4780,229,zero_based_original_metadata,4780,9840,0,,,98.98373983739837,98.70550036430359,2468,94.04376012965965,91.54475927352905,best test OA in original run,8bfdd3f721e41a97a89a9d6ba590c457861f1dbc50536ab8fda796aa5706cfdb

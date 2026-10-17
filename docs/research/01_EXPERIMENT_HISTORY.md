@@ -1,5 +1,9 @@
 # Experiment history
 
+## V7/V8固定权重成绩复测与划分核查 — 2026-10-17
+
+原始HyCoRe e229（原0起编号）本次test94.0438%/AA91.5448%；无独立val。现代984子集原模型已训练过，诊断OA98.9837%不作val。V7 e187、V8主e221、B64 e132、B0-32-C01 e249四组984验证/2468 test均复现保存成绩。新补B0最终成绩：val OA94.5122%/AA91.8165%，test OA92.6256%/AA89.8128%。四组split SHA相同，两个服务器输入SHA一致，5份源权重与模型/BN保持，零backward/optimizer更新；只测试预先固定best，未重新选模。完整拉表、原版与现代训练/验证/test差异及V7→V8改进逻辑见[54](54_V7_V8_RESULTS_PROTOCOL_REVIEW_2026-10-17.md)。V7只有一条完整主训练，无新V7-B64。没有启动新训练矩阵。
+
 ## V8 postrun：主模型与无HIER双卡对照完成 — 2026-10-16
 
 V8-HIER64 best e221，val OA94.2073%、test OA92.7877%/AA90.0372%；V8-B64 best e132，val OA94.3089%、test OA92.9092%/AA90.3157%。仅差3测试对象，当前单seed不支持HIER分类收益。复用并适配V7全系统审查，对照原版CUB/Cars/SOP：V8末期sample祖先均512、热点NN4覆盖231、等whole深度1051、510代理forward cap；whole径向分散与方向冗余仍在。固定e300全池Chamfer富集较B64有条件配对正差，best与其他形态指标不一致。18组图及14张汇总表见[53](53_V8_SYSTEM_AUDIT_2026-10-16.md)。零训练更新、无新增val/test，154项合同通过。V8-B0-32-C01尚未完成，采集时e283、best249 val94.5122%；不得与最终结果混用。
