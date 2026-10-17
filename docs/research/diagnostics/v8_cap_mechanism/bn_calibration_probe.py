@@ -1,7 +1,7 @@
 """Controlled temporary BN-bank calibration using disjoint training objects.
 
-No parameter, optimizer or test updates. Three fresh cumulative BN banks:
-whole-only clean, part400->whole alias clean, and joint original augmentation.
+No parameter, optimizer or test updates. Fresh cumulative BN banks include
+whole-only clean, matched whole->whole alias, part->whole and augmentation.
 All evaluate exactly the same held-out training objects in direct clean/eval.
 This probes BN-bank compatibility, not whether historical joint BN was causal.
 """
@@ -84,7 +84,7 @@ def calibrate(model, points, whole_targets, child_targets, mode, device, microba
                 ctarget = torch.from_numpy(child_targets[start:stop]).to(device)
                 _, whole, _ = get_children_alias(source, 1024, centers=nearest_indices(source, wtarget))
                 _, part, _ = get_children_alias(whole, 400, centers=nearest_indices(whole, ctarget))
-                model(part, emb=True)
+                model(whole if mode == "whole_twice_alias_clean" else part, emb=True)
                 model(whole, emb=True)
                 forward_calls += 2
     return {"BN_layers": len(layers), "local32_forward_calls": forward_calls,
@@ -107,7 +107,11 @@ def main():
     p.add_argument("--microbatch", type=int, default=32)
     p.add_argument("--threads", type=int, default=2)
     p.add_argument("--seed", type=int, default=22)
+    p.add_argument("--banks", default="whole_only_clean,whole_twice_alias_clean,joint_alias_clean,joint_alias_original_aug")
     args = p.parse_args()
+    banks = args.banks.split(",")
+    if not banks or set(banks) - {"whole_only_clean", "whole_twice_alias_clean", "joint_alias_clean", "joint_alias_original_aug"}:
+        p.error("Unknown BN-bank condition")
     if args.microbatch != 32:
         p.error("Use local32 for calibration/evaluation")
     output = Path(args.out)
@@ -170,7 +174,7 @@ def main():
         restore_rng(rng_before, device)
 
     try:
-        for mode in ("whole_only_clean", "joint_alias_clean", "joint_alias_original_aug"):
+        for mode in banks:
             restore_source()
             prepared = prepare_clouds(data[calibration_ids], wc, cc,
                                       mode == "joint_alias_original_aug", args.seed + 3001)
@@ -218,7 +222,7 @@ def main():
                "device": str(device), "CUDA_VISIBLE_DEVICES": os.environ.get("CUDA_VISIBLE_DEVICES"),
                "seconds": time.time() - started, "finished_utc": datetime.now(timezone.utc).isoformat(),
                "runner_sha256": sha(__file__),
-               "limits": "Bounded temporary BN recalibration changes distribution/statistic estimator. Whole-only sees one pass per local32; joint banks see part and whole passes. It is not proof of historical BN contamination or classification benefit."}
+               "limits": "Bounded temporary BN recalibration changes distribution/statistic estimator. Direct whole-only sees one pass; matched whole-twice-alias and joint banks see two passes with identical aliased whole geometry. This does not prove historical exclusivity or classification benefit."}
     write_json(output / "summary.json", summary)
     write_json(output / "progress.json", {"phase": "complete", "completed": len(rows)})
 
