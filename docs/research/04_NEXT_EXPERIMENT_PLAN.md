@@ -1,5 +1,10 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-17：完整9840训练池与test选模的单条V8已获直接授权
+
+用户要求两卡重跑V8-HIER64，使用原版HyCoRe全部9840训练对象，每轮官方2468 test选best，batch保留类别抽样双卡global64；随后指定新服务器执行。该明确授权覆盖本次旧有默认validation/test约束，无需再次审阅等待。300×200步、seed22与既有V8几何/损失/优化设置保持，独立版本和新目录。见[55：本次协议及验收](55_V8_FULLTRAIN_TEST_SELECTION_2026-10-17.md)。测试不反向，但按test选模的结果单独标记；未启动其他矩阵。
+
+
 ## 2026-10-17：现有结果复核完成，无新训练
 
 用户明确授权汇总V7/V8及原始HyCoRe，并补做固定权重test。本轮五份best复测完成，见[54](54_V7_V8_RESULTS_PROTOCOL_REVIEW_2026-10-17.md)：原始为e229而非e221；B0-32-C01已经完成，test OA92.6256%。它继承V8几何与独立val选模，不能当成完全原版复现；V7/V8划分一致，和原版9840全训练/best-test不同。若后续要归因V8几何适配，仍缺同8856/984、seed22、shuffle32/276步、验证选模的c1原始几何参照；原seed4780模型不能替代。本条只记录证据缺口，不授权或启动新训练。原有冻结机制检查建议保持。
