@@ -146,6 +146,7 @@ def main():
     p.add_argument("--microbatch", type=int, default=8)
     p.add_argument("--threads", type=int, default=2)
     p.add_argument("--seed", type=int, default=22)
+    p.add_argument("--last-epoch", type=int, default=300)
     args = p.parse_args()
     if not 1 <= args.microbatch <= 8:
         p.error("Use microbatch1--8")
@@ -154,7 +155,8 @@ def main():
     started = time.time()
     torch.set_num_threads(args.threads)
     device = torch.device(args.device)
-    sources = {"e005": Path(args.inputs) / "model_e005.pt", "e300": Path(args.inputs) / "model_e300.pt"}
+    last = f"e{args.last_epoch:03d}"
+    sources = {"e005": Path(args.inputs) / "model_e005.pt", last: Path(args.inputs) / f"model_{last}.pt"}
     hashes = {name: sha(path) for name, path in sources.items()}
     snapshots = {name: torch.load(path, map_location="cpu", weights_only=False) for name, path in sources.items()}
     files = sorted(Path(args.data_dir).glob("ply_data_train*.h5"))
@@ -169,7 +171,7 @@ def main():
     clouds, labels = np.concatenate(clouds), np.concatenate(labels)
     if len(clouds) != 9840:
         raise AssertionError("Expected full official9840 training objects")
-    allowed = np.asarray(snapshots["e300"].get("train_ids", np.arange(9840)), dtype=np.int64)
+    allowed = np.asarray(snapshots[last].get("train_ids", np.arange(9840)), dtype=np.int64)
     if not np.array_equal(allowed, np.asarray(snapshots["e005"].get("train_ids", allowed))):
         raise AssertionError("Snapshot training memberships differ")
     ids = choose_ids(labels, allowed, args.seed)
@@ -177,7 +179,7 @@ def main():
     rows = []
     write_json(out / "progress.json", {"phase": "inputs_validated", "source_sha256": hashes,
                                        "selected_training_objects": len(ids), "no_test": True})
-    for name, counts in (("e000", (400,)), ("e005", (400,)), ("e300", (200, 400, 600))):
+    for name, counts in (("e000", (400,)), ("e005", (400,)), (last, (200, 400, 600))):
         random.seed(args.seed)
         np.random.seed(args.seed)
         torch.manual_seed(args.seed)

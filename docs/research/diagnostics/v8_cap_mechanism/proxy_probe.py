@@ -127,9 +127,9 @@ def rows_for_group(base, u, g, updated):
     return rows
 
 
-def static(root, out, device):
+def static(root, out, device, cases):
     rows, gradients = [], []
-    for name in ("v8_e0", "v8_e1", "v8_e5", "v8_e20", "v8_e100", "v8_e300", "cub", "cars", "sop"):
+    for name in cases:
         u_cpu, pool, labels, state = load_case(root, name)
         for batch_seed in (22, 83):
             positions = balanced(labels, batch_seed)
@@ -157,7 +157,8 @@ def static(root, out, device):
         write(out / "static.json", rows)
         print(json.dumps({"phase": "static", "case": name, "rows": len(rows)}), flush=True)
     # Just-inside/outside radial intervention: same directions, same whole objects.
-    raw, pool, labels, _ = load_case(root, "v8_e300")
+    last_case = [name for name in cases if name.startswith("v8")][-1]
+    raw, pool, labels, _ = load_case(root, last_case)
     pos = balanced(labels, 22)
     w, gold = torch.as_tensor(pool[pos], device=device), torch.as_tensor(labels[pos], device=device)
     for radius in (2., 2.29, 2.31):
@@ -165,23 +166,25 @@ def static(root, out, device):
         s, p, st = loss_parts(u, w, gold)
         for component, l in (("sample", s), ("proxy", p)):
             g = torch.autograd.grad(l, u, retain_graph=True)[0]
-            rows.extend(rows_for_group(dict(case="v8_e300_radius", radius=radius, batch_seed=22,
+            rows.extend(rows_for_group(dict(case=last_case + "_radius", radius=radius, batch_seed=22,
                         component=component, variant="fresh_eps8", sample_loss=float(s.detach()),
                         proxy_loss=float(p.detach()), **st), u, g, adam_step(u, g, None)))
     write(out / "static.json", rows)
 
 
-def trajectories(root, out, device, steps):
+def trajectories(root, out, device, steps, cases):
     trials = []
-    for name in ("v8_e5", "v8_e300", "cub", "sop"):
+    for name in cases:
         trials += [(name, "both_eps8", "both", 1e-8, .01, True, False),
                    (name, "both_eps4", "both", 1e-4, .01, True, False)]
-    trials += [("v8_e5", "sample_eps8", "sample", 1e-8, .01, True, False),
-               ("v8_e5", "proxy_eps8", "proxy", 1e-8, .01, True, False),
-               ("v8_e5", "both_lr001", "both", 1e-8, .001, True, False),
-               ("v8_e5", "both_nohook", "both", 1e-8, .01, False, False),
-               ("v8_e5", "both_whole_shell", "both", 1e-8, .01, True, True),
-               ("v8_e300", "both_whole_shell", "both", 1e-8, .01, True, True)]
+    first = [name for name in cases if name.startswith("v8")][0]
+    last = [name for name in cases if name.startswith("v8")][-1]
+    trials += [(first, "sample_eps8", "sample", 1e-8, .01, True, False),
+               (first, "proxy_eps8", "proxy", 1e-8, .01, True, False),
+               (first, "both_lr001", "both", 1e-8, .001, True, False),
+               (first, "both_nohook", "both", 1e-8, .01, False, False),
+               (first, "both_whole_shell", "both", 1e-8, .01, True, True),
+               (last, "both_whole_shell", "both", 1e-8, .01, True, True)]
     for case, variant, comp, eps, lr, hook, shell in trials:
         _, pool, labels, _ = load_case(root, case)
         dim = pool.shape[1]
@@ -229,6 +232,8 @@ def main():
     p.add_argument("--mode", choices=("static", "trajectory", "all"), default="all")
     p.add_argument("--steps", type=int, default=128)
     p.add_argument("--gpu-uuid", required=True)
+    p.add_argument("--static-cases", default="v8_e0,v8_e1,v8_e5,v8_e20,v8_e100,v8_e300,cub,cars,sop")
+    p.add_argument("--trajectory-cases", default="v8_e5,v8_e300,cub,sop")
     a = p.parse_args()
     if os.environ.get("CUDA_VISIBLE_DEVICES") != a.gpu_uuid:
         raise RuntimeError("Must pin exactly the checked idle GPU UUID")
@@ -244,10 +249,10 @@ def main():
           condition="Frozen clean features, class-balanced64,512proxies,T50,full ST, original scalar.5",
           source_updates=0, test_forwards=0))
     device = torch.device("cuda:0")
-    if a.mode in ("static", "all"): static(a.inputs, a.out, device)
-    if a.mode in ("trajectory", "all"): trajectories(a.inputs, a.out, device, a.steps)
+    if a.mode in ("static", "all"): static(a.inputs, a.out, device, a.static_cases.split(","))
+    if a.mode in ("trajectory", "all"): trajectories(a.inputs, a.out, device, a.steps, a.trajectory_cases.split(","))
     write(a.out / "manifest.json", dict(status="completed", seconds=time.time()-start,
-          mode=a.mode, source_updates=0, private_copy_optimizer_updates=a.steps*14 if a.mode!="static" else 0,
+          mode=a.mode, source_updates=0, private_copy_optimizer_updates=a.steps*(2*len(a.trajectory_cases.split(","))+6) if a.mode!="static" else 0,
           test_forwards=0, limits="Frozen encoder/features; not a complete-training causal ablation"))
     print("CAP_PROXY_REPLAY_COMPLETED", flush=True)
 
