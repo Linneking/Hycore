@@ -23,7 +23,7 @@ import torch
 
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[4]
-for p in (ROOT, ROOT / "classification_ModelNet40", ROOT / "inter_hierarchy_MN40"):
+for p in (ROOT, ROOT / "classification_ModelNet40", ROOT / "inter_hierarchy_MN40", ROOT / "pointnet2_ops_lib"):
     sys.path.insert(0, str(p))
 from models.pointmlp import Hype_pointMLP  # noqa: E402
 from inter_hierarchy_MN40.hier_proxy_scratch_v8.geometry import configure_backbone, to_ball, depth  # noqa: E402

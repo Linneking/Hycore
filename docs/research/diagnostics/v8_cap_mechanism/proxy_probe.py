@@ -172,19 +172,21 @@ def static(root, out, device, cases):
     write(out / "static.json", rows)
 
 
-def trajectories(root, out, device, steps, cases):
+def trajectories(root, out, device, steps, cases, core_only=False):
     trials = []
     for name in cases:
         trials += [(name, "both_eps8", "both", 1e-8, .01, True, False),
                    (name, "both_eps4", "both", 1e-4, .01, True, False)]
     first = [name for name in cases if name.startswith("v8")][0]
     last = [name for name in cases if name.startswith("v8")][-1]
-    trials += [(first, "sample_eps8", "sample", 1e-8, .01, True, False),
+    extras = [(first, "sample_eps8", "sample", 1e-8, .01, True, False),
                (first, "proxy_eps8", "proxy", 1e-8, .01, True, False),
                (first, "both_lr001", "both", 1e-8, .001, True, False),
                (first, "both_nohook", "both", 1e-8, .01, False, False),
                (first, "both_whole_shell", "both", 1e-8, .01, True, True),
                (last, "both_whole_shell", "both", 1e-8, .01, True, True)]
+    if not core_only:
+        trials += extras
     for case, variant, comp, eps, lr, hook, shell in trials:
         _, pool, labels, _ = load_case(root, case)
         dim = pool.shape[1]
@@ -193,6 +195,19 @@ def trajectories(root, out, device, steps, cases):
         u = torch.nn.Parameter(initial.to(device))
         optimizer = torch.optim.AdamW([u], lr=lr, eps=eps, weight_decay=.01)
         history = []
+        def fixed_score():
+            values = []
+            with torch.no_grad():
+                for seed in (10022, 10083):
+                    pos = balanced(labels, seed)
+                    w = torch.as_tensor(pool[pos], device=device)
+                    if shell:
+                        w = w / w.norm(dim=-1, keepdim=True) * (math.tanh(math.sqrt(.1) * 2.3) / math.sqrt(.1))
+                    y = torch.as_tensor(labels[pos], device=device, dtype=torch.long)
+                    s, p, st = loss_parts(u, w, y, seed=seed, hook=hook)
+                    values.append(dict(sample=float(s), proxy=float(p), total=float(s+p), **st))
+            return {key: sum(v[key] for v in values) / len(values) for key in values[0]}
+        initial_score = fixed_score()
         for step in range(steps + 1):
             if step % 8 == 0 or step == steps:
                 radius = u.detach().norm(dim=-1)
@@ -222,6 +237,9 @@ def trajectories(root, out, device, steps, cases):
                     first_order_radial_mean=float(move["signed_radial_step"].mean()),
                     second_order_excess_mean=float(move["second_order_excess"].mean()))
             del s, p, loss, grad, move
+        write(out / f"score_{case}_{variant}.json", dict(case=case, variant=variant,
+              initial=initial_score, final=fixed_score(), steps=steps))
+        np.savez_compressed(out / f"private_final_{case}_{variant}.npz", tangent=u.detach().cpu().numpy())
         print(json.dumps({"phase": "trajectory", "case": case, "variant": variant, "final": history[-1]}), flush=True)
 
 
@@ -234,6 +252,7 @@ def main():
     p.add_argument("--gpu-uuid", required=True)
     p.add_argument("--static-cases", default="v8_e0,v8_e1,v8_e5,v8_e20,v8_e100,v8_e300,cub,cars,sop")
     p.add_argument("--trajectory-cases", default="v8_e5,v8_e300,cub,sop")
+    p.add_argument("--core-only", action="store_true")
     a = p.parse_args()
     if os.environ.get("CUDA_VISIBLE_DEVICES") != a.gpu_uuid:
         raise RuntimeError("Must pin exactly the checked idle GPU UUID")
@@ -250,9 +269,9 @@ def main():
           source_updates=0, test_forwards=0))
     device = torch.device("cuda:0")
     if a.mode in ("static", "all"): static(a.inputs, a.out, device, a.static_cases.split(","))
-    if a.mode in ("trajectory", "all"): trajectories(a.inputs, a.out, device, a.steps, a.trajectory_cases.split(","))
+    if a.mode in ("trajectory", "all"): trajectories(a.inputs, a.out, device, a.steps, a.trajectory_cases.split(","), a.core_only)
     write(a.out / "manifest.json", dict(status="completed", seconds=time.time()-start,
-          mode=a.mode, source_updates=0, private_copy_optimizer_updates=a.steps*(2*len(a.trajectory_cases.split(","))+6) if a.mode!="static" else 0,
+          mode=a.mode, source_updates=0, private_copy_optimizer_updates=a.steps*(2*len(a.trajectory_cases.split(","))+(0 if a.core_only else 6)) if a.mode!="static" else 0,
           test_forwards=0, limits="Frozen encoder/features; not a complete-training causal ablation"))
     print("CAP_PROXY_REPLAY_COMPLETED", flush=True)
 
