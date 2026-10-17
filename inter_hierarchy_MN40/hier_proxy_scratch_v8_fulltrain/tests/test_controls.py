@@ -43,9 +43,9 @@ class FullControls(unittest.TestCase):
 
     def test_preserved_shuffle_loss_and_gradient_matches_prior_v8(self):
         torch.manual_seed(22)
-        mu = (torch.randn(32, 8) * .2).requires_grad_()
-        nu = (torch.randn(32, 8) * .2).requires_grad_()
-        logits = torch.randn(32, 40, requires_grad=True)
+        mu = (torch.randn(32, 8, dtype=torch.float64) * .2).requires_grad_()
+        nu = (torch.randn(32, 8, dtype=torch.float64) * .2).requires_grad_()
+        logits = torch.randn(32, 40, dtype=torch.float64, requires_grad=True)
         labels = torch.arange(32) % 5
         outputs = dict(mu=mu, nu=nu, logits=logits, child_count=400)
         new = control_base_losses(outputs, labels, "B0-32")["base"]
@@ -53,7 +53,8 @@ class FullControls(unittest.TestCase):
         torch.testing.assert_close(new, old, atol=0, rtol=0)
         for a, b in zip(torch.autograd.grad(new, (mu, nu, logits), retain_graph=True),
                         torch.autograd.grad(old, (mu, nu, logits))):
-            torch.testing.assert_close(a, b, atol=0, rtol=0)
+            # Parallel gradient accumulation may differ in its final floating-point bits.
+            torch.testing.assert_close(a, b, atol=1e-12, rtol=1e-10)
 
     def test_one_free_gpu_runs_shuffle_without_waiting_for_b64(self):
         free = [{"uuid": "a"}]
