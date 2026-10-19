@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-19：四模型密度与BN兼容性冻结审查完成
+
+用户确认使用旧同8856/984已完成版本比较，补齐B0 best/e300，并完成原版HyCoRe参照与三V8四条件BN试验，见[58](58_V8_WHOLE_DENSITY_AND_BN_REVIEW_2026-10-19/report.md)。HIER相对B64 e300更深且窄，不能将whole分散单独归因HIER；同壳也不保证浅代理。借原版最终BN在三模型均错配；各自whole-only校准恢复壳但把part推深，故不直接覆盖正式统计。后续候选应同时验收whole/part逐对象径向间隔、方向保持和代理结构，whole/part角色统计分离仍为冻结检验候选；本次未实施该方案，也未启动新的完整训练矩阵。12个前向条件已完成、参数及状态恢复，GPU释放，无test选条件。
+
 ## 2026-10-18：代理cap与whole球壳的受控机制诊断已获授权
 
 用户要求使用新服务器空闲GPU，自主查明raw代理模长增长、梯度/Adam作用及whole不维持球壳的原因，并比较原版权重，直到有一定结论。该指令授权副本静态干预和有界短轨迹，见[57：诊断索引](57_V8_CAP_AND_WHOLE_CAUSES_2026-10-18.md)。只使用空闲卡，不改主训练，不以test选参数，不自动启动V9完整实验矩阵；下一轮配置仍需根据机制结果讨论。

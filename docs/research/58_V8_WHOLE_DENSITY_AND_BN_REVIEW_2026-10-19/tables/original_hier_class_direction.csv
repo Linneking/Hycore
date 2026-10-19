@@ -1,0 +1,4 @@
+﻿model,dataset,split,sample_count,class_count,within_class_cosine_macro,between_class_cosine_macro_pairs,within_minus_between,whole_depth_median,whole_fraction_within_1e_4_d0_of_cap,measurement,source_aggregate_sha256
+HIER_cub_train,CUB,train,5864,100,0.7265956498315211,0.3351140972924428,0.39148155253907835,4.599997815352993,1.0,unit-direction cosine; not angle or test accuracy,1c541a128a3240be3fd0cb6ee02a22ce9dd6092c1d52cc4737e6cd2063198e88
+HIER_cars_train,Cars,train,8054,98,0.7342106329237779,0.33296145302301944,0.4012491799007584,4.599997849021353,1.0,unit-direction cosine; not angle or test accuracy,1c541a128a3240be3fd0cb6ee02a22ce9dd6092c1d52cc4737e6cd2063198e88
+HIER_sop_train,SOP细类,train,59551,11318,0.7762712059737271,0.34547160067083155,0.43079960530289557,4.599998701064751,1.0,unit-direction cosine; not angle or test accuracy,1c541a128a3240be3fd0cb6ee02a22ce9dd6092c1d52cc4737e6cd2063198e88

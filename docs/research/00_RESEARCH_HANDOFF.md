@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 四模型whole密度与BN兼容性审查完成 — 2026-10-19
+
+见[58：Markdown图文报告](58_V8_WHOLE_DENSITY_AND_BN_REVIEW_2026-10-19/report.md)。按用户确认使用已完成8856/984协议，四模型best/last共8份完整缓存按同8856对象及实际输入字节对齐；e300的B0/B64/HIER whole均深度3.8851/3.5407/3.7628，HIER较同batch无HIER更深且更窄，原版last也非等深壳。原HIER类内/跨类方向余弦显著分离，但同壳不保证浅代理，SOP仍497越cap。新增三模型×四BN条件冻结前向，320测量/640校准训练对象无交集；原HyCoRe最终运行统计直接移植后whole均深度0.88–1.32，97.5%面板预测改变，不能当通用BN。自身whole-only校准使whole贴cap90.94%/95.63%/98.75%，但part也变深，HIER part贴cap50.94%、whole-part均深度差.508→.331。三模型native与既有缓存逐元素一致，参数/BN/RNG恢复、源SHA保持、零backward/optimizer/test前向；11组图与匿名表、独立脚本已归档。GPU已释放，未改正式BN或启动完整训练。
+
 ## V8代理cap与whole球壳机制诊断完成 — 2026-10-18
 
 见[57：图文报告](57_V8_CAP_AND_WHOLE_CAUSES_2026-10-18/report.md)，8组图与独立诊断目录。原V8代理e1已有196个越cap、e5为507；历史m径向分量的一步配对干预可使早期已越cap组平均增模转负，不能只看当前梯度。固定特征1024步eps对照越cap387→6，两组损失均下降但eps1e−4较慢；原版三份实际FP16/eps1e−4，官方FP32分支本就1e−8，且SOP仍497越cap，不称普遍代码bug。whole早期形成壳，晚期clean/eval内缩与BN条件有直接关系：同128对象仅换BN模式3.605→4.584；640独立训练对象重估临时统计，匹配whole构造与40次前向，whole→whole库贴cap99.22%，part→whole库1.56%。固定参数与源BN/RNG恢复，支持共用统计机制，未测分类修复/part收益。原版36张head探针raw约22–54；只搬曲率/cap/hook不等于搬head尺度。9项Torch测试通过，空闲单卡诊断完成、GPU释放，无test前向，不改主训练、不启动V9。

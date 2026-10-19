@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "baseline_cached_vs_new_frozen_forward": [
+    {
+      "model": "V8_B0_32_e300",
+      "objects": 320,
+      "labels_match": true,
+      "maximum_absolute_mu_difference": 0.0,
+      "minimum_direction_cosine": 0.9999999999999998,
+      "all_predictions_match": true
+    },
+    {
+      "model": "V8_B64_e300",
+      "objects": 320,
+      "labels_match": true,
+      "maximum_absolute_mu_difference": 0.0,
+      "minimum_direction_cosine": 0.9999999999999998,
+      "all_predictions_match": true
+    },
+    {
+      "model": "V8_HIER64_e300",
+      "objects": 320,
+      "labels_match": true,
+      "maximum_absolute_mu_difference": 0.0,
+      "minimum_direction_cosine": 0.9999999999999998,
+      "all_predictions_match": true
+    }
+  ],
+  "whole_input_bytes_unchanged": true,
+  "tolerance_mu": 5e-05,
+  "no_optimizer_updates": true
+}
