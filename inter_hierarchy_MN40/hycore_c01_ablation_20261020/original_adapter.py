@@ -85,6 +85,8 @@ def validate_arguments(args):
 def import_original(repo):
     """Import official functions while preserving the launcher's GPU selection."""
     source_dir = repo / "classification_ModelNet40"
+    # The immutable snapshot carries the verified extension beside its Python package.
+    sys.path.insert(0, str(repo / "pointnet2_ops_lib"))
     sys.path.insert(0, str(source_dir))
     previous = {key: os.environ.get(key) for key in ("CUDA_DEVICE_ORDER", "CUDA_VISIBLE_DEVICES")}
     try:
@@ -375,4 +377,3 @@ def main(argv=None):
 
 if __name__ == "__main__":
     main()
-

@@ -109,7 +109,10 @@ def main():
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--source-branch", required=True)
     parser.add_argument("--poll-seconds", type=int, default=15)
+    parser.add_argument("--variants", nargs="+", choices=VARIANTS, default=list(VARIANTS))
     args = parser.parse_args()
+    if len(set(args.variants)) != len(args.variants):
+        parser.error("duplicate arms are forbidden")
     if args.poll_seconds < 5:
         parser.error("poll interval must be at least five seconds")
     args.root.mkdir(parents=True, exist_ok=False)
@@ -118,7 +121,7 @@ def main():
         "seed": 22 if variant == "v8_nohook" else 4780,
         "epochs": 300, "steps_per_epoch": 307, "world_size": 1,
         "production_started": False, "smoke_attempts": 0,
-    } for variant in VARIANTS}
+    } for variant in args.variants}
     state = {
         "status": "preparing", "created_utc": now(), "queue_pid": os.getpid(),
         "commit": args.expected_commit, "branch": args.source_branch, "jobs": jobs,

@@ -136,6 +136,14 @@ class OriginalAdapterTests(unittest.TestCase):
         self.assertNotIn("generator=", source)
         self.assertNotIn("InverseMetric.apply", source)
 
+    def test_real_original_import_finds_frozen_extension_without_cuda_allocation(self):
+        initialized = torch.cuda.is_initialized()
+        original = adapter.import_original(REPO)
+        self.assertTrue(callable(original.Hype_pointMLP))
+        self.assertTrue(callable(original.train))
+        self.assertTrue(callable(original.validate))
+        self.assertEqual(torch.cuda.is_initialized(), initialized)
+
     def test_import_preserves_launch_gpu_selection(self):
         class Loader:
             def exec_module(self, module):
