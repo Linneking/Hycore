@@ -10,12 +10,16 @@ Optional --pair-config PRIVATE.json schema: {"native_sources": [{"run_label":
 --panel-output-dir NEW_PRIVATE_DIR, full native caches are subset to the exact
 BN_current_batch_only IDs/order. Native V8 sources are discovered within the
 run; the pair config supplies original native sources reused from prior caches.
+Use --existing-panel-dir to revalidate already created panels without writes.
+--historical-index-bridge accepts the successful anonymous CPU bridge JSON;
+each run's nested-index digest must equal the canonical8856 bridge digest.
 Optional --whole-points-npz accepts sample_ids and whole_points/clouds [N,1024,3]
 for an exact recomputation of the exported nested part indices.
 
 No model, Torch, GPU, network, training, source writes or raw IDs in output.
 Historical full9840 part-index hashes cannot be equated to subset8856 hashes;
-without raw whole coordinates, that stronger check is explicitly unverified.
+without raw whole coordinates or the independent CPU bridge, that stronger
+check is explicitly unverified.
 """
 from __future__ import annotations
 
@@ -60,7 +64,10 @@ def main():
     parser.add_argument("--gpu-run-dir", required=True, action="append")
     parser.add_argument("--reference-map")
     parser.add_argument("--pair-config")
-    parser.add_argument("--panel-output-dir")
+    panel_options = parser.add_mutually_exclusive_group()
+    panel_options.add_argument("--panel-output-dir")
+    panel_options.add_argument("--existing-panel-dir")
+    parser.add_argument("--historical-index-bridge")
     parser.add_argument("--whole-points-npz")
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
@@ -126,6 +133,30 @@ def main():
         if len({entry["run_label"] for entry in reference_entries}) != len(reference_entries):
             raise ValueError("Earlier-cache map contains duplicate run labels")
     reference_lookup = {entry["run_label"]: entry for entry in reference_entries}
+    historical_bridge = None
+    if args.historical_index_bridge:
+        bridge_path = Path(args.historical_index_bridge)
+        historical_bridge = json.loads(bridge_path.read_text(encoding="utf-8-sig"))
+        if (not historical_bridge.get("complete")
+                or historical_bridge.get("common_pool_objects") != 8856
+                or historical_bridge.get("historical_pool_objects") != 9840
+                or not historical_bridge.get("historic_full9840_part_indices_all_three_sizes_exact")
+                or not historical_bridge.get("historical_whole_input_bytes_exact")
+                or not historical_bridge.get("canonical8856_nested_parts_elementwise_equal")
+                or not historical_bridge.get("canonical8856_centres_elementwise_equal")
+                or not historical_bridge.get("canonical8856_labels_elementwise_equal")):
+            raise ValueError("Historical index bridge is incomplete or did not pass its full contract")
+        for source in metadata["sources"].values():
+            if (historical_bridge["historic_full9840_part_indices_sha256_by_size"]
+                    != source["source_part_indices_sha256_by_size"]):
+                raise ValueError("Bridge historical part digests differ from original package provenance")
+        result["historical_index_bridge"] = {
+            "validation_json_sha256": file_sha(bridge_path),
+            "complete": True, "common_pool_objects": 8856, "historical_pool_objects": 9840,
+            "historic_full9840_part_indices_all_three_sizes_exact": True,
+            "canonical8856_nested_parts_elementwise_equal": True,
+            "canonical8856_nested_part_indices_sha256": historical_bridge["canonical8856_nested_part_indices_sha256"],
+            "proof_scope": "independent CPU recomputation of full historical coordinates/indices, followed by canonical8856 elementwise GPU-index comparison"}
     native_sources = {}
     if args.pair_config:
         pair_config = json.loads(Path(args.pair_config).read_text(encoding="utf-8-sig"))
@@ -133,9 +164,11 @@ def main():
             if entry["run_label"] in native_sources:
                 raise ValueError("Pair config repeats a model label")
             native_sources[entry["run_label"]] = Path(entry["cache"])
-    panel_dir = Path(args.panel_output_dir) if args.panel_output_dir else None
-    if panel_dir is not None:
+    panel_dir = Path(args.panel_output_dir or args.existing_panel_dir) if (args.panel_output_dir or args.existing_panel_dir) else None
+    if args.panel_output_dir:
         panel_dir.mkdir(parents=True, exist_ok=False)
+    elif args.existing_panel_dir and not panel_dir.is_dir():
+        raise FileNotFoundError("Existing panel directory does not exist")
     raw_whole = None
     if args.whole_points_npz:
         whole_source = load_npz(args.whole_points_npz)
@@ -172,6 +205,9 @@ def main():
             raise ValueError("Nested part index dimensions/range differ from the contract")
         if np.any(np.diff(np.sort(indices, axis=1), axis=1) == 0):
             raise ValueError("A nested part repeats a point index")
+        if historical_bridge is not None and (
+                array_sha(indices) != historical_bridge["canonical8856_nested_part_indices_sha256"]):
+            raise ValueError("A GPU run's nested-index digest differs from the proven historical bridge")
         if expected_nested_indices is None:
             expected_nested_indices = indices.copy()
             expected_whole_input_sha = manifest["canonical_whole_points_sha256"]
@@ -205,8 +241,12 @@ def main():
                      "nested_indices_within_first1024_and_unique_per_row": True,
                      "nested_part_indices_sha256": array_sha(indices),
                      "nested_indices_recomputed_from_raw_whole_exact": index_recomputed,
+                     "historical_part_index_identity_established_by_CPU_bridge": historical_bridge is not None,
                      "historical_part_index_identity_status": "exact raw-coordinate recomputation passed"
-                     if index_recomputed else "not established: raw whole coordinates unavailable; full9840 historical hash is not a subset8856 hash",
+                     if index_recomputed else "established_by_historical_index_bridge"
+                     if historical_bridge is not None else "not established: raw whole coordinates unavailable; full9840 historical hash is not a subset8856 hash",
+                     "historical_index_proof_note": "This validator did not load raw whole coordinates; the separate CPU bridge established exact historical9840 hashes and canonical8856 index identity"
+                     if historical_bridge is not None and not index_recomputed else None,
                      "BN_panel_objects": len(positions), "BN_panel_membership_verified": True,
                      "source_files_unchanged_certified_by_frozen_runner": True,
                      "all_state_BN_RNG_restored": True, "backward_calls": 0,
@@ -289,9 +329,13 @@ def main():
                 np.testing.assert_array_equal(native_panel["sample_ids"], batch["sample_ids"])
                 np.testing.assert_array_equal(native_panel["labels"], batch["labels"])
                 target = panel_dir / f"private_{safe_label}__native_eval_panel.npz"
-                if target.exists():
-                    raise FileExistsError("Panel output model label repeats across run directories")
-                np.savez_compressed(target, **native_panel)
+                if args.existing_panel_dir:
+                    if not target.is_file():
+                        raise FileNotFoundError("An existing native panel file is missing")
+                else:
+                    if target.exists():
+                        raise FileExistsError("Panel output model label repeats across run directories")
+                    np.savez_compressed(target, **native_panel)
                 reloaded = load_npz(target)
                 if set(reloaded) != set(native_panel):
                     raise AssertionError("Panel NPZ field round-trip differs")

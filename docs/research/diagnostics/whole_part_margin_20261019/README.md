@@ -22,6 +22,8 @@
 
 前向spec通过source_root、data_dir、source_train_ids_npz、centers_npz及models传入路径；每模型明确kind、c、gamma、delta、checkpoint、label。原版可eval_enabled:false复用已有全量缓存，只补当前批BN诊断。分析config的模型字段另含stage、epoch、condition及私有cache路径；native_eval_panel和BN_current_batch_only必须同ID/标签。
 
+validate_pair_inputs.py可用--historical-index-bridge合并独立CPU索引强证明；--existing-panel-dir只读复核已经生成的native1280面板，避免覆盖旧结果。
+
 ## 判读边界
 
 Rhier检验d0(whole)−d0(part)≥gamma/N；完整达标保留1e−4数值容差，并另存无容差计数。90%目标是显式宽松诊断。Rcontr检验负part距离减自身part距离≥delta，20个异类负例是共同几何面板，不冒称历史训练flip。BN-only前向没有增强、别名覆盖或生产batch组成，不能作为真实训练通过率。

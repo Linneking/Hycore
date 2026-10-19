@@ -1,0 +1,34 @@
+{
+  "complete": true,
+  "CPU_only": true,
+  "model_forwards": 0,
+  "optimizer_updates": 0,
+  "test_forwards": 0,
+  "source_files_unchanged": true,
+  "historical_pool_objects": 9840,
+  "common_pool_objects": 8856,
+  "historical_whole_input_bytes_exact": true,
+  "historical_centres_exact": true,
+  "legacy_to_canonical_shard_row_mapping_exact": true,
+  "historical_points1024_sha256": "8a9cf4e169b42f1dcf9dae95ddd4d3eb3a158cec4ac0f10e5733a66fb0d72b84",
+  "historic_full9840_part_indices_sha256_by_size": {
+    "200": "a3dc14c1e915c98d93acf0178980d1201eb8e1c1d71cf6bfb01dc48d6e707a63",
+    "400": "d06aef6a02e886eb209f9a6969061ab036e19f41dc85ea8100c80a021468e521",
+    "600": "b806189b4e656a4c62cf166e6a8cbf5e6581d9f2530966ddd97f99ab065e926a"
+  },
+  "historic_full9840_part_indices_all_three_sizes_exact": true,
+  "canonical8856_labels_elementwise_equal": true,
+  "canonical8856_centres_elementwise_equal": true,
+  "canonical8856_nested_parts_elementwise_equal": true,
+  "canonical8856_nested_part_indices_sha256": "a6d46a976cdd0a37060e225b63a6cd36194a4f755493667d7d24bb4951c891a3",
+  "hash_convention": "SHA256(dtype string + shape string + C-order contiguous bytes)",
+  "kNN_convention": "float64 squared Euclidean distance; original first1024 point-index tie break",
+  "part_sizes": [
+    200,
+    400,
+    600
+  ],
+  "runner_sha256": "6761ee1a1822b6d5aa4de0add31fadf2e822d74ce15e0664b8ad78a17f7d7a7a",
+  "finished_utc": "2026-10-19T15:18:33.162209+00:00",
+  "elapsed_seconds": 2.027342565008439
+}

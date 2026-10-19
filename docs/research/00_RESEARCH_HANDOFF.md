@@ -1,5 +1,13 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## whole/part逐对象margin审查完成 — 2026-10-19
+
+[59：配对图文报告](59_WHOLE_PART_MARGIN_AUDIT_2026-10-19/report.md)覆盖原HyCoRe及两版V8-HIER64的best/终点，同8856对象及N200/400/600完全相同part，6模型全量/1280 BN诊断/同面板native共18观察、54逐N统计、16组图。完整Rhier终点原版.01/3.12/1.94%，旧V8 1.78/10.16/4.55%，FULL 2.01/9.49/4.42%；仅whole更深的比例远高，不能混同margin达标。20异类负part控制显示Rcontr与径向约束不同，不冒称历史训练flip。V8同1280对象切当前批BN后N400达标约95–97%，N600仍约.55–1.17%，part贴cap约75–76%。完整历史9840 part索引SHA与本次canonical8856逐元素强验证通过；旧V8全量whole逐元素重放误差0。源SHA、参数/BN/RNG恢复通过，GPU释放，无test前向、新训练或正式BN改动。
+
+## FULL9840两组对照已完成 — 2026-10-19实时核对
+
+8001两条原排队任务均自然完成300轮：B0-32于10月19日01:54结束，best e203 test OA93.7196%/AA90.1570%；B64于22:49:49结束，best e276 OA93.8817%/AA91.9204%。不再等待GPU或运行；既有每轮test选模协议保留。本次仅读取保存记录，未重测或停止任务。原排队快照见56，不能当作当前状态。
+
 ## 四模型whole密度与BN兼容性审查完成 — 2026-10-19
 
 见[58：Markdown图文报告](58_V8_WHOLE_DENSITY_AND_BN_REVIEW_2026-10-19/report.md)。按用户确认使用已完成8856/984协议，四模型best/last共8份完整缓存按同8856对象及实际输入字节对齐；e300的B0/B64/HIER whole均深度3.8851/3.5407/3.7628，HIER较同batch无HIER更深且更窄，原版last也非等深壳。原HIER类内/跨类方向余弦显著分离，但同壳不保证浅代理，SOP仍497越cap。新增三模型×四BN条件冻结前向，320测量/640校准训练对象无交集；原HyCoRe最终运行统计直接移植后whole均深度0.88–1.32，97.5%面板预测改变，不能当通用BN。自身whole-only校准使whole贴cap90.94%/95.63%/98.75%，但part也变深，HIER part贴cap50.94%、whole-part均深度差.508→.331。三模型native与既有缓存逐元素一致，参数/BN/RNG恢复、源SHA保持、零backward/optimizer/test前向；11组图与匿名表、独立脚本已归档。GPU已释放，未改正式BN或启动完整训练。

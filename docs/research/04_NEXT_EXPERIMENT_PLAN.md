@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-19：whole/part逐对象审查完成，尚未改变训练方案
+
+用户确认原版与旧8856/984、新FULL9840 V8-HIER64均检查best/终点。结果见[59](59_WHOLE_PART_MARGIN_AUDIT_2026-10-19/report.md)：500/N、2与1000/N、4源码实现明确，但clean/eval径向完整达标比例普遍低；原版也不保证逐对象兑现。恢复whole壳不能单独解决N600 part贴cap和径向间隔；未来候选必须同时验收N分层的Rhier/Rcontr及联合满足率。当前批BN面板不同于完整训练，不直接改正式统计；本次无test选条件或新增完整训练。8001两条FULL9840对照均已完成300轮，排队阶段结束。
+
 ## 2026-10-19：四模型密度与BN兼容性冻结审查完成
 
 用户确认使用旧同8856/984已完成版本比较，补齐B0 best/e300，并完成原版HyCoRe参照与三V8四条件BN试验，见[58](58_V8_WHOLE_DENSITY_AND_BN_REVIEW_2026-10-19/report.md)。HIER相对B64 e300更深且窄，不能将whole分散单独归因HIER；同壳也不保证浅代理。借原版最终BN在三模型均错配；各自whole-only校准恢复壳但把part推深，故不直接覆盖正式统计。后续候选应同时验收whole/part逐对象径向间隔、方向保持和代理结构，whole/part角色统计分离仍为冻结检验候选；本次未实施该方案，也未启动新的完整训练矩阵。12个前向条件已完成、参数及状态恢复，GPU释放，无test选条件。

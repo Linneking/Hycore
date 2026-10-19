@@ -95,7 +95,7 @@ N是part实际点数，不是whole点数，也不是裁剪函数返回的k−1�
 
 ## 3. clean/eval：逐对象完整Rhier达标率
 
-输入为原始first1024点、无增强、不覆盖whole，模型使用自己保存的eval BN。每对象用一个固定均匀随机中心，构造同中心嵌套200/400/600近邻part。原版既有完整缓存复用，旧ID已按HDF5文件名和行号转为canonical ID；V8使用完全相同的对象与中心重新前向。
+输入为原始first1024点、无增强、不覆盖whole，模型使用自己保存的eval BN。每对象用一个固定均匀随机中心，构造同中心嵌套200/400/600近邻part。原版既有完整缓存复用，旧ID已按HDF5文件名和行号转为canonical ID；V8使用完全相同的对象与中心重新前向。另由服务器CPU独立重算全9840历史part索引，核对三个N历史SHA，再验证canonical8856索引与GPU实际索引逐元素相同，见[历史索引强验证](tables/historical_part_index_bridge.json)。
 
 ![图1：同8856对象，逐N完整和90%径向margin达标。](figures/01_radial_margin_satisfaction.png)
 
@@ -156,7 +156,7 @@ __BN__
 
 ## 8. 素材、验收与复现
 
-表格：[逐N全统计](tables/paired_margin_summary.csv)、[40类统计](tables/paired_margin_by_class.csv)、[三个N全满足](tables/paired_all_three_sizes.csv)、[统计验收](tables/paired_margin_validation.json)。各自best与当前批BN的同类图均在[图索引](tables/figure_index.json)，未把best不同轮次当作单因素训练对照。
+表格：[逐N全统计](tables/paired_margin_summary.csv)、[40类统计](tables/paired_margin_by_class.csv)、[三个N全满足](tables/paired_all_three_sizes.csv)、[统计验收](tables/paired_margin_validation.json)、[输入与状态验收](tables/input_and_forward_validation.json)。各自best与当前批BN的同类图均在[图索引](tables/figure_index.json)，未把best不同轮次当作单因素训练对照。
 
 独立工具：[输入整理](../diagnostics/whole_part_margin_20261019/setup_local_inputs.py)、[冻结前向](../diagnostics/whole_part_margin_20261019/forward_probe.py)、[配对统计及图](../diagnostics/whole_part_margin_20261019/analyze_pairs.py)。只在空闲GPU运行，源权重与数据SHA不变，参数/BN/RNG逐条件恢复；零backward、零optimizer、零test。完整向量、样本ID、服务器配置和日志仅保存在私有目录。
 '''

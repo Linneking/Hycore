@@ -1,0 +1,15 @@
+{
+  "analytic_distance_check": "passed",
+  "negative_sampling_reproducible": true,
+  "same_objects_and_labels_within_each_condition": true,
+  "source_hashes_preserved": true,
+  "public_object_ids_or_paths": false,
+  "observations": 18,
+  "sample_sizes_by_condition": {
+    "native_eval": 8856,
+    "BN_current_batch_only": 1280,
+    "native_eval_panel": 1280
+  },
+  "figure_pairs": 16,
+  "tolerance": 0.0001
+}

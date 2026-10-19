@@ -1,0 +1,82 @@
+[
+  {
+    "stem": "01_radial_margin_satisfaction_native_eval_best",
+    "png": "figures/01_radial_margin_satisfaction_native_eval_best.png",
+    "svg": "figures/01_radial_margin_satisfaction_native_eval_best.svg"
+  },
+  {
+    "stem": "02_whole_part_scatter_native_eval_best",
+    "png": "figures/02_whole_part_scatter_native_eval_best.png",
+    "svg": "figures/02_whole_part_scatter_native_eval_best.svg"
+  },
+  {
+    "stem": "03_radial_slack_ecdf_native_eval_best",
+    "png": "figures/03_radial_slack_ecdf_native_eval_best.png",
+    "svg": "figures/03_radial_slack_ecdf_native_eval_best.svg"
+  },
+  {
+    "stem": "04_contrastive_and_joint_native_eval_best",
+    "png": "figures/04_contrastive_and_joint_native_eval_best.png",
+    "svg": "figures/04_contrastive_and_joint_native_eval_best.svg"
+  },
+  {
+    "stem": "01_radial_margin_satisfaction_BN_current_batch_only_best",
+    "png": "figures/01_radial_margin_satisfaction_BN_current_batch_only_best.png",
+    "svg": "figures/01_radial_margin_satisfaction_BN_current_batch_only_best.svg"
+  },
+  {
+    "stem": "02_whole_part_scatter_BN_current_batch_only_best",
+    "png": "figures/02_whole_part_scatter_BN_current_batch_only_best.png",
+    "svg": "figures/02_whole_part_scatter_BN_current_batch_only_best.svg"
+  },
+  {
+    "stem": "03_radial_slack_ecdf_BN_current_batch_only_best",
+    "png": "figures/03_radial_slack_ecdf_BN_current_batch_only_best.png",
+    "svg": "figures/03_radial_slack_ecdf_BN_current_batch_only_best.svg"
+  },
+  {
+    "stem": "04_contrastive_and_joint_BN_current_batch_only_best",
+    "png": "figures/04_contrastive_and_joint_BN_current_batch_only_best.png",
+    "svg": "figures/04_contrastive_and_joint_BN_current_batch_only_best.svg"
+  },
+  {
+    "stem": "01_radial_margin_satisfaction",
+    "png": "figures/01_radial_margin_satisfaction.png",
+    "svg": "figures/01_radial_margin_satisfaction.svg"
+  },
+  {
+    "stem": "02_whole_part_scatter",
+    "png": "figures/02_whole_part_scatter.png",
+    "svg": "figures/02_whole_part_scatter.svg"
+  },
+  {
+    "stem": "03_radial_slack_ecdf",
+    "png": "figures/03_radial_slack_ecdf.png",
+    "svg": "figures/03_radial_slack_ecdf.svg"
+  },
+  {
+    "stem": "04_contrastive_and_joint",
+    "png": "figures/04_contrastive_and_joint.png",
+    "svg": "figures/04_contrastive_and_joint.svg"
+  },
+  {
+    "stem": "01_radial_margin_satisfaction_BN_current_batch_only_last",
+    "png": "figures/01_radial_margin_satisfaction_BN_current_batch_only_last.png",
+    "svg": "figures/01_radial_margin_satisfaction_BN_current_batch_only_last.svg"
+  },
+  {
+    "stem": "02_whole_part_scatter_BN_current_batch_only_last",
+    "png": "figures/02_whole_part_scatter_BN_current_batch_only_last.png",
+    "svg": "figures/02_whole_part_scatter_BN_current_batch_only_last.svg"
+  },
+  {
+    "stem": "03_radial_slack_ecdf_BN_current_batch_only_last",
+    "png": "figures/03_radial_slack_ecdf_BN_current_batch_only_last.png",
+    "svg": "figures/03_radial_slack_ecdf_BN_current_batch_only_last.svg"
+  },
+  {
+    "stem": "04_contrastive_and_joint_BN_current_batch_only_last",
+    "png": "figures/04_contrastive_and_joint_BN_current_batch_only_last.png",
+    "svg": "figures/04_contrastive_and_joint_BN_current_batch_only_last.svg"
+  }
+]
