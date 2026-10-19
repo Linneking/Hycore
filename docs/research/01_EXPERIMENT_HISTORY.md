@@ -1,5 +1,9 @@
 # Experiment history
 
+## c0.1/cap/nohook补充三组上线 — 2026-10-20
+
+用户确认每卡一条完整300轮：V8 FULL9840 shuffle32只关hook、保持seed22/cap2.3/gamma500/delta2；两个原版组seed4780/gamma1000/delta4，仅统一c0.1及配对增加cap。新服务器GPU0于01:24:49启动V8，GPU1/2于01:41:54启动原版配对。首轮均307步、2468 test、best/last与有限权重检查通过；01:46各已完成6/2/2轮。28项CPU与三个2×2 train-only smoke通过，原版初始参数/数据身份相同。旧原版源码直接复用train/validate、随机流和BN，未引入V8 margin/RNG；新增V8旧runner仅换反向hook。见[60](60_C01_CAP_NOHOOK_ABLATIONS_2026-10-20.md)及匿名启动验收；私有60保留实际root/PID/runtime与失败重试记录。正式源码c78a168/eebaabf，后续提交仅归档。
+
 ## N600同深口径澄清 — 2026-10-20
 
 对10月19日已保存的18观察作CPU复核，未改用户主报告或源缓存。当前批BN旧V8/FULL各927/935对whole与part同时贴cap、占1280的72.42/73.05%；1e−4同深容差下真实反转仅7.81/8.52%，原始g>0约51%不足以解释径向顺序。原版同面板N600顺序正确64.45→80.08%，与完整margin达标不同。独立图文和计数见[补充](59_WHOLE_PART_MARGIN_AUDIT_2026-10-19/clarifications/N600_BN_ORDER_2026-10-19/report.md)。本次无GPU、模型前向、优化或test。

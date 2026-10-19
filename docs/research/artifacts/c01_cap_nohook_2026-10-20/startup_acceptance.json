@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "captured_utc": "2026-10-19T17:46:01.335418+00:00",
+  "cpu_contract_count": 28,
+  "smoke_epochs": 2,
+  "smoke_steps_per_epoch": 2,
+  "smoke_official_test_read": false,
+  "train_size": 9840,
+  "validation_size": 0,
+  "test_size": 2468,
+  "production_target_epochs": 300,
+  "production_steps_per_epoch": 307,
+  "original_pair": {
+    "initialization_equal": true,
+    "training_data_equal": true,
+    "initialized_model_sha256": "8926765a4842652b751873fb89aa37d24d9b0f4f2d831d853b9cc0c1cd46472d"
+  },
+  "arms": {
+    "v8_nohook": {
+      "canonical_name": "V8-B0-32-C01-NOHOOK-FULL9840-TESTSEL",
+      "production_commit": "c78a16860b3d90c13720468606f2dd395c907544",
+      "status": "running",
+      "completed_epochs": 6,
+      "first_epoch_updates": 307,
+      "first_test_count": 2468,
+      "first_checkpoint_all_finite": true,
+      "first_checkpoint_sha256": "ebea36bca7d9adbb7efcb3007a1c9207552c740af5b91fc9e88babfce01458f7",
+      "best_and_last_saved": true,
+      "initialized_model_sha256": "f94e52202df5aaae21f21b8b9c6beaa3925424c4e04a6dcc7d2b84b89af04b73",
+      "gpu_index": 0,
+      "seed": 22
+    },
+    "orig_c01": {
+      "canonical_name": "ORIG-B0-32-C01-S4780",
+      "production_commit": "eebaabfb46a149e3f5150467e888cc665bac4453",
+      "status": "running",
+      "completed_epochs": 2,
+      "first_epoch_updates": 307,
+      "first_test_count": 2468,
+      "first_checkpoint_all_finite": true,
+      "first_checkpoint_sha256": "36704780cdc9890b22307101ef55078ceb003bd08b61cc669f0934771e2f8478",
+      "best_and_last_saved": true,
+      "initialized_model_sha256": "8926765a4842652b751873fb89aa37d24d9b0f4f2d831d853b9cc0c1cd46472d",
+      "gpu_index": 1,
+      "seed": 4780
+    },
+    "orig_c01_cap": {
+      "canonical_name": "ORIG-B0-32-C01-CAP23-S4780",
+      "production_commit": "eebaabfb46a149e3f5150467e888cc665bac4453",
+      "status": "running",
+      "completed_epochs": 2,
+      "first_epoch_updates": 307,
+      "first_test_count": 2468,
+      "first_checkpoint_all_finite": true,
+      "first_checkpoint_sha256": "c8991a4fd9c52a03732a9c4258ee8043a594bcb9a151247c3a567400db15d5e2",
+      "best_and_last_saved": true,
+      "initialized_model_sha256": "8926765a4842652b751873fb89aa37d24d9b0f4f2d831d853b9cc0c1cd46472d",
+      "gpu_index": 2,
+      "seed": 4780
+    }
+  }
+}
