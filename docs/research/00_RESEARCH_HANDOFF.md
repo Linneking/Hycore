@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## N600顺序的同深补充分解 — 2026-10-20
+
+[补充复核](59_WHOLE_PART_MARGIN_AUDIT_2026-10-19/clarifications/N600_BN_ORDER_2026-10-19/report.md)保持用户主报告不变，CPU读取既有配对缓存。以1e−4区分数值同深，同1280对象N600当前批BN下：原版part浅/同深/反转为80.08/0/19.92%；旧V8为19.77/72.42/7.81%；FULL为18.44/73.05/8.52%。V8同深集合恰等于两者同时贴cap集合，原约51%直接g>0率混入数值微差，不代表更多真实倒置。原版eval→当前批BN的顺序改善64.45→80.08%，完整margin却2.19→1.80%，需分开解释。margin改变目标和hinge激活范围，不直接缩小已违例样本对gap的梯度；N600残余hinge反高于N200，不能据此认定小margin是训练根因。无新增前向、GPU或训练。
+
 ## whole/part逐对象margin审查完成 — 2026-10-19
 
 [59：配对图文报告](59_WHOLE_PART_MARGIN_AUDIT_2026-10-19/report.md)覆盖原HyCoRe及两版V8-HIER64的best/终点，同8856对象及N200/400/600完全相同part，6模型全量/1280 BN诊断/同面板native共18观察、54逐N统计、16组图。完整Rhier终点原版.01/3.12/1.94%，旧V8 1.78/10.16/4.55%，FULL 2.01/9.49/4.42%；仅whole更深的比例远高，不能混同margin达标。20异类负part控制显示Rcontr与径向约束不同，不冒称历史训练flip。V8同1280对象切当前批BN后N400达标约95–97%，N600仍约.55–1.17%，part贴cap约75–76%。完整历史9840 part索引SHA与本次canonical8856逐元素强验证通过；旧V8全量whole逐元素重放误差0。源SHA、参数/BN/RNG恢复通过，GPU释放，无test前向、新训练或正式BN改动。

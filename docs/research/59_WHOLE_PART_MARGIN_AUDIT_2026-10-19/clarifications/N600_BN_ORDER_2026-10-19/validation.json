@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "local_links": 3,
+  "missing_links": [],
+  "display_math_blocks": 2,
+  "scientific_png": 1,
+  "scientific_svg": 1,
+  "no_private_runtime_paths_in_report": true,
+  "source_markdown_unchanged": true,
+  "files_sha256": {
+    "figures/01_n600_radial_order_ties.png": "fb4b463fabae99a4629513d542feaec6a672fd5520c64a14777fc44ac8e5eda9",
+    "figures/01_n600_radial_order_ties.svg": "9e0d5dc3828cbb546ba18cf8fdc05fbe085b6586e0b48ead2fff89b60860bf1d",
+    "report.html": "4deaf9da7724b02e79c938306dab6546956a5475e93f12d2972b6304a6880446",
+    "report.md": "fe22197727373e9f79cd6b0c0d881c4d4b791b0cfc6d02a536e42eb8748f1aae",
+    "tables/n600_last_same1280.csv": "f882662f3561b7239c5e3cd9056a4973cc42b4fa2e453d991aa39bcda32a468f",
+    "tables/n600_order_clarification.json": "3641f30244f8fe72f2aaa31283be1c3ef638aa0866bfe1bef4913bef655d9e5b"
+  }
+}

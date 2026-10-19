@@ -1,5 +1,9 @@
 # Experiment history
 
+## N600同深口径澄清 — 2026-10-20
+
+对10月19日已保存的18观察作CPU复核，未改用户主报告或源缓存。当前批BN旧V8/FULL各927/935对whole与part同时贴cap、占1280的72.42/73.05%；1e−4同深容差下真实反转仅7.81/8.52%，原始g>0约51%不足以解释径向顺序。原版同面板N600顺序正确64.45→80.08%，与完整margin达标不同。独立图文和计数见[补充](59_WHOLE_PART_MARGIN_AUDIT_2026-10-19/clarifications/N600_BN_ORDER_2026-10-19/report.md)。本次无GPU、模型前向、优化或test。
+
 ## whole/part配对margin满足率与输入强验证 — 2026-10-19
 
 原版best229/last299、旧V8 best221/e300、FULL V8 best297/e300，统一8856对象、N200/400/600固定同中心嵌套part。原版旧缓存复用；V8全量冻结导出，六模型另补同1280对象BN-only诊断。完整Rhier终点原版.01/3.12/1.94%，旧V8 1.78/10.16/4.55%，FULL 2.01/9.49/4.42%；90%宽松目标、深浅顺序、违例幅度和40类表另存。共同20异类负part检验delta4/2及联合达标，不作为历史训练flip比例。V8 N400当前批BN显著改善，但N600 part约75–76%贴cap、径向仍差；不据此改正式BN。全9840历史part索引SHA→canonical8856 GPU索引强证明、源SHA和状态恢复通过；旧V8 native whole误差0。见[59](59_WHOLE_PART_MARGIN_AUDIT_2026-10-19/report.md)。无test前向、无优化更新或新训练。
