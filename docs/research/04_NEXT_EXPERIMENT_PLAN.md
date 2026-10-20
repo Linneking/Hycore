@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-20：V9各自曲率方案已获直接授权
+
+用户要求设计并部署8001，随后明确继续双卡类别均衡64、300轮。固定原生HyCoRe c1/1000/N/4、不额外cap或GS；HIER c0.1仅看深度4.6的保方向whole视图、分支GS，代理保留官方cap/GS/初始化/AdamW。seed22、完整9840训练和2468 test逐轮选best按用户未来协议；本次只启动此一条300×200主实验。授权包括版本化实现、CPU合同、训练限定2×2短测与从头正式上线，不需再次等待旧计划审阅。方案及验收见[65](65_V9_DUAL_CURVATURE_PLAN_AND_LAUNCH_2026-10-20.md)。下方“曲率待定”为此前历史状态，已由本条覆盖。
+
 ## V9初步idea已记录，曲率组合待定 — 2026-10-20
 
 用户认可“原生HyCoRe＋等深度HIER分支”为V9初步设想：基础CE/intra不加共享cap/GS，HIER仅看保留方向、深度4.6的whole视图，代理保留自身HIER映射。统一c0.1与基础c1/HIERc0.1两种曲率组合尚未定，不擅自选定或启动矩阵。见[64：idea](64_V9_INITIAL_IDEA_2026-10-20.md)；[63](63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md)补充官方HIER三路dataflow，区分PA类别代理与512层次代理。仅文档记录，无代码/训练修改。
