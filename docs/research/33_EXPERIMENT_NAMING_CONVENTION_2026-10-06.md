@@ -1,5 +1,7 @@
 # 实验命名规范与旧名称映射
 
+2026-10-20更新：V8及原版几何消融按[63显式参数命名](63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md)与[registry v2](experiment_registry_v2.json)展示；本页保留早期实验历史。以后ORIG修改线seed4780、V系列seed22，未来全部TS；历史协议不改写。
+
 日期：2026-10-06。本次只统一实验身份和展示名称，不启动训练，不改写已有结果。
 机器可读映射见 [experiment_registry.json](experiment_registry.json)。
 

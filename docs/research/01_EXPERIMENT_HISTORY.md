@@ -1,5 +1,11 @@
 # Experiment history
 
+## 原版c0.1＋cap＋GS＋半margin后台待空闲；命名规范更新 — 2026-10-20
+
+用户授权8001单卡补充`ORIG-B0-32-C0.1-CAP2.3-GS1-M500_2-TS-S4780`：与61原版cap半margin组仅切GS1，原版训练/seed4780保持，完整300×307与9840/2468逐轮test选模。36项CPU合同、初始权重SHA和训练文件SHA通过；跨机器数据枚举差异用对照原行顺序显式对齐。12:13独立后台提交，12:15四卡均被其他用户占用，状态waiting_for_idle_gpu；GPU短测和正式训练尚未开始，空闲后自动短测再从头生产。源码859e0e3已推送/快进并冻结，勿重复提交。见[62](62_ORIGINAL_C01_CAP_GS_HALF_MARGIN_2026-10-20.md)。
+
+用户确定未来默认：TS全9840训练/2468 test选best、不提前停止；ORIG修改线seed4780，V系列seed22。历史协议和seed不重标。新[63显式参数命名与GS解释](63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md)及[registry v2](experiment_registry_v2.json)映射12组原版/V8；旧目录/日志/权重身份不改。GS作用于通过映射输出的所有反向分支，V8的CE/intra也会传过GS；下游分类器自身梯度不直接乘因子。HIER层次代理与PA分类代理分开解释。
+
 ## 原版c0.1＋cap的margin减半组已启动 — 2026-10-20
 
 用户直接要求[61：原版cap组margin减半](61_ORIGINAL_C01_CAP_HALF_MARGIN_2026-10-20.md)。以已完成ORIG-B0-32-C01-CAP23-S4780为基准，仅改gamma1000→500、delta4→2；保留c0.1/cap2.3/无hook/seed4780、原版shuffle32、完整9840训练/2468 test每轮选best、300×307。32项CPU合同及训练限定2×2 GPU短测通过，初始权重和训练数据身份与完成对照完全一致。11:50在空闲GPU1从头正式运行，源码e40a071已推送/快进同步并冻结，后台独立；GPU0既有V8保持。首轮307步、完整2468 test及best/last/e1有限权重验收通过，后台继续。两项正则系数各0.01，不是将损失减半。私有路径与进程见本地61交接。

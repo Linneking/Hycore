@@ -1007,5 +1007,7 @@
     "modify_checkpoint_identity": false,
     "public_paths": "repository_relative_only",
     "server_details": "private_ignored_handoff_only"
-  }
+  },
+  "successor_for_v8_and_original_geometry": "docs/research/experiment_registry_v2.json",
+  "successor_naming_document": "docs/research/63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md"
 }

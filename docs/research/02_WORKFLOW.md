@@ -34,7 +34,7 @@ Never pull into a dirty server worktree. Do not use `git reset --hard` to resolv
 
 ## Experiment identity
 
-Use the canonical display names in [33: experiment naming](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md) and [the registry](experiment_registry.json). B0-32/B0-64 mean original HyCoRe shuffle sampling; B32/B64 mean HIER class-balanced sampling with HIER disabled; HIER32/HIER64 add HIER. Prefix the implementation version; record K and warmup separately for HIER, and preserve historical run IDs, paths and metric field names. Every new manifest records both the canonical experiment name and the immutable storage/run ID. A one-step diagnostic arm named base is not a separately trained baseline.
+Use [63: explicit geometry names](63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md) and [registry v2](experiment_registry_v2.json) for V8 and original HyCoRe geometry controls. Keep [33](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md) and [the legacy registry](experiment_registry.json) for earlier experiments. Future user-authorized defaults: full9840 training/test2468 each-epoch best OA, no early stopping; ORIG modifications seed4780, V-series seed22. Historical validation-selected runs keep VS984 and their real seeds. B0-32/B0-64 mean original HyCoRe shuffle sampling; B32/B64 mean HIER class-balanced sampling with HIER disabled; HIER32/HIER64 add HIER. Prefix the implementation version; record K and warmup separately for HIER, and preserve historical run IDs, paths and metric field names. Every new manifest records both the canonical experiment name and the immutable storage/run ID. A one-step diagnostic arm named base is not a separately trained baseline.
 
 Every run directory must contain or log:
 

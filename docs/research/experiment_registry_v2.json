@@ -1,0 +1,261 @@
+{
+  "schema_version": 2,
+  "updated_local_date": "2026-10-20",
+  "naming_document": "docs/research/63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md",
+  "scope": "V8 and original HyCoRe geometry ablations; earlier versions retain legacy registry",
+  "future_defaults": {
+    "train_count": 9840,
+    "validation_count": 0,
+    "test_count": 2468,
+    "selection": "TS",
+    "original_line_seed": 4780,
+    "version_line_seed": 22,
+    "epochs": 300,
+    "early_stopping": false
+  },
+  "alias_policy": "Resolve with lineage and selection; do not change source run IDs, paths, checkpoints, historical configs, seeds or results.",
+  "runs": [
+    {
+      "id": "orig_c1",
+      "canonical_name": "ORIG-B0-32-C1-CAPnone-GS0-M1000_4-TS-S4780",
+      "lineage": "ORIG",
+      "family": "B0-32",
+      "c": 1,
+      "tangent_cap": null,
+      "inverse_metric_gradient_scaling": false,
+      "radial_gamma": 1000,
+      "contrastive_delta": 4,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 4780,
+      "aliases": [
+        "ORIG-B0-32-S4780"
+      ],
+      "source_document": "54_V7_V8_RESULTS_PROTOCOL_REVIEW_2026-10-17/report.md"
+    },
+    {
+      "id": "v8_b0_32_vs984",
+      "canonical_name": "V8-B0-32-C0.1-CAP2.3-GS1-M500_2-VS984-S22",
+      "lineage": "V8",
+      "family": "B0-32",
+      "c": 0.1,
+      "tangent_cap": 2.3,
+      "inverse_metric_gradient_scaling": true,
+      "radial_gamma": 500,
+      "contrastive_delta": 2,
+      "selection": "VS984",
+      "train_count": 8856,
+      "validation_count": 984,
+      "test_count": 2468,
+      "seed": 22,
+      "aliases": [
+        "V8-B0-32-C01"
+      ],
+      "source_document": "54_V7_V8_RESULTS_PROTOCOL_REVIEW_2026-10-17/report.md"
+    },
+    {
+      "id": "v8_b64_vs984",
+      "canonical_name": "V8-B64-C0.1-CAP2.3-GS1-M500_2-VS984-S22",
+      "lineage": "V8",
+      "family": "B64",
+      "c": 0.1,
+      "tangent_cap": 2.3,
+      "inverse_metric_gradient_scaling": true,
+      "radial_gamma": 500,
+      "contrastive_delta": 2,
+      "selection": "VS984",
+      "train_count": 8856,
+      "validation_count": 984,
+      "test_count": 2468,
+      "seed": 22,
+      "aliases": [
+        "V8-B64"
+      ],
+      "source_document": "54_V7_V8_RESULTS_PROTOCOL_REVIEW_2026-10-17/report.md"
+    },
+    {
+      "id": "v8_hier64_vs984",
+      "canonical_name": "V8-HIER64-K20-W0-C0.1-CAP2.3-GS1-M500_2-VS984-S22",
+      "lineage": "V8",
+      "family": "HIER64",
+      "c": 0.1,
+      "tangent_cap": 2.3,
+      "inverse_metric_gradient_scaling": true,
+      "radial_gamma": 500,
+      "contrastive_delta": 2,
+      "selection": "VS984",
+      "train_count": 8856,
+      "validation_count": 984,
+      "test_count": 2468,
+      "seed": 22,
+      "aliases": [
+        "V8-HIER64-K20-W0"
+      ],
+      "source_document": "54_V7_V8_RESULTS_PROTOCOL_REVIEW_2026-10-17/report.md",
+      "k": 20,
+      "warmup_epochs": 0
+    },
+    {
+      "id": "v8_b0_32_ts",
+      "canonical_name": "V8-B0-32-C0.1-CAP2.3-GS1-M500_2-TS-S22",
+      "lineage": "V8",
+      "family": "B0-32",
+      "c": 0.1,
+      "tangent_cap": 2.3,
+      "inverse_metric_gradient_scaling": true,
+      "radial_gamma": 500,
+      "contrastive_delta": 2,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 22,
+      "aliases": [
+        "V8-B0-32-C01-FULL9840-TESTSEL"
+      ],
+      "source_document": "56_V8_FULLTRAIN_CONTROLS_2026-10-18.md"
+    },
+    {
+      "id": "v8_b64_ts",
+      "canonical_name": "V8-B64-C0.1-CAP2.3-GS1-M500_2-TS-S22",
+      "lineage": "V8",
+      "family": "B64",
+      "c": 0.1,
+      "tangent_cap": 2.3,
+      "inverse_metric_gradient_scaling": true,
+      "radial_gamma": 500,
+      "contrastive_delta": 2,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 22,
+      "aliases": [
+        "V8-B64-FULL9840-TESTSEL"
+      ],
+      "source_document": "56_V8_FULLTRAIN_CONTROLS_2026-10-18.md"
+    },
+    {
+      "id": "v8_hier64_ts",
+      "canonical_name": "V8-HIER64-K20-W0-C0.1-CAP2.3-GS1-M500_2-TS-S22",
+      "lineage": "V8",
+      "family": "HIER64",
+      "c": 0.1,
+      "tangent_cap": 2.3,
+      "inverse_metric_gradient_scaling": true,
+      "radial_gamma": 500,
+      "contrastive_delta": 2,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 22,
+      "aliases": [
+        "V8-HIER64-K20-W0-FULL9840-TESTSEL"
+      ],
+      "source_document": "55_V8_FULLTRAIN_TEST_SELECTION_2026-10-17.md",
+      "k": 20,
+      "warmup_epochs": 0
+    },
+    {
+      "id": "v8_b0_no_gs",
+      "canonical_name": "V8-B0-32-C0.1-CAP2.3-GS0-M500_2-TS-S22",
+      "lineage": "V8",
+      "family": "B0-32",
+      "c": 0.1,
+      "tangent_cap": 2.3,
+      "inverse_metric_gradient_scaling": false,
+      "radial_gamma": 500,
+      "contrastive_delta": 2,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 22,
+      "aliases": [
+        "V8-B0-32-C01-NOHOOK-FULL9840-TESTSEL"
+      ],
+      "source_document": "60_C01_CAP_NOHOOK_ABLATIONS_2026-10-20.md"
+    },
+    {
+      "id": "orig_c01",
+      "canonical_name": "ORIG-B0-32-C0.1-CAPnone-GS0-M1000_4-TS-S4780",
+      "lineage": "ORIG",
+      "family": "B0-32",
+      "c": 0.1,
+      "tangent_cap": null,
+      "inverse_metric_gradient_scaling": false,
+      "radial_gamma": 1000,
+      "contrastive_delta": 4,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 4780,
+      "aliases": [
+        "ORIG-B0-32-C01-S4780"
+      ],
+      "source_document": "60_C01_CAP_NOHOOK_ABLATIONS_2026-10-20.md"
+    },
+    {
+      "id": "orig_c01_cap",
+      "canonical_name": "ORIG-B0-32-C0.1-CAP2.3-GS0-M1000_4-TS-S4780",
+      "lineage": "ORIG",
+      "family": "B0-32",
+      "c": 0.1,
+      "tangent_cap": 2.3,
+      "inverse_metric_gradient_scaling": false,
+      "radial_gamma": 1000,
+      "contrastive_delta": 4,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 4780,
+      "aliases": [
+        "ORIG-B0-32-C01-CAP23-S4780"
+      ],
+      "source_document": "60_C01_CAP_NOHOOK_ABLATIONS_2026-10-20.md"
+    },
+    {
+      "id": "orig_c01_cap_half",
+      "canonical_name": "ORIG-B0-32-C0.1-CAP2.3-GS0-M500_2-TS-S4780",
+      "lineage": "ORIG",
+      "family": "B0-32",
+      "c": 0.1,
+      "tangent_cap": 2.3,
+      "inverse_metric_gradient_scaling": false,
+      "radial_gamma": 500,
+      "contrastive_delta": 2,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 4780,
+      "aliases": [
+        "ORIG-B0-32-C01-CAP23-MHALF-S4780"
+      ],
+      "source_document": "61_ORIGINAL_C01_CAP_HALF_MARGIN_2026-10-20.md"
+    },
+    {
+      "id": "orig_c01_cap_gs_half",
+      "canonical_name": "ORIG-B0-32-C0.1-CAP2.3-GS1-M500_2-TS-S4780",
+      "lineage": "ORIG",
+      "family": "B0-32",
+      "c": 0.1,
+      "tangent_cap": 2.3,
+      "inverse_metric_gradient_scaling": true,
+      "radial_gamma": 500,
+      "contrastive_delta": 2,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 4780,
+      "aliases": [],
+      "source_document": "62_ORIGINAL_C01_CAP_GS_HALF_MARGIN_2026-10-20.md"
+    }
+  ]
+}
