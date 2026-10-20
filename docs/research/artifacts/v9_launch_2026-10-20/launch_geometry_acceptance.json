@@ -1,0 +1,18 @@
+{
+  "cpu_unit_checks_passed": 30,
+  "gloo_global64_gradient_contract": "passed",
+  "smoke_epochs": 2,
+  "smoke_updates": 4,
+  "smoke_test_read": false,
+  "smoke_net_proxy_finite": true,
+  "smoke_native_whole_depth_mean": 2.4807987213134766,
+  "smoke_native_part_depth_mean": 2.4940123558044434,
+  "smoke_hier_whole_depth_range": [
+    4.59999942779541,
+    4.600000381469727
+  ],
+  "snapshot_native_and_hier_direction_equal": true,
+  "fresh_main_matches_e0_net_and_proxy": true,
+  "initial_model_sha256": "fd7251e0eb6b397ecaf3862e9cc00a6bc2be9b684329fdc31dc05915b388d29d",
+  "main_started_utc": "2026-10-20T11:44:55.883615+00:00"
+}

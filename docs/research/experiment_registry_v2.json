@@ -2,7 +2,7 @@
   "schema_version": 2,
   "updated_local_date": "2026-10-20",
   "naming_document": "docs/research/63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md",
-  "scope": "V8 and original HyCoRe geometry ablations; earlier versions retain legacy registry",
+  "scope": "V8, V9 and original HyCoRe geometry ablations; earlier versions retain legacy registry",
   "future_defaults": {
     "train_count": 9840,
     "validation_count": 0,
@@ -256,6 +256,43 @@
       "seed": 4780,
       "aliases": [],
       "source_document": "62_ORIGINAL_C01_CAP_GS_HALF_MARGIN_2026-10-20.md"
+    },
+    {
+      "id": "v9_hier64_dual_curvature_ts",
+      "canonical_name": "V9-HIER64-K20-W0-Cbase1-Chier0.1-CAPbaseNone-H4.6-GShier-M1000_4-TS-S22",
+      "lineage": "V9",
+      "family": "HIER64",
+      "c": 1.0,
+      "base_c": 1.0,
+      "hier_c": 0.1,
+      "native_tangent_cap": null,
+      "native_inverse_metric_gradient_scaling": false,
+      "hier_whole_depth": 4.6,
+      "hier_inverse_metric_gradient_scaling": true,
+      "proxy_tangent_cap": 2.3,
+      "proxy_inverse_metric_gradient_scaling": true,
+      "geometry_domains": {
+        "native_whole_part": 1.0,
+        "hier_whole_view_proxy": 0.1
+      },
+      "single_curvature_audit_compatible": false,
+      "radial_gamma": 1000,
+      "contrastive_delta": 4,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 22,
+      "global_batch": 64,
+      "steps_per_epoch": 200,
+      "epochs": 300,
+      "sample_K": 20,
+      "warmup_epochs": 0,
+      "lambda_hier": 0.5,
+      "aliases": [
+        "V9-HIER64-DUAL-CURVATURE"
+      ],
+      "source_document": "65_V9_DUAL_CURVATURE_PLAN_AND_LAUNCH_2026-10-20.md"
     }
   ]
 }

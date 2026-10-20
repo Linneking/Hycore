@@ -1,5 +1,11 @@
 # Experiment history
 
+## V9双曲率/分支GS正式训练已启动 — 2026-10-20
+
+用户确认双卡类别均衡64、300轮，原生HyCoRe c1/1000/N/4、不加额外cap/GS；HIER仅看c0.1固定深度4.6的保方向whole视图并使用分支GS，代理保留官方cap2.3/GS/随机初始化/AdamW。完整9840训练/2468 test逐轮选best、seed22、W0/lambda0.5、300×200步，不提前停止。仅启动这一条V9，不追加矩阵，旧训练与结果保持。
+
+30项CPU检查、global64双进程梯度参考和双卡2×2 train-only短测通过；19:44:55在8001空闲GPU1/2从头正式启动。源码`b5d2d8b`已推送、快进同步并冻结，短测与生产e0网络/代理逐元素一致。19:47首轮200更新/完整2468 test/有限best-last-e1权重及Adam状态通过，BN每步+2、代理双rank差异0，后台继续。HIER视图4.6与原生whole/part c1分域记录，并保留实际训练前向快照；旧单曲率审查不能直接套用。方案、实现边界与验收见[65](65_V9_DUAL_CURVATURE_PLAN_AND_LAUNCH_2026-10-20.md)，命名见63/registry v2，路径/PID在忽略的私有65交接。
+
 ## V9初步idea已记录，曲率组合待定 — 2026-10-20
 
 用户认可“原生HyCoRe＋等深度HIER分支”为V9初步设想：基础CE/intra不加共享cap/GS，HIER仅看保留方向、深度4.6的whole视图，代理保留自身HIER映射。统一c0.1与基础c1/HIERc0.1两种曲率组合尚未定，不擅自选定或启动矩阵。见[64：idea](64_V9_INITIAL_IDEA_2026-10-20.md)；[63](63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md)补充官方HIER三路dataflow，区分PA类别代理与512层次代理。仅文档记录，无代码/训练修改。

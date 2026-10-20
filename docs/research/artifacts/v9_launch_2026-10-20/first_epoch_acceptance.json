@@ -1,0 +1,26 @@
+{
+  "commit": "b5d2d8b6dcc65be0d7ffafd39dde1168d98bc562",
+  "epoch": 1,
+  "updates": 200,
+  "test_count": 2468,
+  "checkpoint_sha256": "6b2b2687ca12746b9f037b13099c1028215e2a24b9e987048462eef75df8fc9c",
+  "checkpoint_net_proxy_finite": true,
+  "proxy_adam_state_finite": true,
+  "proxy_optimizer_steps": [
+    200
+  ],
+  "bn_num_batches_tracked": [
+    400
+  ],
+  "rank_state_count": 2,
+  "max_proxy_replica_difference": 0.0,
+  "hier_view_depth_max_error": 3.8146972691777137e-07,
+  "epoch_wall_seconds": 168.38378739217296,
+  "peak_allocated_MiB": 29628.41259765625,
+  "base_c": 1.0,
+  "hier_c": 0.1,
+  "native_extra_cap": null,
+  "native_GS": false,
+  "main_started_utc": "2026-10-20T11:44:55.883615+00:00",
+  "first_epoch_checkpoint_utc": "2026-10-20T11:47:50.918979+00:00"
+}

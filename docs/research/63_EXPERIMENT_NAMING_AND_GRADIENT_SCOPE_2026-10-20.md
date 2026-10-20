@@ -204,3 +204,8 @@ $$
 PA→z→编码器的梯度经过样本GS；PA→q的梯度不经过GS，因为q是另一条独立参数路径。HIER样本项到编码器的梯度也经过样本GS；两项HIER到层次代理v的梯度都经过代理GS。代理项没有到编码器的直接路径。统一backward后由当前配置的AdamW更新网络、PA类别代理、层次代理；源码亦支持其他优化器，并非GS与AdamW是同一机制。
 
 源码依据：官方固定commit3986a744的models/model.py:112/123；hyptorch/nn.py:204–216；losses.py:27–30/90/100/103与219/228；train.py:153–165。已逐条核对本地官方源码。
+
+
+## V9双曲率扩展
+
+V9已授权两分支各自曲率，名称采用`Cbase1-Chier0.1-CAPbaseNone-H4.6-GShier-M1000_4-TS-S22`后缀，明确原生c1 whole/part无额外cap/GS、HIER视图c0.1固定深度4.6并用分支GS。层次代理自身cap2.3/GS仍保留；`GShier`不能解释为主网络完全不受HIER梯度影响。完整名与验收见[65](65_V9_DUAL_CURVATURE_PLAN_AND_LAUNCH_2026-10-20.md)。registry的`geometry_domains`分别记录两个域，禁止按单一c为原生whole和代理同时算距离。
