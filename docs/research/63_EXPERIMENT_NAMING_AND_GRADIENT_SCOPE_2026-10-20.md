@@ -43,7 +43,7 @@
 | ORIG-B0-32-C01-S4780 | `ORIG-B0-32-C0.1-CAPnone-GS0-M1000_4-TS-S4780` |
 | ORIG-B0-32-C01-CAP23-S4780 | `ORIG-B0-32-C0.1-CAP2.3-GS0-M1000_4-TS-S4780` |
 | ORIG-B0-32-C01-CAP23-MHALF-S4780 | `ORIG-B0-32-C0.1-CAP2.3-GS0-M500_2-TS-S4780` |
-| 本次8001新增 | `ORIG-B0-32-C0.1-CAP2.3-GS1-M500_2-TS-S4780` |
+| 本次新增GS组（已迁8000） | `ORIG-B0-32-C0.1-CAP2.3-GS1-M500_2-TS-S4780` |
 
 新运行从创建时写新名；已运行实验通过registry展示新名，保留原manifest的canonical_name作不可变溯源，不追溯编辑。别名必须同时匹配谱系和选模协议，不能用裸`V8-B0-32`区分两批训练。
 
