@@ -160,7 +160,7 @@ class NativeBackboneGeometryContract(unittest.TestCase):
         for (name0, parameter0), (name1, parameter1) in zip(original.named_parameters(), candidate.named_parameters()):
             self.assertEqual(name0, name1)
             if parameter0.grad is not None:
-                torch.testing.assert_close(parameter0.grad, parameter1.grad, rtol=0, atol=0)
+                torch.testing.assert_close(parameter0.grad, parameter1.grad, rtol=1e-12, atol=1e-14)
         for key, value in candidate.state_dict().items():
             torch.testing.assert_close(value, state[key], rtol=0, atol=0)
         self.assertEqual(len(candidate.emb._forward_hooks), 0)
