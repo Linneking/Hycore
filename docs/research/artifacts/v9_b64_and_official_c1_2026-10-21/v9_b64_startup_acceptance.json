@@ -1,0 +1,36 @@
+{
+  "canonical_name": "V9-B64-C1-CAPnone-GS0-M1000_4-TS-S22",
+  "commit": "89710b5dee52dd48a746cd91c19ef1e1d1a4eea2",
+  "cpu_unit_checks_passed": 33,
+  "gloo_global64_gradient_contract": "passed",
+  "smoke_updates": 4,
+  "smoke_test_read": false,
+  "fresh_e0_matches_smoke": true,
+  "initialized_model_sha256": "fd7251e0eb6b397ecaf3862e9cc00a6bc2be9b684329fdc31dc05915b388d29d",
+  "e1_updates": 200,
+  "test_count": 2468,
+  "model_parameters_finite": true,
+  "hier_calls": 0,
+  "proxy_parameter_count": 0,
+  "BN_num_batches_tracked": [
+    400
+  ],
+  "rank_state_count": 2,
+  "epoch_wall_seconds": 126.81897369597573,
+  "checkpoint_sha256": "dd305d008f9ffedcf7b746d36bc0216fd5f642bcb4a0f9d180a2c6e16f7ee4be",
+  "started_utc": "2026-10-20T16:55:07.567177+00:00",
+  "first_epoch_checkpoint_utc": "2026-10-20T16:57:16.828112+00:00",
+  "training_labels_sha256": "5191071bd57f54d62aad093330e3742ea32f24be56c9ba1e202126bb62785854",
+  "selection_labels_sha256": "51a870948420ac011793a54e04d0b0c7341809a3b0295dfba1c7ba450131a576",
+  "training_config": {
+    "c": 1.0,
+    "native_extra_cap": null,
+    "native_GS": false,
+    "radial_gamma": 1000.0,
+    "contrastive_margin": 4.0,
+    "seed": 22,
+    "global_batch": 64,
+    "steps_per_epoch": 200,
+    "epochs": 300
+  }
+}

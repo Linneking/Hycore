@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_local_date": "2026-10-20",
+  "updated_local_date": "2026-10-21",
   "naming_document": "docs/research/63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md",
   "scope": "V8, V9 and original HyCoRe geometry ablations; earlier versions retain legacy registry",
   "future_defaults": {
@@ -293,6 +293,59 @@
         "V9-HIER64-DUAL-CURVATURE"
       ],
       "source_document": "65_V9_DUAL_CURVATURE_PLAN_AND_LAUNCH_2026-10-20.md"
+    },
+    {
+      "id": "v9_b64_ts",
+      "canonical_name": "V9-B64-C1-CAPnone-GS0-M1000_4-TS-S22",
+      "lineage": "V9",
+      "family": "B64",
+      "c": 1.0,
+      "tangent_cap": null,
+      "inverse_metric_gradient_scaling": false,
+      "radial_gamma": 1000,
+      "contrastive_delta": 4,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 22,
+      "global_batch": 64,
+      "world_size": 2,
+      "steps_per_epoch": 200,
+      "epochs": 300,
+      "hier": false,
+      "proxy_parameter_count": 0,
+      "aliases": [
+        "V9-B64-TS"
+      ],
+      "source_document": "66_V9_B64_CONTROL_AND_OFFICIAL_REPEAT_2026-10-21.md"
+    },
+    {
+      "id": "orig_c1_s4780_r2",
+      "canonical_name": "ORIG-B0-32-C1-CAPnone-GS0-M1000_4-TS-S4780-R2",
+      "lineage": "ORIG",
+      "family": "B0-32",
+      "replicate_id": "R2",
+      "c": 1.0,
+      "tangent_cap": null,
+      "inverse_metric_gradient_scaling": false,
+      "radial_gamma": 1000,
+      "contrastive_delta": 4,
+      "selection": "TS",
+      "train_count": 9840,
+      "validation_count": 0,
+      "test_count": 2468,
+      "seed": 4780,
+      "global_batch": 32,
+      "world_size": 1,
+      "steps_per_epoch": 307,
+      "epochs": 300,
+      "hier": false,
+      "aliases": [
+        "ORIG-C1-FRESH-R2"
+      ],
+      "source_document": "66_V9_B64_CONTROL_AND_OFFICIAL_REPEAT_2026-10-21.md",
+      "notes": "Fresh original constructor/train/validate with continuous RNG; distinct from historical early-resume S4780."
     }
   ]
 }

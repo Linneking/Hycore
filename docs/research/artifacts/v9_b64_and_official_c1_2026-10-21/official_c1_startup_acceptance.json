@@ -1,0 +1,35 @@
+{
+  "canonical_name": "ORIG-B0-32-C1-CAPnone-GS0-M1000_4-TS-S4780-R2",
+  "commit": "21f6c692a5baf6f477908e127569809542df5e56",
+  "cpu_unit_checks_passed": 10,
+  "smoke_train_only_updates": 4,
+  "smoke_official_test_read": false,
+  "fresh_main_e0_matches_smoke": true,
+  "initialized_model_sha256": "a207a450feb3c70c34d7ae567b923130b9ff6d88a1a10f4d40755b18d9fb2baf",
+  "native_c": 1.0,
+  "extra_cap": null,
+  "gradient_hook": false,
+  "seed": 4780,
+  "replicate_id": "R2",
+  "epoch": 1,
+  "optimizer_steps": 307,
+  "full_test_count": 2468,
+  "test_batches_completed": 155,
+  "BN_num_batches_tracked": [
+    614
+  ],
+  "network_parameters_finite": true,
+  "optimizer_state_finite": true,
+  "train_identity_matches_existing_ORIG_c01": true,
+  "whole_shard_order": [
+    "ply_data_train1.h5",
+    "ply_data_train4.h5",
+    "ply_data_train3.h5",
+    "ply_data_train2.h5",
+    "ply_data_train0.h5"
+  ],
+  "epoch_wall_seconds": 118.52727712702472,
+  "checkpoint_sha256": "213eb370f8bd80e018a1d6385f9eabb6d24baa72c9f26143c158a2e487bdd92d",
+  "started_at": "2026-10-21T00:59:06.305674+08:00",
+  "first_epoch_finished_at": "2026-10-21T01:01:07.566113+08:00"
+}

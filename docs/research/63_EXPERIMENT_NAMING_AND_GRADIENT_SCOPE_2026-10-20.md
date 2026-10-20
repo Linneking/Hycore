@@ -209,3 +209,8 @@ PA→z→编码器的梯度经过样本GS；PA→q的梯度不经过GS，因为q
 ## V9双曲率扩展
 
 V9已授权两分支各自曲率，名称采用`Cbase1-Chier0.1-CAPbaseNone-H4.6-GShier-M1000_4-TS-S22`后缀，明确原生c1 whole/part无额外cap/GS、HIER视图c0.1固定深度4.6并用分支GS。层次代理自身cap2.3/GS仍保留；`GShier`不能解释为主网络完全不受HIER梯度影响。完整名与验收见[65](65_V9_DUAL_CURVATURE_PLAN_AND_LAUNCH_2026-10-20.md)。registry的`geometry_domains`分别记录两个域，禁止按单一c为原生whole和代理同时算距离。
+
+
+## 2026-10-21新增：同协议V9控制与官方重复
+
+`V9-B64-C1-CAPnone-GS0-M1000_4-TS-S22`是V9原生c1的HIER零调用控制，不能和已完成V8-B64 c0.1/cap/GS混用。`ORIG-B0-32-C1-CAPnone-GS0-M1000_4-TS-S4780-R2`是新的从头重复，R2区别于历史有早期resume的S4780；不改历史原名或成绩。两组均300轮、完整9840/2468 test选模，无earlystop。见[66](66_V9_B64_CONTROL_AND_OFFICIAL_REPEAT_2026-10-21.md)。

@@ -1,5 +1,11 @@
 # Experiment history
 
+## V9-B64匹配对照与官方c1全新复现已启动 — 2026-10-21
+
+用户授权双卡V9-B64，并明确确认余下一卡从头重跑官方c1 S4780。8000 GPU0/1于00:55:07启动V9-B64，c1/无额外cap或GS/1000/N与4/seed22、global64类别均衡、300×200、全9840/2468 test选best；HIER视图、损失和代理零构造零调用。GPU2于00:59:06启动官方c1 R2，seed4780、shuffle32/307×300/workers8/eval16、官方构造/train/validate/持续随机流，不加cap/GS，不resume。两组均不earlystop，不追加此前seed22高表现组复核。
+
+B64源码89710b5、33项CPU及Gloo；官方21f6c69、10项CPU；各自train-only2×2后fresh生产。首轮200/307更新、完整2468 test、有限best/last/e1与恢复状态通过，后台继续。B64初始化/数据/首批ID和crop与V9主训练匹配；官方训练数据身份与现有ORIG c0.1组完全匹配。新[66：方案及验收](66_V9_B64_CONTROL_AND_OFFICIAL_REPEAT_2026-10-21.md)，私有路径/PID见忽略的66工程交接；旧结果不改。此前ORIG c0.1+cap+GS+半margin已自然结束300轮，best OA94.327%，不将单次高成绩称为准确率理论上限。
+
 ## V9双曲率/分支GS正式训练已启动 — 2026-10-20
 
 用户确认双卡类别均衡64、300轮，原生HyCoRe c1/1000/N/4、不加额外cap/GS；HIER仅看c0.1固定深度4.6的保方向whole视图并使用分支GS，代理保留官方cap2.3/GS/随机初始化/AdamW。完整9840训练/2468 test逐轮选best、seed22、W0/lambda0.5、300×200步，不提前停止。仅启动这一条V9，不追加矩阵，旧训练与结果保持。
