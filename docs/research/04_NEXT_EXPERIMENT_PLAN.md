@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## V9初步idea已记录，曲率组合待定 — 2026-10-20
+
+用户认可“原生HyCoRe＋等深度HIER分支”为V9初步设想：基础CE/intra不加共享cap/GS，HIER仅看保留方向、深度4.6的whole视图，代理保留自身HIER映射。统一c0.1与基础c1/HIERc0.1两种曲率组合尚未定，不擅自选定或启动矩阵。见[64：idea](64_V9_INITIAL_IDEA_2026-10-20.md)；[63](63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md)补充官方HIER三路dataflow，区分PA类别代理与512层次代理。仅文档记录，无代码/训练修改。
+
 ## 2026-10-20：统一未来选模/seed，并授权原版GS补充
 
 用户明确指定：今后正式比较使用官方9840训练/2468 test逐轮选best；原版HyCoRe修改线seed4780，版本化V系列seed22。历史验证选模实验保持真实标签，不追溯改成test选模；无早停授权。该直接指令覆盖本文件及既有通用说明中的旧validation偏好。

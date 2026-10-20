@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## V9初步idea已记录，曲率组合待定 — 2026-10-20
+
+用户认可“原生HyCoRe＋等深度HIER分支”为V9初步设想：基础CE/intra不加共享cap/GS，HIER仅看保留方向、深度4.6的whole视图，代理保留自身HIER映射。统一c0.1与基础c1/HIERc0.1两种曲率组合尚未定，不擅自选定或启动矩阵。见[64：idea](64_V9_INITIAL_IDEA_2026-10-20.md)；[63](63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md)补充官方HIER三路dataflow，区分PA类别代理与512层次代理。仅文档记录，无代码/训练修改。
+
 ## 用户更正GS实验到8000，旧8001后台已取消 — 2026-10-20
 
 用户更正同一`ORIG-B0-32-C0.1-CAP2.3-GS1-M500_2-TS-S4780`执行位置为8000。旧8001队列13:23已因nvidia-smi查询超时退出，没有GPU短测/生产；15:59确认无存活进程、无训练子目录，追加取消迁移记录，不重启。8000新队列37项CPU合同与2×2 train-only GPU短测通过；16:02:05在空闲GPU2从头正式启动300×307，配置/初始化/数据与既有原版对照保持。GPU0/1现有训练不改。源码e20cf8c已推送/快进并冻结；仅增强队列超时重试，不改训练。首轮完整test、307步与best/last/e1有限权重保存通过。当前结果与路径见[62](62_ORIGINAL_C01_CAP_GS_HALF_MARGIN_2026-10-20.md)及本地私有62，旧8001等待快照已失效。
