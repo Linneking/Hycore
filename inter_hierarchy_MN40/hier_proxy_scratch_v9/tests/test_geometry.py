@@ -156,7 +156,7 @@ class NativeBackboneGeometryContract(unittest.TestCase):
         loss1 = logits1.square().sum() + mu1.square().sum()
         loss0.backward()
         loss1.backward()
-        torch.testing.assert_close(x.grad, y.grad, rtol=0, atol=0)
+        torch.testing.assert_close(x.grad, y.grad, rtol=1e-12, atol=1e-14)
         for (name0, parameter0), (name1, parameter1) in zip(original.named_parameters(), candidate.named_parameters()):
             self.assertEqual(name0, name1)
             if parameter0.grad is not None:

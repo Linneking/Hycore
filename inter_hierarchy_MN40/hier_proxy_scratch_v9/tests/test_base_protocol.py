@@ -6,6 +6,7 @@ we do not copy their formulas into an independently drifting test oracle.
 from __future__ import annotations
 
 import ast
+import contextlib
 from pathlib import Path
 import random
 import unittest
@@ -50,16 +51,17 @@ class V9BaseProtocolTests(unittest.TestCase):
         cls.reference = released_functions()
         torch.set_num_threads(2)
 
-    def fixture(self):
+    def fixture(self, dtype=None):
+        dtype = torch.float64 if dtype is None else dtype
         generator = torch.Generator().manual_seed(22)
-        mu = torch.randn(64, 256, generator=generator, dtype=torch.float64) * .002
-        nu = torch.randn(64, 256, generator=generator, dtype=torch.float64) * .002
+        mu = torch.randn(64, 256, generator=generator, dtype=dtype) * .002
+        nu = torch.randn(64, 256, generator=generator, dtype=dtype) * .002
         # Global flip crosses ranks. A rank-local flip gives different distances.
         mu[:32, 0] += .25
         mu[32:, 0] -= .25
         nu[:32, 0] += .15
         nu[32:, 0] -= .15
-        logits = torch.randn(64, 40, generator=generator, dtype=torch.float64)
+        logits = torch.randn(64, 40, generator=generator, dtype=dtype)
         return tuple(value.requires_grad_() for value in (mu, nu, logits)), torch.arange(32).repeat_interleave(2)
 
     @staticmethod
@@ -67,9 +69,18 @@ class V9BaseProtocolTests(unittest.TestCase):
         return {"mu": mu, "nu": nu, "logits": logits,
                 "whole_count": 900, "child_count": n}
 
-    def source_loss(self, mu, nu, logits, labels, n):
-        values = self.reference["hype_triplet_losses"](
-            mu, nu, hier_margin=1000. / n, contr_margin=4, ball_dim=256)
+    def source_loss(self, mu, nu, logits, labels, n, *, align_ball_dtype=False):
+        # Production is FP32. For the extra FP64 diagnostic, align the
+        # reference manifold dtype with the implementation before softplus(c).
+        # Merely upcasting a ball's stored inverse-softplus parameter changes
+        # its represented c by FP32 rounding; this is not a loss discrepancy.
+        ball_type = self.reference["PoincareBall"]
+        def aligned_ball(**kwargs):
+            return ball_type(**kwargs).to(device=mu.device, dtype=mu.dtype)
+        scope = mock.patch.dict(self.reference, {"PoincareBall": aligned_ball}) if align_ball_dtype else contextlib.nullcontext()
+        with scope:
+            values = self.reference["hype_triplet_losses"](
+                mu, nu, hier_margin=1000. / n, contr_margin=4, ball_dim=256)
         ce = self.reference["cal_loss"](logits, labels)
         return ce + .01 * values[4] + .01 * values[5], ce, values
 
@@ -79,7 +90,7 @@ class V9BaseProtocolTests(unittest.TestCase):
                 inputs, labels = self.fixture()
                 actual = self.base.global_base_losses(self.outputs(*inputs, n=n), labels)
                 reference_inputs = tuple(value.detach().clone().requires_grad_() for value in inputs)
-                expected, ce, components = self.source_loss(*reference_inputs, labels, n)
+                expected, ce, components = self.source_loss(*reference_inputs, labels, n, align_ball_dtype=True)
                 for key, reference in zip(("whole_radius", "part_radius", "positive_distance",
                                            "negative_distance", "intra_contrastive", "intra_radial"), components):
                     torch.testing.assert_close(actual[key], reference, rtol=1e-13, atol=1e-13)
@@ -92,6 +103,24 @@ class V9BaseProtocolTests(unittest.TestCase):
                     torch.testing.assert_close(gradient, reference, rtol=1e-10, atol=1e-12)
                 self.assertEqual(actual["global_batch_size"], 64)
                 self.assertTrue(torch.equal(actual["gold"], labels))
+
+    def test_production_fp32_matches_unmodified_released_loss_and_gradients(self):
+        # No dtype alignment or source formula changes in this production gate.
+        for n in (200, 400, 600):
+            with self.subTest(part_points=n):
+                inputs, labels = self.fixture(dtype=torch.float32)
+                actual = self.base.global_base_losses(self.outputs(*inputs, n=n), labels)
+                reference_inputs = tuple(value.detach().clone().requires_grad_() for value in inputs)
+                expected, ce, components = self.source_loss(*reference_inputs, labels, n)
+                for key, reference in zip(("whole_radius", "part_radius", "positive_distance",
+                                           "negative_distance", "intra_contrastive", "intra_radial"), components):
+                    torch.testing.assert_close(actual[key], reference, rtol=0, atol=0)
+                torch.testing.assert_close(actual["ce"], ce, rtol=0, atol=0)
+                torch.testing.assert_close(actual["base"], expected, rtol=0, atol=0)
+                for gradient, reference in zip(torch.autograd.grad(actual["base"], inputs),
+                                                torch.autograd.grad(expected, reference_inputs)):
+                    self.assertTrue(bool(torch.isfinite(gradient).all()))
+                    torch.testing.assert_close(gradient, reference, rtol=1e-6, atol=1e-10)
 
     def test_contrastive_negative_is_global_flip_not_rank_local_flip(self):
         (mu, nu, logits), labels = self.fixture()

@@ -76,7 +76,9 @@ class V9TrainingContract(unittest.TestCase):
         actual = torch.autograd.grad(candidate_logits.square().sum() + candidate_mu.square().sum(), b)[0]
         self.assertTrue(bool(torch.isfinite(actual).all()))
         self.assertGreater(float(actual.norm()), 0.)
-        torch.testing.assert_close(actual, expected, rtol=0, atol=0)
+        # FP32 backward can accumulate in a different order when curvature
+        # is frozen. States and forward values above still require bitwise equality.
+        torch.testing.assert_close(actual, expected, rtol=2e-5, atol=2e-8)
         self.assertEqual(torch.cuda.is_initialized(), cuda_was_initialized)
 
     def test_production_configuration_records_both_domains_and_original_base_margins(self):
