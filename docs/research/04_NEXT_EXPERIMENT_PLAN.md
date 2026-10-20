@@ -2,7 +2,7 @@
 
 ## 2026-10-20：原版c0.1＋cap的margin减半组已获直接授权
 
-用户要求新服务器补充原版HyCoRe c0.1＋cap，margin改为500/N与2。按[61：补充配置](61_ORIGINAL_C01_CAP_HALF_MARGIN_2026-10-20.md)保留官方launcher seed4780、cap2.3、无InverseMetric hook、原版shuffle32/307步/300轮、完整9840训练与每轮2468 test选best。该直接指令授权版本化实现、独立CPU/GPU短验收及从头正式启动；不修改正在运行的V8或已完成原版组，不追加其他条件。两个正则系数仍各0.01。
+用户要求新服务器补充原版HyCoRe c0.1＋cap，margin改为500/N与2。按[61：补充配置](61_ORIGINAL_C01_CAP_HALF_MARGIN_2026-10-20.md)保留官方launcher seed4780、cap2.3、无InverseMetric hook、原版shuffle32/307步/300轮、完整9840训练与每轮2468 test选best。该直接指令授权版本化实现、独立CPU/GPU短验收及从头正式启动；不修改正在运行的V8或已完成原版组，不追加其他条件。两个正则系数仍各0.01。 上线：32项CPU合同及2×2训练限定GPU短测通过，11:50在空闲GPU1从头启动300轮；初始化和训练数据身份匹配已完成cap对照。源码e40a071，正式首轮验收记录见61。
 
 ## 2026-10-20：三组c0.1/cap/nohook补充训练已获明确确认
 

@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 原版c0.1＋cap的margin减半组已启动 — 2026-10-20
+
+用户直接要求[61：原版cap组margin减半](61_ORIGINAL_C01_CAP_HALF_MARGIN_2026-10-20.md)。以已完成ORIG-B0-32-C01-CAP23-S4780为基准，仅改gamma1000→500、delta4→2；保留c0.1/cap2.3/无hook/seed4780、原版shuffle32、完整9840训练/2468 test每轮选best、300×307。32项CPU合同及训练限定2×2 GPU短测通过，初始权重和训练数据身份与完成对照完全一致。11:50在空闲GPU1从头正式运行，源码e40a071已推送/快进同步并冻结，后台独立；GPU0既有V8保持。首轮307步、完整2468 test及best/last/e1有限权重验收通过，后台继续。两项正则系数各0.01，不是将损失减半。私有路径与进程见本地61交接。
+
 ## c0.1/cap/nohook三组补充训练已启动 — 2026-10-20
 
 用户明确确认[60：三组配置与验收](60_C01_CAP_NOHOOK_ABLATIONS_2026-10-20.md)。新服务器GPU0运行V8-B0-32-C01-NOHOOK-FULL9840-TESTSEL（seed22，cap2.3、500/N、2，仅去InverseMetric）；GPU1/2运行原版c0.1与其仅加cap2.3的配对组（seed4780，1000/N、4，均无hook）。三组shuffle32、全9840/2468 test选模、300×307。最终28项CPU合同及三组训练限定2×2 GPU短验收通过，原版配对初始化/数据完全一致，所有首轮test及best/last/检查点已保存；01:46快照V8完成6轮、原版两组各完成2轮。源码分别c78a168/eebaabf，后台持续运行；实际两根目录和进程见私有60交接。首次导入失败与CPU缺依赖均留存，不重复正式任务；旧结果保持。cap+1000/N在N200–217存在理论不可达间隔，已记录，未私改参数。

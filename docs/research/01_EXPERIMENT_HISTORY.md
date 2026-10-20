@@ -1,5 +1,9 @@
 # Experiment history
 
+## 原版c0.1＋cap的margin减半组已启动 — 2026-10-20
+
+用户直接要求[61：原版cap组margin减半](61_ORIGINAL_C01_CAP_HALF_MARGIN_2026-10-20.md)。以已完成ORIG-B0-32-C01-CAP23-S4780为基准，仅改gamma1000→500、delta4→2；保留c0.1/cap2.3/无hook/seed4780、原版shuffle32、完整9840训练/2468 test每轮选best、300×307。32项CPU合同及训练限定2×2 GPU短测通过，初始权重和训练数据身份与完成对照完全一致。11:50在空闲GPU1从头正式运行，源码e40a071已推送/快进同步并冻结，后台独立；GPU0既有V8保持。首轮307步、完整2468 test及best/last/e1有限权重验收通过，后台继续。两项正则系数各0.01，不是将损失减半。私有路径与进程见本地61交接。
+
 ## c0.1/cap/nohook补充三组上线 — 2026-10-20
 
 用户确认每卡一条完整300轮：V8 FULL9840 shuffle32只关hook、保持seed22/cap2.3/gamma500/delta2；两个原版组seed4780/gamma1000/delta4，仅统一c0.1及配对增加cap。新服务器GPU0于01:24:49启动V8，GPU1/2于01:41:54启动原版配对。首轮均307步、2468 test、best/last与有限权重检查通过；01:46各已完成6/2/2轮。28项CPU与三个2×2 train-only smoke通过，原版初始参数/数据身份相同。旧原版源码直接复用train/validate、随机流和BN，未引入V8 margin/RNG；新增V8旧runner仅换反向hook。见[60](60_C01_CAP_NOHOOK_ABLATIONS_2026-10-20.md)及匿名启动验收；私有60保留实际root/PID/runtime与失败重试记录。正式源码c78a168/eebaabf，后续提交仅归档。
