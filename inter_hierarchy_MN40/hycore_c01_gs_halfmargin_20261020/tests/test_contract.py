@@ -58,6 +58,16 @@ class HookContracts(unittest.TestCase):
             self.assertEqual(labels.ravel().tolist(),[1,0])
             self.assertEqual(identity['train']['file_order'],['ply_data_train1.h5','ply_data_train0.h5'])
 
+    def test_transient_gpu_query_failure_never_means_free(self):
+        import subprocess
+        from inter_hierarchy_MN40.hycore_c01_gs_halfmargin_20261020.queue import gpu_observation_or_empty
+        with mock.patch('builtins.print'):
+            for error in (subprocess.TimeoutExpired(['nvidia-smi'], 20),
+                          subprocess.CalledProcessError(1, ['nvidia-smi'])):
+                self.assertEqual(gpu_observation_or_empty(mock.Mock(side_effect=error)), [])
+        rows = [{'index': 2, 'compute_busy': True}]
+        self.assertIs(gpu_observation_or_empty(lambda: rows), rows)
+
     def test_margin_function_unchanged_from_nohook_halfmargin(self):
         import inspect
         self.assertEqual(inspect.getsource(train.half_margin_criterion),inspect.getsource(baseline.half_margin_criterion))

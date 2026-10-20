@@ -18,6 +18,16 @@ def command(variant,data,directory,smoke=False):
     return result
 
 
+
+def gpu_observation_or_empty(query):
+    """Unknown GPU state is not free; retry transient nvidia-smi failures next poll."""
+    try:
+        return query()
+    except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as error:
+        print(json.dumps({'event': 'gpu_query_retry', 'reason': type(error).__name__}), flush=True)
+        return []
+
+
 def main():
     reference=json.loads(Path(os.environ['HYCORE_ORIGINAL_IDENTITY']).read_text())
     expected_train=reference['dataset_identity']['train']
@@ -58,6 +68,8 @@ def main():
         return {'status':'passed','canonical_name':NAME,'source_commit':commit,'train_only_updates':4,
                 'official_test_read':False,'same_initialization_and_training_identity_as_original_cap_baseline':True}
 
+    original_query = manager.query_gpus
+    manager.query_gpus = lambda: gpu_observation_or_empty(original_query)
     manager.VARIANTS=(VARIANT,);manager.NAMES={VARIANT:NAME}
     manager.command=command;manager.cache_data=readonly_data;manager.verify_smoke=verify_smoke
     manager.main()
