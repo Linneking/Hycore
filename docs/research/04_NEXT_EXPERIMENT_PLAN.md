@@ -1,5 +1,11 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-20：统一未来选模/seed，并授权原版GS补充
+
+用户明确指定：今后正式比较使用官方9840训练/2468 test逐轮选best；原版HyCoRe修改线seed4780，版本化V系列seed22。历史验证选模实验保持真实标签，不追溯改成test选模；无早停授权。该直接指令覆盖本文件及既有通用说明中的旧validation偏好。
+
+已直接授权[62：原版c0.1+cap+GS+半margin](62_ORIGINAL_C01_CAP_GS_HALF_MARGIN_2026-10-20.md)，在8001单卡从头300轮。只在完全空闲卡上先train-only短测再正式运行；资源占用时后台等待，不启动其他矩阵。命名改为显式C/CAP/GS/M/选模/seed，见63规范。
+
 ## 2026-10-20：原版c0.1＋cap的margin减半组已获直接授权
 
 用户要求新服务器补充原版HyCoRe c0.1＋cap，margin改为500/N与2。按[61：补充配置](61_ORIGINAL_C01_CAP_HALF_MARGIN_2026-10-20.md)保留官方launcher seed4780、cap2.3、无InverseMetric hook、原版shuffle32/307步/300轮、完整9840训练与每轮2468 test选best。该直接指令授权版本化实现、独立CPU/GPU短验收及从头正式启动；不修改正在运行的V8或已完成原版组，不追加其他条件。两个正则系数仍各0.01。 上线：32项CPU合同及2×2训练限定GPU短测通过，11:50在空闲GPU1从头启动300轮；初始化和训练数据身份匹配已完成cap对照。源码e40a071，正式首轮验收记录见61。
