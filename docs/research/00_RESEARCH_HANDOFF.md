@@ -1,5 +1,7 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+新对话接续：完成AGENTS规定的必读顺序后，阅读[70：当前交接](70_NEW_CHAT_HANDOFF_2026-10-21.md)，其中区分旧V9与最新循环配对，并保留23:27运行快照和继续讨论的入口。
+
 ## V9 whole与代理深度审查完成 — 2026-10-21
 
 [69：图文报告](69_V9_EMBEDDING_REVIEW_2026-10-21/report.md)比较历史原版、原版c0.1/cap/半margin/GS、已完成V9-B64/HIER64及V8-HIER64 TS的best/终点，另附循环配对同e120，共14份固定权重、同9840训练对象clean/eval、11组PNG/SVG。V9代理e300仍512/512贴cap，参数模长中位6.885；V8为510/512、6.915。V9早期e5贴cap378少于V8的510，但e99已全部贴cap，未形成径向层次。V9原始NN4覆盖725、最热四对象槽占6.49%，优于V8的216/32.67%；V8等深度覆盖1025仍高于V9，方向结构不能据此称普遍改善。V9全部512代理在sample和proxy分项都有整轮选择及正hinge非碰撞覆盖，不沿用V7休眠解释。原生whole c1均值/中位/标准差e300为3.888/4.254/1.093，独立HIER视图固定4.6需分域。六项统计测试、同输入/源SHA/模型BN保持及独立数图审查通过；零训练更新、零test前向，审查GPU已释放，循环HIER主训练未改。工具位于diagnostics/v9_embedding_review_20261021，私有路径见忽略的69交接。

@@ -1,0 +1,37 @@
+{
+  "scope": "Only the two cycle experiments; immutable handoff snapshot, not live monitoring",
+  "cycle_off": {
+    "key": "cycle_off",
+    "snapshot_beijing": "2026-10-21T23:27:17.962701+08:00",
+    "status": "completed",
+    "completed_epochs": 300,
+    "best": {
+      "epoch": 223,
+      "selected_by": "test OA strictly higher; first tie retained",
+      "test_aa": 90.57034254074097,
+      "test_ce": 1.8326579104366334,
+      "test_oa": 93.39546191247975
+    },
+    "e300_test": {
+      "test_oa": 92.78768233387358,
+      "test_aa": 90.37848711013794
+    }
+  },
+  "cycle_hier": {
+    "key": "cycle_hier",
+    "snapshot_beijing": "2026-10-21T23:26:44.355551+08:00",
+    "status": "running",
+    "completed_epochs": 140,
+    "best": {
+      "epoch": 91,
+      "selected_by": "test OA strictly higher; first tie retained",
+      "test_aa": 90.74534177780151,
+      "test_ce": 1.7987449346910227,
+      "test_oa": 93.31442463533226
+    },
+    "final_test": null,
+    "heartbeat_epoch": 141,
+    "step": 88,
+    "heartbeat_updated_utc": "2026-10-21T15:26:44.163273+00:00"
+  }
+}
