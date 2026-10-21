@@ -64,6 +64,9 @@ def save(fig: plt.Figure, out: Path, name: str, caption: str) -> dict[str, str]:
     fig.tight_layout(rect=(0, .065, 1, .96))
     for ext in ("png", "svg"):
         fig.savefig(out / f"{name}.{ext}", dpi=180, bbox_inches="tight", facecolor="white")
+        if ext == "svg":
+            path = out / f"{name}.{ext}"
+            path.write_text("\n".join(line.rstrip() for line in path.read_text(encoding="utf-8").splitlines()) + "\n", encoding="utf-8")
     plt.close(fig)
     return {"name": name, "png": name + ".png", "svg": name + ".svg", "caption": caption}
 

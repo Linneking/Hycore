@@ -1,0 +1,118 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V9 whole与代理深度审查</title><style>body{font-family:Segoe UI,Microsoft YaHei,sans-serif;color:#183148;background:#f2f5f8;margin:0;line-height:1.75}main{max-width:1240px;margin:28px auto;background:white;padding:42px 52px;border-radius:14px}h1{font-size:32px}h2{margin-top:48px;border-bottom:2px solid #2b789d;padding-bottom:8px}p,li{font-size:17px}a{color:#0872a2}strong{color:#103c56}figure{margin:32px 0}img{max-width:100%;height:auto}figcaption{font-size:14px;color:#587080}.table-wrap{overflow-x:auto;margin:22px 0}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d6e1e8;padding:9px 12px;text-align:left;white-space:nowrap}th{background:#eaf2f7}tbody tr:nth-child(even){background:#f7fafc}.equation{padding:22px;background:#f5f8fb;font-size:23px}code{background:#edf3f6;padding:1px 5px;border-radius:3px}@media(max-width:800px){main{margin:0;padding:20px}h1{font-size:26px}}</style><main><p><a href="report.md">Markdown原稿</a> · 全部图像与统计来自固定权重冻结审查</p><h1>V9 whole与层次代理的嵌入深度审查</h1>
+<p>日期：2026-10-21。核心比较五组已完成实验，每组best与训练终点各一份；另附循环采样两组同e120及无HIER组best/e300，共14份固定权重。全量测量对象为同一批9840个训练对象。</p>
+<p><strong>V9缓解了原始距离下的热点集中，但没有解决代理贴cap：e300时V8为510/512，V9为512/512。V9代理没有整体进入样本球壳内侧，也未形成可辨认的径向层次。</strong> 原生whole仍存在深度分散；HIER所见whole固定4.6是分支构造，不能当作原生whole学出了球壳。</p>
+<h2>1. 比较对象与测量口径</h2>
+<div class="table-wrap"><table><thead><tr><th>实验</th><th>原生几何／margin</th><th>采样与预算</th><th>HIER输入</th><th>seed</th></tr></thead><tbody>
+<tr><td>历史原版HyCoRe</td><td>c1，无额外cap/GS；1000/N、4</td><td>shuffle32；历史训练含早期resume</td><td>无</td><td>4780</td></tr>
+<tr><td>原版c0.1＋cap＋半margin＋GS</td><td>c0.1，cap2.3、GS；500/N、2</td><td>shuffle32；307步×300轮</td><td>无</td><td>4780</td></tr>
+<tr><td>V9-B64，无HIER</td><td>c1，无额外cap/GS；1000/N、4</td><td>均衡64；200步×300轮</td><td>无</td><td>22</td></tr>
+<tr><td>V9-HIER64</td><td>c1，无额外cap/GS；1000/N、4</td><td>均衡64；200步×300轮</td><td>c0.1固定深度4.6＋分支GS</td><td>22</td></tr>
+<tr><td>V8-HIER64／TS</td><td>c0.1，cap2.3、共享GS；500/N、2</td><td>均衡64；200步×300轮</td><td>原生whole的实际半径</td><td>22</td></tr>
+</tbody></table></div>
+<p>五组均为完整9840训练池、test选模口径；V8使用TS版本，非旧VS984版本。V9-B64与V9-HIER64是相互匹配的HIER整体增量比较；原版c0.1基线与旧V9-B64同时改变几何、margin、seed及训练协议，不能把差异独立归因为batch。最新c0.1循环配对在第7节单列。完整成绩与名称见<a href="../68_ALL_V8_ORIGINAL_V9_EXPERIMENTS_2026-10-21.md">68实验总表</a>。</p>
+<p>测量使用每个对象前1024点、同一排序和相同输入字节、batch32、model.eval()、历史BN、no_grad。未增强、未更新参数、未重新校准BN、未计算任何test输入。best已经事先固定，本次没有再次选模。历史原版best元数据epoch=229、终点=299，保留其0起编号；终点对应完成300轮。</p>
+<p>双曲深度与归一化球坐标半径分别定义为：</p>
+<div class="equation"><math display="block"><msub><mi>d</mi><mn>0</mn></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mfrac><mn>2</mn><msqrt><mi>c</mi></msqrt></mfrac><mi>atanh</mi><mo>(</mo><msqrt><mi>c</mi></msqrt><mo>‖</mo><mi>x</mi><mo>‖</mo><mo>)</mo><mo>,</mo><mspace width="1em"/><mi>q</mi><mo>=</mo><msqrt><mi>c</mi></msqrt><mo>‖</mo><mi>x</mi><mo>‖</mo></math></div>
+<p>跨曲率时分面展示深度，并附q的累积分布；q仅表示相对各自球边界的位置，不等于相同双曲距离或相同表达能力。c0.1的额外cap2.3对应深度4.6；原生c1组没有这一额外上限。贴cap定义为与4.6相差不超过0.001，原生c1组该指标不适用。</p>
+<h2>2. whole的完整深度分布</h2>
+<div class="table-wrap"><table><thead><tr><th>实验</th><th>权重／实际轮次</th><th>c</th><th>均值</th><th>中位数</th><th>标准差</th><th>P5–P95</th><th>最小–最大</th><th>贴cap</th></tr></thead><tbody>
+<tr><td>历史原版HyCoRe</td><td>best／229（原0起）</td><td>1.0</td><td>4.631</td><td>4.607</td><td>0.526</td><td>3.734–5.455</td><td>1.299–6.213</td><td>—</td></tr>
+<tr><td>历史原版HyCoRe</td><td>e300／299（原0起）</td><td>1.0</td><td>4.565</td><td>4.490</td><td>0.508</td><td>3.813–5.456</td><td>1.463–6.047</td><td>—</td></tr>
+<tr><td>原版c0.1＋cap＋半margin＋GS</td><td>best／e184</td><td>0.1</td><td>4.585</td><td>4.600</td><td>0.115</td><td>4.600–4.600</td><td>2.336–4.600</td><td>96.96%</td></tr>
+<tr><td>原版c0.1＋cap＋半margin＋GS</td><td>e300／e300</td><td>0.1</td><td>3.836</td><td>3.837</td><td>0.514</td><td>2.964–4.600</td><td>1.592–4.600</td><td>12.47%</td></tr>
+<tr><td>V9-B64，无HIER</td><td>best／e237</td><td>1.0</td><td>4.293</td><td>4.425</td><td>0.709</td><td>2.896–5.232</td><td>1.609–6.178</td><td>—</td></tr>
+<tr><td>V9-B64，无HIER</td><td>e300／e300</td><td>1.0</td><td>4.039</td><td>4.326</td><td>0.970</td><td>2.120–5.152</td><td>0.869–6.152</td><td>—</td></tr>
+<tr><td>V9-HIER64</td><td>best／e204</td><td>1.0</td><td>4.831</td><td>5.082</td><td>0.858</td><td>2.791–5.727</td><td>1.279–6.213</td><td>—</td></tr>
+<tr><td>V9-HIER64</td><td>e300／e300</td><td>1.0</td><td>3.888</td><td>4.254</td><td>1.093</td><td>1.513–5.087</td><td>0.930–6.213</td><td>—</td></tr>
+<tr><td>V8-HIER64／TS</td><td>best／e297</td><td>0.1</td><td>3.906</td><td>3.881</td><td>0.338</td><td>3.400–4.600</td><td>2.601–4.600</td><td>6.05%</td></tr>
+<tr><td>V8-HIER64／TS</td><td>e300／e300</td><td>0.1</td><td>3.841</td><td>3.802</td><td>0.323</td><td>3.351–4.508</td><td>2.537–4.600</td><td>3.56%</td></tr>
+</tbody></table></div>
+<figure><img alt="图1：原生whole深度，按曲率和best/e300分面" src="figures/01_native_whole_depth.png"><figcaption>图1：原生whole深度，按曲率和best/e300分面</figcaption></figure>
+<figure><img alt="图2：原生whole归一化球半径的累积分布" src="figures/02_normalized_radius_ecdf.png"><figcaption>图2：原生whole归一化球半径的累积分布</figcaption></figure>
+<p><strong>在共同e300，V9-HIER64的原生whole均值3.888、中位数4.254、标准差1.093；匹配无HIER对照为4.039、4.326、0.970。</strong> 这份固定读出中，加入HIER后原生whole平均略浅，分布更宽，没有变成薄壳。HIER视图仅保留方向，并不保证共享网络更新后原生半径不变。</p>
+<p>best与末轮也有明显差别：V9-HIER64的原生whole均值4.831→3.888，中位数5.082→4.254；高表现的原版c0.1基线best贴cap96.96%，末轮只有12.47%。因此不能只凭某一份best或末轮概括整个训练过程，也不能把这些跨checkpoint差异全部归因于BN：这里网络权重和BN状态都随训练变化，本次没有做新的BN因果干预。</p>
+<h2>3. V9代理是否进入球壳内部</h2>
+<p>V9包含原生c1 whole与独立c0.1 HIER视图两个域。代理只与同域的HIER视图比较：</p>
+<div class="equation"><math display="block"><msub><mi>d</mi><mn>0</mn></msub><mo>(</mo><mover><mi>μ</mi><mo>^</mo></mover><mo>)</mo><mo>=</mo><mn>4.6</mn><mo>,</mo><mspace width="1em"/><msub><mi>c</mi><mi>HIER</mi></msub><mo>=</mo><mn>0.1</mn></math></div>
+<div class="table-wrap"><table><thead><tr><th>实验</th><th>权重</th><th>HIER whole中位深度</th><th>代理深度最小–最大</th><th>代理深度标准差</th><th>贴cap代理</th><th>参数模长中位数</th><th>参数模长最小–最大</th></tr></thead><tbody>
+<tr><td>V8-HIER64／TS</td><td>best</td><td>3.881</td><td>4.071713–4.599994</td><td>3.15e-02</td><td>510/512</td><td>6.933</td><td>2.036–7.206</td></tr>
+<tr><td>V8-HIER64／TS</td><td>e300</td><td>3.802</td><td>4.084300–4.599994</td><td>3.08e-02</td><td>510/512</td><td>6.915</td><td>2.042–7.184</td></tr>
+<tr><td>V9-HIER64</td><td>best</td><td>4.600</td><td>4.599993–4.599996</td><td>6.18e-07</td><td>512/512</td><td>8.051</td><td>6.557–8.465</td></tr>
+<tr><td>V9-HIER64</td><td>e300</td><td>4.600</td><td>4.599992–4.599994</td><td>2.98e-07</td><td>512/512</td><td>6.885</td><td>5.770–7.232</td></tr>
+</tbody></table></div>
+<figure><img alt="图3：同c0.1域内的whole视图与代理深度" src="figures/03_hier_whole_proxy_depth.png"><figcaption>图3：同c0.1域内的whole视图与代理深度</figcaption></figure>
+<figure><img alt="图4：截断前参数模长与截断后实际代理深度" src="figures/04_proxy_parameter_output.png"><figcaption>图4：截断前参数模长与截断后实际代理深度</figcaption></figure>
+<p><strong>V9在best和e300的512个代理全贴cap。</strong> e300代理深度约4.599992–4.599994，标准差仅约3×10⁻⁷，属于数值薄壳，不能把这些浮点微差读作代理分层。其保存参数模长却在5.770–7.232，中位数6.885，远大于2.3。前向cap把这些不同模长压到几乎相同的输出半径。</p>
+<p>与V8相比，V9末轮参数模长中位数6.885与V8的6.915接近；V8尚有两个内部代理，V9则没有。<strong>本次证据不支持V9改善了代理的径向分布。</strong> cap是上界，没有保证代理严格浅于whole；固定whole视图也没有阻止代理进入cap区。</p>
+<h2>4. 代理是什么时候撞cap的</h2>
+<div class="table-wrap"><table><thead><tr><th>轮次</th><th>V8贴cap代理</th><th>V9贴cap代理</th><th>V8参数模长中位数</th><th>V9参数模长中位数</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>0</td><td>2.069</td><td>2.069</td></tr>
+<tr><td>1</td><td>194</td><td>196</td><td>2.054</td><td>2.029</td></tr>
+<tr><td>5</td><td>510</td><td>378</td><td>2.976</td><td>2.742</td></tr>
+<tr><td>20</td><td>510</td><td>509</td><td>5.129</td><td>4.655</td></tr>
+<tr><td>40</td><td>510</td><td>509</td><td>7.653</td><td>7.281</td></tr>
+<tr><td>99</td><td>510</td><td>512</td><td>9.909</td><td>9.772</td></tr>
+<tr><td>100</td><td>510</td><td>512</td><td>9.905</td><td>9.773</td></tr>
+<tr><td>300</td><td>510</td><td>512</td><td>6.915</td><td>6.885</td></tr>
+</tbody></table></div>
+<figure><img alt="图10：固定轮末权重中的代理深度与参数模长轨迹" src="figures/10_checkpoint_proxy_trajectories.png"><figcaption>图10：固定轮末权重中的代理深度与参数模长轨迹</figcaption></figure>
+<figure><img alt="图11：轮末代理深度与截断前参数模长热图" src="figures/11_checkpoint_proxy_heatmaps.png"><figcaption>图11：轮末代理深度与截断前参数模长热图</figcaption></figure>
+<p>两组从完全相同的代理初始化起步：e0参数模长中位数2.069、深度中位数4.137。V9在e5只有378个贴cap，少于V8的510个，说明早期饱和确实延缓；但e20已有509个，e99存档已512个，后续存档一直为512。只能确定这些存档时刻，未还原每个代理首次越界的精确step。</p>
+<p>两组参数模长在中期约增至9.8–9.9，末期回落至约6.9。<strong>并非整个训练一直向外增长；晚期虽然回缩，仍未回到2.3以内，因此输出深度继续贴cap。</strong> 本次没有分离V9的即时梯度、Adam历史状态及weight decay贡献，不能仅凭轨迹把原因定为学习率过大、eps或某一个损失项。<a href="../57_V8_CAP_AND_WHOLE_CAUSES_2026-10-18/report.md">57的干预证据</a>可作为候选机制背景，不能替代对V9的直接干预。</p>
+<h2>5. 贴cap是否等于代理没有被训练</h2>
+<div class="table-wrap"><table><thead><tr><th>实验</th><th>权重</th><th>sample曾选中</th><th>sample正hinge且非碰撞曾选中</th><th>proxy曾选中</th><th>sample选择有效数量</th><th>proxy选择有效数量</th><th>最集中代理占proxy选择比例</th></tr></thead><tbody>
+<tr><td>V8-HIER64／TS</td><td>best</td><td>512</td><td>512</td><td>512</td><td>315.3</td><td>108.4</td><td>30.52%</td></tr>
+<tr><td>V8-HIER64／TS</td><td>e300</td><td>512</td><td>512</td><td>512</td><td>311.3</td><td>106.5</td><td>30.90%</td></tr>
+<tr><td>V9-HIER64</td><td>best</td><td>512</td><td>512</td><td>512</td><td>286.8</td><td>274.9</td><td>4.59%</td></tr>
+<tr><td>V9-HIER64</td><td>e300</td><td>512</td><td>512</td><td>512</td><td>263.6</td><td>270.8</td><td>4.59%</td></tr>
+</tbody></table></div>
+<p>这里的“有效数量”是选择频率熵的指数，反映分配均匀度，不是有梯度的代理数量；“正hinge且非碰撞”单列为真实训练关系条件，也不能直接证明其径向梯度非零。整轮pair与triple角色的硬选择次数合并统计，源自该checkpoint对应的真实训练轮，非冻结特征重新抽样。</p>
+<p>V8、V9的best与e300，sample与proxy分项均选中过全部512代理，sample正hinge且非碰撞集合也覆盖512个。<strong>当前V9问题是代理全部压在同一径向壳上，不能套用V7“深层代理大量休眠”的解释。</strong> 选择到代理和代理获得有效径向位置更新是不同的问题。</p>
+<figure><img alt="图5：代理ID、深度与对应训练轮祖先选择" src="figures/05_proxy_id_and_usage.png"><figcaption>图5：代理ID、深度与对应训练轮祖先选择</figcaption></figure>
+<figure><img alt="图7：真实训练首批的whole、HIER视图和代理快照" src="figures/07_actual_training_trajectories.png"><figcaption>图7：真实训练首批的whole、HIER视图和代理快照</figcaption></figure>
+<figure><img alt="图8：真实训练首批的代理深度与选择热图" src="figures/08_training_proxy_heatmaps.png"><figcaption>图8：真实训练首批的代理深度与选择热图</figcaption></figure>
+<p>图7–8仅使用保存的首个global64训练前向，位置处于该轮第一次optimizer更新之前；它们不是9840个唯一对象的全量分布。图10–11使用轮末固定权重的代理深度与参数模长；整轮祖先选择见图5及第5节表。两类时点不混用。V8 TS没有同格式首批快照，所以首批图不伪造V8曲线；其代理历史从固定权重恢复。图7–8中的cycle_hier仅截至e120，仍在训练，不作末轮比较。</p>
+<h2>6. 热点缓解是否意味着代理学出了更好的层次</h2>
+<div class="table-wrap"><table><thead><tr><th>实验</th><th>权重</th><th>实际NN4覆盖</th><th>等whole深度覆盖</th><th>最大重复四例／512</th><th>最热四对象槽位占比</th><th>HIER所见whole最浅1%槽位占比</th><th>代理方向集中度R</th></tr></thead><tbody>
+<tr><td>V8-HIER64／TS</td><td>best</td><td>221</td><td>1077</td><td>61</td><td>36.57%</td><td>72.22%</td><td>0.412</td></tr>
+<tr><td>V8-HIER64／TS</td><td>e300</td><td>216</td><td>1025</td><td>36</td><td>32.67%</td><td>71.92%</td><td>0.412</td></tr>
+<tr><td>V9-HIER64</td><td>best</td><td>584</td><td>584</td><td>6</td><td>9.18%</td><td>不适用：全部同壳</td><td>0.616</td></tr>
+<tr><td>V9-HIER64</td><td>e300</td><td>725</td><td>725</td><td>7</td><td>6.49%</td><td>不适用：全部同壳</td><td>0.625</td></tr>
+</tbody></table></div>
+<figure><img alt="图6：原始距离、等深度与纯方向的NN4覆盖及热点" src="figures/06_reverse_nn4_coverage.png"><figcaption>图6：原始距离、等深度与纯方向的NN4覆盖及热点</figcaption></figure>
+<p>NN4是在完整9840候选池中，每个代理检索4个不同对象，总计2048个槽位；覆盖数不是训练时被使用对象的总数。比较使用与训练一致的官方FP32距离，包括Mobius分母的1e−5稳定项；另算等深度和方向夹角近邻。最浅1%按HIER所见whole深度排序：V8等于原生whole，V9是固定壳视图，因此V9该列没有径向意义；并不是说V9原生c1 whole没有深浅差异。</p>
+<p>共同e300时，V8实际覆盖216→V9的725，最热四对象槽位占比32.67%→6.49%，最大重复四例36→7，热点集中明显缓解。V9三种近邻的覆盖都为725，且本次逐代理四例集合也一致：HIER视图已同壳，径向深浅不再改变这份近邻排序。</p>
+<p>但V8冻结表示仅统一whole深度就能覆盖1025个对象，高于V9的725；V9代理方向集中度R也从V8的0.412升至0.625。<strong>因此可以说V9降低了原始径向偏置下的热点，不能说它已经学习到更分散、更丰富的代理方向或径向层级。</strong> V8→V9还同时改变基础几何与GS路径，不据此独立归因每个开关。</p>
+<p>全部V9代理均在真实训练中使用，其最近类别方向中心夹角中位数仍约76.5°；这只是高维角度指标，不能直接解释成“完全不绑定类别”。e300有342/512代理的NN4四例同类，而V8原始距离为196/512、等深度为301/512。方向角度、类别局部纯度、径向祖先关系需分别解释。分类别统计及逐代理角度见附表。</p>
+<p>分类准确率也没有随这些结构指标自动改善：沿用已有正式记录，V9-HIER64 best test OA93.314%，匹配B64为93.436%；e300分别88.452%与91.167%。本次没有重新测试或据test挑选诊断条件。</p>
+<h2>7. 最新c0.1循环配对：只看同e120</h2>
+<div class="table-wrap"><table><thead><tr><th>实验</th><th>固定存档</th><th>原生whole均值</th><th>中位数</th><th>标准差</th><th>贴cap比例</th></tr></thead><tbody>
+<tr><td>c0.1循环B64，无HIER</td><td>e120</td><td>4.544</td><td>4.600</td><td>0.219</td><td>89.48%</td></tr>
+<tr><td>c0.1循环HIER64（中途）</td><td>e120</td><td>4.384</td><td>4.600</td><td>0.376</td><td>59.73%</td></tr>
+</tbody></table></div>
+<figure><img alt="图9：循环采样两组同e120中途比较" src="figures/09_cycle_interim.png"><figcaption>图9：循环采样两组同e120中途比较</figcaption></figure>
+<p>这对实验保留c0.1、cap2.3、半margin、GS、seed4780和300步/轮，共同e120更适合检查HIER增量。此时HIER组原生whole贴cap59.73%，无HIER为89.48%；HIER组仍有511/512代理贴cap，参数模长中位数9.856，NN4覆盖786。说明这个较早存档也没有看到代理整体进入壳内。HIER组仍在训练，不能与另一组最终300轮成绩混作完成配对。</p>
+<p>循环无HIER组已完成300轮，其whole均值3.795、中位数3.787、标准差0.379；对应单卡c0.1基线为3.836、3.837、0.514。它们几何与seed一致，但还改变类别均衡、循环采样、全局负例和307→300步，应称训练batch构建协议效应。</p>
+<h2>8. 与原版HIER的已有审查交叉验证</h2>
+<div class="table-wrap"><table><thead><tr><th>原版HIER训练集best</th><th>whole深度</th><th>代理深度中位数</th><th>越cap参数个数</th></tr></thead><tbody>
+<tr><td>CUB</td><td>约4.6，极薄壳</td><td>4.247</td><td>9/512</td></tr>
+<tr><td>Cars</td><td>约4.6，极薄壳</td><td>4.094</td><td>1/512</td></tr>
+<tr><td>SOP</td><td>约4.6，极薄壳</td><td>4.600</td><td>497/512</td></tr>
+</tbody></table></div>
+<p>此表复用<a href="../45_ORIGINAL_HIER_BEST_GEOMETRY_AUDIT_2026-10-08.md">45原版HIER几何审查</a>与<a href="../46_ORIGINAL_HIER_SOP_MECHANISM_AND_ACTIVATION_2026-10-08.md">46机制审查</a>，没有重新前向图像。SOP与V9共同说明：样本都在球壳上，并不足以保证代理形成浅层分布；CUB/Cars的浅代理不能仅由“whole成壳”解释。网络、基础目标、数据方向结构和优化轨迹仍需考虑。</p>
+<h2>9. 对下一步修改的实际含义</h2>
+<ul>
+<li>保留固定视图可作为隔离whole径向近邻偏置的工具，本次已看到原始热点减轻。</li>
+<li>若目标是可解释的径向祖先层次，下一步关键是代理自身的优化与径向约束；继续只调整whole球壳并不能由本次证据保证成功。</li>
+<li>候选机制应区分“参数越过cap后输出径向受限”与“同壳上的角向冗余”。先用固定特征和固定关系，对代理更新及Adam历史状态做配对干预，比直接再增加一轮完整训练更能定位原因。</li>
+<li>本次未启动任何新训练、未改已有参数或BN，也未提前终止循环HIER主训练。</li>
+</ul>
+<h2>附表、复现与证据</h2>
+<ul>
+<li><a href="stats.csv">全部径向统计CSV</a>：含上下界、P1/P5/P25/P50/P75/P95/P99、方差与cap率。</li>
+<li><a href="class_stats.csv">分类别whole统计CSV</a>、<a href="proxy_stats.csv">逐代理统计CSV</a>、<a href="hotspots.csv">匿名热点统计CSV</a>。</li>
+<li><a href="proxy_history_summary.csv">代理训练历史CSV</a>、<a href="training_history_summary.csv">整轮训练深度与使用数量CSV</a>、<a href="summary.json">匿名完整概要JSON</a>、<a href="acceptance.json">验收与权重身份</a>。</li>
+<li><a href="../diagnostics/v9_embedding_review_20261021/README.md">独立工具与说明</a>。采集、分析、绘图分离；6项统计契约及真实输入格式联调通过，图像检查修正了浮点噪声自动放大。</li>
+<li>14份权重均验证源SHA与冻结前向前后网络/BN状态不变；三组导出的训练点字节哈希一致；零backward、零optimizer更新、零test前向。CPU历史检查读取前后源文件状态一致，未构造网络或初始化CUDA。</li>
+<li>原始权重、完整嵌入和样本身份留在私有诊断目录；Git只保存工具、匿名统计与图文。图像同时提供PNG与SVG。</li>
+</ul></main></html>

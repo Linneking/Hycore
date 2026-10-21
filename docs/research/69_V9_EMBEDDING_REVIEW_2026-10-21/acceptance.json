@@ -1,0 +1,166 @@
+{
+  "format": "v9-embedding-audit-acceptance-1",
+  "fixed_checkpoint_count": 14,
+  "canonical_training_objects": 9840,
+  "matching_input_sha256": "dc82f898decf86fed478184b9a6e72f8fa95d4165b0150a449a2fa5e178f27f7",
+  "conditions": {
+    "clean_first1024": true,
+    "eval_historical_BN": true,
+    "evaluation_batch_size": 32,
+    "BN_recalibrated": false,
+    "optimizer_updates": 0,
+    "backward_calls": 0,
+    "test_forward_calls": 0,
+    "all_source_read_checks_passed": true,
+    "all_model_BN_unchanged": true
+  },
+  "observations": [
+    {
+      "key": "orig_history",
+      "stage": "best",
+      "epoch": 229,
+      "checkpoint_sha256": "8bfdd3f721e41a97a89a9d6ba590c457861f1dbc50536ab8fda796aa5706cfdb",
+      "measured_checkpoint_sha256": "9ca95e030683ad148e08ede13d32fa41b9d799b784dce7c3ba5d2e81a5393285",
+      "native_c_observed": 1
+    },
+    {
+      "key": "orig_history",
+      "stage": "e300",
+      "epoch": 299,
+      "checkpoint_sha256": "5764c7c312fc032ee6bcd2ce725874fef66ecf82a085bf2eb4b1beb0580ff62c",
+      "measured_checkpoint_sha256": "f0023d8026d20aed47240e327bae0f67177f958de3f1fdb396ae7476eb03230c",
+      "native_c_observed": 1
+    },
+    {
+      "key": "v9_b64",
+      "stage": "best",
+      "epoch": 237,
+      "checkpoint_sha256": "693ba0e01dff61349ea927b93aab444083ce454809e830c7b0d01355225f0f2f",
+      "measured_checkpoint_sha256": "693ba0e01dff61349ea927b93aab444083ce454809e830c7b0d01355225f0f2f",
+      "native_c_observed": 1
+    },
+    {
+      "key": "v9_b64",
+      "stage": "e300",
+      "epoch": 300,
+      "checkpoint_sha256": "67db7715731ff0dda1aaf811eb60ea15635e3cb72fd048c817eca3014875e8c2",
+      "measured_checkpoint_sha256": "67db7715731ff0dda1aaf811eb60ea15635e3cb72fd048c817eca3014875e8c2",
+      "native_c_observed": 1
+    },
+    {
+      "key": "v9_hier",
+      "stage": "best",
+      "epoch": 204,
+      "checkpoint_sha256": "ba03052d7a16fa0c59e422f3d5127eda6e4e2ffd133b87b53d9a27224ae8a755",
+      "measured_checkpoint_sha256": "17964501f9659458c1bd917cf544730b139631ebf0cafccc910caf4ab8d15ed2",
+      "native_c_observed": 1
+    },
+    {
+      "key": "v9_hier",
+      "stage": "e300",
+      "epoch": 300,
+      "checkpoint_sha256": "01c98d3977058cb055f0ee92668b7181dab03308fca5f1890f1473e73933ce21",
+      "measured_checkpoint_sha256": "dac7e64c580b3bda57ac1ede98d915eff6e88cd15bb53cb9e9fbd43d75a8d10b",
+      "native_c_observed": 1
+    },
+    {
+      "key": "v8_hier",
+      "stage": "best",
+      "epoch": 297,
+      "checkpoint_sha256": "fb5a9ea62809d123e6be08eb2a63f85c7663dbc3901346df759cb818d6fb4ef3",
+      "measured_checkpoint_sha256": "fb5a9ea62809d123e6be08eb2a63f85c7663dbc3901346df759cb818d6fb4ef3",
+      "native_c_observed": 0.1000000536441803
+    },
+    {
+      "key": "v8_hier",
+      "stage": "e300",
+      "epoch": 300,
+      "checkpoint_sha256": "5f4050700c52713462c1dd8be3225a8d7918df66af846ca5fb11df474d64fb63",
+      "measured_checkpoint_sha256": "5f4050700c52713462c1dd8be3225a8d7918df66af846ca5fb11df474d64fb63",
+      "native_c_observed": 0.1000000536441803
+    },
+    {
+      "key": "cycle_hier",
+      "stage": "e120",
+      "epoch": 120,
+      "checkpoint_sha256": "b69467d5c6909babb4e03a8c31c9f5c66ea0596a637a27d52f0fb20f950ac2ac",
+      "measured_checkpoint_sha256": "fa30ab5d3c4fbae6d635522d13001873efded198616297da7d062b875f33aa48",
+      "native_c_observed": 0.1000000536441803
+    },
+    {
+      "key": "orig_c01_gs",
+      "stage": "best",
+      "epoch": 184,
+      "checkpoint_sha256": "70eb67621ccab8437a13347554193b98270bdf6748fcd3ce24c7bd4ac5e66bf7",
+      "measured_checkpoint_sha256": "70eb67621ccab8437a13347554193b98270bdf6748fcd3ce24c7bd4ac5e66bf7",
+      "native_c_observed": 0.1000000536441803
+    },
+    {
+      "key": "orig_c01_gs",
+      "stage": "e300",
+      "epoch": 300,
+      "checkpoint_sha256": "b79371acfc6a9c2728997d97ebb90fb31fda6e6bfdce28d775d7b7f0204d6a1a",
+      "measured_checkpoint_sha256": "b79371acfc6a9c2728997d97ebb90fb31fda6e6bfdce28d775d7b7f0204d6a1a",
+      "native_c_observed": 0.1000000536441803
+    },
+    {
+      "key": "cycle_off",
+      "stage": "best",
+      "epoch": 223,
+      "checkpoint_sha256": "3339c107586fddf09526422a9d771f0073565dcfb4e34ff9178af0472f12906c",
+      "measured_checkpoint_sha256": "3339c107586fddf09526422a9d771f0073565dcfb4e34ff9178af0472f12906c",
+      "native_c_observed": 0.1000000536441803
+    },
+    {
+      "key": "cycle_off",
+      "stage": "e300",
+      "epoch": 300,
+      "checkpoint_sha256": "8071ea927211e95bbe47adf94f6cdd354f8748604e0d1f1ff5747f16eb80b658",
+      "measured_checkpoint_sha256": "8071ea927211e95bbe47adf94f6cdd354f8748604e0d1f1ff5747f16eb80b658",
+      "native_c_observed": 0.1000000536441803
+    },
+    {
+      "key": "cycle_off",
+      "stage": "e120",
+      "epoch": 120,
+      "checkpoint_sha256": "dc76883fcbc5f286d11f08fbd462a29a15071e7b26d3e9520b9a7dafffbb617c",
+      "measured_checkpoint_sha256": "dc76883fcbc5f286d11f08fbd462a29a15071e7b26d3e9520b9a7dafffbb617c",
+      "native_c_observed": 0.1000000536441803
+    }
+  ],
+  "nn4_sets_equal_checks": {
+    "v9_hier_best.npz": {
+      "raw_equals_equal": true,
+      "raw_equals_angular": true
+    },
+    "v9_hier_e300.npz": {
+      "raw_equals_equal": true,
+      "raw_equals_angular": true
+    },
+    "cycle_hier_e120.npz": {
+      "raw_equals_equal": true,
+      "raw_equals_angular": true
+    }
+  },
+  "initial_proxy_identity": {
+    "v8": {
+      "key": "v8_hier",
+      "proxy_initial_sha256": "7c445a59840ee0994548b3cf2bbeb10510cd3bd59879448f778ba56d678ad1d9",
+      "CUDA_initialized": false
+    },
+    "v9": {
+      "key": "v9_hier",
+      "proxy_initial_sha256": "7c445a59840ee0994548b3cf2bbeb10510cd3bd59879448f778ba56d678ad1d9",
+      "CUDA_initialized": false
+    }
+  },
+  "independent_review": {
+    "numerical_CSV_JSON_consistency": true,
+    "domain_and_stage_labels_reviewed": true,
+    "figure_physical_scale_checked": true,
+    "required_corrections_applied": [
+      "HIER-view shallowest-percentile label",
+      "Figure11 shows parameter norms, not epoch selections"
+    ]
+  }
+}

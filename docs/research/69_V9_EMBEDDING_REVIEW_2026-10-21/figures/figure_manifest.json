@@ -1,0 +1,73 @@
+{
+  "figures": [
+    {
+      "name": "01_native_whole_depth",
+      "png": "01_native_whole_depth.png",
+      "svg": "01_native_whole_depth.svg",
+      "caption": "Curvatures are separated. Different best epochs are descriptive; e300 is the common training endpoint. Histogram spikes include cap point masses."
+    },
+    {
+      "name": "02_normalized_radius_ecdf",
+      "png": "02_normalized_radius_ecdf.png",
+      "svg": "02_normalized_radius_ecdf.svg",
+      "caption": "q compares position relative to each ball boundary. Equal q across different curvatures does not imply equal hyperbolic distance or equivalent representation capacity."
+    },
+    {
+      "name": "03_hier_whole_proxy_depth",
+      "png": "03_hier_whole_proxy_depth.png",
+      "svg": "03_hier_whole_proxy_depth.svg",
+      "caption": "V9 HIER whole depth is fixed by construction, not learned. Compare proxies to the HIER view in the same c=0.1 domain; native c=1 whole is a different representation."
+    },
+    {
+      "name": "04_proxy_parameter_output",
+      "png": "04_proxy_parameter_output.png",
+      "svg": "04_proxy_parameter_output.svg",
+      "caption": "The vertical threshold is tangent cap 2.3; output cap depth is 4.6. Selected means hard ancestor usage in the supplied measurement window, not every source of gradient."
+    },
+    {
+      "name": "05_proxy_id_and_usage",
+      "png": "05_proxy_id_and_usage.png",
+      "svg": "05_proxy_id_and_usage.svg",
+      "caption": "Proxy IDs are aligned within each run, not between independently trained runs. Zero hard selections do not imply zero straight-through or query-endpoint gradients."
+    },
+    {
+      "name": "06_reverse_nn4_coverage",
+      "png": "06_reverse_nn4_coverage.png",
+      "svg": "06_reverse_nn4_coverage.svg",
+      "caption": "NN4 coverage is a reverse full-pool retrieval statistic, not a measure of training activation. Equal-depth and angular variants are frozen controls, not retrained models."
+    },
+    {
+      "name": "07_actual_training_trajectories",
+      "png": "07_actual_training_trajectories.png",
+      "svg": "07_actual_training_trajectories.svg",
+      "caption": "Each point uses the stored first training batch (64 positions), before that batch's optimizer step. It is not an epoch-end checkpoint or a clean/eval full-pool distribution. Native curvatures can differ."
+    },
+    {
+      "name": "08_training_proxy_heatmaps",
+      "png": "08_training_proxy_heatmaps.png",
+      "svg": "08_training_proxy_heatmaps.svg",
+      "caption": "These are first-batch pre-optimizer proxy states, not epoch-end archive weights. Columns preserve proxy identity within a run. Counts describe only the supplied first-batch selection window."
+    },
+    {
+      "name": "09_cycle_interim",
+      "png": "09_cycle_interim.png",
+      "svg": "09_cycle_interim.svg",
+      "caption": "INTERIM comparison at the same e120 only. The HIER run was still training when collected; this is not its best or final result. Shared c=0.1 does not remove differences from original V9 sampling/seed."
+    },
+    {
+      "name": "10_checkpoint_proxy_trajectories",
+      "png": "10_checkpoint_proxy_trajectories.png",
+      "svg": "10_checkpoint_proxy_trajectories.svg",
+      "caption": "These proxy states come from archived epoch-end weights, not first-batch pre-optimizer snapshots in Figures 07-08. Epoch 0 denotes initialization if supplied. Cycle observations are incomplete runs."
+    },
+    {
+      "name": "11_checkpoint_proxy_heatmaps",
+      "png": "11_checkpoint_proxy_heatmaps.png",
+      "svg": "11_checkpoint_proxy_heatmaps.svg",
+      "caption": "Column identity is preserved within each run. Output depth and pre-cap parameter norm are different measurements. Archive time points must not be interpreted as first-batch states of the same numbered epoch."
+    }
+  ],
+  "warnings": [],
+  "observations": 14,
+  "core_observations": 10
+}
