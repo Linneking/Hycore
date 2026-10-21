@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 原版c0.1循环B64与固定壳HIER配对已正式运行 — 2026-10-21
+
+用户确认原版c0.1/cap2.3/GS1/500_N与2/seed4780底座，双卡global64类别均衡循环抽样、跨轮保留游标、300轮×300步；HIER只看深度4.6的pre-base-GS whole视图，两条路径各一次GS。更耗时HIER组在8001 GPU1/2于13:02:54启动，无HIER对照在8000 GPU0/1于13:03:09启动，均从头且独立后台。源码c0d2c89已推送/快进/冻结；39项CPU与Gloo参考梯度、train-only2×2短测及正式首轮验收通过：300更新/完整2468 test/有限best-last-e1/BN600/每类480例次。初始网络与原底座一致，两组数据及首批增强输入完全匹配，首轮8959不同对象，恢复队列后首两轮累计9840。保持TS、不earlystop。见[67：方案与上线](67_ORIGINAL_C01_CYCLE300_HIER_PAIR_2026-10-21.md)及匿名验收JSON；私有路径/PID见忽略的67工程交接。旧c1 V9与这些ORIG c0.1派生组不混称。
+
 ## V9-B64匹配对照与官方c1全新复现已启动 — 2026-10-21
 
 用户授权双卡V9-B64，并明确确认余下一卡从头重跑官方c1 S4780。8000 GPU0/1于00:55:07启动V9-B64，c1/无额外cap或GS/1000/N与4/seed22、global64类别均衡、300×200、全9840/2468 test选best；HIER视图、损失和代理零构造零调用。GPU2于00:59:06启动官方c1 R2，seed4780、shuffle32/307×300/workers8/eval16、官方构造/train/validate/持续随机流，不加cap/GS，不resume。两组均不earlystop，不追加此前seed22高表现组复核。

@@ -1,0 +1,137 @@
+{
+  "scope": "Reviewed aggregate startup evidence; no sample IDs, point clouds, weights or raw logs",
+  "production_commit": "c0d2c894dcd9de6d5272597011609fc2fd720621",
+  "both_accepted": true,
+  "matching_initial_weights": true,
+  "matching_training_points": true,
+  "matching_first_inputs": true,
+  "baseline_initial_digest_matches_original": true,
+  "arms": [
+    {
+      "role": "B64 no HIER",
+      "server_label": "8000",
+      "gpus": [
+        0,
+        1
+      ],
+      "accepted": true,
+      "checked_utc": "2026-10-21T05:07:06.885687+00:00",
+      "commit": "c0d2c894dcd9de6d5272597011609fc2fd720621",
+      "canonical_name": "ORIG-B64-C0.1-CAP2.3-GS1-M500_2-CYCLE300-TS-S4780",
+      "started_utc": "2026-10-21T05:03:09.180560+00:00",
+      "hier_enabled": false,
+      "cpu_unit_checks": 39,
+      "gloo_global64_gradient_reference": true,
+      "train_only_smoke_updates": 4,
+      "smoke_and_production_e0_tensors_equal": true,
+      "original_initial_state_digest": "8926765a4842652b751873fb89aa37d24d9b0f4f2d831d853b9cc0c1cd46472d",
+      "initial_model_hash": "4843e1eba1a3bd90639274a728cc1a70ff3c3350998f494767d838265a94252a",
+      "train_labels_sha256": "2c1052c604c4379a4b8452ddf3e7beee2e5471269eba8bd660d5f2c630613d89",
+      "train_points_sha256": "c5ebc3dff09c24431ce2304f1c454719509b14d96be3f41e51ba833d7722b804",
+      "selection_labels_sha256": "51a870948420ac011793a54e04d0b0c7341809a3b0295dfba1c7ba450131a576",
+      "first_batch_identity": {
+        "child_count": 543,
+        "ids_sha256": "4d7fefa4d3f6b831cf61bff9dad998aa762c6cbc945b7c00718028dbc4e791ab",
+        "labels_sha256": "b9efb6228ab711bde54e3c9979847249046f27c06a4610b16ef4ded40c74715c",
+        "rank_augmented_cloud_sha256": [
+          "011b1e8a54ac65b62589404df3da02ea21dbe63c881e5623728f0a506d537e7f",
+          "87e42ae1523d82d5353a6e37dabe57514c7e838e800e62504c8a22c76933a916"
+        ],
+        "whole_count": 989
+      },
+      "first_epoch": {
+        "optimizer_updates": 300,
+        "test_count": 2468,
+        "test_oa": 58.306320907617504,
+        "sample_positions": 19200,
+        "unique_objects": 8959,
+        "per_class_draws_min": 480,
+        "per_class_draws_max": 480,
+        "BN": [
+          {
+            "rank": 0,
+            "BN_layers": 38,
+            "BN_counter": 600
+          },
+          {
+            "rank": 1,
+            "BN_layers": 38,
+            "BN_counter": 600
+          }
+        ],
+        "proxy_adam_steps": null,
+        "proxy_replica_max_difference": null,
+        "network_and_optimizer_finite": true,
+        "both_sampler_states_equal": true,
+        "restored_two_epoch_cumulative_unique": 9840,
+        "HIER_view_max_depth_error": null,
+        "wall_seconds": 118.87386374908965,
+        "checkpoint_sha256": "1c598565ecf888e82922fe901c58d70414ea72e055e7522bf787fb1ac1e578f7",
+        "best_last_e1_saved": true
+      }
+    },
+    {
+      "role": "Fixed-shell HIER",
+      "server_label": "8001",
+      "gpus": [
+        1,
+        2
+      ],
+      "accepted": true,
+      "checked_utc": "2026-10-21T05:07:06.236371+00:00",
+      "commit": "c0d2c894dcd9de6d5272597011609fc2fd720621",
+      "canonical_name": "ORIG-HIER64-K20-W0-C0.1-CAP2.3-GSbase1-GShier1-H4.6-M500_2-CYCLE300-TS-S4780",
+      "started_utc": "2026-10-21T05:02:54.323764+00:00",
+      "hier_enabled": true,
+      "cpu_unit_checks": 39,
+      "gloo_global64_gradient_reference": true,
+      "train_only_smoke_updates": 4,
+      "smoke_and_production_e0_tensors_equal": true,
+      "original_initial_state_digest": "8926765a4842652b751873fb89aa37d24d9b0f4f2d831d853b9cc0c1cd46472d",
+      "initial_model_hash": "4843e1eba1a3bd90639274a728cc1a70ff3c3350998f494767d838265a94252a",
+      "train_labels_sha256": "2c1052c604c4379a4b8452ddf3e7beee2e5471269eba8bd660d5f2c630613d89",
+      "train_points_sha256": "c5ebc3dff09c24431ce2304f1c454719509b14d96be3f41e51ba833d7722b804",
+      "selection_labels_sha256": "51a870948420ac011793a54e04d0b0c7341809a3b0295dfba1c7ba450131a576",
+      "first_batch_identity": {
+        "child_count": 543,
+        "ids_sha256": "4d7fefa4d3f6b831cf61bff9dad998aa762c6cbc945b7c00718028dbc4e791ab",
+        "labels_sha256": "b9efb6228ab711bde54e3c9979847249046f27c06a4610b16ef4ded40c74715c",
+        "rank_augmented_cloud_sha256": [
+          "011b1e8a54ac65b62589404df3da02ea21dbe63c881e5623728f0a506d537e7f",
+          "87e42ae1523d82d5353a6e37dabe57514c7e838e800e62504c8a22c76933a916"
+        ],
+        "whole_count": 989
+      },
+      "first_epoch": {
+        "optimizer_updates": 300,
+        "test_count": 2468,
+        "test_oa": 38.6547811993517,
+        "sample_positions": 19200,
+        "unique_objects": 8959,
+        "per_class_draws_min": 480,
+        "per_class_draws_max": 480,
+        "BN": [
+          {
+            "rank": 0,
+            "BN_layers": 38,
+            "BN_counter": 600
+          },
+          {
+            "rank": 1,
+            "BN_layers": 38,
+            "BN_counter": 600
+          }
+        ],
+        "proxy_adam_steps": 300,
+        "proxy_replica_max_difference": 0,
+        "network_and_optimizer_finite": true,
+        "both_sampler_states_equal": true,
+        "restored_two_epoch_cumulative_unique": 9840,
+        "HIER_view_max_depth_error": 4.76837158203125e-7,
+        "wall_seconds": 191.55938269291073,
+        "checkpoint_sha256": "b99cff73e5fbe7c14d40a680e8a99a45dd3e09ee8e4dcec648cab4e33c6009d6",
+        "best_last_e1_saved": true
+      }
+    }
+  ]
+}
