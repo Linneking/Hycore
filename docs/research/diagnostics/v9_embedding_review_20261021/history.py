@@ -52,8 +52,24 @@ def load_unchanged(path):
     return value, before
 
 
-def epoch_of(value):
-    return int(value["completed_epochs"] if value.get("completed_epochs") is not None else value.get("epoch", -1))
+def epoch_of(value, source_name=None):
+    if value.get("initialization_only") is True:
+        if any(value.get(field) is not None and int(value[field]) != 0
+               for field in ("completed_epochs", "epoch")):
+            raise ValueError("Initialization-only checkpoint has a nonzero epoch")
+        return 0
+    if value.get("completed_epochs") is not None:
+        return int(value["completed_epochs"])
+    if value.get("epoch") is not None:
+        return int(value["epoch"])
+    # A filename alone is not evidence of initialization. Accept a format
+    # explicitly identifying an initial state, never a generic model format.
+    if source_name == "initialization_e0.pth":
+        fmt = str(value.get("format", "")).lower()
+        if any(marker in fmt for marker in ("initialization", "initial-state", "initial_state", "init-e0", "init_e0")):
+            return 0
+        raise ValueError("Named E0 archive lacks initialization_only or an initialization-specific format")
+    return -1
 
 
 def array(value):
@@ -160,7 +176,7 @@ def main():
         metrics = {}
         for path in sorted(run_dir.glob("metrics_epoch_*.json")):
             saved, proof = read_json_unchanged(path)
-            epoch = epoch_of(saved)
+            epoch = epoch_of(saved, path.name)
             if epoch < 0 or epoch > maximum:
                 continue
             metrics[epoch] = saved
@@ -187,7 +203,7 @@ def main():
             if path_epoch > maximum:
                 continue
             saved, proof = load_unchanged(path)
-            epoch = epoch_of(saved)
+            epoch = epoch_of(saved, path.name)
             if saved.get("stage") != "actual_training_pre_optimizer" or int(saved.get("step", -1)) != 1:
                 raise ValueError("Unexpected snapshot stage or step")
             if not math.isclose(float(saved.get("native_c", c_native)), c_native, rel_tol=1e-6):
@@ -217,7 +233,7 @@ def main():
                 absent.append(filename)
                 continue
             saved, proof = load_unchanged(path)
-            epoch = epoch_of(saved)
+            epoch = epoch_of(saved, path.name)
             if expected is not None and epoch != expected:
                 raise ValueError("Fixed checkpoint epoch mismatch: " + filename)
             if epoch > maximum:
