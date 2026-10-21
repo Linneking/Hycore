@@ -1,0 +1,96 @@
+{
+  "device": "cpu",
+  "source": "inter_hierarchy_MN40/hier_proxy_scratch_v8/geometry.py",
+  "production_updates": 0,
+  "encoder_forwards": 0,
+  "test_forwards": 0,
+  "seed22_initialization": {
+    "norm_min": 1.8231322765350342,
+    "norm_median": 2.0686399936676025,
+    "norm_max": 2.2853705883026123,
+    "depth_median": 4.137279510498047,
+    "cap_count": 0
+  },
+  "jacobian": [
+    {
+      "raw_norm": 2.07,
+      "GS": false,
+      "mapped_depth": 4.13999999040203,
+      "radial_gain": 0.6696592106572513,
+      "angular_gain": 0.8780328254452813,
+      "radial_angular_ratio": 0.7626812930571742
+    },
+    {
+      "raw_norm": 2.07,
+      "GS": true,
+      "mapped_depth": 4.13999999040203,
+      "radial_gain": 0.07507607420088977,
+      "angular_gain": 0.09843702065898409,
+      "radial_angular_ratio": 0.7626812930571744
+    },
+    {
+      "raw_norm": 2.29998,
+      "GS": false,
+      "mapped_depth": 4.599959986568404,
+      "radial_gain": 0.613835311026239,
+      "angular_gain": 0.8544019224101346,
+      "radial_angular_ratio": 0.7184385883574622
+    },
+    {
+      "raw_norm": 2.29998,
+      "GS": true,
+      "mapped_depth": 4.599959986568404,
+      "radial_gain": 0.05782233425960396,
+      "angular_gain": 0.0804833359407947,
+      "radial_angular_ratio": 0.7184385883574624
+    },
+    {
+      "raw_norm": 2.30002,
+      "GS": false,
+      "mapped_depth": 4.599979986829082,
+      "radial_gain": 2.668769068625565e-06,
+      "angular_gain": 0.8543897322310126,
+      "radial_angular_ratio": 3.1235968410537674e-06
+    },
+    {
+      "raw_norm": 2.30002,
+      "GS": true,
+      "mapped_depth": 4.599979986829082,
+      "radial_gain": 2.513919310012658e-07,
+      "angular_gain": 0.08048155501353212,
+      "radial_angular_ratio": 3.1235968410276975e-06
+    },
+    {
+      "raw_norm": 2.31,
+      "GS": false,
+      "mapped_depth": 4.599980073234507,
+      "radial_gain": 2.645758923613961e-06,
+      "angular_gain": 0.8506984841754196,
+      "radial_angular_ratio": 3.1101018431677236e-06
+    },
+    {
+      "raw_norm": 2.31,
+      "GS": true,
+      "mapped_depth": 4.599980073234507,
+      "radial_gain": 2.492244196017346e-07,
+      "angular_gain": 0.0801338451835927,
+      "radial_angular_ratio": 3.1101018431193784e-06
+    },
+    {
+      "raw_norm": 6.885,
+      "GS": false,
+      "mapped_depth": 4.5999933053868,
+      "radial_gain": 2.9782949792500624e-07,
+      "angular_gain": 0.2854201248518673,
+      "radial_angular_ratio": 1.043477568652804e-06
+    },
+    {
+      "raw_norm": 6.885,
+      "GS": true,
+      "mapped_depth": 4.5999933053868,
+      "radial_gain": 2.8054709406283296e-08,
+      "angular_gain": 0.02688578101068318,
+      "radial_angular_ratio": 1.0434775688731391e-06
+    }
+  ]
+}
