@@ -54,7 +54,8 @@ def main():
                    V9_SOURCE_COMMIT=args.expected_commit, V9_SOURCE_BRANCH=args.source_branch)
         env['PYTHONPATH'] = str(snapshot) + ':' + str(snapshot / 'inter_hierarchy_MN40') + ':' + env.get('PYTHONPATH', '')
         env.pop('CUDA_VISIBLE_DEVICES', None)
-        tests = [sys.executable, '-m', 'unittest', 'test_runner_contracts', 'test_optimizer_step_audit', '-v']
+        tests = [sys.executable, '-m', 'unittest', 'test_runner_contracts',
+                 'test_optimizer_step_audit', 'test_same_graph_observer', '-v']
         if run_logged(tests, args.root / 'cpu_contracts.log', env, target, timeout=300) != 0:
             raise RuntimeError('Diagnostic CPU contracts failed')
         geometry_tests = [sys.executable, '-m', 'unittest',
