@@ -75,6 +75,44 @@ def ecdf(ax: plt.Axes, x: np.ndarray, **kwargs: Any) -> None:
         ax.step(x, np.arange(1, len(x) + 1) / len(x), where="post", **kwargs)
 
 
+def proxy_depth_axis(ax: plt.Axes, axis: str = "y") -> None:
+    """Never expand FP32 cap noise into an apparent radial hierarchy."""
+    if axis == "x":
+        ax.set_xlim(0, 4.72)
+    else:
+        ax.set_ylim(0, 4.72)
+    ax.ticklabel_format(axis=axis, style="plain", useOffset=False)
+
+
+def history_rows(payload: Any) -> list[dict[str, Any]]:
+    """Normalize training/archive history without treating missing usage as zero."""
+    if isinstance(payload, list):
+        source = payload
+    else:
+        source = payload.get("observations", payload.get("snapshots", payload.get("rows", [])))
+    normalized = []
+    aliases = {
+        "native_whole_depth": "native_mu_depth",
+        "native_part_depth": "native_nu_depth",
+        "hier_whole_depth": "hier_mu_depth",
+    }
+    fields = ("native_whole_depth", "native_part_depth", "hier_whole_depth", "proxy_depth", "proxy_tangent_norm", "sample_usage", "proxy_usage")
+    for item in source:
+        row = dict(item)
+        for target, alias in aliases.items():
+            if row.get(target) is None and row.get(alias) is not None:
+                row[target] = row[alias]
+        nested = (row.get("usage") or {}).get("all_draws") or {}
+        for target, role in (("sample_usage", "sample"), ("proxy_usage", "proxy")):
+            if row.get(target) is None:
+                row[target] = (nested.get(role) or {}).get("counts")
+        for field in fields:
+            if row.get(field) is None:
+                row[field] = []
+        normalized.append(row)
+    return normalized
+
+
 def load_rows(root: Path) -> list[dict[str, Any]]:
     manifest = json.loads((root / "export_manifest.json").read_text(encoding="utf-8-sig"))
     if isinstance(manifest, list):
@@ -180,6 +218,7 @@ def hier_figures(rows: list[dict[str, Any]], out: Path) -> list[dict[str, str]]:
                 ecdf(ax, row["proxy_depth"][su > 0], color="#21885c", label="Sample-selected proxies", ls="--", lw=1.5)
             ax.axvline(4.6, color="#555555", ls=":", lw=1)
             ax.set(title=f"{row['label_plot']} | {stage}", xlabel="Origin depth in HIER domain (c=0.1)", ylabel="Fraction", xlim=(0, 4.72), ylim=(0, 1.01))
+            proxy_depth_axis(ax, "x")
             ax.grid(alpha=.18)
             ax.legend(fontsize=8, loc="upper left")
     fig.suptitle("HIER whole view and hierarchy proxies | clean/eval", fontsize=15)
@@ -208,6 +247,7 @@ def hier_figures(rows: list[dict[str, Any]], out: Path) -> list[dict[str, str]]:
             if np.max(row["tangent_norm"]) > 50 * max(np.min(row["tangent_norm"]), 1e-8):
                 ax.set_xscale("log")
             ax.set(title=f"{row['label_plot']} | {stage}", xlabel="Persistent tangent-parameter norm (before cap)", ylabel="Proxy output depth (after cap)")
+            proxy_depth_axis(ax)
             ax.grid(alpha=.18)
             ax.legend(fontsize=7, loc="best")
     fig.suptitle("Proxy parameters versus actual mapped positions", fontsize=15)
@@ -221,6 +261,7 @@ def hier_figures(rows: list[dict[str, Any]], out: Path) -> list[dict[str, str]]:
             axes[ri, 0].scatter(ids, row["proxy_depth"], s=9, color=row["color"])
             axes[ri, 0].axhline(4.6, color="#555555", ls="--", lw=1)
             axes[ri, 0].set(title=row["label_plot"] + " | e300", ylabel="Proxy origin depth", xlabel="Persistent proxy ID")
+            proxy_depth_axis(axes[ri, 0])
             for name, label, color in (("sample_usage", "Sample ancestor", "#287fb3"), ("proxy_usage", "Proxy ancestor", "#dd8b2e")):
                 counts = usage(row, name)
                 if counts is not None:
@@ -274,7 +315,7 @@ def longitudinal_figures(root: Path, out: Path) -> list[dict[str, str]]:
     if not path.exists():
         return []
     payload = json.loads(path.read_text(encoding="utf-8-sig"))
-    rows = payload if isinstance(payload, list) else payload.get("observations", payload.get("snapshots", payload.get("rows", [])))
+    rows = history_rows(payload)
     if not rows:
         return []
     keys = list(dict.fromkeys(str(r["key"]) for r in rows))
@@ -303,6 +344,8 @@ def longitudinal_figures(root: Path, out: Path) -> list[dict[str, str]]:
     axes[0, 1].axhline(4.6, color="#555555", ls="--", lw=1)
     axes[1, 0].axhline(4.6, color="#555555", ls="--", lw=1)
     axes[1, 1].axhline(2.3, color="#555555", ls="--", lw=1)
+    proxy_depth_axis(axes[0, 1])
+    proxy_depth_axis(axes[1, 0])
     fig.suptitle("Actual train first batch | pre-optimizer, current-batch BN", fontsize=15)
     result = [save(fig, out, "07_actual_training_trajectories", "Each point uses the stored first training batch (64 positions), before that batch's optimizer step. It is not an epoch-end checkpoint or a clean/eval full-pool distribution. Native curvatures can differ.")]
 
@@ -312,7 +355,7 @@ def longitudinal_figures(root: Path, out: Path) -> list[dict[str, str]]:
         for ki, key in enumerate(proxy_keys):
             selected = sorted([r for r in rows if str(r["key"]) == key and len(r.get("proxy_depth", []))], key=lambda r: float(r["epoch"]))
             depths = np.asarray([r["proxy_depth"] for r in selected], dtype=float)
-            im = axes[ki, 0].imshow(depths, aspect="auto", interpolation="nearest", cmap="viridis", vmin=0, vmax=4.6)
+            im = axes[ki, 0].imshow(depths, aspect="auto", interpolation="nearest", cmap="viridis", vmin=0, vmax=4.72)
             fig.colorbar(im, ax=axes[ki, 0], label="Origin depth")
             counts = []
             has_usage = False
@@ -364,6 +407,7 @@ def cycle_interim_figures(rows: list[dict[str, Any]], out: Path) -> list[dict[st
         ax.axvline(4.6, color="#555555", ls="--", lw=1)
         ax.set_xlim(0, 4.72)
         ax.set_xlabel("Origin hyperbolic depth (c=0.1)")
+        proxy_depth_axis(ax, "x")
     axes[0].set_title("Native whole | same e120")
     axes[1].set_title("HIER whole view and proxies | e120")
     axes[2].axvline(2.3, color="#555555", ls="--", lw=1)
@@ -377,7 +421,7 @@ def checkpoint_history_figures(root: Path, out: Path) -> list[dict[str, str]]:
     if not path.exists():
         return []
     payload = json.loads(path.read_text(encoding="utf-8-sig"))
-    rows = payload if isinstance(payload, list) else payload.get("observations", payload.get("snapshots", payload.get("rows", [])))
+    rows = history_rows(payload)
     rows = [r for r in rows if len(r.get("proxy_depth", [])) and len(r.get("proxy_tangent_norm", []))]
     if not rows:
         return []
@@ -393,6 +437,7 @@ def checkpoint_history_figures(root: Path, out: Path) -> list[dict[str, str]]:
             ax.fill_between(epochs, stats[:, 0], stats[:, 2], color=color, alpha=.12)
     axes[0].axhline(4.6, color="#555555", ls="--", lw=1)
     axes[1].axhline(2.3, color="#555555", ls="--", lw=1)
+    proxy_depth_axis(axes[0])
     for ax, title in zip(axes, ("Mapped proxy origin depth", "Persistent tangent-parameter norm")):
         ax.set(title=title, xlabel="Completed epoch of archived checkpoint", ylabel="Median and interquartile range")
         ax.grid(alpha=.18)
@@ -407,7 +452,7 @@ def checkpoint_history_figures(root: Path, out: Path) -> list[dict[str, str]]:
             values = np.asarray([r[field] for r in selected], dtype=float)
             if ci:
                 values = np.log1p(values)
-            image = axes[ki, ci].imshow(values, aspect="auto", interpolation="nearest", cmap="viridis" if ci == 0 else "magma", vmin=0, vmax=4.6 if ci == 0 else None)
+            image = axes[ki, ci].imshow(values, aspect="auto", interpolation="nearest", cmap="viridis" if ci == 0 else "magma", vmin=0, vmax=4.72 if ci == 0 else None)
             fig.colorbar(image, ax=axes[ki, ci], label=label)
             axes[ki, ci].set(title=key + (" | output depth" if ci == 0 else " | parameter norm"), xlabel="Persistent proxy ID", ylabel="Completed checkpoint epoch")
             axes[ki, ci].set_yticks(np.arange(len(selected)), [str(r["epoch"]) for r in selected], fontsize=8)
