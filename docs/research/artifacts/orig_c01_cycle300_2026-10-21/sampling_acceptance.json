@@ -1,0 +1,37 @@
+{
+  "scope": "CPU sampler only; actual class counts and synthetic within-class IDs; no point data/network/test forward",
+  "input_class_count_source": "artifacts/hycore_b64_geometry_2026-10-05/class_geometry.csv",
+  "input_table_sha256": "079d7a8da72614d63efb5c7e5148364644e0cf29cbb0c3df2f3176782b1be305",
+  "training_objects": 9840,
+  "classes": 40,
+  "largest_class_count": 889,
+  "seed": 4780,
+  "steps_per_epoch": 300,
+  "epochs": [
+    {
+      "epoch": 1,
+      "unique_objects": 8959,
+      "cumulative_unique": 8959,
+      "global_batches_repeated_from_previous": 0,
+      "per_class_exposure_min": 480,
+      "per_class_exposure_max": 480
+    },
+    {
+      "epoch": 2,
+      "unique_objects": 8564,
+      "cumulative_unique": 9840,
+      "global_batches_repeated_from_previous": 0,
+      "per_class_exposure_min": 480,
+      "per_class_exposure_max": 480
+    },
+    {
+      "epoch": 3,
+      "unique_objects": 8573,
+      "cumulative_unique": 9840,
+      "global_batches_repeated_from_previous": 0,
+      "per_class_exposure_min": 480,
+      "per_class_exposure_max": 480
+    }
+  ],
+  "sampler_version": "hier-class-cycle-v9c-1"
+}
