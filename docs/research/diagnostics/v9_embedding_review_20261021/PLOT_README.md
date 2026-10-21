@@ -12,9 +12,17 @@ python plot.py --export <private_export_directory> --out <public_figure_director
 
 NPZ必需`native_mu`；应保存`labels`和`canonical_ids`供上游核验同一对象。HIER缓存另外保存`hier_mu`、`proxy_ball`、`proxy_tangent`。`sample_usage`和`proxy_usage`各为与代理数相同的一维硬祖先计数，缺失时明确显示不可用，不替换成零。可选`nn4`、`nn4_equal`、`nn4_angle`应为512×4的完整池邻居索引或规范ID。
 
-可选`longitudinal.json`是列表，或含`observations`/`snapshots`列表的对象；每项含`key`、`epoch`，以及数组`native_whole_depth`、`hier_whole_depth`、`proxy_depth`、`proxy_tangent_norm`、`sample_usage`、`proxy_usage`。这些数组应来自保存的真实训练前向，不能混入clean/eval导出；曲线和热图会明确标为当前批BN训练快照。
+可选`longitudinal.json`是列表，或含`observations`/`snapshots`/`rows`列表的对象；每项含`key`、`epoch`，以及数组`native_whole_depth`、`hier_whole_depth`、`proxy_depth`、`proxy_tangent_norm`、`sample_usage`、`proxy_usage`。这些数组应来自保存的真实训练前向，不能混入clean/eval导出；曲线和热图会明确标为当前批BN训练快照。
 
-输出01–06为clean/eval统计，07–08为可选训练快照。每图输出PNG/SVG，并写`figure_manifest.json`。所有图形均为聚合统计，不输出点云、样本ID或原始向量。
+输出01–06为clean/eval统计，默认排除key以`cycle_`开头的临时循环组；可用`--include-keys orig_history orig_c01_gs v9_b64 v9_hier v8_hier`显式指定主图范围。主图仅取best/e300，不为仍训练中且仅有e120的组生成空列。
+
+07–08来自真实训练快照，标题明确为**该轮首批64位置、该批optimizer更新前**；它们不是该轮训练结束的权重。
+
+09单独比较`cycle_off`、`cycle_hier`同e120，并显著标为INTERIM。不用无HIER的e300和HIER的e120推断最终增量。
+
+可选`proxy_checkpoint_history.json`与longitudinal采用相同观察列表格式，每项含`key`、`epoch`、`proxy_depth`、`proxy_tangent_norm`；产生10–11的代理轨迹和热图。该输入只能来自**轮末归档权重**，不能混入首批pre-optimizer快照；e0若有则表示初始化。
+
+每图输出PNG/SVG，并写`figure_manifest.json`。所有图形均为聚合统计，不输出点云、样本ID或原始向量。
 
 解释边界：跨曲率的native深度分面；归一化坐标半径q可同图展示，但不表示相同双曲距离。HIER对照只接受c0.1。V9固定深度4.6是人为视图，不是原生whole学出球壳的证据。硬选择次数与full-ST/查询端点梯度分别解释，反向NN4覆盖不称为训练激活。
 

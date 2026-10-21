@@ -274,7 +274,7 @@ def longitudinal_figures(root: Path, out: Path) -> list[dict[str, str]]:
     if not path.exists():
         return []
     payload = json.loads(path.read_text(encoding="utf-8-sig"))
-    rows = payload if isinstance(payload, list) else payload.get("observations", payload.get("snapshots", []))
+    rows = payload if isinstance(payload, list) else payload.get("observations", payload.get("snapshots", payload.get("rows", [])))
     if not rows:
         return []
     keys = list(dict.fromkeys(str(r["key"]) for r in rows))
@@ -294,7 +294,7 @@ def longitudinal_figures(root: Path, out: Path) -> list[dict[str, str]]:
             color = COLORS[ki % len(COLORS)]
             ax.plot(epochs, stats[:, 1], marker="o", ms=3, color=color, label=key)
             ax.fill_between(epochs, stats[:, 0], stats[:, 2], color=color, alpha=.13)
-            ax.set(title=title, xlabel="Completed epoch", ylabel="Median and interquartile range")
+            ax.set(title=title, xlabel="Epoch of stored first batch", ylabel="Median and interquartile range")
     for ax in axes.flat:
         ax.grid(alpha=.18)
         handles, _ = ax.get_legend_handles_labels()
@@ -303,8 +303,8 @@ def longitudinal_figures(root: Path, out: Path) -> list[dict[str, str]]:
     axes[0, 1].axhline(4.6, color="#555555", ls="--", lw=1)
     axes[1, 0].axhline(4.6, color="#555555", ls="--", lw=1)
     axes[1, 1].axhline(2.3, color="#555555", ls="--", lw=1)
-    fig.suptitle("Actual training-forward snapshots | current-batch BN", fontsize=15)
-    result = [save(fig, out, "07_actual_training_trajectories", "These are stored training-forward positions with repeated augmented objects, not clean/eval full-pool distributions. Native curves may have different curvature; compare matched native geometry only.")]
+    fig.suptitle("Actual train first batch | pre-optimizer, current-batch BN", fontsize=15)
+    result = [save(fig, out, "07_actual_training_trajectories", "Each point uses the stored first training batch (64 positions), before that batch's optimizer step. It is not an epoch-end checkpoint or a clean/eval full-pool distribution. Native curvatures can differ.")]
 
     proxy_keys = [key for key in keys if any(len(r.get("proxy_depth", [])) for r in rows if str(r["key"]) == key)]
     if proxy_keys:
@@ -331,8 +331,88 @@ def longitudinal_figures(root: Path, out: Path) -> list[dict[str, str]]:
             for ai, ax in enumerate(axes[ki]):
                 ax.set(title=key + (" | proxy depths" if ai == 0 else " | sample ancestor usage"), xlabel="Persistent proxy ID", ylabel="Snapshot epoch")
                 ax.set_yticks(np.arange(len(selected)), [str(r["epoch"]) for r in selected])
-        fig.suptitle("Proxy depth and activity across stored training snapshots", fontsize=15)
-        result.append(save(fig, out, "08_training_proxy_heatmaps", "Columns preserve proxy identity within each run. Different snapshot windows can have different numbers of selections; compare inactivity patterns before interpreting count magnitudes."))
+        fig.suptitle("Actual train first batch | pre-optimizer proxy depth and activity", fontsize=15)
+        result.append(save(fig, out, "08_training_proxy_heatmaps", "These are first-batch pre-optimizer proxy states, not epoch-end archive weights. Columns preserve proxy identity within a run. Counts describe only the supplied first-batch selection window."))
+    return result
+
+
+def cycle_interim_figures(rows: list[dict[str, Any]], out: Path) -> list[dict[str, str]]:
+    selected = [r for r in rows if str(r["key"]).startswith("cycle_") and int(r.get("epoch", -1)) == 120]
+    keys = {str(r["key"]) for r in selected}
+    if not {"cycle_off", "cycle_hier"}.issubset(keys):
+        return []
+    selected = [next(r for r in selected if r["key"] == key) for key in ("cycle_off", "cycle_hier")]
+    if any(not np.isclose(r["c_native"], .1) for r in selected):
+        raise ValueError("Cycle interim comparison requires native c=0.1 in both runs.")
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5.5))
+    for row in selected:
+        ecdf(axes[0], row["native_depth"], lw=1.7, color=row["color"], label=row["label_plot"])
+        if "hier_depth" in row:
+            ecdf(axes[1], row["hier_depth"], lw=1.7, color="#405b74", label="HIER whole view")
+        if "proxy_depth" in row:
+            ecdf(axes[1], row["proxy_depth"], lw=1.7, color="#cf782a", label="Hierarchy proxies")
+            su = usage(row, "sample_usage")
+            if su is not None and np.any(su > 0):
+                ecdf(axes[1], row["proxy_depth"][su > 0], lw=1.5, ls="--", color="#2b936b", label="Sample-selected proxies")
+            ecdf(axes[2], row["tangent_norm"], lw=1.7, color="#cf782a", label="Before-cap parameter norm")
+    for ax in axes:
+        ax.grid(alpha=.18)
+        ax.legend(fontsize=8)
+        ax.set_ylabel("Fraction")
+        ax.set_ylim(0, 1.01)
+    for ax in axes[:2]:
+        ax.axvline(4.6, color="#555555", ls="--", lw=1)
+        ax.set_xlim(0, 4.72)
+        ax.set_xlabel("Origin hyperbolic depth (c=0.1)")
+    axes[0].set_title("Native whole | same e120")
+    axes[1].set_title("HIER whole view and proxies | e120")
+    axes[2].axvline(2.3, color="#555555", ls="--", lw=1)
+    axes[2].set(title="Proxy parameters | e120", xlabel="Tangent-parameter norm")
+    fig.suptitle("INTERIM: cycle off versus HIER | matched e120, clean/eval", fontsize=16, color="#a04420")
+    return [save(fig, out, "09_cycle_interim", "INTERIM comparison at the same e120 only. The HIER run was still training when collected; this is not its best or final result. Shared c=0.1 does not remove differences from original V9 sampling/seed.")]
+
+
+def checkpoint_history_figures(root: Path, out: Path) -> list[dict[str, str]]:
+    path = root / "proxy_checkpoint_history.json"
+    if not path.exists():
+        return []
+    payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    rows = payload if isinstance(payload, list) else payload.get("observations", payload.get("snapshots", payload.get("rows", [])))
+    rows = [r for r in rows if len(r.get("proxy_depth", [])) and len(r.get("proxy_tangent_norm", []))]
+    if not rows:
+        return []
+    keys = list(dict.fromkeys(str(r["key"]) for r in rows))
+    fig, axes = plt.subplots(1, 2, figsize=(15, 5.5))
+    for ki, key in enumerate(keys):
+        selected = sorted([r for r in rows if str(r["key"]) == key], key=lambda r: float(r["epoch"]))
+        epochs = [float(r["epoch"]) for r in selected]
+        for ax, field in zip(axes, ("proxy_depth", "proxy_tangent_norm")):
+            stats = np.asarray([np.percentile(np.asarray(r[field], dtype=float), [25, 50, 75]) for r in selected])
+            color = COLORS[ki % len(COLORS)]
+            ax.plot(epochs, stats[:, 1], lw=1.5, marker="o", ms=3, color=color, label=key)
+            ax.fill_between(epochs, stats[:, 0], stats[:, 2], color=color, alpha=.12)
+    axes[0].axhline(4.6, color="#555555", ls="--", lw=1)
+    axes[1].axhline(2.3, color="#555555", ls="--", lw=1)
+    for ax, title in zip(axes, ("Mapped proxy origin depth", "Persistent tangent-parameter norm")):
+        ax.set(title=title, xlabel="Completed epoch of archived checkpoint", ylabel="Median and interquartile range")
+        ax.grid(alpha=.18)
+        ax.legend(fontsize=8)
+    fig.suptitle("Epoch-end checkpoint proxies | after all updates in the labelled epoch", fontsize=15)
+    result = [save(fig, out, "10_checkpoint_proxy_trajectories", "These proxy states come from archived epoch-end weights, not first-batch pre-optimizer snapshots in Figures 07-08. Epoch 0 denotes initialization if supplied. Cycle observations are incomplete runs.")]
+
+    fig, axes = plt.subplots(len(keys), 2, figsize=(16, max(3.5, 3.1 * len(keys))), squeeze=False)
+    for ki, key in enumerate(keys):
+        selected = sorted([r for r in rows if str(r["key"]) == key], key=lambda r: float(r["epoch"]))
+        for ci, (field, label) in enumerate((("proxy_depth", "Origin depth"), ("proxy_tangent_norm", "log(1 + tangent norm)"))):
+            values = np.asarray([r[field] for r in selected], dtype=float)
+            if ci:
+                values = np.log1p(values)
+            image = axes[ki, ci].imshow(values, aspect="auto", interpolation="nearest", cmap="viridis" if ci == 0 else "magma", vmin=0, vmax=4.6 if ci == 0 else None)
+            fig.colorbar(image, ax=axes[ki, ci], label=label)
+            axes[ki, ci].set(title=key + (" | output depth" if ci == 0 else " | parameter norm"), xlabel="Persistent proxy ID", ylabel="Completed checkpoint epoch")
+            axes[ki, ci].set_yticks(np.arange(len(selected)), [str(r["epoch"]) for r in selected], fontsize=8)
+    fig.suptitle("Epoch-end checkpoint proxy histories | post-epoch optimizer state", fontsize=15)
+    result.append(save(fig, out, "11_checkpoint_proxy_heatmaps", "Column identity is preserved within each run. Output depth and pre-cap parameter norm are different measurements. Archive time points must not be interpreted as first-batch states of the same numbered epoch."))
     return result
 
 
@@ -340,15 +420,22 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--export", dest="export_root", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--include-keys", nargs="*", help="Explicit keys for core Figures 01-06; by default exclude cycle_* interim runs.")
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10, "axes.spines.top": False, "axes.spines.right": False, "svg.fonttype": "none"})
     rows = load_rows(args.export_root)
-    figures = native_figures(rows, args.out)
-    figures += hier_figures(rows, args.out)
-    figures += hotspot_figures(rows, args.out)
+    core = [r for r in rows if r["key"] in args.include_keys] if args.include_keys is not None else [r for r in rows if not str(r["key"]).startswith("cycle_")]
+    core = [r for r in core if r["stage"] in STAGES]
+    if not core:
+        raise ValueError("No best/e300 observations selected for core figures.")
+    figures = native_figures(core, args.out)
+    figures += hier_figures(core, args.out)
+    figures += hotspot_figures(core, args.out)
     figures += longitudinal_figures(args.export_root, args.out)
-    (args.out / "figure_manifest.json").write_text(json.dumps({"figures": figures, "warnings": WARNINGS, "observations": len(rows)}, indent=2, ensure_ascii=False), encoding="utf-8")
+    figures += cycle_interim_figures(rows, args.out)
+    figures += checkpoint_history_figures(args.export_root, args.out)
+    (args.out / "figure_manifest.json").write_text(json.dumps({"figures": figures, "warnings": WARNINGS, "observations": len(rows), "core_observations": len(core)}, indent=2, ensure_ascii=False), encoding="utf-8")
     print(json.dumps({"figures": len(figures), "observations": len(rows), "warnings": WARNINGS}))
 
 
