@@ -139,9 +139,11 @@ def main():
     seen = set()
     identity_reference = None
     for spec in manifest["observations"]:
-        key = str(spec["key"])
-        if key in seen or not key.replace("_", "").replace("-", "").isalnum():
-            raise ValueError("Keys must be unique and use letters/digits/underscore/hyphen")
+        model_key, stage = str(spec["key"]), str(spec["stage"])
+        key = model_key + "__" + stage
+        if key in seen or any(not value.replace("_", "").replace("-", "").isalnum()
+                              for value in (model_key, stage)):
+            raise ValueError("Key+stage must be unique and use letters/digits/underscore/hyphen")
         seen.add(key)
         cache = (root / spec["cache"]).resolve()
         if not cache.is_relative_to(root):
@@ -161,6 +163,7 @@ def main():
                 raise ValueError("Observations must contain the same canonical objects and labels")
             c_native = float(spec["c_native"])
             base = {k: spec.get(k) for k in ("key", "label", "stage", "epoch", "kind")}
+            base["observation_id"] = key
             result = {**base, "c_native": c_native, "c_hier": spec.get("c_hier"),
                       "checkpoint_sha256": spec.get("checkpoint_sha256"),
                       "N": len(native), "D": native.shape[1], "populations": {},

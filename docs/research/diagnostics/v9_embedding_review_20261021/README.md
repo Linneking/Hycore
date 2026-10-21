@@ -8,6 +8,8 @@ python analyze.py --export-root PRIVATE_EXPORT_DIRECTORY --out ANONYMOUS_OUTPUT_
 
 每条`observations`记录至少包含`key,label,stage,epoch,c_native,kind,cache`；`cache`必须相对导出目录。可附`checkpoint_sha256,c_hier,native_cap_tangent,hier_cap_tangent,hier_whole_cap_tangent,usage_source_epoch`。没有额外cap的原版/V9原生分支必须把`native_cap_tangent`设为null。HIER代理默认cap为2.3。
 
+同一模型各阶段保留相同`key`，以`key__stage`构成唯一`observation_id`。所有CSV同时保存模型key、阶段及观察点ID；绘图数组以前缀`key__stage__`区分，避免best/e300覆盖。
+
 NPZ必需键为`native_mu,labels,canonical_ids`。所有观察点必须包含相同规范对象身份和标签，行顺序可以不同。HIER记录另含`hier_mu,proxy_ball,proxy_tangent`；可附`nn4,nn4_equal,nn4_angle`（代理×4，值是当前NPZ样本行索引）、`sample_usage,proxy_usage`（每代理all_draws的pair+triple选择次数，只能来自该权重对应轮次）、`sample_effective_usage,proxy_effective_usage`（同轮active_noncollision的pair+triple计数）。缺失的激活统计保持null。
 
 球坐标半径、归一化半径和原点双曲深度分别为：
