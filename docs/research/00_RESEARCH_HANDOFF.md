@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 三套dataflow与梯度裁剪/GS澄清 — 2026-10-23
+
+用户要求核实原版HyCoRe的梯度操作并画原版HyCoRe、原版HIER和B05三图。见[77：源码与dataflow](77_HYCORE_HIER_B05_DATAFLOW_2026-10-23.md)：原版HyCoRe实际PointMLP没有B05出口GS，但backward后有全网络参数梯度总范数1裁剪，随后RSGD。B05保留这套更新流程，另在共享whole/part emb出口加入cap2.3和GS；“基础GS”指基础分支位置，不代表原版自带。官方HIER样本和层次代理分别cap/map/GS，另在更新前逐分量裁剪±10后AdamW；PA类别代理与512层次代理独立。三者均不强制whole固定4.6，历史B05也无HIER目标。仅本地源码核实与文档，未连接服务器或改训练/设计选择。
+
 ## 未来统一seed4780、弃用循环64；仅讨论设计 — 2026-10-23
 
 用户明确今后所有谱系实验统一seed4780，放弃类别循环64，采用有放回类别均衡64。历史seed/运行身份不改。用户报告服务器断电，当前只做设计；不得连接服务器、排队/启动/自动恢复。旧TS15的running及e47–48等为断电前快照，断电后状态/文件完整性未知，不当作仍在运行或已完成。
