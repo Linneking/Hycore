@@ -32,7 +32,7 @@
 
 先发布版本化wrapper、CPU合同及独立审查，再由服务器fetch/pull --ff-only并冻结源码。检查完全空闲双卡并上本用户锁，未知GPU状态一律等待。先独立fresh2×2 train-only短测，核验保存的真实AdamW、scheduler和原生初始化，然后另起fresh300主训练。短测不读取test，不借短测选择超参数。
 
-正式首轮验收：200次更新、2468 test、有限best/last/e1、BN每步两次共400、双rank恢复状态/代理同步、初始网络与代理及数据身份匹配、实际LR/eps和300轮schedule。运行ID/commit/config/seed/GPU/时间/初始化等写新manifest，私有地址和原始数据留忽略目录。启动与首轮实证稍后追加，不把本计划当成已经启动。
+正式首轮验收：200次更新、2468 test、有限best/last/e1、BN每步两次共400、双rank恢复状态/代理同步、初始网络与代理及数据身份匹配、实际LR/eps和300轮schedule。运行ID/commit/config/seed/GPU/时间/初始化等写新manifest，私有地址和原始数据留忽略目录。实际启动与首轮证据见下一节。
 
 ## 正式启动
 
