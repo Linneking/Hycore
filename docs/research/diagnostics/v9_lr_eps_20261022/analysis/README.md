@@ -34,3 +34,22 @@ Run the independent aggregation checks with:
 ```text
 python -m unittest discover -s docs/research/diagnostics/v9_lr_eps_20261022/analysis -p test_comparison_aggregation.py
 ```
+
+## Existing full-epoch ancestor structure
+
+`structure_summary.py` uses only saved `metrics_epoch_*.json["structure"]`.
+It does not add training observations. Run separately on both servers, then
+transfer only the three anonymous aggregate exports for comparison:
+
+```text
+python docs/research/diagnostics/v9_lr_eps_20261022/analysis/structure_summary.py \
+  --run-dir RUN/main --out RUN/structure_summary_new_timestamp
+```
+
+It exports sample/proxy × all_draws/noncollision/active_noncollision × pair/triple
+selection count, used count and entropy-effective proxy count, plus pooled
+depth/gap mean, std and positive fraction. Actual per-proxy usage arrays are
+checked for conservation then discarded. Positive endpoint gap means ancestor
+shallower; positive pair-minus-triple means triple shallower. Positive fractions
+use the source's strict `>0` test, include possible numerical near-zero effects,
+and do not measure margin=.1 satisfaction or independent morphology quality.
