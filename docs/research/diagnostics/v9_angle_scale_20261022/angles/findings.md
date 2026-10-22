@@ -10,9 +10,10 @@ was checked before and after each observation. V9 runtime was Python3.9.23,
 NumPy1.26.4, Torch2.8.0+cu128, with CUDA visibility disabled.
 
 Local inputs/remote locations remain in the private specs and handoff;
-anonymous outputs are `results/compact_summary.json` and `results/summary.csv`.
-The larger local `cars_summary.json`/`v9_summary.json` include redundant
-per-class CDF grids and need not be committed.
+anonymous outputs are archived in the report72 `tables/angles_compact.json`
+and `tables/angles.csv`. The larger local `cars_summary.json`/`v9_summary.json`
+include redundant per-class CDF grids and remain in the private artifact
+folder outside the repository.
 
 ## Scope and interpretation
 
