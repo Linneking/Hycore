@@ -16,3 +16,7 @@ Reporting boundaries that matter:
 3. One-step eps/history interventions are conditional on the native run's saved state and fixed current gradient. They can establish an immediate displacement change; they cannot establish long-run cap avoidance, improved hierarchy, or classification benefit.
 
 These qualifications do not invalidate the observed optimizer accounting or the source-level facts that the objective lacks an explicit ancestor depth ordering and the cap acts in the forward map rather than projecting the stored parameters and Adam state.
+
+## Subsequent validation
+
+The parent subsequently implemented `replay_routing.py` and replayed the seven saved snapshots on the original diagnostic GPU type, restoring each saved CUDA Gumbel state. All fourteen component distance matrices, hard choices, hinge activities, losses and observed full-ST gradients were bitwise equal (maximum absolute and relative gradient error zero). Direct and full-ST gradients were then differentiated on the same GPU distance graph. The reporting limitation in item 1 still applies to the original CPU reconstruction files, but the independently validated GPU replay now supports an exact local ST-routing separation for those saved steps. Items 2 and 3 remain applicable.

@@ -1,0 +1,21 @@
+{
+  "matplotlib": "3.9.2",
+  "numpy": "1.26.4",
+  "source_sha256": {
+    "summary.json": "8e0bc542a99cdf13e14e2a9e20df7b5343dfe4fb35a67c7847b9492def9560e1",
+    "counterfactuals.json": "f6cd53ad04488af6ec3095d812815d8bb827d92d66c7c27437c1bd31f770af38",
+    "optimizer_components.csv": "f87debfac7c086ca795ac88163dae48aa85435b0f3fb55230de2708e000dc7f4"
+  },
+  "source_unchanged": true,
+  "gpu_used": false,
+  "model_arrays_loaded": false,
+  "component_sum_max_absolute_error": 1.0213967569189068e-07,
+  "files": [
+    "01_proxy_trajectory.png",
+    "01_proxy_trajectory.svg",
+    "02_optimizer_accounting.png",
+    "02_optimizer_accounting.svg",
+    "03_fixed_state_counterfactuals.png",
+    "03_fixed_state_counterfactuals.svg"
+  ]
+}

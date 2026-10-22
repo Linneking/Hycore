@@ -1,0 +1,14 @@
+{
+  "local_links_checked": 22,
+  "missing": [],
+  "paired_updates": 2000,
+  "epochs": 10,
+  "gpu_gradient_replay": "passed",
+  "anonymous_source_files": {
+    "acceptance.json": "eaf427a6ac796a589ebafc888293d79513a5a2fda4dc387f373641c82fb5a737",
+    "counterfactuals.json": "f6cd53ad04488af6ec3095d812815d8bb827d92d66c7c27437c1bd31f770af38",
+    "replay_gpu.json": "f6340b5fc13e4621f598a82b669c07d2c2636836754e9276e3208f233f63caf1",
+    "summary.json": "8e0bc542a99cdf13e14e2a9e20df7b5343dfe4fb35a67c7847b9492def9560e1"
+  },
+  "raw_parameters_or_ids_exported": false
+}

@@ -64,7 +64,7 @@ def main():
         'accounting_max_coordinate_error': max(r['all']['prediction_error_max_coordinate']['max'] for r in summaries),
         'component_gradient_sum_max_error': None,
         'first_step_crop': {k: ordinary[0][k] for k in ('whole_count', 'child_count')},
-        'first_step_ids_sha256': hashlib.sha256(json.dumps(ordinary[0]['ids'], separators=(',', ':')).encode()).hexdigest(),
+        'first_step_ids_json_sha256': hashlib.sha256(json.dumps(ordinary[0]['ids'], separators=(',', ':')).encode()).hexdigest(),
         'historical_replay_claim': False,
         'scope': 'Fresh bounded mechanism reproduction; no official test/evaluation/model selection; not bitwise historical replay',
         'diagnostic_code_limit': 'Parameter-gradient audit forwards disabled; same-graph proxy observation enabled',
