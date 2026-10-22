@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-22：V9-HIER AdamW联合候选单条完整实验
+
+用户本轮请求将十轮中修改的AdamW参数进行一次完整V9-HIER实验。按[74：完整配置与验收](74_V9_ADAMW_FULL_RUN_2026-10-22/report.md)准备唯一fresh300×200：代理初始LR0.005、eps1e-4、最低LR0.0005，其余原生c1 V9/seed22/global64/300轮余弦/TS保持，不续训十轮权重。先CPU和独立train-only短测，核验真实保存的optimizer和初始化，再从头主训练；优先原指定服务器的完全空闲双卡，不中断他人。不新增margin、分类头、循环采样或其他矩阵。状态须以74后续实际启动记录为准。
+
 ## 2026-10-22：V9代理LR/eps十轮联合候选已授权并完成
 
 用户明确要求将V9-HIER代理初始AdamW学习率改为0.005、eps改为1e-4，从头运行10轮观察代理；优先指定主服务器的两张完全空闲卡，不足则用备用服务器。该指令授权本次版本化实现、独立短测与唯一10×200步诊断，不再等待确认。详见[73：配置与观察口径](73_V9_LR_EPS_10E_DIAGNOSTIC_2026-10-22/report.md)。
