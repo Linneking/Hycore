@@ -1,5 +1,13 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 未来统一seed4780、弃用循环64；仅讨论设计 — 2026-10-23
+
+用户明确今后所有谱系实验统一seed4780，放弃类别循环64，采用有放回类别均衡64。历史seed/运行身份不改。用户报告服务器断电，当前只做设计；不得连接服务器、排队/启动/自动恢复。旧TS15的running及e47–48等为断电前快照，断电后状态/文件完整性未知，不当作仍在运行或已完成。
+
+新[76：两条底座的固定壳HIER设计](76_S4780_FIXED_SHELL_BASELINE_DESIGN_2026-10-23.md)评估8001原生c1＋Hshell-A1及8000 c0.1适配＋Hshell-A1。关键澄清：B05的基础GS本身就是HIER移植到共享出口的InverseMetric hook，原版HyCoRe实际forward无此hook；RSGD/流形运算则保留。若8000保留完整B05应保留已有基础GS；若主pipe绝不含HIER来源GS，则是B04式GS0配方，不能继续称OA94.3的B05。此分歧待用户明确。
+
+两条HIER-on可检验组合行为；要量化HIER增量，建议各自补同CB64/seed4780/预算的H0，形成四臂。旧94.0/94.3为SH32历史成绩，不能直接当新CB64控制；两底座还变cap/GS/margin，跨组不单独隔离曲率。76仅为设计建议，未授权新增执行。
+
 ## TS实验统一命名与baseline总表 — 2026-10-22
 
 用户要求梳理V8、HyCoRe改版与V9，仅保留全9840训练/2468 test逐轮选模，seed只在名称后注明。新[75：统一命名与baseline图谱](75_TS_EXPERIMENT_BASELINE_ATLAS_2026-10-22/report.md)采用“基础配方B01–B10 / HIER组件H0、Hshared-A0、Hshell-A0/A1”的组合名，15条正式记录TS01–TS15；原目录/权重/日志/canonical身份不改。独立[TS注册表v3](experiment_registry_ts_v3.json)及CSV保存新旧映射、batch/更新预算、基础cap/GS、HIER视图/GS、margin、同轮训练与test准确率。VS984不纳入，不重审。

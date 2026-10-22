@@ -987,5 +987,14 @@
       "snapshot_source": "source_capture_b.json",
       "capture_label": "v9_hier64_adamw_new_ts"
     }
-  ]
+  ],
+  "future_defaults": {
+    "updated_local_date": "2026-10-23",
+    "seed_all_lineages": 4780,
+    "batch": "class_balanced64_with_within_class_replacement",
+    "cyclic64": false,
+    "scope": "future experiments only; preserve historical identities",
+    "current_authorization": "design_only; no server connection or launch",
+    "design_document": "docs/research/76_S4780_FIXED_SHELL_BASELINE_DESIGN_2026-10-23.md"
+  }
 }

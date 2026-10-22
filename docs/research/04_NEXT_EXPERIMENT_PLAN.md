@@ -1,5 +1,11 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-23：仅设计；统一seed4780与非循环类别均衡64
+
+最新约束覆盖下方旧未来默认：所有新实验seed4780，不再使用类别循环64；采用有放回类别均衡global64。服务器断电，用户只授权设计讨论，不连接/实现/排队/启动/自动恢复。历史运行seed、结果和不可变身份保持。
+
+拟议8001原生HyCoRe c1＋新AdamW固定壳HIER；8000 c0.1适配配方＋同组件，详见[76](76_S4780_FIXED_SHELL_BASELINE_DESIGN_2026-10-23.md)。B05基础GS是HIER移植hook；若主pipe绝不含该hook，8000应改称B04式GS0，不能宣称严格B05。此核心分歧待用户明确。每个底座增加匹配H0、统一300×200及共同随机流均为设计建议，尚未批准执行。仅两条HIER-on不足以量化HIER增量，也不能单独隔离曲率效应。
+
 ## 2026-10-22：V9-HIER AdamW联合候选单条完整实验
 
 用户本轮请求将十轮中修改的AdamW参数进行一次完整V9-HIER实验。按[74：完整配置与验收](74_V9_ADAMW_FULL_RUN_2026-10-22/report.md)准备唯一fresh300×200：代理初始LR0.005、eps1e-4、最低LR0.0005，其余原生c1 V9/seed22/global64/300轮余弦/TS保持，不续训十轮权重。先CPU和独立train-only短测，核验真实保存的optimizer和初始化，再从头主训练；优先原指定服务器的完全空闲双卡，不中断他人。不新增margin、分类头、循环采样或其他矩阵。状态须以74后续实际启动记录为准。
