@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "initialized_model_sha256": true,
+    "training_labels_sha256": true,
+    "first_step_crop": true,
+    "first_step_ids_json_sha256": true,
+    "initial_proxy_matches": true,
+    "eighty_same_graph_components": true,
+    "actual_optimizer_accepted": true
+  },
+  "all_passed": true,
+  "component_gradient_sum_max_error": 3.259629011154175e-09,
+  "actual_optimizer": {
+    "eps": 0.0001,
+    "initial_lr": 0.005,
+    "lr": 0.004987674264578612,
+    "T_max": 300,
+    "eta_min": 0.0005,
+    "completed_epochs": 10
+  },
+  "snapshot_count": 80,
+  "gpu_used": false
+}
