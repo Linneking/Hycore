@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "remote_execution_code_commit": "2ed430f965f03559ae7034ae0fc970dcc1a1e877",
+  "scope": "CPU cache/state analysis; no new model forward or production update",
+  "unit_tests_passed": {
+    "independent_geometry": 5,
+    "angles": 4,
+    "adam_scale": 5
+  },
+  "independent_report_review": "passed",
+  "figures_visually_reviewed": 4,
+  "observations": 10,
+  "actual_training_forward_snapshots": 6,
+  "adam_state_snapshots": 7,
+  "source_read_before_after_sha_checks": "passed by angular analyzer",
+  "native_adam_max_coordinate_error": 5.960464477539063e-08,
+  "public_tables_sha256": {
+    "adam_execution.json": "0fe806fbcdb49d2e1f144b473e849ad1a2932b9fbc3a328b3e331b782c23da37",
+    "adam_fixed_state.json": "c440fd7fb5f9bfc03f8aad97ad13adc082cef83161a6dc0800217f95e9d37386",
+    "angles.csv": "22b3c7ffd30ea73db8f960ce42382b8787bc70d1297748773e30b52519d9df26",
+    "angles_compact.json": "7efd7fcca812764c8094218478295835891205e4bf2ad7f31f4c39afb085437f",
+    "cars_optimizer.json": "a807c479ef7584fa36ea6746f49f4348a3284c69efd3afb84e06697fbff1bfbe",
+    "snapshot_identity.json": "b9444f742cae647ff646e13d9136f8f9f410d5e116320cc385fdc1a80e620818"
+  },
+  "public_compact_replot_png_identical": true
+}

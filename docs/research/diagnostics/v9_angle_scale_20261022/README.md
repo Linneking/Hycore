@@ -31,3 +31,17 @@ The report must distinguish observed late clean/eval geometry, actual early
 training-forward geometry from the separate report-71 diagnostic repeat,
 mathematical reference geometry, and fixed-state one-step interventions.
 None alone establishes a long-run causal training improvement.
+
+The completed report and reviewed aggregate inputs are in
+`docs/research/72_HIER_CARS_V9_ANGLE_AND_STEP_AUDIT_2026-10-22/`.
+`plot_audit.py --angles <report>/tables/angles_compact.json --adam
+<report>/tables/adam_fixed_state.json --out <new-directory>` reproduces the
+four scientific figure pairs without private caches. PNGs from compact
+public inputs match the original full-summary plots exactly.
+
+Remote CPU execution used commit `2ed430f`. Later changes add provenance
+fields/documentation and packaging; that executed revision remains pinned.
+`package_results.py` adds the compact macro CDFs, checks aggregate consistency,
+and writes the acceptance record. Its private input is the larger anonymous
+angular summary, not raw embeddings. The public report tables contain the
+complete fixed-state sensitivity outputs, with no parameter arrays.

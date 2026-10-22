@@ -43,8 +43,8 @@ def triple_depth(directions, c=C, h=H):
 
     Directions shape [N,3,D]. The closest point to the origin on their Euclidean
     convex hull determines the spherical cap and the absolute hyperbolic1center.
-    Enumerate vertices/edges/full-simplex stationary point; singular full faces
-    already have an optimal representation on an edge (affine dependence).
+    Enumerate vertices/edges/full-simplex stationary point with a KKT system
+    and least-squares fallback for singular configurations.
     """
     n = np.asarray(directions, np.float64)
     gram = np.einsum('nid,njd->nij', n, n)
@@ -178,8 +178,12 @@ def analyze_npz(record, seed):
     result = class_geometry(data[feature_key], labels, seed, record.get('car_class'))
     result.update(key=record['key'], source_sha256=before, source_kind='existing_frozen_cache',
                   mode=record['mode'], feature_key=feature_key,
+                  source_curvature=record.get('source_curvature'),
                   label_min=int(labels.min()), label_max=int(labels.max()),
                   shell_comparison={'c': C, 'whole_depth': H, 'initial_proxy_depth': 4.14})
+    if 'hier_mu' in data and 'native_mu' in data:
+        aligned = np.einsum('nd,nd->n', unit(data['hier_mu']), unit(data['native_mu']))
+        result['native_hier_direction_difference_deg'] = stats(np.degrees(np.arccos(np.clip(aligned,-1,1))))
     if 'metadata_json' in data:
         meta = json.loads(str(data['metadata_json']))
         result['provenance'] = {k: meta[k] for k in ('checkpoint_hash', 'checkpoint_epoch', 'split',

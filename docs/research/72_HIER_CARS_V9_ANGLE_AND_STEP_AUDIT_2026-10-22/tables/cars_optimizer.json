@@ -1,0 +1,72 @@
+{
+  "format": "v9-adam-scale-audit-1",
+  "device": "cpu",
+  "source_sha256": "27421f2f722ade6f03d39510a8075994eceaa791e66b0b81f80dd59ef7a6e7d8",
+  "production_updates": 0,
+  "encoder_forwards": 0,
+  "test_forwards": 0,
+  "parameter_arrays_exported": false,
+  "variant_definitions": {
+    "current_only": "Change only the present HIER gradient, preserving native old m/v; not a new training trajectory.",
+    "all_gradient_history": "Scale current g and old m by s=lambda_new/.5, old v by s^2. Exact rescaling identity at the same assumed gradient history; not a rerun because parameters and gradient evaluation points are held fixed.",
+    "lr_half_only": "Actual fixed-state one-step LR .005 versus .01 initially; WD scales with LR as AdamW specifies.",
+    "eps1e4_only": "Actual fixed-state one-step eps change; old history preserved."
+  },
+  "snapshots": [],
+  "original_cars": {
+    "label": "original_Cars_best",
+    "epoch_metadata": 45,
+    "step": 1980,
+    "source_checkpoint_sha256": "1a7df567acba0fdec00cc6ee921304c42a62659383ee2d964bae4f8115233080",
+    "tensor_dtypes": {
+      "proxy_tangent": "float32",
+      "exp_avg": "float32",
+      "exp_avg_sq": "float32",
+      "step": "int32"
+    },
+    "shape": [
+      512,
+      512
+    ],
+    "args": {
+      "model": "resnet50",
+      "emb": 512,
+      "use_fp16": true,
+      "batch_size": 90,
+      "world_size": 2,
+      "epochs": 100,
+      "lr": 0.0001,
+      "lr_decay": "10",
+      "lr_decay_gamma": 0.5,
+      "min_lr_scale": 0.1,
+      "weight_decay": 0.01,
+      "lambda1": 1.0,
+      "lambda2": 0.5,
+      "hyp_c": 0.1,
+      "clip_r": 2.3
+    },
+    "optimizer_group": {
+      "name": "lcas",
+      "lr_scale": 50.0,
+      "weight_decay": 0.01,
+      "lr": 0.00031250000000000006,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 0.0001,
+      "amsgrad": false
+    },
+    "initial_lcas_lr": 0.005000000000000001,
+    "stored_sqrt_vhat_before_next_gradient": {
+      "min": 4.4069034795336814e-07,
+      "p05": 2.8581626636020556e-06,
+      "median": 5.917214837539785e-06,
+      "p95": 1.1696522478841924e-05,
+      "max": 0.0001245848816002787,
+      "mean": 6.512642232569646e-06
+    },
+    "stored_sqrt_vhat_below_eps_fraction": 0.9999847412109375,
+    "limit": "No current gradient is present. Stored-state denominators are descriptive, not matched training replay."
+  }
+}
