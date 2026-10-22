@@ -1,0 +1,24 @@
+{
+  "all_passed": true,
+  "checks": {
+    "ts_only_15_runs": true,
+    "unique_display_names": true,
+    "ten_baseline_recipes": true,
+    "fourteen_300_epoch_records": true,
+    "one_running_snapshot_not_ranked": true,
+    "best_scores_match_saved_manifests": true,
+    "legacy_completed_best_scores_unchanged": true,
+    "same_epoch_AA_from_best_epoch_record": true,
+    "epoch_files_contiguous": true,
+    "seed_outside_method_signature": true,
+    "no_server_paths_in_public_registry": true,
+    "no_forward_or_training": true
+  },
+  "historical_log": {
+    "unique_epochs": 300,
+    "duplicate_raw_epochs": [
+      5
+    ]
+  },
+  "ongoing_snapshot_epoch": 34
+}

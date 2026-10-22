@@ -1,5 +1,11 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## TS实验统一命名与baseline总表 — 2026-10-22
+
+用户要求梳理V8、HyCoRe改版与V9，仅保留全9840训练/2468 test逐轮选模，seed只在名称后注明。新[75：统一命名与baseline图谱](75_TS_EXPERIMENT_BASELINE_ATLAS_2026-10-22/report.md)采用“基础配方B01–B10 / HIER组件H0、Hshared-A0、Hshell-A0/A1”的组合名，15条正式记录TS01–TS15；原目录/权重/日志/canonical身份不改。独立[TS注册表v3](experiment_registry_ts_v3.json)及CSV保存新旧映射、batch/更新预算、基础cap/GS、HIER视图/GS、margin、同轮训练与test准确率。VS984不纳入，不重审。
+
+北京时间23:06:55只读采集：14条已有300轮终点（含历史原版续训），新AdamW TS15完成34/300、best e28 OA91.653160%，只是快照不排名。补齐末10轮均值/总体SD，训练在线与clean/eval分列；原版历史e300日志OA92.828%，best沿用54固定权重复测94.043760%。最高best仍是HC/c0.1/cap/GS/半margin/shuffle32的94.327%，无GS对应组best=e300=93.963%、末10轮均值93.6265%；循环HIER93.881686%，匹配无HIER93.395462%。75用于用户选择新HIER底座，不启动矩阵；现有A1完整任务保持后台运行，不逐轮监看。
+
 ## V9-HIER AdamW候选完整300轮已启动 — 2026-10-22
 
 用户请求把73的AdamW参数进行一次完整V9-HIER实验。唯一fresh300×200、seed22、TS，实际只改代理初始LR0.005和eps1e-4，最低LR0.0005及其余原V9/300轮余弦保持；不resume十轮权重，不新增矩阵。版本化wrapper位于diagnostics/v9_adamw_full_20261022，保留原生产审计/评估/检查点，不加载73密集observer。源码8408273先本地提交推送、服务器fetch/pull --ff-only冻结；38项CPU+Gloo、独立fresh2×2 train-only短测通过。8001空闲GPU1/2于21:28:18正式启动；21:31:26首轮200步、2468 test、有限best/last/e1、BN400/双rank同步与实际optimizer/scheduler等16项验收通过。旧模型/代理初始化、数据字节/标签/划分、首批ID/crop一致。保持后台完整300轮，不逐轮监看；后续按用户询问读取保存数据。见[74：方案、上线与验收](74_V9_ADAMW_FULL_RUN_2026-10-22/report.md)，私有路径见忽略的74工程交接。

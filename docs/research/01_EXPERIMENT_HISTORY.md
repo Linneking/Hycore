@@ -1,5 +1,9 @@
 # Experiment history
 
+## TS实验统一别名及全部成绩核对 — 2026-10-22
+
+新增[75：baseline图谱](75_TS_EXPERIMENT_BASELINE_ATLAS_2026-10-22/report.md)和[TS注册表v3](experiment_registry_ts_v3.json)：V8/HC改版/V9共15条TS记录，归入10种基础配方；seed仅作后缀，组件分别为无HIER、共享实际半径HIER、固定4.6壳HIER与新AdamW候选。排除VS984与短测，不改历史运行名称或结果。仅读取已保存指标/历史标量日志，检查13条现代完成任务的连续300份轮记录与1条进行中前缀；best AA取同轮，补齐在线/clean-eval训练OA、e300与末10轮统计。历史原版e300 OA92.828%，best复测94.043760%。23:06:55快照A1完整任务已34/300，不作最终排名，不启动新矩阵。新旧名映射及完整CSV见75。
+
 ## V9-HIER新AdamW单条300轮启动与昨日活动复核 — 2026-10-22
 
 用户请求完整验证73组合，新增versioned wrapper保持原V9生产loop，只改proxyLR0.005/eps1e-4及版本/名称声明；fresh S22、300×200、nativec1/HIERc.1/H4.6、TS、其余原配方保持。执行8408273先推送/服务器快进冻结，38项CPU+Gloo与独立2×2短测通过。21:28:18在8001两张完全空闲GPU1/2从头启动；21:31:26首轮200步/2468test/有限状态/BN400/代理同步、实际AdamW与300轮scheduler、初始化/数据/首批身份等16项验收通过；不逐轮监看或提前停止，不追加矩阵。见[74](74_V9_ADAMW_FULL_RUN_2026-10-22/report.md)。

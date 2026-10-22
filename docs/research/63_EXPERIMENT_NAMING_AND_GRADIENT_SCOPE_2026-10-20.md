@@ -1,5 +1,7 @@
 # 实验参数命名与HIER梯度缩放范围
 
+2026-10-22更新：今后TS实验的展示名称使用[75：统一命名与baseline图谱](75_TS_EXPERIMENT_BASELINE_ATLAS_2026-10-22/report.md)及[TS注册表v3](experiment_registry_ts_v3.json)，分开基础cap/GS与HIER组件，seed仅在后缀注明。本文件与registry v2保留历史定义和VS984映射，不改原运行身份。
+
 日期：2026-10-20。按用户最新决定重整V8和原版修改线；早期V1–V7仍由33旧规范负责。本规范更新其“几何参数和seed只放元数据”的旧约定。旧运行身份保持，通过[机器映射](experiment_registry_v2.json)使用新的展示名。
 
 ## 命名与未来默认协议
