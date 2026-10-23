@@ -12,6 +12,11 @@ from pathlib import Path
 import subprocess
 import time
 
+if __package__:
+    from .gate import validate_full_gate
+else:
+    from gate import validate_full_gate
+
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
@@ -22,15 +27,29 @@ def main():
     p.add_argument("--steps", type=int, required=True)
     p.add_argument("--queue-size", type=int, choices=(0, 2048), default=2048)
     p.add_argument("--save-on-cpu", action="store_true")
+    p.add_argument("--activation-checkpoint", action="store_true")
+    p.add_argument("--diagnostic-max-whole", action="store_true")
     a = p.parse_args()
+    if a.save_on_cpu and a.activation_checkpoint:
+        p.error("choose one activation-memory strategy")
+    if a.diagnostic_max_whole and a.mode != "diagnostic":
+        p.error("maximum-whole capacity probe is diagnostic-only")
     s = json.loads(a.identity.read_text())
     root = Path(s["root"])
     if Path(a.name).name != a.name or (root / a.name).exists():
         raise RuntimeError("phase name must identify a new child directory")
-    if not (root / "cpu_contracts_passed.json").is_file():
+    cpu_gate_path = root / "cpu_contracts_passed.json"
+    if not cpu_gate_path.is_file():
         raise RuntimeError("CPU/Gloo acceptance missing")
-    if a.mode == "full" and not (root / "full_gate.json").is_file():
-        raise RuntimeError("full-run GPU acceptance gate missing")
+    if json.loads(cpu_gate_path.read_text()).get("commit") != s["commit"]:
+        raise RuntimeError("CPU/Gloo acceptance belongs to another source commit")
+    if a.mode == "full":
+        if not a.activation_checkpoint or a.save_on_cpu:
+            raise RuntimeError("full run requires the validated BN-preserving checkpoint path")
+        full_gate_path = root / "full_gate.json"
+        if not full_gate_path.is_file():
+            raise RuntimeError("full-run GPU acceptance gate missing")
+        validate_full_gate(json.loads(full_gate_path.read_text()), s["commit"])
     status_path = root / (a.name + "_dispatch.json")
     if status_path.exists():
         raise RuntimeError("phase has already been submitted")
@@ -86,6 +105,10 @@ def main():
            "--steps-per-epoch", str(a.steps), "--queue-size", str(a.queue_size)]
     if a.save_on_cpu:
         cmd.append("--save-on-cpu")
+    if a.activation_checkpoint:
+        cmd.append("--activation-checkpoint")
+    if a.diagnostic_max_whole:
+        cmd.append("--diagnostic-max-whole")
     with (root / (a.name + ".log")).open("x") as output:
         child = subprocess.Popen(cmd, cwd=s["source"], env=env, stdout=output, stderr=subprocess.STDOUT)
         save(status="running", child_pid=child.pid, gpus=chosen, command=cmd)

@@ -2,7 +2,9 @@
 
 The 600-point crop overwrites the whole prefix once. Three independent input
 copies are encoded, small to large, followed by the overwritten whole. No cap,
-fixed-depth mapping, extra gradient hook or activation recomputation is added.
+fixed-depth mapping or extra gradient hook is added. Optional non-reentrant
+checkpointing restores BN buffers after recompute, retaining four effective
+BN updates without storing all four backbone activation graphs.
 """
 from __future__ import annotations
 
@@ -11,6 +13,7 @@ import random
 
 import torch
 from torch import nn
+from torch.utils.checkpoint import checkpoint
 
 from ..hier_proxy_scratch_v5.distributed import gather_with_grad, gather_without_grad
 from ..hier_proxy_scratch_v9.base_protocol import knn_indices, intra_losses, smoothed_ce
@@ -106,26 +109,83 @@ def sample_nested_parts(points, whole_count, *, centers=None, whole_centers=None
     return whole, part_inputs, stats
 
 
+class _PreserveBatchNormBuffers:
+    """Reusable recompute context, including exceptional/early-stop exits.
+
+    Snapshots are taken on each entry, rather than at checkpoint creation:
+    backward begins after all four ordinary forward updates have completed.
+    Recompute uses temporary clones so its backward-saved running buffers
+    are never modified by a subsequent restoration copy. Finally the module
+    regains its original buffer objects; no outer DDP forward occurs here.
+    The stack also makes nested/repeated context entries safe.
+    """
+
+    def __init__(self, backbone):
+        self.backbone = backbone
+        self._snapshots = []
+
+    def __enter__(self):
+        states = []
+        try:
+            for module in self.backbone.modules():
+                if isinstance(module, nn.modules.batchnorm._BatchNorm):
+                    for name in ("running_mean", "running_var", "num_batches_tracked"):
+                        original = getattr(module, name)
+                        if original is not None:
+                            temporary = original.detach().clone()
+                            states.append((module, name, original))
+                            setattr(module, name, temporary)
+        except BaseException:
+            # An allocation failure during entry must not strand a partially
+            # replaced buffer set; __exit__ is not called when __enter__ fails.
+            for module, name, original in reversed(states):
+                setattr(module, name, original)
+            raise
+        self._snapshots.append(states)
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        for module, name, original in reversed(self._snapshots.pop()):
+            setattr(module, name, original)
+        return False
+
+
 class HyCoReTrainingForward(nn.Module):
     """Keep all four shared-backbone calls inside one outer DDP forward."""
 
-    def __init__(self, backbone, *, save_on_cpu=False):
+    def __init__(self, backbone, *, save_on_cpu=False, activation_checkpoint=False):
         super().__init__()
+        if save_on_cpu and activation_checkpoint:
+            raise ValueError("save_on_cpu and activation_checkpoint are mutually exclusive")
         self.backbone = backbone
         self.save_on_cpu = bool(save_on_cpu)
+        self.activation_checkpoint = bool(activation_checkpoint)
+
+    def _checkpoint_contexts(self):
+        return nullcontext(), _PreserveBatchNormBuffers(self.backbone)
+
+    def _backbone_forward(self, points, *, emb=False):
+        forward = (lambda value: self.backbone(value, emb=True)) if emb else self.backbone
+        if self.activation_checkpoint and torch.is_grad_enabled():
+            # Non-reentrant checkpointing supports ordinary point inputs with
+            # requires_grad=False and preserves parameter gradients. Cropping
+            # remains outside this region; only Torch RNG must be replayed.
+            return checkpoint(forward, points, use_reentrant=False,
+                              preserve_rng_state=True, context_fn=self._checkpoint_contexts)
+        return forward(points)
 
     def forward(self, points, whole_count, *, centers=None, whole_centers=None):
         whole, part_inputs, stats = sample_nested_parts(
             points, whole_count, centers=centers, whole_centers=whole_centers)
         scope = (torch.autograd.graph.save_on_cpu(pin_memory=points.is_cuda)
                  if self.save_on_cpu else nullcontext())
-        # Offload saved tensors; never rerun the backbone during backward,
-        # because recomputation would update the shared BN statistics again.
+        # The CPU-offload and BN-preserving checkpoint paths are exclusive.
         with scope:
-            parts = torch.stack([self.backbone(part, emb=True)[0] for part in part_inputs], dim=1)
-            mu, logits = self.backbone(whole)
+            parts = torch.stack([self._backbone_forward(part, emb=True)[0] for part in part_inputs], dim=1)
+            mu, logits = self._backbone_forward(whole)
         stats["backbone_forward_calls"] = 4
         stats["activation_save_on_cpu"] = self.save_on_cpu
+        stats["activation_checkpoint"] = self.activation_checkpoint
         return {"mu": mu, "parts": parts, "logits": logits,
                 "whole_count": int(whole_count), "input_stats": stats}
 

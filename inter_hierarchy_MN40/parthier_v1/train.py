@@ -53,10 +53,16 @@ def arguments():
     p.add_argument("--workers", type=int, default=2)
     p.add_argument("--eval-batch-size", type=int, default=32)
     p.add_argument("--save-on-cpu", action="store_true")
+    p.add_argument("--activation-checkpoint", action="store_true")
+    p.add_argument("--diagnostic-max-whole", action="store_true")
     p.add_argument("--resume", type=Path)
     p.add_argument("--seed", type=int, default=4780)
     p.add_argument("--save-every", type=int, default=20)
     a = p.parse_args()
+    if a.save_on_cpu and a.activation_checkpoint:
+        p.error("choose one activation-memory strategy")
+    if a.diagnostic_max_whole and a.mode != "diagnostic":
+        p.error("maximum-whole capacity probe is diagnostic-only")
     if a.seed != 4780 or min(a.epochs, a.steps_per_epoch, a.eval_batch_size, a.save_every) < 1 or a.workers < 0:
         p.error("seed4780 and positive run intervals required")
     if a.mode == "full" and (a.epochs, a.steps_per_epoch, a.queue_size) != (300, 200, 2048):
@@ -105,7 +111,10 @@ def configuration(a):
         "proxy_optimizer": None, "warmup": 0, "label_smoothing": .2,
         "selection": "official2468 test each epoch; strict OA, retain first tie" if a.mode == "full" else "training-only sanity; no selection",
         "early_stopping": False, "workers": a.workers, "eval_batch_size": a.eval_batch_size,
-        "save_on_cpu": a.save_on_cpu, "precision": "FP32",
+        "save_on_cpu": a.save_on_cpu, "activation_checkpoint": a.activation_checkpoint,
+        "checkpoint_BN": "restore running buffers on recompute" if a.activation_checkpoint else None,
+        "diagnostic_max_whole": a.diagnostic_max_whole,
+        "precision": "FP32",
     }
 
 
@@ -222,7 +231,8 @@ def main():
         backbone = configure_backbone(Hype_pointMLP()).to(device)
         initial_sha = state_hash(backbone)
         manifest["initialized_model_sha256"] = initial_sha
-        model = DDP(HyCoReTrainingForward(backbone, save_on_cpu=a.save_on_cpu), device_ids=[local], broadcast_buffers=True)
+        model = DDP(HyCoReTrainingForward(backbone, save_on_cpu=a.save_on_cpu,
+                    activation_checkpoint=a.activation_checkpoint), device_ids=[local], broadcast_buffers=True)
         parameters = [p for p in model.parameters() if p.requires_grad]
         optimizer = geoopt.optim.RiemannianSGD(parameters, lr=.1, momentum=.9, weight_decay=2e-4)
         scheduler = CosineAnnealingLR(optimizer, T_max=300, eta_min=.005)
@@ -269,8 +279,11 @@ def main():
             torch.cuda.reset_peak_memory_stats(device)
             sums, correct, seen, unique_ids = {}, 0, 0, set()
             for step, (cloud, gold, subset_ids) in enumerate(loader):
+                step_started = time.perf_counter()
                 seed_all(a.seed + epoch_index * 10000019 + step * 1009 + rank * 1000003)
                 whole_count, _unused_part_count = shared_crop_counts(a.seed, epoch_index, step)
+                if a.diagnostic_max_whole:
+                    whole_count = 1024
                 ids = gather_without_grad(torch.as_tensor(subset_ids, device=device).long())
                 optimizer.zero_grad(set_to_none=True)
                 bn_layers = [m for m in backbone.modules() if isinstance(m, torch.nn.modules.batchnorm._BatchNorm)]
@@ -326,6 +339,18 @@ def main():
                         print(json.dumps({"epoch": epoch, "step": step + 1, "loss": float(loss),
                                           "queue": len(hierarchy.queue), "peak_MiB": torch.cuda.max_memory_allocated() / 2**20}), flush=True)
                 del loss, weighted, local_out, values
+                torch.cuda.synchronize(device)
+                free_bytes, total_bytes = torch.cuda.mem_get_info(device)
+                jsonl(a.run_dir / f"resources_rank_{rank}.jsonl", {
+                    "rank": rank, "epoch": epoch, "step": step + 1, "global_step": global_step,
+                    "whole_count": whole_count, "queue_size_after": len(hierarchy.queue),
+                    "seconds": time.perf_counter() - step_started,
+                    "allocated_MiB": torch.cuda.memory_allocated(device) / 2**20,
+                    "reserved_MiB": torch.cuda.memory_reserved(device) / 2**20,
+                    "peak_allocated_MiB": torch.cuda.max_memory_allocated(device) / 2**20,
+                    "peak_reserved_MiB": torch.cuda.max_memory_reserved(device) / 2**20,
+                    "free_MiB": free_bytes / 2**20, "total_MiB": total_bytes / 2**20,
+                })
             scheduler.step()
             q_shas = [None, None]
             dist.all_gather_object(q_shas, queue_digest(hierarchy))
