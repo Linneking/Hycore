@@ -34,6 +34,8 @@ Never pull into a dirty server worktree. Do not use `git reset --hard` to resolv
 
 ## Experiment identity
 
+2026-10-23最新执行授权：用户已选择严格保留B05基础GS，要求两条HIER-on均部署8001并明确“启动”；断电期间仅设计/不连接约束已由该指令覆盖。仅执行[79](79_S4780_NATIVE_B05_LAUNCH_2026-10-23.md)所列两条fresh实验，不自动增加匹配H0或重启旧任务。以下“current request is design only”为此前历史状态。
+
 Use [75: TS baseline/component names](75_TS_EXPERIMENT_BASELINE_ATLAS_2026-10-22/report.md) and [TS registry v3](experiment_registry_ts_v3.json) for current TS display aliases. Keep [63](63_EXPERIMENT_NAMING_AND_GRADIENT_SCOPE_2026-10-20.md), registry v2, [33](33_EXPERIMENT_NAMING_CONVENTION_2026-10-06.md) and the legacy registry for historical identities. Latest user-authorized future defaults (2026-10-23): full9840 training/test2468 each-epoch best OA, no early stopping; **seed4780 for every lineage**, **class-balanced64 with within-class replacement; abandon cyclic64**. Historical validation-selected runs retain VS984 and all historical runs retain their actual seeds. Server power loss was reported; the current request is design only, with no server connection, implementation, dispatch or automatic restart authorized. See [76](76_S4780_FIXED_SHELL_BASELINE_DESIGN_2026-10-23.md) for unresolved B05 GS scope and suggested matched controls. B0-32/B0-64 historically mean shuffle; B32/B64 mean class-balanced with HIER disabled. Record base cap/GS separately from HIER view/GS and optimizer. Every new manifest records canonical display name and immutable run ID; an instantaneous diagnostic base arm is not a trained baseline.
 
 Every run directory must contain or log:
