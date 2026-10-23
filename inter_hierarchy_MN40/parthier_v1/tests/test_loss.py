@@ -61,8 +61,21 @@ class LossTests(unittest.TestCase):
                                  dtype=torch.float64, requires_grad=True)
         depths = torch.tensor([1.5, 1.8, 2.], dtype=torch.float64, requires_grad=True)
         whole_depth = torch.tensor([.2, .3, .4], dtype=torch.float64, requires_grad=True)
-        _, order, details = _selection_losses(distances, torch.tensor([[0, 1, 2]]),
-            whole_depth, depths, generator=torch.Generator().manual_seed(7))
+        # Noise streams differ between PyTorch versions. Fixed, nonsaturating
+        # noise isolates the derivative contract from random collision draws.
+        noise = iter((torch.tensor([[3., 0., 0.]], dtype=torch.float64),
+                      torch.tensor([[0., 3., 0.]], dtype=torch.float64)))
+
+        def fixed_noise_gumbel(logits, generator=None):
+            soft = torch.softmax(logits + next(noise).to(logits), dim=-1)
+            hard = torch.nn.functional.one_hot(soft.argmax(-1), logits.shape[-1]).to(soft)
+            return hard - soft.detach() + soft
+
+        with patch(MODULE + "._hard_gumbel", side_effect=fixed_noise_gumbel):
+            _, order, details = _selection_losses(distances, torch.tensor([[0, 1, 2]]),
+                whole_depth, depths)
+        self.assertEqual(details["pair_idx"].tolist(), [0])
+        self.assertEqual(details["triple_idx"].tolist(), [1])
         self.assertTrue(bool(details["valid"].all()))
         order.backward()
         self.assertGreater(float(distances.grad.abs().sum()), 0.)
