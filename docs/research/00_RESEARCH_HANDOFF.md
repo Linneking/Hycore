@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 导师汇报：TS全实验、idea时间线与消融汇总 — 2026-10-23
+
+按用户要求新增[78：导师汇报Markdown](78_SUPERVISOR_TS_EXPERIMENT_SUMMARY_2026-10-23.md)：覆盖10/17后14条正式任务（13条完成300轮、1条无完整结果），另列TS01原版历史锚点及早期V6/旧V8参照；全称、曲率、batch/预算、margin、cap/GS、HIER视图、代理AdamW、seed、best OA同轮AA、e300及末10轮统计齐全，并按idea→实验→结果→消融梳理。TS15仅使用10/22 23:06:55已存e34定量快照，e47–48只有文字进度，不推测成绩或宕机后状态。三路独立复核配置/数值、机制边界与时间线；仅本地资料整理，不连接服务器、重测或启动任务。
+
 ## 三套dataflow与梯度裁剪/GS澄清 — 2026-10-23
 
 用户要求核实原版HyCoRe的梯度操作并画原版HyCoRe、原版HIER和B05三图。见[77：源码与dataflow](77_HYCORE_HIER_B05_DATAFLOW_2026-10-23.md)：原版HyCoRe实际PointMLP没有B05出口GS，但backward后有全网络参数梯度总范数1裁剪，随后RSGD。B05保留这套更新流程，另在共享whole/part emb出口加入cap2.3和GS；“基础GS”指基础分支位置，不代表原版自带。官方HIER样本和层次代理分别cap/map/GS，另在更新前逐分量裁剪±10后AdamW；PA类别代理与512层次代理独立。三者均不强制whole固定4.6，历史B05也无HIER目标。仅本地源码核实与文档，未连接服务器或改训练/设计选择。
