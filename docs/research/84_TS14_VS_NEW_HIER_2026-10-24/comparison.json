@@ -1,0 +1,240 @@
+{
+  "historical": [
+    {
+      "run_id": "TS02",
+      "baseline_id": "B01",
+      "component": "H0",
+      "seed": 4780,
+      "best_epoch": 189,
+      "best_test_oa": 94.003,
+      "best_test_aa_same_epoch": 90.203,
+      "end_test_oa": 93.72,
+      "end_test_aa": 91.349,
+      "end_online_train_oa": 99.175,
+      "end_clean_train_oa": null,
+      "last10_test_oa_mean": 93.24549999999999,
+      "last10_test_oa_population_std": 0.2955987990503351
+    },
+    {
+      "run_id": "TS06",
+      "baseline_id": "B05",
+      "component": "H0",
+      "seed": 4780,
+      "best_epoch": 184,
+      "best_test_oa": 94.327,
+      "best_test_aa_same_epoch": 91.415,
+      "end_test_oa": 93.517,
+      "end_test_aa": 91.141,
+      "end_online_train_oa": 99.114,
+      "end_clean_train_oa": null,
+      "last10_test_oa_mean": 93.0265,
+      "last10_test_oa_population_std": 0.35111287358910664
+    },
+    {
+      "run_id": "TS13",
+      "baseline_id": "B10",
+      "component": "H0",
+      "seed": 4780,
+      "best_epoch": 223,
+      "best_test_oa": 93.39546191247975,
+      "best_test_aa_same_epoch": 90.57034254074097,
+      "end_test_oa": 92.78768233387358,
+      "end_test_aa": 90.37848711013794,
+      "end_online_train_oa": 99.71875,
+      "end_clean_train_oa": 99.6951219512195,
+      "last10_test_oa_mean": 91.83144246353322,
+      "last10_test_oa_population_std": 1.1639785572379522
+    },
+    {
+      "run_id": "TS14",
+      "baseline_id": "B10",
+      "component": "Hshell-A0",
+      "seed": 4780,
+      "best_epoch": 212,
+      "best_test_oa": 93.88168557536467,
+      "best_test_aa_same_epoch": 91.75291061401367,
+      "end_test_oa": 93.27390599675851,
+      "end_test_aa": 91.31628274917603,
+      "end_online_train_oa": 99.70833333333333,
+      "end_clean_train_oa": 99.8069105691057,
+      "last10_test_oa_mean": 92.97811993517018,
+      "last10_test_oa_population_std": 0.22924384375714707
+    }
+  ],
+  "new_b05": {
+    "run_id": "seed4780_b05_shell_a1_20261023_r1",
+    "base_c": 0.1,
+    "base_cap": 2.3,
+    "base_GS": true,
+    "radial_gamma": 500,
+    "contrastive_margin": 2,
+    "finished_beijing": "2026-10-24T02:47:34+08:00",
+    "best": {
+      "epoch": 273,
+      "oa": 93.47649918962723,
+      "aa": 91.50756001472473
+    },
+    "e300": {
+      "oa": 93.11183144246354,
+      "aa": 90.75756072998047,
+      "online_train_oa": 99.6953125,
+      "clean_train_oa": 99.8170731707317,
+      "hier_loss_epoch_mean": 0.09866115774959326,
+      "ce_epoch_mean": 1.6267212617397309,
+      "intra_contrastive_epoch_mean": 0.06761718428693712,
+      "intra_radial_epoch_mean": 0.26583354516886176
+    },
+    "e291_300": {
+      "oa_mean": 92.98622366288492,
+      "oa_sd_population": 0.20376484539190357,
+      "oa_min": 92.6256077795786,
+      "oa_max": 93.31442463533226
+    },
+    "e251_300": {
+      "oa_mean": 92.99756888168558,
+      "oa_sd_population": 0.2806851004682225
+    },
+    "proxy_best": {
+      "min": 3.02792937959212,
+      "median": 3.4439529511913873,
+      "max": 4.141809312607693,
+      "mean": 3.5431473982252966,
+      "std": 0.2839533920292396,
+      "cap_count": 0
+    },
+    "proxy_e300": {
+      "min": 3.0183328534999414,
+      "median": 3.439528520698614,
+      "max": 4.118131567913662,
+      "mean": 3.538040980262151,
+      "std": 0.28291407082402553,
+      "cap_count": 0
+    },
+    "e300_first_batch_gradient_audit": {
+      "weighted_hier_norm": 0.013379499316215515,
+      "base_norm": 0.10284525901079178,
+      "hier_vs_base_norm_ratio": 0.1300935000181198,
+      "hier_vs_base_cosine": 0.17311306297779083,
+      "classifier_hier_norm": 0
+    },
+    "e300_actual_gumbel_noncollision_order": {
+      "sample_pair_deeper_than_triple_fraction": 0.9251655348600775,
+      "proxy_pair_deeper_than_triple_fraction": 0.8882371308238132,
+      "proxy_pair_strictly_shallower_than_both_endpoints_fraction": 0.08624928196706463,
+      "proxy_pair_deeper_than_at_least_one_endpoint_fraction": 0.5818107062583869,
+      "proxy_triple_strictly_shallower_than_all_endpoints_fraction": 0.7824661720085139
+    }
+  },
+  "new_native": {
+    "run_id": "seed4780_native_shell_a1_20261023_r1",
+    "base_c": 1,
+    "base_cap": null,
+    "base_GS": false,
+    "radial_gamma": 1000,
+    "contrastive_margin": 4,
+    "finished_beijing": "2026-10-24T02:49:14+08:00",
+    "best": {
+      "epoch": 153,
+      "oa": 92.74716369529983,
+      "aa": 90.46161770820618
+    },
+    "e300": {
+      "oa": 89.50567260940032,
+      "aa": 89.32906985282898,
+      "online_train_oa": 99.53125,
+      "clean_train_oa": 97.26626016260163,
+      "hier_loss_epoch_mean": 0.07823695942759513,
+      "ce_epoch_mean": 2.9310985803604126,
+      "intra_contrastive_epoch_mean": 0.2911658837646246,
+      "intra_radial_epoch_mean": 0.11926290494389832
+    },
+    "e291_300": {
+      "oa_mean": 90.31199351701783,
+      "oa_sd_population": 1.2571817703054038,
+      "oa_min": 87.96596434359806,
+      "oa_max": 92.22042139384116
+    },
+    "e251_300": {
+      "oa_mean": 90.8354943273906,
+      "oa_sd_population": 1.0482255592552847
+    },
+    "proxy_best": {
+      "min": 2.7873553675741833,
+      "median": 3.2129476324427397,
+      "max": 4.080555375249682,
+      "mean": 3.395487049043784,
+      "std": 0.3700461869700385,
+      "cap_count": 0
+    },
+    "proxy_e300": {
+      "min": 2.676464926290114,
+      "median": 3.2209499808879163,
+      "max": 3.826765657548601,
+      "mean": 3.302860966066174,
+      "std": 0.25282185124685147,
+      "cap_count": 0
+    },
+    "e300_first_batch_gradient_audit": {
+      "weighted_hier_norm": 0.00984384585171938,
+      "base_norm": 1.0854486227035522,
+      "hier_vs_base_norm_ratio": 0.009068919345736504,
+      "hier_vs_base_cosine": -0.18725468218326569,
+      "classifier_hier_norm": 0
+    },
+    "e300_actual_gumbel_noncollision_order": {
+      "sample_pair_deeper_than_triple_fraction": 0.9713517616547537,
+      "proxy_pair_deeper_than_triple_fraction": 0.8997370897536229,
+      "proxy_pair_strictly_shallower_than_both_endpoints_fraction": 0.09988319057119989,
+      "proxy_pair_deeper_than_at_least_one_endpoint_fraction": 0.5697800563926008,
+      "proxy_triple_strictly_shallower_than_all_endpoints_fraction": 0.8131983970754908
+    }
+  },
+  "source_identifiers": {"ts13_ts14_commit":"c0d2c894dcd9de6d5272597011609fc2fd720621", "new_pair_commit":"5517661f0bf1e37985b324006d55ecba5901fbd4", "historical_inventory":"75_TS_EXPERIMENT_BASELINE_ATLAS_2026-10-22/tables/unified_inventory.json", "new_completion":"83_S4780_NATIVE_B05_COMPLETION_2026-10-24/results.json", "ts14_checkpoint_observation":"2026-10-24,  CPU-only torch.load of existing best.pth and last.pth; no new forward"},
+  "scope": "Read-only historical records and saved TS14 best/last CPU inspection, no new model forward or training",
+  "date_beijing": "2026-10-24",
+  "ts14_proxy_endpoint_inspection": {
+    "best": {
+      "epoch": 212,
+      "raw_tangent_min": 2.0459939765068698,
+      "raw_tangent_median": 7.490912115519916,
+      "raw_tangent_max": 7.726081408798631,
+      "raw_above_cap_count": 511,
+      "proxy_count": 512
+    },
+    "e300": {
+      "epoch": 300,
+      "raw_tangent_min": 2.0201021956042315,
+      "raw_tangent_median": 6.197526890436876,
+      "raw_tangent_max": 6.380667766662975,
+      "raw_above_cap_count": 511,
+      "proxy_count": 512
+    },
+    "cap": 2.3,
+    "mapping_note": "511 raw norms exceed cap, hence 511 outputs lie near depth4.6; remaining output depth best≈4.091988/e300≈4.040204. Map epsilon is omitted in these rounded depth statements.",
+    "actual_optimizer": {
+      "lr_initial": 0.01,
+      "lr_e300": 0.0005,
+      "eps": 1e-8,
+      "weight_decay": 0.01
+    }
+  },
+  "ts14_e300_observations": {
+    "hier_loss_epoch_mean": 0.10553154930472373,
+    "proxy_angular_update_norm_epoch_mean": 0.04127832118421793,
+    "proxy_radial_update_norm_epoch_mean": 0.0008412811408440272,
+    "all_model_first_batch_audit": {
+      "base_norm": 0.06399604678153992,
+      "weighted_hier_norm": 0.010470645502209663,
+      "hier_vs_base_norm_ratio": 0.1636139452457428,
+      "hier_vs_base_cosine": 0.17699773609638214
+    }
+  },
+  "interpretation_limits": [
+    "TS13 and TS14 share cycle sampler and 90k updates, so their within-pair gain is not attributable to extra steps",
+    "TS14 versus new B05 jointly changes sampling, steps/schedule pacing and proxy AdamW; cannot identify one cause",
+    "New HIER-on versus historical SH32 H0 is not a matched HIER ablation",
+    "Best/end/tail10 are separate summaries, and tail SD is over epochs not seeds",
+    "CPU sampler simulation contains synthetic IDs and does not measure classification",
+    "Whole/proxy radial ordering does not establish independent morphology/semantic hierarchy"
+  ]
+}
