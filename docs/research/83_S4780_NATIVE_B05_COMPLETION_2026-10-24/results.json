@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "collected_date_beijing": "2026-10-24",
+  "first_observation_beijing": "2026-10-24T13:36:35+08:00",
+  "source_commit": "5517661f0bf1e37985b324006d55ecba5901fbd4",
+  "scope": "Read-only saved artifacts; no new forward, optimization, BN calibration or GPU allocation",
+  "protocol": {
+    "seed": 4780,
+    "epochs": 300,
+    "steps_per_epoch": 200,
+    "total_updates": 60000,
+    "sampler": "non-cyclic class-balanced64, within-class replacement",
+    "train_size": 9840,
+    "test_size": 2468,
+    "selection": "each-epoch strict best test OA; first tie retained",
+    "proxy_lr_initial": 0.005,
+    "proxy_lr_final": 0.0005,
+    "proxy_eps": 0.0001,
+    "hier_whole_depth": 4.6,
+    "proxy_count": 512
+  },
+  "acceptance": {
+    "both_queue_exit_codes": 0,
+    "both_completed_epochs": 300,
+    "both_completed_updates": 60000,
+    "both_have_300_contiguous_epoch_records": true,
+    "all_epoch_updates_200": true,
+    "all_test_counts_2468": true,
+    "all_epoch_telemetry_finite": true,
+    "max_saved_epoch_proxy_replica_difference": 0,
+    "best_and_last_model_proxy_finite": true,
+    "both_last_rank_BN_counters": [
+      120000,
+      120000
+    ],
+    "both_actual_proxy_scheduler_T_max": 300,
+    "both_actual_proxy_scheduler_last_epoch": 300
+  },
+  "runs": {
+    "native": {
+      "run_id": "seed4780_native_shell_a1_20261023_r1",
+      "base_c": 1,
+      "base_cap": null,
+      "base_GS": false,
+      "radial_gamma": 1000,
+      "contrastive_margin": 4,
+      "finished_beijing": "2026-10-24T02:49:14+08:00",
+      "best": {
+        "epoch": 153,
+        "oa": 92.74716369529983,
+        "aa": 90.46161770820618
+      },
+      "e300": {
+        "oa": 89.50567260940032,
+        "aa": 89.32906985282898,
+        "online_train_oa": 99.53125,
+        "clean_train_oa": 97.26626016260163,
+        "hier_loss_epoch_mean": 0.07823695942759513,
+        "ce_epoch_mean": 2.9310985803604126,
+        "intra_contrastive_epoch_mean": 0.2911658837646246,
+        "intra_radial_epoch_mean": 0.11926290494389832
+      },
+      "e291_300": {
+        "oa_mean": 90.31199351701783,
+        "oa_sd_population": 1.2571817703054038,
+        "oa_min": 87.96596434359806,
+        "oa_max": 92.22042139384116
+      },
+      "e251_300": {
+        "oa_mean": 90.8354943273906,
+        "oa_sd_population": 1.0482255592552847
+      },
+      "proxy_best": {
+        "min": 2.7873553675741833,
+        "median": 3.2129476324427397,
+        "max": 4.080555375249682,
+        "mean": 3.395487049043784,
+        "std": 0.3700461869700385,
+        "cap_count": 0
+      },
+      "proxy_e300": {
+        "min": 2.676464926290114,
+        "median": 3.2209499808879163,
+        "max": 3.826765657548601,
+        "mean": 3.302860966066174,
+        "std": 0.25282185124685147,
+        "cap_count": 0
+      },
+      "e300_first_batch_gradient_audit": {
+        "weighted_hier_norm": 0.00984384585171938,
+        "base_norm": 1.0854486227035522,
+        "hier_vs_base_norm_ratio": 0.009068919345736504,
+        "hier_vs_base_cosine": -0.18725468218326569,
+        "classifier_hier_norm": 0
+      },
+      "e300_actual_gumbel_noncollision_order": {
+        "sample_pair_deeper_than_triple_fraction": 0.9713517616547537,
+        "proxy_pair_deeper_than_triple_fraction": 0.8997370897536229,
+        "proxy_pair_strictly_shallower_than_both_endpoints_fraction": 0.09988319057119989,
+        "proxy_pair_deeper_than_at_least_one_endpoint_fraction": 0.5697800563926008,
+        "proxy_triple_strictly_shallower_than_all_endpoints_fraction": 0.8131983970754908
+      }
+    },
+    "b05": {
+      "run_id": "seed4780_b05_shell_a1_20261023_r1",
+      "base_c": 0.1,
+      "base_cap": 2.3,
+      "base_GS": true,
+      "radial_gamma": 500,
+      "contrastive_margin": 2,
+      "finished_beijing": "2026-10-24T02:47:34+08:00",
+      "best": {
+        "epoch": 273,
+        "oa": 93.47649918962723,
+        "aa": 91.50756001472473
+      },
+      "e300": {
+        "oa": 93.11183144246354,
+        "aa": 90.75756072998047,
+        "online_train_oa": 99.6953125,
+        "clean_train_oa": 99.8170731707317,
+        "hier_loss_epoch_mean": 0.09866115774959326,
+        "ce_epoch_mean": 1.6267212617397309,
+        "intra_contrastive_epoch_mean": 0.06761718428693712,
+        "intra_radial_epoch_mean": 0.26583354516886176
+      },
+      "e291_300": {
+        "oa_mean": 92.98622366288492,
+        "oa_sd_population": 0.20376484539190357,
+        "oa_min": 92.6256077795786,
+        "oa_max": 93.31442463533226
+      },
+      "e251_300": {
+        "oa_mean": 92.99756888168558,
+        "oa_sd_population": 0.2806851004682225
+      },
+      "proxy_best": {
+        "min": 3.02792937959212,
+        "median": 3.4439529511913873,
+        "max": 4.141809312607693,
+        "mean": 3.5431473982252966,
+        "std": 0.2839533920292396,
+        "cap_count": 0
+      },
+      "proxy_e300": {
+        "min": 3.0183328534999414,
+        "median": 3.439528520698614,
+        "max": 4.118131567913662,
+        "mean": 3.538040980262151,
+        "std": 0.28291407082402553,
+        "cap_count": 0
+      },
+      "e300_first_batch_gradient_audit": {
+        "weighted_hier_norm": 0.013379499316215515,
+        "base_norm": 0.10284525901079178,
+        "hier_vs_base_norm_ratio": 0.1300935000181198,
+        "hier_vs_base_cosine": 0.17311306297779083,
+        "classifier_hier_norm": 0
+      },
+      "e300_actual_gumbel_noncollision_order": {
+        "sample_pair_deeper_than_triple_fraction": 0.9251655348600775,
+        "proxy_pair_deeper_than_triple_fraction": 0.8882371308238132,
+        "proxy_pair_strictly_shallower_than_both_endpoints_fraction": 0.08624928196706463,
+        "proxy_pair_deeper_than_at_least_one_endpoint_fraction": 0.5818107062583869,
+        "proxy_triple_strictly_shallower_than_all_endpoints_fraction": 0.7824661720085139
+      }
+    }
+  },
+  "interpretation_limits": [
+    "Two HIER-on recipes jointly differ in curvature, cap, base GS and margins",
+    "Historical H0 shuffle32x307 differs from new CB64x200; old CB64 controls also differ in seed or protocol",
+    "Endpoint geometry is not independent semantic/morphological validation",
+    "e300 audit is one pre-update batch, not a trajectory average",
+    "Online train and clean/eval train accuracy use different inputs and BN modes",
+    "final_test.json summarizes selected best checkpoint, not e300"
+  ]
+}
