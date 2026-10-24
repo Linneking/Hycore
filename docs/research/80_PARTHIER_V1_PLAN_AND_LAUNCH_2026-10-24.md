@@ -1,5 +1,7 @@
 # PartHier v1：原生HyCoRe、多尺度真实局部祖先
 
+研究问题、逐步数据流、实际损失公式与实验归因的阅读版见[82：实验设计说明](82_PARTHIER_V1_EXPERIMENT_DESIGN_2026-10-24.md)；本文件保留执行与验收时间线。
+
 ## 09:45最终启动：8001、部分主干重计算
 
 用户后续明确改用8001，并要求提高显存利用率。最终源82478cdedb45a2eeb60e2cb745999060bb813e56已本机提交推送、服务器快进并独立冻结。33项CPU、双rank Gloo、真实PointMLP CUDA输出/梯度/一次RSGD更新/BN/RNG对照、独立2×2及14步满Q/whole1024验收通过。CUDA梯度/更新global relL2约1.69e-6/4.36e-6，未降低原CUDA门槛或关闭checkpoint metadata检查。

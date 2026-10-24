@@ -1,5 +1,7 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+PartHier v1研究设计阅读入口：[82：实验设计说明](82_PARTHIER_V1_EXPERIMENT_DESIGN_2026-10-24.md)，包含混合祖先池、实际损失与训练协议、短测依据和归因边界；执行实证仍以80为准。该文档整理未新增训练或消融。
+
 ## PartHier v1已改8001启动，部分重算提高利用率 — 2026-10-24
 
 用户明确“先用8001”，随后要求提高显存利用率；覆盖下方8000连接阻断的当前部署地点。最终源82478cd，33CPU/Gloo、真实CUDA一致性、独立2×2与14步满Q/whole1024通过。只重算part200/400欧氏主干，600/whole保留激活、双曲头普通autograd；原global64/FP32/BN4、三intra各.01、原生c1/200-400-600/混合A-B/Q2048、seed4780/300×200/TS保持。满Q活跃峰值27.79GiB/卡、预留28.21GiB、设备空闲至少2.27GiB，短测1.343s/step对全重算1.527s。
