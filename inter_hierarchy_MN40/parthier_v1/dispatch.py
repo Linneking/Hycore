@@ -28,6 +28,7 @@ def main():
     p.add_argument("--queue-size", type=int, choices=(0, 2048), default=2048)
     p.add_argument("--save-on-cpu", action="store_true")
     p.add_argument("--activation-checkpoint", action="store_true")
+    p.add_argument("--checkpoint-policy", choices=("all", "small_medium"), default="all")
     p.add_argument("--diagnostic-max-whole", action="store_true")
     a = p.parse_args()
     if a.save_on_cpu and a.activation_checkpoint:
@@ -49,7 +50,10 @@ def main():
         full_gate_path = root / "full_gate.json"
         if not full_gate_path.is_file():
             raise RuntimeError("full-run GPU acceptance gate missing")
-        validate_full_gate(json.loads(full_gate_path.read_text()), s["commit"])
+        full_gate = json.loads(full_gate_path.read_text())
+        validate_full_gate(full_gate, s["commit"])
+        if a.checkpoint_policy != full_gate["smoke"]["config"].get("checkpoint_policy", "all"):
+            raise RuntimeError("full checkpoint policy differs from CUDA training acceptance")
     status_path = root / (a.name + "_dispatch.json")
     if status_path.exists():
         raise RuntimeError("phase has already been submitted")
@@ -107,6 +111,7 @@ def main():
         cmd.append("--save-on-cpu")
     if a.activation_checkpoint:
         cmd.append("--activation-checkpoint")
+        cmd.extend(["--checkpoint-policy", a.checkpoint_policy])
     if a.diagnostic_max_whole:
         cmd.append("--diagnostic-max-whole")
     with (root / (a.name + ".log")).open("x") as output:

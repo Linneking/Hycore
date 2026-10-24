@@ -122,5 +122,15 @@ class DispatchGateTests(unittest.TestCase):
             validate_full_gate(gate, COMMIT)
 
 
+    def test_checkpoint_policy_evidence_must_match(self):
+        gate = gate_fixture()
+        gate["diagnostic"]["config"]["checkpoint_policy"] = "small_medium"
+        with self.assertRaises(ValueError):
+            validate_full_gate(gate, COMMIT)
+        gate["smoke"]["config"]["checkpoint_policy"] = "small_medium"
+        with self.assertRaises(ValueError):
+            validate_full_gate(gate, COMMIT)
+
+
 if __name__ == "__main__":
     unittest.main()

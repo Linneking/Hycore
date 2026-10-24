@@ -69,6 +69,10 @@ def validate_full_gate(gate, commit):
     _require((smoke["config"]["epochs"], smoke["config"]["steps_per_epoch"], smoke["updates"]) == (2, 2, 4),
              "smoke must be an actual completed 2x2 run")
     diagnostic = _completed_run(gate, "diagnostic", commit)
+    _require(smoke["config"].get("checkpoint_policy", "all") == diagnostic["config"].get("checkpoint_policy", "all"),
+             "smoke and capacity checkpoint policies differ")
+    _require(contract.get("checkpoint_policy", "all") == smoke["config"].get("checkpoint_policy", "all"),
+             "CUDA contract and training checkpoint policies differ")
     updates = diagnostic["updates"]
     _require(updates >= 14, "diagnostic needs at least 14 actual updates")
     steps = diagnostic.get("steps")

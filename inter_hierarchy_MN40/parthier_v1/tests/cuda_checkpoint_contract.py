@@ -75,12 +75,13 @@ def cpu_buffers(model):
     return {name: value.detach().cpu().clone() for name, value in model.named_buffers()}
 
 
-def run_case(initial, points, start_rng, activation_checkpoint):
+def run_case(initial, points, start_rng, activation_checkpoint, checkpoint_policy="all"):
     gc.collect()
     torch.cuda.empty_cache()
     model = configure_backbone(Hype_pointMLP()).to("cuda:0").train()
     model.load_state_dict(initial, strict=True)
-    wrapper = HyCoReTrainingForward(model, activation_checkpoint=activation_checkpoint).train()
+    wrapper = HyCoReTrainingForward(model, activation_checkpoint=activation_checkpoint,
+        checkpoint_policy=checkpoint_policy if activation_checkpoint else "all").train()
     named = {name: value for name, value in model.named_parameters() if value.requires_grad}
     optimizer = geoopt.optim.RiemannianSGD(list(named.values()), lr=.1, momentum=.9, weight_decay=2e-4)
     initial_parameters = {name: value.detach().cpu().clone() for name, value in named.items()}
@@ -139,6 +140,7 @@ def run_case(initial, points, start_rng, activation_checkpoint):
                 for name, value in named.items()}
     summary = {
         "activation_checkpoint": activation_checkpoint, "loss": float(loss.detach()),
+        "checkpoint_policy": checkpoint_policy if activation_checkpoint else "all",
         "checkpoint_scope": outputs["input_stats"].get("activation_checkpoint_scope"),
         "trainable_parameter_tensors": len(named), "all_trainable_parameters_have_gradient": True,
         "input_requires_grad": False, "gradient_norm_before_clip": norm_before,
@@ -200,6 +202,7 @@ def compare_tensors(reference, actual, *, category):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--result-json", type=Path, required=True)
+    parser.add_argument("--checkpoint-policy", choices=("all", "small_medium"), default="all")
     args = parser.parse_args()
     target = args.result_json.expanduser().resolve()
     if target.exists():
@@ -260,7 +263,7 @@ def main():
         reference = run_case(initial, points, start_rng, False)
         gc.collect()
         torch.cuda.empty_cache()
-        actual = run_case(initial, points, start_rng, True)
+        actual = run_case(initial, points, start_rng, True, args.checkpoint_policy)
         result["ordinary"], result["checkpoint"] = reference["summary"], actual["summary"]
         result["comparisons"] = {}
         for category in ("raw_gradients", "clipped_gradients", "momentum", "updates"):

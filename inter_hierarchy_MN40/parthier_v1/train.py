@@ -54,6 +54,7 @@ def arguments():
     p.add_argument("--eval-batch-size", type=int, default=32)
     p.add_argument("--save-on-cpu", action="store_true")
     p.add_argument("--activation-checkpoint", action="store_true")
+    p.add_argument("--checkpoint-policy", choices=("all", "small_medium"), default="all")
     p.add_argument("--diagnostic-max-whole", action="store_true")
     p.add_argument("--resume", type=Path)
     p.add_argument("--seed", type=int, default=4780)
@@ -61,6 +62,8 @@ def arguments():
     a = p.parse_args()
     if a.save_on_cpu and a.activation_checkpoint:
         p.error("choose one activation-memory strategy")
+    if a.checkpoint_policy != "all" and not a.activation_checkpoint:
+        p.error("selective policy requires activation checkpointing")
     if a.diagnostic_max_whole and a.mode != "diagnostic":
         p.error("maximum-whole capacity probe is diagnostic-only")
     if a.seed != 4780 or min(a.epochs, a.steps_per_epoch, a.eval_batch_size, a.save_every) < 1 or a.workers < 0:
@@ -114,6 +117,7 @@ def configuration(a):
         "save_on_cpu": a.save_on_cpu, "activation_checkpoint": a.activation_checkpoint,
         "checkpoint_BN": "restore running buffers on recompute" if a.activation_checkpoint else None,
         "checkpoint_scope": "pointmlp_euclidean_trunk" if a.activation_checkpoint else None,
+        "checkpoint_policy": a.checkpoint_policy,
         "diagnostic_max_whole": a.diagnostic_max_whole,
         "precision": "FP32",
     }
@@ -233,7 +237,8 @@ def main():
         initial_sha = state_hash(backbone)
         manifest["initialized_model_sha256"] = initial_sha
         model = DDP(HyCoReTrainingForward(backbone, save_on_cpu=a.save_on_cpu,
-                    activation_checkpoint=a.activation_checkpoint), device_ids=[local], broadcast_buffers=True)
+                    activation_checkpoint=a.activation_checkpoint, checkpoint_policy=a.checkpoint_policy),
+                    device_ids=[local], broadcast_buffers=True)
         parameters = [p for p in model.parameters() if p.requires_grad]
         optimizer = geoopt.optim.RiemannianSGD(parameters, lr=.1, momentum=.9, weight_decay=2e-4)
         scheduler = CosineAnnealingLR(optimizer, T_max=300, eta_min=.005)

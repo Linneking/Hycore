@@ -171,13 +171,16 @@ def _pointmlp_euclidean_trunk(backbone, points):
 class HyCoReTrainingForward(nn.Module):
     """Keep all four shared-backbone calls inside one outer DDP forward."""
 
-    def __init__(self, backbone, *, save_on_cpu=False, activation_checkpoint=False):
+    def __init__(self, backbone, *, save_on_cpu=False, activation_checkpoint=False, checkpoint_policy="all"):
         super().__init__()
         if save_on_cpu and activation_checkpoint:
             raise ValueError("save_on_cpu and activation_checkpoint are mutually exclusive")
+        if checkpoint_policy not in ("all", "small_medium") or (checkpoint_policy != "all" and not activation_checkpoint):
+            raise ValueError("checkpoint policy requires a supported active checkpoint path")
         self.backbone = backbone
         self.save_on_cpu = bool(save_on_cpu)
         self.activation_checkpoint = bool(activation_checkpoint)
+        self.checkpoint_policy = checkpoint_policy
         self._checkpoint_pointmlp_trunk = self.activation_checkpoint and type(backbone).__name__ == "Hype_Model"
         if self._checkpoint_pointmlp_trunk:
             fields = ("embedding", "stages", "local_grouper_list", "pre_blocks_list",
@@ -200,9 +203,9 @@ class HyCoReTrainingForward(nn.Module):
             return checkpoint(forward, points, use_reentrant=False,
                               preserve_rng_state=True, context_fn=self._checkpoint_contexts)
 
-    def _backbone_forward(self, points, *, emb=False):
+    def _backbone_forward(self, points, *, emb=False, checkpoint_this_pass=True):
         forward = (lambda value: self.backbone(value, emb=True)) if emb else self.backbone
-        if self.activation_checkpoint and torch.is_grad_enabled():
+        if self.activation_checkpoint and checkpoint_this_pass and torch.is_grad_enabled():
             # Non-reentrant checkpointing supports ordinary point inputs with
             # requires_grad=False and preserves parameter gradients. Cropping
             # remains outside this region; only Torch RNG must be replayed.
@@ -224,11 +227,14 @@ class HyCoReTrainingForward(nn.Module):
                  if self.save_on_cpu else nullcontext())
         # The CPU-offload and BN-preserving checkpoint paths are exclusive.
         with scope:
-            parts = torch.stack([self._backbone_forward(part, emb=True)[0] for part in part_inputs], dim=1)
-            mu, logits = self._backbone_forward(whole)
+            parts = torch.stack([self._backbone_forward(part, emb=True,
+                checkpoint_this_pass=(self.checkpoint_policy == "all" or index < 2))[0]
+                for index, part in enumerate(part_inputs)], dim=1)
+            mu, logits = self._backbone_forward(whole, checkpoint_this_pass=self.checkpoint_policy == "all")
         stats["backbone_forward_calls"] = 4
         stats["activation_save_on_cpu"] = self.save_on_cpu
         stats["activation_checkpoint"] = self.activation_checkpoint
+        stats["checkpoint_policy"] = self.checkpoint_policy
         stats["checkpoint_scope"] = ("pointmlp_euclidean_trunk" if self._checkpoint_pointmlp_trunk
                                      else "whole_backbone" if self.activation_checkpoint else "none")
         stats["activation_checkpoint_scope"] = ("pointmlp_euclidean_trunk" if self._checkpoint_pointmlp_trunk

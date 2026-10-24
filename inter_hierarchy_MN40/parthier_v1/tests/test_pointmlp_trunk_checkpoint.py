@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import ast
 import copy
+import itertools
 from pathlib import Path
 import unittest
 
@@ -98,13 +99,13 @@ class PointMLPTrunkCheckpointTests(unittest.TestCase):
         Hype_Model.forward = released_forward()
 
     def test_original_source_outputs_gradients_bn_rng_and_heads_match_with_trunk_only_recompute(self):
-        for dtype in (torch.float32, torch.float64):
-            with self.subTest(dtype=dtype):
+        for dtype, policy in itertools.product((torch.float32, torch.float64), ("all", "small_medium")):
+            with self.subTest(dtype=dtype, policy=policy):
                 torch.manual_seed(4780)
                 normal = Hype_Model().to(dtype=dtype).train()
                 checked = copy.deepcopy(normal)
                 plain = HyCoReTrainingForward(normal)
-                wrapped = HyCoReTrainingForward(checked, activation_checkpoint=True)
+                wrapped = HyCoReTrainingForward(checked, activation_checkpoint=True, checkpoint_policy=policy)
                 self.assertEqual(set(plain.state_dict()), set(wrapped.state_dict()))
                 points = torch.randn(4, 820, 3, dtype=dtype)
                 crops = {"centers": [799, 403, 17, 0], "whole_centers": [0, 17, 300, 819]}
@@ -140,7 +141,7 @@ class PointMLPTrunkCheckpointTests(unittest.TestCase):
                     if name.endswith("num_batches_tracked"):
                         self.assertEqual(int(value), 4)
                 self.assertTrue(torch.equal(expected_rng, torch.get_rng_state()))
-                self.assertEqual((normal.embedding.calls, checked.embedding.calls), (4, 8))
+                self.assertEqual((normal.embedding.calls, checked.embedding.calls), (4, 8 if policy == "all" else 6))
                 for model in (normal, checked):
                     self.assertEqual(model.manifold.exp_calls, 4)
                     self.assertEqual(model.emb.calls, 4)
