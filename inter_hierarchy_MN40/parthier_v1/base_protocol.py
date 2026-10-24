@@ -13,7 +13,7 @@ import random
 
 import torch
 from torch import nn
-from torch.utils.checkpoint import checkpoint
+from torch.utils.checkpoint import checkpoint, set_checkpoint_early_stop
 
 from ..hier_proxy_scratch_v5.distributed import gather_with_grad, gather_without_grad
 from ..hier_proxy_scratch_v9.base_protocol import knn_indices, intra_losses, smoothed_ce
@@ -170,8 +170,14 @@ class HyCoReTrainingForward(nn.Module):
             # Non-reentrant checkpointing supports ordinary point inputs with
             # requires_grad=False and preserves parameter gradients. Cropping
             # remains outside this region; only Torch RNG must be replayed.
-            return checkpoint(forward, points, use_reentrant=False,
-                              preserve_rng_state=True, context_fn=self._checkpoint_contexts)
+            # Geoopt's final projection is TorchScript. Non-reentrant early
+            # stop throws a private Python exception inside its saved-tensor
+            # hook; TorchScript can wrap that exception into RuntimeError.
+            # Complete this region instead. This creation-time setting is
+            # retained by its checkpoint frame and restores the caller's flag.
+            with set_checkpoint_early_stop(False):
+                return checkpoint(forward, points, use_reentrant=False,
+                                  preserve_rng_state=True, context_fn=self._checkpoint_contexts)
         return forward(points)
 
     def forward(self, points, whole_count, *, centers=None, whole_centers=None):
