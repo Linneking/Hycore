@@ -113,6 +113,7 @@ def configuration(a):
         "early_stopping": False, "workers": a.workers, "eval_batch_size": a.eval_batch_size,
         "save_on_cpu": a.save_on_cpu, "activation_checkpoint": a.activation_checkpoint,
         "checkpoint_BN": "restore running buffers on recompute" if a.activation_checkpoint else None,
+        "checkpoint_scope": "pointmlp_euclidean_trunk" if a.activation_checkpoint else None,
         "diagnostic_max_whole": a.diagnostic_max_whole,
         "precision": "FP32",
     }

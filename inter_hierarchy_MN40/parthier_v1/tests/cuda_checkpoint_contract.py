@@ -139,6 +139,7 @@ def run_case(initial, points, start_rng, activation_checkpoint):
                 for name, value in named.items()}
     summary = {
         "activation_checkpoint": activation_checkpoint, "loss": float(loss.detach()),
+        "checkpoint_scope": outputs["input_stats"].get("activation_checkpoint_scope"),
         "trainable_parameter_tensors": len(named), "all_trainable_parameters_have_gradient": True,
         "input_requires_grad": False, "gradient_norm_before_clip": norm_before,
         "gradient_norm_after_clip": norm_after, "bn_update_deltas": counts,

@@ -13,6 +13,7 @@ import random
 
 import torch
 from torch import nn
+import torch.nn.functional as F
 from torch.utils.checkpoint import checkpoint, set_checkpoint_early_stop
 
 from ..hier_proxy_scratch_v5.distributed import gather_with_grad, gather_without_grad
@@ -150,6 +151,23 @@ class _PreserveBatchNormBuffers:
         return False
 
 
+def _pointmlp_euclidean_trunk(backbone, points):
+    """Released Hype_Model.forward through proj, before manifold.expmap0.
+
+    Keep this sequence aligned with models/pointmlp.py:411-424. In particular,
+    retain the original LocalGrouper and its own pointnet2/indexing operators.
+    Calling original module objects adds no parameters or state-dict aliases.
+    """
+    xyz = points.permute(0, 2, 1)
+    value = backbone.embedding(points)
+    for index in range(backbone.stages):
+        xyz, value = backbone.local_grouper_list[index](xyz, value.permute(0, 2, 1))
+        value = backbone.pre_blocks_list[index](value)
+        value = backbone.pos_blocks_list[index](value)
+    value = F.adaptive_max_pool1d(value, 1).squeeze(dim=-1)
+    return backbone.proj(value)
+
+
 class HyCoReTrainingForward(nn.Module):
     """Keep all four shared-backbone calls inside one outer DDP forward."""
 
@@ -160,9 +178,27 @@ class HyCoReTrainingForward(nn.Module):
         self.backbone = backbone
         self.save_on_cpu = bool(save_on_cpu)
         self.activation_checkpoint = bool(activation_checkpoint)
+        self._checkpoint_pointmlp_trunk = self.activation_checkpoint and type(backbone).__name__ == "Hype_Model"
+        if self._checkpoint_pointmlp_trunk:
+            fields = ("embedding", "stages", "local_grouper_list", "pre_blocks_list",
+                      "pos_blocks_list", "proj", "manifold", "emb", "classifier")
+            if not all(hasattr(backbone, field) for field in fields):
+                raise ValueError("native PointMLP checkpoint adapter no longer matches the released layout")
+            if any(len(getattr(backbone, field)) != backbone.stages
+                   for field in ("local_grouper_list", "pre_blocks_list", "pos_blocks_list")):
+                raise ValueError("native PointMLP stage/module counts differ")
+            if backbone._forward_hooks or backbone._forward_pre_hooks or backbone._backward_hooks:
+                raise ValueError("native PointMLP trunk adapter requires no whole-backbone hooks")
 
     def _checkpoint_contexts(self):
         return nullcontext(), _PreserveBatchNormBuffers(self.backbone)
+
+    def _checkpoint_call(self, forward, points):
+        # Complete each region. Generic geometry toys may contain TorchScript
+        # which wraps the checkpoint early-stop sentinel into RuntimeError.
+        with set_checkpoint_early_stop(False):
+            return checkpoint(forward, points, use_reentrant=False,
+                              preserve_rng_state=True, context_fn=self._checkpoint_contexts)
 
     def _backbone_forward(self, points, *, emb=False):
         forward = (lambda value: self.backbone(value, emb=True)) if emb else self.backbone
@@ -170,14 +206,15 @@ class HyCoReTrainingForward(nn.Module):
             # Non-reentrant checkpointing supports ordinary point inputs with
             # requires_grad=False and preserves parameter gradients. Cropping
             # remains outside this region; only Torch RNG must be replayed.
-            # Geoopt's final projection is TorchScript. Non-reentrant early
-            # stop throws a private Python exception inside its saved-tensor
-            # hook; TorchScript can wrap that exception into RuntimeError.
-            # Complete this region instead. This creation-time setting is
-            # retained by its checkpoint frame and restores the caller's flag.
-            with set_checkpoint_early_stop(False):
-                return checkpoint(forward, points, use_reentrant=False,
-                                  preserve_rng_state=True, context_fn=self._checkpoint_contexts)
+            if self._checkpoint_pointmlp_trunk:
+                projected = self._checkpoint_call(
+                    lambda value: _pointmlp_euclidean_trunk(self.backbone, value), points)
+                # Geometry remains ordinary autograd. No saved-tensor
+                # checkpoint metadata crosses any scripted Geoopt operator.
+                native = self.backbone.manifold.expmap0(projected)
+                mu = self.backbone.emb(native)
+                return (mu, mu) if emb else (mu, self.backbone.classifier(mu))
+            return self._checkpoint_call(forward, points)
         return forward(points)
 
     def forward(self, points, whole_count, *, centers=None, whole_centers=None):
@@ -192,6 +229,10 @@ class HyCoReTrainingForward(nn.Module):
         stats["backbone_forward_calls"] = 4
         stats["activation_save_on_cpu"] = self.save_on_cpu
         stats["activation_checkpoint"] = self.activation_checkpoint
+        stats["checkpoint_scope"] = ("pointmlp_euclidean_trunk" if self._checkpoint_pointmlp_trunk
+                                     else "whole_backbone" if self.activation_checkpoint else "none")
+        stats["activation_checkpoint_scope"] = ("pointmlp_euclidean_trunk" if self._checkpoint_pointmlp_trunk
+                                                else "backbone" if self.activation_checkpoint else "none")
         return {"mu": mu, "parts": parts, "logits": logits,
                 "whole_count": int(whole_count), "input_stats": stats}
 
