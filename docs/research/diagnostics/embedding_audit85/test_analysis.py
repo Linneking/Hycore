@@ -4,6 +4,7 @@ from pathlib import Path
 import unittest
 import json
 import tempfile
+import csv
 import numpy as np
 
 spec=importlib.util.spec_from_file_location("audit85_analysis",Path(__file__).with_name("analyze.py"))
@@ -143,7 +144,7 @@ class GeometryContracts(unittest.TestCase):
         labels=np.repeat(np.arange(40),2)
         mu=a.unit_directions(rng.randn(80,6))*.8
         proxy=a.unit_directions(rng.randn(24,6))*1.5
-        view=a.unit_directions(mu)*(np.tanh(np.sqrt(.1)*4.6/2)/np.sqrt(.1))
+        view=(a.unit_directions(mu)*(np.tanh(np.sqrt(.1)*4.6/2)/np.sqrt(.1))).astype(np.float32)
         workspace_temp_parent=Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(prefix="_audit85_contract_",dir=workspace_temp_parent) as temporary:
             root=Path(temporary)
@@ -159,6 +160,22 @@ class GeometryContracts(unittest.TestCase):
             self.assertEqual(result["status"],"completed")
             self.assertFalse(result["observations"][0]["proxies"]["available"])
             self.assertTrue(result["observations"][1]["proxies"]["available"])
+            view_domain=result["observations"][1]["domains"]["hier_whole_view"]
+            self.assertGreater(view_domain["constructed_shell_max_abs_depth_error"],1e-8)
+            self.assertLess(view_domain["constructed_shell_max_abs_depth_error"],1e-3)
+            self.assertGreater(view_domain["depth"]["std_population"],0.)
+            self.assertEqual(view_domain["depth_distribution_policy"],
+                             "constructed shell snapped to exact4.6 for hist/ECDF")
+            with (root/"out/depth_cdf.csv").open(encoding="utf-8-sig",newline="") as stream:
+                shell_rows=[row for row in csv.DictReader(stream)
+                            if row["observation_id"]=="new_b05__best" and row["domain"]=="hier_whole_view"]
+            at_shell=[row for row in shell_rows if abs(float(row["depth"])-4.6)<1e-10]
+            self.assertEqual(len(at_shell),1)
+            self.assertEqual(float(at_shell[0]["cumulative_percent"]),100.)
+            self.assertTrue(all(float(row["cumulative_percent"])==0.
+                                for row in shell_rows if float(row["depth"])<4.6-1e-10))
+            self.assertTrue(all(float(row["cumulative_percent"])==100.
+                                for row in shell_rows if float(row["depth"])>=4.6-1e-10))
             self.assertNotIn(str(root),json.dumps(result))
             self.assertNotIn("canonical_ids",result["observations"][0])
             with (root/"out/class_pair_angles.csv").open(encoding="utf-8-sig") as stream:

@@ -207,12 +207,13 @@ class Figures:
                 ax.set(title=f"{label(spec, True)} / {stage}", xticks=np.arange(len(names)), yticks=np.arange(len(names)))
                 ax.set_xticklabels(names, rotation=90, fontsize=5.5)
                 ax.set_yticklabels(names, fontsize=5.5)
-        if heat is not None:
-            fig.colorbar(heat, ax=axes.ravel().tolist(), shrink=.45, pad=.015, label="Center angle (degrees)")
-        # Keep a dedicated colorbar space, rather than allowing tight_layout
-        # to move the shared colorbar on top of the last matrix.
         fig.suptitle("Direction-center angles: common0-180 degree scale", fontsize=13, y=.995)
-        fig.subplots_adjust(left=.09, right=.89, bottom=.06, top=.97, hspace=.38, wspace=.35)
+        fig.subplots_adjust(left=.09, right=.85, bottom=.06, top=.97, hspace=.38, wspace=.35)
+        if heat is not None:
+            # A fixed independent axis cannot be repositioned over the matrix
+            # grid when the subplot geometry changes or the figure is saved.
+            cax = fig.add_axes([.905, .28, .018, .44])
+            fig.colorbar(heat, cax=cax, label="Center angle (degrees)")
         for ext in ("png", "svg"):
             path = self.out / ("05_class_centroid_angles." + ext)
             fig.savefig(path, dpi=190, bbox_inches="tight")
@@ -281,10 +282,11 @@ class Figures:
                 rho = f"rho={correlation['spearman_depth_vs_nn32_entropy']:.3f}" if correlation.get("available") else "depth/breadth nearly constant"
                 ax.set(title=f"{label(spec, True)} / {stage}\n{rho}", xlabel="Proxy origin distance (c0.1)", ylabel="NN32 label entropy (nats)")
                 ax.axvline(4.6, color=".45", lw=.8, ls="--"); ax.grid(alpha=.15)
-        if scatter is not None:
-            fig.colorbar(scatter, ax=axes.ravel().tolist(), shrink=.6, pad=.015, label="NN32 dominant-class fraction")
         fig.suptitle("Proxy depth and neighborhood class breadth", y=.995, fontsize=13)
-        fig.subplots_adjust(left=.06, right=.88, bottom=.09, top=.9, wspace=.32, hspace=.5)
+        fig.subplots_adjust(left=.06, right=.85, bottom=.09, top=.9, wspace=.32, hspace=.5)
+        if scatter is not None:
+            cax = fig.add_axes([.915, .22, .015, .56])
+            fig.colorbar(scatter, cax=cax, label="NN32 dominant-class fraction")
         for ext in ("png", "svg"):
             path = self.out / ("07_proxy_depth_class_breadth." + ext)
             fig.savefig(path, dpi=190, bbox_inches="tight")

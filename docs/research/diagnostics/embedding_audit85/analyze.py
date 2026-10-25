@@ -585,8 +585,22 @@ def main(argv=None):
                 # A radial view must preserve directions, never be silently
                 # treated as a new learned angular representation.
                 if not np.allclose(unit_directions(hier),unit,atol=3e-6,rtol=3e-6): raise ValueError("HIER view changed whole directions")
-                hd=origin_depth(hier,.1); domains["hier_whole_view"]={"c":.1,"depth":describe(hd),"view_only_not_native_learning":True}
-                hist,cdf=depth_outputs(hd,.1,{**meta,"domain":"hier_whole_view"})
+                hd=origin_depth(hier,.1)
+                shell_error=float(np.max(np.abs(hd-4.6)))
+                constructed_shell=shell_error<=1e-3
+                domains["hier_whole_view"]={
+                    "c":.1,"depth":describe(hd),"view_only_not_native_learning":True,
+                    "constructed_shell_max_abs_depth_error":shell_error,
+                    "depth_distribution_policy":(
+                        "constructed shell snapped to exact4.6 for hist/ECDF"
+                        if constructed_shell else "raw computed depths; outside constructed4.6 shell tolerance"),
+                    "distribution_snap_tolerance":1e-3,
+                    "distribution_shell_depth":4.6 if constructed_shell else None}
+                # Keep raw depths and geometry for auditing and ancestor tests.
+                # A constructed shell's FP32 norm jitter is not a learned
+                # distribution and must not become a false ECDF transition.
+                distribution_hd=np.full_like(hd,4.6) if constructed_shell else hd
+                hist,cdf=depth_outputs(distribution_hd,.1,{**meta,"domain":"hier_whole_view"})
                 collections["depth_histograms"].extend(hist); collections["depth_cdf"].extend(cdf)
                 print(json.dumps({"stage":"proxies_and_frozen_orders","observation":key}),flush=True)
                 proxy,rows,bands,pd=analyze_proxies(cache,hier,labels,names,meta,centers,sample_batches=args.sample_batches)
