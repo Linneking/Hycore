@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-26：用户批准B05 CB32 A1两项完整消融
+
+最新修订：8000 GPU0样本K5／代理K10、lambda0.5；GPU1样本K10／代理K20、lambda0.1。两组均10/25严格B05有放回CB32新HIER A1、LR.005/eps1e-4、seed4780、fresh300×200，其余保持86协议。用户直接启动授权覆盖旧待审矩阵限制，沿用历史TS选模；无新增H0/CB64。见[91配置](91_B05_CB32_A1_K_WEIGHT_ABLATIONS_2026-10-26.md)。第一组联合调整两种K，不能称两种K各自单变量；第二组仅改系数。本机4项CPU检查通过，8000 GPU0/1空闲；服务器短测与正式启动尚待核验，不重复提交。
+
 ## 2026-10-25：90单条早期复跑与几何审查完成，不重复提交
 
 用户授权的B05 CB32旧HIER A0前10轮已于21:14完成实际10×200／300cosine、逐轮保存及85全量审查，GPU释放，见[90结果](90_B05_CB32_A0_EARLY_AUDIT_2026-10-25/report.md)。14缓存本机SHA核验、33CPU和实际GPU／80例回归通过，原e1/e5与复跑分开。当前无待执行训练矩阵或PartHier审查授权，不因历史running快照重启任务。
