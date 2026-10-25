@@ -1,5 +1,9 @@
 # Experiment history
 
+## B05双卡eps单变量十轮检测 — 2026-10-25
+
+用户授权8000双卡B05、CB64、sample/proxyK20，seed4780。固定代理LR0.005，比较eps1e-8与1e-4，fresh各10×200但调度保留300轮，零评估／选模；区别于8001单卡A0/A1全程任务。新增每步proxy实际梯度／AdamW分母与更新／越cap返回、每轮首batch主干梯度和512代理深度及位移分布。13项CPU合同通过，真实GPU短测与十轮结果待执行；见[88](88_B05_EPS_ONLY_10E_2026-10-25/plan.md)。
+
 ## 四组whole／代理完整审查完成 — 2026-10-25
 
 按用户指定8000执行85：8主端点＋8辅助，同9840 sorted-shard clean first1024/eval savedBN。TS13等10份复用、TS14／新两组六份补齐；固定80例历史batch上下文回归坐标／深度误差0，21CPU通过。16缓存身份与本机备份SHA一致，GPU已释放、无新训练或test。交付[85报告](85_EMBEDDING_AUDIT_2026-10-24/report.md)、32组深度百分比分布、40类／780类对、主辅各22幅PNG/SVG。
