@@ -107,6 +107,20 @@ def main():
         if not json.loads((root / 'golden_regression.json').read_text())['passed']:
             raise RuntimeError('Golden regression was not accepted')
         # The bounded gate exits and releases its CUDA context before export.
+        # Driver/process accounting may lag process.wait(). Wait for the same
+        # physical device to be observed idle again; do not launch into a stale
+        # context or treat a newly arrived process as our own.
+        deadline = time.monotonic() + 60
+        while True:
+            try:
+                released = all(collector.idle_uuid(gpu) == checked[gpu]['uuid'] for gpu in selected_gpus)
+            except RuntimeError:
+                released = False
+            if released:
+                break
+            if time.monotonic() >= deadline:
+                raise RuntimeError('GPU not idle after regression; nothing interrupted')
+            time.sleep(2)
         for offset, gpu in enumerate(selected_gpus):
             part = rows[offset::len(selected_gpus)]
             spec = dict(repo=str(snapshot), data_dir=settings['data_dir'], observations=part)
