@@ -1,0 +1,78 @@
+{
+  "figures": [
+    {
+      "file": "figures/01_proxy_cap_crossings.png",
+      "sha256": "58c3e996c299e4ff864cae3146fab3ab4d5562391fe8ca51f9f0430df7dc49f6"
+    },
+    {
+      "file": "figures/01_proxy_cap_crossings.svg",
+      "sha256": "35792d3e8a591841f524f99c2c61b709af5aed72f8dae7c5b1a8bd779efba190"
+    },
+    {
+      "file": "figures/02_gradients_updates_denominator.png",
+      "sha256": "ed8071b6d58d2ef92876234890e7cad39d0dc990c2601d792dcc4cdf4a74de7e"
+    },
+    {
+      "file": "figures/02_gradients_updates_denominator.svg",
+      "sha256": "5f1e4cd4aa3bd42094861b19c7378f7f4be25a8bd992142a21a42713880d7c77"
+    },
+    {
+      "file": "figures/03_backbone_hier_gradient.png",
+      "sha256": "0e0a240009983afe3c82060fd3c21297135cbaf98867fdbea63a6a030890c129"
+    },
+    {
+      "file": "figures/03_backbone_hier_gradient.svg",
+      "sha256": "4bb651653e6f9adb667b5cf38b35d97048c82cf2e3bb29132d5ec10785f8a1af"
+    },
+    {
+      "file": "figures/04_depth_percentage_heatmap.png",
+      "sha256": "5d7581b83d7555542a598363b10593e273d9e398b0c8481362dde996b6f4a9fe"
+    },
+    {
+      "file": "figures/04_depth_percentage_heatmap.svg",
+      "sha256": "2d93cd26dc9f3dc3b1974af46baad6716dd157bd0ce6158294cf44a04d28c205"
+    },
+    {
+      "file": "figures/06_epoch_depth_movement_heatmap.png",
+      "sha256": "2fc420c004f10eb276ad4b310fe7b8fdff51613975dfef736bd0ce1f10c6e518"
+    },
+    {
+      "file": "figures/06_epoch_depth_movement_heatmap.svg",
+      "sha256": "038ee7282beab349b515697084be965956c7ef8611e922966119bf9a828dc8a5"
+    },
+    {
+      "file": "figures/07_cumulative_depth_movement_heatmap.png",
+      "sha256": "f9466527ffa3cb3700d5a200605843077b79cad1a4f25443949a54ae47ec64c9"
+    },
+    {
+      "file": "figures/07_cumulative_depth_movement_heatmap.svg",
+      "sha256": "f94ad12778a04971c9fe10a2a8ed412888c2d75f272d6d803131227c75861b21"
+    },
+    {
+      "file": "figures/08_raw_tangent_norm_heatmap.png",
+      "sha256": "25f437006520f2119b19c18e53970fab22c0fc7b2e47f5373777132919af8db6"
+    },
+    {
+      "file": "figures/08_raw_tangent_norm_heatmap.svg",
+      "sha256": "0115009fdbd3535f5957edd64518a0e02ed7538afe3ee74a20b70257a690e459"
+    },
+    {
+      "file": "figures/05_depth_ecdf.png",
+      "sha256": "f658197de00aad499e28d9ca7b6aeb3bf523f800d0e0c1ccdb9095033a52353e"
+    },
+    {
+      "file": "figures/05_depth_ecdf.svg",
+      "sha256": "83030a7e876e7bf7d6ebc445fb6d90ff8a5d82439ca821c5fde10ed3f62781ac"
+    },
+    {
+      "file": "figures/09_depth_movement_quantiles.png",
+      "sha256": "5a1a6afc64ba44b3b52c265a1b7e38e062d45ea0551a8b3a5f2665bcacc1cbd0"
+    },
+    {
+      "file": "figures/09_depth_movement_quantiles.svg",
+      "sha256": "ebb8f4961fca1bef8179b9969a21728e98c3655a29b817fc2f9fc98cedd4c6d1"
+    }
+  ],
+  "normalization": "512 proxies separately per arm/epoch",
+  "script_sha256": "f813bce1c8cda5b144c7d6401b3747701cacac49fecfad834b99486838ca68c6"
+}
