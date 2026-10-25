@@ -8,6 +8,15 @@ It reuses the other ten complete caches after identity/label/hash checks.
 The reviewed scope and resource/acceptance rules are in
 `docs/research/85_EMBEDDING_AUDIT_2026-10-24/plan.md`.
 
+Completed findings are in that folder's `report.md`. Server collection commit
+8f8f4fc; final analysis/plot commit bd3f1e6. Final delivery uses public_stats_r2
+and figures_primary_r2/figures_auxiliary_r2. The display revision preserves raw
+statistics while snapping only the constructed4.6-shell histogram/ECDF; cap
+depth ranks use physical resolution0.001 and endpoint self-choices are separate.
+Run the server-path CPU gates with `python -m unittest test_analysis test_gate
+test_plot -v` from this directory. The local_fps runtime gate has its own CLI
+and is not part of this server's21 checks.
+
 - `local_fps/`: exact original CUDA FPS device source via NVRTC/Driver for the
   local idle GPU. Eleven operator gates passed; complete frozen-model/cache
   regression remains required before population export.

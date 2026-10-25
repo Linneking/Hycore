@@ -1,0 +1,244 @@
+{
+  "schema": "audit85-public-scientific-figures-1",
+  "scope": "auxiliary",
+  "observations": [
+    "TS06_B05_H0__best",
+    "TS06_B05_H0__e300",
+    "TS01_HIST__best",
+    "TS01_HIST__e300",
+    "TS11__best",
+    "TS11__e300",
+    "TS12__best",
+    "TS12__e300"
+  ],
+  "sources": [
+    {
+      "file": "summary.json",
+      "sha256": "f1b1524054b5f49c3929c4501d2ea8df34b5d357946c8c5d77c57997e7c73781"
+    },
+    {
+      "file": "angle_histograms.csv",
+      "sha256": "45b4f57646ac919ba84419ae8c0135943cb98ba92d8b7f1a712c6ec78139f241"
+    },
+    {
+      "file": "class_centroid_angles.csv",
+      "sha256": "f48720d11803a0e336354dc491e89b8d70a1316d35207101ef1321f67742d0a5"
+    },
+    {
+      "file": "class_intra_angles.csv",
+      "sha256": "b48d086ea7ca01ca5338c71c6be53309895f54fe80f5e601c3751f8d809cb5f7"
+    },
+    {
+      "file": "class_pair_angles.csv",
+      "sha256": "76539ea1693719d0bb91805d730d06bb074527c43f4882937bf68398391e2a37"
+    },
+    {
+      "file": "depth_cdf.csv",
+      "sha256": "7a38cea4f219c59749f73f842782c72e3979372379e1cd4e92776c5683af9a2b"
+    },
+    {
+      "file": "depth_histograms.csv",
+      "sha256": "a26e40c9cd92e46a9ad9baa6f56b3214f189a2365df85ae4a3eaebb75c7ec787"
+    },
+    {
+      "file": "proxy_depth_bands.csv",
+      "sha256": "28cc76fe49f479d8adeb8a7380ad68558796ef7c692cbb43323002103de97a6d"
+    },
+    {
+      "file": "proxy_stats.csv",
+      "sha256": "70df065918b3a9e52a178f181cd499c7f60b5eb2260223a0db8365c8b95fa92d"
+    },
+    {
+      "file": "representative_pair_angles.csv",
+      "sha256": "e283c577e2ac0058a302f1950a0e036b73913e43c07896af10ed4f06d40698dc"
+    },
+    {
+      "file": "representative_pair_histograms.csv",
+      "sha256": "34a375e39c45eac2c336215e16c753a5124857523fbab3c0f330092675148f09"
+    }
+  ],
+  "files": [
+    {
+      "file": "01_native_whole_depth_percentage.png",
+      "sha256": "58762b7da53aab40589e38ca17650389bd191091e7e1ca673b2e57a9756280db"
+    },
+    {
+      "file": "01_native_whole_depth_percentage.svg",
+      "sha256": "577bc4259a1a02456763833e49ddf30d7b6d5c5b3816a7914a41aaa60e55d7c1"
+    },
+    {
+      "file": "02_proxy_depth_percentage.png",
+      "sha256": "bf614e08ba271348e4636629417ccb52228eaae5995335a1b75d3d6d2149275c"
+    },
+    {
+      "file": "02_proxy_depth_percentage.svg",
+      "sha256": "6a850c1a029d6458af5fbc7f421adc17f783d8ab919553596b895b80a60a1306"
+    },
+    {
+      "file": "03_depth_ecdf.png",
+      "sha256": "ba2ac5e31723c3ac7c368e72214ec7af95afcb9162f4a02f48e69b397ecfe4f3"
+    },
+    {
+      "file": "03_depth_ecdf.svg",
+      "sha256": "5748e5f8facac028a698d3b78237b4f380232eac725872962057876b2690df11"
+    },
+    {
+      "file": "04_class_intra_angles.png",
+      "sha256": "228fd6112660e3557198a9655562ba8c7ec04323e7b775f50f3ef52bd7daeea2"
+    },
+    {
+      "file": "04_class_intra_angles.svg",
+      "sha256": "fa27b9312823006879a4a58f5295984f0976d8847307a90bd93ba8fc8eb92969"
+    },
+    {
+      "file": "05_class_centroid_angles.png",
+      "sha256": "315825c934eb194e732f30103387d2bafcaa41713d8001223e44356d576664af"
+    },
+    {
+      "file": "05_class_centroid_angles.svg",
+      "sha256": "469f5a6858988c85b5c79804d0960884932c9642f3dc342b33059ffa372bd8f2"
+    },
+    {
+      "file": "04b_class_cone_radii.png",
+      "sha256": "3dade2faea628a33ad936d9e6ff4969668ba482c0325e1b3434c438138227722"
+    },
+    {
+      "file": "04b_class_cone_radii.svg",
+      "sha256": "8b2827893d46c600f90fa52dfb4149c42691cf41335e5ed1faa5676fd18d125c"
+    },
+    {
+      "file": "06_pair_chair_vs_stool.png",
+      "sha256": "2e9281f21fed16052fc3f445671a51330296ec6968d0c71b37b61ac926be4ffa"
+    },
+    {
+      "file": "06_pair_chair_vs_stool.svg",
+      "sha256": "74168660fa96ec615e557bbf106329fc141b4095af4c5516e3de1f6a242800ea"
+    },
+    {
+      "file": "06_pair_desk_vs_table.png",
+      "sha256": "bef5d9867b6958489d0ba433c00c581fc9e16d562ddc6cec77be9bb8b2efd808"
+    },
+    {
+      "file": "06_pair_desk_vs_table.svg",
+      "sha256": "f0f8afe75420d016afb41297e62bbca9de548a24e96e4009b254da83bd34483c"
+    },
+    {
+      "file": "06_pair_dresser_vs_night_stand.png",
+      "sha256": "e0051c30a133db53c4122d7f5faf32f97683c183bd50c33d5cc6b2442b46cc6e"
+    },
+    {
+      "file": "06_pair_dresser_vs_night_stand.svg",
+      "sha256": "c6a762464acb3a768d2ca575eb14df10d1b1f44ee60836b26f6a9f5e310f76e0"
+    },
+    {
+      "file": "06_pair_bottle_vs_vase.png",
+      "sha256": "4ab06d3193d74d6b6f507c0b100664238e20fab6972e6fe99ad8770f2f0b7fc4"
+    },
+    {
+      "file": "06_pair_bottle_vs_vase.svg",
+      "sha256": "b817d8275d114d2a79a66f53051a143b69c4e5710db7083198f59900a7f5f3d1"
+    },
+    {
+      "file": "06_pair_cup_vs_vase.png",
+      "sha256": "68383da963198616373fdb953ec15003e9395fc21186221a5afae89ab62a62b5"
+    },
+    {
+      "file": "06_pair_cup_vs_vase.svg",
+      "sha256": "fefd03c5020ffb010eaa4edb8def7acd714f6a0f3aae1a0dd6a8ccd62e3ad936"
+    },
+    {
+      "file": "06_pair_airplane_vs_car.png",
+      "sha256": "507a8b8a24e91afbc2d27b54be29da718f7945528c5316c8a4c10ce8b9adc810"
+    },
+    {
+      "file": "06_pair_airplane_vs_car.svg",
+      "sha256": "63178ef6ac08d181f6b4e7c74097002dacfcb732a4be51f0fd584c38bad2a3d5"
+    },
+    {
+      "file": "06_pair_flower_pot_vs_plant.png",
+      "sha256": "08866fd3732b57c84a25e52e0534c29469ef1f3541c2e01ede54de77828de607"
+    },
+    {
+      "file": "06_pair_flower_pot_vs_plant.svg",
+      "sha256": "07cf7227e45515fd0b9ea7970bb0e823c097de3bc5d9f91ef084bc6833f8e263"
+    },
+    {
+      "file": "06_pair_mantel_vs_range_hood.png",
+      "sha256": "1d015cfb7b804f1aa262ccd421f1d986fd31939dd8eb39efe130d2ae7d8aa8b1"
+    },
+    {
+      "file": "06_pair_mantel_vs_range_hood.svg",
+      "sha256": "46003f2146fb996c5a9312baf6137f8160ae51ec20ac32a1f40c9820945c2ab2"
+    },
+    {
+      "file": "06_pair_flower_pot_vs_vase.png",
+      "sha256": "96a7c5fd59d02ac92b73f933e8a9ad311d66dbec671e7dd5decc54d15d1b0104"
+    },
+    {
+      "file": "06_pair_flower_pot_vs_vase.svg",
+      "sha256": "76261ea051f4a07724a57c185c2b47a5c26497bf167f327815500aaa3efce210"
+    },
+    {
+      "file": "06_pair_keyboard_vs_laptop.png",
+      "sha256": "e5bdff2d22b1a5853cbf3447e1e534f3e82f5d9d58740c9fd500de482f1e1fc0"
+    },
+    {
+      "file": "06_pair_keyboard_vs_laptop.svg",
+      "sha256": "5fd9622ad347a4884a2be65f6415c84c9b7764b091d1993538db809373191441"
+    },
+    {
+      "file": "06_pair_table_vs_tv_stand.png",
+      "sha256": "64d1a2fc352022b849393b29447bf95dc782fe2e611ecf77c2cd87b8ec7bae3d"
+    },
+    {
+      "file": "06_pair_table_vs_tv_stand.svg",
+      "sha256": "7760c476e55f2ffd1276a901c0daded372e627e46e9b389e0573c8318cc749e2"
+    },
+    {
+      "file": "07_proxy_depth_class_breadth.png",
+      "sha256": "99afe59b540234222f7e5c6b8843ece937be5da427c8b701355913bae2bab3d5"
+    },
+    {
+      "file": "07_proxy_depth_class_breadth.svg",
+      "sha256": "f5fc1d159dbe36eaa50975f9f728dce0408430e0768e4272ed0a5210fefa86af"
+    },
+    {
+      "file": "08_frozen_ancestor_orders.png",
+      "sha256": "e974f101ae5beac8ad77204a52c705c0dd4aa7d072ee5bc6511d8a4a330e18d2"
+    },
+    {
+      "file": "08_frozen_ancestor_orders.svg",
+      "sha256": "e7ee22a8df0071cdc20e5359ddda546a9aaaee94d9f37d7ccdcc11cdc9db7dfb"
+    },
+    {
+      "file": "08b_frozen_collisions_endpoint_identity.png",
+      "sha256": "e5b548e218ac053d7dd0e5eace85bcbf0b58d1daf847632a6443f3f8683e84e0"
+    },
+    {
+      "file": "08b_frozen_collisions_endpoint_identity.svg",
+      "sha256": "ed8e13cb6c17c4516774844d9f64f605aebed6cc458470681278e54e1fb4fbb9"
+    },
+    {
+      "file": "09_saved_training_proxy_usage.png",
+      "sha256": "02acb52ccbfd72d10b874cc138b66fcfe6d5646a41ae04905cf188026ae9ec45"
+    },
+    {
+      "file": "09_saved_training_proxy_usage.svg",
+      "sha256": "bb354437a0a89ffba9fe58838ac961c784291d811d8f04b4a6348520c6494242"
+    },
+    {
+      "file": "09b_static_nn4_hotspots.png",
+      "sha256": "2bcb92471bc5518b9bb4b2487301f7e4ff991b861db92e7629a09f2c3148a006"
+    },
+    {
+      "file": "09b_static_nn4_hotspots.svg",
+      "sha256": "054dfdabfec18079ed733e4c0e68ec2277350964ce863cf27a8975360d9690c3"
+    }
+  ],
+  "limits": [
+    "Only within-model geometry is compared",
+    "Native curvatures remain separate",
+    "Frozen minimax is not training Gumbel replay",
+    "Class binding is not independent morphology ground truth"
+  ]
+}

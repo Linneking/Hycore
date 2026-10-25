@@ -1,0 +1,116 @@
+{
+  "reference": {
+    "observation_id": "TS13__best",
+    "run_id": "TS13",
+    "key": "TS13",
+    "stage": "best",
+    "epoch": 223,
+    "primary": true
+  },
+  "fixed_names": [
+    [
+      "chair",
+      "stool"
+    ],
+    [
+      "table",
+      "desk"
+    ],
+    [
+      "dresser",
+      "night_stand"
+    ],
+    [
+      "bottle",
+      "vase"
+    ],
+    [
+      "cup",
+      "vase"
+    ],
+    [
+      "airplane",
+      "car"
+    ]
+  ],
+  "selection": "six predeclared named pairs plus five closest additional centroid pairs in TS13-best; same pairs for every observation",
+  "pairs": [
+    {
+      "class_a": 8,
+      "class_b": 32,
+      "name_a": "chair",
+      "name_b": "stool",
+      "reason": "fixed_named_comparison"
+    },
+    {
+      "class_a": 12,
+      "class_b": 33,
+      "name_a": "desk",
+      "name_b": "table",
+      "reason": "fixed_named_comparison"
+    },
+    {
+      "class_a": 14,
+      "class_b": 23,
+      "name_a": "dresser",
+      "name_b": "night_stand",
+      "reason": "fixed_named_comparison"
+    },
+    {
+      "class_a": 5,
+      "class_b": 37,
+      "name_a": "bottle",
+      "name_b": "vase",
+      "reason": "fixed_named_comparison"
+    },
+    {
+      "class_a": 10,
+      "class_b": 37,
+      "name_a": "cup",
+      "name_b": "vase",
+      "reason": "fixed_named_comparison"
+    },
+    {
+      "class_a": 0,
+      "class_b": 7,
+      "name_a": "airplane",
+      "name_b": "car",
+      "reason": "fixed_named_comparison"
+    },
+    {
+      "class_a": 15,
+      "class_b": 26,
+      "name_a": "flower_pot",
+      "name_b": "plant",
+      "reason": "five_closest_extra_pairs_in_TS13_best"
+    },
+    {
+      "class_a": 21,
+      "class_b": 28,
+      "name_a": "mantel",
+      "name_b": "range_hood",
+      "reason": "five_closest_extra_pairs_in_TS13_best"
+    },
+    {
+      "class_a": 15,
+      "class_b": 37,
+      "name_a": "flower_pot",
+      "name_b": "vase",
+      "reason": "five_closest_extra_pairs_in_TS13_best"
+    },
+    {
+      "class_a": 18,
+      "class_b": 20,
+      "name_a": "keyboard",
+      "name_b": "laptop",
+      "reason": "five_closest_extra_pairs_in_TS13_best"
+    },
+    {
+      "class_a": 33,
+      "class_b": 36,
+      "name_a": "table",
+      "name_b": "tv_stand",
+      "reason": "five_closest_extra_pairs_in_TS13_best"
+    }
+  ]
+}

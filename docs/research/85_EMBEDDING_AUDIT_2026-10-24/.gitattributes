@@ -1,0 +1,8 @@
+# Preserve the exact generated artifact bytes referenced by SHA manifests.
+public_stats_r2/** -text whitespace=cr-at-eol
+figures_primary_r2/** -text whitespace=cr-at-eol
+figures_auxiliary_r2/** -text whitespace=cr-at-eol
+execution_checks.json -text whitespace=cr-at-eol
+# Matplotlib SVG path lines intentionally contain trailing separators.
+figures_primary_r2/*.svg -whitespace
+figures_auxiliary_r2/*.svg -whitespace
