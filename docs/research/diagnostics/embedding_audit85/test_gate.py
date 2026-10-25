@@ -11,6 +11,17 @@ spec.loader.exec_module(gate)
 
 
 class GateMetricsTests(unittest.TestCase):
+    def test_selected_ids_keep_original_context_and_statistic_order(self):
+        selected = np.array([0, 2, 31, 32, 63, 79], dtype=np.int64)
+        contexts = gate.canonical_contexts(selected, total=80, batch_size=32)
+        self.assertEqual([len(rows) for rows, _ in contexts], [32, 32, 16])
+        np.testing.assert_array_equal(np.concatenate([rows[offsets] for rows, offsets in contexts]), selected)
+        np.testing.assert_array_equal(contexts[1][0], np.arange(32, 64))
+        with self.assertRaises(ValueError):
+            gate.canonical_contexts(np.array([2, 1]), total=80)
+        with self.assertRaises(ValueError):
+            gate.canonical_contexts(np.array([1, 1]), total=80)
+
     def test_identical_embeddings_pass_and_prediction_mismatch_fails(self):
         points = np.array([[.2, .1, .3], [.4, -.2, .1]])
         self.assertTrue(gate.compare_embeddings(points, points, [0, 1], [0, 1])["passed"])

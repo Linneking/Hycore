@@ -107,6 +107,23 @@ def class_centers(unit, labels):
     return classes, means / resultant[:, None], resultant
 
 
+def class_cones(unit, labels, classes=None, centers=None):
+    """Pooled sample-to-own-center angles, independent of individual radii.
+
+    A percentile cone is a description of the observed class directions,
+    not a classifier decision region or a guarantee about unseen samples.
+    """
+    unit = np.asarray(unit, dtype=np.float64)
+    labels = np.asarray(labels).reshape(-1)
+    if classes is None or centers is None:
+        classes, centers, _ = class_centers(unit, labels)
+    return {
+        int(k): describe(np.degrees(np.arccos(np.clip(
+            unit[labels == k] @ centers[pos], -1., 1.))))
+        for pos, k in enumerate(classes)
+    }
+
+
 def poincare_distances(left, right, c, *, same=False):
     x, y = np.asarray(left, dtype=np.float64), np.asarray(right, dtype=np.float64)
     xs, ys = (x*x).sum(1), (y*y).sum(1)
@@ -222,6 +239,7 @@ def reference_and_pairs(manifest, manifest_path, names):
 
 def analyze_angles(unit, labels, names, meta, representative):
     classes, centers, resultant = class_centers(unit,labels)
+    cones = class_cones(unit, labels, classes, centers)
     center_angles = angle_degrees(centers,centers)
     groups = {int(k):unit[labels==k] for k in classes}
     intra_rows, pair_rows, center_rows, angle_hist, rep_rows, rep_hist = [],[],[],[],[],[]
@@ -237,7 +255,12 @@ def analyze_angles(unit, labels, names, meta, representative):
         intra_by_class[k]=stat
         intra_values.append(values.astype(np.float32))
         intra_rows.append({**meta,"class_id":k,"class_name":names[k],"objects":len(u),
-                           "direction_resultant_R":float(resultant[pos]),**(stat or {})})
+                           "direction_resultant_R":float(resultant[pos]),
+                           "cone_radius_p90":cones[k]["p90"],
+                           "cone_radius_p95":cones[k]["p95"],
+                           "sample_to_center_mean":cones[k]["mean"],
+                           "sample_to_center_median":cones[k]["median"],
+                           **(stat or {})})
     intra_pooled=np.concatenate(intra_values)
     angle_hist.extend(histogram_rows(intra_pooled,ANGLE_EDGES,{**meta,"domain":"intra_all_pairs"}))
     intra_summary=describe(intra_pooled,overwrite=True)
@@ -251,6 +274,10 @@ def analyze_angles(unit, labels, names, meta, representative):
             row={**meta,"class_a":a,"class_b":b,"name_a":names[a],"name_b":names[b],
                  "objects_a":len(groups[a]),"objects_b":len(groups[b]),
                  "centroid_angle":float(center_angles[i,j]),**stat,
+                 "cone_radius_a_p90":cones[a]["p90"],"cone_radius_b_p90":cones[b]["p90"],
+                 "cone_radius_a_p95":cones[a]["p95"],"cone_radius_b_p95":cones[b]["p95"],
+                 "cone_gap_p90":float(center_angles[i,j]-cones[a]["p90"]-cones[b]["p90"]),
+                 "cone_gap_p95":float(center_angles[i,j]-cones[a]["p95"]-cones[b]["p95"]),
                  "separation_p10_minus_max_intra_p90":float(stat["p10"]-max(intra_by_class[a]["p90"],intra_by_class[b]["p90"]))}
             pair_rows.append(row)
             center_rows.append({**meta,"class_a":a,"class_b":b,"name_a":names[a],"name_b":names[b],"angle_degrees":float(center_angles[i,j])})
@@ -267,6 +294,13 @@ def analyze_angles(unit, labels, names, meta, representative):
              "class_balanced_intra_average_of_class_statistics":class_balanced,
              "class_pair_balanced_inter_average_of_pair_statistics":pair_balanced,
              "class_direction_resultant_R":describe(resultant),
+             "class_cone_radius_p90":describe([cones[int(k)]["p90"] for k in classes]),
+             "class_cone_radius_p95":describe([cones[int(k)]["p95"] for k in classes]),
+             "class_pair_cone_gap_p90":describe([row["cone_gap_p90"] for row in pair_rows]),
+             "class_pair_cone_gap_p95":describe([row["cone_gap_p95"] for row in pair_rows]),
+             "class_pairs_with_negative_cone_gap_p90":sum(row["cone_gap_p90"]<0 for row in pair_rows),
+             "class_pairs_with_negative_cone_gap_p95":sum(row["cone_gap_p95"]<0 for row in pair_rows),
+             "class_cone_limit":"P90/P95 observed directional cones; center separation minus radii is a geometric description, not a classifier boundary or a proof of accuracy changes",
              "centroid_separation_upper_triangle":describe(center_angles[np.triu_indices(len(classes),1)]),
              "cross_model_comparison":"within-model angles and relations only; raw axes/proxy IDs are not semantically aligned across models"}
     return summary,(intra_rows,pair_rows,center_rows,angle_hist,rep_rows,rep_hist),centers
@@ -379,6 +413,39 @@ def hotspot_summary(indices,n):
             "distinct_neighbor_sets":len(quartets),"maximum_repeated_neighbor_set":int(quartets.max())}
 
 
+def depth_breadth_association(depths, entropy, repetitions=64, seed=4780):
+    """Descriptive depth/entropy association and shuffled-depth baseline.
+
+    Correlated proxies are not independent observations; the permutation
+    reference is a diagnostic of this fixed proxy set, not inferential proof.
+    """
+    depths=np.asarray(depths,dtype=np.float64)
+    entropy=np.asarray(entropy,dtype=np.float64)
+    if depths.shape!=entropy.shape or depths.ndim!=1 or not np.isfinite(depths).all() or not np.isfinite(entropy).all():
+        raise ValueError("Depth and breadth must be aligned finite vectors")
+    if len(depths)<3 or np.ptp(depths)<=1e-3 or np.std(entropy)<=1e-10:
+        return {"available":False,"reason":"depth span or semantic breadth is nearly constant"}
+    try:
+        from scipy.stats import rankdata, spearmanr
+    except ImportError:
+        return {"available":False,"reason":"SciPy unavailable; geometry remains valid"}
+    rho,pvalue=spearmanr(depths,entropy)
+    x=rankdata(depths)-rankdata(depths).mean()
+    y=rankdata(entropy)-rankdata(entropy).mean()
+    denominator=np.linalg.norm(x)*np.linalg.norm(y)
+    rng=np.random.RandomState(seed)
+    null=np.asarray([np.dot(rng.permutation(x),y)/denominator for _ in range(repetitions)])
+    null_summary=describe(null)
+    null_summary.update(p025=float(np.quantile(null,.025)),p975=float(np.quantile(null,.975)))
+    return {"available":True,"spearman_depth_vs_nn32_entropy":float(rho),
+            "pvalue_descriptive_only":float(pvalue),
+            "depth_shuffle_null":null_summary,"depth_shuffle_repetitions":repetitions,
+            "depth_shuffle_seed":seed,
+            "depth_shuffle_absolute_exceedance_fraction_descriptive":float((1+np.count_nonzero(np.abs(null)>=abs(rho)))/(repetitions+1)),
+            "expected_broad_shallow_pattern":"negative correlation; class neighborhood breadth is not independent morphological ground truth",
+            "null_limit":"fixed-set shuffled proxy-depth baseline; proxy dependencies and supervised labels preclude an independent morphology significance claim"}
+
+
 def analyze_proxies(cache,hier_mu,labels,names,meta,centers,*,sample_batches=8):
     proxies=np.asarray(cache["proxy_ball"],dtype=np.float64)
     depths=origin_depth(proxies,.1); punit=unit_directions(proxies); hunit=unit_directions(hier_mu)
@@ -416,14 +483,7 @@ def analyze_proxies(cache,hier_mu,labels,names,meta,centers,*,sample_batches=8):
                       "mean_nn32_class_count":float(angular["distinct_classes"][mask].mean()) if mask.any() else None,
                       "mean_nn32_entropy":float(angular["entropy"][mask].mean()) if mask.any() else None,
                       "mean_nn32_purity":float(angular["purity"][mask].mean()) if mask.any() else None})
-    correlations={"available":False,"reason":"depth span or semantic breadth is nearly constant"}
-    if np.ptp(depths)>1e-3 and np.std(angular["entropy"])>1e-10:
-        try:
-            from scipy.stats import spearmanr
-            rho,pvalue=spearmanr(depths,angular["entropy"])
-            correlations={"available":True,"spearman_depth_vs_nn32_entropy":float(rho),"pvalue_descriptive_only":float(pvalue),"expected_broad_shallow_pattern":"negative correlation; class neighborhood breadth is not independent morphological ground truth"}
-        except ImportError:
-            correlations={"available":False,"reason":"SciPy unavailable; geometry remains valid"}
+    correlations=depth_breadth_association(depths,angular["entropy"])
     summary={"available":True,"proxy_count":len(proxies),"c":.1,"depth":describe(depths),
              "cap_near_count_tol_1e3":int(np.count_nonzero(np.abs(depths-4.6)<=1e-3)),
              "raw_above_tangent_cap_count":int(np.count_nonzero(raw_norm>2.3)) if raw_norm is not None else None,

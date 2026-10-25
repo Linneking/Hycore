@@ -31,6 +31,30 @@ class GeometryContracts(unittest.TestCase):
         second=a.class_centers(a.unit_directions(x*np.array([100,.01,3,8])[:,None]),labels)[1]
         np.testing.assert_allclose(first,second,atol=1e-14)
 
+    def test_directional_cone_radii_and_gap_have_known_units(self):
+        theta=np.radians([-2.,2.,38.,42.])
+        unit=np.stack((np.cos(theta),np.sin(theta)),axis=1)
+        labels=np.array([0,0,1,1])
+        cones=a.class_cones(unit,labels)
+        self.assertAlmostEqual(cones[0]["p90"],2.,places=10)
+        self.assertAlmostEqual(cones[1]["p95"],2.,places=10)
+        meta={"observation_id":"fixture__best","stage":"best","run_id":"fixture"}
+        summary,tables,_=a.analyze_angles(unit,labels,["a","b"],meta,{(0,1):"test"})
+        pair,=tables[1]
+        self.assertAlmostEqual(pair["centroid_angle"],40.,places=10)
+        self.assertAlmostEqual(pair["cone_gap_p90"],36.,places=10)
+        self.assertAlmostEqual(pair["cone_gap_p95"],36.,places=10)
+        self.assertEqual(summary["class_pairs_with_negative_cone_gap_p90"],0)
+
+    def test_overlapping_percentile_cones_do_not_imply_classifier_failure(self):
+        theta=np.radians([-20.,20.,-10.,30.])
+        unit=np.stack((np.cos(theta),np.sin(theta)),axis=1)
+        labels=np.array([0,0,1,1])
+        summary,tables,_=a.analyze_angles(unit,labels,["a","b"],{}, {})
+        self.assertLess(tables[1][0]["cone_gap_p90"],0.)
+        self.assertEqual(summary["class_pairs_with_negative_cone_gap_p90"],1)
+        self.assertIn("not a classifier boundary",summary["class_cone_limit"])
+
     def test_flat_shell_noise_is_not_a_strict_hierarchy(self):
         depths=np.array([4.6,4.6-1e-7,4.6+1e-7])
         triples=np.array([[0,1,2]])
@@ -56,6 +80,16 @@ class GeometryContracts(unittest.TestCase):
     def test_missing_usage_remains_unavailable(self):
         self.assertEqual(a.usage_summary(None),{"available":False})
         self.assertEqual(a.usage_summary(np.array([2,2,0]))["used_proxy_count"],2)
+
+    def test_depth_breadth_shuffle_keeps_flat_caps_unavailable(self):
+        depth=np.linspace(2.,4.,30)
+        entropy=np.linspace(3.,0.,30)
+        result=a.depth_breadth_association(depth,entropy)
+        self.assertTrue(result["available"])
+        self.assertAlmostEqual(result["spearman_depth_vs_nn32_entropy"],-1.)
+        self.assertEqual(result["depth_shuffle_null"]["count"],64)
+        self.assertGreater(result["depth_shuffle_null"]["p975"],result["depth_shuffle_null"]["p025"])
+        self.assertFalse(a.depth_breadth_association(np.full(30,4.6),entropy)["available"])
 
     def test_fractional_or_private_identity_labels_are_rejected(self):
         with self.assertRaises(ValueError): a.integer_vector(np.array([1.,2.5]),"IDs")

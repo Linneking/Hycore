@@ -65,6 +65,26 @@ def import_collector(repo):
     return module
 
 
+def canonical_contexts(selected, total, batch_size=32):
+    """Keep each selected row in its historical full-export batch context.
+
+    Returns canonical row arrays and offsets to measure within each array;
+    extra context rows are forwarded but never added to the80-row statistics.
+    """
+    selected = np.asarray(selected)
+    if (selected.ndim != 1 or not len(selected)
+            or not np.issubdtype(selected.dtype, np.integer)
+            or np.any(selected < 0) or np.any(selected >= total)
+            or np.any(np.diff(selected) <= 0) or batch_size < 1):
+        raise ValueError("Selected canonical IDs must be sorted, unique integers in range")
+    contexts = []
+    for start in np.unique((selected // batch_size)*batch_size):
+        rows = np.arange(start, min(int(start)+batch_size, total), dtype=np.int64)
+        offsets = selected[(selected >= start) & (selected < start+batch_size)]-start
+        contexts.append((rows, offsets))
+    return contexts
+
+
 def run(args):
     started = time.monotonic()
     legacy = import_collector(args.repo)
@@ -111,10 +131,12 @@ def run(args):
     selected = np.sort(np.concatenate([np.flatnonzero(labels == c)[:2] for c in range(40)]))
     if selected.shape != (80,):
         raise ValueError("Expected exactly two fixed objects per class")
+    contexts = canonical_contexts(selected, len(labels), 32)
     saved = legacy.load(args.checkpoint)
     if legacy.epoch_of(saved) != args.expected_epoch:
         raise ValueError("Golden checkpoint epoch differs")
     torch.manual_seed(22)
+    np.random.seed(22)
     model = configure_backbone(Hype_pointMLP())
     model.load_state_dict({key.removeprefix("module."): value for key, value in saved["net"].items()}, strict=True)
     model.requires_grad_(False)
@@ -128,17 +150,17 @@ def run(args):
     state_before = legacy.state_hash(model)
     torch.manual_seed(22)
     torch.cuda.manual_seed_all(22)
+    np.random.seed(22)
     mus, predictions, ref_predictions = [], [], []
     with torch.no_grad():
-        for start in range(0, len(selected), 32):
-            ids = selected[start:start+32]
+        for ids, offsets in contexts:
             batch = torch.from_numpy(clouds[ids].copy()).to(device)
             mu, logits = model(batch.transpose(1, 2).contiguous())
-            mus.append(mu.cpu().numpy())
-            predictions.append(logits.argmax(-1).cpu().numpy())
+            mus.append(mu.cpu().numpy()[offsets])
+            predictions.append(logits.argmax(-1).cpu().numpy()[offsets])
             if expected_predictions is None:
                 reference_mu = torch.from_numpy(expected_mu[ids].copy()).to(device)
-                ref_predictions.append(model.classifier(reference_mu).argmax(-1).cpu().numpy())
+                ref_predictions.append(model.classifier(reference_mu).argmax(-1).cpu().numpy()[offsets])
     actual_mu = np.concatenate(mus)
     actual_prediction = np.concatenate(predictions)
     reference_prediction = (expected_predictions[selected] if expected_predictions is not None
@@ -149,13 +171,22 @@ def run(args):
     reference_unchanged = legacy.sha(args.reference_cache) == reference_before
     no_grad = all(parameter.grad is None for parameter in model.parameters())
     input_unchanged = hashlib.sha256(clouds.tobytes()).hexdigest() == input_sha
-    report.update(format="embedding85-frozen-server-regression-1", status="passed" if report["passed"] else "failed",
+    report.update(format="embedding85-frozen-server-regression-2", status="passed" if report["passed"] else "failed",
                   completed_utc=dt.datetime.now(dt.timezone.utc).isoformat(),
-                  mode="clean first1024; eval saved BN; fixed first2 canonical objects/class; no optimizer/backward/test",
+                  mode="clean first1024; eval saved BN; fixed first2 canonical objects/class in historical canonical batch32 contexts; no optimizer/backward/test",
+                  selected_statistic_object_count=len(selected), historical_context_batch_size=32,
+                  forwarded_context_object_count=sum(len(rows) for rows, _ in contexts),
+                  forwarded_context_batch_count=len(contexts),
+                  selected_canonical_id_sha256=hashlib.sha256(selected.astype(np.int64).tobytes()).hexdigest(),
                   expected_epoch=args.expected_epoch, checkpoint_sha256=checkpoint_before,
                   reference_cache_sha256=reference_before, input_sha256=input_sha,
                   label_sha256=hashlib.sha256(labels.tobytes()).hexdigest(), training_shards=shard_proof,
                   GPU_uuid=uuid, torch_version=torch.__version__, cuda_version=torch.version.cuda,
+                  cudnn_benchmark=torch.backends.cudnn.benchmark,
+                  cudnn_deterministic=torch.backends.cudnn.deterministic,
+                  cudnn_allow_tf32=torch.backends.cudnn.allow_tf32,
+                  matmul_allow_tf32=torch.backends.cuda.matmul.allow_tf32,
+                  float32_matmul_precision=torch.get_float32_matmul_precision(),
                   model_BN_hash_before=state_before, model_BN_hash_after=state_after,
                   model_BN_checkpoint_unchanged=unchanged, reference_cache_unchanged=reference_unchanged,
                   input_unchanged=input_unchanged, no_gradients=no_grad,
