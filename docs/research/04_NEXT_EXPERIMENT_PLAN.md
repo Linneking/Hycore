@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-25：90单条早期复跑与几何审查完成，不重复提交
+
+用户授权的B05 CB32旧HIER A0前10轮已于21:14完成实际10×200／300cosine、逐轮保存及85全量审查，GPU释放，见[90结果](90_B05_CB32_A0_EARLY_AUDIT_2026-10-25/report.md)。14缓存本机SHA核验、33CPU和实际GPU／80例回归通过，原e1/e5与复跑分开。当前无待执行训练矩阵或PartHier审查授权，不因历史running快照重启任务。
+
 ## 2026-10-25：用户已批准单条B05 CB32 A0十轮复跑及审查
 
 仅10月25日CB32旧HIER A0 .01/eps1e-8；用户撤回PartHier审查。原只存e0/e1/e5，明确同配置fresh10轮、每轮完整权重；seed4780／K10-K20／300调度及原评估随机流保留。按[90](90_B05_CB32_A0_EARLY_AUDIT_2026-10-25/plan.md)用8000空闲单卡短测后fresh，结束按85冻结全9840训练对象分析e0..10及原e1/e5参考；12新CPU检查和18文件备份核对通过，尚不宣称GPU或审查完成，不重复排队其他实验。

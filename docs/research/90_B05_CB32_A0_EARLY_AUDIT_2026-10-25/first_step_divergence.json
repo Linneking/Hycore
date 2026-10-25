@@ -1,0 +1,18 @@
+{
+  "same_recipe_not_historical_tensor_recovery": true,
+  "prefix_steps_compared": 971,
+  "input_crop_prefix_all_equal": {
+    "ids": true,
+    "whole_count": true,
+    "child_count": true
+  },
+  "first_step_forward_embeddings_bitwise_equal": true,
+  "first_step_initial_proxy_bitwise_equal": true,
+  "first_step_loss_equal": true,
+  "first_step_proxy_gradient_norm_equal": true,
+  "first_step_proxy_update_norm_equal": true,
+  "first_step_model_preclip_norm_original": 2.068774461746216,
+  "first_step_model_preclip_norm_replay": 2.068763256072998,
+  "first_loss_difference_step": 2,
+  "interpretation": "First small observed difference is backbone backward norm; no unique CUDA cause proven. Preserve original e1/e5 auxiliary comparisons."
+}

@@ -1,0 +1,159 @@
+{
+  "schema": "b05-cb32-a0-early-audit85-postprocess-1",
+  "status": "completed",
+  "replay_epochs": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "replay_run_id": "B05_CB32_A0_REPLAY",
+  "original_epochs_are_auxiliary": true,
+  "optimizer_updates_by_postprocessor": 0,
+  "GPU_used_by_postprocessor": false,
+  "audit85_analyze_sha256": "ac9cddf2b61864e949c54ababc2ae0ea29266d2010a08ff2c6d9fb2781b51788",
+  "proxy_ID_movement_scope": "this one fresh replay only; not semantic matching between original/replay",
+  "depth_movement_tolerance": 1e-05,
+  "within_epoch_crossing_events_inferred": false,
+  "training_graph": {
+    "batch": 32,
+    "sample_K": 10,
+    "proxy_K": 20,
+    "choice": "stochastic Gumbel"
+  },
+  "frozen_audit85_graph": {
+    "batch": 64,
+    "classes": 32,
+    "objects_per_class": 2,
+    "K": 20,
+    "T": 50,
+    "batches": 8,
+    "seed": 4780,
+    "choice": "deterministic minimax"
+  },
+  "e0_training_usage": "N/A",
+  "replay_equivalence": {
+    "1": {
+      "net": {
+        "bitwise_equal": false,
+        "max_abs_difference": 32.827392578125,
+        "mean_abs_difference": 0.002063028946105473
+      },
+      "proxy": {
+        "bitwise_equal": false,
+        "max_abs_difference": 0.7678192257881165,
+        "mean_abs_difference": 0.09096008531552857
+      }
+    },
+    "5": {
+      "net": {
+        "bitwise_equal": false,
+        "max_abs_difference": 22.598549842834473,
+        "mean_abs_difference": 0.0028632177143040655
+      },
+      "proxy": {
+        "bitwise_equal": false,
+        "max_abs_difference": 2.3106201887130737,
+        "mean_abs_difference": 0.24950934511542502
+      }
+    }
+  },
+  "figures": [
+    {
+      "file": "figures/01_depth_percentage_trajectory.png",
+      "sha256": "d9d06a6b6de3ee71671041356fb8e9d2779c897bf9cf67de8b0f1618e54383be"
+    },
+    {
+      "file": "figures/01_depth_percentage_trajectory.svg",
+      "sha256": "57f02cdd4956690200d498de05a14304197127c2e9a8d783a5cfcd6e06ffa986"
+    },
+    {
+      "file": "figures/02_depth_ecdf.png",
+      "sha256": "7994fe8191f9f309b504eeaf329189c5de5f30c55d25664fbbfaf2eaaefa7842"
+    },
+    {
+      "file": "figures/02_depth_ecdf.svg",
+      "sha256": "bcc25293d8928c0e14e8f4f64c4ed2040bc6013d0949c23148d7d5263cd719a2"
+    },
+    {
+      "file": "figures/03_cap_raw_and_paired_movement.png",
+      "sha256": "b4dbd5878af29370a493eae7646833ee514449e5f9e300d94a07cb93453b1a08"
+    },
+    {
+      "file": "figures/03_cap_raw_and_paired_movement.svg",
+      "sha256": "2c4835023c91d0055715cddff6650c6122f87144d5cd4e2cb12145e2443d5d25"
+    },
+    {
+      "file": "figures/04_whole_class_intra_angles.png",
+      "sha256": "d27d520678b8ec15c6e4ff4ff8f7d79196c8e6e618efb3156c89df35f0e22f65"
+    },
+    {
+      "file": "figures/04_whole_class_intra_angles.svg",
+      "sha256": "1780326921bdfa305ac6e4508a6a086ef53a06ac45db4fa6ef3f828f087d76f5"
+    },
+    {
+      "file": "figures/05_fixed_representative_pairs.png",
+      "sha256": "0312bb4906edb30f2699ed158d9973a80de689c391c9dd2610f9c234b14252c7"
+    },
+    {
+      "file": "figures/05_fixed_representative_pairs.svg",
+      "sha256": "5fefbade60f891a58fc4f5a08be085cf382b8e26bb8c0f7e7910d52eff28c3b7"
+    },
+    {
+      "file": "figures/05b_representative_pair_ecdf.png",
+      "sha256": "b5e941adaae835a976ea9b7fe442773cbf282151484ec97aa65b6de158df539e"
+    },
+    {
+      "file": "figures/05b_representative_pair_ecdf.svg",
+      "sha256": "cc1c560f8112cc02cef56176751710afb8b04fc95b98514faa34e1e51f6367e1"
+    },
+    {
+      "file": "figures/06_class_center_matrices.png",
+      "sha256": "86da439aceaa7f16514c2e622940dce2ad7b509f5c081a55fd33b3ded32d2b5c"
+    },
+    {
+      "file": "figures/06_class_center_matrices.svg",
+      "sha256": "8931c51df34c75c540db27096fda8e1730d9b7b564fdab3749a5ee4daf9811a5"
+    },
+    {
+      "file": "figures/07_frozen_ancestor_orders.png",
+      "sha256": "fb94ea27f4be95a0ade6acc12e3765b3fd41ce39c19c016ce98138e61d94721c"
+    },
+    {
+      "file": "figures/07_frozen_ancestor_orders.svg",
+      "sha256": "64e8038b246e8b1c2e80abd472ffd2a8af412c5aa0310adbc0a76d7b9477b635"
+    },
+    {
+      "file": "figures/08_actual_usage_and_static_hotspots.png",
+      "sha256": "204c58d27dc02f7438ea8b498a7db8fe440668783f86bba93867ae1252116f7b"
+    },
+    {
+      "file": "figures/08_actual_usage_and_static_hotspots.svg",
+      "sha256": "2bae8e935e3d414746b855a6ee9caba5922237fdcdb7360e0bdfcc812798dfe8"
+    },
+    {
+      "file": "figures/09_depth_and_class_breadth.png",
+      "sha256": "bf5bc15790bef967aae8d0da02f7f7f544e1e8bbba89a724264ebfbe283b0b68"
+    },
+    {
+      "file": "figures/09_depth_and_class_breadth.svg",
+      "sha256": "a3b42730105b35f8229aed657f7c8a325a335bfa36d3ad35bfeeba3b00e136c3"
+    },
+    {
+      "file": "figures/10_paired_depth_movement_distributions.png",
+      "sha256": "1d7215d57f7d92c8dbe69f6de5be4c00c9f15caae8ae1ef766d9fa1e98c60df0"
+    },
+    {
+      "file": "figures/10_paired_depth_movement_distributions.svg",
+      "sha256": "21ab1f1949e9fd3e5d576802171935eb378f0e524ce8c73e0d47e4f65082a3aa"
+    }
+  ],
+  "elapsed_seconds": 61.16646548100107
+}

@@ -1,0 +1,6 @@
+*.csv -text whitespace=cr-at-eol
+*.json -text whitespace=cr-at-eol
+public_stats/*.csv -text whitespace=cr-at-eol
+public_stats/*.json -text whitespace=cr-at-eol
+figures/*.svg -text -whitespace
+figures/*.png -text
