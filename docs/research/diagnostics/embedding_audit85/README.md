@@ -1,7 +1,10 @@
 # Frozen whole/proxy geometry audit85
 
-Current phase: plan and preparation only. Wait for the user to report that
-server access is restored before further collection or full model extraction.
+Current phase: user authorized execution on server8000 on2026-10-25.
+`gate.py` validates80 fixed canonical training objects against a trusted cache;
+`run_server.py --settings PRIVATE.json` freezes published source/PointNet2,
+locks idle devices, runs the gate and exports six missing primary endpoints.
+It reuses the other ten complete caches after identity/label/hash checks.
 The reviewed scope and resource/acceptance rules are in
 `docs/research/85_EMBEDDING_AUDIT_2026-10-24/plan.md`.
 
@@ -18,5 +21,6 @@ existing usage arrays. H0 has no proxy. See methods.md for provenance and units.
 
 Do not commit raw caches, point clouds, checkpoint copies, private paths or PTX.
 Never use a busy GPU or change BN/weights. The synthetic tests and FPS gate are
-preparation evidence, not results from the four experiments. The planned class
-cone-radius/separation diagnostic is not yet implemented in the current analyzer.
+preparation evidence, not results from the four experiments. The server uses its
+original compiled FPS extension; no local NVRTC adapter is involved. Raw data
+and full source identities remain private.
