@@ -63,6 +63,22 @@ class GeometryContracts(unittest.TestCase):
             self.assertEqual(item["pair_shallower_than_both_endpoints"],0.)
             self.assertEqual(item["pair_triple_depth_tied"],1.)
 
+    def test_nonendpoint_orders_use_their_explicit_filtered_denominator(self):
+        depths=np.array([5.,5.,5.,3.,2.])
+        triples=np.tile(np.array([[0,1,2]]),(4,1))
+        pair=np.array([0,3,3,3])
+        triple=np.array([4,2,4,3])
+        result=a.order_statistics(depths,depths,triples,pair,triple,proxy_endpoints=True)
+        self.assertEqual(result["domains"]["all"]["draws"],4)
+        self.assertEqual(result["domains"]["noncollision"]["draws"],3)
+        filtered=result["domains"]["noncollision_nonendpoint"]
+        self.assertEqual(filtered["draws"],1)
+        self.assertEqual(filtered["tolerance"]["0.001"]["all_three_orders_strict"],1.)
+        self.assertEqual(result["pair_equals_an_endpoint_count"],1)
+        self.assertEqual(result["triple_equals_an_endpoint_count"],1)
+        separate=a.order_statistics(depths,depths,triples,pair,triple,proxy_endpoints=False)
+        self.assertEqual(separate["domains"]["noncollision_nonendpoint"]["draws"],3)
+
     def test_distances_zero_diagonal_and_known_origin_radius(self):
         c=.1; x=np.array([[0.,0.],[.8,0.],[0.,.7]])
         d=a.poincare_distances(x,x,c,same=True)
@@ -90,6 +106,32 @@ class GeometryContracts(unittest.TestCase):
         self.assertEqual(result["depth_shuffle_null"]["count"],64)
         self.assertGreater(result["depth_shuffle_null"]["p975"],result["depth_shuffle_null"]["p025"])
         self.assertFalse(a.depth_breadth_association(np.full(30,4.6),entropy)["available"])
+
+    def test_depth_breadth_ranks_ignore_cap_jitter_and_keep_supported_two_levels(self):
+        depths=np.r_[np.full(12,3.2),np.full(18,4.6)]
+        entropy=np.linspace(3.,0.,30)
+        first=a.depth_breadth_association(depths,entropy)
+        jittered=depths.copy()
+        jittered[12:]+=np.linspace(-2e-7,2e-7,18)
+        second=a.depth_breadth_association(jittered,entropy)
+        self.assertTrue(first["available"])
+        self.assertTrue(second["available"])
+        self.assertEqual(first["robust_depth_levels"],2)
+        self.assertEqual(second["dominant_depth_group_count"],18)
+        self.assertEqual(first["spearman_depth_vs_nn32_entropy"],second["spearman_depth_vs_nn32_entropy"])
+        self.assertEqual(first["depth_shuffle_null"],second["depth_shuffle_null"])
+        self.assertEqual(first["depth_rank_resolution"],.001)
+
+    def test_one_off_cap_proxy_does_not_turn_shell_jitter_into_a_depth_pattern(self):
+        depths=np.r_[3.8,4.6+np.linspace(-2e-7,2e-7,511)]
+        entropy=np.arange(512,dtype=float)
+        result=a.depth_breadth_association(depths,entropy)
+        self.assertFalse(result["available"])
+        self.assertEqual(result["robust_depth_levels"],2)
+        self.assertEqual(result["dominant_depth_group_count"],511)
+        self.assertEqual(result["non_dominant_proxy_count"],1)
+        self.assertIn("insufficient depth replication",result["reason"])
+        self.assertAlmostEqual(result["raw_spearman_descriptive_legacy"],1.)
 
     def test_fractional_or_private_identity_labels_are_rejected(self):
         with self.assertRaises(ValueError): a.integer_vector(np.array([1.,2.5]),"IDs")

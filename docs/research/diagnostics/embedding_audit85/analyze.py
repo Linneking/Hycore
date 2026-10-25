@@ -341,10 +341,21 @@ def order_statistics(endpoint_depth, proxy_depth, triplets, pair, triple, *, pro
     triple_gap=np.minimum(np.minimum(endpoint_depth[i],endpoint_depth[j]),endpoint_depth[k])-proxy_depth[triple]
     nested_gap=proxy_depth[pair]-proxy_depth[triple]
     result={"draws":len(triplets),"collision_fraction":float(np.mean(pair==triple)) if len(pair) else None,"domains":{}}
+    nonendpoint=np.ones(len(pair),dtype=bool)
     if proxy_endpoints:
-        result["pair_equals_an_endpoint_fraction"]=float(np.mean((pair==i)|(pair==j))) if len(pair) else None
-        result["triple_equals_an_endpoint_fraction"]=float(np.mean((triple==i)|(triple==j)|(triple==k))) if len(pair) else None
-    for name,mask in (("all",np.ones(len(pair),dtype=bool)),("noncollision",pair!=triple)):
+        pair_endpoint=(pair==i)|(pair==j)
+        triple_endpoint=(triple==i)|(triple==j)|(triple==k)
+        result["pair_equals_an_endpoint_fraction"]=float(np.mean(pair_endpoint)) if len(pair) else None
+        result["triple_equals_an_endpoint_fraction"]=float(np.mean(triple_endpoint)) if len(pair) else None
+        result["pair_equals_an_endpoint_count"]=int(pair_endpoint.sum())
+        result["triple_equals_an_endpoint_count"]=int(triple_endpoint.sum())
+        nonendpoint=~(pair_endpoint|triple_endpoint)
+    result["nonendpoint_domain_semantics"]=(
+        "pair ancestor differs from i/j; triple ancestor differs from i/j/k; proxy endpoint pool shares ancestor identities"
+        if proxy_endpoints else
+        "sample endpoints and proxy ancestors are different identity domains; nonendpoint filtering removes no additional draws")
+    for name,mask in (("all",np.ones(len(pair),dtype=bool)),("noncollision",pair!=triple),
+                      ("noncollision_nonendpoint",(pair!=triple)&nonendpoint)):
         details={"draws":int(mask.sum()),"gaps":{k:describe(v[mask]) for k,v in (("pair_min_endpoint_gap",pair_gap),("triple_min_endpoint_gap",triple_gap),("pair_minus_triple_depth",nested_gap))},"tolerance":{}}
         for tol in TOLERANCES:
             def frac(condition): return float(np.mean(condition[mask])) if mask.any() else None
@@ -383,7 +394,7 @@ def frozen_orders(hier_mu, proxies, labels, *, sample_batches=8):
         depth_rows.append(origin_depth(point,c)); graphs.append(g)
     result=order_statistics(np.concatenate(depth_rows),proxy_d,np.concatenate(rows),np.concatenate(pair_rows),np.concatenate(triple_rows))
     result["batches"]=sample_batches; result["graphs"]=graphs
-    return {"semantics":"independent frozen clean/eval audit: fixed shared-ID CB64 batch construction; each model mines its own reciprocal graph; deterministic all-proxy minimax argmin; no Gumbel replay, optimization or test input",
+    return {"semantics":"independent frozen clean/eval audit: fixed shared-ID CB64 batches, 32 classes without replacement and 2 distinct objects per class without replacement; each model mines its own reciprocal graph and triplets; deterministic all-proxy minimax argmin; not the training replacement sampler or a Gumbel replay; no optimization or test input",
             "topk":20,"draws_per_eligible_anchor":50,"seed":4780,"sample":result,"proxy":proxy_result}
 
 
@@ -423,21 +434,41 @@ def depth_breadth_association(depths, entropy, repetitions=64, seed=4780):
     entropy=np.asarray(entropy,dtype=np.float64)
     if depths.shape!=entropy.shape or depths.ndim!=1 or not np.isfinite(depths).all() or not np.isfinite(entropy).all():
         raise ValueError("Depth and breadth must be aligned finite vectors")
-    if len(depths)<3 or np.ptp(depths)<=1e-3 or np.std(entropy)<=1e-10:
-        return {"available":False,"reason":"depth span or semantic breadth is nearly constant"}
+    resolution=1e-3
+    # Forward cap can leave several FP32 ulps of radius noise. Treat the
+    # declared cap layer as tied, rather than turning those ulps into ranks.
+    near_cap=np.abs(depths-4.6)<=resolution+1e-12
+    robust_depth=np.rint(depths/resolution)*resolution
+    robust_depth[near_cap]=4.6
+    levels,counts=np.unique(robust_depth,return_counts=True)
+    dominant=int(counts.max()) if len(counts) else 0
+    base={"depth_rank_resolution":resolution,"depth_rank_units":"physical origin hyperbolic distance",
+          "depth_rank_policy":"snap depths within1e-3 of4.6 to the cap layer; round other depths to the nearest1e-3 before ranking",
+          "raw_depth_span":float(np.ptp(depths)) if len(depths) else None,
+          "near_cap_proxy_count":int(near_cap.sum()),"robust_depth_levels":int(len(levels)),
+          "dominant_depth_group_count":dominant,"non_dominant_proxy_count":int(len(depths)-dominant),
+          "robust_depth_groups":[{"depth":float(level),"proxies":int(count)} for level,count in zip(levels,counts)]}
+    if len(depths)<3 or np.ptp(depths)<=resolution or len(levels)<2 or np.std(entropy)<=1e-10:
+        return {**base,"available":False,"reason":"depth span or semantic breadth is nearly constant at the declared depth resolution"}
     try:
         from scipy.stats import rankdata, spearmanr
     except ImportError:
-        return {"available":False,"reason":"SciPy unavailable; geometry remains valid"}
-    rho,pvalue=spearmanr(depths,entropy)
-    x=rankdata(depths)-rankdata(depths).mean()
+        return {**base,"available":False,"reason":"SciPy unavailable; geometry remains valid"}
+    raw_rho,raw_pvalue=spearmanr(depths,entropy)
+    base.update(raw_spearman_descriptive_legacy=float(raw_rho),raw_pvalue_descriptive_legacy=float(raw_pvalue))
+    # A single off-shell proxy does not replicate a depth/breadth pattern.
+    # Two well populated levels remain valid: no three-level rule is imposed.
+    if len(depths)-dominant<2:
+        return {**base,"available":False,"reason":"insufficient depth replication: fewer than two proxies outside the dominant tied layer; raw ranks are legacy diagnostics only"}
+    rho,pvalue=spearmanr(robust_depth,entropy)
+    x=rankdata(robust_depth)-rankdata(robust_depth).mean()
     y=rankdata(entropy)-rankdata(entropy).mean()
     denominator=np.linalg.norm(x)*np.linalg.norm(y)
     rng=np.random.RandomState(seed)
     null=np.asarray([np.dot(rng.permutation(x),y)/denominator for _ in range(repetitions)])
     null_summary=describe(null)
     null_summary.update(p025=float(np.quantile(null,.025)),p975=float(np.quantile(null,.975)))
-    return {"available":True,"spearman_depth_vs_nn32_entropy":float(rho),
+    return {**base,"available":True,"spearman_depth_vs_nn32_entropy":float(rho),
             "pvalue_descriptive_only":float(pvalue),
             "depth_shuffle_null":null_summary,"depth_shuffle_repetitions":repetitions,
             "depth_shuffle_seed":seed,
