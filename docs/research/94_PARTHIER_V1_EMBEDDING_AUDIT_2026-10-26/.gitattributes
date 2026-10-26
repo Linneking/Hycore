@@ -1,0 +1,6 @@
+# Preserve the exact artifact bytes referenced by verification.json.
+tables/*.csv -text
+figures/*.svg -text
+figures/*.png -text
+*.json -text
+report.md -text

@@ -1,0 +1,30 @@
+{
+  "input_summary_sha256": "dd22ead4597be467c7349f7dc277c521842dd1c4ef85a33a8cf5de3289e8beca",
+  "expected_objects_per_view": 9840,
+  "figure_groups": 5,
+  "figure_files": [
+    "01_depth.png",
+    "01_depth.svg",
+    "02_chain.png",
+    "02_chain.svg",
+    "03_relations.png",
+    "03_relations.svg",
+    "04_roles.png",
+    "04_roles.svg",
+    "05_angles.png",
+    "05_angles.svg"
+  ],
+  "public_tables": [
+    "angle_hist.csv",
+    "angles.csv",
+    "chain.csv",
+    "depth_ecdf.csv",
+    "depth_hist.csv",
+    "intra.csv",
+    "relation.csv",
+    "roles.csv"
+  ],
+  "queue_semantics": "saved historical queue plus current eval part features; not training replay",
+  "model_weights_loaded": false,
+  "object_ids_published": false
+}

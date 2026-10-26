@@ -1,0 +1,116 @@
+{
+  "audit_commit": "6cc302b1188ec9f50d65e0912b8ce138d05b7d52",
+  "status": "completed",
+  "objects_per_view": 9840,
+  "checkpoints": {
+    "TS18_best": {
+      "epoch": 201,
+      "state_unchanged": true,
+      "source_sha256": "cb075e73f67f8b6a55a307c3b4718ce93f51f3d091980fa3eda3ab52e836e749",
+      "cache_sha256": "f4677d29086105e4095d87dee15cb895c45555e4586e011d03556b8b7992afa9",
+      "native_gate_passed": true
+    },
+    "TS18_e300": {
+      "epoch": 300,
+      "state_unchanged": true,
+      "source_sha256": "15012c2d45e592ed4e75aec28d8ffb84c7668bd25039007fdf47f372e55a3e06",
+      "cache_sha256": "798421ccdfe5fed8b174b9577ff415438ed6aa655ee33cad7d750072cf7b1cc5",
+      "native_gate_passed": true
+    },
+    "TS02_best": {
+      "epoch": 189,
+      "state_unchanged": true,
+      "source_sha256": "765e9137e98a9e725d8399a76a3ea0253236d630e5c75bb2f44937c1b4d5e316",
+      "cache_sha256": "9045134cc280a87e0fc1ca0663711ebf7cc388324c87a708cc31ba0693c189f8",
+      "native_gate_passed": true
+    },
+    "TS02_e300": {
+      "epoch": 300,
+      "state_unchanged": true,
+      "source_sha256": "5d4730f421e8c1325c8bce045b92b91080d83b69551cb335f31baa7afd75bc19",
+      "cache_sha256": "a9f2bbf116a0fe822c5cc0c2b97a03165ab054cb7abe0c61b527c8c62488d7ec",
+      "native_gate_passed": true
+    }
+  },
+  "tf32": false,
+  "training_updates": 0,
+  "shared_input": {
+    "count": 9840,
+    "points_sha256": "dc82f898decf86fed478184b9a6e72f8fa95d4165b0150a449a2fa5e178f27f7",
+    "labels_sha256": "5191071bd57f54d62aad093330e3742ea32f24be56c9ba1e202126bb62785854",
+    "crop_seed": 4780,
+    "whole_count": 1024,
+    "canonical_ids": "sorted shard filename then row",
+    "crop_centers": "(id*15485863+4780)%1024; (id*32452843+4877)%1024",
+    "crop_sha256": "3581b84652fb960ebbb3b208cf2fdd75ddda1911c0a4a6c93ef7700eb6ccc95d",
+    "shared_across": [
+      "TS18_best",
+      "TS18_e300",
+      "TS02_best",
+      "TS02_e300"
+    ]
+  },
+  "server_generated_files_sha256": {
+    "figures/01_depth.png": "c6b062dbdda768718f304a1c89330658d7b7015b61096ab5ea4c7e9696d4d240",
+    "figures/01_depth.svg": "fd682c672ebef69cbf946aa4c54573b69765c68b773ab0e036d3fae3f3b85871",
+    "figures/02_chain.png": "3a88f3a2d9eda12a78c682b833f50416b731d107ce155de475885db0923d3dc0",
+    "figures/02_chain.svg": "df260ea2839520cd403cdc57d9498ba9a2399225046d2a751d539a1109cb0cca",
+    "figures/03_relations.png": "d53171b3a75a3a844aee2c54d300325be0309b7b736dac722fcfca369326b1d1",
+    "figures/03_relations.svg": "9ecea38ba153104e560daaf2e5f2e79c19a7427ca2ed82de4ec335350718759f",
+    "figures/04_roles.png": "0c3f9b237f61b6bfeb97e644f2b1bfbcf43a4b0b0df8f9178b2e48c22fc31cac",
+    "figures/04_roles.svg": "3c6ff8a80f1b13e1a7be1e6fd419e4678a009adf13820882d44e3883e021a51f",
+    "figures/05_angles.png": "8bdbd9ebaa0d78e14635d1988ba8ca13314a576f1dcfa093fa0a0ca96c3f6191",
+    "figures/05_angles.svg": "e56d7130f9ea2aa7b7f09eab036179d0f5e9c75461513c1d431e83b5483091cf",
+    "report.md": "dcea767ba06b6cbe0870e2e508ea5c9b49d24dcbcc60917bc21e94fc10a46a5c",
+    "report_acceptance.json": "3864fd5533d8485162ce333eeaba64ef512297e83aaa3e613e80cdb094badd04",
+    "summary.json": "589f363f242a472804b6995e631e09b5646f765fd708e56dbde861014bf60c3b",
+    "tables/angle_hist.csv": "fa11e5627f8a5f768f5d03a3647830a461f54da21a15f8e41a608574c0b6454a",
+    "tables/angles.csv": "465e70074c8ebe0a4cad1cb8baa1a10de0ffb8287c43bbdbefa94375c7af4118",
+    "tables/chain.csv": "5346c920cd75174d66627f6ad919b8baaf24b5d3c9b27ab4de93348337595fa2",
+    "tables/depth_ecdf.csv": "2c7f4d6d8ef77ee954bc4d88691e57ebad63248afb4e9362902182b53a7f5627",
+    "tables/depth_hist.csv": "b41776e44c0f44c24bf1ca041804c6948e62485301dee39d59df5c8595c46af5",
+    "tables/intra.csv": "8cc451029baf196072e9971c3ef9aa2cfb09bf521cc3adbbccf6430a12a9b219",
+    "tables/relation.csv": "3a146a24aa5f451f4dea4b8d70eda0f94867a12ac5f7f8d386f42f1e399a6e3e",
+    "tables/roles.csv": "c5f4776db69184d53df71e12ea933c8361d2164c813eba61b2c7a4e36db9e74f"
+  },
+  "embedding_export_commit": "807a5d6fdfc757e550dd92170bc07ef8a58d3bf1",
+  "server_completed_beijing": "2026-10-26 19:19:41 +08:00",
+  "local_computation": "No embedding extraction, statistical readout or plotting; only artifact verification and report editing.",
+  "native_intra_numeric_check": {
+    "max_absdiff": 2.7418136596679688e-06,
+    "rtol": 1e-05,
+    "atol": 1e-05,
+    "scientific_margins_unchanged": true
+  },
+  "delivery_checks": {
+    "all_20_depth_populations_9840": true,
+    "histogram_counts_and_ecdf_verified": true,
+    "relation_collision_role_and_angle_denominators_verified": true,
+    "five_figure_groups_visually_checked": true,
+    "scientific_thresholds_verified": true,
+    "source_cache_immutable": true
+  },
+  "reviewed_delivery_files_sha256": {
+    "figures/01_depth.png": "c6b062dbdda768718f304a1c89330658d7b7015b61096ab5ea4c7e9696d4d240",
+    "figures/01_depth.svg": "fd682c672ebef69cbf946aa4c54573b69765c68b773ab0e036d3fae3f3b85871",
+    "figures/02_chain.png": "3a88f3a2d9eda12a78c682b833f50416b731d107ce155de475885db0923d3dc0",
+    "figures/02_chain.svg": "df260ea2839520cd403cdc57d9498ba9a2399225046d2a751d539a1109cb0cca",
+    "figures/03_relations.png": "d53171b3a75a3a844aee2c54d300325be0309b7b736dac722fcfca369326b1d1",
+    "figures/03_relations.svg": "9ecea38ba153104e560daaf2e5f2e79c19a7427ca2ed82de4ec335350718759f",
+    "figures/04_roles.png": "0c3f9b237f61b6bfeb97e644f2b1bfbcf43a4b0b0df8f9178b2e48c22fc31cac",
+    "figures/04_roles.svg": "3c6ff8a80f1b13e1a7be1e6fd419e4678a009adf13820882d44e3883e021a51f",
+    "figures/05_angles.png": "8bdbd9ebaa0d78e14635d1988ba8ca13314a576f1dcfa093fa0a0ca96c3f6191",
+    "figures/05_angles.svg": "e56d7130f9ea2aa7b7f09eab036179d0f5e9c75461513c1d431e83b5483091cf",
+    "report.md": "8180566d47cb55e95e1bb7d2a6df3aaecaf9c77b62515e8f4470f2ddae91ed5f",
+    "report_acceptance.json": "3864fd5533d8485162ce333eeaba64ef512297e83aaa3e613e80cdb094badd04",
+    "summary.json": "589f363f242a472804b6995e631e09b5646f765fd708e56dbde861014bf60c3b",
+    "tables/angle_hist.csv": "fa11e5627f8a5f768f5d03a3647830a461f54da21a15f8e41a608574c0b6454a",
+    "tables/angles.csv": "465e70074c8ebe0a4cad1cb8baa1a10de0ffb8287c43bbdbefa94375c7af4118",
+    "tables/chain.csv": "5346c920cd75174d66627f6ad919b8baaf24b5d3c9b27ab4de93348337595fa2",
+    "tables/depth_ecdf.csv": "2c7f4d6d8ef77ee954bc4d88691e57ebad63248afb4e9362902182b53a7f5627",
+    "tables/depth_hist.csv": "b41776e44c0f44c24bf1ca041804c6948e62485301dee39d59df5c8595c46af5",
+    "tables/intra.csv": "8cc451029baf196072e9971c3ef9aa2cfb09bf521cc3adbbccf6430a12a9b219",
+    "tables/relation.csv": "3a146a24aa5f451f4dea4b8d70eda0f94867a12ac5f7f8d386f42f1e399a6e3e",
+    "tables/roles.csv": "c5f4776db69184d53df71e12ea933c8361d2164c813eba61b2c7a4e36db9e74f"
+  }
+}
