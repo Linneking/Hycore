@@ -46,6 +46,7 @@ def main():
     parser.add_argument("--offline86", type=Path, required=True)
     parser.add_argument("--diagnostic90", type=Path, required=True)
     parser.add_argument("--capture8001", type=Path)
+    parser.add_argument("--preserve-report", action="store_true", help="Update machine-readable tables while preserving manually edited report layout")
     args = parser.parse_args()
     out = ROOT / "93_V9_EXPERIMENT_ATLAS_2026-10-26"
     tables = out / "tables"
@@ -358,15 +359,21 @@ def main():
         report = report.replace("75中TS15的旧running状态改为尾段待核实，保留其原e34数值，不追溯改写75原报告。", "TS15从原e34快照补至已保存e54，并确认当前无对应进程、归为中断；75原报告仍保留为历史快照，不追溯改写。TS18已补入完整300轮结果。")
         report = report.replace("已验首轮；完整尾段待8001恢复读取", "完成300轮；best92.990/e30088.006，后期回落")
         current = {r["run_id"]:r for r in runs}
-        report = report.replace("本次截取e17；尚无终点结论", f"本次分别截取e{current['TS23']['completed_epochs']}/e{current['TS24']['completed_epochs']}；尚无终点结论")
+        followup_complete = all(current[k]["status"] == "completed" and current[k]["completed_epochs"] == 300 for k in ("TS23","TS24"))
+        report = report.replace("本次截取e17；尚无终点结论", "两组均完成300轮，见本次完整成绩" if followup_complete else f"本次分别截取e{current['TS23']['completed_epochs']}/e{current['TS24']['completed_epochs']}；尚无终点结论")
         old_gap = "**8001当前拒绝连接，仍有明确缺口：** TS15的断电后尾段；TS18首轮后的进度、best及终点；TS19/20的末10轮均值/SD（本机只有best/末轮原始记录及300份文件存在的验收）；TS17的best同轮在线训练OA。TS16此项已从83报告补录为96.461%，仅保留报告三位小数，不反推更多精度。本次没有用其他seed、相似配置、最终best摘要或推算值代填。TS23/24尚未到e300属于正常待完成，不是资料丢失。"
         new_gap = "**8001连接恢复后已补齐可恢复记录：** TS15从e34旧快照更新为完整保存至e54，前缀best e52 OA91.856%，当前无对应进程，归为已中断；TS18完整300轮的best/e300/末10轮/在线训练OA已补齐；TS19/20末10轮均值与SD已补齐；TS16/17 best同轮在线训练OA直接取原始轮JSON，替换旧报告精度或空值。\n\n剩余空值均有明确性质：TS15没有完成300轮，因此没有e300及e291–300统计；TS23/24仍在训练，终点尚未产生；PartHier协议未记录clean/eval训练OA，TS01–TS06历史记录也未提供该口径。此次没有新增前向去补造历史训练读出，也没有重启TS15或其他任务。"
         assert old_gap in report
         report = report.replace(old_gap,new_gap)
+        if followup_complete:
+            report = report.replace("TS23/24仍在训练，终点尚未产生；", "")
+            report = report.replace("采集TS23/24的完成前缀。", "补齐TS23/24的完整300轮成绩、训练OA及末10轮统计。")
+            report = report.replace("| 待完整训练 |", "| 已完成的单变量对照 |")
         report = report.replace("旧历史实验未记录clean/eval时保留空值，并与服务器不可达造成的缺失区分。未启动新训练或自动等待服务器恢复。", "旧历史实验未记录clean/eval时保留空值；与尚未完成的终点区分。8001已恢复，没有继续保留‘连接失败待补’的旧缺口。本次没有启动或停止训练。")
         report = report.replace("[本机86脱敏证据](tables/source_capture_offline86.json)、[验收](tables/acceptance.json)", "[本机86脱敏证据](tables/source_capture_offline86.json)、[8001恢复后的原始标量采集](tables/source_capture_8001_restored.json)、[验收](tables/acceptance.json)")
         report += "\n## 6. 8001恢复后的补录摘要\n\n" + table(["记录","核实状态","best OA / 同轮AA","e300 OA","e291–300均值±SD"], [[current[k]["run_id"],status(current[k]),number(current[k]["best_test_oa"])+" / "+number(current[k]["best_test_aa_same_epoch"]),number(current[k]["end_test_oa"]),"—" if current[k]["last10_test_oa_mean"] is None else number(current[k]["last10_test_oa_mean"])+" ± "+number(current[k]["last10_test_oa_population_std"])] for k in ("TS15","TS18","TS19","TS20")]) + "\n\nPartHier TS18于北京时间10月25日06:35:53完成，best e201；其e300在线训练OA99.515625%。best之后test回落约4.984个百分点，是已有训练记录的观察，不据此单独归因某一损失或结构。\n"
-    (out / "report.md").write_text(report, encoding="utf-8")
+    if not args.preserve_report:
+        (out / "report.md").write_text(report, encoding="utf-8")
     print(json.dumps(dict(out=str(out),records=len(runs),completed=completed,running=sum(r["status"]=="running" for r in runs),unknown=sum(r["status"].startswith("unverified") for r in runs),gaps=len(gaps)),ensure_ascii=False))
 
 

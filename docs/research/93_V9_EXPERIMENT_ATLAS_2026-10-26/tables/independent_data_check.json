@@ -1,16 +1,16 @@
 {
   "status": "passed",
   "formal_records": 24,
-  "base_recipes": 14,
-  "mechanism_records": 5,
-  "old15_identifiers_preserved": true,
-  "old14_complete_metrics_preserved": true,
-  "TS15_prefix_extended_34_to54": true,
-  "TS18_complete300_and_same_epoch_AA": true,
-  "restored_sources_match_all_six_records": true,
-  "remaining_unavailable_evidence_fields": 0,
-  "CSV_roundtrip": true,
-  "markdown_tables_checked": 10,
-  "registry_matches_inventory": true,
-  "no_inference_or_training": true
+  "completed": 23,
+  "interrupted": 1,
+  "running": 0,
+  "other22_identity_config_and_scores_unchanged": true,
+  "TS23_TS24_complete300_and60000_updates": true,
+  "BN120000_and_exit0": true,
+  "best_AA_same_epoch": true,
+  "last10_recomputed_from_e291_to300": true,
+  "CSV_and_registry_consistent": true,
+  "preexisting_report_section_removal_preserved": true,
+  "markdown_tables_checked": 11,
+  "no_new_evaluation_or_training": true
 }

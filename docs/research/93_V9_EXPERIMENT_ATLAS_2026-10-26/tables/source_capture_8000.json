@@ -1,5 +1,5 @@
 {
-  "observed_utc": "2026-10-26T04:56:31.304276+00:00",
+  "observed_utc": "2026-10-26T12:03:56.257715+00:00",
   "scope": "Saved JSON scalar read only; no torch/GPU/new evaluation",
   "rows": [
     {
@@ -832,15 +832,15 @@
     },
     {
       "id": "TS23",
-      "status": "running",
+      "status": "completed",
       "production_commit": "061d86fa11121f33f4682d2253058d5847ac35b9",
-      "completed_epochs": 101,
+      "completed_epochs": 300,
       "train_count": 9840,
       "validation_count": 0,
       "test_count": 2468,
       "started": "2026-10-26T02:10:33.077134+00:00",
-      "finished": null,
-      "manifest_sha256_at_capture": "dcc1f7341e88c1d36bdb0aaf43fdcf346d1d0f009db909db24fe03f034569928",
+      "finished": "2026-10-26T10:35:45.236923+00:00",
+      "manifest_sha256_at_capture": "629f94fd2a363ba22f400e4ced97bab2e69e9e1f309d540efe36576888e24575",
       "config_excerpt": {
         "proxy_optimizer": {
           "betas": [
@@ -868,15 +868,15 @@
         "global_batch": 32,
         "native_extra_cap": 2.3
       },
-      "best_epoch": 101,
-      "manifest_best_test_oa": 92.26094003241491,
+      "best_epoch": 262,
+      "manifest_best_test_oa": 94.0032414910859,
       "best": {
-        "completed_epoch": 101,
-        "raw_epoch": 101,
-        "source_file": "metrics_epoch_101.json",
+        "completed_epoch": 262,
+        "raw_epoch": 262,
+        "source_file": "metrics_epoch_262.json",
         "online_train": {
-          "oa": 91.453125,
-          "aa": 91.22503076010786,
+          "oa": 98.71875,
+          "aa": 98.7482908433416,
           "ce_or_logged_loss": null,
           "count": 6400
         },
@@ -887,72 +887,72 @@
           "count": null
         },
         "test": {
-          "oa": 92.26094003241491,
-          "aa": 90.11222124099731,
-          "ce_or_logged_loss": 1.799286417288757,
+          "oa": 94.0032414910859,
+          "aa": 91.82790517807007,
+          "ce_or_logged_loss": 1.7809642993843535,
           "count": 2468
         }
       },
-      "best_metric_sha256": "4b1083a3ce39d77c82ad6ef11f92ed8df87fd63b17c6607b9766091e9cc6e1ea",
+      "best_metric_sha256": "fe6257cad73d8aabc4d2aa9f871e814e8513793e6f4b6eb293f37e233bb52f14",
       "latest": {
-        "completed_epoch": 101,
-        "raw_epoch": 101,
-        "source_file": "metrics_epoch_101.json",
+        "completed_epoch": 300,
+        "raw_epoch": 300,
+        "source_file": "metrics_epoch_300.json",
         "online_train": {
-          "oa": 91.453125,
-          "aa": 91.22503076010786,
+          "oa": 99.21875,
+          "aa": 99.17597388955622,
           "ce_or_logged_loss": null,
           "count": 6400
         },
         "clean_train": {
-          "oa": null,
-          "aa": null,
-          "ce_or_logged_loss": null,
-          "count": null
-        },
-        "test": {
-          "oa": 92.26094003241491,
-          "aa": 90.11222124099731,
-          "ce_or_logged_loss": 1.799286417288757,
-          "count": 2468
-        }
-      },
-      "latest_metric_sha256": "4b1083a3ce39d77c82ad6ef11f92ed8df87fd63b17c6607b9766091e9cc6e1ea",
-      "latest_clean_train_record": {
-        "completed_epoch": 100,
-        "raw_epoch": 100,
-        "source_file": "metrics_epoch_100.json",
-        "online_train": {
-          "oa": 91.25,
-          "aa": 90.85018257852016,
-          "ce_or_logged_loss": null,
-          "count": 6400
-        },
-        "clean_train": {
-          "oa": 94.79674796747967,
-          "aa": 94.62761878967285,
-          "ce_or_logged_loss": 1.7454376044312143,
+          "oa": 99.55284552845528,
+          "aa": 99.57995414733887,
+          "ce_or_logged_loss": 1.6367168162896382,
           "count": 9840
         },
         "test": {
-          "oa": 91.85575364667747,
-          "aa": 91.24477505683899,
-          "ce_or_logged_loss": 1.8103052333262983,
+          "oa": 93.7196110210697,
+          "aa": 91.26162528991699,
+          "ce_or_logged_loss": 1.785709457613854,
           "count": 2468
         }
       },
-      "metric_files": 101,
+      "latest_metric_sha256": "e66ce9b14d59a93c0d7a8a6441f63e1d70a99d745e3eb001f70d2737e207a011",
+      "latest_clean_train_record": {
+        "completed_epoch": 300,
+        "raw_epoch": 300,
+        "source_file": "metrics_epoch_300.json",
+        "online_train": {
+          "oa": 99.21875,
+          "aa": 99.17597388955622,
+          "ce_or_logged_loss": null,
+          "count": 6400
+        },
+        "clean_train": {
+          "oa": 99.55284552845528,
+          "aa": 99.57995414733887,
+          "ce_or_logged_loss": 1.6367168162896382,
+          "count": 9840
+        },
+        "test": {
+          "oa": 93.7196110210697,
+          "aa": 91.26162528991699,
+          "ce_or_logged_loss": 1.785709457613854,
+          "count": 2468
+        }
+      },
+      "metric_files": 300,
       "metric_files_contiguous_from_one": true,
-      "tail_test_oa_mean": 91.09400324149108,
-      "tail_test_oa_population_std": 0.9757843877012711,
+      "tail_test_oa_mean": 93.35089141004863,
+      "tail_test_oa_population_std": 0.2358797338383786,
       "tail": [
         {
-          "completed_epoch": 92,
-          "raw_epoch": 92,
-          "source_file": "metrics_epoch_092.json",
+          "completed_epoch": 291,
+          "raw_epoch": 291,
+          "source_file": "metrics_epoch_291.json",
           "online_train": {
-            "oa": 90.890625,
-            "aa": 90.92885152801144,
+            "oa": 98.96875,
+            "aa": 98.9414137610218,
             "ce_or_logged_loss": null,
             "count": 6400
           },
@@ -963,19 +963,19 @@
             "count": null
           },
           "test": {
-            "oa": 91.36952998379255,
-            "aa": 89.83197212219238,
-            "ce_or_logged_loss": 1.8229103045873163,
+            "oa": 93.39546191247975,
+            "aa": 91.04534387588501,
+            "ce_or_logged_loss": 1.7945180472523892,
             "count": 2468
           }
         },
         {
-          "completed_epoch": 93,
-          "raw_epoch": 93,
-          "source_file": "metrics_epoch_093.json",
+          "completed_epoch": 292,
+          "raw_epoch": 292,
+          "source_file": "metrics_epoch_292.json",
           "online_train": {
-            "oa": 90.828125,
-            "aa": 90.92389940318147,
+            "oa": 99.09375,
+            "aa": 99.10906572008503,
             "ce_or_logged_loss": null,
             "count": 6400
           },
@@ -986,19 +986,19 @@
             "count": null
           },
           "test": {
-            "oa": 91.61264181523501,
-            "aa": 89.38838243484497,
-            "ce_or_logged_loss": 1.8084708191394032,
+            "oa": 93.15235008103728,
+            "aa": 91.48719906806946,
+            "ce_or_logged_loss": 1.7999339679458346,
             "count": 2468
           }
         },
         {
-          "completed_epoch": 94,
-          "raw_epoch": 94,
-          "source_file": "metrics_epoch_094.json",
+          "completed_epoch": 293,
+          "raw_epoch": 293,
+          "source_file": "metrics_epoch_293.json",
           "online_train": {
-            "oa": 90.984375,
-            "aa": 90.91965044700287,
+            "oa": 99.0,
+            "aa": 98.98594949659099,
             "ce_or_logged_loss": null,
             "count": 6400
           },
@@ -1009,19 +1009,19 @@
             "count": null
           },
           "test": {
-            "oa": 90.55915721231767,
-            "aa": 89.11395072937012,
-            "ce_or_logged_loss": 1.8208680848441596,
+            "oa": 92.94975688816855,
+            "aa": 91.3581371307373,
+            "ce_or_logged_loss": 1.8055188082025735,
             "count": 2468
           }
         },
         {
-          "completed_epoch": 95,
-          "raw_epoch": 95,
-          "source_file": "metrics_epoch_095.json",
+          "completed_epoch": 294,
+          "raw_epoch": 294,
+          "source_file": "metrics_epoch_294.json",
           "online_train": {
-            "oa": 90.875,
-            "aa": 90.7899290890161,
+            "oa": 99.203125,
+            "aa": 99.20273739740801,
             "ce_or_logged_loss": null,
             "count": 6400
           },
@@ -1032,19 +1032,19 @@
             "count": null
           },
           "test": {
-            "oa": 91.41004862236629,
-            "aa": 89.42500352859497,
-            "ce_or_logged_loss": 1.8111838065631192,
+            "oa": 93.39546191247975,
+            "aa": 90.75348973274231,
+            "ce_or_logged_loss": 1.8058691306863843,
             "count": 2468
           }
         },
         {
-          "completed_epoch": 96,
-          "raw_epoch": 96,
-          "source_file": "metrics_epoch_096.json",
+          "completed_epoch": 295,
+          "raw_epoch": 295,
+          "source_file": "metrics_epoch_295.json",
           "online_train": {
-            "oa": 91.234375,
-            "aa": 91.08959449410816,
+            "oa": 99.03125,
+            "aa": 99.04217681016793,
             "ce_or_logged_loss": null,
             "count": 6400
           },
@@ -1055,19 +1055,19 @@
             "count": null
           },
           "test": {
-            "oa": 92.05834683954619,
-            "aa": 90.24127721786499,
-            "ce_or_logged_loss": 1.7999266457519036,
+            "oa": 93.19286871961103,
+            "aa": 91.00406765937805,
+            "ce_or_logged_loss": 1.7713383040126758,
             "count": 2468
           }
         },
         {
-          "completed_epoch": 97,
-          "raw_epoch": 97,
-          "source_file": "metrics_epoch_097.json",
+          "completed_epoch": 296,
+          "raw_epoch": 296,
+          "source_file": "metrics_epoch_296.json",
           "online_train": {
-            "oa": 91.03125,
-            "aa": 91.02967601030024,
+            "oa": 99.09375,
+            "aa": 99.11226725860647,
             "ce_or_logged_loss": null,
             "count": 6400
           },
@@ -1078,19 +1078,19 @@
             "count": null
           },
           "test": {
-            "oa": 89.82982171799027,
-            "aa": 89.592444896698,
-            "ce_or_logged_loss": 1.8380065806680985,
+            "oa": 93.15235008103728,
+            "aa": 91.50756001472473,
+            "ce_or_logged_loss": 1.7994159987525384,
             "count": 2468
           }
         },
         {
-          "completed_epoch": 98,
-          "raw_epoch": 98,
-          "source_file": "metrics_epoch_098.json",
+          "completed_epoch": 297,
+          "raw_epoch": 297,
+          "source_file": "metrics_epoch_297.json",
           "online_train": {
-            "oa": 91.375,
-            "aa": 91.28128236857809,
+            "oa": 99.03125,
+            "aa": 99.00485436529307,
             "ce_or_logged_loss": null,
             "count": 6400
           },
@@ -1101,19 +1101,19 @@
             "count": null
           },
           "test": {
-            "oa": 90.96434359805511,
-            "aa": 88.44302892684937,
-            "ce_or_logged_loss": 1.8111659649705192,
+            "oa": 93.31442463533226,
+            "aa": 90.9749984741211,
+            "ce_or_logged_loss": 1.7950799117405178,
             "count": 2468
           }
         },
         {
-          "completed_epoch": 99,
-          "raw_epoch": 99,
-          "source_file": "metrics_epoch_099.json",
+          "completed_epoch": 298,
+          "raw_epoch": 298,
+          "source_file": "metrics_epoch_298.json",
           "online_train": {
-            "oa": 91.296875,
-            "aa": 91.27527569780028,
+            "oa": 98.921875,
+            "aa": 98.91559243023072,
             "ce_or_logged_loss": null,
             "count": 6400
           },
@@ -1124,55 +1124,55 @@
             "count": null
           },
           "test": {
-            "oa": 89.0194489465154,
-            "aa": 88.11336755752563,
-            "ce_or_logged_loss": 1.8525536547217223,
+            "oa": 93.67909238249595,
+            "aa": 91.4366364479065,
+            "ce_or_logged_loss": 1.7932035633192263,
             "count": 2468
           }
         },
         {
-          "completed_epoch": 100,
-          "raw_epoch": 100,
-          "source_file": "metrics_epoch_100.json",
+          "completed_epoch": 299,
+          "raw_epoch": 299,
+          "source_file": "metrics_epoch_299.json",
           "online_train": {
-            "oa": 91.25,
-            "aa": 90.85018257852016,
+            "oa": 98.78125,
+            "aa": 98.7555338889807,
             "ce_or_logged_loss": null,
             "count": 6400
           },
           "clean_train": {
-            "oa": 94.79674796747967,
-            "aa": 94.62761878967285,
-            "ce_or_logged_loss": 1.7454376044312143,
+            "oa": null,
+            "aa": null,
+            "ce_or_logged_loss": null,
+            "count": null
+          },
+          "test": {
+            "oa": 93.55753646677472,
+            "aa": 91.53721928596497,
+            "ce_or_logged_loss": 1.793465954751211,
+            "count": 2468
+          }
+        },
+        {
+          "completed_epoch": 300,
+          "raw_epoch": 300,
+          "source_file": "metrics_epoch_300.json",
+          "online_train": {
+            "oa": 99.21875,
+            "aa": 99.17597388955622,
+            "ce_or_logged_loss": null,
+            "count": 6400
+          },
+          "clean_train": {
+            "oa": 99.55284552845528,
+            "aa": 99.57995414733887,
+            "ce_or_logged_loss": 1.6367168162896382,
             "count": 9840
           },
           "test": {
-            "oa": 91.85575364667747,
-            "aa": 91.24477505683899,
-            "ce_or_logged_loss": 1.8103052333262983,
-            "count": 2468
-          }
-        },
-        {
-          "completed_epoch": 101,
-          "raw_epoch": 101,
-          "source_file": "metrics_epoch_101.json",
-          "online_train": {
-            "oa": 91.453125,
-            "aa": 91.22503076010786,
-            "ce_or_logged_loss": null,
-            "count": 6400
-          },
-          "clean_train": {
-            "oa": null,
-            "aa": null,
-            "ce_or_logged_loss": null,
-            "count": null
-          },
-          "test": {
-            "oa": 92.26094003241491,
-            "aa": 90.11222124099731,
-            "ce_or_logged_loss": 1.799286417288757,
+            "oa": 93.7196110210697,
+            "aa": 91.26162528991699,
+            "ce_or_logged_loss": 1.785709457613854,
             "count": 2468
           }
         }
@@ -1222,23 +1222,39 @@
         "best.pth": true,
         "last.pth": true
       },
-      "completed_optimizer_steps": 20200,
+      "completed_optimizer_steps": 60000,
       "source_key": "k10p10w01",
-      "queue_status": "production_running",
-      "queue_exit_code": null,
-      "completion_acceptance": null
+      "queue_status": "completed",
+      "queue_exit_code": 0,
+      "completion_acceptance": {
+        "accepted": true,
+        "variant": "k10p10w01",
+        "epochs": 300,
+        "updates": 60000,
+        "BN_updates": 120000,
+        "actual_proxy_optimizer": {
+          "variant": "k10p10w01",
+          "initial_lr": 0.005,
+          "eps": 0.0001,
+          "lr": 0.0005,
+          "T_max": 300,
+          "completed_epochs": 300
+        },
+        "initial_sha256": "4843e1eba1a3bd90639274a728cc1a70ff3c3350998f494767d838265a94252a",
+        "official_test_read": true
+      }
     },
     {
       "id": "TS24",
-      "status": "running",
+      "status": "completed",
       "production_commit": "061d86fa11121f33f4682d2253058d5847ac35b9",
-      "completed_epochs": 98,
+      "completed_epochs": 300,
       "train_count": 9840,
       "validation_count": 0,
       "test_count": 2468,
       "started": "2026-10-26T02:10:33.111839+00:00",
-      "finished": null,
-      "manifest_sha256_at_capture": "f43d2cbe1e102a68702b21a8b9b540b4d9c8b76dc4603da5b6996e2fd6724da6",
+      "finished": "2026-10-26T10:40:02.442780+00:00",
+      "manifest_sha256_at_capture": "504b9991a2d978f5e6b6abdf3015a83b456a96f86c0fe284048175c266cd79c8",
       "config_excerpt": {
         "proxy_optimizer": {
           "betas": [
@@ -1266,15 +1282,15 @@
         "global_batch": 32,
         "native_extra_cap": 2.3
       },
-      "best_epoch": 84,
-      "manifest_best_test_oa": 92.01782820097245,
+      "best_epoch": 277,
+      "manifest_best_test_oa": 93.59805510534846,
       "best": {
-        "completed_epoch": 84,
-        "raw_epoch": 84,
-        "source_file": "metrics_epoch_084.json",
+        "completed_epoch": 277,
+        "raw_epoch": 277,
+        "source_file": "metrics_epoch_277.json",
         "online_train": {
-          "oa": 91.09375,
-          "aa": 91.21619397675488,
+          "oa": 98.734375,
+          "aa": 98.74217663223135,
           "ce_or_logged_loss": null,
           "count": 6400
         },
@@ -1285,72 +1301,72 @@
           "count": null
         },
         "test": {
-          "oa": 92.01782820097245,
-          "aa": 90.66279530525208,
-          "ce_or_logged_loss": 1.8113183894072398,
+          "oa": 93.59805510534846,
+          "aa": 91.08662605285645,
+          "ce_or_logged_loss": 1.7797064054727167,
           "count": 2468
         }
       },
-      "best_metric_sha256": "b732a112074b46b43ace0455711bf5ecaf29fb2fe7e344c0da077ed22e386a65",
+      "best_metric_sha256": "0db426403ba22f08d98cf59f35c43fcd90802f0b19add3c833f32db099ad2f64",
       "latest": {
-        "completed_epoch": 98,
-        "raw_epoch": 98,
-        "source_file": "metrics_epoch_098.json",
+        "completed_epoch": 300,
+        "raw_epoch": 300,
+        "source_file": "metrics_epoch_300.json",
         "online_train": {
-          "oa": 91.671875,
-          "aa": 91.58824091664982,
+          "oa": 99.1875,
+          "aa": 99.1459785005069,
           "ce_or_logged_loss": null,
           "count": 6400
         },
         "clean_train": {
-          "oa": null,
-          "aa": null,
-          "ce_or_logged_loss": null,
-          "count": null
-        },
-        "test": {
-          "oa": 91.00486223662885,
-          "aa": 88.82966041564941,
-          "ce_or_logged_loss": 1.8198526361579834,
-          "count": 2468
-        }
-      },
-      "latest_metric_sha256": "91471b5f05ff15b167090b7021b8b3455e1581260d2778f705e6c3a7c257fc0f",
-      "latest_clean_train_record": {
-        "completed_epoch": 90,
-        "raw_epoch": 90,
-        "source_file": "metrics_epoch_090.json",
-        "online_train": {
-          "oa": 90.59375,
-          "aa": 90.56601556584323,
-          "ce_or_logged_loss": null,
-          "count": 6400
-        },
-        "clean_train": {
-          "oa": 94.29878048780488,
-          "aa": 94.19344067573547,
-          "ce_or_logged_loss": 1.753814144056987,
+          "oa": 99.51219512195122,
+          "aa": 99.57411885261536,
+          "ce_or_logged_loss": 1.6358052620073644,
           "count": 9840
         },
         "test": {
-          "oa": 90.76175040518639,
-          "aa": 89.30755853652954,
-          "ce_or_logged_loss": 1.8189587052096423,
+          "oa": 92.46353322528363,
+          "aa": 90.26222229003906,
+          "ce_or_logged_loss": 1.7983638911811421,
           "count": 2468
         }
       },
-      "metric_files": 98,
+      "latest_metric_sha256": "043b76985bae95ec003a27fcef699d52300b0afb9c2fb6c741f4581d0b8cb6a1",
+      "latest_clean_train_record": {
+        "completed_epoch": 300,
+        "raw_epoch": 300,
+        "source_file": "metrics_epoch_300.json",
+        "online_train": {
+          "oa": 99.1875,
+          "aa": 99.1459785005069,
+          "ce_or_logged_loss": null,
+          "count": 6400
+        },
+        "clean_train": {
+          "oa": 99.51219512195122,
+          "aa": 99.57411885261536,
+          "ce_or_logged_loss": 1.6358052620073644,
+          "count": 9840
+        },
+        "test": {
+          "oa": 92.46353322528363,
+          "aa": 90.26222229003906,
+          "ce_or_logged_loss": 1.7983638911811421,
+          "count": 2468
+        }
+      },
+      "metric_files": 300,
       "metric_files_contiguous_from_one": true,
-      "tail_test_oa_mean": 90.91977309562398,
-      "tail_test_oa_population_std": 0.4957368910603441,
+      "tail_test_oa_mean": 92.73905996758509,
+      "tail_test_oa_population_std": 0.312177638318614,
       "tail": [
         {
-          "completed_epoch": 89,
-          "raw_epoch": 89,
-          "source_file": "metrics_epoch_089.json",
+          "completed_epoch": 291,
+          "raw_epoch": 291,
+          "source_file": "metrics_epoch_291.json",
           "online_train": {
-            "oa": 90.3125,
-            "aa": 90.13727533495555,
+            "oa": 98.625,
+            "aa": 98.5814023610672,
             "ce_or_logged_loss": null,
             "count": 6400
           },
@@ -1361,216 +1377,216 @@
             "count": null
           },
           "test": {
-            "oa": 90.27552674230145,
-            "aa": 89.65232968330383,
-            "ce_or_logged_loss": 1.8352505237202204,
+            "oa": 92.30145867098865,
+            "aa": 89.75407481193542,
+            "ce_or_logged_loss": 1.7887690171623538,
             "count": 2468
           }
         },
         {
-          "completed_epoch": 90,
-          "raw_epoch": 90,
-          "source_file": "metrics_epoch_090.json",
+          "completed_epoch": 292,
+          "raw_epoch": 292,
+          "source_file": "metrics_epoch_292.json",
           "online_train": {
-            "oa": 90.59375,
-            "aa": 90.56601556584323,
+            "oa": 98.984375,
+            "aa": 99.0111221388829,
             "ce_or_logged_loss": null,
             "count": 6400
           },
           "clean_train": {
-            "oa": 94.29878048780488,
-            "aa": 94.19344067573547,
-            "ce_or_logged_loss": 1.753814144056987,
+            "oa": null,
+            "aa": null,
+            "ce_or_logged_loss": null,
+            "count": null
+          },
+          "test": {
+            "oa": 92.70664505672609,
+            "aa": 90.31627774238586,
+            "ce_or_logged_loss": 1.7997303206105286,
+            "count": 2468
+          }
+        },
+        {
+          "completed_epoch": 293,
+          "raw_epoch": 293,
+          "source_file": "metrics_epoch_293.json",
+          "online_train": {
+            "oa": 98.953125,
+            "aa": 98.93536959671977,
+            "ce_or_logged_loss": null,
+            "count": 6400
+          },
+          "clean_train": {
+            "oa": null,
+            "aa": null,
+            "ce_or_logged_loss": null,
+            "count": null
+          },
+          "test": {
+            "oa": 92.70664505672609,
+            "aa": 90.22034406661987,
+            "ce_or_logged_loss": 1.805807041387697,
+            "count": 2468
+          }
+        },
+        {
+          "completed_epoch": 294,
+          "raw_epoch": 294,
+          "source_file": "metrics_epoch_294.json",
+          "online_train": {
+            "oa": 99.171875,
+            "aa": 99.18047808119057,
+            "ce_or_logged_loss": null,
+            "count": 6400
+          },
+          "clean_train": {
+            "oa": null,
+            "aa": null,
+            "ce_or_logged_loss": null,
+            "count": null
+          },
+          "test": {
+            "oa": 92.58508914100486,
+            "aa": 89.83314633369446,
+            "ce_or_logged_loss": 1.827107227795321,
+            "count": 2468
+          }
+        },
+        {
+          "completed_epoch": 295,
+          "raw_epoch": 295,
+          "source_file": "metrics_epoch_295.json",
+          "online_train": {
+            "oa": 99.21875,
+            "aa": 99.24498096670227,
+            "ce_or_logged_loss": null,
+            "count": 6400
+          },
+          "clean_train": {
+            "oa": null,
+            "aa": null,
+            "ce_or_logged_loss": null,
+            "count": null
+          },
+          "test": {
+            "oa": 93.31442463533226,
+            "aa": 90.57906866073608,
+            "ce_or_logged_loss": 1.7776749373641547,
+            "count": 2468
+          }
+        },
+        {
+          "completed_epoch": 296,
+          "raw_epoch": 296,
+          "source_file": "metrics_epoch_296.json",
+          "online_train": {
+            "oa": 99.0,
+            "aa": 99.01649858099574,
+            "ce_or_logged_loss": null,
+            "count": 6400
+          },
+          "clean_train": {
+            "oa": null,
+            "aa": null,
+            "ce_or_logged_loss": null,
+            "count": null
+          },
+          "test": {
+            "oa": 92.42301458670988,
+            "aa": 90.14534950256348,
+            "ce_or_logged_loss": 1.8095156872098603,
+            "count": 2468
+          }
+        },
+        {
+          "completed_epoch": 297,
+          "raw_epoch": 297,
+          "source_file": "metrics_epoch_297.json",
+          "online_train": {
+            "oa": 98.9375,
+            "aa": 98.91978209826465,
+            "ce_or_logged_loss": null,
+            "count": 6400
+          },
+          "clean_train": {
+            "oa": null,
+            "aa": null,
+            "ce_or_logged_loss": null,
+            "count": null
+          },
+          "test": {
+            "oa": 93.11183144246354,
+            "aa": 90.44185876846313,
+            "ce_or_logged_loss": 1.825246459661079,
+            "count": 2468
+          }
+        },
+        {
+          "completed_epoch": 298,
+          "raw_epoch": 298,
+          "source_file": "metrics_epoch_298.json",
+          "online_train": {
+            "oa": 98.875,
+            "aa": 98.86718736785687,
+            "ce_or_logged_loss": null,
+            "count": 6400
+          },
+          "clean_train": {
+            "oa": null,
+            "aa": null,
+            "ce_or_logged_loss": null,
+            "count": null
+          },
+          "test": {
+            "oa": 93.0713128038898,
+            "aa": 90.44128656387329,
+            "ce_or_logged_loss": 1.8099563755517647,
+            "count": 2468
+          }
+        },
+        {
+          "completed_epoch": 299,
+          "raw_epoch": 299,
+          "source_file": "metrics_epoch_299.json",
+          "online_train": {
+            "oa": 98.828125,
+            "aa": 98.80739107346925,
+            "ce_or_logged_loss": null,
+            "count": 6400
+          },
+          "clean_train": {
+            "oa": null,
+            "aa": null,
+            "ce_or_logged_loss": null,
+            "count": null
+          },
+          "test": {
+            "oa": 92.70664505672609,
+            "aa": 90.12036323547363,
+            "ce_or_logged_loss": 1.8147843765091858,
+            "count": 2468
+          }
+        },
+        {
+          "completed_epoch": 300,
+          "raw_epoch": 300,
+          "source_file": "metrics_epoch_300.json",
+          "online_train": {
+            "oa": 99.1875,
+            "aa": 99.1459785005069,
+            "ce_or_logged_loss": null,
+            "count": 6400
+          },
+          "clean_train": {
+            "oa": 99.51219512195122,
+            "aa": 99.57411885261536,
+            "ce_or_logged_loss": 1.6358052620073644,
             "count": 9840
           },
           "test": {
-            "oa": 90.76175040518639,
-            "aa": 89.30755853652954,
-            "ce_or_logged_loss": 1.8189587052096423,
-            "count": 2468
-          }
-        },
-        {
-          "completed_epoch": 91,
-          "raw_epoch": 91,
-          "source_file": "metrics_epoch_091.json",
-          "online_train": {
-            "oa": 91.046875,
-            "aa": 91.05619291810221,
-            "ce_or_logged_loss": null,
-            "count": 6400
-          },
-          "clean_train": {
-            "oa": null,
-            "aa": null,
-            "ce_or_logged_loss": null,
-            "count": null
-          },
-          "test": {
-            "oa": 91.53160453808752,
-            "aa": 88.93314599990845,
-            "ce_or_logged_loss": 1.8134391734820323,
-            "count": 2468
-          }
-        },
-        {
-          "completed_epoch": 92,
-          "raw_epoch": 92,
-          "source_file": "metrics_epoch_092.json",
-          "online_train": {
-            "oa": 91.640625,
-            "aa": 91.66130785173834,
-            "ce_or_logged_loss": null,
-            "count": 6400
-          },
-          "clean_train": {
-            "oa": null,
-            "aa": null,
-            "ce_or_logged_loss": null,
-            "count": null
-          },
-          "test": {
-            "oa": 91.3290113452188,
-            "aa": 89.51104283332825,
-            "ce_or_logged_loss": 1.8226035928030648,
-            "count": 2468
-          }
-        },
-        {
-          "completed_epoch": 93,
-          "raw_epoch": 93,
-          "source_file": "metrics_epoch_093.json",
-          "online_train": {
-            "oa": 91.234375,
-            "aa": 91.32735797096834,
-            "ce_or_logged_loss": null,
-            "count": 6400
-          },
-          "clean_train": {
-            "oa": null,
-            "aa": null,
-            "ce_or_logged_loss": null,
-            "count": null
-          },
-          "test": {
-            "oa": 91.28849270664506,
-            "aa": 89.12849426269531,
-            "ce_or_logged_loss": 1.8215726940519805,
-            "count": 2468
-          }
-        },
-        {
-          "completed_epoch": 94,
-          "raw_epoch": 94,
-          "source_file": "metrics_epoch_094.json",
-          "online_train": {
-            "oa": 90.8125,
-            "aa": 90.75417861216823,
-            "ce_or_logged_loss": null,
-            "count": 6400
-          },
-          "clean_train": {
-            "oa": null,
-            "aa": null,
-            "ce_or_logged_loss": null,
-            "count": null
-          },
-          "test": {
-            "oa": 90.07293354943273,
-            "aa": 88.50988149642944,
-            "ce_or_logged_loss": 1.8354543916989763,
-            "count": 2468
-          }
-        },
-        {
-          "completed_epoch": 95,
-          "raw_epoch": 95,
-          "source_file": "metrics_epoch_095.json",
-          "online_train": {
-            "oa": 90.796875,
-            "aa": 90.72147557950092,
-            "ce_or_logged_loss": null,
-            "count": 6400
-          },
-          "clean_train": {
-            "oa": null,
-            "aa": null,
-            "ce_or_logged_loss": null,
-            "count": null
-          },
-          "test": {
-            "oa": 90.64019448946516,
-            "aa": 88.2424533367157,
-            "ce_or_logged_loss": 1.8271566542466224,
-            "count": 2468
-          }
-        },
-        {
-          "completed_epoch": 96,
-          "raw_epoch": 96,
-          "source_file": "metrics_epoch_096.json",
-          "online_train": {
-            "oa": 91.59375,
-            "aa": 91.4544238064627,
-            "ce_or_logged_loss": null,
-            "count": 6400
-          },
-          "clean_train": {
-            "oa": null,
-            "aa": null,
-            "ce_or_logged_loss": null,
-            "count": null
-          },
-          "test": {
-            "oa": 91.61264181523501,
-            "aa": 89.72965478897095,
-            "ce_or_logged_loss": 1.808365256898407,
-            "count": 2468
-          }
-        },
-        {
-          "completed_epoch": 97,
-          "raw_epoch": 97,
-          "source_file": "metrics_epoch_097.json",
-          "online_train": {
-            "oa": 90.953125,
-            "aa": 90.92574889278924,
-            "ce_or_logged_loss": null,
-            "count": 6400
-          },
-          "clean_train": {
-            "oa": null,
-            "aa": null,
-            "ce_or_logged_loss": null,
-            "count": null
-          },
-          "test": {
-            "oa": 90.6807131280389,
-            "aa": 89.55813646316528,
-            "ce_or_logged_loss": 1.8327366285617772,
-            "count": 2468
-          }
-        },
-        {
-          "completed_epoch": 98,
-          "raw_epoch": 98,
-          "source_file": "metrics_epoch_098.json",
-          "online_train": {
-            "oa": 91.671875,
-            "aa": 91.58824091664982,
-            "ce_or_logged_loss": null,
-            "count": 6400
-          },
-          "clean_train": {
-            "oa": null,
-            "aa": null,
-            "ce_or_logged_loss": null,
-            "count": null
-          },
-          "test": {
-            "oa": 91.00486223662885,
-            "aa": 88.82966041564941,
-            "ce_or_logged_loss": 1.8198526361579834,
+            "oa": 92.46353322528363,
+            "aa": 90.26222229003906,
+            "ce_or_logged_loss": 1.7983638911811421,
             "count": 2468
           }
         }
@@ -1620,11 +1636,27 @@
         "best.pth": true,
         "last.pth": true
       },
-      "completed_optimizer_steps": 19600,
+      "completed_optimizer_steps": 60000,
       "source_key": "k10p20w005",
-      "queue_status": "production_running",
-      "queue_exit_code": null,
-      "completion_acceptance": null
+      "queue_status": "completed",
+      "queue_exit_code": 0,
+      "completion_acceptance": {
+        "accepted": true,
+        "variant": "k10p20w005",
+        "epochs": 300,
+        "updates": 60000,
+        "BN_updates": 120000,
+        "actual_proxy_optimizer": {
+          "variant": "k10p20w005",
+          "initial_lr": 0.005,
+          "eps": 0.0001,
+          "lr": 0.0005,
+          "T_max": 300,
+          "completed_epochs": 300
+        },
+        "initial_sha256": "4843e1eba1a3bd90639274a728cc1a70ff3c3350998f494767d838265a94252a",
+        "official_test_read": true
+      }
     }
   ]
 }

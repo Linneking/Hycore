@@ -10,11 +10,3 @@ TS15,end_online_train_oa,not_completed_epoch300,本次确认TS15只保存至e54�
 TS15,end_clean_train_oa,not_completed_epoch300,本次确认TS15只保存至e54且无对应进程，e300不存在；不是资料丢失
 TS15,last10_test_oa_mean,not_completed_epoch300,本次确认TS15只保存至e54且无对应进程，e300不存在；不是资料丢失
 TS18,end_clean_train_oa,not_recorded_by_protocol,PartHier既有训练协议未记录clean/eval训练OA；不追加新前向补造历史值
-TS23,end_test_oa,pending_epoch300,尚未训练到e300；不属于遗失数据
-TS23,end_online_train_oa,pending_epoch300,尚未训练到e300；不属于遗失数据
-TS23,end_clean_train_oa,pending_epoch300,尚未训练到e300；不属于遗失数据
-TS23,last10_test_oa_mean,pending_epoch300,尚未训练到e300；不属于遗失数据
-TS24,end_test_oa,pending_epoch300,尚未训练到e300；不属于遗失数据
-TS24,end_online_train_oa,pending_epoch300,尚未训练到e300；不属于遗失数据
-TS24,end_clean_train_oa,pending_epoch300,尚未训练到e300；不属于遗失数据
-TS24,last10_test_oa_mean,pending_epoch300,尚未训练到e300；不属于遗失数据
