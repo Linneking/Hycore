@@ -1,0 +1,18 @@
+{
+  "status": "completed",
+  "commit": "43158dc5e6276cceba7c6b6dfe64ccb57c5cc22e",
+  "layout": "percentage plus ECDF; count row removed",
+  "rows": 2,
+  "columns": 4,
+  "objects_per_view": 9840,
+  "new_embedding_or_relation_calculation": false,
+  "input_files_sha256": {
+    "summary.json": "589f363f242a472804b6995e631e09b5646f765fd708e56dbde861014bf60c3b",
+    "tables/depth_hist.csv": "b41776e44c0f44c24bf1ca041804c6948e62485301dee39d59df5c8595c46af5",
+    "tables/depth_ecdf.csv": "2c7f4d6d8ef77ee954bc4d88691e57ebad63248afb4e9362902182b53a7f5627"
+  },
+  "output_files_sha256": {
+    "01_depth.png": "0fecbb79345cdea71d314a96705b1e104316c76af74f997fe2d3a26b0a670104",
+    "01_depth.svg": "c30464f8cfddb71cffd3b95281aaebf64dc906a5188b69eb889090cbaac23c77"
+  }
+}

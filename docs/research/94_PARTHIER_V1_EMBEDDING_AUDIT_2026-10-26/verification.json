@@ -91,8 +91,8 @@
     "source_cache_immutable": true
   },
   "reviewed_delivery_files_sha256": {
-    "figures/01_depth.png": "c6b062dbdda768718f304a1c89330658d7b7015b61096ab5ea4c7e9696d4d240",
-    "figures/01_depth.svg": "fd682c672ebef69cbf946aa4c54573b69765c68b773ab0e036d3fae3f3b85871",
+    "figures/01_depth.png": "0fecbb79345cdea71d314a96705b1e104316c76af74f997fe2d3a26b0a670104",
+    "figures/01_depth.svg": "c30464f8cfddb71cffd3b95281aaebf64dc906a5188b69eb889090cbaac23c77",
     "figures/02_chain.png": "3a88f3a2d9eda12a78c682b833f50416b731d107ce155de475885db0923d3dc0",
     "figures/02_chain.svg": "df260ea2839520cd403cdc57d9498ba9a2399225046d2a751d539a1109cb0cca",
     "figures/03_relations.png": "d53171b3a75a3a844aee2c54d300325be0309b7b736dac722fcfca369326b1d1",
@@ -101,7 +101,7 @@
     "figures/04_roles.svg": "3c6ff8a80f1b13e1a7be1e6fd419e4678a009adf13820882d44e3883e021a51f",
     "figures/05_angles.png": "8bdbd9ebaa0d78e14635d1988ba8ca13314a576f1dcfa093fa0a0ca96c3f6191",
     "figures/05_angles.svg": "e56d7130f9ea2aa7b7f09eab036179d0f5e9c75461513c1d431e83b5483091cf",
-    "report.md": "8180566d47cb55e95e1bb7d2a6df3aaecaf9c77b62515e8f4470f2ddae91ed5f",
+    "report.md": "a41f5712ad4e5ce40e0f97a8b88031fab4362f980720aab792d055902a37c0d6",
     "report_acceptance.json": "3864fd5533d8485162ce333eeaba64ef512297e83aaa3e613e80cdb094badd04",
     "summary.json": "589f363f242a472804b6995e631e09b5646f765fd708e56dbde861014bf60c3b",
     "tables/angle_hist.csv": "fa11e5627f8a5f768f5d03a3647830a461f54da21a15f8e41a608574c0b6454a",
@@ -111,6 +111,14 @@
     "tables/depth_hist.csv": "b41776e44c0f44c24bf1ca041804c6948e62485301dee39d59df5c8595c46af5",
     "tables/intra.csv": "8cc451029baf196072e9971c3ef9aa2cfb09bf521cc3adbbccf6430a12a9b219",
     "tables/relation.csv": "3a146a24aa5f451f4dea4b8d70eda0f94867a12ac5f7f8d386f42f1e399a6e3e",
-    "tables/roles.csv": "c5f4776db69184d53df71e12ea933c8361d2164c813eba61b2c7a4e36db9e74f"
+    "tables/roles.csv": "c5f4776db69184d53df71e12ea933c8361d2164c813eba61b2c7a4e36db9e74f",
+    "depth_figure_redraw.json": "e5b4dc01ddaf85b78faaeada779baeddb2175d09d3719f569e4f9ac7ec909174"
+  },
+  "display_revision": {
+    "manifest": "depth_figure_redraw.json",
+    "purpose": "Remove duplicate count row; percentage and ECDF retained",
+    "new_analysis": false,
+    "figure_visually_checked": true,
+    "report_hash_scope": "Committed report; local reader notes preserved as working-copy edits"
   }
 }
