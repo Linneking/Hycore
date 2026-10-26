@@ -223,7 +223,8 @@ def _grouped_bars(ax, labels, series, np, *, ylabel="Relations (%)", ylim=(0, 10
             for bar, value in zip(bars, y):
                 if math.isfinite(value):
                     ax.text(bar.get_x() + bar.get_width() / 2, value + 1, f"{value:.1f}", ha="center", fontsize=7)
-    ax.set_xticks(x, labels)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
     ax.set_ylabel(ylabel)
     ax.set_ylim(*ylim)
     ax.grid(axis="y", alpha=.15)
@@ -256,7 +257,8 @@ def plot_chain(models, directory, np, plt):
         ax.errorbar(x + (offset - 1.5) * .12, median, yerr=np.vstack([lower, upper]), fmt="o", capsize=4, color=MODEL_COLOR[label], label=DISPLAY[label])
     ax.axhline(0, color="#555555", linestyle=":", label="Basic-order threshold 0")
     ax.axhline(.2, color="#aa2222", linestyle="--", label="Designed margin 0.2")
-    ax.set_xticks(x, edge_names)
+    ax.set_xticks(x)
+    ax.set_xticklabels(edge_names)
     ax.set_ylabel("Depth gap: median and IQR")
     ax.grid(axis="y", alpha=.15)
     ax.legend(fontsize=7, ncol=3)
@@ -319,7 +321,8 @@ def plot_roles(models, directory, np, plt):
             axes[1, 1].errorbar(index, mid, yerr=[[max(0, mid - lo)], [max(0, hi - mid)]], fmt="o", color=MODEL_COLOR[items[index][0]], capsize=5)
     axes[1, 1].set_title("Selected ancestor depth: median and IQR")
     for ax in axes.flat:
-        ax.set_xticks(x, labels)
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels)
         ax.grid(axis="y", alpha=.15)
     for ax in (axes[0, 0], axes[0, 1], axes[1, 0]):
         ax.set_ylabel("Valid selections (%)")
