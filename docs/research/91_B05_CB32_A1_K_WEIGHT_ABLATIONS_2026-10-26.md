@@ -24,3 +24,16 @@
 执行状态：源提交`afb01eef951082e3ecbdb6be223422b98e658dd3`已推送GitHub，8000通过同一已发布提交的Git增量包fetch及pull --ff-only同步，服务器干净。两组各4项CPU检查、训练文件SHA和独立初始化身份一致；两条真实单卡2×2短测均通过，4次更新、BN8、真实K／系数、实际AdamW和完整保存状态验收通过，短测没有读取test。
 
 北京时间2026-10-26 **00:06:04**第一组在物理GPU0、**00:06:02**第二组在物理GPU1分别fresh正式启动，两条状态均`production_running`。正式日志已出现真实更新，显存约21.3GiB／卡；初始化模型SHA两组均`4843e1eba1a3bd90639274a728cc1a70ff3c3350998f494767d838265a94252a`。完整300轮尚未完成；启动记录、短测验收及正式manifest已备份到本机私有目录。没有创建逐轮监看任务。
+
+## 10月26日09:27完成检查
+
+以上为启动时快照，当前两条均已正常完成，各300轮／60000次更新／BN120000，queue exit_code=0且completion_acceptance通过。原队列PID均已退出，GPU0/1均15MiB、0%且没有compute进程。每组best.pth／last.pth均存在（各约162MB），正式manifest和最终queue状态一致；完成状态与末轮metrics已同步至本机私有备份。未追加训练或GPU前向。
+
+| 组别 | best OA | best对应AA | best轮次 | e300 OA | 队列完成时间（北京时间） |
+|---|---:|---:|---:|---:|---|
+| Ks5／Kp10、lambda0.5 | 93.598055 | 91.486043 | 217 | 92.990276 | 08:12:02 |
+| Ks10／Kp20、lambda0.1 | 94.043760 | 91.632557 | 280 | 93.517018 | 08:19:18 |
+
+这些是沿用历史test选模协议的单seed结果，尚未在本次检查中与历史CB32 A1基准做完整对照归因。
+
+实验同时依靠独立结果目录和配置代码区分：共享版本化runner通过`--variant k5p10`或`--variant w01`选择设置；每条任务保存queue_status.json、source_identity.json及main/manifest.json中的training_config、canonical_name和源提交，避免只靠文件夹简称识别。两组分别有production.log、main/best.pth、main/last.pth和逐轮metrics，短测另放smoke_01，不与正式权重混用。具体服务器私有路径见本机私有dispatch记录，不提交服务器路径到公共仓库。
