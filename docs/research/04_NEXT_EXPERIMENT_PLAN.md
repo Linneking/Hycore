@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## PartHier五问审查已完成，无待执行计算
+
+用户指定8000的五问审查已完成并验收：[结果](94_PARTHIER_V1_EMBEDDING_AUDIT_2026-10-26/followup_results/report.md)。源e4c757c，12CPU合同与原94固定读出精确回归通过；四权重旧缓存/队列只读，全部新增计算/绘图在8000，GPU释放。供给/径向/角度、曝光热点、intra输出梯度、ord/chain三状态、HIER失败组合及6例候选可行性已交付。下一步由用户阅读结果后决定，不自动重训margin、改变候选尺度或新增矩阵。
+
 ## 2026-10-26：五问冻结审查已批准在8000执行
 
 用户明确同意[94后续方案](94_PARTHIER_V1_EMBEDDING_AUDIT_2026-10-26/followup_plan.md)并指定8000，覆盖原8001部署地点。只执行已列五问，复用4份9840缓存与配套队列，不重训或重提；13输入文件复制SHA已核对。源实现和合成CPU检查就绪，正式固定200批读出及5图报告待实际完成。原稿旧“待审/只在8001”属于历史记录，不再阻止本次已批准执行；不得扩大训练矩阵。

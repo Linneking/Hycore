@@ -1,0 +1,2 @@
+# Keep server-derived artifact hashes stable across platforms.
+* -text

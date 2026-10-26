@@ -23,7 +23,7 @@ PartHier两份权重的五种输入均没有欧氏范数≥0.995的条目；当�
 
 ![百分比分布与累积分布](figures/01_depth.png)
 
-读者追问的实验设计见[后续审查计划](followup_plan.md)，按“疑问—实验—输出数据”逐项组织；尚未启动新增分析。
+读者追问已在8000完成，见[五问后续结果](followup_results/report.md)；实验设计保留在[后续审查计划](followup_plan.md)。
 
 ## 2. Lchain
 
