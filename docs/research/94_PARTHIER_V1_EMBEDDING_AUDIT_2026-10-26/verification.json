@@ -101,7 +101,7 @@
     "figures/04_roles.svg": "3c6ff8a80f1b13e1a7be1e6fd419e4678a009adf13820882d44e3883e021a51f",
     "figures/05_angles.png": "8bdbd9ebaa0d78e14635d1988ba8ca13314a576f1dcfa093fa0a0ca96c3f6191",
     "figures/05_angles.svg": "e56d7130f9ea2aa7b7f09eab036179d0f5e9c75461513c1d431e83b5483091cf",
-    "report.md": "a41f5712ad4e5ce40e0f97a8b88031fab4362f980720aab792d055902a37c0d6",
+    "report.md": "969bb4aba4879e737f49a316b199d8c36b79c6af16b9ea917bdbd5143c92f5ff",
     "report_acceptance.json": "3864fd5533d8485162ce333eeaba64ef512297e83aaa3e613e80cdb094badd04",
     "summary.json": "589f363f242a472804b6995e631e09b5646f765fd708e56dbde861014bf60c3b",
     "tables/angle_hist.csv": "fa11e5627f8a5f768f5d03a3647830a461f54da21a15f8e41a608574c0b6454a",
@@ -119,6 +119,7 @@
     "purpose": "Remove duplicate count row; percentage and ECDF retained",
     "new_analysis": false,
     "figure_visually_checked": true,
-    "report_hash_scope": "Committed report; local reader notes preserved as working-copy edits"
+    "report_hash_scope": "Committed report; local reader notes preserved as working-copy edits",
+    "followup_result_link_refreshed": true
   }
 }
