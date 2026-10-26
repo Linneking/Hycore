@@ -3,10 +3,14 @@
   "formal_records": 24,
   "base_recipes": 14,
   "mechanism_records": 5,
-  "old15_identity_and_scores_preserved": true,
-  "accuracy_units_and_epoch_bounds": true,
-  "single_variable_comparison_fields_checked": true,
+  "old15_identifiers_preserved": true,
+  "old14_complete_metrics_preserved": true,
+  "TS15_prefix_extended_34_to54": true,
+  "TS18_complete300_and_same_epoch_AA": true,
+  "restored_sources_match_all_six_records": true,
+  "remaining_unavailable_evidence_fields": 0,
   "CSV_roundtrip": true,
-  "markdown_tables_checked": 9,
-  "registry_matches_inventory": true
+  "markdown_tables_checked": 10,
+  "registry_matches_inventory": true,
+  "no_inference_or_training": true
 }

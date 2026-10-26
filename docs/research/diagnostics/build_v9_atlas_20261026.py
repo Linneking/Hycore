@@ -45,6 +45,7 @@ def main():
     parser.add_argument("--capture8000", type=Path, required=True)
     parser.add_argument("--offline86", type=Path, required=True)
     parser.add_argument("--diagnostic90", type=Path, required=True)
+    parser.add_argument("--capture8001", type=Path)
     args = parser.parse_args()
     out = ROOT / "93_V9_EXPERIMENT_ATLAS_2026-10-26"
     tables = out / "tables"
@@ -54,6 +55,7 @@ def main():
     runs = inventory["runs"]
     bases = inventory["baselines"]
     remote = read(args.capture8000)
+    restored = read(args.capture8001) if args.capture8001 else None
     offline = read(args.offline86)["runs"]
     completed83 = read(ROOT / "83_S4780_NATIVE_B05_COMPLETION_2026-10-24/results.json")
     spec = importlib.util.spec_from_file_location("saved_metrics_reader", ROOT / "diagnostics/collect_ts_inventory_20261022.py")
@@ -178,6 +180,40 @@ def main():
         if clean:
             run.update(latest_clean_train_epoch=clean["completed_epoch"], latest_clean_train_oa=clean["clean_train"]["oa"])
 
+    if restored:
+        by_id = {r["run_id"]: r for r in runs}
+        for src in restored["rows"]:
+            run = by_id[src["id"]]
+            best, latest = src["best"], src["latest"]
+            is_end = src["completed_epochs"] == 300 and src["status"] == "completed"
+            interrupted = src["id"] == "TS15" and not is_end and src["matching_process_count"] == 0
+            run.update(status="interrupted_saved_prefix" if interrupted else
+                       "completed_saved_then_owned_exit_cleanup" if src["id"] in ("TS19","TS20") and is_end else src["status"],
+                       completed_epochs=src["completed_epochs"], best_epoch=src["best_epoch"],
+                       best_test_oa=best["test"]["oa"], best_test_aa_same_epoch=best["test"]["aa"],
+                       online_train_oa_at_best_test_epoch=best["online_train"]["oa"],
+                       end_test_oa=latest["test"]["oa"] if is_end else None,
+                       end_test_aa=latest["test"]["aa"] if is_end else None,
+                       end_online_train_oa=latest["online_train"]["oa"] if is_end else None,
+                       end_clean_train_oa=latest["clean_train"]["oa"] if is_end else None,
+                       latest_test_epoch=latest["completed_epoch"], latest_test_oa=latest["test"]["oa"],
+                       latest_online_train_oa=latest["online_train"]["oa"],
+                       last10_test_oa_mean=src["tail_test_oa_mean"] if is_end else None,
+                       last10_test_oa_population_std=src["tail_test_oa_population_std"] if is_end else None,
+                       production_commit=src["production_commit"], metric_files=src["metric_files"],
+                       metric_files_contiguous_from_one=src["metric_files_contiguous_from_one"],
+                       snapshot_source="source_capture_8001_restored.json", observed_utc=restored["observed_utc"],
+                       finished_utc=src.get("finished"),
+                       evidence_note="8001恢复后本次直接只读采集已有manifest、best/last轮及末10轮，未重新评估或训练")
+            run.pop("field_precision", None)
+            clean = src.get("latest_clean_train_record")
+            if clean:
+                run.update(latest_clean_train_epoch=clean["completed_epoch"], latest_clean_train_oa=clean["clean_train"]["oa"])
+            if interrupted:
+                run["evidence_note"] = "已保存54个连续完整轮次；manifest旧running标记未清除，但当前无对应任务进程。不恢复训练，不把54轮当300轮。"
+            if src.get("canonical_name"):
+                run["legacy_canonical_name"] = src["canonical_name"]
+
     for run in runs:
         base = base_map[run["baseline_id"]]
         run.update({k:base[k] for k in ("base_c","base_tangent_cap","base_GS","gamma","delta","batch","global_batch","local_batch","world_size","steps_per_epoch","total_updates","workers","eval_batch_size","rng_protocol")})
@@ -195,12 +231,17 @@ def main():
         for field in ("best_test_oa", "best_test_aa_same_epoch", "online_train_oa_at_best_test_epoch", "end_test_oa", "end_online_train_oa", "end_clean_train_oa", "last10_test_oa_mean"):
             if run.get(field) is None:
                 pending = run["status"] == "running" and field.startswith(("end_", "last10_"))
-                reason = ("尚未训练到e300；不属于遗失数据" if pending else
+                reason = ("本次确认TS15只保存至e54且无对应进程，e300不存在；不是资料丢失" if run["status"] == "interrupted_saved_prefix" else
+                          "PartHier既有训练协议未记录clean/eval训练OA；不追加新前向补造历史值" if restored and run["run_id"]=="TS18" and field=="end_clean_train_oa" else
+                          "尚未训练到e300；不属于遗失数据" if pending else
                           "8001拒绝连接；仅有历史保存前缀，后续需读取原任务已有文件" if run["run_id"] in ("TS15","TS18") else
                           "8001拒绝连接，末10轮未本机备份；best/e300及完成验收已取得" if run["run_id"] in ("TS19","TS20") and field.startswith("last10") else
                           "83汇总未包含best同轮在线训练OA；8001不可达，待读取该轮已有JSON" if run["run_id"]=="TS17" and field=="online_train_oa_at_best_test_epoch" else
                           "75原始记录未包含此口径；未将在线训练OA或其他轮次代填")
-                gaps.append(dict(run_id=run["run_id"], field=field, category="pending_epoch300" if pending else "unavailable_evidence", reason=reason))
+                category = ("not_completed_epoch300" if run["status"]=="interrupted_saved_prefix" else
+                            "pending_epoch300" if pending else
+                            "not_recorded_by_protocol" if restored and (run["run_id"]=="TS18" or int(run["run_id"][2:])<=6) else "unavailable_evidence")
+                gaps.append(dict(run_id=run["run_id"], field=field, category=category, reason=reason))
 
     diagnostics = [
         dict(record="D01", baseline_id="B09", component="Hshell-A0", seed=22, batch="CB64", sample_K=20, proxy_K=20, lambda_hier=.5, lr=.01, eps=1e-8, budget="10x200; schedule300", cap_e10=502, classification="train-only，无test", source="71_V9_PROXY_CAP_CAUSE_2026-10-22/report.md"),
@@ -218,14 +259,17 @@ def main():
                            e10_clean_train_oa=d90["latest"]["clean_train"]["oa"])
 
     inventory.update(schema_version=4, naming_document="docs/research/93_V9_EXPERIMENT_ATLAS_2026-10-26/report.md",
-                     observed_utc=remote["observed_utc"], formal_record_count=len(runs), mechanisms=diagnostics,
+                     scope="TS-only formal training: V8, original HyCoRe adaptations, V9 and PartHier; validation-selected runs excluded",
+                     observed_utc=max(remote["observed_utc"],restored["observed_utc"]) if restored else remote["observed_utc"], formal_record_count=len(runs), mechanisms=diagnostics,
                      evidence_gaps=gaps, source_atlas75_sha256=hashlib.sha256((ROOT/"75_TS_EXPERIMENT_BASELINE_ATLAS_2026-10-22/tables/unified_inventory.json").read_bytes()).hexdigest(),
-                     collection_policy="Read-only saved scalar evidence; no training/evaluation/checkpoint mutation; 8001 refused connection")
+                     collection_policy="Read-only saved scalar evidence; no training/evaluation/checkpoint mutation; " + ("8001 restored and re-collected" if restored else "8001 refused connection"))
     save(tables / "unified_inventory.json", inventory)
     save(ROOT / "experiment_registry_ts_v4.json", inventory)
     save(tables / "source_capture_8000.json", remote)
     save(tables / "source_capture_offline86.json", dict(scope="Sanitized scalar excerpt of previously accepted local backup", source_backup_sha256=hashlib.sha256(args.offline86.read_bytes()).hexdigest(), rows=offline_capture))
     save(tables / "source_capture_diagnostic90.json", d90)
+    if restored:
+        save(tables / "source_capture_8001_restored.json", restored)
     dump_csv(tables / "all_experiments.csv", runs)
     dump_csv(tables / "name_mapping.csv", [{k:r.get(k) for k in ("run_id","id","baseline_id","display_name","previous_display_name","legacy_canonical_name","production_commit","source_document")} for r in runs])
     dump_csv(tables / "mechanism_experiments.csv", diagnostics)
@@ -237,30 +281,37 @@ def main():
     assert all(r["end_test_oa"] is None for r in runs if r["status"] == "running")
     for old_run, new in zip(old["runs"],runs):
         assert old_run["run_id"] == new["run_id"] and old_run["baseline_id"] == new["baseline_id"]
-        assert old_run["best_test_oa"] == new["best_test_oa"] and old_run["end_test_oa"] == new["end_test_oa"]
-    for src in remote["rows"]:
+        if not restored or old_run["run_id"] != "TS15":
+            assert old_run["best_test_oa"] == new["best_test_oa"] and old_run["end_test_oa"] == new["end_test_oa"]
+    for src in remote["rows"] + (restored["rows"] if restored else []):
         assert abs(src["manifest_best_test_oa"] - src["best"]["test"]["oa"]) < 1e-10
         assert src["metric_files_contiguous_from_one"]
         cfg=src["actual_config"]
-        assert (cfg["seed"],cfg["global_batch"],cfg["steps_per_epoch"],cfg["proxy_optimizer"]["lr"],cfg["proxy_optimizer"]["eps"]) == (4780,32,200,.005,1e-4)
+        if src in remote["rows"]:
+            assert (cfg["seed"],cfg["global_batch"],cfg["steps_per_epoch"],cfg["proxy_optimizer"]["lr"],cfg["proxy_optimizer"]["eps"]) == (4780,32,200,.005,1e-4)
     for path in tables.glob("*.json"):
         text = path.read_text(encoding="utf-8")
         assert not any(token in text for token in ("/mnt/", "jhr@", "59.72.109.250", "PRIVATE KEY", "/tmp/hycore_")), path.name
     save(tables / "acceptance.json", dict(status="passed", formal_records=24, preserved_original_ids=15, new_formal_records=9,
-         baseline_recipes=len(bases), mechanism_records=len(diagnostics), all_aliases_unique=True, old_metrics_unchanged=True,
+         baseline_recipes=len(bases), mechanism_records=len(diagnostics), all_aliases_unique=True, old14_completed_metrics_unchanged=True,
+         TS15_original_identity_preserved=True, TS15_saved_prefix_refreshed=bool(restored),
          best_metrics_match_saved_manifest=True, running_epoch300_not_fabricated=True, no_torch_or_gpu=True,
          unknown_or_missing_fields_explicit=True, private_paths_excluded_from_public_capture=True))
 
     def status(r):
         if r["status"] == "running": return f"进行中 e{r['completed_epochs']}/300"
+        if r["status"] == "interrupted_saved_prefix": return f"已中断；保存至e{r['completed_epochs']}"
         if r["status"].startswith("unverified"): return f"尾段未知；已验e{r['completed_epochs']}"
         if r["run_id"] in ("TS19","TS20"): return "完成；退出残留已清理"
         return "完成；历史续训" if r["run_id"] == "TS01" else "完成"
 
-    beijing=dt.datetime.fromisoformat(remote["observed_utc"]).astimezone(dt.timezone(dt.timedelta(hours=8))).isoformat(timespec="seconds")
+    beijing=dt.datetime.fromisoformat(inventory["observed_utc"]).astimezone(dt.timezone(dt.timedelta(hours=8))).isoformat(timespec="seconds")
     completed=sum(r["status"].startswith(("completed","historical_completed")) for r in runs)
+    interrupted_count=sum(r["status"]=="interrupted_saved_prefix" for r in runs)
+    running_count=sum(r["status"]=="running" for r in runs)
+    unknown_count=sum(r["status"].startswith("unverified") for r in runs)
     sections=["# V9至今：TS实验统一命名、全量成绩与缺失数据补录", "",
-              f"采集截止：北京时间**{beijing}**。正式记录24条（TS01–TS24），其中20条已完成、2条进行中、2条后续状态待核实；14种底座配方，5条独立十轮机制记录。V9及后续主范围为TS11–TS24共14条，TS01–TS10作为75原表的历史参照保留。", "",
+              f"采集截止：北京时间**{beijing}**。正式记录24条（TS01–TS24），其中{completed}条已完成、{running_count}条进行中、{interrupted_count}条已中断、{unknown_count}条后续状态待核实；14种底座配方，5条独立十轮机制记录。V9及后续主范围为TS11–TS24共14条，TS01–TS10作为75原表的历史参照保留。", "",
               "本表接续[75原图谱](../75_TS_EXPERIMENT_BASELINE_ATLAS_2026-10-22/report.md)：**保留TS01–TS15及B01–B10原编号**，新增TS16–TS24、B11–B14。旧服务器目录、日志和权重不改名；新增名称是展示别名。范围继续排除VS984验证选模实验。只读现有JSON、历史报告和已验收本机备份，不启动训练、模型前向或BN校准。", "",
               "## 1. 统一命名：底座、组件、采样与优化器分开", "",
               "完整格式：`{HC|V8|V9|PH}-C{1|01}-Cap{0|23}-GS{0|1}-M{1000_4|500_2}-{SH32|CB32|CB64|CY64}x{步数} / {组件}-Ks{样本K}-Kp{代理K}-L{lambda}-W0 (S种子[, HIST|R2])`。H0省略不存在的K/代理参数；PartHier使用Hpart-v1并单独列FIFO/排序项。seed只作后缀和身份元数据，不分配新底座编号。", "",
@@ -273,7 +324,9 @@ def main():
               "## 2. 全部正式训练记录与分类成绩", "",
               "OA、AA单位均为%。AA取best OA同一轮，e300取末轮而非final_test中的best摘要。末10轮固定e291–300，SD为总体标准差，不是多seed误差条。运行中best只是完成前缀内best，不参与完成结果排名。", "",
               table(["记录/底座","实验全称（seed）","状态","best轮","best OA","同轮AA","e300 OA","e291–300 OA均值±SD"],[[r["run_id"]+" / "+r["baseline_id"],r["display_name"],status(r),r.get("best_epoch") or "—",number(r.get("best_test_oa")),number(r.get("best_test_aa_same_epoch")),number(r.get("end_test_oa")),"—" if r.get("last10_test_oa_mean") is None else number(r["last10_test_oa_mean"])+" ± "+number(r["last10_test_oa_population_std"])] for r in runs]), "",
-              "TS01为含resume的历史锚点，TS02为fresh重跑；不合并。TS02–TS06原日志仅保留0.001个百分点，CSV不反推伪造精度。TS15仍仅有e34本机定量证据，不能把旧running状态当作当前运行；TS18只确认首轮通过，不填无来源的best或e300。TS19/20训练保存完整但退出I/O阻塞，10/25已按用户授权清理对应残留，不能把队列旧running/failed误写成训练没完成。", "",
+              "TS01为含resume的历史锚点，TS02为fresh重跑；不合并。TS02–TS06原日志仅保留0.001个百分点，CSV不反推伪造精度。" +
+              ("TS15现已核实54个连续完整轮次且无对应任务进程；manifest残留running不代表当前还在训练。TS18已从8001原始记录补齐300轮，不能继续写成首轮后未知。" if restored else "TS15仍仅有e34本机定量证据，不能把旧running状态当作当前运行；TS18只确认首轮通过，不填无来源的best或e300。") +
+              "TS19/20训练保存完整但退出I/O阻塞，10/25已按用户授权清理对应残留，不能把队列旧running/failed误写成训练没完成。", "",
               "### V9及后续的开关核对表", "",
               table(["记录","底座c/cap/基础GS","batch×步","intra margin","HIER视图/分支GS","Ks/Kp","lambda","代理LR/eps","seed"],[[r["run_id"],f"{r['base_c']}/{r['base_tangent_cap'] or '无新增'}/{int(r['base_GS'])}",f"{r['batch']}×{r['steps_per_epoch']}",f"{r['gamma']}/N；{r['delta']}","无" if not r["hier_enabled"] else "真实多尺度part/c1/无新增GS" if r["component"]=="Hpart-v1" else "固定4.6/c0.1/独立GS",f"{r['sample_K'] or '—'}/{r['proxy_K'] or '—'}",number(r.get("lambda_hier")),"无" if r.get("proxy_optimizer") is None else f"{r['proxy_initial_lr']:g}/{r['proxy_eps']:g}",r["seed"]] for r in runs if r["in_v9_and_later"]]), "",
               "PartHier另外启用Q2048、排序/链项权重0.1、深度margin0.2；基础intra为三个尺度各0.01相加。与自由代理固定壳不是单变量替换。", "",
@@ -299,7 +352,21 @@ def main():
               "- [十轮机制CSV](tables/mechanism_experiments.csv)、[统一JSON](tables/unified_inventory.json)、[TS注册表v4](../experiment_registry_ts_v4.json)。",
               "- [本次8000脱敏采集](tables/source_capture_8000.json)、[本机86脱敏证据](tables/source_capture_offline86.json)、[验收](tables/acceptance.json)。",
               "- 旧15条源：[75](../75_TS_EXPERIMENT_BASELINE_ATLAS_2026-10-22/report.md)；双卡完整结果：[83](../83_S4780_NATIVE_B05_COMPLETION_2026-10-24/report.md)；PartHier：[80](../80_PARTHIER_V1_PLAN_AND_LAUNCH_2026-10-24.md)；新单卡配置：[86](../86_B05_SINGLECARD_A0_A1_QUEUE_2026-10-25.md)、[91](../91_B05_CB32_A1_K_WEIGHT_ABLATIONS_2026-10-26.md)、[92](../92_B05_CB32_A1_K10_WEIGHT_FOLLOWUP_2026-10-26.md)。", ""]
-    (out / "report.md").write_text("\n".join(sections), encoding="utf-8")
+    report = "\n".join(sections)
+    if restored:
+        report = report.replace("A0末轮分类回落；A1完整尾段未取得", "A0末轮分类回落；A1仅54轮后中断，无e300")
+        report = report.replace("75中TS15的旧running状态改为尾段待核实，保留其原e34数值，不追溯改写75原报告。", "TS15从原e34快照补至已保存e54，并确认当前无对应进程、归为中断；75原报告仍保留为历史快照，不追溯改写。TS18已补入完整300轮结果。")
+        report = report.replace("已验首轮；完整尾段待8001恢复读取", "完成300轮；best92.990/e30088.006，后期回落")
+        current = {r["run_id"]:r for r in runs}
+        report = report.replace("本次截取e17；尚无终点结论", f"本次分别截取e{current['TS23']['completed_epochs']}/e{current['TS24']['completed_epochs']}；尚无终点结论")
+        old_gap = "**8001当前拒绝连接，仍有明确缺口：** TS15的断电后尾段；TS18首轮后的进度、best及终点；TS19/20的末10轮均值/SD（本机只有best/末轮原始记录及300份文件存在的验收）；TS17的best同轮在线训练OA。TS16此项已从83报告补录为96.461%，仅保留报告三位小数，不反推更多精度。本次没有用其他seed、相似配置、最终best摘要或推算值代填。TS23/24尚未到e300属于正常待完成，不是资料丢失。"
+        new_gap = "**8001连接恢复后已补齐可恢复记录：** TS15从e34旧快照更新为完整保存至e54，前缀best e52 OA91.856%，当前无对应进程，归为已中断；TS18完整300轮的best/e300/末10轮/在线训练OA已补齐；TS19/20末10轮均值与SD已补齐；TS16/17 best同轮在线训练OA直接取原始轮JSON，替换旧报告精度或空值。\n\n剩余空值均有明确性质：TS15没有完成300轮，因此没有e300及e291–300统计；TS23/24仍在训练，终点尚未产生；PartHier协议未记录clean/eval训练OA，TS01–TS06历史记录也未提供该口径。此次没有新增前向去补造历史训练读出，也没有重启TS15或其他任务。"
+        assert old_gap in report
+        report = report.replace(old_gap,new_gap)
+        report = report.replace("旧历史实验未记录clean/eval时保留空值，并与服务器不可达造成的缺失区分。未启动新训练或自动等待服务器恢复。", "旧历史实验未记录clean/eval时保留空值；与尚未完成的终点区分。8001已恢复，没有继续保留‘连接失败待补’的旧缺口。本次没有启动或停止训练。")
+        report = report.replace("[本机86脱敏证据](tables/source_capture_offline86.json)、[验收](tables/acceptance.json)", "[本机86脱敏证据](tables/source_capture_offline86.json)、[8001恢复后的原始标量采集](tables/source_capture_8001_restored.json)、[验收](tables/acceptance.json)")
+        report += "\n## 6. 8001恢复后的补录摘要\n\n" + table(["记录","核实状态","best OA / 同轮AA","e300 OA","e291–300均值±SD"], [[current[k]["run_id"],status(current[k]),number(current[k]["best_test_oa"])+" / "+number(current[k]["best_test_aa_same_epoch"]),number(current[k]["end_test_oa"]),"—" if current[k]["last10_test_oa_mean"] is None else number(current[k]["last10_test_oa_mean"])+" ± "+number(current[k]["last10_test_oa_population_std"])] for k in ("TS15","TS18","TS19","TS20")]) + "\n\nPartHier TS18于北京时间10月25日06:35:53完成，best e201；其e300在线训练OA99.515625%。best之后test回落约4.984个百分点，是已有训练记录的观察，不据此单独归因某一损失或结构。\n"
+    (out / "report.md").write_text(report, encoding="utf-8")
     print(json.dumps(dict(out=str(out),records=len(runs),completed=completed,running=sum(r["status"]=="running" for r in runs),unknown=sum(r["status"].startswith("unverified") for r in runs),gaps=len(gaps)),ensure_ascii=False))
 
 
