@@ -11,6 +11,9 @@
   "last10_recomputed_from_e291_to300": true,
   "CSV_and_registry_consistent": true,
   "preexisting_report_section_removal_preserved": true,
-  "markdown_tables_checked": 11,
-  "no_new_evaluation_or_training": true
+  "markdown_tables_checked": 9,
+  "no_new_evaluation_or_training": true,
+  "completed_comparison_rows_match_registry": true,
+  "no_stale_completed_comparison_placeholders": true,
+  "duplicate_completion_appendix_merged_into_main_text": true
 }

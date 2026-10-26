@@ -31,6 +31,25 @@ def table(headers, rows):
                      ["| " + " | ".join(str(x).replace("|", "/") for x in row) + " |" for row in rows])
 
 
+def reconcile_completed_comparisons(report, runs):
+    """Refresh existing comparison rows without recreating a user's layout."""
+    by_id = {r["run_id"]: r for r in runs}
+    lines = []
+    for line in report.splitlines():
+        cells = [cell.strip() for cell in line.split("|")[1:-1]] if line.startswith("|") else []
+        if len(cells) == 5 and " → " in cells[0]:
+            left, right = cells[0].split(" → ", 1)
+            a, b = by_id.get(left), by_id.get(right)
+            if a and b and a.get("end_test_oa") is not None and b.get("end_test_oa") is not None:
+                cells[2] = number(b["best_test_oa"] - a["best_test_oa"])
+                cells[3] = number(b["end_test_oa"] - a["end_test_oa"])
+                if cells[4] == "待完整训练":
+                    cells[4] = "同协议代理K单变量" if right == "TS23" else "同协议权重单变量"
+                line = "| " + " | ".join(cells) + " |"
+        lines.append(line)
+    return "\n".join(lines) + "\n"
+
+
 def dump_csv(path, rows):
     keys = list(dict.fromkeys(k for row in rows for k in row))
     with path.open("w", encoding="utf-8-sig", newline="") as stream:
@@ -46,7 +65,7 @@ def main():
     parser.add_argument("--offline86", type=Path, required=True)
     parser.add_argument("--diagnostic90", type=Path, required=True)
     parser.add_argument("--capture8001", type=Path)
-    parser.add_argument("--preserve-report", action="store_true", help="Update machine-readable tables while preserving manually edited report layout")
+    parser.add_argument("--preserve-report", action="store_true", help="Preserve report layout while reconciling completed comparison rows")
     args = parser.parse_args()
     out = ROOT / "93_V9_EXPERIMENT_ATLAS_2026-10-26"
     tables = out / "tables"
@@ -372,8 +391,10 @@ def main():
         report = report.replace("旧历史实验未记录clean/eval时保留空值，并与服务器不可达造成的缺失区分。未启动新训练或自动等待服务器恢复。", "旧历史实验未记录clean/eval时保留空值；与尚未完成的终点区分。8001已恢复，没有继续保留‘连接失败待补’的旧缺口。本次没有启动或停止训练。")
         report = report.replace("[本机86脱敏证据](tables/source_capture_offline86.json)、[验收](tables/acceptance.json)", "[本机86脱敏证据](tables/source_capture_offline86.json)、[8001恢复后的原始标量采集](tables/source_capture_8001_restored.json)、[验收](tables/acceptance.json)")
         report += "\n## 6. 8001恢复后的补录摘要\n\n" + table(["记录","核实状态","best OA / 同轮AA","e300 OA","e291–300均值±SD"], [[current[k]["run_id"],status(current[k]),number(current[k]["best_test_oa"])+" / "+number(current[k]["best_test_aa_same_epoch"]),number(current[k]["end_test_oa"]),"—" if current[k]["last10_test_oa_mean"] is None else number(current[k]["last10_test_oa_mean"])+" ± "+number(current[k]["last10_test_oa_population_std"])] for k in ("TS15","TS18","TS19","TS20")]) + "\n\nPartHier TS18于北京时间10月25日06:35:53完成，best e201；其e300在线训练OA99.515625%。best之后test回落约4.984个百分点，是已有训练记录的观察，不据此单独归因某一损失或结构。\n"
-    if not args.preserve_report:
-        (out / "report.md").write_text(report, encoding="utf-8")
+    report_path = out / "report.md"
+    if args.preserve_report and report_path.exists():
+        report = report_path.read_text(encoding="utf-8")
+    report_path.write_text(reconcile_completed_comparisons(report, runs), encoding="utf-8")
     print(json.dumps(dict(out=str(out),records=len(runs),completed=completed,running=sum(r["status"]=="running" for r in runs),unknown=sum(r["status"].startswith("unverified") for r in runs),gaps=len(gaps)),ensure_ascii=False))
 
 
