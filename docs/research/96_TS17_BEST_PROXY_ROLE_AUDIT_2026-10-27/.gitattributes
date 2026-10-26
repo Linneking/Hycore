@@ -1,0 +1,6 @@
+# Preserve exported artifact bytes so server SHA manifests survive checkouts.
+results/** -text
+# Matplotlib SVG path commands include intentional trailing spaces.
+results/**/*.svg whitespace=-blank-at-eol
+# Standard CSV writer uses CRLF row endings.
+results/*.csv whitespace=cr-at-eol

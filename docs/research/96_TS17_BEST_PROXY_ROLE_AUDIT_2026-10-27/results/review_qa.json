@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "checks": {
+    "three_distinct_ID_definition": true,
+    "same_class_definition": true,
+    "S_counts_from_raw_relations": true,
+    "S_effective_from_raw_relations": true,
+    "C_counts_from_raw_relations": true,
+    "C_effective_from_raw_relations": true,
+    "T_counts_from_raw_relations": true,
+    "T_effective_from_raw_relations": true,
+    "pure_top4_labels": true,
+    "top4_unique_IDs": true,
+    "roles_summary": true,
+    "seed_counts_sum": true,
+    "expected_probability_mass": true,
+    "expected_noncollision_mass": true,
+    "boxplot_unique_quantiles": true,
+    "paired_S_all_distinct": true,
+    "paired_S_noncollision": true,
+    "paired_C_all_distinct": true,
+    "paired_C_noncollision": true,
+    "original_results_and_source_SHA_unchanged": true
+  },
+  "unique_quantile_reconciliation": [
+    {
+      "role": "S",
+      "previous_depth_median": 3.480633417744326,
+      "final_depth_median": 3.480633417744326
+    },
+    {
+      "role": "C",
+      "previous_depth_median": 3.4497008407436223,
+      "final_depth_median": 3.4498023570512784
+    },
+    {
+      "role": "T",
+      "previous_depth_median": 3.396748031713006,
+      "final_depth_median": 3.396748031713006
+    }
+  ],
+  "original_public_files_verified": 55,
+  "source_data_unchanged": true
+}

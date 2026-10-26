@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "server_export_files": 62,
+  "all_SHA_match": true,
+  "editorial_report_sha256": "9b9a6ee95976d371c9ad2e63e040f42016a197272c1b54369d92b9fecb3a8266",
+  "linked_paths_verified": 38,
+  "figures_visual_review": "01/02/03/04/06 overviews and all 16 cases via S/C/T contact sheets; individual S08 checked after heading layout repair",
+  "source_code_commit": "f08d7294a053207f5dac583a2b15413290b3d82e"
+}

@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "completed": true,
+  "readout_commit": "3f25a311f0c3f762d4f818a201e52fb725bdb73c",
+  "postprocess_commit": "f08d7294a053207f5dac583a2b15413290b3d82e",
+  "started_utc": "2026-10-26T17:09:37.932057+00:00",
+  "readout_finished_utc": "2026-10-26T17:10:08.403024+00:00",
+  "readout_GPU_index": 0,
+  "postprocess_GPU_used": false,
+  "review_utc": "2026-10-26T17:28:59.499957+00:00",
+  "CPU_contracts": 12,
+  "raw_recount_checks": 20,
+  "source_SHA_unchanged": true,
+  "original_results_unchanged": true,
+  "pointcloud_input_sha256": "dc82f898decf86fed478184b9a6e72f8fa95d4165b0150a449a2fa5e178f27f7",
+  "network_forwards": 0,
+  "backward_calls": 0,
+  "optimizer_updates": 0,
+  "BN_updates": 0,
+  "test_objects": 0
+}

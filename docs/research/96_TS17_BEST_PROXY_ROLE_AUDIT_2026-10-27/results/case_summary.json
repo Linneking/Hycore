@@ -1,0 +1,258 @@
+[
+  {
+    "role": "S",
+    "proxy_id": 440,
+    "depth_quartile": 1,
+    "reused_across_roles": false,
+    "depth": 3.426910073113392,
+    "nearest_class": "radio",
+    "angle": 59.573574282366216,
+    "figure": "cases/S_01_proxy440.png",
+    "top4_labels": [
+      "glass_box",
+      "glass_box",
+      "glass_box",
+      "glass_box"
+    ]
+  },
+  {
+    "role": "S",
+    "proxy_id": 12,
+    "depth_quartile": 1,
+    "reused_across_roles": false,
+    "depth": 3.41593009819921,
+    "nearest_class": "curtain",
+    "angle": 60.414794479942124,
+    "figure": "cases/S_02_proxy012.png",
+    "top4_labels": [
+      "curtain",
+      "door",
+      "door",
+      "curtain"
+    ]
+  },
+  {
+    "role": "S",
+    "proxy_id": 276,
+    "depth_quartile": 2,
+    "reused_across_roles": false,
+    "depth": 3.4691464512700145,
+    "nearest_class": "laptop",
+    "angle": 58.842244741331875,
+    "figure": "cases/S_03_proxy276.png",
+    "top4_labels": [
+      "laptop",
+      "laptop",
+      "laptop",
+      "laptop"
+    ]
+  },
+  {
+    "role": "S",
+    "proxy_id": 143,
+    "depth_quartile": 2,
+    "reused_across_roles": false,
+    "depth": 3.46490470766161,
+    "nearest_class": "car",
+    "angle": 58.58470999134083,
+    "figure": "cases/S_04_proxy143.png",
+    "top4_labels": [
+      "tent",
+      "tent",
+      "car",
+      "car"
+    ]
+  },
+  {
+    "role": "S",
+    "proxy_id": 320,
+    "depth_quartile": 3,
+    "reused_across_roles": false,
+    "depth": 3.4922809259121244,
+    "nearest_class": "range_hood",
+    "angle": 63.13157018451721,
+    "figure": "cases/S_05_proxy320.png",
+    "top4_labels": [
+      "range_hood",
+      "range_hood",
+      "range_hood",
+      "range_hood"
+    ]
+  },
+  {
+    "role": "S",
+    "proxy_id": 303,
+    "depth_quartile": 3,
+    "reused_across_roles": false,
+    "depth": 3.485606145114348,
+    "nearest_class": "piano",
+    "angle": 63.6837159484588,
+    "figure": "cases/S_06_proxy303.png",
+    "top4_labels": [
+      "dresser",
+      "piano",
+      "night_stand",
+      "piano"
+    ]
+  },
+  {
+    "role": "S",
+    "proxy_id": 367,
+    "depth_quartile": 4,
+    "reused_across_roles": false,
+    "depth": 3.507478591474543,
+    "nearest_class": "tv_stand",
+    "angle": 59.89937398001842,
+    "figure": "cases/S_07_proxy367.png",
+    "top4_labels": [
+      "tv_stand",
+      "tv_stand",
+      "tv_stand",
+      "tv_stand"
+    ]
+  },
+  {
+    "role": "S",
+    "proxy_id": 263,
+    "depth_quartile": 4,
+    "reused_across_roles": false,
+    "depth": 3.5414244831455375,
+    "nearest_class": "person",
+    "angle": 60.92906483522824,
+    "figure": "cases/S_08_proxy263.png",
+    "top4_labels": [
+      "bottle",
+      "lamp",
+      "person",
+      "lamp"
+    ]
+  },
+  {
+    "role": "C",
+    "proxy_id": 115,
+    "depth_quartile": 1,
+    "reused_across_roles": false,
+    "depth": 3.3848328229955142,
+    "nearest_class": "plant",
+    "angle": 71.24864863213007,
+    "figure": "cases/C_01_proxy115.png",
+    "top4_labels": [
+      "plant",
+      "plant",
+      "plant",
+      "plant"
+    ]
+  },
+  {
+    "role": "C",
+    "proxy_id": 25,
+    "depth_quartile": 2,
+    "reused_across_roles": false,
+    "depth": 3.4164210917569,
+    "nearest_class": "piano",
+    "angle": 70.07176900074474,
+    "figure": "cases/C_02_proxy025.png",
+    "top4_labels": [
+      "glass_box",
+      "glass_box",
+      "glass_box",
+      "piano"
+    ]
+  },
+  {
+    "role": "C",
+    "proxy_id": 314,
+    "depth_quartile": 3,
+    "reused_across_roles": false,
+    "depth": 3.468374807695114,
+    "nearest_class": "bookshelf",
+    "angle": 68.49231453609002,
+    "figure": "cases/C_03_proxy314.png",
+    "top4_labels": [
+      "bookshelf",
+      "bookshelf",
+      "bookshelf",
+      "bookshelf"
+    ]
+  },
+  {
+    "role": "C",
+    "proxy_id": 417,
+    "depth_quartile": 4,
+    "reused_across_roles": false,
+    "depth": 3.476928488656108,
+    "nearest_class": "chair",
+    "angle": 64.35762208170249,
+    "figure": "cases/C_04_proxy417.png",
+    "top4_labels": [
+      "chair",
+      "chair",
+      "chair",
+      "chair"
+    ]
+  },
+  {
+    "role": "T",
+    "proxy_id": 476,
+    "depth_quartile": 1,
+    "reused_across_roles": false,
+    "depth": 3.3152699871874294,
+    "nearest_class": "desk",
+    "angle": 79.76163498908001,
+    "figure": "cases/T_01_proxy476.png",
+    "top4_labels": [
+      "desk",
+      "desk",
+      "desk",
+      "desk"
+    ]
+  },
+  {
+    "role": "T",
+    "proxy_id": 427,
+    "depth_quartile": 2,
+    "reused_across_roles": false,
+    "depth": 3.3418761411023037,
+    "nearest_class": "bottle",
+    "angle": 78.89328731509762,
+    "figure": "cases/T_02_proxy427.png",
+    "top4_labels": [
+      "bottle",
+      "bottle",
+      "bottle",
+      "bottle"
+    ]
+  },
+  {
+    "role": "T",
+    "proxy_id": 149,
+    "depth_quartile": 3,
+    "reused_across_roles": false,
+    "depth": 3.448330259186686,
+    "nearest_class": "sink",
+    "angle": 66.05704163367885,
+    "figure": "cases/T_03_proxy149.png",
+    "top4_labels": [
+      "glass_box",
+      "glass_box",
+      "glass_box",
+      "radio"
+    ]
+  },
+  {
+    "role": "T",
+    "proxy_id": 224,
+    "depth_quartile": 4,
+    "reused_across_roles": false,
+    "depth": 3.482813453137052,
+    "nearest_class": "chair",
+    "angle": 62.589306086907335,
+    "figure": "cases/T_04_proxy224.png",
+    "top4_labels": [
+      "chair",
+      "table",
+      "chair",
+      "chair"
+    ]
+  }
+]
