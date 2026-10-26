@@ -108,6 +108,9 @@ def main():
         '执行状态：8000已完成，GPU已释放；本次只读best e273，复用匹配的正常嵌入后重新构建4.6视图。后处理只统一不同代理统计与箱形图的四分位定义，没有改变选择结果、top4或频次。','']
     path=out/'public/report.md';body=path.read_text(encoding='utf-8');first,rest=body.split('\n',1);path.write_text(first+'\n\n'+'\n'.join(lead)+rest,encoding='utf-8')
     with path.open('a',encoding='utf-8') as f:
+        f.write('\n### 补充解释：外段是否完全没有作用\n\n')
+        f.write('不能从样本角色的未入选直接推断所有目标都不用外段。代理内部项中，pair／triple的外段选择频次质量为'+ '／'.join(pct(g['outer_band_mass']) for g in internal_rows if g['weighting']=='draw_frequency')+'，原Gumbel期望质量为'+'／'.join(pct(g['outer_band_mass']) for g in internal_rows if g['weighting']=='gumbel_expected')+'。外段在内部pair目标中仍有使用偏好，但这仍不是样本pair／triple对应两段的证据，也不能据冻结best单独归因训练成因。\n\n')
+        f.write('### 最近类与关系标签是否一致\n\n'+mdtable(['角色','最近类属于本关系对应标签的次数','关系数','比例'],[[g['role'],g['matched'],g['draws'],pct(g['fraction'])] for g in s['alignment']])+'\n\nS检查共同类，C检查i/j任一类，T检查i/j/k任一类；按关系次数计数，和不同代理的角度箱形图分母不同。\n')
         f.write('\n附加表：[深浅段计数](depth_bands_by_role.csv)、[代理内部项](internal_role_distribution.csv)、[各seed中位数](per_seed_role_stats.csv)、[距cap统计](cap_distance.csv)。不同代理的分位数采用线性插值，频次／概率加权分位数采用经验加权CDF。\n')
         f.write(f"\n读出源码 `{s['execution']['readout_commit']}`；CPU整理源码 `{current_commit}`。见[验收](acceptance.json)与[独立复算](review_qa.json)。\n")
     original_unchanged();check('original_results_and_source_SHA_unchanged',True)

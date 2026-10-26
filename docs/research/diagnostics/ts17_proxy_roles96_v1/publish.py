@@ -13,8 +13,8 @@ COLORS=['#0072b2','#d55e00','#009e73']
 plt.rcParams.update({'font.family':'DejaVu Sans','font.size':9,'svg.fonttype':'none','axes.spines.top':False,'axes.spines.right':False})
 
 
-def figure(fig,out,name):
-    fig.tight_layout();fig.savefig(out/(name+'.png'),dpi=180,bbox_inches='tight');fig.savefig(out/(name+'.svg'),bbox_inches='tight');plt.close(fig)
+def figure(fig,out,name,layout_top=1.):
+    fig.tight_layout(rect=(0,0,1,layout_top));fig.savefig(out/(name+'.png'),dpi=180,bbox_inches='tight');fig.savefig(out/(name+'.svg'),bbox_inches='tight');plt.close(fig)
 
 
 def pct(x):return '—' if x is None else f'{100*x:.2f}%'
@@ -83,7 +83,7 @@ def cloud_cards(s,z,settings,root):
         for j,obj in enumerate(nn4[p]):draw(fig.add_subplot(1,4,j+1,projection='3d'),int(obj))
         roles_text='+'.join(ROLES[i] for i in range(3) if bits[p]&(1<<i))
         fig.suptitle(f'{NAMES[r]} | proxy {p} | depth {h[p]:.3f} | roles {roles_text} | nearest {CLASSES[near[p]]}: {theta[p]:.2f} deg\nS/C/T draws {counts[:,p].tolist()} | depth quartile {example["depth_quartile"]}',fontsize=10)
-        figure(fig,cards,name)
+        figure(fig,cards,name,layout_top=.80)
         rows.append(dict(**example,depth=float(h[p]),nearest_class=CLASSES[near[p]],angle=float(theta[p]),figure='cases/'+name+'.png',top4_labels=[CLASSES[labels[o]] for o in nn4[p]],top4_ids=nn4[p].tolist()))
     for r in ROLES:
         items=[x for x in s['examples'] if x['role']==r];fig=plt.figure(figsize=(12,2.65*len(items)))
@@ -92,7 +92,7 @@ def cloud_cards(s,z,settings,root):
             for j,obj in enumerate(nn4[p]):
                 ax=fig.add_subplot(len(items),4,row*4+j+1,projection='3d');draw(ax,int(obj))
                 if j==0:ax.text2D(-.12,.45,f'P{p}\nh={h[p]:.3f}\n{theta[p]:.2f} deg',transform=ax.transAxes,fontsize=9)
-        fig.suptitle(NAMES[r]+' | saved proxy top4 from all 9840 depth4.6 queries',fontsize=12);figure(fig,root/'public/figures','05_'+r+'_cloud_examples')
+        fig.suptitle(NAMES[r]+' | saved proxy top4 from all 9840 depth4.6 queries',fontsize=12);figure(fig,root/'public/figures','05_'+r+'_cloud_examples',layout_top=1-.6/(2.65*len(items)))
     write(root/'private/case_manifest.json',rows)
     write(root/'public/case_summary.json',[{k:v for k,v in x.items() if k!='top4_ids'} for x in rows])
     return digest
