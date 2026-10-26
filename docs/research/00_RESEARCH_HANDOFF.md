@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-26：用户批准继续B05 CB32 A1两组单变量消融
+
+8000 GPU0样本K10／代理K10／lambda0.1；GPU1样本K10／代理K20／lambda0.05。相对已完成91第二组K10/K20/lambda0.1，分别只改代理K和lambda。共同严格B05固定壳新HIER、CB32有放回16类×2、AdamW.005/1e-4、seed4780、fresh300×200、原TS协议；直接授权启动，不续旧权重或扩大矩阵。见[92配置](92_B05_CB32_A1_K10_WEIGHT_FOLLOWUP_2026-10-26.md)。本机4CPU及实际几何梯度／权重比例检查通过；两卡空闲，待发布与服务器独立短测后正式启动。尚不宣称CUDA通过。
+
 ## 2026-10-26：用户批准B05 CB32 A1两项完整消融
 
 最新修订：8000 GPU0样本K5／代理K10、lambda0.5；GPU1样本K10／代理K20、lambda0.1。两组均10/25严格B05有放回CB32新HIER A1、LR.005/eps1e-4、seed4780、fresh300×200，其余保持86协议。用户直接启动授权覆盖旧待审矩阵限制，沿用历史TS选模；无新增H0/CB64。见[91配置](91_B05_CB32_A1_K_WEIGHT_ABLATIONS_2026-10-26.md)。第一组联合调整两种K，不能称两种K各自单变量；第二组仅改系数。源afb01ee已推送并在8000以Git增量包fetch/pull --ff-only同步。两组各4CPU及真实2×2短测／实际K、系数、AdamW、BN8与保存状态均通过；北京时间10/26 00:06两组分别在GPU0/1 fresh进入正式300×200，已见真实更新。私有可视化目录b05_cb32_a1_ablations_20261026保存dispatch、状态、验收与manifest；10/26 09:27核实两组均300轮／60000步、BN120000、exit0和完整保存验收通过；原PID已退出，GPU0/1空闲。K5/10 best93.598055、AA91.486043、e217、末轮92.990276；lambda.1 best94.043760、AA91.632557、e280、末轮93.517018。best/last各约162MB存在，完成manifest/状态/末轮metrics私有备份。不重启、不新增训练。
