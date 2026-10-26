@@ -186,7 +186,7 @@ def _save(fig, directory, basename, plt):
 
 def plot_depth(tables, models, directory, np, plt):
     hist, ecdf = tables["depth_hist.csv"], tables["depth_ecdf.csv"]
-    fig, axes = plt.subplots(3, 4, figsize=(16, 9), sharex=True, sharey="row")
+    fig, axes = plt.subplots(2, 4, figsize=(16, 6.5), sharex=True, sharey="row")
     for column, label in enumerate(ORDER):
         axes[0, column].set_title(DISPLAY[label])
         for view in VIEWS:
@@ -194,20 +194,18 @@ def plot_depth(tables, models, directory, np, plt):
             if not rows:
                 raise ValueError(f"Missing depth histogram {label}/{view}")
             x = [(float(row["bin_left"]) + float(row["bin_right"])) / 2 for row in rows]
-            for row_number, key in ((0, "count"), (1, "percentage")):
-                axes[row_number, column].step(x, [float(row[key]) for row in rows], where="mid", color=VIEW_COLOR[view], label=f"{VIEW_TEXT[view]} (n={int(models[label]['depth'][view]['count']):,})", linestyle="--" if view == "clean" else "-")
+            axes[0, column].step(x, [float(row["percentage"]) for row in rows], where="mid", color=VIEW_COLOR[view], label=f"{VIEW_TEXT[view]} (n={int(models[label]['depth'][view]['count']):,})", linestyle="--" if view == "clean" else "-")
             rows = sorted((row for row in ecdf if row["model"] == label and row["view"] == view), key=lambda row: float(row["depth"]))
             if not rows:
                 raise ValueError(f"Missing ECDF {label}/{view}")
-            axes[2, column].plot([float(row["depth"]) for row in rows], [float(row["percentage"]) for row in rows], color=VIEW_COLOR[view], linestyle="--" if view == "clean" else "-")
-        axes[2, column].set_xlabel("Depth from origin, c=1")
-        axes[2, column].set_ylim(0, 100)
+            axes[1, column].plot([float(row["depth"]) for row in rows], [float(row["percentage"]) for row in rows], color=VIEW_COLOR[view], linestyle="--" if view == "clean" else "-")
+        axes[1, column].set_xlabel("Depth from origin, c=1")
+        axes[1, column].set_ylim(0, 100)
         axes[0, column].legend(fontsize=6.5, loc="upper left")
-        for row_number in range(3):
+        for row_number in range(2):
             axes[row_number, column].grid(alpha=.15)
-    axes[0, 0].set_ylabel("Objects per bin")
-    axes[1, 0].set_ylabel("Within-view percentage (%)")
-    axes[2, 0].set_ylabel("Cumulative percentage (%)")
+    axes[0, 0].set_ylabel("Within-view percentage (%)")
+    axes[1, 0].set_ylabel("Cumulative percentage (%)")
     fig.suptitle("01  Whole and part depth distributions | each curve has its own denominator", fontsize=12)
     fig.tight_layout()
     _save(fig, directory, "01_depth", plt)
@@ -373,7 +371,7 @@ def report_markdown(models):
     for label in ORDER:
         depth = models[label]["depth"]
         lines.append("| " + ZH[label] + " | " + " | ".join(fmt(depth[view]["median"]) for view in VIEWS) + " |")
-    lines += ["", "![数量、百分比与累积分布](figures/01_depth.png)", "", "## 2. Lchain", "", "每个对象检查三条相邻边。基本次序为深度差>0，设计间隔为各≥0.2；下表是三条边联合满足率。", "", "| 权重 | 基本次序联合 | 0.2间隔联合 |", "|---|---:|---:|"]
+    lines += ["", "![百分比分布与累积分布](figures/01_depth.png)", "", "## 2. Lchain", "", "每个对象检查三条相邻边。基本次序为深度差>0，设计间隔为各≥0.2；下表是三条边联合满足率。", "", "| 权重 | 基本次序联合 | 0.2间隔联合 |", "|---|---:|---:|"]
     for label in ORDER:
         chain = models[label]["chain"]
         lines.append(f"| {ZH[label]} | {pct(chain['joint_basic_fraction'])} | {pct(chain['joint_margin_fraction'])} |")
