@@ -1,5 +1,10 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-27：TS17 best代理角色分层审查计划
+
+用户只要求设计TS17/B12 best e273的pair/triple分层检测，见[96计划](96_TS17_BEST_PROXY_ROLE_AUDIT_2026-10-27/plan.md)。8000现有53.8MB冻结权重及9840缓存SHA与85归档一致，CPU加载含net/512×256 proxy，CUDA未初始化。计划正常whole→4.6视图后选代理，保留proxy实际深度；同类pair/异类pair/triple交叠、深度箱形图/最近类角、全局top4覆盖/热点/双分母纯类比例及8+4+4形态卡；五seed各200批确定性主读出＋原Gumbel概率复核，重复对象/碰撞单列。已有best深度约3.03–4.14不预设触cap。尚无本轮角色结果、网络前向或GPU分析，不自动执行审查或新增训练。
+
+
 ## PartHier五问审查已完成，无待执行计算
 
 用户指定8000的五问审查已完成并验收：[结果](94_PARTHIER_V1_EMBEDDING_AUDIT_2026-10-26/followup_results/report.md)。源e4c757c，12CPU合同与原94固定读出精确回归通过；四权重旧缓存/队列只读，全部新增计算/绘图在8000，GPU释放。供给/径向/角度、曝光热点、intra输出梯度、ord/chain三状态、HIER失败组合及6例候选可行性已交付。下一步由用户阅读结果后决定，不自动重训margin、改变候选尺度或新增矩阵。

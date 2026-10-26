@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "stage": "plan_and_source_verification_only",
+  "run_id": "TS17",
+  "baseline_id": "B12",
+  "best_epoch": 273,
+  "original_checkpoint_sha256": "86997f21afe34b299fdc306be754e5055455abbbc7d26a163ab98abc3193c1e7",
+  "frozen_copy_sha256": "d10144896c69ffa215a6622e4077a05749e3547c0fd606a546b0f750ae4af61b",
+  "frozen_copy_bytes": 53817601,
+  "model_state_present": true,
+  "proxy_state_present": true,
+  "proxy_shape": [512, 256],
+  "cache_sha256": "b0142fac9d4ce59ddfacf44a9600ccbcce322e9311544a0dca25ce0e5642bfde",
+  "cached_training_objects": 9840,
+  "CPU_load_passed": true,
+  "cuda_initialized": false,
+  "new_model_forwards": 0,
+  "new_training_updates": 0,
+  "role_analysis_performed": false
+}
