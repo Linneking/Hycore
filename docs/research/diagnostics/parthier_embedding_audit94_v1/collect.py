@@ -197,7 +197,11 @@ def collect(settings, labels_to_run, gpu):
         raise RuntimeError("GPU became occupied before allocation")
     device = torch.device("cuda:0")
     torch.manual_seed(4780); torch.cuda.manual_seed_all(4780)
-    torch.backends.cudnn.benchmark = True
+    # Blackwell TF32 convolution kernels can change small-part output with
+    # microbatch size. Keep the audit in strict FP32 and retain the gate.
+    torch.backends.cuda.matmul.allow_tf32 = False
+    torch.backends.cudnn.allow_tf32 = False
+    torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
     records = json.loads((cache / "checkpoints.json").read_text())
     ids = np.arange(len(labs), dtype=np.int64)
@@ -276,7 +280,8 @@ def collect(settings, labels_to_run, gpu):
                     "input": input_proof, "crop_sha256": crop_digest, "model_state_unchanged": True,
                     "state_sha256": before, "gate": gates, "objects": 9840, "gpu_uuid": uuid,
                     "wall_seconds": time.monotonic() - started, "peak_allocated_MiB": torch.cuda.max_memory_allocated()/2**20,
-                    "optimizer_updates": 0, "backward_calls": 0, "test_forwarded": False, "updated_utc": now()}
+                    "optimizer_updates": 0, "backward_calls": 0, "test_forwarded": False,
+                    "tf32": False, "cudnn_benchmark": False, "updated_utc": now()}
         write(cache / (label + "_manifest.json"), manifest)
         write(status_path, manifest)
         print(json.dumps({"label": label, "status": "completed", "wall_seconds": manifest["wall_seconds"]}), flush=True)
