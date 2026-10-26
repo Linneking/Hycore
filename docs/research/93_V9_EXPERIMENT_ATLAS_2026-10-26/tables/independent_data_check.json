@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "formal_records": 24,
+  "base_recipes": 14,
+  "mechanism_records": 5,
+  "old15_identity_and_scores_preserved": true,
+  "accuracy_units_and_epoch_bounds": true,
+  "single_variable_comparison_fields_checked": true,
+  "CSV_roundtrip": true,
+  "markdown_tables_checked": 9,
+  "registry_matches_inventory": true
+}

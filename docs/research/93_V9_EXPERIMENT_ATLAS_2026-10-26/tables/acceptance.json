@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "formal_records": 24,
+  "preserved_original_ids": 15,
+  "new_formal_records": 9,
+  "baseline_recipes": 14,
+  "mechanism_records": 5,
+  "all_aliases_unique": true,
+  "old_metrics_unchanged": true,
+  "best_metrics_match_saved_manifest": true,
+  "running_epoch300_not_fabricated": true,
+  "no_torch_or_gpu": true,
+  "unknown_or_missing_fields_explicit": true,
+  "private_paths_excluded_from_public_capture": true
+}

@@ -1,0 +1,154 @@
+{
+  "scope": "Sanitized scalar excerpt of previously accepted local backup",
+  "source_backup_sha256": "8ee42cce3fc5889c3cb42dbc42c5455ee43f90c0d6e4fc980a2be80ca24e1867",
+  "rows": [
+    {
+      "run_id": "TS19",
+      "canonical_name": "B05-C0.1-CAP2.3-GSbase1-M500_2-CB32x200-HIERshell4.6-C0.1-GShier1-Ks10-Kp20-W0-A1-LR0.005-EPS0.0001-TS-S4780",
+      "commit": "edd50167e453b7c4180dd3fff6ed5addc4af45e9",
+      "status": "completed",
+      "completed_epochs": 300,
+      "metric_files": 300,
+      "actual_config": {
+        "sample_K": 10,
+        "proxy_K": 20,
+        "lambda_hier_after_warmup": 0.5,
+        "proxy_optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 0.0001,
+          "gradient_clipping": null,
+          "lr": 0.005,
+          "min_lr": 0.0005,
+          "name": "AdamW",
+          "weight_decay": 0.01
+        },
+        "global_batch": 32,
+        "seed": 4780,
+        "steps_per_epoch": 200
+      },
+      "best": {
+        "completed_epoch": 259,
+        "raw_epoch": 259,
+        "source_file": "saved_best_metrics",
+        "online_train": {
+          "oa": 98.296875,
+          "aa": 98.38317955942648,
+          "ce_or_logged_loss": null,
+          "count": 6400
+        },
+        "clean_train": {
+          "oa": null,
+          "aa": null,
+          "ce_or_logged_loss": null,
+          "count": null
+        },
+        "test": {
+          "oa": 93.7196110210697,
+          "aa": 91.5575623512268,
+          "ce_or_logged_loss": 1.8030954744286436,
+          "count": 2468
+        }
+      },
+      "latest": {
+        "completed_epoch": 300,
+        "raw_epoch": 300,
+        "source_file": "metrics_epoch_300.json",
+        "online_train": {
+          "oa": 99.15625,
+          "aa": 99.11861292969726,
+          "ce_or_logged_loss": null,
+          "count": 6400
+        },
+        "clean_train": {
+          "oa": 99.49186991869918,
+          "aa": 99.5437502861023,
+          "ce_or_logged_loss": 1.6388823055639499,
+          "count": 9840
+        },
+        "test": {
+          "oa": 93.23338735818477,
+          "aa": 91.14477038383484,
+          "ce_or_logged_loss": 1.7963210044842293,
+          "count": 2468
+        }
+      }
+    },
+    {
+      "run_id": "TS20",
+      "canonical_name": "B05-C0.1-CAP2.3-GSbase1-M500_2-CB32x200-HIERshell4.6-C0.1-GShier1-Ks10-Kp20-W0-A0-LR0.01-EPS1e-08-TS-S4780",
+      "commit": "edd50167e453b7c4180dd3fff6ed5addc4af45e9",
+      "status": "completed",
+      "completed_epochs": 300,
+      "metric_files": 300,
+      "actual_config": {
+        "sample_K": 10,
+        "proxy_K": 20,
+        "lambda_hier_after_warmup": 0.5,
+        "proxy_optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "gradient_clipping": null,
+          "lr": 0.01,
+          "min_lr": 0.0005,
+          "name": "AdamW",
+          "weight_decay": 0.01
+        },
+        "global_batch": 32,
+        "seed": 4780,
+        "steps_per_epoch": 200
+      },
+      "best": {
+        "completed_epoch": 277,
+        "raw_epoch": 277,
+        "source_file": "saved_best_metrics",
+        "online_train": {
+          "oa": 98.828125,
+          "aa": 98.84145857642804,
+          "ce_or_logged_loss": null,
+          "count": 6400
+        },
+        "clean_train": {
+          "oa": null,
+          "aa": null,
+          "ce_or_logged_loss": null,
+          "count": null
+        },
+        "test": {
+          "oa": 94.20583468395462,
+          "aa": 91.06976389884949,
+          "ce_or_logged_loss": 1.7831432170187829,
+          "count": 2468
+        }
+      },
+      "latest": {
+        "completed_epoch": 300,
+        "raw_epoch": 300,
+        "source_file": "metrics_epoch_300.json",
+        "online_train": {
+          "oa": 99.328125,
+          "aa": 99.29698387733842,
+          "ce_or_logged_loss": null,
+          "count": 6400
+        },
+        "clean_train": {
+          "oa": 99.51219512195122,
+          "aa": 99.55629110336304,
+          "ce_or_logged_loss": 1.6376423099176671,
+          "count": 9840
+        },
+        "test": {
+          "oa": 93.15235008103728,
+          "aa": 90.70755243301392,
+          "ce_or_logged_loss": 1.792245287949301,
+          "count": 2468
+        }
+      }
+    }
+  ]
+}
