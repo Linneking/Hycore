@@ -111,7 +111,7 @@ def readout(settings):
     group_stats=[]
     for ri,r in enumerate(ROLES):
         for weighting,w in (('unique_proxy',(counts[ri]>0).astype(float)),('draw_frequency',counts[ri]),('effective_noncollision',effective[ri]),('gumbel_expected',expected[ri]),('gumbel_expected_noncollision',expected_effective[ri])):
-            group_stats.append(dict(role=r,weighting=weighting,depth=stats(h,w),nearest_class_angle=stats(theta,w),near_cap_0p1_mass=float(w[h>=4.5].sum()/w.sum()) if w.sum() else None,near_cap_0p5_mass=float(w[h>=4.1].sum()/w.sum()) if w.sum() else None,outer_band_mass=float(w[split].sum()/w.sum()) if split is not None and w.sum() else None))
+            group_stats.append(dict(role=r,weighting=weighting,depth=role_stats(h,w,weighting=='unique_proxy'),nearest_class_angle=role_stats(theta,w,weighting=='unique_proxy'),near_cap_0p1_mass=float(w[h>=4.5].sum()/w.sum()) if w.sum() else None,near_cap_0p5_mass=float(w[h>=4.1].sum()/w.sum()) if w.sum() else None,outer_band_mass=float(w[split].sum()/w.sum()) if split is not None and w.sum() else None))
     paired=[]
     for r,g in (('S',raw['same']),('C',~raw['same'])):
         for cohort,ok in (('all_distinct',raw['distinct']&g),('noncollision',raw['distinct']&g&(raw['pair']!=raw['triple']))):

@@ -39,6 +39,14 @@ def stats(x,weights=None):
     return dict(count=len(x),mass=float(w.sum()),min=float(x[0]),p25=float(q[0]),median=float(q[1]),p75=float(q[2]),max=float(x[-1]),mean=float(np.average(x,weights=w)))
 
 
+def role_stats(values,weights,unique=False):
+    """Unique nodes use the same interpolated quantiles as a boxplot.
+
+    Frequency/probability summaries retain the weighted empirical inverse CDF.
+    """
+    return stats(np.asarray(values)[np.asarray(weights)>0]) if unique else stats(values,weights)
+
+
 def unit(x):
     x=np.asarray(x,dtype=np.float64);norm=np.linalg.norm(x,axis=1)
     if np.any(norm<=1e-8) or not np.isfinite(x).all():raise ValueError('Undefined direction')

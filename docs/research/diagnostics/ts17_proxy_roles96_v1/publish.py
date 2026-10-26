@@ -22,7 +22,7 @@ def num(x):return '—' if x is None else f'{x:.3f}'
 def mdtable(head,rows):return '\n'.join(['| '+' | '.join(head)+' |','| '+' | '.join(['---']*len(head))+' |']+['| '+' | '.join(map(str,row))+' |' for row in rows])
 
 
-def figures(s,z,root):
+def figures(s,z,root,analysis_root=None):
     out=root/'public/figures';out.mkdir();h=z['h'];theta=z['theta'];counts=z['counts'];mask,bits,active=roles(counts)
     fig,axs=plt.subplots(2,2,figsize=(13,9))
     axs[0,0].hist(h,bins=np.arange(2.9,4.61,.025),weights=np.full(len(h),100/len(h)),color='#777777');axs[0,0].axvline(4.6,color='red',ls='--',label='Whole shell / cap4.6');axs[0,0].set(xlabel='Origin hyperbolic depth (c=0.1)',ylabel='All 512 proxies (%)',title='Saved best e273: full proxy population');axs[0,0].legend()
@@ -38,7 +38,7 @@ def figures(s,z,root):
     fig.suptitle('01 TS17 best: 4.6-shell queries, saved proxy depths; roles may overlap');figure(fig,out,'01_depth_angle')
     fig,axs=plt.subplots(2,2,figsize=(14,9));order=np.argsort(h);total=counts[:,order].sum(0);composition=np.divide(counts[:,order],total,out=np.zeros((3,512)),where=total>0)
     axs[0,0].stackplot(np.arange(512),100*composition,colors=COLORS,labels=[NAMES[r] for r in ROLES]);axs[0,0].set(xlabel='Proxy rank, shallow to deep',ylabel='S/C/T selection composition (%)',title='Unused proxies have zero height');axs[0,0].legend(fontsize=7)
-    with np.load(root/'private/relations.npz') as raw:
+    with np.load((analysis_root or root)/'private/relations.npz') as raw:
         for r,same,color in (('S',True,COLORS[0]),('C',False,COLORS[1])):
             keep=raw['distinct']&(raw['same']==same)&(raw['pair']!=raw['triple']);values=np.sort(h[raw['pair'][keep]]-h[raw['triple'][keep]])
             if len(values):

@@ -46,6 +46,14 @@ class Contracts(unittest.TestCase):
         self.assertIsNone(stats([1,2],[0,0])['median'])
         self.assertEqual(roles(np.zeros((3,5),int))[2].sum(),0)
 
+    def test_unique_role_quantiles_match_boxplot_for_even_population(self):
+        values=np.array([1.,3.,8.,10.,100.]);weights=np.array([1,9,2,1,0])
+        result=role_stats(values,weights,unique=True)
+        self.assertEqual(result['median'],5.5)
+        self.assertEqual(result['p25'],2.5)
+        self.assertEqual(result['p75'],8.5)
+        self.assertEqual(role_stats(values,weights)['median'],3.)
+
     def test_examples_obey_8_4_4_and_dont_repeat_when_possible(self):
         c=np.arange(1,513)[None,:]*np.ones((3,1),int);h=np.linspace(3,4,512)
         cases=examples(c>0,h,c,np.arange(512)%2==0)
