@@ -120,6 +120,7 @@ def plots(models,analysis,out):
             axes[1,col].bar(x+offset,[100*m['gradient'][str(g)][term]['increase_fraction'] for g in SCALES],.18,label=NAMES[label])
     for ax,title in zip(axes.flat,('Contrastive hinge active','Radial hinge active','Contrastive: positive angle locally increases','Radial: positive angle locally increases')):
         ax.set_xticks(x,labels=['P200','P400','P600']);ax.set_ylim(0,103);ax.set_ylabel('Output events (%)');ax.set_title(title);ax.grid(axis='y',alpha=.15)
+    for ax in axes[1]:ax.set_ylabel('Defined angle-derivative events (%)')
     axes[0,0].legend(fontsize=7);fig.suptitle('03 Intra goals and detached output-coordinate gradients | not optimizer steps',fontsize=12);save(fig,out,'03_intra_gradients')
 
     fig,axes=plt.subplots(2,2,figsize=(12,9))
@@ -196,7 +197,7 @@ def report(models):
     for g in SCALES:
         x=m['intra'][str(g)];gr=m['gradient'][str(g)]
         lines.append(f"| {g} | {pct(x['contrastive_active']['mean'])} | {pct(x['radial_active']['mean'])} | {pct(gr['contrastive']['increase_fraction'])} | {pct(gr['radial']['increase_fraction'])} |")
-    lines+=['', '保留同一个part兼任flip负例的梯度贡献，同时考虑whole/part双方移动；每尺度权重0.01。探针只对复制出的输出叶子求导，不连接主干、不执行优化器；这是局部驱动，不是实际训练一步或margin消融的效果。径向切向分量验收通过；完整正负角度、距离与梯度见[表](tables/gradients.csv)。',
+    lines+=['', '保留同一个part兼任flip负例的梯度贡献，同时考虑whole/part双方移动；每尺度权重0.01。完全同向/反向时角度导数无定义，单列数量；增大/减小比例以导数有定义事件为分母。探针只对复制出的输出叶子求导，不连接主干、不执行优化器；这是局部驱动，不是实际训练一步或margin消融的效果。径向切向分量验收通过；完整正负角度、距离与梯度见[表](tables/gradients.csv)。',
       '', '![intra和梯度](figures/03_intra_gradients.png)','', '## 4. ord与chain的反例不同','',
       'ord分别检查min(hi,hj)−hA与hA−hB；chain检查同对象三条相邻边。状态分错序/并列、方向正确但间隔不足、达到设计间隔。','',
       '| 权重 | ord第一项不达0.2 | ord第二项不达0.2 | ord联合失败 | chain联合失败 |','|---|---:|---:|---:|---:|']

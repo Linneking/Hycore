@@ -64,7 +64,7 @@ class Contracts(unittest.TestCase):
     @unittest.skipUnless(importlib.util.find_spec('geoopt'),'Geoopt required for native loss probe')
     def test_native_gradient_probe_is_detached_and_radial_angle_stationary(self):
         w=torch.tensor([[.2,.1,.05],[.1,.3,.08],[-.3,.15,.1],[.1,-.2,.2]],dtype=torch.float64)
-        p=torch.tensor([[.08,.12,.04],[.1,.15,.03],[-.12,.08,.05],[.05,-.1,.1]],dtype=torch.float64)
+        p=torch.tensor([[.08,.12,.04],[.1,.15,.03],[-.12,.08,.05],[.06,-.1,.09]],dtype=torch.float64)
         probe=c.gradient_probe(w,p,200)
         self.assertIsNone(w.grad);self.assertIsNone(p.grad)
         self.assertTrue(np.isfinite(probe['contrastive']['angle_rate']).all())
