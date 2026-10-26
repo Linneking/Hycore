@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-26：PartHier五问后续审查已批准，改用8000实施
+
+用户明确“同意此计划…使用8000服务器”，覆盖此前8001限制，科学范围仍[94五问方案](94_PARTHIER_V1_EMBEDDING_AUDIT_2026-10-26/followup_plan.md)。4份已验收9840缓存和各自Q/94参考已复制到8000独立目录，13文件SHA匹配；GPU0/1检查空闲。新增版本化parthier_followup95_v1，局部输出叶子梯度、固定ijk选择重放、供给/热点/等深副本、ord/chain/HIER反例，不构建编码器或优化器。11项本地合成合同已通过，服务器原生梯度检查及正式200批读出以后续状态为准。只用已有冻结特征，不重训/重提，不写旧结果。
+
 ## 2026-10-26：94读者追问，新增五问审查计划待审
 
 用户要求解释浅p200祖先/热点、同对象part–whole方向、统一对比margin4与径向1000/N、ord及HIER反例。见[94后续计划](94_PARTHIER_V1_EMBEDDING_AUDIT_2026-10-26/followup_plan.md)，逐问列疑问/实验/输出；拟仅在8001复用缓存，正常200批ijk冻结读出，不训练或重提。已纠正A为双whole minimax候选、ord≠chain、HIER无额外代理–代理项。用户要求旧图删重复数量行，仅保留百分比及ECDF；该版式重绘复用原汇总，另新目录，不影响科学数据。新增分析仍是计划，等待用户审阅，不自动执行；保留report.md内用户新增疑问。
