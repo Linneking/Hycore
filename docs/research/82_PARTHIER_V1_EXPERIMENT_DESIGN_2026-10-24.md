@@ -61,6 +61,12 @@ whole_embedding, logits = net(whole)
 
 还要看清`get_children_np`的内存行为：它先取`part = whole[:, :, :K]`这个**共享存储的视图**，再将所选K近邻写进part。所以写part也会改变whole的前K个位置。它不是对嵌入向量某些维度覆写，而是对编码器之前的原始点坐标覆写。完成后先编码part，再编码已被修改的whole。
 
+**原版点数的补充审查：** 训练入口明确传入`kmin=200, kmax=600`，函数内部执行`K=random.randint(200,600)`，含两端，共401种整数点数，均匀分布的期望是400。每次训练迭代重新抽一次K，同一batch各对象共用这个K，但各自抽取中心；不是每个对象分别抽一个点数，也不是按epoch固定K。whole的N同样每步从800–1024抽取一次。函数定义的默认范围100–500以及旁边遗留的“50–600”注释都不应覆盖实际调用参数。
+
+覆写确实写入前K个位置，即一次索引赋值`pos_child[id,:,:] = data[id,:,idknn[id,center,:]]`；不是训练token、不是编码后的256维特征，也不是每写一个位置就重新选一次近邻。以N、K独立均匀抽样的口径，期望前缀写入位置占比为`E[K/N]≈44.08%`，单步范围约19.53%–75%。这不等于有44.08%的不同源点消失：可能有位置写回原值，也可能是所选点重新排列。
+
+更准确地，若W0有N个互异源点、I为所选K个索引，覆写后丢掉的不同源点数等于新增重复次数`D=|I ∩ {K,...,N-1}|`，不同源点数为`N-D`，且`D≤min(K,N-K)`。这一行为会改变密度、覆盖和FPS输入布局，值得单独审查；仅凭“原版也这样”不能证明它有益。源码能确认这是共享存储导致的实际操作，不能据此断言它一定是作者有意设计的密度增强。其分类影响需对照保留覆写与独立clone两个路径判断，本次没有开展训练消融。
+
 对每个对象执行一次如下流程：
 
 1. 保存 part 覆写前的 whole 独立副本，作为此次三个尺度的共同裁剪源。
@@ -144,6 +150,16 @@ PointMLP内部保留原有分组数，首层仍请求512个采样中心；200/40
 2026-10-26本机只用CPU复核：已有3项裁剪/副本/四次BN合同全部通过；另外直接从原版`hutil.py`提取实际`knn`和`get_children_np`函数，固定相同whole与part中心，并将原版单part数设为600，得到的whole、600点part与PartHier逐元素相同，200/400也与该part对应前缀相同。两条合成输入的whole均为900个位置，但覆写后只有711/696个不同源点，印证重复/丢点机制；这些是合成CPU实现核对，不是训练数据分布统计或分类消融，也没有GPU前向/训练更新。
 
 可核对的源码：[原版训练两次裁剪与编码](../../classification_ModelNet40/main_pointmlp_hycore.py#L210)、[原版KNN和视图覆写](../../classification_ModelNet40/hutil.py#L19)、[本版同中心嵌套](../../inter_hierarchy_MN40/parthier_v1/base_protocol.py#L55)、[角色索引与计数](../../inter_hierarchy_MN40/parthier_v1/loss.py#L46)、[PointMLP局部分组](../../classification_ModelNet40/models/pointmlp.py#L157)、[FPS CUDA实现](../../pointnet2_ops_lib/pointnet2_ops/_ext-src/src/sampling_gpu.cu#L76)。
+
+### 3.2 为什么不同大小的part可以共用BN
+
+**BN不只在test时使用。** 训练态BN会用当前输入的均值/方差进行归一化，并通过该计算参与反向传播；可训练的逐通道缩放γ、平移β由优化器更新。同时，运行均值/方差是buffer，在前向时按EMA更新、供默认eval路径使用，不由优化器通过梯度学习。[BN原论文](https://arxiv.org/abs/1502.03167)与[PyTorch 2.8说明](https://docs.pytorch.org/docs/2.8/generated/torch.nn.BatchNorm1d.html)分别说明其训练作用及具体接口。
+
+对输入特征`X[B,C,N]`，BatchNorm1d按通道c统计B和N两个维度上的数值，`μc=mean_{b,n} X[b,c,n]`，再用对应方差归一化。需要保存的γ、β、running_mean、running_var都只有C个数，不是N个数。因此`[32,64,200]`和`[32,64,900]`都能送进同一个64通道BN；点数不同改变参与统计的观察值数量，不改变参数形状。池化后投影处的`[B,512]` BN则只在batch维度统计，每个通道同样保存一个均值/方差。
+
+原版`net.train()`后调用同一个网络两次，没有对part分支单独关闭BN更新，所以part和whole都会归一化、更新同一组buffer。这是共享训练态模块的直接行为，不必先假定作者做过“让part参与test统计更好”的专门验证。每次调用是一次EMA更新，不会自动按原始输入点数把900点分支加权成200点分支的4.5倍；轮流更新的方差也不是所有视图合并后重新精确计算的总体混合方差。
+
+因此应分开两个问题：两个分支训练时如何被归一化，以及评估whole时使用哪种运行统计。共享BN允许不同N，但不保证不同尺度的特征分布一致；分布错配是待验证的可能影响，不是本轮精度退化的既定原因。CPU独立演示中，同一3通道BN连续接收`[4,3,200]`、`[4,3,400]`、`[4,3,1024]`，buffer和γ始终为长度3，计数依次1、2、3。
 
 **三个 part 是同一个对象的三个输入视图，不是预先给 whole 安排三个树父节点。**它们先进入候选池，之后由每条跨实例关系重新选择祖先。
 
@@ -307,6 +323,44 @@ L_{\rm chain}=\frac1{64}\sum_i\big(
 每步的顺序是：抽样与增强→同中心嵌套裁剪→三级part和whole前向→可微汇总global64→建关系/选A-B/算全部损失→反传→裁剪→RSGD→前向特征detach入队。全局均值与DDP梯度归一化经过独立对照，没有额外再乘或除world size。
 
 每轮保存评估和诊断，记录best、last及定期完整checkpoint；完整状态包括优化器、调度器、两rank RNG/BN/采样状态、队列和数据身份。正式任务重新创建初始权重、空队列和优化器，没有续用短测训练状态。
+
+读者疑问：注意到parthier初版实验只使用的hycore的学习器。放弃了HIER组件中的adamW学习器。这会有什么影响？请对比两个学习器的不同。adamW是否存在特定设计能使HIER的训练更稳定？
+
+### 6.1 为什么本版没有代理AdamW，以及它意味着什么
+
+**先区分“损失”与“被优化的参数”。** 原版官方HIER常用AdamW统一管理视觉编码器、监督损失参数和独立层次代理的参数组；官方实现也提供SGD、Adam等分支，并不要求HIER数学目标必须绑定AdamW。我们之前移植到HyCoRe的方案则拆成：共享网络θ用RiemannianSGD，独立切空间代理φ用AdamW。
+
+PartHier用`v=fθ(part)`这样的实际编码结果替代自由代理φ，HIER/ord/chain模块自身没有可训练参数，所以不是保留了φ却不更新它，而是φ这组参数及其AdamW一起取消了。当前所有目标的梯度汇总到共享θ，再由RiemannianSGD统一更新；历史队列只是detach特征缓存，没有为每条历史part维护AdamW状态。
+
+| 比较项 | 本版RiemannianSGD | 原移植HIER的代理AdamW |
+|---|---|---|
+| 参数对象 | 共享编码器/投影/双曲嵌入/分类层θ | 独立代理切空间参数φ |
+| 梯度历史 | momentum=0.9 | 一阶矩与二阶矩，betas=(0.9,0.999) |
+| 坐标自适应 | 无Adam式逐坐标二阶矩分母 | 按`sqrt(v_hat)+eps`逐坐标缩放 |
+| 权重衰减 | 当前实现将L2项加入梯度，再参与更新 | W表示独立weight decay，不累计进m/v |
+| 几何处理 | 对ManifoldParameter按其流形更新；普通参数走欧氏分支 | 普通AdamW，φ在欧氏切空间中存储，几何映射/GS由前向反向模块另做 |
+| 历史配方数值 | lr0.1、WD2e-4、余弦至0.005 | A0：lr0.01/eps1e-8；A1：lr0.005/eps1e-4；WD0.01，余弦至0.0005 |
+
+不能直接按lr0.1与0.005推断谁的实际位移大，因为二者把梯度变成位移的规则不同。AdamW的适应项为`-lr*m_hat/(sqrt(v_hat)+eps)`，另有`-lr*weight_decay*parameter`；它的解耦衰减是通用优化设计，不是HIER专用稳定器。[AdamW论文](https://arxiv.org/abs/1711.05101)、[PyTorch 2.8算法说明](https://docs.pytorch.org/docs/2.8/generated/torch.optim.AdamW.html)。
+
+**当前RiemannianSGD的名字也不能等同于“全部参数都住在双曲球上”。** 冻结的实际生产网络在CPU构造审查中有126个可训练参数张量，全部是普通Parameter，无可训练ManifoldParameter/ManifoldTensor；38层BN，PartHierarchyLoss可训练参数数为0。默认Mobius层`over_param=False`，曲率冻结。因此本配置优化器对这些参数走欧氏分支；输出中的双曲几何仍通过模型运算和反传体现，不会凭优化器名称自动新增出口GS或Adam式自适应。
+
+**取消独立代理优化，实质上也取消了独立移动祖先的自由度。** 旧φ可以在不直接改变编码器的情况下被AdamW移动，并单独设置学习率；本版祖先来自共享编码器，当前part、whole和各项监督共同决定θ的更新。新目标的梯度是否竞争、这种耦合是否更难优化，要实际测量，不能由“没有AdamW”直接判断。把同一个θ分别交给RSGD和AdamW、按不同损失各走一步，也不是原联合更新的等价替代。
+
+AdamW可能通过动量、自适应缩放和独立衰减改善某些参数的优化，但不保证更稳定；RSGD也已有动量。特别是eps很小时，小梯度可被二阶矩归一化为相对较大的更新，历史m也可能在当前径向梯度很小时继续推动代理。cap、GS、梯度裁剪和学习率调度是独立组件，不属于AdamW自带的层次或双曲保护。
+
+我们的[88号eps单变量十轮审查](88_B05_EPS_ONLY_10E_2026-10-25/report.md)提供了直接证据：固定代理LR0.005，仅eps1e-8→1e-4，第10轮raw模长越cap代理从500/512变为0/512，首步相同梯度下参数更新L2从1.79944降到0.446155。它支持eps影响代理更新与越cap行为，不证明AdamW一定优于RSGD、没有完整分类结论，也不能直接外推PartHier没有自由代理时的结果。官方HIER代码在启用fp16时用eps1e-4、否则1e-8，这也说明具体数值配方必须单列；不能只比较优化器名称。
+
+若以后要比较共享网络改用AdamW，应该保持同一PartHier结构和输入预算，从头做优化器控制，并重新匹配学习率、衰减和调度；那检验的是整个共享网络的优化方案。若增加独立part投影头或重新引入自由代理再交给AdamW，则还改变了模型参数化，不能称“仅恢复HIER优化器”。本次没有修改优化器或启动该实验。
+
+源码依据：[PartHier参数与优化器](../../inter_hierarchy_MN40/parthier_v1/train.py#L241)、[总损失反传与一次更新](../../inter_hierarchy_MN40/parthier_v1/train.py#L294)、[旧移植方案双优化器](../../inter_hierarchy_MN40/hier_proxy_scratch_v8/train.py#L293)、[默认Mobius参数化](../../classification_ModelNet40/models/ops/manifold_layers.py#L55)、[官方HIER优化器分支](https://raw.githubusercontent.com/sung-yeon-kim/HIER-CVPR23/3986a744a1a54fd357e307d1cb3f2e81910b9ffc/hier/train.py)。CPU审查只构造模型、读取参数类型并演示独立BN，没有模型GPU前向或训练更新。
+
+下一步想法，先去掉HIER 看一看我们的ord和chain是否有效果。全加上的效果并不好，而且没有进行嵌入情况分析。
+考虑对现有parthier v1做嵌入情况分析
+1，对于一个whole Lchain有没有正常工作：审查半径 p200<p400<p600<whole的次序关系是否实现。
+2，L-ord 一次关系选择中，a是否比whole浅，B是否比A浅。
+3，
+这种次序关系，既要审查最基本的次序有没有实现的问题，也要审查有没有符合我们设计的间隔。
 
 ## 7. 为什么先做这些短测
 
