@@ -19,6 +19,13 @@ unchanged model state, runs metrics, then renders the five figure groups.
 Workers use advisory locks and refuse occupied GPUs. Existing output files are
 not overwritten. Failed gates stop downstream analysis and leave explicit status.
 
+For a statistics-only repair, a new private root can set `reuse_cache` to the
+previous validated cache and invoke module `readout` instead of `pipeline`.
+It rechecks all four file hashes, native gates, unchanged state and shared crop
+identity before analysis. Neither cache files nor earlier results are changed.
+The duplicate native-intra scalar check permits recorded FP32 rounding at
+rtol/atol1e-5; scientific margins and the1e-3 near-threshold flag stay unchanged.
+
 The saved Q2048 is checkpoint-specific, static and includes historical train-mode
 features. This is a saved-state audit, not exact training replay. A=B collisions
 are excluded from success rates and retained in native loss denominators.

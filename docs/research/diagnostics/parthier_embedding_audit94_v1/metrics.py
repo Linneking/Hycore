@@ -394,7 +394,8 @@ def main():
         parts = torch.from_numpy(cache["parts"]).to(device)
         centers, center_ids, center_lengths = class_centers(cache["clean"], labels_np)
         centers, center_ids = centers.to(device), center_ids.to(device)
-        model = {"depth": {}, "class_center_mean_lengths": describe(center_lengths)}
+        model = {"depth": {}, "class_center_mean_lengths": describe(center_lengths),
+                 "intra_native_numeric_checks": {}}
         for view, data in dh.items():
             model["depth"][view] = describe(data)
             vectors = cache[view] if view in ("clean", "whole") else cache["parts"][:, SCALES.index(int(view[1:]))]
@@ -441,8 +442,16 @@ def main():
                 contrasts[g].append(array(negative - positive))
                 if panel == 0:
                     native = intra_losses(mu, pp[:, col], g)
-                    torch.testing.assert_close(torch.maximum(positive - negative + 4, torch.zeros_like(positive)).mean(),
-                                               native["intra_contrastive"], rtol=1e-6, atol=1e-6)
+                    manual = torch.maximum(positive - negative + 4, torch.zeros_like(positive)).mean()
+                    native_value = native["intra_contrastive"]
+                    # Duplicate FP32 Geoopt executions can differ by a few ulps
+                    # across TorchScript warm-up/fusion and reduction paths.
+                    # This gate checks formula agreement only; scientific gap
+                    # thresholds and per-object features remain unmodified.
+                    model["intra_native_numeric_checks"][str(g)] = {
+                        "scale": g, "native": float(native_value), "manual": float(manual),
+                        "absdiff": float((manual - native_value).abs()), "rtol": 1e-5, "atol": 1e-5}
+                    torch.testing.assert_close(manual, native_value, rtol=1e-5, atol=1e-5)
             if acc is not None:
                 seed = args.seed + (panel + 1) * 1009 + 70000027
                 accumulate_relations(acc, panel, mu, pp, yy, ix, queue, centers, center_ids, seed)
