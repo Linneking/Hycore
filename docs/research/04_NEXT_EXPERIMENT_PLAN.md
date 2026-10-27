@@ -1,5 +1,11 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-27：HyCoRe-seg 论文复现计划待审
+
+用户要求查找 ICASSP 2023《Towards Hyperbolic Regularizers For Point Cloud Part Segmentation》的源码，未找到则制定计划。本次核查官方 HyCoRe、作者及公开 forks、refs/releases/issues 与论文，尚未找到可核验的分割完整实现。新增[98：源码检索、论文规格与复现计划](98_HYCORE_SEG_REPRODUCTION_2026-10-27/plan.md)：DGCNN/ShapeNetPart，单次逐点特征选邻域、欧氏平均后exp，whole浅/part深；单列方法节1024/N′与实验节1000/4的margin冲突及未公开头部/训练细节。建议先做欧氏头、双曲头无正则、完整正则三臂，验证选模，固定masked/unmasked指标；后续消融与多seed另审。
+
+本轮仅文献与源码只读核查、文档计划；没有实现分割代码、连接服务器、使用GPU或排队训练。该计划不改变既有分类/HIER/PartHier配置或运行状态，须审阅后再执行新实验。
+
 ## 2026-10-27：用户授权TS25，TS23初始化系数0.9→0.7完整消融
 
 用户选TS23/B13而非TS20，明确在8000跑完整300轮。新别名TS25/B13，CB32有放回16类×2／200步、Ks10/Kp10、lambda.1、A1 AdamW.005/1e-4、seed4780；唯一配方变化为高斯初始化系数.9→.7，保留原方向及模长差异，不额外等深归一。见[97配置](97_TS25_TS23_INIT07_FULL_2026-10-27/run.md)。GPU1先核查空闲，独立train-only2×2短测和完整保存状态通过后fresh300×200，保留原TS评估及300余弦；不复用短测权重。6本机合同、服务器CPU检查及独立2×2短测均通过；2026-10-27 17:01在8000 GPU1启动，正式训练已完成e1/200步并保存e0/e1/best/last，进入e2。运行目录标识`ts25_ts23_init07_full_20261027_170102/main`，源码`c9f0c3a`，脱离会话运行；禁止重复提交。完整证据私有保存，97目录含脱敏验收JSON；300轮尚未完成。
