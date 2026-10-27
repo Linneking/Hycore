@@ -2,7 +2,9 @@
 
 ## 2026-10-27：HyCoRe-seg 论文复现计划待审
 
-用户要求查找 ICASSP 2023《Towards Hyperbolic Regularizers For Point Cloud Part Segmentation》的源码，未找到则制定计划。本次核查官方 HyCoRe、作者及公开 forks、refs/releases/issues 与论文，尚未找到可核验的分割完整实现。新增[98：源码检索、论文规格与复现计划](98_HYCORE_SEG_REPRODUCTION_2026-10-27/plan.md)：DGCNN/ShapeNetPart，单次逐点特征选邻域、欧氏平均后exp，whole浅/part深；单列方法节1024/N′与实验节1000/4的margin冲突及未公开头部/训练细节。建议先做欧氏头、双曲头无正则、完整正则三臂，验证选模，固定masked/unmasked指标；后续消融与多seed另审。
+用户要求查找 ICASSP 2023《Towards Hyperbolic Regularizers For Point Cloud Part Segmentation》的源码，未找到则制定计划。本次核查官方 HyCoRe、作者及公开 forks、refs/releases/issues 与论文，尚未找到可核验的分割完整实现。新增[98：源码检索、论文规格与复现计划](98_HYCORE_SEG_REPRODUCTION_2026-10-27/plan.md)：DGCNN/ShapeNetPart，单次逐点特征选邻域、欧氏平均后exp，whole浅/part深；保留原文margin冲突及未公开头部/训练细节的证据。
+
+后续用户明确将层次margin定为1000/N′（按part点数缩放），对比margin沿用4；不再把1024/N′列作主候选。执行顺序改为**先只复现并完整验收原生DGCNN，之后再依次做双曲头无正则、完整HyCoRe-seg**；不自动并行三臂。工程先后不等于从DGCNN成品权重微调，主比较保持匹配初始化的从头训练。验证选模、固定masked/unmasked指标，后续消融与多seed另审。本轮问题为顺序及可行性讨论，不视为启动完整训练授权。
 
 本轮仅文献与源码只读核查、文档计划；没有实现分割代码、连接服务器、使用GPU或排队训练。该计划不改变既有分类/HIER/PartHier配置或运行状态，须审阅后再执行新实验。
 
