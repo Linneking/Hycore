@@ -89,8 +89,8 @@ class Contracts(unittest.TestCase):
         part = torch.tensor([[.1, 0.]], dtype=torch.float64, requires_grad=True)
         radial, _, _ = relation_losses(ball, whole, part, torch.tensor([0]), torch.tensor([False]), 2., 4.)
         radial.backward()
-        self.assertGreater(float((whole.grad * whole).sum()), 0)
-        self.assertLess(float((part.grad * part).sum()), 0)
+        self.assertGreater(float((whole.grad * whole.detach()).sum()), 0)
+        self.assertLess(float((part.grad * part.detach()).sum()), 0)
 
     def test_feature_selection_and_gradients_no_input_mutation(self):
         values = torch.tensor([[[0.], [1.], [4.], [10.], [11.]],
@@ -177,7 +177,7 @@ class Contracts(unittest.TestCase):
             val_set.close()
 
     def test_rsgd_equals_sgd_without_momentum_on_euclidean_parameters(self):
-        a = torch.nn.Parameter(torch.tensor([.2, -.3]))
+        a = torch.nn.Parameter(torch.tensor([.2, -.3], dtype=torch.float64))
         b = torch.nn.Parameter(a.detach().clone())
         first = torch.optim.SGD([a], lr=.1, momentum=0, weight_decay=1e-4)
         second = geoopt.optim.RiemannianSGD([b], lr=.1, momentum=0, weight_decay=1e-4)
@@ -185,7 +185,9 @@ class Contracts(unittest.TestCase):
             first.zero_grad(); second.zero_grad()
             a.square().sum().backward(); b.square().sum().backward()
             first.step(); second.step()
-        torch.testing.assert_close(a, b, rtol=0, atol=0)
+        # SGD add_(alpha=...) and Geoopt retr(point, -lr*grad) round differently.
+        # Use FP64 analytic-scale tolerance, not a false cross-runtime bit claim.
+        torch.testing.assert_close(a, b, rtol=1e-14, atol=1e-15)
 
     def test_rsgd_initial_momentum_is_a_recorded_protocol_difference(self):
         a = torch.nn.Parameter(torch.tensor([.2, -.3], dtype=torch.float64))

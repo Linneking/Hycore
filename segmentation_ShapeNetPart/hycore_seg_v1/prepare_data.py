@@ -15,7 +15,7 @@ import h5py
 import numpy as np
 
 from .metrics import NAMES, PART_COUNTS, PART_STARTS
-from .utils import sha256, timestamp, write_json
+from .utils import git_identity, sha256, timestamp, write_json
 
 SOURCE = {
     "url": "https://huggingface.co/datasets/wangps/shapenet_segmentation/resolve/dbde146b974e1fc8628b47b1b1c4e50d8bc1a2ef/shapenetcore_partanno_segmentation_benchmark_v0_normal.zip",
@@ -76,6 +76,7 @@ def main():
     split_ids["train"] = [x for x in split_ids["train"] if x not in test_ids | original_val]
     split_ids["val"] = [x for x in split_ids["val"] if x not in test_ids]
     manifest = {"format": "hycore_seg_raw_to_h5_v1", "source": SOURCE,
+                "preparation_source": git_identity(),
                 "archive_sha256": actual_sha, "created": timestamp(),
                 "preprocessing": "center_full_xyz_unit_max_radius_first2048_no_normals_no_extra_augmentation",
                 "official_split_files": {}, "splits": {},
