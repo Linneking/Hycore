@@ -88,7 +88,7 @@ N′为200/400/600时，层次margin分别为5/2.5/约1.667。后续仅对该主
 
 | 现有本地资源 | 可复用范围 | 需重新实现/核对的部分 |
 |---|---|---|
-| `classification_ModelNet40/models/manifolds.py`、`models/ops/manifold_layers.py` | 距离、exp/log、Möbius运算的参考 | 曲率、投影、bias、初始化与逐点维度 |
+| `classification_ModelNet40/models/manifolds/poincareball.py`、同目录`__init__.py`及`models/ops/manifold_layers.py` | 距离、exp/log、Möbius运算的参考 | 曲率、投影、bias、初始化与逐点维度 |
 | `classification_ModelNet40/hutil.py` | 分类方法差异参照 | 不复用其原地part覆盖、XYZ裁剪、flip负样本、径向方向 |
 | `资料库/HPCS/hpcs/nn/dgcnn/dgcnn_partseg.py` | 点级DGCNN结构参考 | 不搬HPCS损失、旋转设置、真实part辅助解码或评估 |
 
