@@ -1,0 +1,20 @@
+{
+  "report.md": "46d6d054c93c621bd220daba8f0f408f27f2e155f95de4568d0eab19621aef2c",
+  "review_qa.json": "a5d12d35d6fd08879d9b8cced800b405e09f19a53d1882ee20e196e707a5dac3",
+  "initial_depth_quartiles.csv": "31fcd0460cb7b3caba92c8480bfe0ab6f1a5f932587b419a7f2906a92856f3b8",
+  "summary.json": "0d9d4b70c4683b2f01af9255738cfea7690e77ea7e8eeeeb6a4a96c0918deea1",
+  "class_competition.csv": "b0d2acfe44ee4599c4b0e9de426286c8d237a95cb50d4bc7cc02cdda8836519c",
+  "representative_pair_accounts.csv": "b1322033ee3095b3aa158fa36369f6046a2817f3e632cfa53aecc775710d0787",
+  "history_groups.csv": "41d51d5ae03c8cf2ebb6df3fd91afb479e3e481c24580e92ad45ee5805826790",
+  "initial_depth_control.csv": "0b7f2a5cfd4cb1917a62fc1f2ebfc719bfaf5f1148f5ae1dfb1e559f73579df7",
+  "proxy_initial_history.csv": "4695b7533ee047888f5c4920f3ae490723f332b85176051fb722d1f6bb4cf823",
+  "source_hashes.json": "4dbb8a1733d5189b9aecbcc65e5d927a289aa93ef9f5c31bea3a1a41f064831c",
+  "figures/03_actual_history.png": "4a2ba3da4379c551ecb108403453cda44f02ee19c4bd49d88e59a93595798cb2",
+  "figures/01_pair_competition.png": "155cd3e08457fd71e59fa849ea4ea11b9861ebad7ef68cd8ab3bd15ed9b6f33d",
+  "figures/03_actual_history.svg": "35f735f4e1fe9304933e50039c7a8fc60cf25d9baffc769778909917ed3cc800",
+  "figures/02_direction_depth_replacements.svg": "4cc7bf7bf9126a93b5cb924a4984523baa41a3e89cddd1c72347750552bfb819",
+  "figures/04_initial_direction.png": "08370a310be2ba333c46c081bee07550be2a7c4ff943f9788a8c172d854609c2",
+  "figures/01_pair_competition.svg": "5607025327fa9cdb237787425c1691d1354ea59969a9a41a1d4d6f54f204f46c",
+  "figures/02_direction_depth_replacements.png": "d251305e1cc6f7d6bf4652de8375777f7c3ed4a1c8a804353fddfd37d7a5fa11",
+  "figures/04_initial_direction.svg": "a8a59f5d0b342bb6b30fe38bbbf1f013341087d0256813f5ff2fdadca6568456"
+}

@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "server_export_files": 18,
+  "all_SHA_match": true,
+  "all_four_figures_reviewed": true,
+  "unchanged_reviewed_figures": {
+    "01_pair_competition.png": true,
+    "04_initial_direction.png": true
+  },
+  "CPU_contracts": 6,
+  "historical_epochs_recounted": 273,
+  "maximum_independent_distance_error": 3.387818025224476e-06,
+  "original_user_report_untouched": true,
+  "readout_commit": "de2644dfb552e87a9704ff3e4fc69b4a29523364",
+  "review_commit": "480df74fd8f8b821f8dd3515769bdacc68df3ebb",
+  "publication_commit": "a48d08b4587212257b44be6fe666d2a76f703ecf",
+  "editorial_report_sha256": "a4d39ee8e1b5c5b4a42d5086dc8836e9eba9ba90f3717e94cd7363712aab832c"
+}

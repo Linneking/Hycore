@@ -4,3 +4,8 @@ results/** -text
 results/**/*.svg whitespace=-blank-at-eol
 # Standard CSV writer uses CRLF row endings.
 results/*.csv whitespace=cr-at-eol
+
+# Frozen outer-proxy followup exports.
+outer_results/** -text
+outer_results/**/*.svg whitespace=-blank-at-eol
+outer_results/*.csv whitespace=cr-at-eol
