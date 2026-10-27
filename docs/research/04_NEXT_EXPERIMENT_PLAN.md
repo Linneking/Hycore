@@ -1,5 +1,11 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-28：DGCNN分割基线与HyCoRe-seg已获实现/部署授权
+
+用户明确“开始实现”，授权在8000创建环境、自行下载数据并将可直接复现的实验挂起训练；同时按分类HyCoRe源码和分割论文重建HyCoRe-seg。当前实施[98执行记录](98_HYCORE_SEG_REPRODUCTION_2026-10-27/implementation.md)：先纯DGCNN200轮，seed4780、SGD.1/.9/1e-4、batch32、k40、验证选模、最终一次test；HyCoRe-seg实现保留1000/N′与4、单次逐点编码和whole浅/part深，不自动追加完整矩阵或微调。16项本机CPU合同通过，服务器环境/数据准备中，正式训练尚待验收。
+
+原始公开数据划分包含9/23/3个train-val/train-test/val-test重复ID，采用test优先、再val、再train去重；原清单/剔除身份/输入SHA私有留存。原Stanford下载不可用，改用固定公开normal-bearing镜像、仅XYZ归一化/first2048适配；均列为协议变化，不冒称原HDF5逐位复现。RSGD首次动量与SGD有实质区别，后续头部对照需单列优化器效应。
+
 ## 2026-10-27：HyCoRe-seg 论文复现计划待审
 
 用户要求查找 ICASSP 2023《Towards Hyperbolic Regularizers For Point Cloud Part Segmentation》的源码，未找到则制定计划。本次核查官方 HyCoRe、作者及公开 forks、refs/releases/issues 与论文，尚未找到可核验的分割完整实现。新增[98：源码检索、论文规格与复现计划](98_HYCORE_SEG_REPRODUCTION_2026-10-27/plan.md)：DGCNN/ShapeNetPart，单次逐点特征选邻域、欧氏平均后exp，whole浅/part深；保留原文margin冲突及未公开头部/训练细节的证据。

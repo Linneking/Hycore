@@ -1,0 +1,17 @@
+{
+  "mode": "baseline",
+  "epochs": 200,
+  "schedule_epochs": 200,
+  "batch_size": 32,
+  "eval_batch_size": 16,
+  "num_points": 2048,
+  "k": 40,
+  "dropout": 0.5,
+  "lr": 0.1,
+  "min_lr": 0.001,
+  "momentum": 0.9,
+  "weight_decay": 0.0001,
+  "seed": 4780,
+  "workers": 4,
+  "cpu_threads": 4
+}
