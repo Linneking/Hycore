@@ -1,0 +1,58 @@
+{
+  "run_alias": "TS25",
+  "reference_alias": "TS23",
+  "status": "production_running_verified",
+  "observed_utc": "2026-10-27T09:05:34.657564+00:00",
+  "production_commit": "c9f0c3a01869872cd0381dcc08a1eae11a50ca6b",
+  "started_utc": "2026-10-27T09:01:40.522547+00:00",
+  "physical_gpu_index": 1,
+  "planned_epochs": 300,
+  "steps_per_epoch": 200,
+  "verified_completed_epoch": 1,
+  "verified_completed_optimizer_steps": 200,
+  "seed": 4780,
+  "global_batch": 32,
+  "sample_K": 10,
+  "proxy_K": 10,
+  "lambda_hier": 0.1,
+  "proxy_initialization_coefficient": 0.7,
+  "proxy_optimizer": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 0.0001,
+    "gradient_clipping": null,
+    "lr": 0.005,
+    "min_lr": 0.0005,
+    "name": "AdamW",
+    "weight_decay": 0.01
+  },
+  "schedule": "300-epoch cosine; no restart; enabled HIER active update1",
+  "smoke": {
+    "accepted": true,
+    "variant": "k10p10w01",
+    "epochs": 2,
+    "updates": 4,
+    "BN_updates": 8,
+    "actual_proxy_optimizer": {
+      "variant": "k10p10w01",
+      "initial_lr": 0.005,
+      "eps": 0.0001,
+      "lr": 0.0005,
+      "T_max": 2,
+      "completed_epochs": 2
+    },
+    "initial_sha256": "4843e1eba1a3bd90639274a728cc1a70ff3c3350998f494767d838265a94252a",
+    "official_test_read": false,
+    "run_alias": "TS25",
+    "reference_alias": "TS23",
+    "proxy_initialization_coefficient": 0.7,
+    "initial_proxy_tensor_sha256": "7aa8a45d499dcf3f82e4d409b514aa2e5b862f798779042ad8bb3751a7a37cd1",
+    "initial_proxy_depth_median": 3.21966552734375,
+    "initial_proxy_depth_max": 3.6685917377471924
+  },
+  "fresh_production_initial_model_sha256": "4843e1eba1a3bd90639274a728cc1a70ff3c3350998f494767d838265a94252a",
+  "epoch1_checkpoint_sha256": "a60412035a5424382b45a5c852aefd0cbeba58b3de9e3c6d2ac441c36d29a9e9",
+  "artifact_policy": "Private full evidence retained locally; checkpoints and complete logs remain on server. No host details included."
+}
