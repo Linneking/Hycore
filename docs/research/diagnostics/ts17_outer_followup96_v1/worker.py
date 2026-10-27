@@ -15,7 +15,10 @@ def main():
     root=Path(s['root']);private=root/'private';public=root/'public';private.mkdir();public.mkdir();start=time.time()
     def progress(stage,**kw):write(root/'worker_status.json',dict(status='running',stage=stage,elapsed_seconds=time.time()-start,**kw))
     import torch,h5py
-    torch.set_num_threads(2);torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
+    # Match the saved audit85 golden-regression backend, rather than silently
+    # changing the convolution arithmetic of the reference feature space.
+    torch.set_num_threads(2);torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=True
+    torch.backends.cudnn.benchmark=False;torch.backends.cudnn.deterministic=False
     from inter_hierarchy_MN40.hier_proxy_scratch_v8.geometry import official_distance,to_ball,configure_backbone
     from inter_hierarchy_MN40.hier_proxy_cycle_v9c.geometry import whole_to_hier
     from inter_hierarchy_MN40.models.pointmlp import Hype_pointMLP
@@ -74,6 +77,7 @@ def main():
         progress('frozen_forward',checkpoint=name,objects=len(selected));torch.manual_seed(22);np.random.seed(22)
         model=configure_backbone(Hype_pointMLP());model.load_state_dict({k.removeprefix('module.'):v for k,v in cp['net'].items()},strict=True)
         model.requires_grad_(False);model.eval();model.to(device);state_before=state_hash(model);chunks=[]
+        torch.manual_seed(22);torch.cuda.manual_seed_all(22);np.random.seed(22)
         with torch.no_grad():
             for off in range(0,len(selected),32):
                 batch=torch.from_numpy(clouds[selected[off:off+32]].copy()).to(device)
@@ -85,6 +89,8 @@ def main():
         if name=='best_gate':
             delta=np.abs(values-cache['native_mu'][:32]);angles=angular_rows(values,cache['native_mu'][:32])
             gate=dict(passed=bool(delta.max()<=2e-4 and delta.mean()<=2e-6 and np.quantile(angles,.99)<=.05),max_abs=float(delta.max()),mean_abs=float(delta.mean()),angle_p99=float(np.quantile(angles,.99)),objects=32)
+            gate.update(cudnn_allow_tf32=torch.backends.cudnn.allow_tf32,matmul_allow_tf32=torch.backends.cuda.matmul.allow_tf32)
+            write(private/'best_gate.json',gate)
             if not gate['passed']:raise ValueError('Best32 frozen forward cannot reproduce trusted cache')
         else:native_probe[name]=values
         del model;torch.cuda.empty_cache()
