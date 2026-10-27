@@ -1,6 +1,6 @@
 """CPU publication of the approved three-question frozen audit."""
 from __future__ import annotations
-import argparse,json,csv
+import argparse,json,csv,shutil
 from pathlib import Path
 import numpy as np
 import matplotlib
@@ -22,15 +22,26 @@ def p(x):return '—' if x is None else f'{x*100:.3f}%'
 
 
 def main():
-    a=argparse.ArgumentParser();a.add_argument('--root',type=Path,required=True);args=a.parse_args();root=args.root;out=root/'public';figures=out/'figures';figures.mkdir()
-    s=json.loads((out/'summary.json').read_text());z=dict(np.load(root/'private/readout.npz'))
+    a=argparse.ArgumentParser();a.add_argument('--root',type=Path,required=True);a.add_argument('--output',type=Path);a.add_argument('--qa',type=Path);args=a.parse_args();root=args.root;out=args.output or root/'public'
+    if args.output:
+        out.mkdir(exist_ok=False)
+        for source in (root/'public').glob('*'):
+            if source.is_file() and source.name not in ('report.md','artifact_hashes.json'):shutil.copy2(source,out/source.name)
+    figures=out/'figures';figures.mkdir()
+    s=json.loads((out/'summary.json').read_text());z=dict(np.load(root/'private/readout.npz'));qa=None
+    if args.qa:
+        qa=json.loads((args.qa/'review_qa.json').read_text())
+        for name in ('review_qa.json','initial_depth_quartiles.csv'):shutil.copy2(args.qa/name,out/name)
+        s['cpu_review']={k:v for k,v in qa.items() if k!='checks'};write(out/'summary.json',s)
     fig,axs=plt.subplots(1,2,figsize=(12,4.3))
     axs[0].boxplot([z['thetaI'].max(1),z['thetaO'].max(1)],labels=['Best inner I','Best outer O'],showfliers=False);axs[0].set(ylabel='Max angle to the same i/j (degrees)',title='Fixed same-class pairs; actual candidate angles')
     axs[1].scatter(z['thetaO'].max(1)-z['thetaI'].max(1),z['gap'],s=4,alpha=.25);axs[1].axhline(0,color='black',ls='--');axs[1].axvline(0,color='gray',ls='--');axs[1].set(xlabel='Outer minus inner max angle (degrees)',ylabel='Outer minus inner minimax distance',title='Positive vertical gap: outer loses')
     save(fig,figures,'01_pair_competition')
     fig,axs=plt.subplots(1,2,figsize=(12,4.4));values=[z[k] for k in ('gap','gap_depth','gap_angle')]
     axs[0].boxplot(values,labels=['Actual O','O: depth of I','O: direction of I'],showfliers=False);axs[0].axhline(0,color='black',ls='--');axs[0].set(ylabel='Candidate cost minus original I cost',title='Same original I/O; no outer-pool re-search')
-    axs[1].bar(['Actual O','Depth only','Direction only'],[100*x['class_equal_rescue_fraction'] for x in s['controls']],color=['#888888',COLORS[0],COLORS[1]]);axs[1].set(ylabel='O beats I among original losses (%)',title='Equal-class rescue rate; tolerance 1e-5')
+    rates=[100*x['class_equal_rescue_fraction'] for x in s['controls']]
+    axs[1].bar(['Actual O','Depth only','Direction only'],rates,color=['#888888',COLORS[0],COLORS[1]]);axs[1].set(ylabel='O beats I among original losses (%)',title='Equal-class rescue rate; tolerance 1e-5',ylim=(0,100))
+    for i,value in enumerate(rates):axs[1].text(i,value+3,f'{value:.1f}%\n{s["controls"][i]["rescues"]}/{s["controls"][i]["original_losses"]}',ha='center',fontsize=10)
     save(fig,figures,'02_direction_depth_replacements')
     fig,axs=plt.subplots(1,2,figsize=(13,4.7));hist=z['history']
     for ri,role in enumerate(('pair','triple')):
@@ -40,7 +51,10 @@ def main():
             for ci,component in enumerate(('Sample','Proxy-internal')):
                 total=hist[:,ci,0,ri].sum(1);mass=hist[:,ci,0,ri][:,m].sum(1);value=mass/total/m.sum()*512
                 ax.plot(np.arange(1,274),value,color=COLORS[gi],ls='-' if ci==0 else '--',lw=1.2,label=NAMES[gi]+' / '+component)
-        ax.axhline(1,color='gray',lw=.7);ax.set(xlabel='Actual training epoch',ylabel='Usage per proxy / uniform512 baseline',title='Actual hard-Gumbel '+role+' selections',xticks=[1,5,10,100,200,273]);ax.legend(fontsize=6)
+        ax.axhline(1,color='gray',lw=.7);ax.set(xlabel='Actual training epoch',ylabel='Usage per proxy / uniform512 baseline',title='Actual hard-Gumbel '+role+' selections',xticks=[1,50,100,150,200,273]);ax.legend(fontsize=6)
+        mini=ax.inset_axes([.07,.12,.29,.24]);m=z['group']==0
+        chance=hist[:10,0,0,ri][:,m].sum(1)/hist[:10,0,0,ri].sum(1)/m.sum()*512
+        mini.plot(np.arange(1,11),chance,color=COLORS[0],marker='.',lw=.9);mini.set_xticks([1,5,10]);mini.set_title('First10: outer sample',fontsize=7);mini.tick_params(labelsize=6)
     save(fig,figures,'03_actual_history')
     fig,axs=plt.subplots(2,2,figsize=(12,8.8));groups=z['group'];early=hist[:5,0,0,0].sum(0)
     axs[0,0].boxplot([z['theta0'][groups==g] for g in (0,1,2)],labels=['Outer unused','Inner used','Inner unused'],showfliers=False);axs[0,0].set(ylabel='Initial angle to nearest e0 class direction (deg)',title='Clean/eval e0 probe; not learned semantics')
@@ -77,7 +91,9 @@ def main():
         '按外层落后分数小／中／大三档各取两例，层内优先不同类，再按固定分位和ID；未按外观筛选。I/O都是该对关系原始最优候选。','']
     for idx,e in enumerate(s['examples']):
         lines += [f"### 例{idx+1}：{e['class_name']}",'',table(['候选','代理ID','深度','与i夹角','与j夹角','到i距离','到j距离','选择评分'],[['I',e['inner_id'],f(e['inner_depth']),f(e['inner_angle_i']),f(e['inner_angle_j']),f(e['inner_distance_i']),f(e['inner_distance_j']),f(e['inner_cost'])],['O',e['outer_id'],f(e['outer_depth']),f(e['outer_angle_i']),f(e['outer_angle_j']),f(e['outer_distance_i']),f(e['outer_distance_j']),f(e['outer_cost'])]]),'',f"原评分差{f(e['gap'])}；只换深度后{f(e['depth_only_gap'])}；只换方向后{f(e['direction_only_gap'])}。",'']
-    lines += ['## 6. 验收与文件','',f"原e5权重SHA与训练第5轮保存记录相同，e0代理逐位匹配独立seed4780初始化。best32前向回归通过，最大坐标误差{s['best_gate']['max_abs']:.3g}。e0/e5/best回归共前向{s['new_forward_objects']}个对象，无网络反传、优化器、BN更新或test读出；源权重和输入前后SHA不变。",'',
+    if qa:
+        lines += ['## 6. 初始深度的补充核对','',f"初始深度与前5轮样本pair使用量的Spearman相关为 **{f(qa['initial_depth_vs_first5_sample_pair_spearman'])}**，初始方向角对应为{f(qa['initial_angle_vs_first5_sample_pair_spearman'])}。当前数据中，初始深度关联更明显；这不是两种变量独立因果效应的比较。",'',table(['初始深度四分组','代理数','最终外层冷落数','该组冷落比例','前5轮样本pair份额'],[[r['quartile'],r['proxies'],r['outer_unused'],p(r['outer_unused_fraction']),p(r['first5_sample_pair_share'])] for r in qa['initial_depth_quartiles']]),'','四分位只是粗略控制，不等于严格配对。Q2/Q3中较近方向组平均使用较高，Q1几乎相同，Q4均值并不遵循这一顺序；不能把方向作用说成统一单调规律。','']
+    lines += ['## 7. 验收与文件','',f"原e5权重SHA与训练第5轮保存记录相同，e0代理逐位匹配独立seed4780初始化。best32前向回归通过，最大坐标误差{s['best_gate']['max_abs']:.3g}。e0/e5/best回归共前向{s['new_forward_objects']}个对象，无网络反传、优化器、BN更新或test读出；源权重和输入前后SHA不变。",'',
         '[512代理初始化／历史明细](proxy_initial_history.csv)、[初始深度控制](initial_depth_control.csv)、[40类候选比较](class_competition.csv)、[六对账单](representative_pair_accounts.csv)、[完整分组历史](history_groups.csv)、[完整统计](summary.json)、[源身份](source_hashes.json)。逐对对象ID、特征、逐代理逐轮计数留在服务器私有目录。','',
         '冻结换位回答当前几何原因；历史及初始化关联回答可能的路径依赖。两者都不单独构成随机初始化干预的因果实验。没有新增训练。','']
     (out/'report.md').write_text('\n'.join(lines),encoding='utf-8')
