@@ -177,15 +177,15 @@ def partseg_three():
     ax.set(xlim=(0, 1.02), ylim=(-.015, 1.02)); ax.axis("off")
     fig.suptitle("实验三：保留DGCNN广播融合，后三层同维双曲替换", y=.975,
                  fontsize=23, fontweight="bold", color="#172a3a")
-    fig.text(.5, .935, "不恢复类别one-hot；融合端仍为欧氏，三层Möbius复用HyCoRe官方完整实现。",
+    fig.text(.5, .935, "第三组恢复原类别one-hot分支与1280融合；三层Möbius仍复用HyCoRe官方类及初始化。",
              ha="center", fontsize=13, color="#465566")
     specs = [
         (.945, "XYZ 输入 [B,N,3]", "io", .055),
         (.84, "DGCNN分割前端：STN + 三阶段局部编码\n局部64 / 64 / 64，拼接为 L [B,N,192]", "keep", .075),
         (.735, "原 conv6：192 → 1024\n逐点特征 T [B,N,1024]", "keep", .07),
-        (.63, "保留全局 max：T → g [B,1024]\n将g广播到N个点：[B,N,1024]", "keep", .075),
-        (.525, "保留广播特征与局部L拼接\n1024 + 192 = 1216（无one-hot）", "change", .07),
-        (.42, "欧氏融合 conv8：1216 → 256\n保留BN8 / 激活 / dp1，得到 H [B,N,256]", "change", .075),
+        (.63, "全局max1024 + 类别编码64 = 1088\n拼接后广播到N个点：[B,N,1088]", "keep", .075),
+        (.525, "保留广播特征与局部L192拼接\n1024全局 + 64类别 + 192局部 = 1280", "keep", .07),
+        (.42, "保留欧氏融合 conv8：1280 → 256\n保留BN8 / 激活 / dp1，得到 H [B,N,256]", "keep", .075),
         (.315, "原 expmap0：逐点256维映入双曲球", "keep", .06),
         (.21, "同维替换三个映射为官方 MobiusLayer\n256→256；256→128；128→50\n完整保留 _weight / _bias / transp0", "change", .09),
         (.08, "逐点部件分数 [B,N,50] → CE\n头内BN9/10、激活、dp2拟按HyCoRe风格不保留", "io", .075),
@@ -197,6 +197,9 @@ def partseg_three():
                 arrowprops={"arrowstyle":"-|>","color":COLORS["keep"][1],"lw":1.5})
     ax.text(.097,.685,"保留局部特征 L192",rotation=90,ha="center",va="center",
             fontsize=12,color=COLORS["keep"][1])
+    box(ax,(.84,1.0),.64,"类别one-hot16\n原conv7 / BN7\n16 → 64\n类别编码", "keep",.14,10.8)
+    ax.annotate("",xy=(.805,.63),xytext=(.84,.64),
+                arrowprops={"arrowstyle":"-|>","color":COLORS["keep"][1],"lw":1.5})
     box(ax,(.84,1.0),.42,"正则入口\nH_i[N,256]\n取feature part\nmean → exp\n只算两正则", "add",.175,11)
     ax.annotate("",xy=(.84,.42),xytext=(.805,.42),
                 arrowprops={"arrowstyle":"-|>","color":COLORS["add"][1],"lw":1.5})

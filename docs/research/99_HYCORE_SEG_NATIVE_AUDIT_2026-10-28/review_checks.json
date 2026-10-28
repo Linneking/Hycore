@@ -3,7 +3,7 @@
   "checks": {
     "seven_source_files_match_reference": true,
     "relative_links_exist": true,
-    "relative_links_checked": 38,
+    "relative_links_checked": 41,
     "two_mermaid_sources_present": true,
     "head_and_parameter_delta_arithmetic": true,
     "per_object_pooling_axis_clarified": true,
@@ -16,7 +16,11 @@
     "four_diagrams_png_svg_present": true,
     "four_diagrams_visually_reviewed": true,
     "e3_broadcast_fusion_preserved": true,
-    "e3_three_affine_widths_preserved": true
+    "e3_three_affine_widths_preserved": true,
+    "e3_onehot_restored": true,
+    "e3_fusion_1280_restored": true,
+    "original_layer_cpu_init_probe_passed": true,
+    "probe_sources_match_local_official_files": true
   },
   "artifacts": [
     {
@@ -51,13 +55,13 @@
     },
     {
       "file": "figures/partseg_three_layer.png",
-      "bytes": 381026,
-      "sha256": "f0ebb301c9775208fe278815c662c0ff46d55ff8dc10c092b4592848618b580b"
+      "bytes": 416284,
+      "sha256": "50fcba98f5a2db33e63e4443d9fd009c6e47e15d11ddcf0f129b690317c87520"
     },
     {
       "file": "figures/partseg_three_layer.svg",
-      "bytes": 16098,
-      "sha256": "313b266f8cdf2c3570cc0945379d01a8681ea9236bc65ec2e527ad8489f17845"
+      "bytes": 17687,
+      "sha256": "3438d74d387454e10633d0cd673d324432fea868c8b8d0bbb3bfb8e13cf8f193"
     }
   ],
   "not_executed": [
@@ -86,8 +90,8 @@
   },
   "experiment_three": {
     "name": "Pseg3",
-    "onehot": false,
-    "fusion_input": 1216,
+    "onehot": true,
+    "fusion_input": 1280,
     "fusion_output_and_regularizer_dim": 256,
     "mobius_widths": [
       256,
@@ -97,7 +101,26 @@
     ],
     "head_parameters": 105138,
     "source_topology": "DGCNN_partseg",
-    "status": "design_only_not_implemented_or_launched",
-    "normalization_note": "proposed native HyCoRe head style; original tail BN/activation/dp2 excluded and declared"
+    "status": "design_plus_original_layer_cpu_probe_no_full_model_or_training",
+    "normalization_note": "proposed native HyCoRe head style; original tail BN/activation/dp2 excluded and declared",
+    "category_embedding": [
+      16,
+      64
+    ],
+    "parameter_delta_vs_original_antao": -334
+  },
+  "original_layer_init_probe": {
+    "result": "native_layer_init_probe.json",
+    "passed": true,
+    "same_seed_repeat_identical": true,
+    "gpu_used": false,
+    "optimizer_updates": 0,
+    "limits": [
+      "full_backbone_initialization",
+      "real_feature_distribution",
+      "GPU_numerics",
+      "training_convergence",
+      "paper_score"
+    ]
   }
 }

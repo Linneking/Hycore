@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-28：Pseg3保留one-hot，初始化规则继续复用官方实现
+
+用户将第三组改为保留原类别编码16→64、全局/类别广播和1280→256融合；P0/Pglobal仍无one-hot。三层官方MobiusLayer256→256→128→50沿用kaiming_normal(a=√5)、_bias±4/√fan_in和exp/transp0，按各层输入维度新建。独立CPU原层初始化/前向/梯度检查已通过并保存99探针结果，但完整网络、实际H范围、GPU和训练仍待实现验收。仅记录此CPU验证，不作为新完整训练启动；详见99计划§7–8。
+
 ## 2026-10-28：新增实验三Pseg3，保留分割广播融合，尾部三层同维替换
 
 用户新增第三组并明确保留DGCNN分割的global-max→广播→局部特征融合。见[99计划§7](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)：参考原partseg前端，继续无one-hot，全局1024+局部192=1216→欧氏融合256，得到H[B,N,256]；exp后把conv9/10/11逐层换为完整官方Mobius256→256→128→50，正则从该256维欧氏H平均exp。尾部BN/激活/dropout拟按HyCoRe头风格移除，融合端保留并明确记录差异。第三组是原分割结构参照，不改变P0/Pglobal主线，不把编码器/宽度变化归因于单独层数效应。统一seed4780与既定协议，本轮只加设计，不启动新训练。

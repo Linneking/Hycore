@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-28：第三组恢复one-hot与1280融合，官方新尺寸Möbius原层CPU初始化检查通过
+
+用户要求Pseg3保留原DGCNN类别输入，恢复one-hot16→64、1024global+64category+192local=1280融合；P0/Pglobal仍无one-hot。三层继续复用官方MobiusLayer类及reset_parameters，仅按256→256→128→50新建，不复制旧分类权重。原层独立CPU/FP32检查在seed4780下通过：同seed初始state一致，两组模拟尺度的前向/输入及_weight/_bias梯度均有限且非零，无CUDA初始化、无optimizer.step。证据99/native_layer_init_probe.json，源码LF哈希与本机对应原文件核对；完整v2、真实特征分布/GPU及训练尚未验证。此轮仅原层CPU探针及文档/图修订，未改服务器源码/训练或结果。E3静态参数恢复类别后相对原AnTao净少334，不再扣去原类别支路17536。
+
 ## 2026-10-28：用户新增第三组Pseg3，保留DGCNN广播融合与三层同维双曲头
 
 用户认可P0/Pglobal之外，再补原DGCNN分割MLP同维双曲替换，并指定保留global池化/广播/局部融合。99计划§7和图已定义Pseg3：去one-hot但保留1024global+192local=1216融合→256（BN8/激活/dp1保留），H[B,N,256]→exp→原Mobius256→256→128→50三层；该256维欧氏H用于正则。三层不含前融合层，尾部BN9/10、激活/dp2拟按HyCoRe头风格不保留，配套变化与仅同宽替换区别说明。此组是分割骨干结构参照，P0/Pglobal仍保留分类骨干主线；不把骨干/头宽差异归因于单独层数。仅补设计/图，无模型代码修改或新训练。

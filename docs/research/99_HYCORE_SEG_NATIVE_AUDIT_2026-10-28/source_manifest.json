@@ -42,5 +42,5 @@
       "bytes": 6420
     }
   ],
-  "scope": "static_source_and_paper_audit_only; no v2 model execution or training"
+  "scope": "source_and_paper_audit_with_original_layer_cpu_probe; no full v2 model or training"
 }

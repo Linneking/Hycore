@@ -40,12 +40,13 @@
 | `figures/regularizer_comparison.png/.svg` | 用户追加要求：part选择、正则入口、负例和层次方向对照 |
 | `figures/branch_gradient_flow.png/.svg` | 用户七问后澄清：CE与reg独立分支、共享backbone梯度及训练入口汇合 |
 | `figures/partseg_three_layer.png/.svg` | 用户新增实验三：保留DGCNN分割广播融合、后三层同维替换为官方Mobius |
+| `native_layer_init_probe.json` / `probe_native_mobius_init.py` | 原官方三层新尺寸的CPU初始化/前向/反向检查；非完整v2训练 |
 
-主报告直接嵌入四张PNG，提供SVG及模型/关系对照的可编辑Mermaid。图已逐张视觉核验，分割结构标为拟改方案；当前主线无one-hot/新增桥，Pglobal列为消融，Pseg3明确保留分割广播融合并替换256→256→128→50三层。正则逐物体平均，P0/Pglobal的H为512维，Pseg3为256维，正则分支不含CE。此前1040桥仅留历史。
+主报告直接嵌入四张PNG，提供SVG及模型/关系对照的可编辑Mermaid。图已逐张视觉核验，分割结构标为拟改方案；P0/Pglobal无one-hot，Pseg3按最新用户要求恢复one-hot16→64与原1280融合，替换256→256→128→50三层。正则逐物体平均，P0/Pglobal的H为512维，Pseg3为256维，正则分支不含CE。此前1040桥仅留历史。
 
 ## 4. 本轮边界与沿用决定
 
-不修改原分类实现、现有 v1、数据或服务器结果，不终止/重启现有训练。本轮不连接服务器、不分配 GPU。
+不修改原分类实现、现有v1、数据或服务器结果，不终止/重启现有训练。初始审查无服务器动作；用户追问初始化后补做一次服务器CPU原层探针，读取原源码，仅初始化和反传，不使用GPU、不更新参数或服务器文件，不视为v2完整实现或训练。
 
 沿用用户决定：seed4780；层次间隔 `1000/N′`，对比间隔4；分割 train+val 训练、逐轮 test Instance mIoU 选 best、固定200轮，不 early-stop。论文未确定的训练细节不能写成作者原配方。ModelNet40 的其他协议不因本轮改变。
 
