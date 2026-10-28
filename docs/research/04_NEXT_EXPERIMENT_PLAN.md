@@ -1,5 +1,11 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-28：用户确认AnTao trainval/test选模，启动HyCoRe-seg匹配实验
+
+用户要求HyCoRe-seg设计并实验，追问选模后明确选择：沿用已选AnTao PyTorch的train+val训练、逐轮test Instance mIoU选best；seed统一4780。见[选模证据与设计](98_HYCORE_SEG_REPRODUCTION_2026-10-27/selection_protocol.md)。论文未指定选模；作者TF代码与社区默认不同。旧val-selected基线继续原协议，不中途更改；新增test-selected DGCNN、无正则双曲头H0及完整HC，在新目录匹配初始化fresh200，不early-stop。默认margin1000/N′和4、两项系数.01。恢复raw release成员的trainval14007/test2874；保留原重复ID，并声明与原Stanford HDF5的预处理差异。
+
+16本机/服务器CPU合同通过，初始真实HC2×2短测通过但观察到较高投影率；正式入口增加首步CE/正则共享层梯度检查。新test-selected生产须先经clean train/val的无test短测；保留全部旧结果，空闲GPU才启动，不额外扩展消融矩阵。
+
 ## 2026-10-28：DGCNN分割基线与HyCoRe-seg已获实现/部署授权
 
 **执行更新：** 16服务器CPU合同和真实尺寸2×2 GPU短测均通过；2026-10-28 09:41:32已在8000 GPU0 fresh启动唯一200轮基线，源c153715、runID `dgcnn_seg_v1_s4780_20261028_A/main`。首轮378更新/完整1867验证/BN378及best-last通过，09:44进入e2step350；不重复排队。独立环境、数据缓存均就绪，实际train/val/test为12105/1867/2874。下段准备状态保留为过程记录；最新状态见98执行记录。HyCoRe-seg真实GPU与完整训练尚未执行，无自动后续矩阵。

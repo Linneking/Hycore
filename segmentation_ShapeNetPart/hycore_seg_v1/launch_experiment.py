@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import torch
@@ -31,6 +32,9 @@ def main():
     write_json(root / "dispatch.json", {"source": git_identity(), "started": timestamp(),
                "mode": args.mode, "protocol": "antao_testsel", "seed": 4780, "pid": os.getpid()})
     try:
+        while not (Path(args.production_data) / "manifest.json").exists():
+            write_json(root / "queue.json", {"state": "waiting_for_prepared_data", "at": timestamp()})
+            time.sleep(30)
         wait_for_idle(args.gpu, root)
         with (root / "smoke.log").open("w") as log:
             subprocess.run(command + ["--data", args.smoke_data, "--out", str(root / "smoke"),
