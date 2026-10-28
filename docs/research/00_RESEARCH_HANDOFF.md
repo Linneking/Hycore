@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-28：用户授权三组原生HyCoRe-seg，8000三卡正式训练已启动
+
+用户明确要求挂P0/Pglobal/Pseg3，seed4780/batch32/shuffle；不增加H0或其他矩阵。独立v2实现`ac6c712`已推送，原分类和v1未改；服务器HTTPS TLS失败后同提交Git bundle+fetch/pull --ff-only隔离部署。18本机/18服务器CPU合同、三组各17项合成全入口和真实batch32/N2048各2×2短测均过。三卡分别GPU0/1/2于22:15:25 fresh200，22:18核对e1完整437更新/2874test/BN437，e0-best-last和状态均有限，现e2；初值匹配短测、三组首输入SHA相同。运行ID及证据见[99执行记录](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/execution.md)，勿重复提交或向活动源码拉文档后续提交。原trainval/test选模及26共有ID协议保留并已披露；原flip、1000/N′/4、RSGD.01/cosine200/clip1、两正则各.01。首批whole/part均触球投影边界、深度未拉开，正则共享梯度非零不能证明层次项有效；诊断留存，不静默改尺度。训练未完成，无自动监控或下一矩阵。
+
 ## 2026-10-28：第三组恢复one-hot与1280融合，官方新尺寸Möbius原层CPU初始化检查通过
 
 用户要求Pseg3保留原DGCNN类别输入，恢复one-hot16→64、1024global+64category+192local=1280融合；P0/Pglobal仍无one-hot。三层继续复用官方MobiusLayer类及reset_parameters，仅按256→256→128→50新建，不复制旧分类权重。原层独立CPU/FP32检查在seed4780下通过：同seed初始state一致，两组模拟尺度的前向/输入及_weight/_bias梯度均有限且非零，无CUDA初始化、无optimizer.step。证据99/native_layer_init_probe.json，源码LF哈希与本机对应原文件核对；完整v2、真实特征分布/GPU及训练尚未验证。此轮仅原层CPU探针及文档/图修订，未改服务器源码/训练或结果。E3静态参数恢复类别后相对原AnTao净少334，不再扣去原类别支路17536。
