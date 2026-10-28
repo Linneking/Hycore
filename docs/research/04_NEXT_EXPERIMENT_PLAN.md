@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-28：新增实验三Pseg3，保留分割广播融合，尾部三层同维替换
+
+用户新增第三组并明确保留DGCNN分割的global-max→广播→局部特征融合。见[99计划§7](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)：参考原partseg前端，继续无one-hot，全局1024+局部192=1216→欧氏融合256，得到H[B,N,256]；exp后把conv9/10/11逐层换为完整官方Mobius256→256→128→50，正则从该256维欧氏H平均exp。尾部BN/激活/dropout拟按HyCoRe头风格移除，融合端保留并明确记录差异。第三组是原分割结构参照，不改变P0/Pglobal主线，不把编码器/宽度变化归因于单独层数效应。统一seed4780与既定协议，本轮只加设计，不启动新训练。
+
 ## 2026-10-28：用户认可简单P0，新增全局拼接消融方向
 
 用户认可原conv5逐点1024→共享Linear512→原exp/emb/mlr的简单结构，并提出与DGCNN式全局特征拼接对比。主候选P0保持，优先消融Pglobal：concat(T_i,n1024,broadcast(max_N T)1024)=2048→共享Linear512→同两层双曲头；无one-hot，不恢复旧桥或额外低层绕接。Pglobal多524288权重，报告容量差异。分类原头linear2(512,256)/linear3(256,40)与HyCoRe两Mobius宽度对应，但BN/dropout路径亦改变；原partseg尾部不同，不据此自动增加双曲层。此为设计认可，未授权新训练启动。

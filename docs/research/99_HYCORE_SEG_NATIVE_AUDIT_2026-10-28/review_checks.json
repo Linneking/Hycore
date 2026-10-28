@@ -3,18 +3,20 @@
   "checks": {
     "seven_source_files_match_reference": true,
     "relative_links_exist": true,
-    "relative_links_checked": 35,
+    "relative_links_checked": 38,
     "two_mermaid_sources_present": true,
     "head_and_parameter_delta_arithmetic": true,
-    "three_diagrams_png_svg_present": true,
-    "three_diagrams_visually_reviewed": true,
     "per_object_pooling_axis_clarified": true,
     "regularizer_branch_excludes_ce": true,
     "main_has_no_onehot": true,
     "no_added_fusion_bridge": true,
     "extra_skip_is_ablation_only": true,
     "main_keeps_native_flip": true,
-    "flip_counterexample_verified": true
+    "flip_counterexample_verified": true,
+    "four_diagrams_png_svg_present": true,
+    "four_diagrams_visually_reviewed": true,
+    "e3_broadcast_fusion_preserved": true,
+    "e3_three_affine_widths_preserved": true
   },
   "artifacts": [
     {
@@ -46,6 +48,16 @@
       "file": "figures/branch_gradient_flow.svg",
       "bytes": 12390,
       "sha256": "41894e1b13ce8c001ef779830576ed4893e7b1533549b57244963966d3ec1cc7"
+    },
+    {
+      "file": "figures/partseg_three_layer.png",
+      "bytes": 381026,
+      "sha256": "f0ebb301c9775208fe278815c662c0ff46d55ff8dc10c092b4592848618b580b"
+    },
+    {
+      "file": "figures/partseg_three_layer.svg",
+      "bytes": 16098,
+      "sha256": "313b266f8cdf2c3570cc0945379d01a8681ea9236bc65ec2e527ad8489f17845"
     }
   ],
   "not_executed": [
@@ -71,5 +83,21 @@
     "ablation_direction": "Pglobal: per-point1024 + broadcast global-max1024 -> 512",
     "global_ablation_additional_weights": 524288,
     "new_training_launched": false
+  },
+  "experiment_three": {
+    "name": "Pseg3",
+    "onehot": false,
+    "fusion_input": 1216,
+    "fusion_output_and_regularizer_dim": 256,
+    "mobius_widths": [
+      256,
+      256,
+      128,
+      50
+    ],
+    "head_parameters": 105138,
+    "source_topology": "DGCNN_partseg",
+    "status": "design_only_not_implemented_or_launched",
+    "normalization_note": "proposed native HyCoRe head style; original tail BN/activation/dp2 excluded and declared"
   }
 }

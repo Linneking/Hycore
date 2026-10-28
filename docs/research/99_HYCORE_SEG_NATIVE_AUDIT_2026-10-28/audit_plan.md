@@ -39,8 +39,9 @@
 | `figures/model_comparison.png/.svg` | 用户追加要求：官方分类与拟改seg模型对照，标明保留/新增/调整 |
 | `figures/regularizer_comparison.png/.svg` | 用户追加要求：part选择、正则入口、负例和层次方向对照 |
 | `figures/branch_gradient_flow.png/.svg` | 用户七问后澄清：CE与reg独立分支、共享backbone梯度及训练入口汇合 |
+| `figures/partseg_three_layer.png/.svg` | 用户新增实验三：保留DGCNN分割广播融合、后三层同维替换为官方Mobius |
 
-主报告直接嵌入三张PNG，提供SVG及模型/关系对照的可编辑Mermaid。三图已生成并逐张视觉核验；图示中的分割结构均标为拟改方案，避免与现有v1或作者未公开实现混淆。用户七问后已明确H_i逐物体按点平均、1040的局部/全局/类别来源与候选性质、官方指HyCoRe分类版、未选择分类checkpoint，以及正则分支不含CE。
+主报告直接嵌入四张PNG，提供SVG及模型/关系对照的可编辑Mermaid。图已逐张视觉核验，分割结构标为拟改方案；当前主线无one-hot/新增桥，Pglobal列为消融，Pseg3明确保留分割广播融合并替换256→256→128→50三层。正则逐物体平均，P0/Pglobal的H为512维，Pseg3为256维，正则分支不含CE。此前1040桥仅留历史。
 
 ## 4. 本轮边界与沿用决定
 

@@ -86,6 +86,22 @@ Pglobal使用逐点linear1(2048,512)，其余编码器、双曲头、正则和�
 
 `[B,40]`表示每物体40个类别分数；`[B,N,50]`表示每物体每点50个部件分数。这个变化来自保留点轴与逐点共享预测，不能只把分类结果reshape实现。
 
+### 2.4 新增实验三：保留DGCNN分割广播融合，后三层同维替换
+
+用户新增第三组Pseg3，并明确保留DGCNN分割的“全局池化→广播→局部拼接→欧氏融合”。这里作为单独的DGCNN分割结构参照；P0/Pglobal仍以HyCoRe分类模型迁移为主。类别one-hot不恢复，所以广播后的1024全局与192局部拼为1216，先欧氏融合1216→256；该首个融合投影不计入“三层替换”。
+
+| 原分割尾部映射 | 第三组同维替换 |
+|---|---|
+| conv9：256→256 | 官方MobiusLayer：256→256 |
+| conv10：256→128 | 官方MobiusLayer：256→128 |
+| conv11：128→50 | 官方MobiusLayer：128→50 |
+
+![实验三的广播融合和三层双曲替换](figures/partseg_three_layer.png)
+
+[SVG](figures/partseg_three_layer.svg)。正则入口是融合后、dp1之后、exp之前的H[B,N,256]，whole/part先在该欧氏特征中平均再exp。头内拟按HyCoRe原风格不沿用BN9/BN10、激活和dp2，属于明确配套改造；仅保持三次特征映射宽度，不声称整个MLP块完全等价。具体边界和计数见[计划§7](reproduction_plan.md)。
+
+该组前端与P0/Pglobal不同，故属于结构参照，不能仅凭两者得分差推断Möbius层数的因果。原v1模型和已完成实验不改，本轮不启动新训练。
+
 ## 3. part、whole与关系损失
 
 ![分类与分割关系分支对照](figures/regularizer_comparison.png)
