@@ -9,7 +9,7 @@ from torch.utils.data import Dataset
 
 class ShapeNetPart(Dataset):
     def __init__(self, root, split, num_points=2048, limit=None):
-        if split not in {"train", "val", "test"}:
+        if split not in {"train", "trainval", "val", "test"}:
             raise ValueError(split)
         self.path = Path(root) / (split + ".h5")
         self.split, self.num_points = split, num_points
@@ -45,7 +45,7 @@ class ShapeNetPart(Dataset):
         points = self._handle["data"][index, :self.num_points].copy()
         parts = self._handle["pid"][index, :self.num_points].astype(np.int64)
         # Pinned DGCNN training augmentation: point-order permutation only.
-        if self.split == "train":
+        if self.split in {"train", "trainval"}:
             permutation = np.random.permutation(self.num_points)
             points, parts = points[permutation], parts[permutation]
         return points, int(self.categories[index]), parts, self.ids[index]

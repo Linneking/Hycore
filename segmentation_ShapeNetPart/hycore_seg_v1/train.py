@@ -28,6 +28,7 @@ def arguments():
     parser.add_argument("--data", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--mode", choices=("baseline", "head", "hycore"), default="baseline")
+    parser.add_argument("--protocol", choices=("validation", "antao_testsel"), default="validation")
     parser.add_argument("--epochs", type=int, default=200)
     parser.add_argument("--schedule-epochs", type=int, default=200)
     parser.add_argument("--batch-size", type=int, default=32)
@@ -156,12 +157,15 @@ def train(args):
     if not data_manifest.get("complete"):
         raise ValueError("Data preparation not complete")
     # Verify the complete prepared identities before GPU training.
-    for split in ("train", "val"):
+    train_split, selection_split = ("train", "val") if args.protocol == "validation" else ("trainval", "test")
+    if args.protocol == "antao_testsel" and args.no_final_test:
+        raise ValueError("Test-selected production must not masquerade as a no-test smoke")
+    for split in (train_split, selection_split):
         if sha256(data_root / (split + ".h5")) != data_manifest["splits"][split]["file_sha256"]:
             raise ValueError("Prepared data hash mismatch: " + split)
-    train_set = ShapeNetPart(data_root, "train", args.num_points, args.limit_train or None)
-    val_set = ShapeNetPart(data_root, "val", args.num_points, args.limit_val or None)
-    if set(train_set.ids) & set(val_set.ids):
+    train_set = ShapeNetPart(data_root, train_split, args.num_points, args.limit_train or None)
+    val_set = ShapeNetPart(data_root, selection_split, args.num_points, args.limit_val or None)
+    if args.protocol == "validation" and set(train_set.ids) & set(val_set.ids):
         raise ValueError("Train/validation ID overlap")
     train_generator = torch.Generator().manual_seed(args.seed + 1009)
     eval_generator = torch.Generator().manual_seed(args.seed + 2003)
@@ -224,7 +228,10 @@ def train(args):
                                 "cuda": torch.version.cuda, "numpy": np.__version__, "h5py": h5py.__version__},
                 "trainable_parameters": sum(p.numel() for p in model.parameters() if p.requires_grad),
                 "initial_model_sha256": initial_hash, "initial_backbone_sha256": common_hash,
-                "selection": "val_unmasked_instance_miou_then_lower_ce_then_earlier_epoch",
+                "selection": ("val_unmasked_instance_miou_then_lower_ce_then_earlier_epoch" if args.protocol == "validation"
+                              else "test_unmasked_instance_miou_greater_equal_later_tie_as_antao"),
+                "selection_split": selection_split,
+                "train_selection_overlap_ids": len(set(train_set.ids) & set(val_set.ids)),
                 "regularizer_constructed": criterion is not None}
     write_json(out / "manifest.json", manifest)
     def snapshot(epoch):
@@ -264,6 +271,12 @@ def train(args):
             logits = logits.transpose(1, 2).contiguous()
             ce = F.cross_entropy(logits.reshape(-1, 50), targets.reshape(-1))
             loss = ce + reg
+            if criterion is not None and epoch == 1 and steps == 0:
+                shared = model.conv10[0].weight
+                rg = torch.autograd.grad(reg, shared, retain_graph=True)[0]
+                cg = torch.autograd.grad(ce, shared, retain_graph=True)[0]
+                diagnostics.update(reg_shared_gradient_norm=float(rg.detach().norm()),
+                                   ce_shared_gradient_norm=float(cg.detach().norm()))
             if not torch.isfinite(loss):
                 raise FloatingPointError("Nonfinite training loss")
             loss.backward()
@@ -298,14 +311,16 @@ def train(args):
         validation = evaluate(model, val_loader, device)
         if validation["objects"] != len(val_set):
             raise AssertionError("Incomplete validation")
-        improved = validation["instance_miou"] > best_score or (
-            validation["instance_miou"] == best_score and validation["ce"] < best_ce)
+        improved = (validation["instance_miou"] >= best_score if args.protocol == "antao_testsel" else
+                    validation["instance_miou"] > best_score or (
+                    validation["instance_miou"] == best_score and validation["ce"] < best_ce))
         if improved:
             best_score, best_ce, best_epoch = validation["instance_miou"], validation["ce"], epoch
         record = {"epoch": epoch, "steps": steps, "updates": updates, "lr_used": actual_lr,
                   "next_lr": optimizer.param_groups[0]["lr"], "objects_seen": objects,
                   "train_loss": total_loss / objects, "train_ce": total_ce / objects,
-                  "train_reg": total_reg / objects, "train": training_metrics.result(), "val": validation,
+                  "train_reg": total_reg / objects, "train": training_metrics.result(), selection_split: validation,
+                  "selection_split": selection_split,
                   "best_epoch": best_epoch, "bn_counts": bn_counts(model),
                   "first_input_sha256": first_input_hash, "first_ids": first_ids,
                   "seconds": time.monotonic() - epoch_start,
@@ -314,16 +329,23 @@ def train(args):
         save_checkpoint(out / "last.pth", snapshot(epoch))
         if improved:
             save_checkpoint(out / "best.pth", snapshot(epoch))
+            write_json(out / "best_selection.json", {"selected_epoch": epoch, "metrics": validation,
+                       "selection_split": selection_split})
         if epoch == 1 or epoch % 50 == 0:
             save_checkpoint(out / ("epoch_%03d.pth" % epoch), snapshot(epoch))
         write_json(out / "status.json", {"state": "epoch_complete", "epoch": epoch,
-                   "updates": updates, "best_epoch": best_epoch, "val_instance_miou": validation["instance_miou"],
+                   "updates": updates, "best_epoch": best_epoch, "selection_split": selection_split,
+                   "selection_instance_miou": validation["instance_miou"],
                    "at": timestamp()})
         print(json.dumps({k: record[k] for k in ("epoch", "steps", "train_loss", "best_epoch", "seconds")}
-                         | {"val_instance_miou": validation["instance_miou"]}), flush=True)
+                         | {selection_split + "_instance_miou": validation["instance_miou"]}), flush=True)
     best = torch.load(out / "best.pth", map_location=device, weights_only=False)
     model.load_state_dict(best["model"], strict=True)
-    if not args.no_final_test:
+    if args.protocol == "antao_testsel":
+        selected = json.loads((out / "best_selection.json").read_text())
+        selected.update(selection="test_each_epoch", checkpoint_sha256=sha256(out / "best.pth"))
+        write_json(out / "final_test.json", selected)
+    elif not args.no_final_test:
         if sha256(data_root / "test.h5") != data_manifest["splits"]["test"]["file_sha256"]:
             raise ValueError("Official test identity mismatch")
         test_set = ShapeNetPart(data_root, "test", args.num_points)
@@ -335,9 +357,11 @@ def train(args):
         test_result.update(selected_epoch=best["epoch"], selection="validation", checkpoint_sha256=sha256(out / "best.pth"))
         write_json(out / "final_test.json", test_result)
     write_json(out / "acceptance.json", {"complete": True, "epochs": args.epochs,
-               "updates": updates, "best_epoch": best_epoch, "best_val_instance_miou": best_score,
+               "updates": updates, "best_epoch": best_epoch, "selection_split": selection_split,
+               "best_" + selection_split + "_instance_miou": best_score,
                "best_sha256": sha256(out / "best.pth"), "last_sha256": sha256(out / "last.pth"),
-               "final_test_evaluations": 0 if args.no_final_test else 1,
+               "final_test_evaluations": (args.epochs - start_epoch if args.protocol == "antao_testsel" else
+                                          0 if args.no_final_test else 1),
                "seconds": time.monotonic() - started, "ended": timestamp()})
     write_json(out / "status.json", {"state": "complete", "epoch": args.epochs,
                "updates": updates, "best_epoch": best_epoch, "at": timestamp()})
