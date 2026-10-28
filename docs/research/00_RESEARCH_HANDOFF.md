@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-28：分割选模已由用户明确改为AnTao默认，三匹配任务已提交等待数据
+
+用户要求HyCoRe-seg实验，核查选模后选择train+val训练/逐轮test Instance mIoU选best，全部seed4780；覆盖旧分割val偏好，不中途改已有val基线。见[98选模与任务状态](98_HYCORE_SEG_REPRODUCTION_2026-10-27/selection_protocol.md)。源1ffd9f5，16本机/服务器CPU及合成test-selection完整入口通过。新数据恢复原raw列表trainval14007/test2874（保留原列表重复身份，非原HDF5逐位复现）。DGCNN/H0/HC分别已提交GPU0/1/2，运行ID见98；10:06状态均waiting_for_prepared_data，尚无新协议生产结果，数据完成且空闲GPU短测通过后自动fresh200。禁止重复提交。旧val基线继续后台，源c153715不动。
+
 ## 2026-10-28：DGCNN分割基线已在8000启动，HyCoRe-seg完成代码与CPU验收
 
 用户授权实现、下载数据/建环境并在8000训练。见[98执行记录](98_HYCORE_SEG_REPRODUCTION_2026-10-27/implementation.md)：独立分割目录、固定MIT DGCNN、16本机/服务器CPU合同及真实batch32/2048点2×2 GPU短测通过；普通SGD.1/.9/1e-4、200轮cosine、seed4780、验证选模/最终一次test。2026-10-28 09:41:32在GPU0 fresh启动200轮，runID `dgcnn_seg_v1_s4780_20261028_A/main`，源码c153715；首轮378更新/1867验证/BN378/best-last及与短测初始化/首输入一致验收通过，09:44已e2step350。禁止重复提交；不改旧训练或结果。

@@ -1,5 +1,9 @@
 # Experiment history
 
+## 2026-10-28：分割test-selected三组已提交，等待新缓存
+
+用户明确选定AnTao trainval/逐轮test Instance mIoU best，seed4780。源1ffd9f5已推送并在独立工作区快进部署，16CPU检查和合成test-selection完整入口通过；GPU0新DGCNN、GPU1仅双曲头、GPU2完整HC三个独立启动器已挂起。10:06为waiting_for_prepared_data，未计作正式训练或最终成绩；真实数据2×2短测通过才fresh200。HC先前4步真实短测有限但投影率高，新的共享正则梯度门槛尚待执行。旧val基线和所有既有结果未改。见[选模与运行ID](98_HYCORE_SEG_REPRODUCTION_2026-10-27/selection_protocol.md)。
+
 ## 2026-10-28：DGCNN分割基线首次启动
 
 按用户直接授权，在8000独立环境及部署工作区启动SEG-E0，源码c153715，GPU0，09:41:32fresh200轮；固定上游DGCNN、2048XYZ/k40/batch32/SGD.1/.9/1e-4/cosine200/seed4780，val选模、最终一次test。16本机/服务器CPU合同、完整尺寸2×2短测及首轮378更新/1867验证/BN378/best-last通过；正式初始化与首输入匹配短测。runID `dgcnn_seg_v1_s4780_20261028_A/main`，09:44处于e2step350，尚无最终成绩，不重复提交。见[98](98_HYCORE_SEG_REPRODUCTION_2026-10-27/implementation.md)。数据按公开normal-bearing版本适配并剔除跨split重复ID，实际12105/1867/2874；这些协议修正与HyCoRe-seg增量分开。HyCoRe-seg仅完成代码/CPU验收，未启动完整训练。
