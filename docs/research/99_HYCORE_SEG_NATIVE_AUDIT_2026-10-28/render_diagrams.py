@@ -32,7 +32,7 @@ def setup(title, subtitle, height):
     ax.axis("off")
     fig.suptitle(title, fontsize=23, y=.985, fontweight="bold", color="#172a3a")
     fig.text(.5, .949, subtitle, ha="center", fontsize=12.5, color="#465566")
-    fig.text(.25, .895, "官方 HyCoRe · DGCNN 分类", ha="center", fontsize=17, fontweight="bold")
+    fig.text(.25, .895, "HyCoRe 官方仓库 · DGCNN 分类版", ha="center", fontsize=17, fontweight="bold")
     fig.text(.75, .895, "拟改 HyCoRe-seg v2 · 原生适配", ha="center", fontsize=17, fontweight="bold")
     legend = [Patch(facecolor=COLORS[k][0], edgecolor=COLORS[k][1], label=label)
               for k, label in [("keep", "保留官方组件"), ("add", "新增分割接口"),
@@ -80,7 +80,7 @@ def save(fig, stem):
 
 def model():
     fig, ax = setup("模型结构对照：保留原分类组件，新增逐点分割接口",
-                    "右侧为待审设计，尚未实现；绿色模块保留原实现与完整参数化，物体分类头改为逐点共享头。", 16)
+                    "右侧为待审设计；B为物体批量数，N为每物体点数；1040和类别输入均为适配候选，非论文指定。", 16)
     common = [
         (.94, "输入：XYZ 点云  [B, N, 3]", "io", .052),
         (.85, "四层 EdgeConv  conv1…4\n逐点局部特征：64 / 64 / 128 / 256", "keep", .066),
@@ -127,23 +127,57 @@ def regularizer():
         ("取 emb 后的物体 / part 嵌入\nmu_whole, mu_part：256 维", "keep"),
         ("负样本 = 翻转 batch\n未保证异类 / 非自身", "io"),
         ("hype_triplet_losses\n复用基础：dist、dist0、hinge、mean", "keep"),
-        ("分类默认方向：whole 更深\nCE + .01 对比项 + .01 层次项", "io"),
+        ("分类默认方向：whole 更深\n关系分支计算对比项与层次项", "io"),
     ]
     right = [
         ("整物体只编码一次\nH = E(X)：[B, N, 512]，位于 exp 之前", "change"),
         ("H 特征空间内选 part\n随机中心近邻；N′ = 200…600", "add"),
-        ("欧氏平均：whole = mean(所有 H)\npart = mean(选中 H)", "add"),
+        ("逐物体平均：whole_i = mean_n(H_i)\npart_i = mean(H_i中选中的点)；不跨batch", "add"),
         ("复用原 expmap0 / dist / dist0\nwhole 与 part 均为 512 维球嵌入", "keep"),
-        ("显式负例索引：异物体且异类别\n无合法负例只跳过对应对比项", "change"),
+        ("显式负例索引：异物体且异类别\n仅整批单类等边界下跳过对应对比项", "change"),
         ("复用损失核并传入合法负例\nopposite_hier=True：要求 part 更深", "change"),
-        ("L = CE + .01 Rcontr + .01 Rhier\n层次间隔 1000/N′；对比间隔 4", "change"),
+        ("本分支只返回 Lreg = .01 Rcontr + .01 Rhier\n不含 CE；层次间隔1000/N′，对比间隔4", "change"),
     ]
     chain(ax, LEFT, [(y, text, kind, .088) for y, (text, kind) in zip(ys, left)])
     chain(ax, RIGHT, [(y, text, kind, .088) for y, (text, kind) in zip(ys, right)])
     save(fig, "regularizer_comparison")
 
 
+def gradients():
+    fig = plt.figure(figsize=(16, 10), facecolor="white")
+    ax = fig.add_axes([.03, .07, .94, .80])
+    ax.set(xlim=(0, 1), ylim=(0, 1)); ax.axis("off")
+    fig.suptitle("HyCoRe-seg：两分支单独计算损失，训练入口只合并一次", y=.975,
+                 fontsize=23, fontweight="bold", color="#172a3a")
+    fig.text(.5, .925, "正则分支无CE；共享backbone接收CE与正则梯度，独立分割头只接收CE梯度。",
+             ha="center", fontsize=13, color="#465566")
+    x = box(ax, (.37,.63), .95, "点云 X_i：N个点", "io", .057, 13)
+    backbone = box(ax, (.26,.74), .815, "共享 backbone Eθ\n输出 H_i [N,F]，batch堆叠为 [B,N,F]", "keep", .09, 13)
+    arrow(ax, x, backbone)
+    head = box(ax, (.06,.44), .59, "分割分支：exp → 双曲分割头 Cφ\n每点类别分数 [B,N,50]", "keep", .11, 13)
+    reg = box(ax, (.56,.94), .59, "正则分支：每物体内部取平均 → exp\nwhole用全部点，part用特征近邻点", "add", .11, 13)
+    arrow(ax, backbone, head); arrow(ax, backbone, reg)
+    ce = box(ax, (.06,.44), .355, "只计算 LCE\n监督：逐点部件标签", "change", .09, 13)
+    lr = box(ax, (.56,.94), .355, "只计算 Lreg = αRcontr + βRhier\n该分支不加入CE", "change", .09, 13)
+    arrow(ax, head, ce); arrow(ax, reg, lr)
+    total = box(ax, (.28,.72), .13, "训练入口：Ltotal = LCE + Lreg\n统一backward；CE只计入一次", "io", .105, 13)
+    arrow(ax, ce, total); arrow(ax, lr, total)
+    red = "#ab433f"
+    ax.annotate("", xy=(.30,.765), xytext=(.075,.405),
+                arrowprops={"arrowstyle":"-|>","connectionstyle":"arc3,rad=-.35",
+                            "linestyle":"--","lw":1.6,"color":red})
+    ax.annotate("", xy=(.70,.765), xytext=(.925,.405),
+                arrowprops={"arrowstyle":"-|>","connectionstyle":"arc3,rad=.35",
+                            "linestyle":"--","lw":1.6,"color":red})
+    ax.text(.12,.72, "CE梯度\n更新φ与θ", color=red, ha="center", fontsize=12)
+    ax.text(.88,.72, "正则梯度\n更新θ，不经过φ", color=red, ha="center", fontsize=12)
+    fig.text(.5,.035, "实线：前向计算 / 损失汇合    ·    红色虚线：反向梯度路径    ·    正则不得对共享H做detach",
+             ha="center", fontsize=12, color="#465566")
+    save(fig, "branch_gradient_flow")
+
+
 if __name__ == "__main__":
     model()
     regularizer()
-    print("Rendered two diagram pairs (PNG and SVG).")
+    gradients()
+    print("Rendered three diagram pairs (PNG and SVG).")

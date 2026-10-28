@@ -8,7 +8,9 @@
 
 当前 `hycore_seg_v1` 继承的是 AnTao `DGCNN_partseg`，只把最后的128→50卷积换成简化 Möbius 运算。它没有复用官方 `emb→mlr` 两层及完整权重参数化，**不满足本次重申的源码继承要求**。既有结果和代码保留为历史工程对照，不改名冒充 v2。
 
-建议的 v2 保留官方四层 EdgeConv、`conv5`、全局 max+avg、`linear1/bn6`、`expmap0`、`emb`、`mlr`、几何运算及损失核心。新增逐点融合桥，把输出从物体分类40类改为逐点部件50标签。**复用代码结构不意味着加载旧分类权重；主实验仍从头初始化。**
+建议的 v2 保留**HyCoRe官方仓库DGCNN分类模型**的四层 EdgeConv、`conv5`、全局 max+avg、`linear1/bn6`、`expmap0`、`emb`、`mlr`、几何运算及损失核心。新增逐点融合桥，把输出从物体分类40类改为逐点部件50标签。**本方案只迁移源码模块，全部参数从seed4780重新初始化；未指定或加载任何分类预训练checkpoint。**
+
+本文“官方模块”均指HyCoRe仓库上述分类模型的活动代码，不是指另一个原版DGCNN分割模型。原版DGCNN分割模型仅用于核对逐点任务的通用接口处理。
 
 此方案明确优先满足用户的原生迁移路线。论文没有公布逐层分割代码；保留四层分类编码器和新增融合桥不能被称为作者分割网络的精确恢复，整体参数量也不能直接与论文原DGCNN分割基线宣称相等。需要新结构自身的匹配对照。
 
@@ -18,7 +20,7 @@
 
 ![HyCoRe分类模型与原生分割适配的组件对照](figures/model_comparison.png)
 
-[可缩放SVG](figures/model_comparison.svg)。图中张量省略部分轴顺序，B为批量、N为点数；每个点共享同一套头部参数。
+[可缩放SVG](figures/model_comparison.svg)。图中B为物体批量数、N为每物体输入点数、F为每点特征维数；本候选F=512。`[B,40]`是每物体40个分类分数；`[B,N,50]`是每物体每点50个部件分数。每个点共享同一套头部参数。
 
 ```mermaid
 flowchart LR
@@ -59,7 +61,15 @@ flowchart LR
   class C0,C8,C9,S0,S9 io;
 ```
 
-原 `linear1(2048,512)` 完整保留在全局分支，不直接把它改成另一输入维度的层。新增融合桥解决分类已经池化掉点轴的问题，避免只修改40→50却仍然每物体输出一个类别。融合桥采用共享1×1卷积或等价逐点Linear，具体实现须固定；本计划选无偏置1×1卷积1040→512、BN、LeakyReLU(.2)。这属于有来源说明的新增适配，不是论文明确指定的逐层配置。
+原 `linear1(2048,512)` 完整保留在全局分支。分类任务的全局池化将`[B,N,F]`汇总成`[B,F]`，即不再保留逐点轴，这是物体分类所需的行为，并非分类模型缺陷。逐点任务则保留局部特征，并把全局向量广播N次再拼接；只有重复全局向量而没有局部差异，不能给出有区分的逐点预测。
+
+融合桥的思路参考[DGCNN作者分割实现](https://github.com/WangYueFt/dgcnn/blob/master/tensorflow/part_seg/part_seg_model.py)：其`out_max`池化后经`tf.tile`广播，再与`net_1/net_2/net_3`拼接后逐点预测。该分割实现也接收物体类别one-hot，并先映射成64维；本候选直接使用原始16维是我提出的简化适配，并非该源码原样结构或HyCoRe-seg论文的已定要求。
+
+当前候选`1040 = 局部512 + 广播全局512 + 类别one-hot16`。其中局部512来自四层输出64+64+128+256，全局512来自原linear1；并不是直接使用conv5的1024维。one-hot表明已知的16种物体类别，为分割提供类别条件，不提供每点部件真值；其输入是否保留属于待审候选，去掉则桥入口变成1024。负例选择仍可使用物体类别标签，不要求将该标签喂给模型。
+
+本计划已具体选定无偏置共享1×1卷积1040→512、BN、LeakyReLU(.2)。此前“具体实现须固定”是要求明确层类型、偏置、初始化和归一化等复现细节，不是留下运行时任选两种实现的开关。这是我提出的逐点适配方案，不是论文指定的逐层结构。
+
+官方`MobiusLayer`的`_weight[K,F]`是原始权重，`_bias[K,1]`参与位置/权重重参数化，`transp0`把原点切向量平行移动到相应位置的切空间。实际有效权重为`transp0(expmap0(_weight * _bias), _weight)`，再用于`mobius_matvec`。因此`_bias`不等同于普通线性层在输出末尾加上的偏置，`transp0`也不是额外的可训练矩阵。
 
 ## 3. 对照流程图：part 与正则分支
 
@@ -82,13 +92,13 @@ flowchart LR
     direction TB
     N0["整物体只编码一次"] --> N1["得到头部exp之前的<br/>欧氏逐点H：B×N×512"]
     N1 --> N2["新增适配：H空间随机中心近邻<br/>N′在200–600；从特征中取part"]
-    N1 --> N3["whole：全部H欧氏平均"]
-    N2 --> N4["part：选中H欧氏平均"]
+    N1 --> N3["whole_i：只平均物体i的N个点<br/>mean_n H_i；不跨batch平均"]
+    N2 --> N4["part_i：只平均物体i选中的点<br/>mean_n in I_i H_i"]
     N3 --> N5["复用expmap0 / dist / dist0<br/>whole和part均为512维"]
     N4 --> N5
     N5 --> N6["调整负例：异物体且异类别<br/>无合法负例时只跳过对应对比项"]
     N6 --> N7["复用关系损失核，显式传负例<br/>opposite_hier=True：part更深"]
-    N7 --> N8["CE + .01 Rcontr + .01 Rhier<br/>层次margin=1000/N′，对比margin=4"]
+    N7 --> N8["本分支仅输出Lreg<br/>.01 Rcontr + .01 Rhier，不含CE"]
   end
   classDef keep fill:#e4f3e8,stroke:#438657,color:#12351c;
   classDef change fill:#fff0dc,stroke:#bf7c24,color:#50320c;
@@ -99,6 +109,30 @@ flowchart LR
 ```
 
 分类版关系作用于经过 `emb` 的 `mu`；分割论文要求取编码器的欧氏逐点H，在欧氏域平均后exp。因此 v2 的正则入口是512维H，**不是256维mu，也不是50维输出球坐标**。正则不再额外经过 `emb`。分类损失中原有 `opposite_hier=True` 可表达正确径向符号；负例选择则需要扩展，不能照搬batch flip。[分割论文§3.1–3.2](https://iris.polito.it/retrieve/handle/11583/2982650/73ff1be4-1ad0-44ac-b539-34f81d452df4/Hyperbolic_regularizer-1.pdf)、[官方hutil](https://github.com/diegovalsesia/HyCoRe/blob/ef56a73020e309b1009c486fea1f601d3f7b3252/classification_ModelNet40/hutil.py)
+
+**平均的轴：** H表示逐点特征集合，而非一个物体已经聚合后的单token。对物体i，`H_i`形状是`[N,F]`，`h_i,n`是该物体第n点的F维特征；整个batch堆叠后H为`[B,N,F]`。严格写法为：
+
+`z_whole_i = exp0((1/N) * sum_n h_i,n)`
+
+`z_part_i = exp0((1/|I_i|) * sum_n_in_I_i h_i,n)`
+
+只在各物体内部按点平均，whole和part输出均为`[B,F]`；不会把B个物体混成一个whole。
+
+**翻转batch与缺负例：** 官方默认`neg_child_mu = torch.flip(pos_child_mu,[0])`，例如4个part的次序`[p0,p1,p2,p3]→[p3,p2,p1,p0]`。它没有判断物体类别；奇数batch的中间物体还会配到自己。分割论文要求负part来自异物体异类，因此按类别筛选。只要批中存在至少两个类别，每个anchor都可以找到异类负例；跳过仅是针对batch_size=1或整批同类等无合法负例情形的工程防护，不是论文规定，也不表示正常批次必然缺负例。跳过的只有该anchor的对比项，层次项与CE仍保留。
+
+### 3.1 两分支与梯度汇合位置（按Fig.1澄清）
+
+![分割CE与两项正则的独立分支及梯度路径](figures/branch_gradient_flow.png)
+
+[可缩放SVG](figures/branch_gradient_flow.svg)。正则分支只输出`Lreg = αRcontr + βRhier`，不再包含CE。训练入口只合并一次`Ltotal = LCE + Lreg`，再统一反向传播；这不等于把CE放进正则分支。
+
+若backbone参数为θ、独立双曲分割头参数为φ，则：
+
+`∇θ Ltotal = ∇θ LCE + α∇θ Rcontr + β∇θ Rhier`
+
+`∇φ Ltotal = ∇φ LCE`，且`∇φ Lreg = 0`。
+
+所以“正则分支只回传两项正则”与“共享backbone接收CE和正则的合力”同时成立。不得在正则分支重复加入CE，也不得detach共享H来阻断正则对backbone的训练。负part被别的物体选中时，同样可通过对比项收到梯度；离散选点索引本身不求导。现有v1的criterion返回reg-only，train入口分别计算CE并令`loss=ce+reg`；本次修正的是图示与文字歧义，不改已有训练。
 
 ## 4. 哪些直接复用，哪些需要调整
 

@@ -3,32 +3,44 @@
   "checks": {
     "seven_source_files_match_reference": true,
     "relative_links_exist": true,
-    "relative_links_checked": 25,
-    "two_diagrams_png_svg_present": true,
-    "two_diagrams_visually_reviewed": true,
+    "relative_links_checked": 27,
     "two_mermaid_sources_present": true,
-    "head_and_parameter_delta_arithmetic": true
+    "head_and_parameter_delta_arithmetic": true,
+    "three_diagrams_png_svg_present": true,
+    "three_diagrams_visually_reviewed": true,
+    "per_object_pooling_axis_clarified": true,
+    "regularizer_branch_excludes_ce": true
   },
   "artifacts": [
     {
       "file": "figures/model_comparison.png",
-      "bytes": 543517,
-      "sha256": "c7b014e6142d0bc3794f229e4a253f0e7b5a2b5031cd2eab5870311071623150"
+      "bytes": 549667,
+      "sha256": "5147c5878f18c51f86bd2ef41503c1d2ce5f671d4fc1754256e5b43251c2dcc5"
     },
     {
       "file": "figures/model_comparison.svg",
-      "bytes": 31707,
-      "sha256": "9238f163e0c9173ab4313e57b5f45adf3c59b2d747d6379197b2c75c6aa1b06f"
+      "bytes": 31716,
+      "sha256": "87bb22a92452c65ed4a6e464d68ca74c3040eb8346b7ab1aed68b5f08fde0c43"
     },
     {
       "file": "figures/regularizer_comparison.png",
-      "bytes": 465201,
-      "sha256": "696ad01d4579cb38334fe793b21f3a25369465a39496828b5f12d9cb9a615c06"
+      "bytes": 492976,
+      "sha256": "a8687d271073b6088f583ee6b2896b80c055362dfb2d9a051497ac0685bb23b3"
     },
     {
       "file": "figures/regularizer_comparison.svg",
-      "bytes": 21525,
-      "sha256": "2a866d658b360ebc1a2bf8376c29afdc25069f03e895bd8755ab90571c605a20"
+      "bytes": 21603,
+      "sha256": "cb86c79fc4d71c2a8d5b156c9e568fa4818565bbe93eb1b3fbd9c6cd7c44151b"
+    },
+    {
+      "file": "figures/branch_gradient_flow.png",
+      "bytes": 325989,
+      "sha256": "3e9bb2cc2ad962d9140b6d84707af357e93a874ca4a1b6485d82d5dbc64bf4e7"
+    },
+    {
+      "file": "figures/branch_gradient_flow.svg",
+      "bytes": 12390,
+      "sha256": "f54db6f247a60c0d3e5b77a66da9c82137c650d9ba62620517358425d41f3423"
     }
   ],
   "not_executed": [

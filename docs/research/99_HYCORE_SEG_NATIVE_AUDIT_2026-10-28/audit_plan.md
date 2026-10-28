@@ -36,8 +36,9 @@
 | `reproduction_plan.md` | 基于官方 HyCoRe 的具体分割改造、验收与实验顺序 |
 | `figures/model_comparison.png/.svg` | 用户追加要求：官方分类与拟改seg模型对照，标明保留/新增/调整 |
 | `figures/regularizer_comparison.png/.svg` | 用户追加要求：part选择、正则入口、负例和层次方向对照 |
+| `figures/branch_gradient_flow.png/.svg` | 用户七问后澄清：CE与reg独立分支、共享backbone梯度及训练入口汇合 |
 
-主报告直接嵌入两张PNG，提供SVG及可编辑Mermaid。两图已生成并逐张视觉核验；图示中右侧均标为拟改方案，避免与现有v1或作者未公开实现混淆。
+主报告直接嵌入三张PNG，提供SVG及模型/关系对照的可编辑Mermaid。三图已生成并逐张视觉核验；图示中的分割结构均标为拟改方案，避免与现有v1或作者未公开实现混淆。用户七问后已明确H_i逐物体按点平均、1040的局部/全局/类别来源与候选性质、官方指HyCoRe分类版、未选择分类checkpoint，以及正则分支不含CE。
 
 ## 4. 本轮边界与沿用决定
 
