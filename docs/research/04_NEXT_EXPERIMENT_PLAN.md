@@ -2,6 +2,8 @@
 
 ## 2026-10-28：DGCNN分割基线与HyCoRe-seg已获实现/部署授权
 
+**执行更新：** 16服务器CPU合同和真实尺寸2×2 GPU短测均通过；2026-10-28 09:41:32已在8000 GPU0 fresh启动唯一200轮基线，源c153715、runID `dgcnn_seg_v1_s4780_20261028_A/main`。首轮378更新/完整1867验证/BN378及best-last通过，09:44进入e2step350；不重复排队。独立环境、数据缓存均就绪，实际train/val/test为12105/1867/2874。下段准备状态保留为过程记录；最新状态见98执行记录。HyCoRe-seg真实GPU与完整训练尚未执行，无自动后续矩阵。
+
 用户明确“开始实现”，授权在8000创建环境、自行下载数据并将可直接复现的实验挂起训练；同时按分类HyCoRe源码和分割论文重建HyCoRe-seg。当前实施[98执行记录](98_HYCORE_SEG_REPRODUCTION_2026-10-27/implementation.md)：先纯DGCNN200轮，seed4780、SGD.1/.9/1e-4、batch32、k40、验证选模、最终一次test；HyCoRe-seg实现保留1000/N′与4、单次逐点编码和whole浅/part深，不自动追加完整矩阵或微调。16项本机CPU合同通过，服务器环境/数据准备中，正式训练尚待验收。
 
 原始公开数据划分包含9/23/3个train-val/train-test/val-test重复ID，采用test优先、再val、再train去重；原清单/剔除身份/输入SHA私有留存。原Stanford下载不可用，改用固定公开normal-bearing镜像、仅XYZ归一化/first2048适配；均列为协议变化，不冒称原HDF5逐位复现。RSGD首次动量与SGD有实质区别，后续头部对照需单列优化器效应。

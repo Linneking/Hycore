@@ -41,8 +41,8 @@ not claimed byte-identical to the original unavailable HDF5 dataset.
 The official JSON lists contain12137/1870/2874 entries. Cross-list intersections
 are9train-val,23train-test,3val-test object IDs. Keep test unchanged, then val,
 and remove cross-split duplicate IDs from lower-priority splits. Retain original
-split files and all removed IDs in the private manifest. Effective counts and
-per-split input/file hashes will be recorded after preparation. This explicit
+split files and all removed IDs in the private manifest. Effective counts are
+12105/1867/2874, with per-split input/file hashes in the complete manifest. This explicit
 protocol correction is applied to every future matched arm; it must not be
 attributed to HyCoRe-seg.
 
@@ -72,11 +72,34 @@ They did not change the baseline network or training recipe.
 
 ### Server acceptance and production
 
-Server environment and data preparation are in progress. Before production:
-run server CPU contracts, an independent full-size2epoch×2step smoke, verify
-finite actual optimizer/checkpoints,BN4,200epoch scheduler,zero official test,
-then start fresh200 from seed in a new directory. Every GPU allocation rechecks
-nvidia-smi and refuses occupied devices. The detached launcher only chains the
-baseline smoke and baseline production; it does not launch HyCoRe-seg training.
+The independent8000 environment is ready: Python3.9,PyTorch2.8.0+cu128,
+Geoopt0.5.1,h5py3.14.0,NumPy1.26.4. Dependencies were copied into a separate
+runtime and the cloned environment's path changed only there; old environments
+and runtime files were not modified.16server CPU contracts pass. A first server
+test exposed one FP32 ULP of SGD/retraction rounding; the mathematical equivalence
+test now uses FP64 analytic-scale tolerance, with the real momentum difference
+still tested explicitly. No optimizer or baseline update was changed to pass it.
 
-No new segmentation accuracy is reported at this preparation stage.
+The full-size batch32/2048-point2epoch×2step GPU smoke passed all10acceptance
+checks:4updates,BN4,finite model/optimizer,complete state,200epoch cosine,
+no regularizer,zero official test. Its weights are not used for production.
+The CPU end-to-end runner also passed2×2 for both baseline and HyCoRe-seg on
+clearly labelled synthetic small fixtures; this is engineering evidence, not
+segmentation performance or a real-data HyCoRe-seg GPU acceptance.
+
+At **2026-10-28 09:41:32 Asia/Shanghai**, the baseline started fresh200epochs
+on8000 physicalGPU0, runID `dgcnn_seg_v1_s4780_20261028_A/main`, source
+`c15371536bc5dacef90825cc8b886b94563b0a98`. It is detached from the chat.
+The source checkout is separate from existing server runs and remains frozen.
+
+Independent startup readout confirms first epoch378updates/12096training
+objects seen (drop9),1867validation objects,BN378,regularizer0,best/last saved,
+exactly matching smoke initialization and first input. First epoch took82.17s,
+peak allocated18,622,219,776bytes. At09:44:06 it was epoch2/step350/728updates.
+The official test has not been evaluated yet. See [sanitized startup evidence](startup_acceptance.json).
+
+Only baseline production is running. HyCoRe-seg is implemented, CPU-checked
+and deployed but its real-data GPU validation and full training remain subsequent
+work after the baseline gate. No final200epoch result is claimed here; no
+automatic extra experiment matrix, checkpoint fine-tuning or monitoring task
+was created. Do not dispatch this baseline a second time.

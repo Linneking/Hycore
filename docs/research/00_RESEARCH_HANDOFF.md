@@ -1,5 +1,11 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-28：DGCNN分割基线已在8000启动，HyCoRe-seg完成代码与CPU验收
+
+用户授权实现、下载数据/建环境并在8000训练。见[98执行记录](98_HYCORE_SEG_REPRODUCTION_2026-10-27/implementation.md)：独立分割目录、固定MIT DGCNN、16本机/服务器CPU合同及真实batch32/2048点2×2 GPU短测通过；普通SGD.1/.9/1e-4、200轮cosine、seed4780、验证选模/最终一次test。2026-10-28 09:41:32在GPU0 fresh启动200轮，runID `dgcnn_seg_v1_s4780_20261028_A/main`，源码c153715；首轮378更新/1867验证/BN378/best-last及与短测初始化/首输入一致验收通过，09:44已e2step350。禁止重复提交；不改旧训练或结果。
+
+公开normal-bearing数据去normals后XYZ归一化/first2048适配；原官方清单9/23/3跨split重复ID按test>val>train去重，实际12105/1867/2874，来源和SHA保留，不能冒称原HDF5逐位复现。HyCoRe-seg按1000/N′与4、单次编码/whole浅part深实现并通过合成完整入口CPU检查，尚未做真实数据GPU验收或完整训练。仅基线后台进行，无新增矩阵/自动监控；RSGD首次动量不同于SGD，已明确归为协议差异。
+
 ## 2026-10-27：用户授权TS25，TS23初始化系数0.9→0.7完整消融
 
 用户选TS23/B13而非TS20，明确在8000跑完整300轮。新别名TS25/B13，CB32有放回16类×2／200步、Ks10/Kp10、lambda.1、A1 AdamW.005/1e-4、seed4780；唯一配方变化为高斯初始化系数.9→.7，保留原方向及模长差异，不额外等深归一。见[97配置](97_TS25_TS23_INIT07_FULL_2026-10-27/run.md)。GPU1先核查空闲，独立train-only2×2短测和完整保存状态通过后fresh300×200，保留原TS评估及300余弦；不复用短测权重。6本机合同、服务器CPU检查及独立2×2短测均通过；2026-10-27 17:01在8000 GPU1启动，正式训练已完成e1/200步并保存e0/e1/best/last，进入e2。运行目录标识`ts25_ts23_init07_full_20261027_170102/main`，源码`c9f0c3a`，脱离会话运行；禁止重复提交。完整证据私有保存，97目录含脱敏验收JSON；300轮尚未完成。
