@@ -1,5 +1,11 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-28：HyCoRe-seg源码继承路线修订，原生v2计划待审
+
+用户明确从官方HyCoRe DGCNN分类模型改造分割，并要求在审查报告画出组件变化。已完成[99源码审查与流程图](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/audit_report.md)和[具体复现计划](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)：保留官方四EdgeConv、conv5、全局max+avg、linear1/BN6、exp和完整emb/mlr；新增1040→512逐点融合，输出40→50，特征正则按论文从512维欧氏H平均后exp，opposite_hier=True且显式异物体异类负例。此候选优先复用源码，不能声称精确恢复论文未公开的分割逐层结构或原DGCNN分割总参数量。
+
+实施顺序为固定来源→官方组件输出/梯度回归→逐点语义与参数核验→完整尺寸无test短测→fresh原生H0→匹配HC。新路径hycore_seg_v2，旧分类/v1/结果不动；源LR.01/clip1与显式plain CE为待审主建议。seed4780、1000/N′/4及用户既定trainval/逐轮test Instance mIoU选best沿用。当前只审查、文档和绘图，未实现或部署v2；此表不构成新训练排队授权，待用户审阅。
+
 ## 2026-10-28：用户确认AnTao trainval/test选模，启动HyCoRe-seg匹配实验
 
 用户要求HyCoRe-seg设计并实验，追问选模后明确选择：沿用已选AnTao PyTorch的train+val训练、逐轮test Instance mIoU选best；seed统一4780。见[选模证据与设计](98_HYCORE_SEG_REPRODUCTION_2026-10-27/selection_protocol.md)。论文未指定选模；作者TF代码与社区默认不同。旧val-selected基线继续原协议，不中途更改；新增test-selected DGCNN、无正则双曲头H0及完整HC，在新目录匹配初始化fresh200，不early-stop。默认margin1000/N′和4、两项系数.01。恢复raw release成员的trainval14007/test2874；保留原重复ID，并声明与原Stanford HDF5的预处理差异。

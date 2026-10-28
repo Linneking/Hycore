@@ -1,5 +1,11 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-28：HyCoRe-seg按用户重申改走官方分类源码原生迁移，审查与图示完成待审
+
+用户明确要求从官方HyCoRe DGCNN分类模型改造分割，尽量完整复用组件；此前AnTao分割末层简化替换的v1不符合该源码继承路线。见[99审查报告与组件对照图](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/audit_report.md)、[复现计划](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)。建议保留四EdgeConv/conv5/global max+avg/原linear1-BN6/完整exp-emb-mlr，新增local512+global512+category16→512逐点融合桥，mlr40→50；正则从512维欧氏H池化后exp，复用原损失核/opposite_hier=True并适配异类负例。官方_weight/_bias/transp0完整保留，不再用裸W替代。
+
+99包含模型及正则两组PNG/SVG与Mermaid对照图、三专项源码/论文审查和验收方案。原生LR.01/clip1与显式plain CE属待审主建议；seed4780、1000/N′/4、既定trainval/test选模继续。新增融合与四层编码器不同于论文未公开分割结构，参数量和显存须独立核验。此次仅本地静态审查/文档/绘图，未实现v2、连接服务器、用GPU或新增/停止训练；旧v1和结果保留。禁止把该计划当作已授权的新矩阵排队。
+
 ## 2026-10-28：分割选模已由用户明确改为AnTao默认，三匹配任务已提交等待数据
 
 用户要求HyCoRe-seg实验，核查选模后选择train+val训练/逐轮test Instance mIoU选best，全部seed4780；覆盖旧分割val偏好，不中途改已有val基线。见[98选模与任务状态](98_HYCORE_SEG_REPRODUCTION_2026-10-27/selection_protocol.md)。源1ffd9f5，16本机/服务器CPU及合成test-selection完整入口通过。新数据恢复原raw列表trainval14007/test2874（保留原列表重复身份，非原HDF5逐位复现）。DGCNN/H0/HC分别已提交GPU0/1/2，运行ID见98；10:06状态均waiting_for_prepared_data，尚无新协议生产结果，数据完成且空闲GPU短测通过后自动fresh200。禁止重复提交。旧val基线继续后台，源c153715不动。

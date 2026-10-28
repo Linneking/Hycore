@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "checks": {
+    "seven_source_files_match_reference": true,
+    "relative_links_exist": true,
+    "relative_links_checked": 25,
+    "two_diagrams_png_svg_present": true,
+    "two_diagrams_visually_reviewed": true,
+    "two_mermaid_sources_present": true,
+    "head_and_parameter_delta_arithmetic": true
+  },
+  "artifacts": [
+    {
+      "file": "figures/model_comparison.png",
+      "bytes": 543517,
+      "sha256": "c7b014e6142d0bc3794f229e4a253f0e7b5a2b5031cd2eab5870311071623150"
+    },
+    {
+      "file": "figures/model_comparison.svg",
+      "bytes": 31707,
+      "sha256": "9238f163e0c9173ab4313e57b5f45adf3c59b2d747d6379197b2c75c6aa1b06f"
+    },
+    {
+      "file": "figures/regularizer_comparison.png",
+      "bytes": 465201,
+      "sha256": "696ad01d4579cb38334fe793b21f3a25369465a39496828b5f12d9cb9a615c06"
+    },
+    {
+      "file": "figures/regularizer_comparison.svg",
+      "bytes": 21525,
+      "sha256": "2a866d658b360ebc1a2bf8376c29afdc25069f03e895bd8755ab90571c605a20"
+    }
+  ],
+  "not_executed": [
+    "v2_forward",
+    "v2_backward",
+    "GPU_memory_smoke",
+    "new_training"
+  ]
+}

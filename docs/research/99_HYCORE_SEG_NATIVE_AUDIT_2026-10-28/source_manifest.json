@@ -1,0 +1,46 @@
+{
+  "format": "native_hycore_seg_audit_sources_v1",
+  "recorded_at": "2026-10-28T16:21:30.975435+08:00",
+  "upstream_repository": "https://github.com/diegovalsesia/HyCoRe",
+  "reference_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+  "local_audit_base": "f96b5db6451896226e66bbe10b08966223b4f140",
+  "source_files_match_reference": true,
+  "files": [
+    {
+      "path": "classification_ModelNet40/models/dgcnn_hmodel.py",
+      "sha256": "55fe6110f188010691f43dd120f30ec0728594a7802ec32a2da017058ed6baec",
+      "bytes": 7146
+    },
+    {
+      "path": "classification_ModelNet40/models/ops/manifold_layers.py",
+      "sha256": "131ef8c4589b41d1a0d96ccd29859f22ea365781f2f19be9e45a605b98dcb642",
+      "bytes": 7833
+    },
+    {
+      "path": "classification_ModelNet40/models/manifolds/poincareball.py",
+      "sha256": "572b8be51fdfce9fcd3eaed6074cf1c936323d21aa0768780c485bf214b31af4",
+      "bytes": 2748
+    },
+    {
+      "path": "classification_ModelNet40/hutil.py",
+      "sha256": "ae43a167430d38c980149f8bd100819a4f65d0b617957d1f9e7ee9d001a97781",
+      "bytes": 5026
+    },
+    {
+      "path": "classification_ModelNet40/main_dgcnn_hycore.py",
+      "sha256": "955be10d37bc55e98e33cc293a74843d8f1077eea48422472fb76070d3878465",
+      "bytes": 13927
+    },
+    {
+      "path": "classification_ModelNet40/data.py",
+      "sha256": "44cae3113b3cbb06e3fc29ebc0ab2edcdb787dc8d4e75054f93ee915658a4cf6",
+      "bytes": 3803
+    },
+    {
+      "path": "classification_ModelNet40/utils/misc.py",
+      "sha256": "b1494d0dd48ce23e909e742b02c04896aac44c58f95a35bdc1e2b592d3045171",
+      "bytes": 6420
+    }
+  ],
+  "scope": "static_source_and_paper_audit_only; no v2 model execution or training"
+}

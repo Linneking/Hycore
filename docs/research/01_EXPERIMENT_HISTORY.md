@@ -1,5 +1,9 @@
 # Experiment history
 
+## 2026-10-28：HyCoRe-seg原生源码迁移审查完成，未新增实验
+
+用户重申以官方HyCoRe DGCNN分类模型为基础，尽量复用源码，而非从AnTao分割模型换头。新增[99审查报告](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/audit_report.md)及[待审复现计划](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)，包含官方与拟改seg的模型/正则两组组件着色流程图（PNG/SVG和Mermaid）。核实官方完整MobiusLayer含_weight/_bias/transp0；源CE实际默认平滑.2、LR.01、clip1；原损失已有opposite_hier开关。主候选保留四层encoder/全局分支/双层头，新增1040→512融合，mlr40→50，正则取512维pre-exp H并适配异类负例。三专项审查有来源映射；实际数值/显存回归留待实现。本轮无服务器/GPU/训练动作；已有v1归历史工程路线，不删除或重标结果，不自动启动v2。
+
 ## 2026-10-28：分割test-selected三组已提交，等待新缓存
 
 用户明确选定AnTao trainval/逐轮test Instance mIoU best，seed4780。源1ffd9f5已推送并在独立工作区快进部署，16CPU检查和合成test-selection完整入口通过；GPU0新DGCNN、GPU1仅双曲头、GPU2完整HC三个独立启动器已挂起。10:06为waiting_for_prepared_data，未计作正式训练或最终成绩；真实数据2×2短测通过才fresh200。HC先前4步真实短测有限但投影率高，新的共享正则梯度门槛尚待执行。旧val基线和所有既有结果未改。见[选模与运行ID](98_HYCORE_SEG_REPRODUCTION_2026-10-27/selection_protocol.md)。
