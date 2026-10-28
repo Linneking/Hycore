@@ -1,0 +1,41 @@
+{
+  "hycore_repository": "https://github.com/diegovalsesia/HyCoRe",
+  "hycore_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+  "antao_commit": "07d534c2702905010ec9991619f552d8cacae45b",
+  "files": [
+    {
+      "path": "classification_ModelNet40/models/dgcnn_hmodel.py",
+      "lf_sha256": "15b042f5eff7677a346268b2a519592f55eb2b8f43e79fd59df5bd45d054c5af"
+    },
+    {
+      "path": "classification_ModelNet40/models/ops/manifold_layers.py",
+      "lf_sha256": "f792ae163760bf81142c894e5a419b958260b80abea5f6f19c13428a6d8e2041"
+    },
+    {
+      "path": "classification_ModelNet40/models/manifolds/poincareball.py",
+      "lf_sha256": "c36447e3cfcb71e9ad8ee2c8dcca187f8d7dc2d3a76ed195cabf3373dafc11cb"
+    },
+    {
+      "path": "classification_ModelNet40/hutil.py",
+      "lf_sha256": "2821f4ac43416a81d04e02c23ef38de11aec6b8f8f45065febed01cdbf6db04a"
+    },
+    {
+      "path": "segmentation_ShapeNetPart/hycore_seg_v1/vendor/dgcnn_model.py",
+      "lf_sha256": "3749119bc01a183035165fedb8897b3372951f79211943044874a6a70171ef99"
+    }
+  ],
+  "reuse": {
+    "geometry": "load exact original poincareball.py by file path; no package initializer, no AST extraction",
+    "layers": "faithful copies of RiemannianLayer and MobiusLayer, including complete parameterization/reset",
+    "loss_and_ce": "faithful copies of hutil.hype_triplet_losses and cal_loss",
+    "graph": "faithful classification knn/get_graph_feature with device=x.device compatibility change",
+    "class_encoder": "same conv1..conv5/bn1..bn6 modules and operation order as original class model; final pooling/projection adapted per arm",
+    "partseg_encoder": "instantiate existing pinned DGCNN_partseg; preserve original initialization order and frontend modules; discard ordinary conv9/10/11, bn9/10, dp2 before constructing official Mobius layers"
+  },
+  "explicit_adaptations": [
+    "P0 pointwise linear1(1024,512), BN over B*N points; no global pooling/category",
+    "Pglobal concat pointwise T1024 with repeated max(T)1024; pointwise linear1(2048,512)",
+    "Pseg3 original onehot category and STN/global-local fusion1280->256 with dp1; H256 before exp; three new official Mobius instances 256->256->128->50; no tail BN/activation/dp2",
+    "All arms fresh initialization; no pretrained/checkpoint/teacher"
+  ]
+}
