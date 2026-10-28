@@ -1,5 +1,9 @@
 # Experiment history
 
+## 2026-10-28：seg设计精简，未新增实验
+
+用户批注要求少增实体、去one-hot、额外局部绕接考虑消融，并质疑替换原flip。99已修订为保留原逐点encoder、主路径省最后global池化，原linear1改1024→512逐点投影，沿用完整双曲头；不新增融合桥，额外绕接仅待审。重核两篇论文负例定义一致；主候选保留官方flip，增加同类/自身配对统计，论文异类语义差异单列。三张PNG/SVG、报告、计划同步；所有模型代码及旧结果未动，无服务器/GPU动作。旧1040桥属于历史候选。
+
 ## 2026-10-28：HyCoRe-seg原生源码迁移审查完成，未新增实验
 
 用户重申以官方HyCoRe DGCNN分类模型为基础，尽量复用源码，而非从AnTao分割模型换头。新增[99审查报告](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/audit_report.md)及[待审复现计划](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)，包含官方与拟改seg的模型/正则两组组件着色流程图（PNG/SVG和Mermaid）。核实官方完整MobiusLayer含_weight/_bias/transp0；源CE实际默认平滑.2、LR.01、clip1；原损失已有opposite_hier开关。主候选保留四层encoder/全局分支/双层头，新增1040→512融合，mlr40→50，正则取512维pre-exp H并适配异类负例。三专项审查有来源映射；实际数值/显存回归留待实现。本轮无服务器/GPU/训练动作；已有v1归历史工程路线，不删除或重标结果，不自动启动v2。

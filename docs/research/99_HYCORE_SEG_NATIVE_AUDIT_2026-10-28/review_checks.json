@@ -3,34 +3,39 @@
   "checks": {
     "seven_source_files_match_reference": true,
     "relative_links_exist": true,
-    "relative_links_checked": 27,
+    "relative_links_checked": 32,
     "two_mermaid_sources_present": true,
     "head_and_parameter_delta_arithmetic": true,
     "three_diagrams_png_svg_present": true,
     "three_diagrams_visually_reviewed": true,
     "per_object_pooling_axis_clarified": true,
-    "regularizer_branch_excludes_ce": true
+    "regularizer_branch_excludes_ce": true,
+    "main_has_no_onehot": true,
+    "no_added_fusion_bridge": true,
+    "extra_skip_is_ablation_only": true,
+    "main_keeps_native_flip": true,
+    "flip_counterexample_verified": true
   },
   "artifacts": [
     {
       "file": "figures/model_comparison.png",
-      "bytes": 549667,
-      "sha256": "5147c5878f18c51f86bd2ef41503c1d2ce5f671d4fc1754256e5b43251c2dcc5"
+      "bytes": 552886,
+      "sha256": "0e921530feed56da20b0c1896d32f9c8186b467367d145d90eed0901ac5d9eaf"
     },
     {
       "file": "figures/model_comparison.svg",
-      "bytes": 31716,
-      "sha256": "87bb22a92452c65ed4a6e464d68ca74c3040eb8346b7ab1aed68b5f08fde0c43"
+      "bytes": 29857,
+      "sha256": "d6fc7364fb51640421b491b791a7d0fd06b4ba6495ccabb73e4da258a283506d"
     },
     {
       "file": "figures/regularizer_comparison.png",
-      "bytes": 492976,
-      "sha256": "a8687d271073b6088f583ee6b2896b80c055362dfb2d9a051497ac0685bb23b3"
+      "bytes": 492246,
+      "sha256": "8438631f6e2c06c41843a811e09bd1d7259deec6134bfb626a9fadf17bc39765"
     },
     {
       "file": "figures/regularizer_comparison.svg",
-      "bytes": 21603,
-      "sha256": "cb86c79fc4d71c2a8d5b156c9e568fa4818565bbe93eb1b3fbd9c6cd7c44151b"
+      "bytes": 21601,
+      "sha256": "adf9d8ff3f1ecf4d6135f51039112c62706372f3c6350dd79f9ec5d1f834ec68"
     },
     {
       "file": "figures/branch_gradient_flow.png",
@@ -40,7 +45,7 @@
     {
       "file": "figures/branch_gradient_flow.svg",
       "bytes": 12390,
-      "sha256": "f54db6f247a60c0d3e5b77a66da9c82137c650d9ba62620517358425d41f3423"
+      "sha256": "41894e1b13ce8c001ef779830576ed4893e7b1533549b57244963966d3ec1cc7"
     }
   ],
   "not_executed": [
@@ -48,5 +53,17 @@
     "v2_backward",
     "GPU_memory_smoke",
     "new_training"
-  ]
+  ],
+  "static_parameter_budget": {
+    "head": 144178,
+    "delta_vs_original_classification": -521718,
+    "reduction_vs_previous_bridge_candidate": 1057792
+  },
+  "flip_counterexample": {
+    "batch_size": 32,
+    "distinct_classes": 2,
+    "anchors_with_different_class_candidate": 32,
+    "same_class_flip_pairs": 32,
+    "self_flip_pairs": 0
+  }
 }

@@ -79,8 +79,8 @@ def save(fig, stem):
 
 
 def model():
-    fig, ax = setup("模型结构对照：保留原分类组件，新增逐点分割接口",
-                    "右侧为待审设计；B为物体批量数，N为每物体点数；1040和类别输入均为适配候选，非论文指定。", 16)
+    fig, ax = setup("模型结构对照：不加融合桥，直接保留逐点轴",
+                    "右侧为精简待审主方案；无类别one-hot、无额外局部绕接；B为物体数，N为每物体点数。", 16)
     common = [
         (.94, "输入：XYZ 点云  [B, N, 3]", "io", .052),
         (.85, "四层 EdgeConv  conv1…4\n逐点局部特征：64 / 64 / 128 / 256", "keep", .066),
@@ -95,24 +95,19 @@ def model():
         (.13, "物体类别分数  [B, 40]\n同时返回物体嵌入 mu [B, 256]", "io", .066),
         (.04, "物体分类 cal_loss\n原入口实际默认 label smoothing = .2", "io", .066),
     ])
-    chain(ax, RIGHT, common + [
-        (.485, "新增逐点融合桥：1040 → 512\n局部512 + 广播全局512 + 类别one-hot16\n得到欧氏逐点 H [B, N, 512]", "add", .079),
+    chain(ax, RIGHT, common[:3] + [
+        (.67, "省去分类末尾的全局 max + avg\n保留 T [B, N, 1024]，不汇总掉点轴", "change", .066),
+        (.58, "适配原 linear1：1024 → 512，逐点共享\n沿用 BN6 / LeakyReLU，得到 H [B, N, 512]", "change", .066),
         (.40, "复用 expmap0：每点 512 维 → 双曲球", "keep", .055),
         (.31, "复用原 emb：512 → 256，逐点共享\n完整保留 _weight / _bias / transp0", "keep", .066),
         (.22, "复用原 mlr：256 → 50\n调整：物体类别40 → 部件标签50", "change", .066),
         (.13, "逐点部件分数  [B, N, 50]\nH 另供论文正则分支使用", "change", .066),
         (.04, "复用 cal_loss，监督改为逐点标签\n显式 smoothing=False（分割适配选择）", "change", .066),
     ])
-    ax.text(.24, .49, "保留每物体分类路径", ha="center", va="center", fontsize=11, color="#697482")
-    # Expose local features without passing through the global pooling bottleneck.
-    ax.plot([RIGHT[0], .505, .505, RIGHT[0]], [.85, .85, .485, .485],
-            color=COLORS["add"][1], linestyle="--", linewidth=1.4, zorder=1)
-    ax.annotate("", xy=(RIGHT[0], .485), xytext=(.525, .485),
-                arrowprops={"arrowstyle": "-|>", "color": COLORS["add"][1], "lw": 1.4}, zorder=2)
-    ax.text(.492, .676, "局部多尺度特征 512", rotation=90, va="center", ha="center",
-            fontsize=10.5, color=COLORS["add"][1])
-    ax.text(.77, .985, "另输入已知物体类别 one-hot16 → 融合桥", ha="center", fontsize=10.5,
-            color=COLORS["add"][1])
+    ax.text(.24, .49, "保留每物体分类路径", ha="center", va="center", fontsize=11, color="#697482",
+            bbox={"facecolor": "white", "edgecolor": "none", "pad": 3}, zorder=5)
+    ax.text(.77, .49, "无新增融合桥；额外多尺度绕接仅作后续消融\n原 encoder 内部的四层拼接仍保留", ha="center", va="center",
+            fontsize=10.8, color="#52697f", bbox={"facecolor": "white", "edgecolor": "none", "pad": 3}, zorder=5)
     save(fig, "model_comparison")
 
 
@@ -125,7 +120,7 @@ def regularizer():
         ("get_children_np：XYZ 近邻裁剪\n得到 part；原函数会写入输入切片", "io"),
         ("whole 与 part 分别前向\n同一编码器运行两次", "io"),
         ("取 emb 后的物体 / part 嵌入\nmu_whole, mu_part：256 维", "keep"),
-        ("负样本 = 翻转 batch\n未保证异类 / 非自身", "io"),
+        ("负样本 = 翻转 batch\n未按类别筛选", "keep"),
         ("hype_triplet_losses\n复用基础：dist、dist0、hinge、mean", "keep"),
         ("分类默认方向：whole 更深\n关系分支计算对比项与层次项", "io"),
     ]
@@ -134,8 +129,8 @@ def regularizer():
         ("H 特征空间内选 part\n随机中心近邻；N′ = 200…600", "add"),
         ("逐物体平均：whole_i = mean_n(H_i)\npart_i = mean(H_i中选中的点)；不跨batch", "add"),
         ("复用原 expmap0 / dist / dist0\nwhole 与 part 均为 512 维球嵌入", "keep"),
-        ("显式负例索引：异物体且异类别\n仅整批单类等边界下跳过对应对比项", "change"),
-        ("复用损失核并传入合法负例\nopposite_hier=True：要求 part 更深", "change"),
+        ("保留原 flip 配对，不默认替换采样器\n记录同类 / 自身比例；论文异类语义另列", "keep"),
+        ("复用原损失核与 flip 负part\nopposite_hier=True：要求 part 更深", "change"),
         ("本分支只返回 Lreg = .01 Rcontr + .01 Rhier\n不含 CE；层次间隔1000/N′，对比间隔4", "change"),
     ]
     chain(ax, LEFT, [(y, text, kind, .088) for y, (text, kind) in zip(ys, left)])

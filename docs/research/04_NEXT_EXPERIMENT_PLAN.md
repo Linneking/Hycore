@@ -1,5 +1,11 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-28：最新精简主候选P0，覆盖旧1040桥草案
+
+按用户三批注：去类别one-hot；额外局部多尺度绕接非必需，只留后续消融；原码flip优先保留。[99现行计划](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)采用原HyCoRe四EdgeConv→原内部cat512→conv5逐点1024，主路径省global max+avg，原linear1改1024→512逐点共享并沿用BN6/激活，H[B,N,512]→原exp/emb/mlr50。无新增融合桥。保留原内部多层拼接不等于新增绕接，移除global上下文及BN统计轴改变须以H0验收。
+
+分类与分割论文负part均异物体异类；shuffle/批内存在异类不保证flip配对异类。尊重用户要求，主候选原样flip并记录同类/自身配对率，不默默筛除或替换；严格异类版本只作待审协议对照。seed4780、1000/N′/4及既定trainval/test选模沿用。仅设计修订，尚未实现v2或提交新训练。
+
 ## 2026-10-28：HyCoRe-seg源码继承路线修订，原生v2计划待审
 
 用户明确从官方HyCoRe DGCNN分类模型改造分割，并要求在审查报告画出组件变化。已完成[99源码审查与流程图](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/audit_report.md)和[具体复现计划](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)：保留官方四EdgeConv、conv5、全局max+avg、linear1/BN6、exp和完整emb/mlr；新增1040→512逐点融合，输出40→50，特征正则按论文从512维欧氏H平均后exp，opposite_hier=True且显式异物体异类负例。此候选优先复用源码，不能声称精确恢复论文未公开的分割逐层结构或原DGCNN分割总参数量。

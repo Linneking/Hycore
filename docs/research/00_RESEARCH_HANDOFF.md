@@ -1,5 +1,11 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-28：用户三批注后简化seg主候选，去one-hot/新增桥，保留原flip
+
+当前主候选见[99修订审查](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/audit_report.md)与[计划](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)：保留HyCoRe四EdgeConv/原内部cat/conv5，主路径省去分类末尾global max+avg，原linear1入维2048改1024、输出512并逐点调用，沿用BN6/激活和完整exp/emb/mlr，输出[B,N,50]。不输入one-hot，不新增1040融合桥；原encoder内部多层cat保留，额外绕接仅列后续消融。两篇论文负part均定义为异物体异类，非分割新增；按用户源码优先意见保留官方flip，仅统计同类/自身比例，不擅自换采样器，明确存在异类候选不等于flip配到异类。
+
+新主候选静态参数较原分类减少521718，较旧桥方案减少1057792；BN需[B,512,N]或[B*N,512]。以下保留global/1040桥的条目为历史初稿，已由本条覆盖。本轮仅文档/流程图修订，无v2实现、服务器连接、GPU或新训练。
+
 ## 2026-10-28：HyCoRe-seg按用户重申改走官方分类源码原生迁移，审查与图示完成待审
 
 用户明确要求从官方HyCoRe DGCNN分类模型改造分割，尽量完整复用组件；此前AnTao分割末层简化替换的v1不符合该源码继承路线。见[99审查报告与组件对照图](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/audit_report.md)、[复现计划](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)。建议保留四EdgeConv/conv5/global max+avg/原linear1-BN6/完整exp-emb-mlr，新增local512+global512+category16→512逐点融合桥，mlr40→50；正则从512维欧氏H池化后exp，复用原损失核/opposite_hier=True并适配异类负例。官方_weight/_bias/transp0完整保留，不再用裸W替代。
