@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-28：P0主结构获用户认可，全局拼接列为优先消融
+
+用户认可简单逐点原生适配：原conv5输出[B,N,1024]→共享linear1(1024,512)→H[B,N,512]→原exp/emb512→256/mlr256→50。拟比较Pglobal=concat(T1024,广播全局max1024)→共享linear1(2048,512)，其余结构/协议相同，无one-hot；比P0多524288权重，不与旧额外低层绕接混合。99报告和计划补齐分类普通Linear与HyCoRe两Mobius的维度对应及BN/dropout差异。仅认可设计方向，尚未实施/排队新训练；此前旧桥候选继续仅留历史。
+
 ## 2026-10-28：用户三批注后简化seg主候选，去one-hot/新增桥，保留原flip
 
 当前主候选见[99修订审查](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/audit_report.md)与[计划](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)：保留HyCoRe四EdgeConv/原内部cat/conv5，主路径省去分类末尾global max+avg，原linear1入维2048改1024、输出512并逐点调用，沿用BN6/激活和完整exp/emb/mlr，输出[B,N,50]。不输入one-hot，不新增1040融合桥；原encoder内部多层cat保留，额外绕接仅列后续消融。两篇论文负part均定义为异物体异类，非分割新增；按用户源码优先意见保留官方flip，仅统计同类/自身比例，不擅自换采样器，明确存在异类候选不等于flip配到异类。

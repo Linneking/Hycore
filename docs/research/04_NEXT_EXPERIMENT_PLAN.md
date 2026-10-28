@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-28：用户认可简单P0，新增全局拼接消融方向
+
+用户认可原conv5逐点1024→共享Linear512→原exp/emb/mlr的简单结构，并提出与DGCNN式全局特征拼接对比。主候选P0保持，优先消融Pglobal：concat(T_i,n1024,broadcast(max_N T)1024)=2048→共享Linear512→同两层双曲头；无one-hot，不恢复旧桥或额外低层绕接。Pglobal多524288权重，报告容量差异。分类原头linear2(512,256)/linear3(256,40)与HyCoRe两Mobius宽度对应，但BN/dropout路径亦改变；原partseg尾部不同，不据此自动增加双曲层。此为设计认可，未授权新训练启动。
+
 ## 2026-10-28：最新精简主候选P0，覆盖旧1040桥草案
 
 按用户三批注：去类别one-hot；额外局部多尺度绕接非必需，只留后续消融；原码flip优先保留。[99现行计划](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/reproduction_plan.md)采用原HyCoRe四EdgeConv→原内部cat512→conv5逐点1024，主路径省global max+avg，原linear1改1024→512逐点共享并沿用BN6/激活，H[B,N,512]→原exp/emb/mlr50。无新增融合桥。保留原内部多层拼接不等于新增绕接，移除global上下文及BN统计轴改变须以H0验收。

@@ -3,7 +3,7 @@
   "checks": {
     "seven_source_files_match_reference": true,
     "relative_links_exist": true,
-    "relative_links_checked": 32,
+    "relative_links_checked": 35,
     "two_mermaid_sources_present": true,
     "head_and_parameter_delta_arithmetic": true,
     "three_diagrams_png_svg_present": true,
@@ -65,5 +65,11 @@
     "anchors_with_different_class_candidate": 32,
     "same_class_flip_pairs": 32,
     "self_flip_pairs": 0
+  },
+  "accepted_design": {
+    "main": "P0: per-point 1024->512, two native Mobius layers",
+    "ablation_direction": "Pglobal: per-point1024 + broadcast global-max1024 -> 512",
+    "global_ablation_additional_weights": 524288,
+    "new_training_launched": false
   }
 }
