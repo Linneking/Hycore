@@ -1,0 +1,97 @@
+{
+  "verified_at": "2026-10-29T13:34:48.557368+00:00",
+  "source_commit": "9033a80135d1b45b0ce11bc7e2135f79ddc5a8a0",
+  "server_cpu_contract_tests": 26,
+  "server_cpu_pair": {
+    "exact_initial_state_including_bn": true,
+    "paired_first_input_each_epoch": true,
+    "paired_initial_part_indices": true,
+    "paired_independent_RNG_progression": true,
+    "paired_global_RNG_progression": true,
+    "only_active_loss_coefficients_differ": true
+  },
+  "gpu2_new_successor": false,
+  "old_D_queue_cancelled_before_training": true,
+  "arms": {
+    "d": {
+      "gpu": 0,
+      "queue_state": "waiting_for_predecessor",
+      "detached_launcher_alive": true,
+      "ppid1": true,
+      "regularizers_active": true,
+      "regularizer_diagnostics_only": false,
+      "smoke_started": false,
+      "production_started": false,
+      "predecessor_epoch": 160
+    },
+    "e": {
+      "gpu": 1,
+      "queue_state": "waiting_for_predecessor",
+      "detached_launcher_alive": true,
+      "ppid1": true,
+      "regularizers_active": false,
+      "regularizer_diagnostics_only": true,
+      "smoke_started": false,
+      "production_started": false,
+      "predecessor_epoch": 163
+    }
+  },
+  "predecessors": {
+    "a": {
+      "state": "training",
+      "epoch": 160,
+      "updates": 69733,
+      "remaining_minutes_estimate": 70.6,
+      "finish_Beijing_estimate": "2026-10-29T22:45:23.663735+08:00",
+      "last_epoch_seconds_median": 104.76
+    },
+    "b": {
+      "state": "training",
+      "epoch": 163,
+      "updates": 71194,
+      "remaining_minutes_estimate": 63.4,
+      "finish_Beijing_estimate": "2026-10-29T22:38:14.656698+08:00",
+      "last_epoch_seconds_median": 102.63
+    },
+    "c": {
+      "state": "training",
+      "epoch": 155,
+      "updates": 67573,
+      "remaining_minutes_estimate": 81.7,
+      "finish_Beijing_estimate": "2026-10-29T22:56:31.900005+08:00",
+      "last_epoch_seconds_median": 108.07
+    }
+  },
+  "server_cpu": {
+    "complete": true,
+    "cuda_initialized": false,
+    "pair": {
+      "exact_initial_state_including_bn": true,
+      "paired_first_input_each_epoch": true,
+      "paired_initial_part_indices": true,
+      "paired_independent_RNG_progression": true,
+      "paired_global_RNG_progression": true,
+      "only_active_loss_coefficients_differ": true
+    },
+    "arms": {
+      "d": {
+        "updates": 4,
+        "trainable_parameters": 1460283,
+        "initial_model_sha256": "17c51802fac0a58caf86f4267e5dc8370f35c6f15b9eb74c11a224ddb184f940",
+        "max_observed_gradient_norm": 2.468397855758667,
+        "regularizers_active": true,
+        "regularizer_diagnostics_only": false,
+        "active_regularizer_zero_ce_only": false
+      },
+      "e": {
+        "updates": 4,
+        "trainable_parameters": 1460283,
+        "initial_model_sha256": "17c51802fac0a58caf86f4267e5dc8370f35c6f15b9eb74c11a224ddb184f940",
+        "max_observed_gradient_norm": 1.7502622604370117,
+        "regularizers_active": false,
+        "regularizer_diagnostics_only": true,
+        "active_regularizer_zero_ce_only": true
+      }
+    }
+  }
+}
