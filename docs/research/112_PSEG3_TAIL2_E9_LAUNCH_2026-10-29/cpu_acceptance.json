@@ -1,0 +1,48 @@
+{
+  "scope": "synthetic_CPU_full_entrypoint_only",
+  "production_commit_acceptance": false,
+  "cuda_initialized": false,
+  "model_contracts_passed": 10,
+  "launcher_contracts_passed": 6,
+  "cpu_entrypoint": {
+    "arm": "d",
+    "complete": true,
+    "epochs": 2,
+    "updates": 4,
+    "bn_counter_values": [
+      4
+    ],
+    "restored_bn9_observed": true,
+    "scheduler_T_max": 200,
+    "scheduler_last_epoch": 2,
+    "initial_lr": 0.1,
+    "last_lr": 0.09997557473810373,
+    "no_gradient_clipping": true,
+    "max_observed_gradient_norm": 1.5902979373931885,
+    "geometry_and_gradient_observations": 4,
+    "geometry_nodes": [
+      "h",
+      "m2",
+      "m3",
+      "part_exp",
+      "part_tangent",
+      "point_exp",
+      "pre_conv9",
+      "whole_exp",
+      "whole_tangent"
+    ],
+    "parameter_groups": [
+      "euclidean9",
+      "m2",
+      "m3",
+      "shared"
+    ],
+    "regularizers_reach_euclidean9_not_M_head": true,
+    "final_test_evaluations": 0,
+    "independent_RNGs_saved_and_restorable": true,
+    "initial_backbone_sha256": "b24385cb61ffc7e4a1c4d67d7ad92dfecdf529e8803af7af054b475a1e22ad8c",
+    "initial_shared_head_sha256": "3a79465b3d865873c2014f00ea0a7813fd8489ed1f3144269dbcdf3774a32ba2",
+    "initial_model_sha256": "40da1ceeb6758eb9762e499f3b4d0e7ff8e9e0f64b8f22e1e70776a311fa9d78",
+    "trainable_parameters": 1460283
+  }
+}
