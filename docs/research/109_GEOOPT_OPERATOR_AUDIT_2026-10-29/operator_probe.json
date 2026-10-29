@@ -1,0 +1,160 @@
+{
+  "scope": "local CPU operators only; no full model, data, checkpoint or optimizer",
+  "torch": "2.6.0+cu126",
+  "geoopt": "0.5.1",
+  "method_identity": {
+    "expmap0": {
+      "same_function_as_geoopt": true,
+      "module": "geoopt.manifolds.stereographic.manifold",
+      "qualname": "Stereographic.expmap0",
+      "line": 326
+    },
+    "projx": {
+      "same_function_as_geoopt": true,
+      "module": "geoopt.manifolds.stereographic.manifold",
+      "qualname": "Stereographic.projx",
+      "line": 157
+    },
+    "mobius_matvec": {
+      "same_function_as_geoopt": true,
+      "module": "geoopt.manifolds.stereographic.manifold",
+      "qualname": "Stereographic.mobius_matvec",
+      "line": 289
+    },
+    "dist0": {
+      "same_function_as_geoopt": true,
+      "module": "geoopt.manifolds.stereographic.manifold",
+      "qualname": "Stereographic.dist0",
+      "line": 322
+    },
+    "dist": {
+      "same_function_as_geoopt": true,
+      "module": "geoopt.manifolds.stereographic.manifold",
+      "qualname": "Stereographic.dist",
+      "line": 139
+    },
+    "transp0": {
+      "same_function_as_geoopt": true,
+      "module": "geoopt.manifolds.stereographic.manifold",
+      "qualname": "Stereographic.transp0",
+      "line": 338
+    },
+    "egrad2rgrad": {
+      "same_function_as_geoopt": true,
+      "module": "geoopt.manifolds.stereographic.manifold",
+      "qualname": "Stereographic.egrad2rgrad",
+      "line": 149
+    },
+    "inner": {
+      "same_function_as_geoopt": false,
+      "module": "hycore_seg_v2_official_poincareball",
+      "qualname": "PoincareBall.inner",
+      "line": 33
+    }
+  },
+  "projection": [
+    {
+      "input": [
+        1.2,
+        0.0
+      ],
+      "output": [
+        0.9960001111030579,
+        0.0
+      ],
+      "jacobian": [
+        [
+          -5.960464477539063e-08,
+          0.0
+        ],
+        [
+          0.0,
+          0.8300000429153442
+        ]
+      ],
+      "jacobian_times_radial": [
+        -5.960464477539063e-08,
+        0.0
+      ],
+      "jacobian_times_tangent": [
+        0.0,
+        0.8300000429153442
+      ]
+    },
+    {
+      "input": [
+        0.8,
+        0.6
+      ],
+      "output": [
+        0.7968000769615173,
+        0.5976001024246216
+      ],
+      "jacobian": [
+        [
+          0.3585600256919861,
+          -0.47808006405830383
+        ],
+        [
+          -0.4780800938606262,
+          0.637440025806427
+        ]
+      ],
+      "jacobian_times_radial": [
+        0.0,
+        -5.960464477539063e-08
+      ],
+      "jacobian_times_tangent": [
+        -0.5976001024246216,
+        0.7968000769615173
+      ]
+    }
+  ],
+  "exp_depth": [
+    {
+      "project": false,
+      "output": [
+        0.9993294477462769,
+        0.0
+      ],
+      "depth": 8.00013256072998,
+      "depth_gradient_at_output": [
+        1491.6756591796875,
+        0.0
+      ],
+      "depth_gradient_at_input": [
+        2.000152587890625,
+        0.0
+      ]
+    },
+    {
+      "project": true,
+      "output": [
+        0.9960001111030579,
+        0.0
+      ],
+      "depth": 6.212619781494141,
+      "depth_gradient_at_output": [
+        250.50424194335938,
+        0.0
+      ],
+      "depth_gradient_at_input": [
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "artanh_outside_clamp": {
+    "active_geoopt": {
+      "input": 1.0001,
+      "forward": 8.40562139102231,
+      "gradient": 0.0
+    },
+    "unused_hycore_pmath": {
+      "input": 1.0001,
+      "forward": 6.1030338227611125,
+      "gradient": 50000.25000149824
+    }
+  },
+  "cuda_initialized": false
+}
