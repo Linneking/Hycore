@@ -1,0 +1,216 @@
+{
+  "torch": "2.6.0+cu126",
+  "geoopt": "0.5.1",
+  "scope": "local CPU graph only; no full-model or checkpoint measurement",
+  "depth_composition": [
+    {
+      "dtype": "torch.float32",
+      "tangent_radius": 1.0,
+      "project": false,
+      "output_radius": 0.7615942358970642,
+      "depth": 2.000000238418579,
+      "signed_radial_gradient": 2.0,
+      "gradient_l2": 2.0
+    },
+    {
+      "dtype": "torch.float32",
+      "tangent_radius": 1.0,
+      "project": true,
+      "output_radius": 0.7615942358970642,
+      "depth": 2.000000238418579,
+      "signed_radial_gradient": 2.0,
+      "gradient_l2": 2.0
+    },
+    {
+      "dtype": "torch.float32",
+      "tangent_radius": 3.0,
+      "project": false,
+      "output_radius": 0.9950548410415649,
+      "depth": 6.000006675720215,
+      "signed_radial_gradient": 2.000021457672119,
+      "gradient_l2": 2.00002121925354
+    },
+    {
+      "dtype": "torch.float32",
+      "tangent_radius": 3.0,
+      "project": true,
+      "output_radius": 0.9950548410415649,
+      "depth": 6.000006675720215,
+      "signed_radial_gradient": 2.000021457672119,
+      "gradient_l2": 2.00002121925354
+    },
+    {
+      "dtype": "torch.float32",
+      "tangent_radius": 4.0,
+      "project": false,
+      "output_radius": 0.9993294477462769,
+      "depth": 8.00013256072998,
+      "signed_radial_gradient": 2.000113010406494,
+      "gradient_l2": 2.000112771987915
+    },
+    {
+      "dtype": "torch.float32",
+      "tangent_radius": 4.0,
+      "project": true,
+      "output_radius": 0.9960001111030579,
+      "depth": 6.212619781494141,
+      "signed_radial_gradient": -2.8643938776440336e-08,
+      "gradient_l2": 7.629657261531975e-07
+    },
+    {
+      "dtype": "torch.float32",
+      "tangent_radius": 10.0,
+      "project": false,
+      "output_radius": 1.0000001192092896,
+      "depth": 16.635534286499023,
+      "signed_radial_gradient": 0.0,
+      "gradient_l2": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "tangent_radius": 10.0,
+      "project": true,
+      "output_radius": 0.9960001111030579,
+      "depth": 6.212619781494141,
+      "signed_radial_gradient": 5.684341886080802e-14,
+      "gradient_l2": 3.051757460070803e-07
+    },
+    {
+      "dtype": "torch.float64",
+      "tangent_radius": 1.0,
+      "project": false,
+      "output_radius": 0.7615941559557646,
+      "depth": 2.0,
+      "signed_radial_gradient": 1.9999999999999996,
+      "gradient_l2": 1.9999999999999996
+    },
+    {
+      "dtype": "torch.float64",
+      "tangent_radius": 1.0,
+      "project": true,
+      "output_radius": 0.7615941559557646,
+      "depth": 2.0,
+      "signed_radial_gradient": 1.9999999999999996,
+      "gradient_l2": 1.9999999999999996
+    },
+    {
+      "dtype": "torch.float64",
+      "tangent_radius": 3.0,
+      "project": false,
+      "output_radius": 0.9950547536867299,
+      "depth": 6.00000000000002,
+      "signed_radial_gradient": 2.000000000000034,
+      "gradient_l2": 2.000000000000034
+    },
+    {
+      "dtype": "torch.float64",
+      "tangent_radius": 3.0,
+      "project": true,
+      "output_radius": 0.9950547536867299,
+      "depth": 6.00000000000002,
+      "signed_radial_gradient": 2.000000000000034,
+      "gradient_l2": 2.000000000000034
+    },
+    {
+      "dtype": "torch.float64",
+      "tangent_radius": 4.0,
+      "project": false,
+      "output_radius": 0.9993292997390664,
+      "depth": 7.99999999999998,
+      "signed_radial_gradient": 1.9999999999999036,
+      "gradient_l2": 1.9999999999999034
+    },
+    {
+      "dtype": "torch.float64",
+      "tangent_radius": 4.0,
+      "project": true,
+      "output_radius": 0.9993292997390664,
+      "depth": 7.99999999999998,
+      "signed_radial_gradient": 1.9999999999999036,
+      "gradient_l2": 1.9999999999999034
+    },
+    {
+      "dtype": "torch.float64",
+      "tangent_radius": 10.0,
+      "project": false,
+      "output_radius": 0.9999999958776921,
+      "depth": 16.81124278204461,
+      "signed_radial_gradient": 0.0,
+      "gradient_l2": 0.0
+    },
+    {
+      "dtype": "torch.float64",
+      "tangent_radius": 10.0,
+      "project": true,
+      "output_radius": 0.9999899999999994,
+      "depth": 12.206067645522216,
+      "signed_radial_gradient": -1.3197242513503328e-19,
+      "gradient_l2": 2.910383033676173e-13
+    }
+  ],
+  "seg_hinge": [
+    {
+      "dtype": "torch.float32",
+      "whole_tangent_radius": 1.0,
+      "part_tangent_radius": 1.2,
+      "weighted_radial_loss": 0.015999997034668922,
+      "whole_output_gradient_dot_outward": 0.0476219616830349,
+      "part_output_gradient_dot_outward": -0.06556948274374008,
+      "whole_tangent_gradient_l2": 0.020000003278255463,
+      "part_tangent_gradient_l2": 0.020000003278255463
+    },
+    {
+      "dtype": "torch.float32",
+      "whole_tangent_radius": 10.5,
+      "part_tangent_radius": 10.8,
+      "weighted_radial_loss": 0.019999999552965164,
+      "whole_output_gradient_dot_outward": 2.505042314529419,
+      "part_output_gradient_dot_outward": -2.505042314529419,
+      "whole_tangent_gradient_l2": 0.0,
+      "part_tangent_gradient_l2": 0.0
+    },
+    {
+      "dtype": "torch.float64",
+      "whole_tangent_radius": 1.0,
+      "part_tangent_radius": 1.2,
+      "weighted_radial_loss": 0.015999999999999997,
+      "whole_output_gradient_dot_outward": 0.04762195691083637,
+      "part_output_gradient_dot_outward": -0.06556947166965517,
+      "whole_tangent_gradient_l2": 0.02,
+      "part_tangent_gradient_l2": 0.02
+    },
+    {
+      "dtype": "torch.float64",
+      "whole_tangent_radius": 10.5,
+      "part_tangent_radius": 10.8,
+      "weighted_radial_loss": 0.02,
+      "whole_output_gradient_dot_outward": 1000.0050000295511,
+      "part_output_gradient_dot_outward": -1000.0050000295511,
+      "whole_tangent_gradient_l2": 0.0,
+      "part_tangent_gradient_l2": 0.0
+    }
+  ],
+  "mobius_after_exp": [
+    {
+      "dtype": "torch.float32",
+      "input_radius": 0.9960001111030579,
+      "mobius_output_radius": 0.32551246881484985,
+      "loss": 0.6756011843681335,
+      "u_gradient_l2": 0.20707906782627106,
+      "u_gradient_radial": -1.4901161193847656e-08,
+      "u_gradient_tangential_l2": 0.20707906782627106,
+      "weight_gradient_l2": 6.038597106933594
+    },
+    {
+      "dtype": "torch.float64",
+      "input_radius": 0.9999899999999994,
+      "mobius_output_radius": 0.34753137734684436,
+      "loss": 0.7252665379599685,
+      "u_gradient_l2": 0.2322214937095615,
+      "u_gradient_radial": 0.0,
+      "u_gradient_tangential_l2": 0.2322214937095615,
+      "weight_gradient_l2": 6.323055971369973
+    }
+  ],
+  "cuda_initialized": false
+}
