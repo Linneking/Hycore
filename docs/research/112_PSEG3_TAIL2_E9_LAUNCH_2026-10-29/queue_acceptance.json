@@ -1,0 +1,59 @@
+{
+  "checked_beijing": "2026-10-29T21:10:34.383232+08:00",
+  "source_commit": "a82f5c15edff9585f9db5e109d5ec23bb7aee9bf",
+  "queue_state": "waiting_for_predecessor",
+  "target_gpu": 1,
+  "launcher_alive": true,
+  "launcher_detached_ppid1": true,
+  "real_gpu_smoke_started": false,
+  "production_started": false,
+  "server_cpu_contracts": 16,
+  "server_cpu_entrypoint_passed": true,
+  "run_id": "pseg3_v4_tail2_e9_dp1_s4780_20261029_A",
+  "config": {
+    "seed": 4780,
+    "batch_size": 32,
+    "num_points": 2048,
+    "k": 40,
+    "epochs": 200,
+    "lr": 0.1,
+    "min_lr": 0.001,
+    "monitor_every": 25,
+    "gradient_every": 200
+  },
+  "old_runs": {
+    "a": {
+      "state": "training",
+      "epoch": 146,
+      "step": 325,
+      "updates": 63690,
+      "remaining_minutes": 94.69601028995342,
+      "estimated_finish_beijing": "2026-10-29T22:45:16.143849+08:00"
+    },
+    "b": {
+      "state": "training",
+      "epoch": 149,
+      "step": 325,
+      "updates": 65001,
+      "remaining_minutes": 87.68401599046275,
+      "estimated_finish_beijing": "2026-10-29T22:38:15.424191+08:00"
+    },
+    "c": {
+      "state": "training",
+      "epoch": 142,
+      "step": 50,
+      "updates": 61667,
+      "remaining_minutes": 106.07991585600584,
+      "estimated_finish_beijing": "2026-10-29T22:56:39.178183+08:00"
+    }
+  },
+  "old_source_commit": "9c332b0328397dd1d16f53253ba83458c56bce0d",
+  "gpus": [
+    "0, 91, 21827",
+    "1, 96, 21821",
+    "2, 96, 21927"
+  ],
+  "local_cpu_contracts": 16,
+  "local_cpu_entrypoint_passed": true,
+  "bundle_sha256": "420c326e7c9543e73f6a614accd016da0c4c8afaedfee90ccf88b4f727dec561"
+}
