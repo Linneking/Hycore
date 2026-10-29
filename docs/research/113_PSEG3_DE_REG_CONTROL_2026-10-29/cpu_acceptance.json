@@ -1,0 +1,48 @@
+{
+  "complete": true,
+  "scope": "synthetic_CPU_full_entrypoint_only",
+  "cpu_contract_tests": 26,
+  "cuda_initialized": false,
+  "pair": {
+    "exact_initial_state_including_bn": true,
+    "paired_first_input_each_epoch": true,
+    "paired_initial_part_indices": true,
+    "paired_independent_RNG_progression": true,
+    "paired_global_RNG_progression": true,
+    "only_active_loss_coefficients_differ": true
+  },
+  "source_sha256": {
+    "hycore_seg_v5/model.py": "eb4314fcc4740682fdd8e4b323be0476cb8bf9e092a21b75ad6cb7360238e862",
+    "hycore_seg_v5/losses.py": "9a4da2a54ecc22700e630aefe758b44bf461dc8957740b59555538375cb2b342",
+    "hycore_seg_v5/train.py": "52840e451cd7bb3a69c3349f011b4f36ce5681dbb8aa8dec1397af5ed165be25",
+    "hycore_seg_v5/launch_experiment.py": "0d58428e03af84706ade5c58e8be35067c94083ece210975732cde42860a8568",
+    "hycore_seg_v5/test_contracts.py": "f93da9e59f838572f3d76a3f5221515f9d3326a1f65dae5fd59c3ea5ca6bdb43",
+    "hycore_seg_v3/losses.py": "ebb4be039cd0a09e461aa8d62ddc63170739c90a2f84777e7e3ae2d26d401be8",
+    "hycore_seg_v3/monitoring.py": "888d8babb770bb634382917094b228bfa4341ed7b60c5e45d613bb5759057c90"
+  },
+  "helper_sha256": "a7ee7ea719c0479ccfc37a292dee16e9698d3a80c993dfcc6d469226d11cdb37",
+  "arms": {
+    "d": {
+      "updates": 4,
+      "trainable_parameters": 1460283,
+      "regularizers_active": true,
+      "regularizer_diagnostics_only": false,
+      "active_regularizer_zero_ce_only": false,
+      "initial_model_sha256": "40da1ceeb6758eb9762e499f3b4d0e7ff8e9e0f64b8f22e1e70776a311fa9d78",
+      "max_observed_gradient_norm": 1.5902979373931885,
+      "final_test_evaluations": 0,
+      "model_and_optimizer_state_restorable": true
+    },
+    "e": {
+      "updates": 4,
+      "trainable_parameters": 1460283,
+      "regularizers_active": false,
+      "regularizer_diagnostics_only": true,
+      "active_regularizer_zero_ce_only": true,
+      "initial_model_sha256": "40da1ceeb6758eb9762e499f3b4d0e7ff8e9e0f64b8f22e1e70776a311fa9d78",
+      "max_observed_gradient_norm": 1.6467519998550415,
+      "final_test_evaluations": 0,
+      "model_and_optimizer_state_restorable": true
+    }
+  }
+}
