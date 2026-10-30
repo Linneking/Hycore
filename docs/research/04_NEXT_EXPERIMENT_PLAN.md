@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-30最新执行：F/G/H迁回原三卡节点续训
+
+用户明确要求转移正则开启F/G/H的资源。源任务已在完整断点F e128、G e131、H e130停止并释放GPU；迁移包与源结果均保留。目标同一c8b93dc和数据manifest，42 CPU合同通过，复制checkpoint仅改physical_gpu为0/1/2，所有训练状态逐字段等价。22:07三队列已脱离会话并等待GPU完全空闲；现有F0/G0/H0不停，完成后自动接续至总计200轮。禁止重复提交，准确状态见[122](122_PSEG3_FGH_RETURN_TO_8000_2026-10-30/execution.md)。
+
 ## 2026-10-30：用户直接授权F0/G0/H0零正则对照
 
 按[121](121_PSEG3_FGH_ZERO_REG_2026-10-30/execution.md)已执行：F/G/H各自结构和seed4780/fresh200原配方保留，仅alpha=beta=0，loss直接CE，几何观测detach/no_grad。独立v7源ff91a07推送隔离部署，CPU三组完整2×2和真实短测各49项通过，17:16:40北京在原服务器完全空闲GPU0/1/2启动F0/G0/H0，17:19独立确认均e2/首轮437更新及有限状态、R梯度None、父进程1。8002正则开启组不动。禁止重复提交，不增加其他对照，所有旧源码/结果保留。

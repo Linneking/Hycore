@@ -1,0 +1,17 @@
+{
+  "verified_at_beijing": "2026-10-30T22:07:12+08:00",
+  "training_commit": "c8b93dc66e2dd5588f77c1490ec085010b855a01",
+  "transfer_archive_sha256": "963a06f77b87d163a897252999e68b22e0f01095bdb670e7b768d0c0508b16d9",
+  "data_manifest_sha256": "452943480f7fbdf82507a8306e3f535963ec3a4ae93f57807b3b6c36957ebfb8",
+  "cpu_contracts_passed": 42,
+  "source_processes_stopped": true,
+  "source_results_preserved": true,
+  "existing_zero_regularizer_jobs_interrupted": false,
+  "resume_state_equal_except_physical_gpu": true,
+  "queues_detached_parent1": true,
+  "jobs": {
+    "F": {"resume_epoch": 128, "updates": 55936, "gpu": 0, "state": "waiting_for_idle_gpu"},
+    "G": {"resume_epoch": 131, "updates": 57247, "gpu": 1, "state": "waiting_for_idle_gpu"},
+    "H": {"resume_epoch": 130, "updates": 56810, "gpu": 2, "state": "waiting_for_idle_gpu"}
+  }
+}
