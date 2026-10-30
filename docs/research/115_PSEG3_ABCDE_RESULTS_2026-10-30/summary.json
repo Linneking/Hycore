@@ -1,0 +1,18 @@
+{
+  "checked_beijing": "2026-10-30T10:34:17.845510+08:00",
+  "scope": "read_only_existing_production_manifests_and_epoch_metrics",
+  "metric": "unmasked_test_instance_selected_class_from_same_epoch",
+  "seed": 4780,
+  "reference_baseline": {"kind": "original_euclidean_DGCNN_with_SGD", "completed_epochs": 200, "best_epoch": 186, "best_instance": 0.8538254259526273, "best_same_epoch_class": 0.8177695302885475, "last_instance": 0.8535071622295997, "last_class": 0.8218655939284545, "parameters": 1460361, "same_data_manifest": true},
+  "data_manifest_sha256": "452943480f7fbdf82507a8306e3f535963ec3a4ae93f57807b3b6c36957ebfb8",
+  "arms": {
+    "a": {"source": "9c332b0328397dd1d16f53253ba83458c56bce0d", "completed_epochs": 200, "best_epoch": 166, "best_instance": 0.8199202998005194, "best_same_epoch_class": 0.6276414690746921, "last_instance": 0.8152857538194772, "last_class": 0.6223943128763533, "parameters": 1460027, "last_train_ce": 2.981002175289652, "last_train_reg": 0.027501115914289276},
+    "b": {"source": "9c332b0328397dd1d16f53253ba83458c56bce0d", "completed_epochs": 200, "best_epoch": 166, "best_instance": 0.8312221502571641, "best_same_epoch_class": 0.6756844764278769, "last_instance": 0.8304093127871592, "last_class": 0.6756953614087331, "parameters": 1394235, "last_train_ce": 2.9758491221499934, "last_train_reg": 0.028005516467705473},
+    "c": {"source": "9c332b0328397dd1d16f53253ba83458c56bce0d", "completed_epochs": 180, "stopped_by_user": true, "partial_epoch": 181, "partial_step": 375, "best_epoch": 158, "best_instance": 0.7811150368066113, "best_same_epoch_class": 0.5845381413635959, "last_instance": 0.7800434140597268, "last_class": 0.5843089930684551, "parameters": 1460027, "last_train_ce": 3.002419954579264, "last_train_reg": 0.03558044979088776},
+    "d": {"source": "9033a80135d1b45b0ce11bc7e2135f79ddc5a8a0", "completed_epochs": 200, "best_epoch": 179, "best_instance": 0.8211880626444473, "best_same_epoch_class": 0.6416162054000107, "last_instance": 0.8189029961994652, "last_class": 0.6409352779146864, "parameters": 1460283, "last_train_ce": 2.978685326107034, "last_train_reg": 0.028461532726952087},
+    "e": {"source": "9033a80135d1b45b0ce11bc7e2135f79ddc5a8a0", "completed_epochs": 200, "best_epoch": 162, "best_instance": 0.8289710175565997, "best_same_epoch_class": 0.6479738632490797, "last_instance": 0.8277348173757755, "last_class": 0.6471537872099186, "parameters": 1460283, "last_train_ce": 2.976139371946147, "last_train_reg": 0.0}
+  },
+  "all_recorded_epoch_states_finite": true,
+  "all_best_and_last_files_exist": true,
+  "best_epochs_all_within_180": true
+}
