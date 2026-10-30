@@ -1,6 +1,9 @@
 {
   "scope": "synthetic_CPU_contracts_and_full_training_entrypoints",
   "local_contracts_passed": 39,
+  "server_contracts_passed": 39,
+  "server_all_three_full_CPU_entrypoints_passed": true,
+  "training_commit": "b59c9a6e2e22f80b1cc67e2e29a500c1d098d3de",
   "model_contracts": 16,
   "launcher_contracts": 23,
   "arms": ["f", "g", "h"],

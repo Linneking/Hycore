@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-30：用户已授权F/G/H实施和排队
+
+用户确认117后明确“挂起实验”。源b59c9a6已推送/同提交隔离部署，独立v6本机/服务器各39合同、三组完整CPU两轮×两次更新通过。北京时间12:50挂起F/G/H，12:51重连确认三进程父进程1、命令/源码/配置匹配。F/G分别等GPU0/1完全空闲，H等F成功后用GPU0；GPU2禁止使用，0/1均为其他用户占用，尚未GPU短测或200轮生产。三组均原Conv9BN9Leaky+EXP+两M、两正则各.01；F删dp1/Rpre9，G留dp1/Rpre9，H删dp1/Rpost9。seed4780及初始化/既有200轮配方不改。勿重复提交或向冻结源拉后续文档；私有路径/PID见.codex-local/PSEG3_V6_FGH_HANDOFF_2026-10-30.md。[118执行记录](118_PSEG3_FGH_LAUNCH_2026-10-30/execution.md)为准；下方仅设计/不启动是此前历史状态。
+
 ## 2026-10-28：用户授权三组原生HyCoRe-seg，8000三卡正式训练已启动
 
 用户明确要求挂P0/Pglobal/Pseg3，seed4780/batch32/shuffle；不增加H0或其他矩阵。独立v2实现`ac6c712`已推送，原分类和v1未改；服务器HTTPS TLS失败后同提交Git bundle+fetch/pull --ff-only隔离部署。18本机/18服务器CPU合同、三组各17项合成全入口和真实batch32/N2048各2×2短测均过。三卡分别GPU0/1/2于22:15:25 fresh200，22:18核对e1完整437更新/2874test/BN437，e0-best-last和状态均有限，现e2；初值匹配短测、三组首输入SHA相同。运行ID及证据见[99执行记录](99_HYCORE_SEG_NATIVE_AUDIT_2026-10-28/execution.md)，勿重复提交或向活动源码拉文档后续提交。原trainval/test选模及26共有ID协议保留并已披露；原flip、1000/N′/4、RSGD.01/cosine200/clip1、两正则各.01。首批whole/part均触球投影边界、深度未拉开，正则共享梯度非零不能证明层次项有效；诊断留存，不静默改尺度。训练未完成，无自动监控或下一矩阵。

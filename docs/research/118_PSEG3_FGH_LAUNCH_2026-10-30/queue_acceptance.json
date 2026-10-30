@@ -1,0 +1,18 @@
+{
+  "dispatched_at_UTC": "2026-10-30T04:50:36.911744+00:00",
+  "verified_at_UTC": "2026-10-30T04:51:29.875444+00:00",
+  "training_commit": "b59c9a6e2e22f80b1cc67e2e29a500c1d098d3de",
+  "local_contracts_passed": 39,
+  "server_contracts_passed": 39,
+  "all_three_local_and_server_CPU_entrypoints_passed": true,
+  "seed": 4780,
+  "fresh_initialization": true,
+  "teacher": null,
+  "source_checkpoint": null,
+  "GPU2_not_used": true,
+  "jobs": [
+    {"arm": "f", "gpu": 0, "state": "waiting_for_idle_gpu", "detached_parent1": true, "exact_command_verified": true, "real_GPU_smoke_started": false, "production_started": false},
+    {"arm": "g", "gpu": 1, "state": "waiting_for_idle_gpu", "detached_parent1": true, "exact_command_verified": true, "real_GPU_smoke_started": false, "production_started": false},
+    {"arm": "h", "gpu": 0, "state": "waiting_for_predecessor", "predecessor_arm": "f", "detached_parent1": true, "exact_command_verified": true, "real_GPU_smoke_started": false, "production_started": false}
+  ]
+}
