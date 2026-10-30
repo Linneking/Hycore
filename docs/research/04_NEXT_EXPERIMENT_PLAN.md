@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-30最新授权：迁移新服务器，优先执行F
+
+用户新指令已完成：迁移三组至新服务器，优先F，最终**F/G/H=GPU3/0/2**。源c8b93dc冻结、模型/数据/初始化/训练协议不改；42CPU合同、三组CPU入口及真实短测各47项通过，均进入200轮。用户后续要求F别用GPU1，已将F从第5轮/update2185断点迁GPU3、状态精确恢复，14:31第6轮/update2535；GPU1已释放，G/H不动。查[120](120_PSEG3_NEW_SERVER_MIGRATION_2026-10-30/execution.md)及私有新迁移交接。禁止重启旧服务器队列或新机GPU1旧F；以下GPU安排均历史。
+
 ## 2026-10-30最新执行：H独立等待GPU2
 
 用户明确“H挂在gpu2”，已执行[119](119_PSEG3_H_GPU2_REQUEUE_2026-10-30/execution.md)：旧H/GPU0等待程序停止，新H/ef9603b在GPU2无F依赖等待；13:18北京独立确认存活父进程1、waiting_for_idle_gpu。GPU2他人占用，空闲后原真实短测→fresh200；模型和配方不变，本机/服务器各26调度合同通过。F/G原GPU0/1及b59c9a6冻结源不动。下方GPU2禁用/H等F仅为初始安排历史，勿重复提交。

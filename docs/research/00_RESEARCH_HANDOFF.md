@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-30最新迁移：新服务器优先F，旧三队列已停止
+
+迁移已完成；**最新F/G/H分别GPU3/0/2**。旧有效三等待队列全部核验停止，原记录保留。新源c8b93dc冻结、数据/环境/初始hash一致，42CPU合同和三组CPU入口通过，三组真实短测各47项通过，F优先14:06生产、G/H14:08后生产。14:14独立断开重连验收各首轮437更新/BN437/test2874/有限状态及完整几何梯度日志。用户随后要求F别用GPU1；已停旧F自有组，从第5轮/update2185状态迁GPU3，14:31第6轮/update2535验收父进程1、GPU1释放，模型/优化器/调度/RNG精确恢复，总预算仍200。F需查新续训目录，G/H原迁移目录不变；禁止重启旧服务器队列或新机GPU1旧F。[120](120_PSEG3_NEW_SERVER_MIGRATION_2026-10-30/execution.md)为准，私有路径/PID见.codex-local/PSEG3_NEW_SERVER_MIGRATION_2026-10-30.md。密码不落盘，下方原服务器安排均历史。
+
 ## 2026-10-30最新调度：H改GPU2，取消等待F
 
 用户明确“H挂在gpu2”，覆盖以下旧GPU2禁用/H等F安排。新H源ef9603b独立部署，本机/服务器26调度合同通过，model/train/losses/configs与b59c9a6相同。13:15北京旧H仅等待程序核验后停止，旧结果保留；新H13:16登记GPU2且无F依赖，13:18独立确认父进程1、waiting_for_idle_gpu，未GPU短测/生产。GPU2仍有他人任务，等完全空闲，不打断。F/G原进程/GPU0/1及冻结源b59c9a6不动。详见[119](119_PSEG3_H_GPU2_REQUEUE_2026-10-30/execution.md)，私有新H根/PID见.codex-local/PSEG3_V6_H_GPU2_HANDOFF_2026-10-30.md；勿重复启动旧或新H。

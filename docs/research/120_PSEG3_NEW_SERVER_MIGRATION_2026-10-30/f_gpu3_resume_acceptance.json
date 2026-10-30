@@ -1,0 +1,17 @@
+{
+  "verified_at_UTC": "2026-10-30T06:31:33.062083+00:00",
+  "arm": "f",
+  "gpu": 3,
+  "state": "training",
+  "epoch": 6,
+  "updates": 2535,
+  "resume_epoch": 5,
+  "resume_updates": 2185,
+  "epoch_budget": 200,
+  "device_metadata_only": true,
+  "all_model_optimizer_scheduler_and_RNG_exactly_restored": true,
+  "old_F_GPU1_stopped": true,
+  "G_H_unchanged": true,
+  "detached_parent1": true,
+  "training_commit": "c8b93dc66e2dd5588f77c1490ec085010b855a01"
+}
