@@ -27,6 +27,11 @@ def approved_coefficients(arm):
     return (.01, .01)
 
 
+def authorized_gpu(arm, gpu):
+    """GPU2 is additionally authorized for H by the user's latest instruction."""
+    return gpu in {0, 1} or (arm == "h" and gpu == 2)
+
+
 def _optional_json(path):
     """An absent or partially replaced status file is not completion evidence."""
     try:
@@ -48,7 +53,7 @@ def predecessor_state(parent):
         pending_states = {None, "waiting_for_predecessor", "predecessor_complete",
                           "waiting_for_idle_gpu", "idle_gpu_acquired", "production_starting"}
         if not (dispatch.get("arm") in {"f", "g", "h"}
-                and dispatch.get("gpu") in {0, 1}
+                and authorized_gpu(dispatch.get("arm"), dispatch.get("gpu"))
                 and dispatch.get("scope") == "pseg3_fgh_v6_fresh_smoke_then_fresh200"
                 and queue.get("state") in pending_states | {"failed"}):
             raise ValueError("Predecessor must be a run parent containing dispatch.json or main/")
@@ -348,8 +353,8 @@ def main(argv=None):
     parser.add_argument("--wait-for-run", help="Predecessor run parent; successful completion and idle GPU are both required")
     parser.add_argument("--config", help="Defaults to the approved config for the selected arm")
     args = parser.parse_args(argv)
-    if args.gpu not in {0, 1}:
-        raise ValueError("Only physical GPU0/1 are authorized; GPU2 must remain available to others")
+    if not authorized_gpu(args.arm, args.gpu):
+        raise ValueError("Only GPU0/1, plus GPU2 for arm H, are authorized")
     config = Path(args.config or Path(__file__).parent / "configs" / f"fgh_{args.arm}.json").resolve(strict=True)
     resolved = _json(config)
     if resolved.get("arm") != args.arm or (resolved.get("alpha"), resolved.get("beta")) != approved_coefficients(args.arm):

@@ -109,14 +109,30 @@ class PredecessorGateTests(unittest.TestCase):
         sleep.assert_called_once_with(30)
         self.assertEqual(json.loads((new / "queue.json").read_text())["state"], "idle_gpu_acquired")
 
-    def test_gpu2_is_refused_before_run_creation(self):
-        target = self.root / "unauthorized_gpu"
-        with self.assertRaisesRegex(ValueError, "GPU0/1"):
-            launcher.main(["--arm", "f", "--gpu", "2", "--root", str(target),
-                           "--smoke-data", "smoke", "--production-data", "production"])
-        self.assertFalse(target.exists())
+    def test_gpu2_is_refused_for_f_and_g_before_run_creation(self):
+        for arm in ("f", "g"):
+            target = self.root / ("unauthorized_gpu_" + arm)
+            with self.assertRaisesRegex(ValueError, "GPU0/1"):
+                launcher.main(["--arm", arm, "--gpu", "2", "--root", str(target),
+                               "--smoke-data", "smoke", "--production-data", "production"])
+            self.assertFalse(target.exists())
 
-    def check_launch(self, arm, gpu):
+    def test_other_gpu_indices_are_refused_for_h(self):
+        for gpu in (-1, 3):
+            target = self.root / ("unauthorized_h_gpu_" + str(gpu))
+            with self.assertRaisesRegex(ValueError, "authorized"):
+                launcher.main(["--arm", "h", "--gpu", str(gpu), "--root", str(target),
+                               "--smoke-data", "smoke", "--production-data", "production"])
+            self.assertFalse(target.exists())
+
+    def test_queued_h_on_gpu2_is_valid_predecessor(self):
+        (self.old / "main").rmdir()
+        self.write("dispatch.json", {"arm": "h", "gpu": 2,
+                                    "scope": "pseg3_fgh_v6_fresh_smoke_then_fresh200"})
+        self.write("queue.json", {"state": "waiting_for_idle_gpu"})
+        self.assertFalse(launcher.predecessor_state(self.old)["complete"])
+
+    def check_launch(self, arm, gpu, with_predecessor=True):
         target = self.root / ("new_run_" + arm)
         config = self.root / ("config_" + arm + ".json")
         alpha, beta = launcher.approved_coefficients(arm)
@@ -128,8 +144,9 @@ class PredecessorGateTests(unittest.TestCase):
             commands.append(command)
         argv = ["--smoke-data", str(self.root / "smoke_data"),
                 "--production-data", str(self.root / "production_data"),
-                "--root", str(target), "--gpu", str(gpu), "--arm", arm, "--config", str(config),
-                "--wait-for-run", str(self.old)]
+                "--root", str(target), "--gpu", str(gpu), "--arm", arm, "--config", str(config)]
+        if with_predecessor:
+            argv += ["--wait-for-run", str(self.old)]
         read_json = launcher._json
         with mock.patch.dict(launcher.os.environ, {}, clear=False), \
                 mock.patch.object(launcher, "git_identity", return_value={"source_status": "", "commit": "fixture"}), \
@@ -141,7 +158,8 @@ class PredecessorGateTests(unittest.TestCase):
                                   read_json(path) if Path(path).resolve() == config.resolve() else
                                   {"initial_model_sha256": "fresh"}):
             launcher.main(argv)
-        self.assertEqual(events, ["predecessor", "idle", "subprocess", "idle", "subprocess"])
+        self.assertEqual(events, (["predecessor"] if with_predecessor else []) +
+                         ["idle", "subprocess", "idle", "subprocess"])
         self.assertEqual(len(commands), 2)
         smoke, production = commands
         self.assertIn("segmentation_ShapeNetPart.hycore_seg_v6.train", smoke)
@@ -157,6 +175,8 @@ class PredecessorGateTests(unittest.TestCase):
         self.assertNotIn("--resume", smoke + production)
         self.assertEqual(json.loads((target / "queue.json").read_text())["state"], "complete")
         dispatch = read_json(target / "dispatch.json")
+        self.assertEqual(dispatch["gpu"], gpu)
+        self.assertEqual(dispatch["wait_for_run"], str(self.old.resolve()) if with_predecessor else None)
         self.assertIs(dispatch["regularizers_active"], True)
         self.assertIs(dispatch["regularizer_diagnostics_only"], False)
 
@@ -168,6 +188,9 @@ class PredecessorGateTests(unittest.TestCase):
 
     def test_h_waits_then_fresh_smoke_then_fresh_production(self):
         self.check_launch("h", 0)
+
+    def test_h_gpu2_without_f_dependency_fresh_smoke_then_fresh_production(self):
+        self.check_launch("h", 2, with_predecessor=False)
 
     def test_wrong_arm_or_mixed_coefficients_refused_before_queue_creation(self):
         for arm, pair in (("f", (0., 0.)), ("g", (0., 0.)),
