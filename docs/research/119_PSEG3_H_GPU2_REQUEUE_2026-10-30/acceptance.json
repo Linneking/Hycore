@@ -1,0 +1,18 @@
+{
+  "verified_at_UTC": "2026-10-30T05:18:10.019222+00:00",
+  "training_commit": "ef9603ba5ded6107bd3b351e593713aa8c70ee6e",
+  "arm": "h",
+  "gpu": 2,
+  "state": "waiting_for_idle_gpu",
+  "wait_for_F": false,
+  "old_H_waiting_process_stopped": true,
+  "old_H_records_preserved": true,
+  "new_run_directory": true,
+  "detached_parent1": true,
+  "F_G_processes_commands_sources_unchanged": true,
+  "local_launcher_tests": 26,
+  "server_launcher_tests": 26,
+  "model_train_losses_configs_unchanged": true,
+  "real_GPU_smoke_started": false,
+  "production_started": false
+}

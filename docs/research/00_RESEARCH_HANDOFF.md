@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-10-30最新调度：H改GPU2，取消等待F
+
+用户明确“H挂在gpu2”，覆盖以下旧GPU2禁用/H等F安排。新H源ef9603b独立部署，本机/服务器26调度合同通过，model/train/losses/configs与b59c9a6相同。13:15北京旧H仅等待程序核验后停止，旧结果保留；新H13:16登记GPU2且无F依赖，13:18独立确认父进程1、waiting_for_idle_gpu，未GPU短测/生产。GPU2仍有他人任务，等完全空闲，不打断。F/G原进程/GPU0/1及冻结源b59c9a6不动。详见[119](119_PSEG3_H_GPU2_REQUEUE_2026-10-30/execution.md)，私有新H根/PID见.codex-local/PSEG3_V6_H_GPU2_HANDOFF_2026-10-30.md；勿重复启动旧或新H。
+
 ## 2026-10-30：用户已授权F/G/H实施和排队
 
 用户确认117后明确“挂起实验”。源b59c9a6已推送/同提交隔离部署，独立v6本机/服务器各39合同、三组完整CPU两轮×两次更新通过。北京时间12:50挂起F/G/H，12:51重连确认三进程父进程1、命令/源码/配置匹配。F/G分别等GPU0/1完全空闲，H等F成功后用GPU0；GPU2禁止使用，0/1均为其他用户占用，尚未GPU短测或200轮生产。三组均原Conv9BN9Leaky+EXP+两M、两正则各.01；F删dp1/Rpre9，G留dp1/Rpre9，H删dp1/Rpost9。seed4780及初始化/既有200轮配方不改。勿重复提交或向冻结源拉后续文档；私有路径/PID见.codex-local/PSEG3_V6_FGH_HANDOFF_2026-10-30.md。[118执行记录](118_PSEG3_FGH_LAUNCH_2026-10-30/execution.md)为准；下方仅设计/不启动是此前历史状态。
