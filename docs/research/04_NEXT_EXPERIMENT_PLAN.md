@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-10-30：用户直接授权F0/G0/H0零正则对照
+
+按[121](121_PSEG3_FGH_ZERO_REG_2026-10-30/execution.md)已执行：F/G/H各自结构和seed4780/fresh200原配方保留，仅alpha=beta=0，loss直接CE，几何观测detach/no_grad。独立v7源ff91a07推送隔离部署，CPU三组完整2×2和真实短测各49项通过，17:16:40北京在原服务器完全空闲GPU0/1/2启动F0/G0/H0，17:19独立确认均e2/首轮437更新及有限状态、R梯度None、父进程1。8002正则开启组不动。禁止重复提交，不增加其他对照，所有旧源码/结果保留。
+
 ## 2026-10-30最新授权：迁移新服务器，优先执行F
 
 用户新指令已完成：迁移三组至新服务器，优先F，最终**F/G/H=GPU3/0/2**。源c8b93dc冻结、模型/数据/初始化/训练协议不改；42CPU合同、三组CPU入口及真实短测各47项通过，均进入200轮。用户后续要求F别用GPU1，已将F从第5轮/update2185断点迁GPU3、状态精确恢复，14:31第6轮/update2535；GPU1已释放，G/H不动。查[120](120_PSEG3_NEW_SERVER_MIGRATION_2026-10-30/execution.md)及私有新迁移交接。禁止重启旧服务器队列或新机GPU1旧F；以下GPU安排均历史。

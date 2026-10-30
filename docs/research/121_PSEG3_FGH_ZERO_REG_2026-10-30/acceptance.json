@@ -1,0 +1,23 @@
+{
+  "verified_at_UTC": "2026-10-30T09:19:28.570712+00:00",
+  "training_commit": "ff91a07c910c0e0aecb65560f4d6ebf210c6741a",
+  "alpha": 0,
+  "beta": 0,
+  "actual_loss": "CE",
+  "fresh_epochs": 200,
+  "seed": 4780,
+  "CPU_entrypoints_each": "2 epochs x 2 updates passed locally and on server",
+  "real_smoke_checks_each": 49,
+  "first_epoch_updates_each": 437,
+  "first_epoch_test_objects_each": 2874,
+  "R_training_gradients_none": true,
+  "geometry_diagnostics_only": true,
+  "first_epoch_model_optimizer_finite": true,
+  "F0_H0_first_epoch_input_CE_and_test_scores_equal": true,
+  "original_on_runs_untouched": true,
+  "jobs": [
+    {"arm": "F0", "gpu": 0, "state": "training", "epoch": 2, "updates": 712, "detached_parent1": true},
+    {"arm": "G0", "gpu": 1, "state": "training", "epoch": 2, "updates": 712, "detached_parent1": true},
+    {"arm": "H0", "gpu": 2, "state": "training", "epoch": 2, "updates": 687, "detached_parent1": true}
+  ]
+}
