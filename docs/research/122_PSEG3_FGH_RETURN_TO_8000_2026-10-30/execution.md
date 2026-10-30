@@ -1,5 +1,7 @@
 # F/G/H return migration and resume queue — 2026-10-30
 
+Update 2026-10-31: these queues failed before training because the copied checkpoint retained the source data directory. The subsequent recovery in [123](../123_PSEG3_FGH_RESUME_PATH_RECOVERY_2026-10-31/execution.md) adapted the verified data path in fresh directories and confirmed successful GPU restoration and the first complete resumed epoch for all three arms. The queue acceptance below is historical and is not evidence of a successful trainer start.
+
 The user requested that the regularizer-enabled F/G/H jobs release their previous compute resources and continue on the original three-GPU node. Existing F0/G0/H0 jobs were not interrupted.
 
 The source jobs were stopped after preserving complete checkpoints. The compact transfer contains `last.pth`, `best.pth`, checkpoint-selection metadata, complete metric history through the checkpoint epoch, and geometry history. Its SHA256 is `963a06f77b87d163a897252999e68b22e0f01095bdb670e7b768d0c0508b16d9`. Original source run directories remain unchanged.
