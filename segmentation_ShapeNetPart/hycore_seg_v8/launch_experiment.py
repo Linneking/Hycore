@@ -86,24 +86,30 @@ def validate_smoke(smoke):
             and manifest.get("selection_split") == "val"
             and accepted.get("final_test_evaluations") == 0
             and not (smoke / "final_test.json").exists(),
-        "bn_two_updates_per_batch": bool(metrics)
+        "bn_two_updates_per_batch": len(metrics) == 2
             and all(row.get("bn_counts") for row in metrics)
-            and all(value == 8 for value in metrics[-1]["bn_counts"].values()),
+            and all(value == expected for row, expected in zip(metrics, (4, 8))
+                    for value in row["bn_counts"].values()),
         "finite_model_and_optimizer": all(row.get("model_finite") and row.get("optimizer_finite")
             for row in metrics),
         "fresh_checkpoint": e0.get("epoch") == 0 and e0.get("updates") == 0
             and last.get("epoch") == 2 and last.get("updates") == 4,
         "part_reencoding_recorded": manifest.get("part_input") ==
             "gathered_raw_xyz_reencoded_through_full_trunk_and_conv9",
+        "real_dataset": manifest.get("dataset_source", {}).get("real_dataset") is not False,
     }
     def gradient_groups(item, loss):
         payload = item.get("gradients", {})
         return payload.get(loss, {}).get("parameter_groups", {})
     sampled = [row for row in geometry if row.get("gradients")]
-    checks["regularizer_reaches_first_m_only"] = bool(sampled) and all(
-        gradient_groups(row, loss).get("m2", {}).get("status") in {"zero", "nonzero"}
+    checks["regularizer_reaches_all_preclassifier_layers"] = bool(sampled) and all(
+        all(gradient_groups(row, loss).get(name, {}).get("status") == "nonzero"
+            for name in ("shared", "euclidean9", "m2"))
         and gradient_groups(row, loss).get("m3", {}).get("status") == "none"
         for row in sampled for loss in ("contr", "hier"))
+    checks["ce_reaches_classifier"] = bool(sampled) and all(
+        gradient_groups(row, "ce").get("m3", {}).get("status") == "nonzero"
+        for row in sampled)
     checks["all_checks_pass"] = all(checks.values())
     return checks, manifest["initial_model_sha256"]
 
