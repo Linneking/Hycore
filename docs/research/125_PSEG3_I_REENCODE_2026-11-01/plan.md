@@ -29,7 +29,7 @@ H 每个训练 batch 各 BN 更新一次。I 因要先用 whole 的 `Vwhole` 保
 
 - 与 H 同数据/类别输入、seed 4780、N2048/k40、batch32/eval16、200轮、RSGD 0.1→0.001、momentum0.9、weight decay1e−4、两正则各0.01、part200–600、gamma1000/Npart、delta4、无总梯度裁剪；test Instance mIoU 每轮选 best。使用全新独立目录，不续 H 权重。
 - CPU 合同须验证 H 初值/whole logits 相同、选点一致、14个 BN 每 batch 各+2、Rcontr 与 Rhier到共享层及首 M而不到最终 M、CE 到最终 M、类别负例合法、检查点完整及有限。
-- 真实尺寸 GPU smoke 使用 batch32、N2048、强制 part600，2轮×2步、仅 validation 不读 test；检查显存、有限状态、BN计数与首 M/末 M 的梯度路由。失败即不启动正式训练。
+- 真实尺寸 GPU smoke 使用 batch32、N2048、强制 part600，2轮×2步、仅 validation 不读 test；检查显存、有限状态、BN计数、与 H 同环境初始模型 SHA 完全一致，以及共享层/首 M 非零而最终 M 无正则梯度。失败即不启动正式训练。
 - 正式启动前重新检查 GPU 完全空闲；仅选空闲卡，不干扰其他进程。smoke通过后重新从 seed4780 初始化 fresh200，并核对初始模型 SHA。
 
 ## 当前结果

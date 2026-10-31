@@ -64,7 +64,7 @@ def invoke(cmd, root, phase):
         raise RuntimeError(f"{phase} exited {result.returncode}; see {phase}.log")
 
 
-def validate_smoke(smoke):
+def validate_smoke(smoke, reference_h_hash=None):
     import torch
 
     manifest = read_json(smoke / "manifest.json")
@@ -96,6 +96,8 @@ def validate_smoke(smoke):
             and last.get("epoch") == 2 and last.get("updates") == 4,
         "part_reencoding_recorded": manifest.get("part_input") ==
             "gathered_raw_xyz_reencoded_through_full_trunk_and_conv9",
+        "same_initial_model_as_h": reference_h_hash is None
+            or manifest.get("initial_model_sha256") == reference_h_hash,
         "real_dataset": manifest.get("dataset_source", {}).get("real_dataset") is not False,
     }
     def gradient_groups(item, loss):
@@ -121,9 +123,13 @@ def main():
     p.add_argument("--smoke-data", type=Path, required=True)
     p.add_argument("--out", type=Path, required=True)
     p.add_argument("--gpu", type=int, required=True)
+    p.add_argument("--reference-h-initial-sha256", required=True)
     args = p.parse_args()
     if args.gpu < 0 or not args.config.is_file():
         raise ValueError("Invalid GPU or configuration")
+    if len(args.reference_h_initial_sha256) != 64 or any(
+            digit not in "0123456789abcdef" for digit in args.reference_h_initial_sha256.lower()):
+        raise ValueError("The H reference initialization hash must be SHA256")
     config = read_json(args.config)
     if config.get("arm") != "i" or (config.get("alpha"), config.get("beta")) != (.01, .01):
         raise ValueError("Only the approved active Experiment I configuration may launch")
@@ -135,6 +141,7 @@ def main():
         raise RuntimeError("Production source is dirty")
     write_json(root / "submitted.json", {"source": identity, "config": config,
                                          "gpu": args.gpu, "started": timestamp(),
+                                         "reference_h_initial_sha256": args.reference_h_initial_sha256,
                                          "smoke_data": str(args.smoke_data),
                                          "production_data": str(args.data)})
     try:
@@ -142,7 +149,7 @@ def main():
         smoke = root / "smoke"
         write_json(root / "queue.json", {"state": "smoke_running", "at": timestamp()})
         invoke(command(args, smoke, args.smoke_data, smoke=True), root, "smoke")
-        checks, initial_hash = validate_smoke(smoke)
+        checks, initial_hash = validate_smoke(smoke, args.reference_h_initial_sha256)
         write_json(root / "smoke_validation.json", checks)
         if not checks["all_checks_pass"]:
             raise AssertionError("Real-data smoke acceptance failed")
