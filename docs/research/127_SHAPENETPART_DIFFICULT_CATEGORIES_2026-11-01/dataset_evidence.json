@@ -1,0 +1,538 @@
+{
+  "trainval": {
+    "total_objects": 14007,
+    "category_counts": {
+      "airplane": 2349,
+      "bag": 62,
+      "cap": 44,
+      "car": 740,
+      "chair": 3054,
+      "earphone": 55,
+      "guitar": 628,
+      "knife": 312,
+      "lamp": 1261,
+      "laptop": 368,
+      "motorbike": 151,
+      "mug": 146,
+      "pistol": 239,
+      "rocket": 54,
+      "skateboard": 121,
+      "table": 4423
+    },
+    "focus": {
+      "rocket": {
+        "objects": 54,
+        "parts": {
+          "41": {
+            "pooled_point_fraction": 0.7090928819444444,
+            "objects_with_part": 54,
+            "mean_fraction_per_object": 0.7090928819444444,
+            "median_fraction_per_object": 0.722412109375,
+            "p10_fraction_per_object": 0.55654296875
+          },
+          "42": {
+            "pooled_point_fraction": 0.1817310474537037,
+            "objects_with_part": 45,
+            "mean_fraction_per_object": 0.1817310474537037,
+            "median_fraction_per_object": 0.170166015625,
+            "p10_fraction_per_object": 0
+          },
+          "43": {
+            "pooled_point_fraction": 0.10917607060185185,
+            "objects_with_part": 54,
+            "mean_fraction_per_object": 0.10917607060185185,
+            "median_fraction_per_object": 0.0888671875,
+            "p10_fraction_per_object": 0.04248046875
+          }
+        }
+      },
+      "bag": {
+        "objects": 62,
+        "parts": {
+          "4": {
+            "pooled_point_fraction": 0.06670551915322581,
+            "objects_with_part": 60,
+            "mean_fraction_per_object": 0.06670551915322581,
+            "median_fraction_per_object": 0.052490234375,
+            "p10_fraction_per_object": 0.007910156250000001
+          },
+          "5": {
+            "pooled_point_fraction": 0.9332944808467742,
+            "objects_with_part": 62,
+            "mean_fraction_per_object": 0.9332944808467742,
+            "median_fraction_per_object": 0.947509765625,
+            "p10_fraction_per_object": 0.8603515625
+          }
+        }
+      },
+      "motorbike": {
+        "objects": 151,
+        "parts": {
+          "30": {
+            "pooled_point_fraction": 0.04874081643211921,
+            "objects_with_part": 127,
+            "mean_fraction_per_object": 0.04874081643211921,
+            "median_fraction_per_object": 0.04833984375,
+            "p10_fraction_per_object": 0
+          },
+          "31": {
+            "pooled_point_fraction": 0.03816677876655629,
+            "objects_with_part": 146,
+            "mean_fraction_per_object": 0.03816677876655629,
+            "median_fraction_per_object": 0.02880859375,
+            "p10_fraction_per_object": 0.013671875
+          },
+          "32": {
+            "pooled_point_fraction": 0.23188832264072848,
+            "objects_with_part": 150,
+            "mean_fraction_per_object": 0.23188832264072848,
+            "median_fraction_per_object": 0.22265625,
+            "p10_fraction_per_object": 0.11767578125
+          },
+          "33": {
+            "pooled_point_fraction": 0.01478425082781457,
+            "objects_with_part": 145,
+            "mean_fraction_per_object": 0.01478425082781457,
+            "median_fraction_per_object": 0.01171875,
+            "p10_fraction_per_object": 0.00537109375
+          },
+          "34": {
+            "pooled_point_fraction": 0.007007320985099338,
+            "objects_with_part": 77,
+            "mean_fraction_per_object": 0.007007320985099338,
+            "median_fraction_per_object": 0.0009765625,
+            "p10_fraction_per_object": 0
+          },
+          "35": {
+            "pooled_point_fraction": 0.6594125103476821,
+            "objects_with_part": 151,
+            "mean_fraction_per_object": 0.6594125103476821,
+            "median_fraction_per_object": 0.66015625,
+            "p10_fraction_per_object": 0.51904296875
+          }
+        }
+      },
+      "skateboard": {
+        "objects": 121,
+        "parts": {
+          "44": {
+            "pooled_point_fraction": 0.1129543840392562,
+            "objects_with_part": 103,
+            "mean_fraction_per_object": 0.1129543840392562,
+            "median_fraction_per_object": 0.09716796875,
+            "p10_fraction_per_object": 0
+          },
+          "45": {
+            "pooled_point_fraction": 0.8119189049586777,
+            "objects_with_part": 121,
+            "mean_fraction_per_object": 0.8119189049586777,
+            "median_fraction_per_object": 0.81494140625,
+            "p10_fraction_per_object": 0.6728515625
+          },
+          "46": {
+            "pooled_point_fraction": 0.07512671100206611,
+            "objects_with_part": 94,
+            "mean_fraction_per_object": 0.07512671100206611,
+            "median_fraction_per_object": 0.0693359375,
+            "p10_fraction_per_object": 0
+          }
+        }
+      },
+      "earphone": {
+        "objects": 55,
+        "parts": {
+          "16": {
+            "pooled_point_fraction": 0.59775390625,
+            "objects_with_part": 55,
+            "mean_fraction_per_object": 0.59775390625,
+            "median_fraction_per_object": 0.63134765625,
+            "p10_fraction_per_object": 0.33203125
+          },
+          "17": {
+            "pooled_point_fraction": 0.2647549715909091,
+            "objects_with_part": 46,
+            "mean_fraction_per_object": 0.2647549715909091,
+            "median_fraction_per_object": 0.2509765625,
+            "p10_fraction_per_object": 0
+          },
+          "18": {
+            "pooled_point_fraction": 0.1374911221590909,
+            "objects_with_part": 33,
+            "mean_fraction_per_object": 0.1374911221590909,
+            "median_fraction_per_object": 0.01220703125,
+            "p10_fraction_per_object": 0
+          }
+        }
+      },
+      "cap": {
+        "objects": 44,
+        "parts": {
+          "6": {
+            "pooled_point_fraction": 0.7386474609375,
+            "objects_with_part": 44,
+            "mean_fraction_per_object": 0.7386474609375,
+            "median_fraction_per_object": 0.747802734375,
+            "p10_fraction_per_object": 0.511279296875
+          },
+          "7": {
+            "pooled_point_fraction": 0.2613525390625,
+            "objects_with_part": 42,
+            "mean_fraction_per_object": 0.2613525390625,
+            "median_fraction_per_object": 0.252197265625,
+            "p10_fraction_per_object": 0.06743164062499998
+          }
+        }
+      },
+      "mug": {
+        "objects": 146,
+        "parts": {
+          "36": {
+            "pooled_point_fraction": 0.06037296660958904,
+            "objects_with_part": 144,
+            "mean_fraction_per_object": 0.06037296660958904,
+            "median_fraction_per_object": 0.057373046875,
+            "p10_fraction_per_object": 0.0322265625
+          },
+          "37": {
+            "pooled_point_fraction": 0.939627033390411,
+            "objects_with_part": 146,
+            "mean_fraction_per_object": 0.939627033390411,
+            "median_fraction_per_object": 0.942626953125,
+            "p10_fraction_per_object": 0.91064453125
+          }
+        }
+      }
+    }
+  },
+  "test": {
+    "total_objects": 2874,
+    "category_counts": {
+      "airplane": 341,
+      "bag": 14,
+      "cap": 11,
+      "car": 158,
+      "chair": 704,
+      "earphone": 14,
+      "guitar": 159,
+      "knife": 80,
+      "lamp": 286,
+      "laptop": 83,
+      "motorbike": 51,
+      "mug": 38,
+      "pistol": 44,
+      "rocket": 12,
+      "skateboard": 31,
+      "table": 848
+    },
+    "focus": {
+      "rocket": {
+        "objects": 12,
+        "parts": {
+          "41": {
+            "pooled_point_fraction": 0.6842854817708334,
+            "objects_with_part": 12,
+            "mean_fraction_per_object": 0.6842854817708334,
+            "median_fraction_per_object": 0.718994140625,
+            "p10_fraction_per_object": 0.571630859375
+          },
+          "42": {
+            "pooled_point_fraction": 0.20890299479166666,
+            "objects_with_part": 12,
+            "mean_fraction_per_object": 0.20890299479166666,
+            "median_fraction_per_object": 0.198974609375,
+            "p10_fraction_per_object": 0.0337890625
+          },
+          "43": {
+            "pooled_point_fraction": 0.1068115234375,
+            "objects_with_part": 12,
+            "mean_fraction_per_object": 0.1068115234375,
+            "median_fraction_per_object": 0.095703125,
+            "p10_fraction_per_object": 0.045068359375
+          }
+        }
+      },
+      "bag": {
+        "objects": 14,
+        "parts": {
+          "4": {
+            "pooled_point_fraction": 0.10362025669642858,
+            "objects_with_part": 14,
+            "mean_fraction_per_object": 0.10362025669642858,
+            "median_fraction_per_object": 0.081787109375,
+            "p10_fraction_per_object": 0.02587890625
+          },
+          "5": {
+            "pooled_point_fraction": 0.8963797433035714,
+            "objects_with_part": 14,
+            "mean_fraction_per_object": 0.8963797433035714,
+            "median_fraction_per_object": 0.918212890625,
+            "p10_fraction_per_object": 0.78955078125
+          }
+        }
+      },
+      "motorbike": {
+        "objects": 51,
+        "parts": {
+          "30": {
+            "pooled_point_fraction": 0.06633923100490197,
+            "objects_with_part": 51,
+            "mean_fraction_per_object": 0.06633923100490197,
+            "median_fraction_per_object": 0.06005859375,
+            "p10_fraction_per_object": 0.04052734375
+          },
+          "31": {
+            "pooled_point_fraction": 0.02273858762254902,
+            "objects_with_part": 51,
+            "mean_fraction_per_object": 0.02273858762254902,
+            "median_fraction_per_object": 0.01904296875,
+            "p10_fraction_per_object": 0.0107421875
+          },
+          "32": {
+            "pooled_point_fraction": 0.20734719669117646,
+            "objects_with_part": 50,
+            "mean_fraction_per_object": 0.20734719669117646,
+            "median_fraction_per_object": 0.22021484375,
+            "p10_fraction_per_object": 0.10498046875
+          },
+          "33": {
+            "pooled_point_fraction": 0.010081571691176471,
+            "objects_with_part": 50,
+            "mean_fraction_per_object": 0.010081571691176471,
+            "median_fraction_per_object": 0.00830078125,
+            "p10_fraction_per_object": 0.00537109375
+          },
+          "34": {
+            "pooled_point_fraction": 0.010273054534313725,
+            "objects_with_part": 36,
+            "mean_fraction_per_object": 0.010273054534313725,
+            "median_fraction_per_object": 0.01171875,
+            "p10_fraction_per_object": 0
+          },
+          "35": {
+            "pooled_point_fraction": 0.6832203584558824,
+            "objects_with_part": 51,
+            "mean_fraction_per_object": 0.6832203584558824,
+            "median_fraction_per_object": 0.673828125,
+            "p10_fraction_per_object": 0.57568359375
+          }
+        }
+      },
+      "skateboard": {
+        "objects": 31,
+        "parts": {
+          "44": {
+            "pooled_point_fraction": 0.1212985131048387,
+            "objects_with_part": 26,
+            "mean_fraction_per_object": 0.1212985131048387,
+            "median_fraction_per_object": 0.08642578125,
+            "p10_fraction_per_object": 0
+          },
+          "45": {
+            "pooled_point_fraction": 0.8273689516129032,
+            "objects_with_part": 31,
+            "mean_fraction_per_object": 0.8273689516129032,
+            "median_fraction_per_object": 0.8388671875,
+            "p10_fraction_per_object": 0.6689453125
+          },
+          "46": {
+            "pooled_point_fraction": 0.05133253528225806,
+            "objects_with_part": 21,
+            "mean_fraction_per_object": 0.05133253528225806,
+            "median_fraction_per_object": 0.0302734375,
+            "p10_fraction_per_object": 0
+          }
+        }
+      },
+      "earphone": {
+        "objects": 14,
+        "parts": {
+          "16": {
+            "pooled_point_fraction": 0.6958356584821429,
+            "objects_with_part": 14,
+            "mean_fraction_per_object": 0.6958356584821429,
+            "median_fraction_per_object": 0.6796875,
+            "p10_fraction_per_object": 0.504052734375
+          },
+          "17": {
+            "pooled_point_fraction": 0.25341796875,
+            "objects_with_part": 14,
+            "mean_fraction_per_object": 0.25341796875,
+            "median_fraction_per_object": 0.251220703125,
+            "p10_fraction_per_object": 0.08378906250000001
+          },
+          "18": {
+            "pooled_point_fraction": 0.050746372767857144,
+            "objects_with_part": 9,
+            "mean_fraction_per_object": 0.050746372767857144,
+            "median_fraction_per_object": 0.032470703125,
+            "p10_fraction_per_object": 0
+          }
+        }
+      },
+      "cap": {
+        "objects": 11,
+        "parts": {
+          "6": {
+            "pooled_point_fraction": 0.7315340909090909,
+            "objects_with_part": 11,
+            "mean_fraction_per_object": 0.7315340909090909,
+            "median_fraction_per_object": 0.75341796875,
+            "p10_fraction_per_object": 0.5234375
+          },
+          "7": {
+            "pooled_point_fraction": 0.2684659090909091,
+            "objects_with_part": 11,
+            "mean_fraction_per_object": 0.2684659090909091,
+            "median_fraction_per_object": 0.24658203125,
+            "p10_fraction_per_object": 0.12158203125
+          }
+        }
+      },
+      "mug": {
+        "objects": 38,
+        "parts": {
+          "36": {
+            "pooled_point_fraction": 0.054109272203947366,
+            "objects_with_part": 37,
+            "mean_fraction_per_object": 0.054109272203947366,
+            "median_fraction_per_object": 0.05126953125,
+            "p10_fraction_per_object": 0.031103515625
+          },
+          "37": {
+            "pooled_point_fraction": 0.9458907277960527,
+            "objects_with_part": 38,
+            "mean_fraction_per_object": 0.9458907277960527,
+            "median_fraction_per_object": 0.94873046875,
+            "p10_fraction_per_object": 0.917333984375
+          }
+        }
+      }
+    }
+  },
+  "meta": {
+    "date": "2026-11-01",
+    "scope": "read-only CPU label statistics; no model inference or training",
+    "dataset": "existing antao ShapeNetPart HDF5 dataset used by the experiment series",
+    "training_split": "trainval",
+    "point_selection": "pid[:, :2048], matching the dataset adapter",
+    "note": "Counts are entries in the preserved experimental protocol, not deduplicated shape identities."
+  },
+  "derived": {
+    "training_categories_ascending": [
+      {
+        "category": "cap",
+        "count": 44,
+        "percent": 0.3141286499607339,
+        "rarity_rank": 1
+      },
+      {
+        "category": "rocket",
+        "count": 54,
+        "percent": 0.3855215249518098,
+        "rarity_rank": 2
+      },
+      {
+        "category": "earphone",
+        "count": 55,
+        "percent": 0.3926608124509174,
+        "rarity_rank": 3
+      },
+      {
+        "category": "bag",
+        "count": 62,
+        "percent": 0.4426358249446706,
+        "rarity_rank": 4
+      },
+      {
+        "category": "skateboard",
+        "count": 121,
+        "percent": 0.8638537873920182,
+        "rarity_rank": 5
+      },
+      {
+        "category": "mug",
+        "count": 146,
+        "percent": 1.042335974869708,
+        "rarity_rank": 6
+      },
+      {
+        "category": "motorbike",
+        "count": 151,
+        "percent": 1.0780324123652458,
+        "rarity_rank": 7
+      },
+      {
+        "category": "pistol",
+        "count": 239,
+        "percent": 1.7062897122867138,
+        "rarity_rank": 8
+      },
+      {
+        "category": "knife",
+        "count": 312,
+        "percent": 2.227457699721568,
+        "rarity_rank": 9
+      },
+      {
+        "category": "laptop",
+        "count": 368,
+        "percent": 2.6272577996715927,
+        "rarity_rank": 10
+      },
+      {
+        "category": "guitar",
+        "count": 628,
+        "percent": 4.483472549439567,
+        "rarity_rank": 11
+      },
+      {
+        "category": "car",
+        "count": 740,
+        "percent": 5.283072749339616,
+        "rarity_rank": 12
+      },
+      {
+        "category": "lamp",
+        "count": 1261,
+        "percent": 9.00264153637467,
+        "rarity_rank": 13
+      },
+      {
+        "category": "airplane",
+        "count": 2349,
+        "percent": 16.77018633540373,
+        "rarity_rank": 14
+      },
+      {
+        "category": "chair",
+        "count": 3054,
+        "percent": 21.803384022274578,
+        "rarity_rank": 15
+      },
+      {
+        "category": "table",
+        "count": 4423,
+        "percent": 31.577068608552867,
+        "rarity_rank": 16
+      }
+    ],
+    "majority_only_predictors": {
+      "bag": {
+        "predicted_part_id": 5,
+        "number_of_parts": 2,
+        "predicted_part_point_fraction": 0.8963797433035714,
+        "implied_mean_part_iou": 0.4481898716517857,
+        "all_test_objects_contain_all_category_parts": true,
+        "interpretation": "Numerical agreement with H saved category IoU is a diagnostic clue, not verified prediction collapse."
+      },
+      "rocket": {
+        "predicted_part_id": 41,
+        "number_of_parts": 3,
+        "predicted_part_point_fraction": 0.6842854817708334,
+        "implied_mean_part_iou": 0.2280951605902778,
+        "all_test_objects_contain_all_category_parts": true,
+        "interpretation": "Numerical agreement with H saved category IoU is a diagnostic clue, not verified prediction collapse."
+      }
+    }
+  }
+}
