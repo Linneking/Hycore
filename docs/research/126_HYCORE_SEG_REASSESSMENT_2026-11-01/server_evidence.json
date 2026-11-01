@@ -1,0 +1,934 @@
+{
+  "captured_date": "2026-11-01",
+  "notes": [
+    "Read-only log summaries; no training or inference performed.",
+    "Class IoU shown at best Instance epoch; FGH trained first on RTX4090 then resumed on RTX5090; zero controls entirely RTX5090.",
+    "I is an interim snapshot (64 completed epochs), not final."
+  ],
+  "experiments": {
+    "F": {
+      "state": "complete",
+      "epoch": 200,
+      "step": null,
+      "updates": 87400,
+      "best": {
+        "epoch": 185,
+        "train_loss": 2.9931062069855785,
+        "train_ce": 2.9713137815418724,
+        "train_reg": 0.021792428715056496,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.8429697844823579,
+        "class": 0.7127818143332514,
+        "masked_instance": 0.8429702297996234,
+        "per_class": {
+          "airplane": 0.8482539288210942,
+          "bag": 0.4481898716517857,
+          "cap": 0.36576704545454547,
+          "car": 0.7779778997602721,
+          "chair": 0.9092565995866452,
+          "earphone": 0.6904394635157493,
+          "guitar": 0.9147662819839474,
+          "knife": 0.8833423417076857,
+          "lamp": 0.8461390202403473,
+          "laptop": 0.9611529871299905,
+          "motorbike": 0.28687059289875966,
+          "mug": 0.9450307319984705,
+          "pistol": 0.8143727326117287,
+          "rocket": 0.22809516059027776,
+          "skateboard": 0.6557100766565283,
+          "table": 0.8291442947241927
+        }
+      },
+      "last": {
+        "epoch": 200,
+        "train_loss": 2.9917346230906263,
+        "train_ce": 2.9703488278989116,
+        "train_reg": 0.021385797755515683,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.839393961938374,
+        "class": 0.7132773142378057,
+        "masked_instance": 0.8393965454882893,
+        "per_class": {
+          "airplane": 0.8470275196881721,
+          "bag": 0.4481898716517857,
+          "cap": 0.36576704545454547,
+          "car": 0.7824863811732866,
+          "chair": 0.9069159201601201,
+          "earphone": 0.7034932988348134,
+          "guitar": 0.9158696850254346,
+          "knife": 0.8825936460891226,
+          "lamp": 0.8438720655516039,
+          "laptop": 0.9619066482575341,
+          "motorbike": 0.28777449615990486,
+          "mug": 0.9451615784877205,
+          "pistol": 0.8154900438497129,
+          "rocket": 0.22809516059027776,
+          "skateboard": 0.6590741766006468,
+          "table": 0.8187194902302084
+        }
+      },
+      "last10_mean_instance": 0.8403655065043351,
+      "regularizer_last20_samples": {
+        "whole_radius_mean": 0.8302346587181091,
+        "part_radius_mean": 0.9577146738767623,
+        "hier_satisfied": 0.06875,
+        "contr_satisfied": 0.6875,
+        "whole_boundary_fraction": 0.0546875,
+        "part_boundary_fraction": 0.1296875,
+        "depth_gap": 0.7744022190570832
+      },
+      "last_gradient": {
+        "ce": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.21622732674427433
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.2430070830843747
+          },
+          "m2": {
+            "status": "nonzero",
+            "l2": 0.009008783479221264
+          },
+          "m3": {
+            "status": "nonzero",
+            "l2": 0.00857001581975799
+          }
+        },
+        "contr": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.03953777633410589
+          },
+          "euclidean9": {
+            "status": "none",
+            "l2": null
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        },
+        "hier": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.06090978405669007
+          },
+          "euclidean9": {
+            "status": "none",
+            "l2": null
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        }
+      },
+      "epochs": 200,
+      "source_commit": "c8b93dc66e2dd5588f77c1490ec085010b855a01"
+    },
+    "G": {
+      "state": "complete",
+      "epoch": 200,
+      "step": null,
+      "updates": 87400,
+      "best": {
+        "epoch": 199,
+        "train_loss": 3.0048400613754236,
+        "train_ce": 2.976885904163736,
+        "train_reg": 0.027954161508132444,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.8238521477872147,
+        "class": 0.644911893421888,
+        "masked_instance": 0.8238548445523227,
+        "per_class": {
+          "airplane": 0.8339530001718096,
+          "bag": 0.4481898716517857,
+          "cap": 0.36576704545454547,
+          "car": 0.7746168523660796,
+          "chair": 0.9031185762180596,
+          "earphone": 0.3509928385416666,
+          "guitar": 0.9139006831434305,
+          "knife": 0.8895775270565773,
+          "lamp": 0.808551356486831,
+          "laptop": 0.9570907895498629,
+          "motorbike": 0.2819499381542557,
+          "mug": 0.4861032586348684,
+          "pistol": 0.5943813513789801,
+          "rocket": 0.22809516059027776,
+          "skateboard": 0.6559582581198884,
+          "table": 0.8263437872312903
+        }
+      },
+      "last": {
+        "epoch": 200,
+        "train_loss": 3.0044609976578633,
+        "train_ce": 2.9769021122624726,
+        "train_reg": 0.027558886738029444,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.82266613754061,
+        "class": 0.6441627243851111,
+        "masked_instance": 0.8226682994910656,
+        "per_class": {
+          "airplane": 0.8311906805873972,
+          "bag": 0.4481898716517857,
+          "cap": 0.36576704545454547,
+          "car": 0.7714292062125282,
+          "chair": 0.9048286644717028,
+          "earphone": 0.3509928385416666,
+          "guitar": 0.9149728640844278,
+          "knife": 0.8909034967867576,
+          "lamp": 0.8057728918360302,
+          "laptop": 0.9549354182974479,
+          "motorbike": 0.2806011691543115,
+          "mug": 0.4861032586348684,
+          "pistol": 0.595434560605706,
+          "rocket": 0.22809516059027776,
+          "skateboard": 0.653851837703567,
+          "table": 0.8235346255487583
+        }
+      },
+      "last10_mean_instance": 0.8230370493192943,
+      "regularizer_last20_samples": {
+        "whole_radius_mean": 0.9617388188838959,
+        "part_radius_mean": 0.9642239570617676,
+        "hier_satisfied": 0,
+        "contr_satisfied": 0.525,
+        "whole_boundary_fraction": 0,
+        "part_boundary_fraction": 0,
+        "depth_gap": 0.07604273743927478
+      },
+      "last_gradient": {
+        "ce": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.12947952433127383
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.1006906386275206
+          },
+          "m2": {
+            "status": "nonzero",
+            "l2": 0.012008213464081829
+          },
+          "m3": {
+            "status": "nonzero",
+            "l2": 0.007836353472319006
+          }
+        },
+        "contr": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.06022279137655946
+          },
+          "euclidean9": {
+            "status": "none",
+            "l2": null
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        },
+        "hier": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.021619938861818087
+          },
+          "euclidean9": {
+            "status": "none",
+            "l2": null
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        }
+      },
+      "epochs": 200,
+      "source_commit": "c8b93dc66e2dd5588f77c1490ec085010b855a01"
+    },
+    "H": {
+      "state": "complete",
+      "epoch": 200,
+      "step": null,
+      "updates": 87400,
+      "best": {
+        "epoch": 197,
+        "train_loss": 2.9964925915480207,
+        "train_ce": 2.9678731390213255,
+        "train_reg": 0.028619454798525203,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.8461811079253577,
+        "class": 0.748211434244661,
+        "masked_instance": 0.8461811079253577,
+        "per_class": {
+          "airplane": 0.8449440104692025,
+          "bag": 0.4481898716517857,
+          "cap": 0.8889542960219375,
+          "car": 0.7828823716847431,
+          "chair": 0.9107379446539651,
+          "earphone": 0.6979112372389334,
+          "guitar": 0.9174971247176684,
+          "knife": 0.880808921885851,
+          "lamp": 0.846033955738496,
+          "laptop": 0.9611242711544548,
+          "motorbike": 0.30541776017095473,
+          "mug": 0.9468543584176055,
+          "pistol": 0.8202544778235631,
+          "rocket": 0.22809516059027776,
+          "skateboard": 0.6613138190614481,
+          "table": 0.8303633666336887
+        }
+      },
+      "last": {
+        "epoch": 200,
+        "train_loss": 2.9956375826960024,
+        "train_ce": 2.9677647082156393,
+        "train_reg": 0.027872873794125473,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.8446708552755273,
+        "class": 0.7472419904382772,
+        "masked_instance": 0.8446708552755273,
+        "per_class": {
+          "airplane": 0.8419805471476342,
+          "bag": 0.4481898716517857,
+          "cap": 0.8945163970896516,
+          "car": 0.7818941113560228,
+          "chair": 0.9097057375894579,
+          "earphone": 0.6989338490371949,
+          "guitar": 0.917859233136006,
+          "knife": 0.8806204412178629,
+          "lamp": 0.848475067460833,
+          "laptop": 0.9600705309422795,
+          "motorbike": 0.3012979365706036,
+          "mug": 0.9393476136522774,
+          "pistol": 0.8185895347745867,
+          "rocket": 0.22809516059027776,
+          "skateboard": 0.6589194162134991,
+          "table": 0.8273763985824624
+        }
+      },
+      "last10_mean_instance": 0.845035967184331,
+      "regularizer_last20_samples": {
+        "whole_radius_mean": 0.9873575568199158,
+        "part_radius_mean": 0.9943177908658981,
+        "hier_satisfied": 0.028125,
+        "contr_satisfied": 0.64375,
+        "whole_boundary_fraction": 0.675,
+        "part_boundary_fraction": 0.7125,
+        "depth_gap": 0.3382393106818199
+      },
+      "last_gradient": {
+        "ce": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.13485150970873375
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.055891888602622126
+          },
+          "m2": {
+            "status": "nonzero",
+            "l2": 0.018703544861317634
+          },
+          "m3": {
+            "status": "nonzero",
+            "l2": 0.009728867295990968
+          }
+        },
+        "contr": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.059964721691430176
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.02620358152197301
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        },
+        "hier": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.05302419149289484
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.025478981251224705
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        }
+      },
+      "epochs": 200,
+      "source_commit": "c8b93dc66e2dd5588f77c1490ec085010b855a01"
+    },
+    "F0": {
+      "state": "complete",
+      "epoch": 200,
+      "step": null,
+      "updates": 87400,
+      "best": {
+        "epoch": 173,
+        "train_loss": 2.966842952527498,
+        "train_ce": 2.966842952527498,
+        "train_reg": 0,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.8452066830036342,
+        "class": 0.7609298115838046,
+        "masked_instance": 0.845390509351202,
+        "per_class": {
+          "airplane": 0.8436153564665261,
+          "bag": 0.45571315853896266,
+          "cap": 0.8885278326825762,
+          "car": 0.7796311069727658,
+          "chair": 0.9107258808367942,
+          "earphone": 0.698452651517442,
+          "guitar": 0.915831686295935,
+          "knife": 0.8842525848996912,
+          "lamp": 0.8513024087658642,
+          "laptop": 0.9605210117057443,
+          "motorbike": 0.35910592061890995,
+          "mug": 0.9500726301041003,
+          "pistol": 0.8191210742955122,
+          "rocket": 0.37896699151030006,
+          "skateboard": 0.6580123331677555,
+          "table": 0.8210243569619945
+        }
+      },
+      "last": {
+        "epoch": 200,
+        "train_loss": 2.9652441328122907,
+        "train_ce": 2.9652441328122907,
+        "train_reg": 0,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.8419882950949329,
+        "class": 0.7603563521271418,
+        "masked_instance": 0.8423148952550724,
+        "per_class": {
+          "airplane": 0.8423771146433034,
+          "bag": 0.45880119049877877,
+          "cap": 0.8882372043869552,
+          "car": 0.7819584745632158,
+          "chair": 0.9106724357192157,
+          "earphone": 0.6954491493904784,
+          "guitar": 0.9158875886181157,
+          "knife": 0.8819882235830396,
+          "lamp": 0.846142088944352,
+          "laptop": 0.9614771695793868,
+          "motorbike": 0.3614510216822246,
+          "mug": 0.9452757177352458,
+          "pistol": 0.8195152383736332,
+          "rocket": 0.38469984228521886,
+          "skateboard": 0.659783865689866,
+          "table": 0.8119853083412388
+        }
+      },
+      "last10_mean_instance": 0.8428428879058136,
+      "regularizer_last20_samples": {
+        "whole_radius_mean": 0.5518913030624389,
+        "part_radius_mean": 0.6132956922054291,
+        "hier_satisfied": 0,
+        "contr_satisfied": 0,
+        "whole_boundary_fraction": 0,
+        "part_boundary_fraction": 0,
+        "depth_gap": 0.2011154606938362
+      },
+      "last_gradient": {
+        "ce": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.21331784076040908
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.061240265713342575
+          },
+          "m2": {
+            "status": "nonzero",
+            "l2": 0.007913323809086418
+          },
+          "m3": {
+            "status": "nonzero",
+            "l2": 0.007501460327157536
+          }
+        },
+        "contr": {
+          "shared": {
+            "status": "none",
+            "l2": null
+          },
+          "euclidean9": {
+            "status": "none",
+            "l2": null
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        },
+        "hier": {
+          "shared": {
+            "status": "none",
+            "l2": null
+          },
+          "euclidean9": {
+            "status": "none",
+            "l2": null
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        }
+      },
+      "epochs": 200,
+      "source_commit": "ff91a07c910c0e0aecb65560f4d6ebf210c6741a"
+    },
+    "G0": {
+      "state": "complete",
+      "epoch": 200,
+      "step": null,
+      "updates": 87400,
+      "best": {
+        "epoch": 162,
+        "train_loss": 2.9789176511000712,
+        "train_ce": 2.9789176511000712,
+        "train_reg": 0,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.8289710175565997,
+        "class": 0.6479738632490797,
+        "masked_instance": 0.8289740510543918,
+        "per_class": {
+          "airplane": 0.8430141056821691,
+          "bag": 0.4481898716517857,
+          "cap": 0.36576704545454547,
+          "car": 0.7741475349603089,
+          "chair": 0.9020392510938884,
+          "earphone": 0.3509928385416666,
+          "guitar": 0.9102497559342294,
+          "knife": 0.8869437513957035,
+          "lamp": 0.851117661184427,
+          "laptop": 0.9581754464347205,
+          "motorbike": 0.2832361437215687,
+          "mug": 0.4861032586348684,
+          "pistol": 0.5940271773049877,
+          "rocket": 0.22809516059027776,
+          "skateboard": 0.6581177430015287,
+          "table": 0.8273650663985987
+        }
+      },
+      "last": {
+        "epoch": 200,
+        "train_loss": 2.976139371946147,
+        "train_ce": 2.976139371946147,
+        "train_reg": 0,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.8277348173757755,
+        "class": 0.6471537872099186,
+        "masked_instance": 0.8277385370305077,
+        "per_class": {
+          "airplane": 0.8384007217465996,
+          "bag": 0.4481898716517857,
+          "cap": 0.36576704545454547,
+          "car": 0.7745769901897436,
+          "chair": 0.902782894928039,
+          "earphone": 0.3509928385416666,
+          "guitar": 0.9123262145002303,
+          "knife": 0.8849768773549054,
+          "lamp": 0.844909771599565,
+          "laptop": 0.957947569554825,
+          "motorbike": 0.2833093404741187,
+          "mug": 0.4861032586348684,
+          "pistol": 0.596980746947766,
+          "rocket": 0.22809516059027776,
+          "skateboard": 0.6528198919878845,
+          "table": 0.8262814012018763
+        }
+      },
+      "last10_mean_instance": 0.8278754435035527,
+      "regularizer_last20_samples": {
+        "whole_radius_mean": 0.31535017043352126,
+        "part_radius_mean": 0.37626669108867644,
+        "hier_satisfied": 0,
+        "contr_satisfied": 0,
+        "whole_boundary_fraction": 0,
+        "part_boundary_fraction": 0,
+        "depth_gap": 0.13996950201690198
+      },
+      "last_gradient": {
+        "ce": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.12661349380867928
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.037414614350805404
+          },
+          "m2": {
+            "status": "nonzero",
+            "l2": 0.009853441246852977
+          },
+          "m3": {
+            "status": "nonzero",
+            "l2": 0.007177872936560997
+          }
+        },
+        "contr": {
+          "shared": {
+            "status": "none",
+            "l2": null
+          },
+          "euclidean9": {
+            "status": "none",
+            "l2": null
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        },
+        "hier": {
+          "shared": {
+            "status": "none",
+            "l2": null
+          },
+          "euclidean9": {
+            "status": "none",
+            "l2": null
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        }
+      },
+      "epochs": 200,
+      "source_commit": "ff91a07c910c0e0aecb65560f4d6ebf210c6741a"
+    },
+    "H0": {
+      "state": "complete",
+      "epoch": 200,
+      "step": null,
+      "updates": 87400,
+      "best": {
+        "epoch": 173,
+        "train_loss": 2.966842952527498,
+        "train_ce": 2.966842952527498,
+        "train_reg": 0,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.8452066830036342,
+        "class": 0.7609298115838046,
+        "masked_instance": 0.845390509351202,
+        "per_class": {
+          "airplane": 0.8436153564665261,
+          "bag": 0.45571315853896266,
+          "cap": 0.8885278326825762,
+          "car": 0.7796311069727658,
+          "chair": 0.9107258808367942,
+          "earphone": 0.698452651517442,
+          "guitar": 0.915831686295935,
+          "knife": 0.8842525848996912,
+          "lamp": 0.8513024087658642,
+          "laptop": 0.9605210117057443,
+          "motorbike": 0.35910592061890995,
+          "mug": 0.9500726301041003,
+          "pistol": 0.8191210742955122,
+          "rocket": 0.37896699151030006,
+          "skateboard": 0.6580123331677555,
+          "table": 0.8210243569619945
+        }
+      },
+      "last": {
+        "epoch": 200,
+        "train_loss": 2.9652441328122907,
+        "train_ce": 2.9652441328122907,
+        "train_reg": 0,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.8419882950949329,
+        "class": 0.7603563521271418,
+        "masked_instance": 0.8423148952550724,
+        "per_class": {
+          "airplane": 0.8423771146433034,
+          "bag": 0.45880119049877877,
+          "cap": 0.8882372043869552,
+          "car": 0.7819584745632158,
+          "chair": 0.9106724357192157,
+          "earphone": 0.6954491493904784,
+          "guitar": 0.9158875886181157,
+          "knife": 0.8819882235830396,
+          "lamp": 0.846142088944352,
+          "laptop": 0.9614771695793868,
+          "motorbike": 0.3614510216822246,
+          "mug": 0.9452757177352458,
+          "pistol": 0.8195152383736332,
+          "rocket": 0.38469984228521886,
+          "skateboard": 0.659783865689866,
+          "table": 0.8119853083412388
+        }
+      },
+      "last10_mean_instance": 0.8428428879058136,
+      "regularizer_last20_samples": {
+        "whole_radius_mean": 0.982769912481308,
+        "part_radius_mean": 0.994006335735321,
+        "hier_satisfied": 0.0484375,
+        "contr_satisfied": 0.1609375,
+        "whole_boundary_fraction": 0.234375,
+        "part_boundary_fraction": 0.7234375,
+        "depth_gap": 0.8925556689500809
+      },
+      "last_gradient": {
+        "ce": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.21331784076040908
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.061240265713342575
+          },
+          "m2": {
+            "status": "nonzero",
+            "l2": 0.007913323809086418
+          },
+          "m3": {
+            "status": "nonzero",
+            "l2": 0.007501460327157536
+          }
+        },
+        "contr": {
+          "shared": {
+            "status": "none",
+            "l2": null
+          },
+          "euclidean9": {
+            "status": "none",
+            "l2": null
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        },
+        "hier": {
+          "shared": {
+            "status": "none",
+            "l2": null
+          },
+          "euclidean9": {
+            "status": "none",
+            "l2": null
+          },
+          "m2": {
+            "status": "none",
+            "l2": null
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        }
+      },
+      "epochs": 200,
+      "source_commit": "ff91a07c910c0e0aecb65560f4d6ebf210c6741a"
+    },
+    "I": {
+      "state": "training",
+      "epoch": 65,
+      "step": 250,
+      "updates": 28218,
+      "best": {
+        "epoch": 47,
+        "train_loss": 2.998947337235684,
+        "train_ce": 2.9873827753132485,
+        "train_reg": 0.011564563514421816,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.7751946527160695,
+        "class": 0.6398822713159968,
+        "masked_instance": 0.7751946527160695,
+        "per_class": {
+          "airplane": 0.7156487180197454,
+          "bag": 0.4481898716517857,
+          "cap": 0.7963214287873595,
+          "car": 0.4316518751468878,
+          "chair": 0.8939002940717894,
+          "earphone": 0.5009400605975083,
+          "guitar": 0.7789072554248904,
+          "knife": 0.873448428314688,
+          "lamp": 0.7637839323323927,
+          "laptop": 0.9569488646675776,
+          "motorbike": 0.2539214124184675,
+          "mug": 0.5997280546825725,
+          "pistol": 0.5391351674260729,
+          "rocket": 0.22809516059027776,
+          "skateboard": 0.6431177814632311,
+          "table": 0.8143780354607022
+        }
+      },
+      "last": {
+        "epoch": 64,
+        "train_loss": 2.9970312800505616,
+        "train_ce": 2.9859959020767386,
+        "train_reg": 0.011035380408155052,
+        "model_finite": true,
+        "optimizer_finite": true,
+        "instance": 0.7212530239355969,
+        "class": 0.605352139514038,
+        "masked_instance": 0.7212530239355969,
+        "per_class": {
+          "airplane": 0.6287233769216157,
+          "bag": 0.4481898716517857,
+          "cap": 0.6932047749948201,
+          "car": 0.48560190940400505,
+          "chair": 0.8793658581792989,
+          "earphone": 0.5700541099606281,
+          "guitar": 0.7022418995814044,
+          "knife": 0.8684297559711236,
+          "lamp": 0.7017874176080731,
+          "laptop": 0.938993271672563,
+          "motorbike": 0.22092478782326797,
+          "mug": 0.5028521375843167,
+          "pistol": 0.5705866501847555,
+          "rocket": 0.22809516059027776,
+          "skateboard": 0.5315696406012077,
+          "table": 0.7150136094954633
+        }
+      },
+      "last10_mean_instance": 0.7294618183736513,
+      "regularizer_last20_samples": {
+        "whole_radius_mean": 0.9316569536924362,
+        "part_radius_mean": 0.9957763314247131,
+        "hier_satisfied": 0.428125,
+        "contr_satisfied": 0.7265625,
+        "whole_boundary_fraction": 0.1734375,
+        "part_boundary_fraction": 0.8328125,
+        "depth_gap": 2.3786033511161806
+      },
+      "last_gradient": {
+        "ce": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.059861113028887095
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.03992977607512478
+          },
+          "m2": {
+            "status": "nonzero",
+            "l2": 0.021832728371796218
+          },
+          "m3": {
+            "status": "nonzero",
+            "l2": 0.009319323357429457
+          }
+        },
+        "contr": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.02808591043035241
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.019988387789967987
+          },
+          "m2": {
+            "status": "nonzero",
+            "l2": 0.005999573142790169
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        },
+        "hier": {
+          "shared": {
+            "status": "nonzero",
+            "l2": 0.03439318427956542
+          },
+          "euclidean9": {
+            "status": "nonzero",
+            "l2": 0.019167790975563797
+          },
+          "m2": {
+            "status": "nonzero",
+            "l2": 0.006457204080551399
+          },
+          "m3": {
+            "status": "none",
+            "l2": null
+          }
+        }
+      },
+      "epochs": 64,
+      "source_commit": "cdadb5536ed09eb9556719bd59d5bbcb7bea2df4"
+    }
+  }
+}
