@@ -1,0 +1,1058 @@
+{
+  "date": "2026-11-01",
+  "selection": "best test Instance mIoU, same-checkpoint per-category scores",
+  "runs": {
+    "DGCNN": {
+      "best": {
+        "selected_epoch": 186,
+        "metrics": {
+          "instance_miou": 0.8538254259526273,
+          "class_miou": 0.8177695302885475,
+          "point_accuracy": 0.9442887063978775,
+          "objects": 2874,
+          "classes_present": 16,
+          "per_class": {
+            "airplane": {
+              "count": 341,
+              "miou": 0.8409325818411338
+            },
+            "bag": {
+              "count": 14,
+              "miou": 0.8010970404727614
+            },
+            "cap": {
+              "count": 11,
+              "miou": 0.8452682909257839
+            },
+            "car": {
+              "count": 158,
+              "miou": 0.77944463094851
+            },
+            "chair": {
+              "count": 704,
+              "miou": 0.9089170185798107
+            },
+            "earphone": {
+              "count": 14,
+              "miou": 0.7384938108686571
+            },
+            "guitar": {
+              "count": 159,
+              "miou": 0.9170352603476426
+            },
+            "knife": {
+              "count": 80,
+              "miou": 0.8736271528472861
+            },
+            "lamp": {
+              "count": 286,
+              "miou": 0.8405846188716222
+            },
+            "laptop": {
+              "count": 83,
+              "miou": 0.9605662132559921
+            },
+            "motorbike": {
+              "count": 51,
+              "miou": 0.6558170054209745
+            },
+            "mug": {
+              "count": 38,
+              "miou": 0.9434225463714023
+            },
+            "pistol": {
+              "count": 44,
+              "miou": 0.8192924560327653
+            },
+            "rocket": {
+              "count": 12,
+              "miou": 0.5829690696582158
+            },
+            "skateboard": {
+              "count": 31,
+              "miou": 0.7491852738570683
+            },
+            "table": {
+              "count": 848,
+              "miou": 0.8276595143171319
+            }
+          },
+          "ce": 0.172042908264932,
+          "masked_secondary": {
+            "instance_miou": 0.8538254259526273,
+            "class_miou": 0.8177695302885475,
+            "point_accuracy": 0.9442887063978775,
+            "objects": 2874,
+            "classes_present": 16,
+            "per_class": {
+              "airplane": {
+                "count": 341,
+                "miou": 0.8409325818411338
+              },
+              "bag": {
+                "count": 14,
+                "miou": 0.8010970404727614
+              },
+              "cap": {
+                "count": 11,
+                "miou": 0.8452682909257839
+              },
+              "car": {
+                "count": 158,
+                "miou": 0.77944463094851
+              },
+              "chair": {
+                "count": 704,
+                "miou": 0.9089170185798107
+              },
+              "earphone": {
+                "count": 14,
+                "miou": 0.7384938108686571
+              },
+              "guitar": {
+                "count": 159,
+                "miou": 0.9170352603476426
+              },
+              "knife": {
+                "count": 80,
+                "miou": 0.8736271528472861
+              },
+              "lamp": {
+                "count": 286,
+                "miou": 0.8405846188716222
+              },
+              "laptop": {
+                "count": 83,
+                "miou": 0.9605662132559921
+              },
+              "motorbike": {
+                "count": 51,
+                "miou": 0.6558170054209745
+              },
+              "mug": {
+                "count": 38,
+                "miou": 0.9434225463714023
+              },
+              "pistol": {
+                "count": 44,
+                "miou": 0.8192924560327653
+              },
+              "rocket": {
+                "count": 12,
+                "miou": 0.5829690696582158
+              },
+              "skateboard": {
+                "count": 31,
+                "miou": 0.7491852738570683
+              },
+              "table": {
+                "count": 848,
+                "miou": 0.8276595143171319
+              }
+            }
+          }
+        },
+        "selection_split": "test"
+      },
+      "final_epoch": 200,
+      "final_test": {
+        "instance_miou": 0.8535071622295997,
+        "class_miou": 0.8218655939284545,
+        "point_accuracy": 0.9442856482689631,
+        "objects": 2874,
+        "classes_present": 16,
+        "per_class": {
+          "airplane": {
+            "count": 341,
+            "miou": 0.8413510188019973
+          },
+          "bag": {
+            "count": 14,
+            "miou": 0.8149748550922273
+          },
+          "cap": {
+            "count": 11,
+            "miou": 0.857658466360461
+          },
+          "car": {
+            "count": 158,
+            "miou": 0.7787145607438942
+          },
+          "chair": {
+            "count": 704,
+            "miou": 0.9092110712879109
+          },
+          "earphone": {
+            "count": 14,
+            "miou": 0.7688418469191651
+          },
+          "guitar": {
+            "count": 159,
+            "miou": 0.9166051135889766
+          },
+          "knife": {
+            "count": 80,
+            "miou": 0.8750210999163428
+          },
+          "lamp": {
+            "count": 286,
+            "miou": 0.8469977700709574
+          },
+          "laptop": {
+            "count": 83,
+            "miou": 0.9587542632149857
+          },
+          "motorbike": {
+            "count": 51,
+            "miou": 0.6727433625594591
+          },
+          "mug": {
+            "count": 38,
+            "miou": 0.9402573437661643
+          },
+          "pistol": {
+            "count": 44,
+            "miou": 0.8203652066427719
+          },
+          "rocket": {
+            "count": 12,
+            "miou": 0.5838839158140291
+          },
+          "skateboard": {
+            "count": 31,
+            "miou": 0.7417659073820532
+          },
+          "table": {
+            "count": 848,
+            "miou": 0.8227037006938753
+          }
+        },
+        "ce": 0.17457818729892405,
+        "masked_secondary": {
+          "instance_miou": 0.8535071622295997,
+          "class_miou": 0.8218655939284545,
+          "point_accuracy": 0.9442856482689631,
+          "objects": 2874,
+          "classes_present": 16,
+          "per_class": {
+            "airplane": {
+              "count": 341,
+              "miou": 0.8413510188019973
+            },
+            "bag": {
+              "count": 14,
+              "miou": 0.8149748550922273
+            },
+            "cap": {
+              "count": 11,
+              "miou": 0.857658466360461
+            },
+            "car": {
+              "count": 158,
+              "miou": 0.7787145607438942
+            },
+            "chair": {
+              "count": 704,
+              "miou": 0.9092110712879109
+            },
+            "earphone": {
+              "count": 14,
+              "miou": 0.7688418469191651
+            },
+            "guitar": {
+              "count": 159,
+              "miou": 0.9166051135889766
+            },
+            "knife": {
+              "count": 80,
+              "miou": 0.8750210999163428
+            },
+            "lamp": {
+              "count": 286,
+              "miou": 0.8469977700709574
+            },
+            "laptop": {
+              "count": 83,
+              "miou": 0.9587542632149857
+            },
+            "motorbike": {
+              "count": 51,
+              "miou": 0.6727433625594591
+            },
+            "mug": {
+              "count": 38,
+              "miou": 0.9402573437661643
+            },
+            "pistol": {
+              "count": 44,
+              "miou": 0.8203652066427719
+            },
+            "rocket": {
+              "count": 12,
+              "miou": 0.5838839158140291
+            },
+            "skateboard": {
+              "count": 31,
+              "miou": 0.7417659073820532
+            },
+            "table": {
+              "count": 848,
+              "miou": 0.8227037006938753
+            }
+          }
+        }
+      },
+      "state": "complete"
+    },
+    "H": {
+      "best": {
+        "selected_epoch": 197,
+        "metrics": {
+          "instance_miou": 0.8461811079253577,
+          "class_miou": 0.748211434244661,
+          "point_accuracy": 0.9435321592836639,
+          "objects": 2874,
+          "classes_present": 16,
+          "per_class": {
+            "airplane": {
+              "count": 341,
+              "miou": 0.8449440104692025
+            },
+            "bag": {
+              "count": 14,
+              "miou": 0.4481898716517857
+            },
+            "cap": {
+              "count": 11,
+              "miou": 0.8889542960219375
+            },
+            "car": {
+              "count": 158,
+              "miou": 0.7828823716847431
+            },
+            "chair": {
+              "count": 704,
+              "miou": 0.9107379446539651
+            },
+            "earphone": {
+              "count": 14,
+              "miou": 0.6979112372389334
+            },
+            "guitar": {
+              "count": 159,
+              "miou": 0.9174971247176684
+            },
+            "knife": {
+              "count": 80,
+              "miou": 0.880808921885851
+            },
+            "lamp": {
+              "count": 286,
+              "miou": 0.846033955738496
+            },
+            "laptop": {
+              "count": 83,
+              "miou": 0.9611242711544548
+            },
+            "motorbike": {
+              "count": 51,
+              "miou": 0.30541776017095473
+            },
+            "mug": {
+              "count": 38,
+              "miou": 0.9468543584176055
+            },
+            "pistol": {
+              "count": 44,
+              "miou": 0.8202544778235631
+            },
+            "rocket": {
+              "count": 12,
+              "miou": 0.22809516059027776
+            },
+            "skateboard": {
+              "count": 31,
+              "miou": 0.6613138190614481
+            },
+            "table": {
+              "count": 848,
+              "miou": 0.8303633666336887
+            }
+          },
+          "ce": 2.9896281722857876,
+          "masked_secondary": {
+            "instance_miou": 0.8461811079253577,
+            "class_miou": 0.748211434244661,
+            "point_accuracy": 0.9435321592836639,
+            "objects": 2874,
+            "classes_present": 16,
+            "per_class": {
+              "airplane": {
+                "count": 341,
+                "miou": 0.8449440104692025
+              },
+              "bag": {
+                "count": 14,
+                "miou": 0.4481898716517857
+              },
+              "cap": {
+                "count": 11,
+                "miou": 0.8889542960219375
+              },
+              "car": {
+                "count": 158,
+                "miou": 0.7828823716847431
+              },
+              "chair": {
+                "count": 704,
+                "miou": 0.9107379446539651
+              },
+              "earphone": {
+                "count": 14,
+                "miou": 0.6979112372389334
+              },
+              "guitar": {
+                "count": 159,
+                "miou": 0.9174971247176684
+              },
+              "knife": {
+                "count": 80,
+                "miou": 0.880808921885851
+              },
+              "lamp": {
+                "count": 286,
+                "miou": 0.846033955738496
+              },
+              "laptop": {
+                "count": 83,
+                "miou": 0.9611242711544548
+              },
+              "motorbike": {
+                "count": 51,
+                "miou": 0.30541776017095473
+              },
+              "mug": {
+                "count": 38,
+                "miou": 0.9468543584176055
+              },
+              "pistol": {
+                "count": 44,
+                "miou": 0.8202544778235631
+              },
+              "rocket": {
+                "count": 12,
+                "miou": 0.22809516059027776
+              },
+              "skateboard": {
+                "count": 31,
+                "miou": 0.6613138190614481
+              },
+              "table": {
+                "count": 848,
+                "miou": 0.8303633666336887
+              }
+            }
+          }
+        },
+        "selection_split": "test"
+      },
+      "final_epoch": 200,
+      "final_test": {
+        "instance_miou": 0.8446708552755273,
+        "class_miou": 0.7472419904382772,
+        "point_accuracy": 0.9427547149552018,
+        "objects": 2874,
+        "classes_present": 16,
+        "per_class": {
+          "airplane": {
+            "count": 341,
+            "miou": 0.8419805471476342
+          },
+          "bag": {
+            "count": 14,
+            "miou": 0.4481898716517857
+          },
+          "cap": {
+            "count": 11,
+            "miou": 0.8945163970896516
+          },
+          "car": {
+            "count": 158,
+            "miou": 0.7818941113560228
+          },
+          "chair": {
+            "count": 704,
+            "miou": 0.9097057375894579
+          },
+          "earphone": {
+            "count": 14,
+            "miou": 0.6989338490371949
+          },
+          "guitar": {
+            "count": 159,
+            "miou": 0.917859233136006
+          },
+          "knife": {
+            "count": 80,
+            "miou": 0.8806204412178629
+          },
+          "lamp": {
+            "count": 286,
+            "miou": 0.848475067460833
+          },
+          "laptop": {
+            "count": 83,
+            "miou": 0.9600705309422795
+          },
+          "motorbike": {
+            "count": 51,
+            "miou": 0.3012979365706036
+          },
+          "mug": {
+            "count": 38,
+            "miou": 0.9393476136522774
+          },
+          "pistol": {
+            "count": 44,
+            "miou": 0.8185895347745867
+          },
+          "rocket": {
+            "count": 12,
+            "miou": 0.22809516059027776
+          },
+          "skateboard": {
+            "count": 31,
+            "miou": 0.6589194162134991
+          },
+          "table": {
+            "count": 848,
+            "miou": 0.8273763985824624
+          }
+        },
+        "ce": 2.990186913277262,
+        "masked_secondary": {
+          "instance_miou": 0.8446708552755273,
+          "class_miou": 0.7472419904382772,
+          "point_accuracy": 0.9427547149552018,
+          "objects": 2874,
+          "classes_present": 16,
+          "per_class": {
+            "airplane": {
+              "count": 341,
+              "miou": 0.8419805471476342
+            },
+            "bag": {
+              "count": 14,
+              "miou": 0.4481898716517857
+            },
+            "cap": {
+              "count": 11,
+              "miou": 0.8945163970896516
+            },
+            "car": {
+              "count": 158,
+              "miou": 0.7818941113560228
+            },
+            "chair": {
+              "count": 704,
+              "miou": 0.9097057375894579
+            },
+            "earphone": {
+              "count": 14,
+              "miou": 0.6989338490371949
+            },
+            "guitar": {
+              "count": 159,
+              "miou": 0.917859233136006
+            },
+            "knife": {
+              "count": 80,
+              "miou": 0.8806204412178629
+            },
+            "lamp": {
+              "count": 286,
+              "miou": 0.848475067460833
+            },
+            "laptop": {
+              "count": 83,
+              "miou": 0.9600705309422795
+            },
+            "motorbike": {
+              "count": 51,
+              "miou": 0.3012979365706036
+            },
+            "mug": {
+              "count": 38,
+              "miou": 0.9393476136522774
+            },
+            "pistol": {
+              "count": 44,
+              "miou": 0.8185895347745867
+            },
+            "rocket": {
+              "count": 12,
+              "miou": 0.22809516059027776
+            },
+            "skateboard": {
+              "count": 31,
+              "miou": 0.6589194162134991
+            },
+            "table": {
+              "count": 848,
+              "miou": 0.8273763985824624
+            }
+          }
+        }
+      },
+      "state": "complete"
+    },
+    "H0": {
+      "best": {
+        "selected_epoch": 173,
+        "metrics": {
+          "instance_miou": 0.8452066830036342,
+          "class_miou": 0.7609298115838046,
+          "point_accuracy": 0.9437535338378567,
+          "objects": 2874,
+          "classes_present": 16,
+          "per_class": {
+            "airplane": {
+              "count": 341,
+              "miou": 0.8436153564665261
+            },
+            "bag": {
+              "count": 14,
+              "miou": 0.45571315853896266
+            },
+            "cap": {
+              "count": 11,
+              "miou": 0.8885278326825762
+            },
+            "car": {
+              "count": 158,
+              "miou": 0.7796311069727658
+            },
+            "chair": {
+              "count": 704,
+              "miou": 0.9107258808367942
+            },
+            "earphone": {
+              "count": 14,
+              "miou": 0.698452651517442
+            },
+            "guitar": {
+              "count": 159,
+              "miou": 0.915831686295935
+            },
+            "knife": {
+              "count": 80,
+              "miou": 0.8842525848996912
+            },
+            "lamp": {
+              "count": 286,
+              "miou": 0.8513024087658642
+            },
+            "laptop": {
+              "count": 83,
+              "miou": 0.9605210117057443
+            },
+            "motorbike": {
+              "count": 51,
+              "miou": 0.35910592061890995
+            },
+            "mug": {
+              "count": 38,
+              "miou": 0.9500726301041003
+            },
+            "pistol": {
+              "count": 44,
+              "miou": 0.8191210742955122
+            },
+            "rocket": {
+              "count": 12,
+              "miou": 0.37896699151030006
+            },
+            "skateboard": {
+              "count": 31,
+              "miou": 0.6580123331677555
+            },
+            "table": {
+              "count": 848,
+              "miou": 0.8210243569619945
+            }
+          },
+          "ce": 2.989174064863201,
+          "masked_secondary": {
+            "instance_miou": 0.845390509351202,
+            "class_miou": 0.7632619056006802,
+            "point_accuracy": 0.9437904012808803,
+            "objects": 2874,
+            "classes_present": 16,
+            "per_class": {
+              "airplane": {
+                "count": 341,
+                "miou": 0.8436153564665261
+              },
+              "bag": {
+                "count": 14,
+                "miou": 0.49294075174912305
+              },
+              "cap": {
+                "count": 11,
+                "miou": 0.8885278326825762
+              },
+              "car": {
+                "count": 158,
+                "miou": 0.7796311069727658
+              },
+              "chair": {
+                "count": 704,
+                "miou": 0.9107258808367942
+              },
+              "earphone": {
+                "count": 14,
+                "miou": 0.698452651517442
+              },
+              "guitar": {
+                "count": 159,
+                "miou": 0.915831686295935
+              },
+              "knife": {
+                "count": 80,
+                "miou": 0.8842525848996912
+              },
+              "lamp": {
+                "count": 286,
+                "miou": 0.8513024087658642
+              },
+              "laptop": {
+                "count": 83,
+                "miou": 0.960606922765592
+              },
+              "motorbike": {
+                "count": 51,
+                "miou": 0.35910592061890995
+              },
+              "mug": {
+                "count": 38,
+                "miou": 0.9500726301041003
+              },
+              "pistol": {
+                "count": 44,
+                "miou": 0.8191210742955122
+              },
+              "rocket": {
+                "count": 12,
+                "miou": 0.37896699151030006
+              },
+              "skateboard": {
+                "count": 31,
+                "miou": 0.6580123331677555
+              },
+              "table": {
+                "count": 848,
+                "miou": 0.8210243569619945
+              }
+            }
+          }
+        },
+        "selection_split": "test"
+      },
+      "final_epoch": 200,
+      "final_test": {
+        "instance_miou": 0.8419882950949329,
+        "class_miou": 0.7603563521271418,
+        "point_accuracy": 0.9431298454353688,
+        "objects": 2874,
+        "classes_present": 16,
+        "per_class": {
+          "airplane": {
+            "count": 341,
+            "miou": 0.8423771146433034
+          },
+          "bag": {
+            "count": 14,
+            "miou": 0.45880119049877877
+          },
+          "cap": {
+            "count": 11,
+            "miou": 0.8882372043869552
+          },
+          "car": {
+            "count": 158,
+            "miou": 0.7819584745632158
+          },
+          "chair": {
+            "count": 704,
+            "miou": 0.9106724357192157
+          },
+          "earphone": {
+            "count": 14,
+            "miou": 0.6954491493904784
+          },
+          "guitar": {
+            "count": 159,
+            "miou": 0.9158875886181157
+          },
+          "knife": {
+            "count": 80,
+            "miou": 0.8819882235830396
+          },
+          "lamp": {
+            "count": 286,
+            "miou": 0.846142088944352
+          },
+          "laptop": {
+            "count": 83,
+            "miou": 0.9614771695793868
+          },
+          "motorbike": {
+            "count": 51,
+            "miou": 0.3614510216822246
+          },
+          "mug": {
+            "count": 38,
+            "miou": 0.9452757177352458
+          },
+          "pistol": {
+            "count": 44,
+            "miou": 0.8195152383736332
+          },
+          "rocket": {
+            "count": 12,
+            "miou": 0.38469984228521886
+          },
+          "skateboard": {
+            "count": 31,
+            "miou": 0.659783865689866
+          },
+          "table": {
+            "count": 848,
+            "miou": 0.8119853083412388
+          }
+        },
+        "ce": 2.9896419149516933,
+        "masked_secondary": {
+          "instance_miou": 0.8423148952550724,
+          "class_miou": 0.764523155473876,
+          "point_accuracy": 0.9431770765374913,
+          "objects": 2874,
+          "classes_present": 16,
+          "per_class": {
+            "airplane": {
+              "count": 341,
+              "miou": 0.8423771146433034
+            },
+            "bag": {
+              "count": 14,
+              "miou": 0.5253949479785963
+            },
+            "cap": {
+              "count": 11,
+              "miou": 0.8882372043869552
+            },
+            "car": {
+              "count": 158,
+              "miou": 0.781959851655018
+            },
+            "chair": {
+              "count": 704,
+              "miou": 0.9106724357192157
+            },
+            "earphone": {
+              "count": 14,
+              "miou": 0.6954491493904784
+            },
+            "guitar": {
+              "count": 159,
+              "miou": 0.9158875886181157
+            },
+            "knife": {
+              "count": 80,
+              "miou": 0.8819882235830396
+            },
+            "lamp": {
+              "count": 286,
+              "miou": 0.846142088944352
+            },
+            "laptop": {
+              "count": 83,
+              "miou": 0.9615508885555123
+            },
+            "motorbike": {
+              "count": 51,
+              "miou": 0.3614510216822246
+            },
+            "mug": {
+              "count": 38,
+              "miou": 0.9452757177352458
+            },
+            "pistol": {
+              "count": 44,
+              "miou": 0.8195152383736332
+            },
+            "rocket": {
+              "count": 12,
+              "miou": 0.38469984228521886
+            },
+            "skateboard": {
+              "count": 31,
+              "miou": 0.659783865689866
+            },
+            "table": {
+              "count": 848,
+              "miou": 0.8119853083412388
+            }
+          }
+        }
+      },
+      "state": "complete"
+    }
+  },
+  "comparison": [
+    {
+      "class": "rocket",
+      "count": 12,
+      "DGCNN": 58.296906965821584,
+      "H": 22.809516059027775,
+      "H0": 37.896699151030006,
+      "deltaPP": -35.487390906793806,
+      "contributionPP": -2.217961931674613
+    },
+    {
+      "class": "bag",
+      "count": 14,
+      "DGCNN": 80.10970404727614,
+      "H": 44.81898716517857,
+      "H0": 45.571315853896266,
+      "deltaPP": -35.29071688209757,
+      "contributionPP": -2.205669805131098
+    },
+    {
+      "class": "motorbike",
+      "count": 51,
+      "DGCNN": 65.58170054209745,
+      "H": 30.541776017095472,
+      "H0": 35.910592061890995,
+      "deltaPP": -35.03992452500198,
+      "contributionPP": -2.1899952828126237
+    },
+    {
+      "class": "skateboard",
+      "count": 31,
+      "DGCNN": 74.91852738570684,
+      "H": 66.13138190614481,
+      "H0": 65.80123331677555,
+      "deltaPP": -8.78714547956202,
+      "contributionPP": -0.5491965924726262
+    },
+    {
+      "class": "earphone",
+      "count": 14,
+      "DGCNN": 73.8493810868657,
+      "H": 69.79112372389335,
+      "H0": 69.8452651517442,
+      "deltaPP": -4.058257362972362,
+      "contributionPP": -0.2536410851857726
+    },
+    {
+      "class": "guitar",
+      "count": 159,
+      "DGCNN": 91.70352603476427,
+      "H": 91.74971247176684,
+      "H0": 91.5831686295935,
+      "deltaPP": 0.04618643700258218,
+      "contributionPP": 0.0028866523126613863
+    },
+    {
+      "class": "laptop",
+      "count": 83,
+      "DGCNN": 96.05662132559921,
+      "H": 96.11242711544547,
+      "H0": 96.05210117057443,
+      "deltaPP": 0.05580578984626383,
+      "contributionPP": 0.0034878618653914895
+    },
+    {
+      "class": "pistol",
+      "count": 44,
+      "DGCNN": 81.92924560327654,
+      "H": 82.02544778235631,
+      "H0": 81.91210742955121,
+      "deltaPP": 0.09620217907977402,
+      "contributionPP": 0.006012636192485876
+    },
+    {
+      "class": "chair",
+      "count": 704,
+      "DGCNN": 90.89170185798106,
+      "H": 91.0737944653965,
+      "H0": 91.07258808367942,
+      "deltaPP": 0.18209260741544053,
+      "contributionPP": 0.011380787963465033
+    },
+    {
+      "class": "table",
+      "count": 848,
+      "DGCNN": 82.76595143171319,
+      "H": 83.03633666336887,
+      "H0": 82.10243569619945,
+      "deltaPP": 0.27038523165567874,
+      "contributionPP": 0.01689907697847992
+    },
+    {
+      "class": "mug",
+      "count": 38,
+      "DGCNN": 94.34225463714023,
+      "H": 94.68543584176055,
+      "H0": 95.00726301041003,
+      "deltaPP": 0.3431812046203131,
+      "contributionPP": 0.02144882528876957
+    },
+    {
+      "class": "car",
+      "count": 158,
+      "DGCNN": 77.944463094851,
+      "H": 78.28823716847431,
+      "H0": 77.96311069727658,
+      "deltaPP": 0.34377407362330414,
+      "contributionPP": 0.02148587960145651
+    },
+    {
+      "class": "airplane",
+      "count": 341,
+      "DGCNN": 84.09325818411338,
+      "H": 84.49440104692026,
+      "H0": 84.36153564665261,
+      "deltaPP": 0.40114286280686917,
+      "contributionPP": 0.025071428925429323
+    },
+    {
+      "class": "lamp",
+      "count": 286,
+      "DGCNN": 84.05846188716222,
+      "H": 84.60339557384961,
+      "H0": 85.13024087658641,
+      "deltaPP": 0.5449336866873877,
+      "contributionPP": 0.03405835541796173
+    },
+    {
+      "class": "knife",
+      "count": 80,
+      "DGCNN": 87.36271528472861,
+      "H": 88.0808921885851,
+      "H0": 88.42525848996911,
+      "deltaPP": 0.7181769038564934,
+      "contributionPP": 0.044886056491030835
+    },
+    {
+      "class": "cap",
+      "count": 11,
+      "DGCNN": 84.5268290925784,
+      "H": 88.89542960219376,
+      "H0": 88.85278326825762,
+      "deltaPP": 4.368600509615361,
+      "contributionPP": 0.2730375318509601
+    }
+  ]
+}

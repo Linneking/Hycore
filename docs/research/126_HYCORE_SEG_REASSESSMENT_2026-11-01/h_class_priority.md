@@ -2,6 +2,8 @@
 
 2026-11-01。本文覆盖 report.md 初次建议中的工作优先级；仅调整研究计划，没有修改模型、启动或停止训练。
 
+用户再次明确：**原DGCNN才是必须超越的目标，H0仅作为诊断对照。** 已补齐 [DGCNN/H0/H的16类IoU及差距贡献](dgcnn_category_comparison.md)。H对DGCNN的Class差距为−6.956pp，rocket、bag、motorbike合计解释约95.1%的净差距。因此下面原H/H0分析只能说明开启R后的变化，不能取代对基线的比较；当前优先类别更新为rocket、bag、motorbike，其次skateboard、earphone。
+
 ## 1. 接受的范围调整
 
 - 用户指出分类HyCoRe本身也可能没有良好的margin可达表现。不能把margin满足率当成正则有效性的必要条件，更不能因为hinge长期不为零就认定方法失败。可达率（当前whole固定时part是否存在可行半径）、满足率（实际whole/part是否满足）与任务收益是三个不同量，最多用于机制分析。
