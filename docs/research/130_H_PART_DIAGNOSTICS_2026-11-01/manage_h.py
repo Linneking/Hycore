@@ -27,6 +27,16 @@ def main():
             return
         pid, out = active['pid'], Path(active['out'])
         owned_group(pid, out)
+        if not (out / 'last.pth').exists():
+            # No complete epoch yet: retain the previous resume plan/fresh start.
+            os.killpg(pid, signal.SIGTERM)
+            time.sleep(2)
+            try:
+                os.killpg(pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            print('Stopped H before its first new complete epoch; prior checkpoint retained.')
+            return
         os.killpg(pid, signal.SIGSTOP)
         terminated = False
         try:
