@@ -85,8 +85,10 @@ def head_probe(model, u, y, cats):
     m = model.emb2(e)
     z = model.mlr(m)
     nodes = [u,e,m,z]
-    params = [p for layer in (model.emb2, model.mlr) for p in layer.parameters()]
-    names = ['emb2.'+n for n,_ in model.emb2.named_parameters()] + ['mlr.'+n for n,_ in model.mlr.named_parameters()]
+    named = [(prefix+'.'+n,p) for prefix,layer in [('emb2',model.emb2),('mlr',model.mlr)]
+             for n,p in layer.named_parameters() if p.requires_grad]
+    names,params = zip(*named)
+    params = list(params)
     losses = torch.nn.functional.cross_entropy(z.reshape(-1,50),y.reshape(-1),reduction='none').reshape_as(y)
     total = torch.autograd.grad(losses.mean(), nodes+params, retain_graph=True)
     output = dict(ce=float(losses.mean()), parts={}, effective_rows={})
