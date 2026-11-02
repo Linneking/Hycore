@@ -1,5 +1,17 @@
 # Local–GitHub–server workflow
 
+## Experiment-end reporting — user requirement, 2026-11-02
+
+Every completed experiment must be explained in the conversation, not only by a score table, log, or artifact link. Report each logical experiment with:
+
+1. **Reason and hypothesis:** which observation motivated it, what remained unknown, and what the experiment was intended to distinguish.
+2. **Control:** what changed, what was matched, and which comparison identifies the effect.
+3. **Result:** the necessary numbers, including relevant failure cases and tradeoffs.
+4. **Conclusion and limits:** whether the hypothesis is supported, weakened, or unresolved; distinguish local diagnostic findings from full-task gains and avoid treating absence of evidence as exclusion.
+5. **Consequence:** how the result changes the next step, or why it does not justify a change yet.
+
+Progress updates must explicitly remain interim. Do not present a pending full-training run as completed, and do not substitute a local probe score for the DGCNN Class mIoU target. Future plans and reports must carry these explanations forward so the user does not have to reconstruct the reasoning from previous messages.
+
 ## Sources of truth
 
 - **Code source of truth:** local `D:\Hycore` working copy.
