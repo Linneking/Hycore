@@ -1,0 +1,10 @@
+{
+  "display_name": "S5-TAN-R0",
+  "gpu": 2,
+  "commit": "6493428d44494d2a131028818170b2adfbc127ac",
+  "started_utc": "2026-11-02T13:53:48.860597+00:00",
+  "fresh": true,
+  "teacher": null,
+  "seed": 4780,
+  "expected_updates": 87400
+}
