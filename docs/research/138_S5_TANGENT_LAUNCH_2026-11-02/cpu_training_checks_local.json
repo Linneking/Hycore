@@ -1,0 +1,21 @@
+{
+  "complete": true,
+  "tests_run": 4,
+  "cuda_initialized": false,
+  "scope": "synthetic_CPU_contracts_only_not_production_score",
+  "cli_rejects_unapproved_arm_scale_regularizers": true,
+  "cpu_complete_entrypoint": {
+    "epochs": 2,
+    "updates": 4,
+    "BN_updates": 4,
+    "test_accessed": false,
+    "all_50_part_metrics": true,
+    "checkpoint_and_optimizer_restorable": true,
+    "scheduler_horizon": 200,
+    "q_geometry_not_ball": true,
+    "initial_model_sha256": "40da1ceeb6758eb9762e499f3b4d0e7ff8e9e0f64b8f22e1e70776a311fa9d78"
+  },
+  "q_real_score_statistics_and_true_class_probability": true,
+  "scaled_ce_exact_gradient_and_R0_no_training_graph": true,
+  "diagnostics_advance_only_independent_rng": true
+}
