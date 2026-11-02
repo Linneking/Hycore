@@ -1,0 +1,315 @@
+{
+  "started": 1793595846.8139005,
+  "pid": 1569792,
+  "device": "cpu",
+  "threads": 2,
+  "seed": 4780,
+  "steps": 4000,
+  "checkpoint_sha256": "351079b56077596f8fe7d7fd6eee214a268f2c7bffc1d455819487ba134f8fe6",
+  "cache_sha256": "d8a80d9cc160cdc10829947d7b521fc24f0419f63bbbb51dfc909aadff24eaea",
+  "source_commit": "c8b93dc66e2dd5588f77c1490ec085010b855a01",
+  "tool_commit": "9ffcd581bd97dfb80c118ed82fc2044f4155b520",
+  "support": {
+    "0": {
+      "fit": 7930,
+      "check": 3551,
+      "weight": 0.751954197883606,
+      "testable": true
+    },
+    "1": {
+      "fit": 4598,
+      "check": 2960,
+      "weight": 0.9875144958496094,
+      "testable": true
+    },
+    "2": {
+      "fit": 1944,
+      "check": 1034,
+      "weight": 1.518727421760559,
+      "testable": true
+    },
+    "3": {
+      "fit": 1912,
+      "check": 647,
+      "weight": 1.531383752822876,
+      "testable": true
+    },
+    "4": {
+      "fit": 1430,
+      "check": 582,
+      "weight": 2.706172466278076,
+      "testable": true
+    },
+    "5": {
+      "fit": 14954,
+      "check": 7610,
+      "weight": 0.8368445634841919,
+      "testable": true
+    },
+    "6": {
+      "fit": 13119,
+      "check": 6149,
+      "weight": 0.8332090377807617,
+      "testable": true
+    },
+    "7": {
+      "fit": 3265,
+      "check": 2043,
+      "weight": 1.670177936553955,
+      "testable": true
+    },
+    "8": {
+      "fit": 996,
+      "check": 530,
+      "weight": 2.3619861602783203,
+      "testable": true
+    },
+    "9": {
+      "fit": 720,
+      "check": 819,
+      "weight": 2.778054714202881,
+      "testable": true
+    },
+    "10": {
+      "fit": 2708,
+      "check": 1443,
+      "weight": 1.4324606657028198,
+      "testable": true
+    },
+    "11": {
+      "fit": 11960,
+      "check": 5400,
+      "weight": 0.6816186308860779,
+      "testable": true
+    },
+    "12": {
+      "fit": 5354,
+      "check": 3026,
+      "weight": 0.9415102601051331,
+      "testable": true
+    },
+    "13": {
+      "fit": 7211,
+      "check": 3813,
+      "weight": 0.8112719655036926,
+      "testable": true
+    },
+    "14": {
+      "fit": 3336,
+      "check": 1121,
+      "weight": 1.192754864692688,
+      "testable": true
+    },
+    "15": {
+      "fit": 483,
+      "check": 232,
+      "weight": 3.1346616744995117,
+      "testable": true
+    },
+    "16": {
+      "fit": 10853,
+      "check": 1893,
+      "weight": 0.7545111775398254,
+      "testable": true
+    },
+    "17": {
+      "fit": 3487,
+      "check": 1406,
+      "weight": 1.331112027168274,
+      "testable": true
+    },
+    "18": {
+      "fit": 2044,
+      "check": 4893,
+      "weight": 1.7386019229888916,
+      "testable": true
+    },
+    "19": {
+      "fit": 1201,
+      "check": 842,
+      "weight": 2.3751697540283203,
+      "testable": true
+    },
+    "20": {
+      "fit": 2840,
+      "check": 2048,
+      "weight": 1.5445678234100342,
+      "testable": true
+    },
+    "21": {
+      "fit": 12343,
+      "check": 5302,
+      "weight": 0.7408934831619263,
+      "testable": true
+    },
+    "22": {
+      "fit": 7139,
+      "check": 5060,
+      "weight": 1.0734426975250244,
+      "testable": true
+    },
+    "23": {
+      "fit": 9245,
+      "check": 3132,
+      "weight": 0.9432874917984009,
+      "testable": true
+    },
+    "24": {
+      "fit": 3496,
+      "check": 476,
+      "weight": 1.140109896659851,
+      "testable": true
+    },
+    "25": {
+      "fit": 8585,
+      "check": 6127,
+      "weight": 0.7275490760803223,
+      "testable": true
+    },
+    "26": {
+      "fit": 1392,
+      "check": 225,
+      "weight": 1.8068113327026367,
+      "testable": true
+    },
+    "27": {
+      "fit": 2911,
+      "check": 1364,
+      "weight": 1.2494282722473145,
+      "testable": true
+    },
+    "28": {
+      "fit": 8514,
+      "check": 4115,
+      "weight": 0.9810972809791565,
+      "testable": true
+    },
+    "29": {
+      "fit": 7870,
+      "check": 4077,
+      "weight": 1.0204495191574097,
+      "testable": true
+    },
+    "30": {
+      "fit": 664,
+      "check": 285,
+      "weight": 2.630781650543213,
+      "testable": true
+    },
+    "31": {
+      "fit": 935,
+      "check": 348,
+      "weight": 2.2169864177703857,
+      "testable": true
+    },
+    "32": {
+      "fit": 4839,
+      "check": 1383,
+      "weight": 0.9745206236839294,
+      "testable": true
+    },
+    "33": {
+      "fit": 248,
+      "check": 280,
+      "weight": 3.4599602222442627,
+      "testable": true
+    },
+    "34": {
+      "fit": 101,
+      "check": 38,
+      "weight": 3.4599602222442627,
+      "testable": true
+    },
+    "35": {
+      "fit": 9597,
+      "check": 5858,
+      "weight": 0.6919920444488525,
+      "testable": true
+    },
+    "36": {
+      "fit": 1186,
+      "check": 636,
+      "weight": 3.016441583633423,
+      "testable": true
+    },
+    "37": {
+      "fit": 15198,
+      "check": 7556,
+      "weight": 0.8426437973976135,
+      "testable": true
+    },
+    "38": {
+      "fit": 10878,
+      "check": 5015,
+      "weight": 0.7797580361366272,
+      "testable": true
+    },
+    "39": {
+      "fit": 4679,
+      "check": 2634,
+      "weight": 1.188934326171875,
+      "testable": true
+    },
+    "40": {
+      "fit": 827,
+      "check": 543,
+      "weight": 2.828014612197876,
+      "testable": true
+    },
+    "41": {
+      "fit": 10786,
+      "check": 6054,
+      "weight": 0.7525541186332703,
+      "testable": true
+    },
+    "42": {
+      "fit": 2948,
+      "check": 1624,
+      "weight": 1.4394752979278564,
+      "testable": true
+    },
+    "43": {
+      "fit": 2650,
+      "check": 514,
+      "weight": 1.5182559490203857,
+      "testable": true
+    },
+    "44": {
+      "fit": 2273,
+      "check": 1519,
+      "weight": 1.7140319347381592,
+      "testable": true
+    },
+    "45": {
+      "fit": 12387,
+      "check": 6184,
+      "weight": 0.7342358231544495,
+      "testable": true
+    },
+    "46": {
+      "fit": 1724,
+      "check": 489,
+      "weight": 1.968112826347351,
+      "testable": true
+    },
+    "47": {
+      "fit": 10685,
+      "check": 5767,
+      "weight": 0.7658933997154236,
+      "testable": true
+    },
+    "48": {
+      "fit": 4189,
+      "check": 2088,
+      "weight": 1.2232083082199097,
+      "testable": true
+    },
+    "49": {
+      "fit": 1510,
+      "check": 337,
+      "weight": 2.0373570919036865,
+      "testable": true
+    }
+  },
+  "note": "CPU N5/U5 are hardware-matched replays of prior GPU controls; only NW5/UW5 are new weighted conditions"
+}
