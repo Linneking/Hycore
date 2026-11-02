@@ -1,0 +1,154 @@
+{
+  "scope": "read_only_official_code_audit_no_model_execution_or_training",
+  "repositories": [
+    {
+      "name": "HPCS",
+      "repository": "https://github.com/TheCrossProduct/HPCS",
+      "commit": "c464387adb540b3e79896b0728685ca370d22e28",
+      "committer_date": "2023-03-15T19:01:21+01:00",
+      "files": [
+        {
+          "path": "train.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/train.py",
+          "lf_sha256": "0f97c0cdd6654b3889889aca4ce702a2d5f0544ac83b319f79b8ae0f1c3718f1",
+          "lines": 296
+        },
+        {
+          "path": "README.md",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/README.md",
+          "lf_sha256": "969eabc54184b4559d07eb14fa66beea57d39d04b887e9f71e9caea86c730c1d",
+          "lines": 134
+        },
+        {
+          "path": "run_train.sh",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/run_train.sh",
+          "lf_sha256": "c3e7202ccc2d96df26414dfde870aa526cfbf096e691afd368cd5a02f232ae41",
+          "lines": 18
+        },
+        {
+          "path": "hpcs/nn/dgcnn/vn_dgcnn_partseg.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs/nn/dgcnn/vn_dgcnn_partseg.py",
+          "lf_sha256": "01253589b5b5aef2b8909ac11fcacd8b60c16b3b24c49d0d123a7872abfc88cf",
+          "lines": 104
+        },
+        {
+          "path": "hpcs/nn/dgcnn/dgcnn_partseg.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs/nn/dgcnn/dgcnn_partseg.py",
+          "lf_sha256": "38f8ede59ad95d2ed08aea2d172c4a868c3b538a80fbd3c486fdac2efe52764c",
+          "lines": 108
+        },
+        {
+          "path": "hpcs/nn/hyperbolic/hyp_embed.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs/nn/hyperbolic/hyp_embed.py",
+          "lf_sha256": "b3d047bfb7d1abd75c40a93983f3bf9610b3772b36bfe4c66abb96ed4d2418c6",
+          "lines": 23
+        },
+        {
+          "path": "hpcs/nn/__init__.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs/nn/__init__.py",
+          "lf_sha256": "2691db4f1cf897f00333ea6c0845fadd7fc22369add1296ff535502686da2327",
+          "lines": 9
+        },
+        {
+          "path": "hpcs/models/base_hyp_hc.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs/models/base_hyp_hc.py",
+          "lf_sha256": "cda92c7ec946ef1ac74bbff834154fc6509ea44a784e889fb6c5a9d730539c68",
+          "lines": 245
+        },
+        {
+          "path": "hpcs/models/shapenet_hyp_hc.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs/models/shapenet_hyp_hc.py",
+          "lf_sha256": "f863909f03682129dc1749ab6cf71842564b8764011d54a5812bf3fa899c3fe7",
+          "lines": 91
+        },
+        {
+          "path": "hpcs/loss/ultrametric_loss.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs/loss/ultrametric_loss.py",
+          "lf_sha256": "806f6eae93bbf916f593b3b78bc84b9686dac8f09eb8802326523acb106b2936",
+          "lines": 176
+        },
+        {
+          "path": "hpcs/utils/poincare.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs/utils/poincare.py",
+          "lf_sha256": "1d4a80384c592c592bf87a567b256d0b229d488f036774adfa775fc1870506b7",
+          "lines": 144
+        },
+        {
+          "path": "hpcs/utils/math.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs/utils/math.py",
+          "lf_sha256": "473c112cfd7e8b77125b6f661bb8424501d9e620f954b9564b6ac44f1b4d2c4b",
+          "lines": 129
+        },
+        {
+          "path": "hpcs/utils/scores.py",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs/utils/scores.py",
+          "lf_sha256": "e952d20eaa5d8fd42b3bf57ff24e3fb70004cad1cf458370f9acbae4ca6d7c48",
+          "lines": 242
+        },
+        {
+          "path": "hpcs-env.yaml",
+          "url": "https://github.com/TheCrossProduct/HPCS/blob/c464387adb540b3e79896b0728685ca370d22e28/hpcs-env.yaml",
+          "lf_sha256": "a5c5d5cd88c42e212ecfc136374f1957b7f7575762e08a6d6f07b3c6060dccdf",
+          "lines": 372
+        }
+      ]
+    },
+    {
+      "name": "VNN",
+      "repository": "https://github.com/FlyingGiraffe/vnn",
+      "commit": "f3197e210022b5f0015e0da6456adf66bd0cd73e",
+      "committer_date": "2021-10-02T12:02:33-07:00",
+      "files": [
+        {
+          "path": "models/vn_dgcnn_partseg.py",
+          "url": "https://github.com/FlyingGiraffe/vnn/blob/f3197e210022b5f0015e0da6456adf66bd0cd73e/models/vn_dgcnn_partseg.py",
+          "lf_sha256": "577958859f7e6084c79f1b8750ad749c3fbfb3e9d3858bdb818cc984256ed682",
+          "lines": 125
+        },
+        {
+          "path": "models/vn_layers.py",
+          "url": "https://github.com/FlyingGiraffe/vnn/blob/f3197e210022b5f0015e0da6456adf66bd0cd73e/models/vn_layers.py",
+          "lf_sha256": "858701273998ab535fc0cddb03bb30d368b5f77b9fb0615ca4f88766850a8a3e",
+          "lines": 198
+        },
+        {
+          "path": "models/utils/vn_dgcnn_util.py",
+          "url": "https://github.com/FlyingGiraffe/vnn/blob/f3197e210022b5f0015e0da6456adf66bd0cd73e/models/utils/vn_dgcnn_util.py",
+          "lf_sha256": "a6b7405da1e775195a0618ea4a35ae581034c8af7501815a802a0e654257443f",
+          "lines": 74
+        },
+        {
+          "path": "README.md",
+          "url": "https://github.com/FlyingGiraffe/vnn/blob/f3197e210022b5f0015e0da6456adf66bd0cd73e/README.md",
+          "lf_sha256": "edb04deebe13a2ae7bf5383c19e4d98b2216b93fb5c8555b2f9de4eecc489cef",
+          "lines": 87
+        }
+      ]
+    }
+  ],
+  "metric_learning_dependency": {
+    "version": "1.6.3",
+    "files": [
+      {
+        "path": "losses/cosface_loss.py",
+        "url": "https://raw.githubusercontent.com/KevinMusgrave/pytorch-metric-learning/v1.6.3/src/pytorch_metric_learning/losses/cosface_loss.py",
+        "sha256": "24df77e8e515b68755a52003db20a220812d3b162f0c063f6ee43e85d398a807"
+      },
+      {
+        "path": "losses/large_margin_softmax_loss.py",
+        "url": "https://raw.githubusercontent.com/KevinMusgrave/pytorch-metric-learning/v1.6.3/src/pytorch_metric_learning/losses/large_margin_softmax_loss.py",
+        "sha256": "855864ec91b0e3caa8160f3ce843d3c7f0024eeaffae11bc2af03d2c258c7bd2"
+      },
+      {
+        "path": "distances/cosine_similarity.py",
+        "url": "https://raw.githubusercontent.com/KevinMusgrave/pytorch-metric-learning/v1.6.3/src/pytorch_metric_learning/distances/cosine_similarity.py",
+        "sha256": "1fe81e5b1be129b15cd754149c3d41fbcd10331498a0de6ff4677828e75c1efc"
+      },
+      {
+        "path": "distances/base_distance.py",
+        "url": "https://raw.githubusercontent.com/KevinMusgrave/pytorch-metric-learning/v1.6.3/src/pytorch_metric_learning/distances/base_distance.py",
+        "sha256": "2dc24c18f1f8844711dc8e3890e0f158e325c82d28967346ae4242a092f45742"
+      }
+    ]
+  }
+}
