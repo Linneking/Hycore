@@ -1,0 +1,50 @@
+{
+  "r0": {
+    "state": "training",
+    "epoch": 2,
+    "updates": 662,
+    "started": "2026-11-02T02:42:27.823434+00:00",
+    "initial_hash": "17c51802fac0a58caf86f4267e5dc8370f35c6f15b9eb74c11a224ddb184f940",
+    "data_hash": "452943480f7fbdf82507a8306e3f535963ec3a4ae93f57807b3b6c36957ebfb8",
+    "regularizers_active": false,
+    "failure": false,
+    "first_epoch_steps": 437,
+    "first_epoch_updates": 437,
+    "model_finite": true,
+    "optimizer_finite": true,
+    "bn_unique": [
+      437
+    ],
+    "test_objects": 2874,
+    "test_instance": 0.7057417157371733,
+    "test_class": 0.5340599146680769,
+    "part_count": 50,
+    "first_input": "45b5910ef8a42412468e9a2fcaa9616df435c5d8b31ea9d72bf1fd61a9c178cd",
+    "matches_old_input": true,
+    "matches_old_pairing": true
+  },
+  "r1": {
+    "state": "training",
+    "epoch": 2,
+    "updates": 587,
+    "started": "2026-11-02T02:42:42.343143+00:00",
+    "initial_hash": "17c51802fac0a58caf86f4267e5dc8370f35c6f15b9eb74c11a224ddb184f940",
+    "data_hash": "452943480f7fbdf82507a8306e3f535963ec3a4ae93f57807b3b6c36957ebfb8",
+    "regularizers_active": true,
+    "failure": false,
+    "first_epoch_steps": 437,
+    "first_epoch_updates": 437,
+    "model_finite": true,
+    "optimizer_finite": true,
+    "bn_unique": [
+      437
+    ],
+    "test_objects": 2874,
+    "test_instance": 0.6965587182178353,
+    "test_class": 0.524723509817808,
+    "part_count": 50,
+    "first_input": "45b5910ef8a42412468e9a2fcaa9616df435c5d8b31ea9d72bf1fd61a9c178cd",
+    "matches_old_input": true,
+    "matches_old_pairing": true
+  }
+}
