@@ -1,0 +1,12 @@
+{
+  "complete": true,
+  "tests_run": 4,
+  "scope": "synthetic_CPU_only_no_server_no_model_forward",
+  "contracts": [
+    "absent_both_separate_from_gt_present_and_point_bins",
+    "confusion_gt_rows_and_paired_identity_recovery",
+    "GT_only_spatial_boundary_and_correctness_norms",
+    "cosine_readout_positive_row_scale_equivalence_and_tensor_RNG_immutability"
+  ],
+  "cuda_initialized": false
+}
