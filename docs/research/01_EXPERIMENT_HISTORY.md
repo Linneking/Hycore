@@ -1,5 +1,9 @@
 # Experiment history
 
+## 2026-11-03：S5-TAN-R完成，几何改善但分割略低于无R
+
+142只读核验TAN-R于16:40北京完成200轮/87400更新、GPU2释放，11项终局一致性检查通过。best e181 Instance85.066/Class82.823%，e20084.980/82.934%，末20 84.944/82.908%；相对R0末20−.161/−.130pp，Class仍比DGCNN末20高.851pp。正则使末20part-whole深度差.636→1.245、hier满足0→19.385%、contr9.087→46.189%、逐点贴边38.360→18.498%，但总体分割没有增益；motorbike/pistol下降，rocket改善，不称普遍无效或已证梯度冲突。当前参考保留TAN-R0。见[142终局报告](142_S5_TANGENT_REG_FINAL_2026-11-03/report.md)及[待审分项计划](142_S5_TANGENT_REG_FINAL_2026-11-03/next_plan.md)：优先固定TAN补contr-only/hier-only，不同步改margin/头；另诊断共同table/lamp差距。当前仅建议，未新增实验或排队，勿重启已完成运行。
+
 ## 2026-11-03：用户授权S5-TAN-R，GPU2正式训练并通过首轮验收
 
 唯一新增TAN-R主支复用成功TAN-R0，恢复U256 post-Conv9 mean→EXP处分叉的两原正则，alpha=beta=.01；CE(5q)/5、初值/自然采样/200轮不变。源7e0cb8d已推送隔离部署，本机/服务器各4项CPU合同通过；10:42北京GPU2直接fresh200，无GPU短测。正式首轮26项验收全通过：与R0 e0逐张量/CPU RNG、首输入/part配对精确一致，437更新/BN437/test2874/50parts、模型优化器有限，R活跃到U且不经过两头部映射；10:44实际e2/u512，预计16:50结束。见[141执行](141_S5_TANGENT_REG_LAUNCH_2026-11-03/execution.md)及[层次/成果/后继建议汇总](141_S5_TANGENT_REG_LAUNCH_2026-11-03/comparison.md)。除恢复R外未新增HPCS余弦头或结构组；新Instance差距主要table/lamp，motorbike旧漏检已解决。生产源冻结勿拉文档或重复启动。

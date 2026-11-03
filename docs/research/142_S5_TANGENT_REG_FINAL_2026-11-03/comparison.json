@@ -1,0 +1,310 @@
+{
+  "metric_units": "scores are fractions; delta_pp are percentage points",
+  "models": {
+    "DGCNN": {
+      "best_epoch": 186,
+      "best": {
+        "instance_miou": 0.8538254259526273,
+        "class_miou": 0.8177695302885475
+      },
+      "last": {
+        "instance_miou": 0.8535071622295997,
+        "class_miou": 0.8218655939284545
+      },
+      "window181_200": {
+        "class_miou": {
+          "mean": 0.8205693655749546,
+          "std_population": 0.0015451537393114264,
+          "min": 0.8177695302885475,
+          "max": 0.8229924614268482
+        },
+        "instance_miou": {
+          "mean": 0.8528917970047033,
+          "std_population": 0.0007533182252523551,
+          "min": 0.8507606679812839,
+          "max": 0.8538254259526273
+        }
+      }
+    },
+    "S5-TAN-R0": {
+      "best_epoch": 180,
+      "best": {
+        "instance_miou": 0.8539723386752757,
+        "class_miou": 0.8300425755544591
+      },
+      "last": {
+        "instance_miou": 0.8513917270977818,
+        "class_miou": 0.8314279281187678
+      },
+      "window181_200": {
+        "class_miou": {
+          "mean": 0.8303790866250403,
+          "std_population": 0.0010876979689380777,
+          "min": 0.8287593783115486,
+          "max": 0.8325519214088137
+        },
+        "instance_miou": {
+          "mean": 0.8510539423720597,
+          "std_population": 0.001351027053252578,
+          "min": 0.8475901212897592,
+          "max": 0.8530064088611342
+        }
+      }
+    },
+    "S5-TAN-R": {
+      "best_epoch": 181,
+      "best": {
+        "instance_miou": 0.8506621030993297,
+        "class_miou": 0.8282304761367243
+      },
+      "last": {
+        "instance_miou": 0.8497999476790379,
+        "class_miou": 0.82934311753742
+      },
+      "window181_200": {
+        "class_miou": {
+          "mean": 0.8290824211034293,
+          "std_population": 0.0007820368206485562,
+          "min": 0.8277210300035764,
+          "max": 0.8303706745343908
+        },
+        "instance_miou": {
+          "mean": 0.8494437244178548,
+          "std_population": 0.0008218740914105688,
+          "min": 0.8484514554237587,
+          "max": 0.8506621030993297
+        }
+      }
+    }
+  },
+  "S5-TAN-R_minus": {
+    "DGCNN": {
+      "best": {
+        "instance_miou": -0.31633228532976787,
+        "class_miou": 1.0460945848176806
+      },
+      "last": {
+        "instance_miou": -0.3707214550561777,
+        "class_miou": 0.7477523608965475
+      },
+      "window181_200": {
+        "instance_miou": -0.34480725868485385,
+        "class_miou": 0.85130555284747
+      },
+      "last_per_class": {
+        "airplane": {
+          "delta_iou_pp": 0.06015057290249537,
+          "instance_contribution_pp": 0.007136863381959262,
+          "count": 341
+        },
+        "bag": {
+          "delta_iou_pp": 2.8590342655483325,
+          "instance_contribution_pp": 0.013927098022852004,
+          "count": 14
+        },
+        "cap": {
+          "delta_iou_pp": 2.9859536455871916,
+          "instance_contribution_pp": 0.011428493424307275,
+          "count": 11
+        },
+        "car": {
+          "delta_iou_pp": 0.1357005207473505,
+          "instance_contribution_pp": 0.007460223478803542,
+          "count": 158
+        },
+        "chair": {
+          "delta_iou_pp": 0.01059610251835652,
+          "instance_contribution_pp": 0.0025955658221722307,
+          "count": 704
+        },
+        "earphone": {
+          "delta_iou_pp": 1.908882722848182,
+          "instance_contribution_pp": 0.00929866322890555,
+          "count": 14
+        },
+        "guitar": {
+          "delta_iou_pp": -0.18029045653239484,
+          "instance_contribution_pp": -0.009974315444902846,
+          "count": 159
+        },
+        "knife": {
+          "delta_iou_pp": 0.25985867134574736,
+          "instance_contribution_pp": 0.007233365938642933,
+          "count": 80
+        },
+        "lamp": {
+          "delta_iou_pp": -0.8677708025564113,
+          "instance_contribution_pp": -0.08635436657311539,
+          "count": 286
+        },
+        "laptop": {
+          "delta_iou_pp": 0.13886636543800623,
+          "instance_contribution_pp": 0.004010406517520709,
+          "count": 83
+        },
+        "motorbike": {
+          "delta_iou_pp": -0.8493399895291076,
+          "instance_contribution_pp": -0.015071795221288967,
+          "count": 51
+        },
+        "mug": {
+          "delta_iou_pp": 0.6569510414815238,
+          "instance_contribution_pp": 0.008686200270110614,
+          "count": 38
+        },
+        "pistol": {
+          "delta_iou_pp": -0.49486739981038363,
+          "instance_contribution_pp": -0.007576258034675324,
+          "count": 44
+        },
+        "rocket": {
+          "delta_iou_pp": 4.539389772046254,
+          "instance_contribution_pp": 0.018953610739232796,
+          "count": 12
+        },
+        "skateboard": {
+          "delta_iou_pp": 2.0360541502598584,
+          "instance_contribution_pp": 0.021961614007674185,
+          "count": 31
+        },
+        "table": {
+          "delta_iou_pp": -1.235131407950163,
+          "instance_contribution_pp": -0.3644368246143835,
+          "count": 848
+        }
+      },
+      "window_per_class_delta_pp": {
+        "airplane": 0.08992443341497847,
+        "bag": 2.764183869342174,
+        "cap": 3.811277119810541,
+        "car": 0.14303229408297868,
+        "chair": -0.0030774799519850404,
+        "earphone": 2.9493678944193857,
+        "guitar": -0.11979595972285706,
+        "knife": 0.42715671783087883,
+        "lamp": -0.7139173210333416,
+        "laptop": 0.10444895690689959,
+        "motorbike": -0.4529582778162844,
+        "mug": 0.4081079748718186,
+        "pistol": -0.6778380150819663,
+        "rocket": 4.572500531320067,
+        "skateboard": 1.5558391869623378,
+        "table": -1.2373630797960944
+      }
+    },
+    "S5-TAN-R0": {
+      "best": {
+        "instance_miou": -0.3310235575946008,
+        "class_miou": -0.18120994177348582
+      },
+      "last": {
+        "instance_miou": -0.15917794187438883,
+        "class_miou": -0.20848105813477957
+      },
+      "window181_200": {
+        "instance_miou": -0.16102179542049067,
+        "class_miou": -0.12966655216110068
+      },
+      "last_per_class": {
+        "airplane": {
+          "delta_iou_pp": -0.07337765210315705,
+          "instance_contribution_pp": -0.008706255868885371,
+          "count": 341
+        },
+        "bag": {
+          "delta_iou_pp": -0.7543104850279869,
+          "instance_contribution_pp": -0.0036744421678468397,
+          "count": 14
+        },
+        "cap": {
+          "delta_iou_pp": 0.20468411563461242,
+          "instance_contribution_pp": 0.0007834117160684539,
+          "count": 11
+        },
+        "car": {
+          "delta_iou_pp": 0.208799210653432,
+          "instance_contribution_pp": 0.011478871010174758,
+          "count": 158
+        },
+        "chair": {
+          "delta_iou_pp": -0.10692621318426632,
+          "instance_contribution_pp": -0.026192085623425013,
+          "count": 704
+        },
+        "earphone": {
+          "delta_iou_pp": -1.1954069847629034,
+          "instance_contribution_pp": -0.005823137712832514,
+          "count": 14
+        },
+        "guitar": {
+          "delta_iou_pp": -0.42924593502235986,
+          "instance_contribution_pp": -0.023747426467834103,
+          "count": 159
+        },
+        "knife": {
+          "delta_iou_pp": 0.10090653027143848,
+          "instance_contribution_pp": 0.0028088108635055944,
+          "count": 80
+        },
+        "lamp": {
+          "delta_iou_pp": -0.2881719891271839,
+          "instance_contribution_pp": -0.028676822856776127,
+          "count": 286
+        },
+        "laptop": {
+          "delta_iou_pp": -0.3212275103080531,
+          "instance_contribution_pp": -0.00927692531508991,
+          "count": 83
+        },
+        "motorbike": {
+          "delta_iou_pp": -2.756116646137474,
+          "instance_contribution_pp": -0.04890812420076938,
+          "count": 51
+        },
+        "mug": {
+          "delta_iou_pp": 0.1293294674750589,
+          "instance_contribution_pp": 0.0017099929589604172,
+          "count": 38
+        },
+        "pistol": {
+          "delta_iou_pp": -1.0317591289119132,
+          "instance_contribution_pp": -0.01579589480588872,
+          "count": 44
+        },
+        "rocket": {
+          "delta_iou_pp": 2.908905918518101,
+          "instance_contribution_pp": 0.01214574496249729,
+          "count": 12
+        },
+        "skateboard": {
+          "delta_iou_pp": 0.13167881211217924,
+          "instance_contribution_pp": 0.0014203351341258025,
+          "count": 31
+        },
+        "table": {
+          "delta_iou_pp": -0.06345844023595282,
+          "instance_contribution_pp": -0.018723993500378563,
+          "count": 848
+        }
+      },
+      "window_per_class_delta_pp": {
+        "airplane": -0.08950317590399326,
+        "bag": -0.12583571209651145,
+        "cap": 0.9878338274124987,
+        "car": 0.2024433420329097,
+        "chair": -0.17641389273714836,
+        "earphone": -0.3726819394719971,
+        "guitar": -0.31708246225672365,
+        "knife": 0.06869443449899482,
+        "lamp": -0.331566468060418,
+        "laptop": -0.15452237790126722,
+        "motorbike": -3.410424926805844,
+        "mug": -0.025314129473497093,
+        "pistol": -1.060039878854846,
+        "rocket": 2.4735141865194765,
+        "skateboard": 0.2653528177065545,
+        "table": -0.009118479185732387
+      }
+    }
+  }
+}
