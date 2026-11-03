@@ -1,0 +1,55 @@
+{
+  "gpu_preflight": [
+    {
+      "at": "2026-11-03T09:39:51.669143+00:00",
+      "idle_gpu_indices": [
+        1,
+        2
+      ]
+    },
+    {
+      "at": "2026-11-03T09:39:51.822265+00:00",
+      "idle_gpu_indices": [
+        1,
+        2
+      ]
+    },
+    {
+      "at": "2026-11-03T09:39:51.978489+00:00",
+      "idle_gpu_indices": [
+        1,
+        2
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "display_name": "S5-TAN-C",
+      "component": "contr",
+      "gpu": 1,
+      "commit": "891730cf9cbaaacdff5704ca86b984fdc787d99e",
+      "started_utc": "2026-11-03T09:39:51.980949+00:00",
+      "seed": 4780,
+      "fresh": true,
+      "teacher": null,
+      "expected_epochs": 200,
+      "expected_updates": 87400,
+      "alpha": 0.01,
+      "beta": 0.0
+    },
+    {
+      "display_name": "S5-TAN-HIER",
+      "component": "hier",
+      "gpu": 2,
+      "commit": "891730cf9cbaaacdff5704ca86b984fdc787d99e",
+      "started_utc": "2026-11-03T09:39:51.982101+00:00",
+      "seed": 4780,
+      "fresh": true,
+      "teacher": null,
+      "expected_epochs": 200,
+      "expected_updates": 87400,
+      "alpha": 0.0,
+      "beta": 0.01
+    }
+  ]
+}
