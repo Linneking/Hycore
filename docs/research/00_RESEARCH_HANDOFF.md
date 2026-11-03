@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-11-03：S5-TAN-R0完成，Class超过DGCNN，原三部件恢复
+
+140只读核验昨晚v10源6493428的S5-TAN-R0于03:46北京完成200轮/87400更新，GPU2释放。best e180 Instance85.397/Class83.004%，e20085.139/83.143%，末20Class83.038%；对应DGCNN Class81.777/82.187/82.057%，TAN均更高。原motorbike31/33/34末轮recall72.505/79.107/57.968%、precision75.065/93.912/89.884%，best和last无零召回部件。支持最后球坐标读出/优化为重要因素，不将其归为投影独立因果；末轮Instance仍低于DGCNN.212pp，单seed/现有test开发协议不是最终统计确认。见[140报告](140_S5_TANGENT_FINAL_RESULTS_2026-11-03/report.md)。新无R基准已形成，后继可考虑同结构正则增益及匹配重复；本轮没有启动新实验，勿重复启动旧TAN。
+
 ## 2026-11-02：HPCS主支源码审查完成，仅提出后续方向
 
 139锁定HPCS c464387和官方VNN f3197e逐层比较：实际VN-DGCNN主线保留dp1/dp2及Conv9/10的BN/Leaky，只把末Conv11的50类输出改为d维嵌入并新增BN11，然后独立EXP+CosFace类别原型读出；README d=32主线无Möbius层。依赖1.6.3确认余弦归一嵌入/类别权重，分类scale2、margin.35；球坐标不直接作50类分数。未发现通用防贴边预缩放，层次scale.001不是分类尺度。见[139报告](139_HPCS_MAIN_BRANCH_AUDIT_2026-11-02/report.md)及固定来源哈希。借鉴优先为表示/分数解耦与类别权重归一化，不能凭它断定恢复dropout/BN一定改善；HPCS标签相关评估及聚类score不能横比本项目Class。当前S5-TAN-R0保持原预算，本轮未改代码或新增训练。
