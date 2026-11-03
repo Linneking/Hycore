@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-11-04：诊断定位absence误报，用户授权两组尾部实验实施
+
+145同e200完整2874只读评估复现DGCNN/TAN-R0历史成绩且模型/检查点hash不变。table部件49 GT存在条件IoU略升，但GT不存在误报42→66；48误报24→29，多29次物体×部件absence处罚算术解释97.29% table类差额。lamp边界略好/内部更差，absence解释45.24%。冻结归一余弦读出Class83.143→81.257%，本轮不优先COS。按用户本轮“诊断后开展相关实验、按空闲GPU数确定数量”授权，当前2卡空闲，选146 TAN-BIAS-R0（新增零bias50）及TAN-BNLEAKY-R0（LOGμ128后BN/Leaky，新增256参数），Roff/CE5/5/fresh200/seed4780等不变。共享参数/RNG匹配，旧路径与结果不改；先本机/服务器CPU合同后直接完整训练，无GPU短测。见[145结论](145_TAN_TAIL_DIAGNOSTIC_2026-11-04/report.md)与[146方案](146_TAN_TAIL_EXPERIMENTS_2026-11-04/plan.md)。实际调度/首轮验收后补记录，不把候选视为已训练收益。
+
 ## 2026-11-04：TAN-C/TAN-HIER均完成，单项正则未改善总体Class
 
 144只读核验两组于11月3日23:28/23:38北京完成200轮/87400更新，GPU1/2空闲，各11终局检查通过，best和last无零召回部件。C best e180 Instance85.257/Class82.905%，HIER best e189 85.211/82.709%；末20 Instance/Class为85.038/82.832、85.004/82.665%，相对R0 Class−.206/−.373pp。联合R末20Class82.908高于两单项但仍低于R0 83.038，不简单归为某一好项被另一项抵消；C rocket改善、earphone/mug下降，HIER rocket/car改善、earphone/cap下降。当前保留R0参考，后续优先共同table/lamp差距，单seed不称统计交互。见[144终局报告](144_S5_TAN_COMPONENT_FINAL_2026-11-04/report.md)。无新增训练/模型运行，勿重启已完成四TAN组或向冻结源拉文档。

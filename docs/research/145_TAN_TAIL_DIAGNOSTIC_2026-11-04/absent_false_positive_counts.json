@@ -1,0 +1,94 @@
+{
+  "DGCNN_e200": {
+    "24": {
+      "false_positive_absent_objects": 20,
+      "predicted_points_quantiles": {
+        "min": 2.0,
+        "p25": 6.5,
+        "p50": 70.5,
+        "p75": 141.0,
+        "max": 244.0
+      },
+      "false_positive_objects_at_most16_points": 7
+    },
+    "26": {
+      "false_positive_absent_objects": 7,
+      "predicted_points_quantiles": {
+        "min": 1.0,
+        "p25": 8.0,
+        "p50": 9.0,
+        "p75": 31.0,
+        "max": 65.0
+      },
+      "false_positive_objects_at_most16_points": 5
+    },
+    "48": {
+      "false_positive_absent_objects": 24,
+      "predicted_points_quantiles": {
+        "min": 2.0,
+        "p25": 93.75,
+        "p50": 208.5,
+        "p75": 348.5,
+        "max": 1352.0
+      },
+      "false_positive_objects_at_most16_points": 5
+    },
+    "49": {
+      "false_positive_absent_objects": 42,
+      "predicted_points_quantiles": {
+        "min": 1.0,
+        "p25": 7.25,
+        "p50": 29.5,
+        "p75": 227.25,
+        "max": 1074.0
+      },
+      "false_positive_objects_at_most16_points": 18
+    }
+  },
+  "TAN_R0_e200": {
+    "24": {
+      "false_positive_absent_objects": 22,
+      "predicted_points_quantiles": {
+        "min": 1.0,
+        "p25": 26.25,
+        "p50": 86.0,
+        "p75": 120.5,
+        "max": 244.0
+      },
+      "false_positive_objects_at_most16_points": 4
+    },
+    "26": {
+      "false_positive_absent_objects": 8,
+      "predicted_points_quantiles": {
+        "min": 2.0,
+        "p25": 5.25,
+        "p50": 9.5,
+        "p75": 15.5,
+        "max": 50.0
+      },
+      "false_positive_objects_at_most16_points": 6
+    },
+    "48": {
+      "false_positive_absent_objects": 29,
+      "predicted_points_quantiles": {
+        "min": 2.0,
+        "p25": 20.0,
+        "p50": 135.0,
+        "p75": 323.0,
+        "max": 1401.0
+      },
+      "false_positive_objects_at_most16_points": 7
+    },
+    "49": {
+      "false_positive_absent_objects": 66,
+      "predicted_points_quantiles": {
+        "min": 1.0,
+        "p25": 1.0,
+        "p50": 10.5,
+        "p75": 60.75,
+        "max": 1315.0
+      },
+      "false_positive_objects_at_most16_points": 36
+    }
+  }
+}
