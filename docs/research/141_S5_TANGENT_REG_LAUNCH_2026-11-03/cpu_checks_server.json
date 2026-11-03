@@ -1,0 +1,24 @@
+{
+  "complete": true,
+  "tests_run": 4,
+  "cuda_initialized": false,
+  "scope": "synthetic_CPU_only",
+  "active_R_reaches_U_conv9_conv8_bypasses_both_M": true,
+  "CE5_over5_gradient_and_R_sum_correct": true,
+  "R_on_off_pairing_equal_and_no_global_RNG_consumption": true,
+  "q_keeps_real_score_monitoring": true,
+  "cli_requires_scale5_and_both_R001": true,
+  "complete_CPU_entrypoint": {
+    "epochs": 2,
+    "updates": 4,
+    "BN_updates": 4,
+    "all50parts": true,
+    "model_optimizer_restorable": true,
+    "R_active": true,
+    "R_bypasses_both_M": true,
+    "test_accessed": false,
+    "scheduler_horizon": 200,
+    "initial_model_sha256": "17c51802fac0a58caf86f4267e5dc8370f35c6f15b9eb74c11a224ddb184f940"
+  },
+  "all_model_tensors_and_constructor_RNG_match_R0": true
+}

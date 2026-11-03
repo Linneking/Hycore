@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-11-03：用户授权S5-TAN-R，GPU2正式训练并通过首轮验收
+
+唯一新增TAN-R主支复用成功TAN-R0，恢复U256 post-Conv9 mean→EXP处分叉的两原正则，alpha=beta=.01；CE(5q)/5、初值/自然采样/200轮不变。源7e0cb8d已推送隔离部署，本机/服务器各4项CPU合同通过；10:42北京GPU2直接fresh200，无GPU短测。正式首轮26项验收全通过：与R0 e0逐张量/CPU RNG、首输入/part配对精确一致，437更新/BN437/test2874/50parts、模型优化器有限，R活跃到U且不经过两头部映射；10:44实际e2/u512，预计16:50结束。见[141执行](141_S5_TANGENT_REG_LAUNCH_2026-11-03/execution.md)及[层次/成果/后继建议汇总](141_S5_TANGENT_REG_LAUNCH_2026-11-03/comparison.md)。除恢复R外未新增HPCS余弦头或结构组；新Instance差距主要table/lamp，motorbike旧漏检已解决。生产源冻结勿拉文档或重复启动。
+
 ## 2026-11-03：S5-TAN-R0完成，Class超过DGCNN，原三部件恢复
 
 140只读核验昨晚v10源6493428的S5-TAN-R0于03:46北京完成200轮/87400更新，GPU2释放。best e180 Instance85.397/Class83.004%，e20085.139/83.143%，末20Class83.038%；对应DGCNN Class81.777/82.187/82.057%，TAN均更高。原motorbike31/33/34末轮recall72.505/79.107/57.968%、precision75.065/93.912/89.884%，best和last无零召回部件。支持最后球坐标读出/优化为重要因素，不将其归为投影独立因果；末轮Instance仍低于DGCNN.212pp，单seed/现有test开发协议不是最终统计确认。见[140报告](140_S5_TANGENT_FINAL_RESULTS_2026-11-03/report.md)。新无R基准已形成，后继可考虑同结构正则增益及匹配重复；本轮没有启动新实验，勿重复启动旧TAN。
