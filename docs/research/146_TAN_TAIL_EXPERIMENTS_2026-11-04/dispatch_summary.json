@@ -1,0 +1,72 @@
+{
+  "gpu_preflight": [
+    {
+      "at": "2026-11-03T17:02:13.601889+00:00",
+      "idle_gpu_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "at": "2026-11-03T17:02:13.797674+00:00",
+      "idle_gpu_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "at": "2026-11-03T17:02:13.989128+00:00",
+      "idle_gpu_indices": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "display_name": "TAN-BIAS-R0",
+      "variant": "bias",
+      "gpu": 2,
+      "commit": "de24c6bca4f6a3865dfeabcd5cf4a95564b13b2c",
+      "started_utc": "2026-11-03T17:02:13.994281+00:00",
+      "seed": 4780,
+      "fresh": true,
+      "teacher": null,
+      "alpha": 0.0,
+      "beta": 0.0,
+      "expected_epochs": 200,
+      "expected_updates": 87400
+    },
+    {
+      "display_name": "TAN-BNLEAKY-R0",
+      "variant": "bnleaky",
+      "gpu": 1,
+      "commit": "de24c6bca4f6a3865dfeabcd5cf4a95564b13b2c",
+      "started_utc": "2026-11-03T17:02:13.996274+00:00",
+      "seed": 4780,
+      "fresh": true,
+      "teacher": null,
+      "alpha": 0.0,
+      "beta": 0.0,
+      "expected_epochs": 200,
+      "expected_updates": 87400
+    },
+    {
+      "display_name": "TAN-BNLEAKY-BIAS-R0",
+      "variant": "bnleaky_bias",
+      "gpu": 0,
+      "commit": "de24c6bca4f6a3865dfeabcd5cf4a95564b13b2c",
+      "started_utc": "2026-11-03T17:02:13.997964+00:00",
+      "seed": 4780,
+      "fresh": true,
+      "teacher": null,
+      "alpha": 0.0,
+      "beta": 0.0,
+      "expected_epochs": 200,
+      "expected_updates": 87400
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "complete": true,
+  "tests_run": 8,
+  "cuda_initialized": false,
+  "scope": "synthetic_CPU_only",
+  "Roff_no_training_graph_and_reference_sampling_preserved": true,
+  "GT_absence_FP_and_present_only_IoU_observations_preserve_original_metrics": true,
+  "CE5_over5_backward_correct_and_finite_for_all_trainable_parameters": true,
+  "monitor_preserves_all_final_parameter_gradients_model_state_and_RNG": true,
+  "new_BN_and_retained_transport_receive_CE_gradients": true,
+  "declared_configs_Roff_scale5_three_final_tail_variants": true,
+  "combination_BN_train_eval_train_counts_1_1_2_both_blocks_have_CE_gradients": true,
+  "complete_CPU_entrypoints": {
+    "bnleaky": {
+      "epochs": 2,
+      "updates": 4,
+      "BN_updates": 4,
+      "all50parts": true,
+      "model_optimizer_restorable": true,
+      "R_training_graph": false,
+      "test_accessed": false,
+      "scheduler_horizon": 200,
+      "initial_model_sha256": "3812d3f5384f2f1a95fa29285423b6446901926fe3252915b3fba52f605fadb9",
+      "initial_shared_head_sha256": "391cdeacb9fb61cc18f22b798264c92b505bfe265d242e2cf81d02fa9870dcf1",
+      "initial_shared_model_sha256": "17c51802fac0a58caf86f4267e5dc8370f35c6f15b9eb74c11a224ddb184f940"
+    },
+    "bias": {
+      "epochs": 2,
+      "updates": 4,
+      "BN_updates": 4,
+      "all50parts": true,
+      "model_optimizer_restorable": true,
+      "R_training_graph": false,
+      "test_accessed": false,
+      "scheduler_horizon": 200,
+      "initial_model_sha256": "da5e415994f52a9a28cf1b461e6526349b4ecbd713c5c46376dc3e0bb5c22149",
+      "initial_shared_head_sha256": "391cdeacb9fb61cc18f22b798264c92b505bfe265d242e2cf81d02fa9870dcf1",
+      "initial_shared_model_sha256": "17c51802fac0a58caf86f4267e5dc8370f35c6f15b9eb74c11a224ddb184f940"
+    },
+    "bnleaky_bias": {
+      "epochs": 2,
+      "updates": 4,
+      "BN_updates": 4,
+      "all50parts": true,
+      "model_optimizer_restorable": true,
+      "R_training_graph": false,
+      "test_accessed": false,
+      "scheduler_horizon": 200,
+      "initial_model_sha256": "f01abebe08073a5ca88b6b1ea5d55d4b948565f75c7de39817490a0faba1f607",
+      "initial_shared_head_sha256": "391cdeacb9fb61cc18f22b798264c92b505bfe265d242e2cf81d02fa9870dcf1",
+      "initial_shared_model_sha256": "17c51802fac0a58caf86f4267e5dc8370f35c6f15b9eb74c11a224ddb184f940"
+    }
+  },
+  "BNLeaky_and_affine_readout_forward_formulas_exact": true,
+  "zero_bias_forward_exact_R0_combination_exact_BN_and_nonzero_bias_changes_predictions": true,
+  "all_shared_model_tensors_and_constructor_RNG_match_R0": true,
+  "BN_default_affine_initialization_and_head_membership": true,
+  "bias_adds50_BNadds256_combination306_transport_trainable": true
+}

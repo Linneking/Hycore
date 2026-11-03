@@ -1,5 +1,9 @@
 # Experiment history
 
+## 2026-11-04：诊断驱动三组尾部实验已在8000正式训练并通过首轮
+
+145定位table额外GT-absence误报解释97.29%类IoU差额；冻结COS反事实降低成绩，优先检验截距与非线性块。预启动时GPU0原任务自然结束，三卡全空闲，按用户数量授权补齐2×2：TAN-BIAS-R0/GPU2新增bias50，TAN-BNLEAKY-R0/GPU1新增BN/Leaky256，联合/GPU0新增306；R0为已有控制。最终源de24c6b已推送独立部署，本机/服务器各8项CPU合同通过；01:02北京直接fresh200，无GPU短测。01:06 BIAS/BN各39、联合47项完整首轮验收全通过：共享初值/RNG/数据/首输入/配对匹配，437/BN437/test2874/50parts，Roff无图、CE新增/原头梯度及参数更新正确，有限无failure，三组进入e3/u974–1024。预计07:00–07:30完成。见[146执行](146_TAN_TAIL_EXPERIMENTS_2026-11-04/execution.md)及[145诊断](145_TAN_TAIL_DIAGNOSTIC_2026-11-04/report.md)。生产de24冻结，勿重复启动/拉后续文档；0747171只准备未生产，旧结果与源码未改。私有路径/PID在146忽略交接。
+
 ## 2026-11-04：诊断定位absence误报，用户授权两组尾部实验实施
 
 145同e200完整2874只读评估复现DGCNN/TAN-R0历史成绩且模型/检查点hash不变。table部件49 GT存在条件IoU略升，但GT不存在误报42→66；48误报24→29，多29次物体×部件absence处罚算术解释97.29% table类差额。lamp边界略好/内部更差，absence解释45.24%。冻结归一余弦读出Class83.143→81.257%，本轮不优先COS。按用户本轮“诊断后开展相关实验、按空闲GPU数确定数量”授权，当前2卡空闲，选146 TAN-BIAS-R0（新增零bias50）及TAN-BNLEAKY-R0（LOGμ128后BN/Leaky，新增256参数），Roff/CE5/5/fresh200/seed4780等不变。共享参数/RNG匹配，旧路径与结果不改；先本机/服务器CPU合同后直接完整训练，无GPU短测。见[145结论](145_TAN_TAIL_DIAGNOSTIC_2026-11-04/report.md)与[146方案](146_TAN_TAIL_EXPERIMENTS_2026-11-04/plan.md)。实际调度/首轮验收后补记录，不把候选视为已训练收益。
