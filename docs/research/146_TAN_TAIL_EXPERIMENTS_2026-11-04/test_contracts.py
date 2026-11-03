@@ -29,7 +29,8 @@ from segmentation_ShapeNetPart.hycore_seg_v13 import train as trainer
 from segmentation_ShapeNetPart.hycore_seg_v9.metrics import SegMetrics as ReferenceMetrics
 
 EVIDENCE = {}
-DISPLAYS = {'bnleaky': 'TAN-BNLEAKY-R0', 'bias': 'TAN-BIAS-R0'}
+DISPLAYS = {'bnleaky': 'TAN-BNLEAKY-R0', 'bias': 'TAN-BIAS-R0',
+            'bnleaky_bias': 'TAN-BNLEAKY-BIAS-R0'}
 
 
 def read_json(path):
@@ -49,7 +50,8 @@ class TailContracts(unittest.TestCase):
 
     def test_cli_and_production_configs(self):
         base = ['--data', 'unused', '--out', 'unused', '--arm', 'h', '--device', 'cpu']
-        for variant, filename in [('bnleaky', 'tan_bnleaky_r0.json'), ('bias', 'tan_bias_r0.json')]:
+        for variant, filename in [('bnleaky', 'tan_bnleaky_r0.json'), ('bias', 'tan_bias_r0.json'),
+                                  ('bnleaky_bias', 'tan_bnleaky_bias_r0.json')]:
             args = trainer.arguments(base + ['--variant', variant])
             self.assertEqual((args.alpha, args.beta, args.supervision_scale), (0., 0., 5.))
             self.assertFalse(args.regularizers)
@@ -61,7 +63,7 @@ class TailContracts(unittest.TestCase):
                 str(Path(trainer.__file__).parent / 'configs' / filename)])
             self.assertEqual((config.seed, config.epochs, config.schedule_epochs), (4780, 200, 200))
             self.assertEqual((config.alpha, config.beta, config.regularizers), (0., 0., False))
-        EVIDENCE['declared_configs_Roff_scale5_final_bnleaky_and_bias'] = True
+        EVIDENCE['declared_configs_Roff_scale5_three_final_tail_variants'] = True
 
     def test_shared_initialization_and_rng_match_R0(self):
         torch.manual_seed(4780)
@@ -76,27 +78,28 @@ class TailContracts(unittest.TestCase):
                 self.assertTrue(torch.equal(value, model.state_dict()[name]), name)
             extras = set(model.state_dict()) - set(reference.state_dict())
             frozen = [name for name, p in model.named_parameters() if not p.requires_grad]
-            if variant == 'bnleaky':
-                self.assertEqual(extras, {'tail_bn.weight', 'tail_bn.bias', 'tail_bn.running_mean',
-                                         'tail_bn.running_var', 'tail_bn.num_batches_tracked'})
+            bn_keys = {'tail_bn.weight', 'tail_bn.bias', 'tail_bn.running_mean',
+                       'tail_bn.running_var', 'tail_bn.num_batches_tracked'}
+            has_bn, has_bias = 'bnleaky' in variant, 'bias' in variant
+            self.assertEqual(extras, (bn_keys if has_bn else set()) | ({'score_bias'} if has_bias else set()))
+            self.assertEqual(set(frozen), reference_frozen)
+            self.assertEqual(sum(p.numel() for p in model.parameters()),
+                             sum(p.numel() for p in reference.parameters()) + (256 if has_bn else 0) + (50 if has_bias else 0))
+            head_ids = {id(p) for p in model.head_parameters()}
+            groups = trainer.monitored_parameter_groups(model)
+            if has_bn:
                 self.assertTrue(torch.equal(model.tail_bn.weight, torch.ones(128)))
                 self.assertTrue(torch.equal(model.tail_bn.bias, torch.zeros(128)))
-                self.assertEqual(set(frozen), reference_frozen)
-                head_ids = {id(p) for p in model.head_parameters()}
                 self.assertTrue(all(id(p) in head_ids for p in model.tail_bn.parameters()))
-                self.assertIn('tail_bn', trainer.monitored_parameter_groups(model))
-            else:
-                self.assertEqual(extras, {'score_bias'})
-                self.assertEqual(set(frozen), reference_frozen)
+                self.assertIn('tail_bn', groups)
+            if has_bias:
                 self.assertTrue(torch.equal(model.score_bias, torch.zeros(50)))
-                self.assertEqual(sum(p.numel() for p in model.parameters()),
-                                 sum(p.numel() for p in reference.parameters()) + 50)
-                self.assertIn(id(model.score_bias), {id(p) for p in model.head_parameters()})
-                self.assertIn('readout_bias', trainer.monitored_parameter_groups(model))
-                self.assertIn('_bias', trainer.monitored_parameter_groups(model)['m3'])
+                self.assertIn(id(model.score_bias), head_ids)
+                self.assertIn('readout_bias', groups)
+            self.assertIn('_bias', groups['m3'])
         EVIDENCE['all_shared_model_tensors_and_constructor_RNG_match_R0'] = True
         EVIDENCE['BN_default_affine_initialization_and_head_membership'] = True
-        EVIDENCE['bias_adds_exactly50_parameters_and_keeps_transport_trainable'] = True
+        EVIDENCE['bias_adds50_BNadds256_combination306_transport_trainable'] = True
 
     def test_forward_formulas_and_zero_bias_exact_R0_equivalence(self):
         generator = torch.Generator().manual_seed(731)
@@ -108,17 +111,24 @@ class TailContracts(unittest.TestCase):
             model = trainer.NativeTail2('h', k=4, variant=variant).eval()
             with torch.no_grad():
                 tangent = model.manifold.logmap0(model.emb2(model.manifold.expmap0(source)))
-                if variant == 'bnleaky':
+                if 'bnleaky' in variant:
                     transformed = F.leaky_relu(model.tail_bn(tangent.transpose(1, 2)).transpose(1, 2).contiguous(), .2)
                     expected = F.linear(transformed, model.mlr.weight)
                 else:
-                    expected = F.linear(tangent, model.mlr.weight) + model.score_bias
+                    expected = F.linear(tangent, model.mlr.weight)
+                if 'bias' in variant:
+                    expected = expected + model.score_bias
                 actual = model.forward_head(source)
                 torch.testing.assert_close(actual, expected, rtol=0., atol=0.)
                 self.assertTrue(torch.isfinite(actual).all())
                 self.assertEqual(actual.shape, (4, 32, 50))
                 if variant == 'bias':
                     torch.testing.assert_close(actual, reference.forward_head(source), rtol=0., atol=0.)
+                if variant == 'bnleaky_bias':
+                    torch.manual_seed(4780)
+                    bn_reference = trainer.NativeTail2('h', k=4, variant='bnleaky').eval()
+                    torch.testing.assert_close(actual, bn_reference.forward_head(source), rtol=0., atol=0.)
+                if 'bias' in variant:
                     before_labels = actual.argmax(-1)
                     self.assertFalse(bool((before_labels == 17).all()))
                     model.score_bias[17] = 50.
@@ -126,7 +136,7 @@ class TailContracts(unittest.TestCase):
                     torch.testing.assert_close(changed, actual + model.score_bias, rtol=0., atol=0.)
                     self.assertTrue(bool((changed.argmax(-1) == 17).all()))
         EVIDENCE['BNLeaky_and_affine_readout_forward_formulas_exact'] = True
-        EVIDENCE['zero_bias_forward_exact_R0_and_nonzero_bias_changes_predictions'] = True
+        EVIDENCE['zero_bias_forward_exact_R0_combination_exact_BN_and_nonzero_bias_changes_predictions'] = True
 
     def test_Roff_sampling_matches_and_has_no_training_graph(self):
         generator = torch.Generator().manual_seed(637)
@@ -215,15 +225,40 @@ class TailContracts(unittest.TestCase):
             (ce + reg).backward()
             for parameter, wanted in zip(parameters, expected):
                 torch.testing.assert_close(parameter.grad, wanted, rtol=0., atol=0.)
-            if variant == 'bias':
+            if 'bias' in variant:
                 self.assertGreater(float(model.score_bias.grad.norm()), 0.)
-                self.assertGreater(float(model.mlr._bias.grad.norm()), 0.)
-            else:
+            if 'bnleaky' in variant:
                 self.assertGreater(float(model.tail_bn.weight.grad.norm()), 0.)
                 self.assertGreater(float(model.mlr._bias.grad.norm()), 0.)
         EVIDENCE['CE5_over5_backward_correct_and_finite_for_all_trainable_parameters'] = True
         EVIDENCE['monitor_preserves_all_final_parameter_gradients_model_state_and_RNG'] = True
         EVIDENCE['new_BN_and_retained_transport_receive_CE_gradients'] = True
+
+    def test_combination_each_BN_updates_once_and_both_blocks_have_gradients(self):
+        torch.manual_seed(4780)
+        model = trainer.NativeTail2('h', k=4, variant='bnleaky_bias').train()
+        generator = torch.Generator().manual_seed(993)
+        points = torch.randn(4, 3, 32, generator=generator) * .1
+        categories = F.one_hot(torch.arange(4), 16).float()
+        targets = torch.arange(128).reshape(4, 32) % 50
+        self.assertEqual(set(trainer.bn_counts(model).values()), {0})
+        q = model(points, categories).transpose(1, 2).contiguous()
+        self.assertEqual(set(trainer.bn_counts(model).values()), {1})
+        ce = trainer.plain_ce(5 * q, targets) / 5
+        ce.backward()
+        for parameter in (model.score_bias, model.tail_bn.weight, model.tail_bn.bias,
+                          model.emb2._weight, model.mlr._weight, model.mlr._bias):
+            self.assertIsNotNone(parameter.grad)
+            self.assertTrue(torch.isfinite(parameter.grad).all())
+            self.assertGreater(float(parameter.grad.norm()), 0.)
+        model.eval()
+        with torch.no_grad():
+            model(points, categories)
+        self.assertEqual(set(trainer.bn_counts(model).values()), {1})
+        model.train()
+        model(points, categories)
+        self.assertEqual(set(trainer.bn_counts(model).values()), {2})
+        EVIDENCE['combination_BN_train_eval_train_counts_1_1_2_both_blocks_have_CE_gradients'] = True
 
     def test_complete_CPU_two_epoch_entrypoints(self):
         entries = {}
@@ -271,13 +306,13 @@ class TailContracts(unittest.TestCase):
                     self.assertEqual(row['train_reg'], 0.)
                     self.assertEqual(row['train_loss'], row['train_ce'])
                     self.assertEqual(set(row['bn_counts'].values()), {row['updates']})
-                    self.assertEqual('tail_bn' in row['bn_counts'], variant == 'bnleaky')
+                    self.assertEqual('tail_bn' in row['bn_counts'], 'bnleaky' in variant)
                 for observed in observations:
                     self.assertEqual(observed['diagnostics']['active_weighted_contr'], 0.)
                     self.assertEqual(observed['diagnostics']['active_weighted_hier'], 0.)
                     self.assertIn('tail_tangent', observed['geometry'])
-                    self.assertEqual('tail_bn' in observed['geometry'], variant == 'bnleaky')
-                    if variant == 'bias':
+                    self.assertEqual('tail_bn' in observed['geometry'], 'bnleaky' in variant)
+                    if 'bias' in variant:
                         self.assertIn('readout_bias', observed['gradients']['ce']['parameter_groups'])
                     for name in ('contr', 'hier'):
                         self.assertFalse(observed['gradients'][name]['loss_requires_grad'])
@@ -296,7 +331,7 @@ class TailContracts(unittest.TestCase):
                 optimizer = trainer.geoopt.optim.RiemannianSGD(restored.parameters(), lr=.1, momentum=.9, weight_decay=1e-4)
                 optimizer.load_state_dict(last['optimizer'])
                 self.assertTrue(trainer.finite_tensor_state(optimizer.state_dict()))
-                if variant == 'bias':
+                if 'bias' in variant:
                     self.assertTrue(restored.mlr._bias.requires_grad)
                     self.assertTrue(restored.score_bias.requires_grad)
                     self.assertFalse(torch.equal(last['model']['score_bias'], initial['model']['score_bias']))
@@ -310,8 +345,8 @@ class TailContracts(unittest.TestCase):
                     scheduler_horizon=200, initial_model_sha256=manifest['initial_model_sha256'],
                     initial_shared_head_sha256=manifest['initial_shared_head_sha256'],
                     initial_shared_model_sha256=manifest['initial_shared_model_sha256'])
-        self.assertEqual(entries['bnleaky']['initial_shared_head_sha256'], entries['bias']['initial_shared_head_sha256'])
-        self.assertEqual(entries['bnleaky']['initial_shared_model_sha256'], entries['bias']['initial_shared_model_sha256'])
+        self.assertEqual(len({entry['initial_shared_head_sha256'] for entry in entries.values()}), 1)
+        self.assertEqual(len({entry['initial_shared_model_sha256'] for entry in entries.values()}), 1)
         EVIDENCE['complete_CPU_entrypoints'] = entries
 
 

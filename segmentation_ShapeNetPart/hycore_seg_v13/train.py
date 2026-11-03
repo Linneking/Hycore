@@ -38,7 +38,7 @@ def arguments(argv=None):
     p.add_argument("--data", required=True)
     p.add_argument("--out", required=True)
     p.add_argument("--arm", choices=("h",), required=True)
-    p.add_argument("--variant", choices=("bnleaky", "bias"), required=True)
+    p.add_argument("--variant", choices=("bnleaky", "bias", "bnleaky_bias"), required=True)
     p.add_argument("--protocol", choices=("validation", "antao_testsel"), default="antao_testsel")
     p.add_argument("--epochs", type=int, default=200)
     p.add_argument("--schedule-epochs", type=int, default=200)
@@ -255,7 +255,7 @@ def train(args):
         "initial_shared_head_sha256": shared_head_hash, "arm": args.arm,
         "has_m1": model.has_m1, "dropout_active": model.dropout_active, "gradient_clipping": False,
         "architecture": model.architecture, "euclidean_conv9_retained": True,
-        "display_name": "TAN-BNLEAKY-R0" if args.variant == "bnleaky" else "TAN-BIAS-R0",
+        "display_name": {"bnleaky": "TAN-BNLEAKY-R0", "bias": "TAN-BIAS-R0", "bnleaky_bias": "TAN-BNLEAKY-BIAS-R0"}[args.variant],
         "tail_variant": args.variant,
         "frozen_parameter_names": [n for n,p in model.named_parameters() if not p.requires_grad],
         "final_readout": model.readout_description,

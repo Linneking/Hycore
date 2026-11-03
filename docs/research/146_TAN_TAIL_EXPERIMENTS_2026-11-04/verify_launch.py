@@ -67,7 +67,15 @@ def verify(run, reference_run, variant):
     config = manifest["config"]
     ignored = {"variant", "expected_initial_sha256",
                "expected_shared_initial_sha256", "config", "out", "physical_gpu"}
-    display = "TAN-BNLEAKY-R0" if variant == "bnleaky" else "TAN-BIAS-R0"
+    display = {"bnleaky": "TAN-BNLEAKY-R0", "bias": "TAN-BIAS-R0",
+               "bnleaky_bias": "TAN-BNLEAKY-BIAS-R0"}[variant]
+    has_bn = variant in {"bnleaky", "bnleaky_bias"}
+    has_bias = variant in {"bias", "bnleaky_bias"}
+    added_parameters = (256 if has_bn else 0) + (50 if has_bias else 0)
+    added_state = ({"tail_bn.weight", "tail_bn.bias", "tail_bn.running_mean",
+                    "tail_bn.running_var", "tail_bn.num_batches_tracked"} if has_bn else set())
+    if has_bias:
+        added_state.add("score_bias")
     groups = geometry["gradients"]["ce"]["parameter_groups"]
     gradients = geometry["gradients"]
     nodes = geometry["geometry"]
@@ -150,16 +158,15 @@ def verify(run, reference_run, variant):
         "cuda_not_initialized": not torch.cuda.is_initialized(),
     }
 
-    if variant == "bnleaky":
+    if has_bn:
         order = list(nodes)
         sequence = ("m2", "tail_tangent", "tail_bn", "tail_activation", "final_tangent")
         checks.update({
             "bnleaky_only_declared_new_state": set(e0["model"]) - set(ref0["model"])
-                == {"tail_bn.weight", "tail_bn.bias", "tail_bn.running_mean",
-                    "tail_bn.running_var", "tail_bn.num_batches_tracked"},
-            "bnleaky_adds_256_trainable_parameters": manifest["trainable_parameters"]
-                == reference["trainable_parameters"] + 256
-                and manifest["head_parameters"] == reference["head_parameters"] + 256,
+                == added_state,
+            "bnleaky_declared_trainable_parameter_increase": manifest["trainable_parameters"]
+                == reference["trainable_parameters"] + added_parameters
+                and manifest["head_parameters"] == reference["head_parameters"] + added_parameters,
             "bnleaky_frozen_parameters_unchanged": set(manifest["frozen_parameter_names"]) == fixed_curvature,
             "bn128_initial_state_and_counter": e0["model"]["tail_bn.weight"].numel() == 128
                 and torch.equal(e0["model"]["tail_bn.weight"], torch.ones(128))
@@ -172,30 +179,32 @@ def verify(run, reference_run, variant):
                 and [order.index(name) for name in sequence] == sorted(order.index(name) for name in sequence)
                 and all(nodes[name]["shape"][-1] == 128 and nodes[name]["finite"]
                         for name in ("tail_tangent", "tail_bn", "tail_activation")),
-            "bnleaky_new_affine_has_ce_gradients": active_finite(groups["tail_bn"])
-                and all(active_finite(groups["tail_bn"]["parameters"][name]) for name in ("weight", "bias")),
+            "bnleaky_new_affine_has_ce_gradients_and_updates": active_finite(groups["tail_bn"])
+                and all(active_finite(groups["tail_bn"]["parameters"][name]) for name in ("weight", "bias"))
+                and any(not torch.equal(e0["model"]["tail_bn." + name],
+                                        e1["model"]["tail_bn." + name]) for name in ("weight", "bias")),
             "bnleaky_retains_last_transport_gradient": active_finite(groups["m3"]["parameters"]["_bias"]),
-            "bnleaky_no_output_bias": "score_bias" not in e0["model"]
-                and "readout_bias" not in groups,
+            "bnleaky_bias_presence_matches_declaration": ("score_bias" in e0["model"]) == has_bias
+                and ("readout_bias" in groups) == has_bias,
         })
-    else:
+    if has_bias:
         checks.update({
             "bias_only_declared_new_state": set(e0["model"]) - set(ref0["model"])
-                == {"score_bias"},
-            "bias_adds_50_trainable_parameters": manifest["trainable_parameters"]
-                == reference["trainable_parameters"] + 50
-                and manifest["head_parameters"] == reference["head_parameters"] + 50,
+                == added_state,
+            "bias_declared_trainable_parameter_increase": manifest["trainable_parameters"]
+                == reference["trainable_parameters"] + added_parameters
+                and manifest["head_parameters"] == reference["head_parameters"] + added_parameters,
             "bias_does_not_freeze_original_parameters": set(manifest["frozen_parameter_names"])
                 == fixed_curvature,
-            "zero_bias_preserves_initial_reference_readout": e0["model"]["score_bias"].shape == (50,)
-                and torch.equal(e0["model"]["score_bias"], torch.zeros(50))
-                and matching_tensors(shared, ref0["model"]),
+            "bias_zero_initial_intercept": e0["model"]["score_bias"].shape == (50,)
+                and torch.equal(e0["model"]["score_bias"], torch.zeros(50)),
             "bias_new_intercept_has_ce_gradient": active_finite(groups["readout_bias"])
                 and active_finite(groups["readout_bias"]["parameters"]["score_bias"]),
             "bias_updates_and_stays_finite": finite(e1["model"]["score_bias"])
                 and not torch.equal(e0["model"]["score_bias"], e1["model"]["score_bias"]),
             "bias_retains_last_transport_gradient": active_finite(groups["m3"]["parameters"]["_bias"]),
-            "bias_no_additional_bn": "tail_bn" not in nodes and "tail_bn" not in first["bn_counts"]
+            "bias_bn_presence_matches_declaration": ("tail_bn" in nodes) == has_bn
+                and ("tail_bn" in first["bn_counts"]) == has_bn
                 and "tail_tangent" in nodes and nodes["tail_tangent"]["shape"][-1] == 128,
         })
     status = read(run / "status.json")
@@ -220,7 +229,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--run", type=Path, required=True)
     parser.add_argument("--reference", type=Path, required=True)
-    parser.add_argument("--variant", choices=("bnleaky", "bias"), required=True)
+    parser.add_argument("--variant", choices=("bnleaky", "bias", "bnleaky_bias"), required=True)
     args = parser.parse_args()
     result = verify(args.run, args.reference, args.variant)
     print(json.dumps(result, allow_nan=False))

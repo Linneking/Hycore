@@ -1,6 +1,6 @@
 {
   "complete": true,
-  "tests_run": 7,
+  "tests_run": 8,
   "cuda_initialized": false,
   "scope": "synthetic_CPU_only",
   "Roff_no_training_graph_and_reference_sampling_preserved": true,
@@ -8,7 +8,8 @@
   "CE5_over5_backward_correct_and_finite_for_all_trainable_parameters": true,
   "monitor_preserves_all_final_parameter_gradients_model_state_and_RNG": true,
   "new_BN_and_retained_transport_receive_CE_gradients": true,
-  "declared_configs_Roff_scale5_final_bnleaky_and_bias": true,
+  "declared_configs_Roff_scale5_three_final_tail_variants": true,
+  "combination_BN_train_eval_train_counts_1_1_2_both_blocks_have_CE_gradients": true,
   "complete_CPU_entrypoints": {
     "bnleaky": {
       "epochs": 2,
@@ -35,11 +36,24 @@
       "initial_model_sha256": "2672a9cfacba503dab88eecfd712b21570a3795bb9df381575751fef37630972",
       "initial_shared_head_sha256": "3a79465b3d865873c2014f00ea0a7813fd8489ed1f3144269dbcdf3774a32ba2",
       "initial_shared_model_sha256": "40da1ceeb6758eb9762e499f3b4d0e7ff8e9e0f64b8f22e1e70776a311fa9d78"
+    },
+    "bnleaky_bias": {
+      "epochs": 2,
+      "updates": 4,
+      "BN_updates": 4,
+      "all50parts": true,
+      "model_optimizer_restorable": true,
+      "R_training_graph": false,
+      "test_accessed": false,
+      "scheduler_horizon": 200,
+      "initial_model_sha256": "75283dff1c6496a6abad7d301f91b331b6794a97362e10da5e7bc8e3d4ac8990",
+      "initial_shared_head_sha256": "3a79465b3d865873c2014f00ea0a7813fd8489ed1f3144269dbcdf3774a32ba2",
+      "initial_shared_model_sha256": "40da1ceeb6758eb9762e499f3b4d0e7ff8e9e0f64b8f22e1e70776a311fa9d78"
     }
   },
   "BNLeaky_and_affine_readout_forward_formulas_exact": true,
-  "zero_bias_forward_exact_R0_and_nonzero_bias_changes_predictions": true,
+  "zero_bias_forward_exact_R0_combination_exact_BN_and_nonzero_bias_changes_predictions": true,
   "all_shared_model_tensors_and_constructor_RNG_match_R0": true,
   "BN_default_affine_initialization_and_head_membership": true,
-  "bias_adds_exactly50_parameters_and_keeps_transport_trainable": true
+  "bias_adds50_BNadds256_combination306_transport_trainable": true
 }
