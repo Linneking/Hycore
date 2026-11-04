@@ -32,13 +32,13 @@ from .monitoring import GeometryMonitor
 from ..hycore_seg_v2.native import SOURCE_PROVENANCE, cal_loss
 
 
-def arguments(argv=None):
+def arguments(argv=None, *, variants=("bnleaky", "bias", "bnleaky_bias")):
     p = argparse.ArgumentParser()
     p.add_argument("--config")
     p.add_argument("--data", required=True)
     p.add_argument("--out", required=True)
     p.add_argument("--arm", choices=("h",), required=True)
-    p.add_argument("--variant", choices=("bnleaky", "bias", "bnleaky_bias"), required=True)
+    p.add_argument("--variant", choices=variants, required=True)
     p.add_argument("--protocol", choices=("validation", "antao_testsel"), default="antao_testsel")
     p.add_argument("--epochs", type=int, default=200)
     p.add_argument("--schedule-epochs", type=int, default=200)
@@ -146,6 +146,8 @@ def monitored_parameter_groups(model):
         groups["tail_bn"] = dict(model.tail_bn.named_parameters())
     if hasattr(model, "score_bias"):
         groups["readout_bias"] = {"score_bias": model.score_bias}
+    if hasattr(model, "additional_parameter_groups"):
+        groups.update(model.additional_parameter_groups())
     return groups
 
 
@@ -161,7 +163,7 @@ def update_summary(groups, before):
     return result
 
 
-def train(args):
+def train(args, *, model_type=NativeTail2, monitor_type=GeometryMonitor, run_format="hycore_seg_v13"):
     torch.set_num_threads(args.cpu_threads)
     out = Path(args.out)
     identity = git_identity()
@@ -192,18 +194,22 @@ def train(args):
     selection_loader = loader(selection_set, args.eval_batch_size, args.workers, eval_generator, False)
     if not len(train_loader):
         raise ValueError("No full training batch")
-    model = NativeTail2(args.arm, k=args.k, dropout=args.dropout, variant=args.variant).to(device)
+    model = model_type(args.arm, k=args.k, dropout=args.dropout, variant=args.variant).to(device)
     initial_hash = state_hash(model.state_dict())
-    shared_initial_hash = state_hash({k:v for k,v in model.state_dict().items() if not k.startswith("tail_bn.") and k != "score_bias"})
+    new_parameters = getattr(model, "new_parameter_prefixes", ("tail_bn.", "score_bias"))
+    shared_initial_hash = state_hash({
+        name: tensor for name, tensor in model.state_dict().items()
+        if not name.startswith(new_parameters)
+    })
     if args.expected_shared_initial_sha256 and shared_initial_hash != args.expected_shared_initial_sha256:
-        raise AssertionError("Shared initialization differs from matched TAN-R0")
+        raise AssertionError("Shared initialization differs from the matched control")
     shared_head_hash = state_hash({name: tensor for name, tensor in model.state_dict().items()
                                    if name.startswith(("emb2.", "mlr."))})
     if args.expected_initial_sha256 and initial_hash != args.expected_initial_sha256:
         raise AssertionError("Fresh production initialization differs from matched S5 reference")
     head_ids = {id(parameter) for parameter in model.head_parameters()}
     backbone_hash = state_hash({name: parameter for name, parameter in model.named_parameters()
-                                if not name.startswith(("emb2.", "mlr.", "tail_bn.")) and name != "score_bias"})
+                                if not name.startswith(("emb2.", "mlr.") + new_parameters)})
     optimizer = geoopt.optim.RiemannianSGD(model.parameters(), lr=args.lr,
                                           momentum=args.momentum, weight_decay=args.weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
@@ -211,7 +217,7 @@ def train(args):
     criterion = HyCoReSegLoss(args.alpha, args.beta, args.gamma_base, args.delta,
                              args.part_min, args.part_max, args.seed,
                              feature_dim=model.feature_dim).to(device)
-    monitor = GeometryMonitor()
+    monitor = monitor_type()
     model.monitor = criterion.monitor = monitor
     parameter_groups = monitored_parameter_groups(model)
     start_epoch, best_epoch, updates = 0, 0, 0
@@ -246,8 +252,17 @@ def train(args):
         if prior_selection["selected_epoch"] != best_epoch:
             raise ValueError("Missing matching prior best selection record")
         save_checkpoint(out / "best.pth", prior_best)
+    if hasattr(model, "run_metadata"):
+        variant_metadata = model.run_metadata()
+    else:
+        variant_metadata = {
+            "display_name": {"bnleaky": "TAN-BNLEAKY-R0", "bias": "TAN-BIAS-R0",
+                             "bnleaky_bias": "TAN-BNLEAKY-BIAS-R0"}[args.variant],
+            "final_output_space": "real_tangent_scores",
+            "matched_reference": "S5-TAN-R0; same_shared_initial_state_and_protocol; declared_tail_variant",
+        }
     manifest = {
-        "format": "hycore_seg_v13", "started": timestamp(), "source": identity,
+        "format": run_format, "started": timestamp(), "source": identity,
         "source_provenance": SOURCE_PROVENANCE,
         "command": [sys.executable, *sys.argv], "config": vars(args), "seed": args.seed, "gpu": gpu,
         "initialization": "fresh" if not args.resume else {"checkpoint_sha256": sha256(args.resume)},
@@ -255,12 +270,10 @@ def train(args):
         "initial_shared_head_sha256": shared_head_hash, "arm": args.arm,
         "has_m1": model.has_m1, "dropout_active": model.dropout_active, "gradient_clipping": False,
         "architecture": model.architecture, "euclidean_conv9_retained": True,
-        "display_name": {"bnleaky": "TAN-BNLEAKY-R0", "bias": "TAN-BIAS-R0", "bnleaky_bias": "TAN-BNLEAKY-BIAS-R0"}[args.variant],
+        **variant_metadata,
         "tail_variant": args.variant,
         "frozen_parameter_names": [n for n,p in model.named_parameters() if not p.requires_grad],
         "final_readout": model.readout_description,
-        "final_output_space": "real_tangent_scores",
-        "matched_reference": "S5-TAN-R0; same_shared_initial_state_and_protocol; declared_tail_variant",
         "feature_location": model.head_feature_stage,
         "regularizer_feature_location": model.regularizer_feature_stage,
         "dp1_location": "before_conv9" if model.dropout_active else "removed",
@@ -289,7 +302,7 @@ def train(args):
     write_json(out / "manifest.json", manifest)
 
     def snapshot(epoch):
-        return {"format": "hycore_seg_v13_complete", "epoch": epoch, "model": model.state_dict(),
+        return {"format": run_format + "_complete", "epoch": epoch, "model": model.state_dict(),
                 "optimizer": optimizer.state_dict(), "scheduler": scheduler.state_dict(),
                 "rng": rng_state(), "train_generator": train_generator.get_state(),
                 "eval_generator": eval_generator.get_state(), "part_generator": criterion.generator.get_state(),
@@ -449,12 +462,13 @@ def train(args):
                                       "best_epoch": best_epoch, "at": timestamp()})
 
 
-def main():
-    args = arguments()
+def main(args=None, **train_options):
+    if args is None:
+        args = arguments()
     # Refuse directory reuse before writing any status/failure into an old run.
     Path(args.out).mkdir(parents=True, exist_ok=False)
     try:
-        train(args)
+        train(args, **train_options)
     except Exception as exc:
         write_json(Path(args.out) / "failure.json", {"error": repr(exc), "at": timestamp()})
         write_json(Path(args.out) / "status.json", {"state": "failed", "error": repr(exc), "at": timestamp()})

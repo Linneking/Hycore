@@ -13,6 +13,9 @@ from ..hycore_seg_v3.monitoring import _scalar, _stats
 
 
 class GeometryMonitor(_GeometryMonitor):
+    score_node = "final_tangent"
+    score_coordinate_space = "origin_tangent_real_scores"
+
     def begin(self, enabled, epoch=0, step=0):
         super().begin(enabled, epoch, step)
         self._targets = None
@@ -29,7 +32,7 @@ class GeometryMonitor(_GeometryMonitor):
             return
         if not math.isfinite(float(scale)) or float(scale) <= 0:
             raise ValueError("Score scale must be finite and positive")
-        scores = self.nodes.get("final_tangent")
+        scores = self.nodes.get(self.score_node)
         if scores is None or targets.shape != scores.shape[:-1]:
             raise ValueError("Targets must match the final score batch and point dimensions")
         self._targets = targets.detach()
@@ -38,12 +41,12 @@ class GeometryMonitor(_GeometryMonitor):
     @torch.no_grad()
     def summarize(self):
         result = super().summarize()
-        scores = self.nodes.get("final_tangent")
+        scores = self.nodes.get(self.score_node)
         if scores is None:
             return result
         detached = scores.detach()
-        stats = result["geometry"]["final_tangent"]
-        stats.update(coordinate_space="origin_tangent_real_scores",
+        stats = result["geometry"][self.score_node]
+        stats.update(coordinate_space=self.score_coordinate_space,
                      logit_min=_scalar(detached.min()),
                      logit_max=_scalar(detached.max()),
                      logit_mean=_scalar(detached.double().mean()),
