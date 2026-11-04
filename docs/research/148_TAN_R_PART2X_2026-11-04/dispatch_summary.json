@@ -1,0 +1,33 @@
+{
+  "display_name": "TAN-R-PART2X",
+  "gpu": 2,
+  "commit": "e3a5a47cf0a13a9e15a3beec1c8733a0f08b0d14",
+  "started_utc": "2026-11-04T15:42:37.960022+00:00",
+  "idle_checks": [
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      0,
+      1,
+      2
+    ]
+  ],
+  "seed": 4780,
+  "epochs": 200,
+  "fresh": true,
+  "teacher": null,
+  "part_min": 400,
+  "part_max": 1200,
+  "gamma_base": 2000,
+  "delta": 4,
+  "alpha": 0.01,
+  "beta": 0.01
+}

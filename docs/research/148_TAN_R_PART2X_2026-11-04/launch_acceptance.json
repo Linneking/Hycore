@@ -1,0 +1,43 @@
+{
+  "checks": {
+    "reference_is_original_tan_r": true,
+    "target_part_and_margins": true,
+    "reference_config_equal_except_part_scale_and_paths": true,
+    "initial_hash_matches_reference": true,
+    "all_initial_model_tensors_equal": true,
+    "initial_cpu_rng_equal": true,
+    "initial_sampling_generators_equal": true,
+    "data_manifest_equal": true,
+    "first_input_equal": true,
+    "first_centers_and_negatives_equal": true,
+    "first_geometry_and_pairing_agree": true,
+    "first_epoch_sampling_and_margins": true,
+    "first_epoch437": true,
+    "bn437": true,
+    "test2874_and_50_parts": true,
+    "both_regularizers_enabled": true,
+    "finite_ce_and_regularizer": true,
+    "tangent_scores_and_scale5": true,
+    "ce_and_both_regularizer_graphs": true,
+    "regularizers_bypass_last_maps": true,
+    "model_and_optimizer_finite": true,
+    "no_failure_file": true
+  },
+  "all_passed": true,
+  "commit": "e3a5a47cf0a13a9e15a3beec1c8733a0f08b0d14",
+  "first_epoch_seconds": 109.40602119301911,
+  "first_epoch_instance_miou": 0.7639196247765336,
+  "first_epoch_class_miou": 0.6202884304591074,
+  "first_sample": {
+    "part_points": 457,
+    "gamma": 4.3763676148796495,
+    "delta": 4
+  },
+  "current_status": {
+    "state": "training",
+    "epoch": 2,
+    "step": 100,
+    "updates": 537,
+    "at": "2026-11-04T15:44:55.388224+00:00"
+  }
+}
