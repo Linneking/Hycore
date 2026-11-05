@@ -7,7 +7,17 @@ from pathlib import Path
 import subprocess
 import time
 
-from ..hycore_seg_v1.utils import timestamp, write_json
+from datetime import datetime, timezone
+
+
+def timestamp():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def write_json(path, value):
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(path)
 
 
 def idle_gpus():
@@ -36,6 +46,14 @@ def main():
     status = args.queue_out / "queue_status.json"
     commit = subprocess.check_output(
         ["git", "-C", str(args.repo), "rev-parse", "HEAD"], text=True).strip()
+    write_json(status, {"state": "cpu_preflight", "commit": commit, "at": timestamp()})
+    preflight = subprocess.run(
+        [str(args.python), "-m", "segmentation_ShapeNetPart.hycore_seg_v15.test_contracts"],
+        cwd=args.repo, env={**os.environ, "CUDA_VISIBLE_DEVICES": "", "PYTHONDONTWRITEBYTECODE": "1"})
+    if preflight.returncode:
+        write_json(status, {"state": "cpu_preflight_failed", "commit": commit,
+                            "returncode": preflight.returncode, "at": timestamp()})
+        return
     while True:
         try:
             initial = idle_gpus()
