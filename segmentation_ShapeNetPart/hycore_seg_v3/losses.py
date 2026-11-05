@@ -126,6 +126,10 @@ class HyCoReSegLoss(nn.Module):
         self.monitor = None
         self.last_components = {}
 
+    def pool_whole(self, features, part_indices):
+        """Pool the original whole; successor losses can change this tap."""
+        return features.mean(dim=1)
+
     def _capture(self, name, tensor, tangent_input=None):
         if self.monitor is not None:
             self.monitor.capture(name, tensor, tangent_input=tangent_input)
@@ -147,7 +151,7 @@ class HyCoReSegLoss(nn.Module):
 
         pooled, part_indices, centers, size = choose_parts(
             features, self.generator, self.part_min, self.part_max)
-        whole_tangent = features.mean(dim=1)
+        whole_tangent = self.pool_whole(features, part_indices)
         self._capture("whole_tangent", whole_tangent)
         self._capture("part_tangent", pooled)
         whole = self.ball.expmap0(whole_tangent)

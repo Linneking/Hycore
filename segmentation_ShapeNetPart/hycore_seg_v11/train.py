@@ -155,7 +155,7 @@ def update_summary(groups, before):
     return result
 
 
-def train(args):
+def train(args, *, loss_type=HyCoReSegLoss, run_format="hycore_seg_v11"):
     torch.set_num_threads(args.cpu_threads)
     out = Path(args.out)
     identity = git_identity()
@@ -199,7 +199,7 @@ def train(args):
                                           momentum=args.momentum, weight_decay=args.weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         optimizer, T_max=args.schedule_epochs, eta_min=args.min_lr)
-    criterion = HyCoReSegLoss(args.alpha, args.beta, args.gamma_base, args.delta,
+    criterion = loss_type(args.alpha, args.beta, args.gamma_base, args.delta,
                              args.part_min, args.part_max, args.seed,
                              feature_dim=model.feature_dim).to(device)
     monitor = GeometryMonitor()
@@ -238,7 +238,7 @@ def train(args):
             raise ValueError("Missing matching prior best selection record")
         save_checkpoint(out / "best.pth", prior_best)
     manifest = {
-        "format": "hycore_seg_v11", "started": timestamp(), "source": identity,
+        "format": run_format, "started": timestamp(), "source": identity,
         "source_provenance": SOURCE_PROVENANCE,
         "command": [sys.executable, *sys.argv], "config": vars(args), "seed": args.seed, "gpu": gpu,
         "initialization": "fresh" if not args.resume else {"checkpoint_sha256": sha256(args.resume)},
@@ -275,10 +275,11 @@ def train(args):
         "ce": "CE(scale*z)/scale_smoothing_false", "supervision_scale": args.supervision_scale,
         "precision": "fp32", "autocast": False, "early_stopping": False,
     }
+    manifest.update(getattr(criterion, "manifest_metadata", {}))
     write_json(out / "manifest.json", manifest)
 
     def snapshot(epoch):
-        return {"format": "hycore_seg_v11_complete", "epoch": epoch, "model": model.state_dict(),
+        return {"format": run_format + "_complete", "epoch": epoch, "model": model.state_dict(),
                 "optimizer": optimizer.state_dict(), "scheduler": scheduler.state_dict(),
                 "rng": rng_state(), "train_generator": train_generator.get_state(),
                 "eval_generator": eval_generator.get_state(), "part_generator": criterion.generator.get_state(),
@@ -438,12 +439,13 @@ def train(args):
                                       "best_epoch": best_epoch, "at": timestamp()})
 
 
-def main():
-    args = arguments()
+def main(args=None, **train_options):
+    if args is None:
+        args = arguments()
     # Refuse directory reuse before writing any status/failure into an old run.
     Path(args.out).mkdir(parents=True, exist_ok=False)
     try:
-        train(args)
+        train(args, **train_options)
     except Exception as exc:
         write_json(Path(args.out) / "failure.json", {"error": repr(exc), "at": timestamp()})
         write_json(Path(args.out) / "status.json", {"state": "failed", "error": repr(exc), "at": timestamp()})

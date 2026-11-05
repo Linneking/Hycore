@@ -15,7 +15,7 @@ class HyCoReSegLoss(nn.Module):
     """Only the approved (.01,.01) and (0,0) regularizer settings are accepted."""
 
     def __init__(self, alpha=.01, beta=.01, gamma_base=1000., delta=4.,
-                 part_min=200, part_max=600, seed=4780, feature_dim=256):
+                 part_min=200, part_max=600, seed=4780, feature_dim=256, *, kernel_type=_V3Loss):
         super().__init__()
         if (alpha, beta) not in {(.01, .01), (0., 0.)}:
             raise ValueError("Paired D/E coefficients must be (.01,.01) or (0,0)")
@@ -23,7 +23,7 @@ class HyCoReSegLoss(nn.Module):
         self.regularizers_active = bool(alpha or beta)
         # The same positive-coefficient kernel keeps the diagnostic calculations
         # and part/negative RNG consumption identical in both arms.
-        self.kernel = _V3Loss(.01, .01, gamma_base, delta, part_min, part_max,
+        self.kernel = kernel_type(.01, .01, gamma_base, delta, part_min, part_max,
                               seed, feature_dim)
         self.monitor = None
         self.last_components = {}
