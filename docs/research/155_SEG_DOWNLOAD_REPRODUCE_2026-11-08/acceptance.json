@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "scope": "CPU full public-archive to prepared-data reconstruction; no model training or full checkpoint inference",
+  "tested_commit": "d8f930ba68fa5ad336dcdc17e799891d5d773202",
+  "objects": {
+    "trainval": 14007,
+    "test": 2874
+  },
+  "verification": {
+    "mode": "content",
+    "original_manifest_sha256": "452943480f7fbdf82507a8306e3f535963ec3a4ae93f57807b3b6c36957ebfb8",
+    "local_manifest_sha256": "f74c10248a06c357ee2b9189a33472de347ad68c2f1a9b1ac72320d5ea5545ad",
+    "splits": {
+      "trainval": "433a70665624458dcc97930ce1a557863f90acac8dad2f3ea3462d213423cd6d",
+      "test": "736bc6b1354d5b6b77e3b24b85572f2c90c07083086fa7f0e5ca112cad63e6a3"
+    }
+  },
+  "environment": {
+    "python": "3.9.23",
+    "numpy": "1.26.4",
+    "h5py": "3.14.0"
+  },
+  "contract_tests": {
+    "passed": 6,
+    "coverage": [
+      "metadata/serialization change accepted",
+      "coordinate/part/category/ID changes rejected",
+      "point/object order changes rejected",
+      "local integrity mismatch rejected",
+      "incompatible coordinate dtype rejected",
+      "unknown checkpoint data reference rejected"
+    ]
+  }
+}
