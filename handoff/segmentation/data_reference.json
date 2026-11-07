@@ -1,0 +1,89 @@
+{
+  "profiles": [
+    {
+      "name": "ShapeNetPart historical main protocol",
+      "original_manifest_sha256": "452943480f7fbdf82507a8306e3f535963ec3a4ae93f57807b3b6c36957ebfb8",
+      "archive_sha256": "0e26411700bae2da38ee8ecc719ba4db2e6e0133486e258665952ad5dfced0fe",
+      "preprocessing": "center_full_xyz_unit_max_radius_first2048_no_normals_no_extra_augmentation",
+      "split_policy": "original_release_train_plus_val_and_test_no_ID_deduplication",
+      "splits": {
+        "trainval": {
+          "format": "hycore_seg_ordered_arrays_v1",
+          "objects": 14007,
+          "fields": {
+            "data": {
+              "shape": [
+                14007,
+                2048,
+                3
+              ],
+              "dtype": "<f4",
+              "sha256": "e9f7eba46584f5ad6a7ec45d8e9f28c75b541b3bf650747a519f2b3d9536b7a6"
+            },
+            "pid": {
+              "shape": [
+                14007,
+                2048
+              ],
+              "dtype": "<i2",
+              "sha256": "a94d04e495df8b8a4e38fb81d02108b50531dd7cece5b5972526d5cf819bcc96"
+            },
+            "label": {
+              "shape": [
+                14007
+              ],
+              "dtype": "<i8",
+              "sha256": "928e4ee0582be7f6c9ad17e231f576960c9bf45372f71be691ba249d287161a0"
+            },
+            "ids": {
+              "shape": [
+                14007
+              ],
+              "encoding": "utf8_length_prefixed_u64le",
+              "sha256": "a829d8f12273a86f9e5da4619a1108c2b26373be75da2b5ba5822823b0b18c0d"
+            }
+          },
+          "content_sha256": "433a70665624458dcc97930ce1a557863f90acac8dad2f3ea3462d213423cd6d"
+        },
+        "test": {
+          "format": "hycore_seg_ordered_arrays_v1",
+          "objects": 2874,
+          "fields": {
+            "data": {
+              "shape": [
+                2874,
+                2048,
+                3
+              ],
+              "dtype": "<f4",
+              "sha256": "a49a9c9ff741888c84a2f3d753fb8a195c6148ba2e2936d96aef4d0bfdb8385a"
+            },
+            "pid": {
+              "shape": [
+                2874,
+                2048
+              ],
+              "dtype": "<i2",
+              "sha256": "dbfde99497be7d224409fe44aad4724ae888edc036bde2f3a748ea0caf285d8c"
+            },
+            "label": {
+              "shape": [
+                2874
+              ],
+              "dtype": "<i8",
+              "sha256": "d323fd5a7ffc9032c0a5662fd88b7fa33b6da6836c4d4f7de4f4b470b54fc537"
+            },
+            "ids": {
+              "shape": [
+                2874
+              ],
+              "encoding": "utf8_length_prefixed_u64le",
+              "sha256": "e9a29bfebfd6f92ae3a46c98600c0bcd1e6999ce65880ccb85595a7c61165553"
+            }
+          },
+          "content_sha256": "736bc6b1354d5b6b77e3b24b85572f2c90c07083086fa7f0e5ca112cad63e6a3"
+        }
+      }
+    }
+  ]
+}
