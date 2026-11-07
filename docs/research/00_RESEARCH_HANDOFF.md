@@ -1,5 +1,9 @@
 # Research handoff: HyCoRe inter-sample hierarchy
 
+## 2026-11-07 分割二作交接版本
+
+七条主线与33条训练记录已归档，含17组详细沿革、15组配套结果及独立验证基线。可运行配置与统一入口见 `handoff/segmentation/README.md`；主文和结果表见 [154交接材料](154_HYCORE_SEG_COAUTHOR_HANDOFF_2026-11-07/README.md)。三份关键best检查点通过本机私有包交接，不进入Git。
+
 ## 2026-11-04：TAN-R-PART2X 在8000 GPU2启动，首轮验收通过
 
 用户授权单组比例对照。基于原 TAN-R 配置，只改 part 区间400–1200和 `gamma_base=2000`，对比 margin 4，两正则系数各.01。对应 k→2k 的实际 intra margin 保持1000/k。源e3a5a47冻结，23:42北京GPU2直接fresh200，seed4780。22项首轮验收通过，首轮437步，已进入第2轮，预计11月5日05:40–06:00完成。见[执行记录](148_TAN_R_PART2X_2026-11-04/execution.md)。私有调度在148忽略交接，勿重复启动或向冻结源拉文档。

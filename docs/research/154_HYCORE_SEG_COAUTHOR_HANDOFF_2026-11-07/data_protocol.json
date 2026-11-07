@@ -1,0 +1,23 @@
+{
+  "source": {
+    "url": "https://huggingface.co/datasets/wangps/shapenet_segmentation/resolve/dbde146b974e1fc8628b47b1b1c4e50d8bc1a2ef/shapenetcore_partanno_segmentation_benchmark_v0_normal.zip",
+    "dataset_revision": "dbde146b974e1fc8628b47b1b1c4e50d8bc1a2ef"
+  },
+  "archive_sha256": "0e26411700bae2da38ee8ecc719ba4db2e6e0133486e258665952ad5dfced0fe",
+  "preprocessing": "center_full_xyz_unit_max_radius_first2048_no_normals_no_extra_augmentation",
+  "split_policy": "original_release_train_plus_val_and_test_no_ID_deduplication",
+  "trainval_duplicate_entries": 9,
+  "trainval_test_shared_ids": 26,
+  "splits": {
+    "trainval": {
+      "objects": 14007,
+      "id_sha256": "e6571eaaeb5c0945b77e9d9e717b9c9d9f4ed45737266f5c6f13c95df91f64eb",
+      "file_sha256": "87a2f328c2516d928e53766bbc7aaace4d1f60694e973f845cefdf81d8592f44"
+    },
+    "test": {
+      "objects": 2874,
+      "id_sha256": "186cf80db132c63c7bd821026934814768849307174c59d1120461ecba4298d6",
+      "file_sha256": "dee28692286fd9043fff5be17b35b328c5493eaa882cd754b6a8e23809c3a283"
+    }
+  }
+}

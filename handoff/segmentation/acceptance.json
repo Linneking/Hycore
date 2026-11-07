@@ -1,0 +1,52 @@
+{
+  "environment": {
+    "torch": "2.6.0+cu126",
+    "geoopt": "0.5.1",
+    "device": "cpu"
+  },
+  "scope": "strict checkpoint load and synthetic 2x64 input; not full test inference",
+  "results": [
+    {
+      "experiment": "DGCNN",
+      "epoch": 186,
+      "checkpoint_sha256": "15aa9149a8ff797b30f63ea9ba6e7c58ab0a74e21c90d3402e32e28cd5b015f7",
+      "strict_state_load": true,
+      "synthetic_input_points": 64,
+      "score_shape": [
+        2,
+        50,
+        64
+      ],
+      "all_scores_finite": true,
+      "model_state_unchanged": true
+    },
+    {
+      "experiment": "TAN-R0",
+      "epoch": 180,
+      "checkpoint_sha256": "109c759a7dfd2f37acce53edae9dc37dd1c7cfd3e9a6e164bab7a7d2611fe339",
+      "strict_state_load": true,
+      "synthetic_input_points": 64,
+      "score_shape": [
+        2,
+        50,
+        64
+      ],
+      "all_scores_finite": true,
+      "model_state_unchanged": true
+    },
+    {
+      "experiment": "TAN-R",
+      "epoch": 181,
+      "checkpoint_sha256": "e9a1707c51842d2e2383d9940f16be6aaf3e78c11198f6828a724235f011c577",
+      "strict_state_load": true,
+      "synthetic_input_points": 64,
+      "score_shape": [
+        2,
+        50,
+        64
+      ],
+      "all_scores_finite": true,
+      "model_state_unchanged": true
+    }
+  ]
+}
