@@ -16,12 +16,26 @@ def main():
     sys.argv = [module, *sys.argv[2:]]
     original_file = h5py.File
 
-    def cached_file(*args, **kwargs):
-        kwargs.setdefault("rdcc_nbytes", 64 * 1024 * 1024)
-        kwargs.setdefault("rdcc_nslots", 10007)
-        return original_file(*args, **kwargs)
+    class CachedFile(original_file):
+        def __init__(self, *args, **kwargs):
+            self._read_datasets = {}
+            kwargs.setdefault("rdcc_nbytes", 64 * 1024 * 1024)
+            kwargs.setdefault("rdcc_nslots", 10007)
+            super().__init__(*args, **kwargs)
 
-    h5py.File = cached_file
+        def __getitem__(self, name):
+            if name in self._read_datasets:
+                return self._read_datasets[name]
+            result = super().__getitem__(name)
+            if self.mode == "r" and isinstance(result, h5py.Dataset):
+                self._read_datasets[name] = result
+            return result
+
+        def close(self):
+            self._read_datasets.clear()
+            super().close()
+
+    h5py.File = CachedFile
     try:
         runpy.run_module(module, run_name="__main__")
     finally:
@@ -30,3 +44,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
