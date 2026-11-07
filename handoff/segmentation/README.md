@@ -25,7 +25,7 @@
 
 接手复核旧成绩时优先取得现有prepared数据。当前trainval14007/test2874，2048XYZ、k40，包含原raw列表的9条train-val重复和26个trainval-test共享ID。原train-test23、val-test3，合并前已经存在。test-selected开发结果和独立验证协议分开。
 
-prepared目录含trainval.h5、test.h5、manifest.json。文件指纹和manifest字节必须与检查点身份一致。重新准备数据会改变准备时间或版本元数据，因此不能仅凭对象数认定是原缓存。私有data_manifest.json是原文件的核对副本，数据本体从项目共享位置取得。
+prepared目录含trainval.h5、test.h5、manifest.json。默认exact评估要求原清单和文件身份。无需传输数据时，按REPRODUCE_FROM_DOWNLOAD.md下载原始包并运行prepare.py；该入口验证实际数组与历史参考一致。历史权重复评加--data-check content，新训练沿用自身清单。仅凭对象数相同不足以认定数据一致。
 
 若另建数据，先用hycore_seg_v1.prepare_data处理normal archive，再用prepare_antao_protocol恢复原列表成员。archive SHA为0e26411700bae2da38ee8ecc719ba4db2e6e0133486e258665952ad5dfced0fe。另建无交集划分时，需重新运行匹配DGCNN，不能覆盖历史数据。
 

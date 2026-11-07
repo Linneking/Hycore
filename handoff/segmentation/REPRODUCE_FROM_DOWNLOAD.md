@@ -50,7 +50,7 @@ python handoff/segmentation/prepare.py \
   --output data/shapenetpart_rebuilt
 ```
 
-此步骤在CPU上执行，不需要空闲GPU。它原样调用两个历史预处理脚本：
+此步骤在CPU上执行，不需要空闲GPU。新入口仅将HDF5无损块缓存提高到每数据集64MiB以改善逐对象读写，原预处理算法不变；它执行两个历史预处理脚本：
 
 1. prepare_data：全点XYZ中心化、单位最大半径归一化；舍弃法线，取前2048点；点不足时按索引循环补齐。先生成去跨集合重复的train/val/test。
 2. prepare_antao_protocol：按原发布列表顺序恢复主线trainval14007、test2874，保留历史成员及重复关系。
@@ -120,4 +120,3 @@ python handoff/segmentation/launch.py \
 主线历史协议合并trainval、逐轮test选best；原raw列表的交集保留，trainval内部9条重复、与test共享26个ID。当前流程复现这套历史设置，不把它称作无交集独立测试。SEG33采用第一阶段独立train/val/test和验证选模，不能和主线混排。
 
 先确认旧权重复评，再判断从头训练差异。4090与5090的数值误差、软件和随机流可能造成重新训练分数波动，不能承诺逐位复现。训练成绩请同时记录best、同轮Class、末轮和末20轮均值。
-

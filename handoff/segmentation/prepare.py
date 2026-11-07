@@ -28,11 +28,13 @@ def main():
         parser.error("Expected one historical preparation profile")
     profile = profiles["profiles"][0]
     environment = {**os.environ, "CUDA_VISIBLE_DEVICES": ""}
-    subprocess.run([sys.executable, "-m", "segmentation_ShapeNetPart.hycore_seg_v1.prepare_data",
+    subprocess.run([sys.executable, "-m", "handoff.segmentation.prepare_worker",
+                    "segmentation_ShapeNetPart.hycore_seg_v1.prepare_data",
                     "--archive", str(archive), "--output", str(source),
                     "--expected-archive-sha256", profile["archive_sha256"]],
                    cwd=ROOT, env=environment, check=True)
-    subprocess.run([sys.executable, "-m", "segmentation_ShapeNetPart.hycore_seg_v1.prepare_antao_protocol",
+    subprocess.run([sys.executable, "-m", "handoff.segmentation.prepare_worker",
+                    "segmentation_ShapeNetPart.hycore_seg_v1.prepare_antao_protocol",
                     "--source", str(source), "--output", str(output)],
                    cwd=ROOT, env=environment, check=True)
     verified = verify_prepared(output, profile, ("trainval", "test"))
@@ -43,4 +45,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
