@@ -1,6 +1,6 @@
 # 从公开下载复现 HyCoRe Seg
 
-代码入口：[GitHub固定复现版本](https://github.com/Linneking/Hycore/tree/hycore-seg-reproduce-20261108/handoff/segmentation)。
+代码入口：[GitHub固定复现版本](https://github.com/Linneking/Hycore/tree/hycore-seg-reproduce-20261108-v2/handoff/segmentation)。
 
 仅从头训练时，这份说明加仓库访问权限即可；复评历史权重时，还需已有154交接包中的三份权重。收到旧交接包的使用者，本次只需更新这份说明和Git代码。
 
@@ -14,7 +14,7 @@
 git clone git@github.com:Linneking/Hycore.git
 cd Hycore
 git fetch origin --tags
-git checkout hycore-seg-reproduce-20261108
+git checkout hycore-seg-reproduce-20261108-v2
 ```
 
 原交接标签hycore-seg-handoff-20261107保留。新标签新增数据准备和内容校验入口，模型及历史训练代码不变。离线源码ZIP没有Git元数据，正式运行请使用上述完整仓库。

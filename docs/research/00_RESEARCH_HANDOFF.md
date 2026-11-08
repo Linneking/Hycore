@@ -2,7 +2,7 @@
 
 ## 2026-11-08 分割交接支持公开下载后重建
 
-用户不传prepared数据。新复现标签hycore-seg-reproduce-20261108提供两阶段CPU准备和实际数组指纹验证，已从公开原始包完整重建并匹配历史trainval14007/test2874。旧权重复评加--data-check content，原exact及旧resume约束保留；网络和训练协议不变，本轮无新增模型训练。步骤见 [155复现说明](155_SEG_DOWNLOAD_REPRODUCE_2026-11-08/REPRODUCE_FROM_DOWNLOAD.md)，验收摘要见同目录。
+用户不传prepared数据。新复现标签hycore-seg-reproduce-20261108-v2提供两阶段CPU准备和实际数组指纹验证，已从公开原始包完整重建并匹配历史trainval14007/test2874。旧权重复评加--data-check content，原exact及旧resume约束保留；网络和训练协议不变，本轮无新增模型训练。步骤见 [155复现说明](155_SEG_DOWNLOAD_REPRODUCE_2026-11-08/REPRODUCE_FROM_DOWNLOAD.md)，验收摘要见同目录。
 
 ## 2026-11-07 分割交接版本
 
