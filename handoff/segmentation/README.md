@@ -1,4 +1,4 @@
-# HyCoRe Seg 二作接手入口
+# HyCoRe Seg 接手入口
 
 2026年11月8日更新：无需传输prepared数据的完整步骤见 [从公开下载复现](REPRODUCE_FROM_DOWNLOAD.md)。新prepare入口执行历史两阶段处理，并用可信内容指纹验证；旧权重复评显式使用--data-check content。原exact默认与训练模型保持不变。
 
@@ -16,7 +16,7 @@
 
     git clone git@github.com:Linneking/Hycore.git
     cd Hycore
-    git checkout hycore-seg-handoff-20261107
+    git checkout hycore-seg-reproduce-20261108
     python -m pip install -r handoff/segmentation/requirements.txt
 
 历史生产环境为Linux/Python3.9.23、Torch2.8.0+cu128、CUDA12.8、Geoopt0.5.1、NumPy1.26.4、h5py3.14.0。代码设置了固定seed和部分确定性选项，跨硬件或版本仍无法据此保证逐位一致。

@@ -2,11 +2,11 @@
 
 ## 2026-11-08 分割交接支持公开下载后重建
 
-用户不传prepared数据。新复现标签hycore-seg-rebuild-20261108提供两阶段CPU准备和实际数组指纹验证，已从公开原始包完整重建并匹配历史trainval14007/test2874。旧权重复评加--data-check content，原exact及旧resume约束保留；网络和训练协议不变，本轮无新增模型训练。步骤见 [155复现说明](155_SEG_DOWNLOAD_REPRODUCE_2026-11-08/REPRODUCE_FROM_DOWNLOAD.md)，验收摘要见同目录。
+用户不传prepared数据。新复现标签hycore-seg-reproduce-20261108提供两阶段CPU准备和实际数组指纹验证，已从公开原始包完整重建并匹配历史trainval14007/test2874。旧权重复评加--data-check content，原exact及旧resume约束保留；网络和训练协议不变，本轮无新增模型训练。步骤见 [155复现说明](155_SEG_DOWNLOAD_REPRODUCE_2026-11-08/REPRODUCE_FROM_DOWNLOAD.md)，验收摘要见同目录。
 
-## 2026-11-07 分割二作交接版本
+## 2026-11-07 分割交接版本
 
-七条主线与33条训练记录已归档，含17组详细沿革、15组配套结果及独立验证基线。可运行配置与统一入口见 `handoff/segmentation/README.md`；主文和结果表见 [154交接材料](154_HYCORE_SEG_COAUTHOR_HANDOFF_2026-11-07/README.md)。三份关键best检查点通过本机私有包交接，不进入Git。
+七条主线与33条训练记录已归档，含17组详细沿革、15组配套结果及独立验证基线。可运行配置与统一入口见 `handoff/segmentation/README.md`；主文和结果表见 [154交接材料](154_HYCORE_SEG_HANDOFF_2026-11-07/README.md)。三份关键best检查点通过本机私有包交接，不进入Git。
 
 ## 2026-11-04：TAN-R-PART2X 在8000 GPU2启动，首轮验收通过
 

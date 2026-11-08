@@ -1,5 +1,9 @@
 # 从公开下载复现 HyCoRe Seg
 
+代码入口：[GitHub固定复现版本](https://github.com/Linneking/Hycore/tree/hycore-seg-reproduce-20261108/handoff/segmentation)。
+
+仅从头训练时，这份说明加仓库访问权限即可；复评历史权重时，还需已有154交接包中的三份权重。收到旧交接包的使用者，本次只需更新这份说明和Git代码。
+
 本流程供已收到154交接包的同学使用。数据由你在自己的机器下载和处理，无需从原服务器拷贝。主线对应32条历史开发记录；SEG33独立验证基线另用第一阶段数据，不混入主线比较。
 
 ## 1 获取后继代码
@@ -10,7 +14,7 @@
 git clone git@github.com:Linneking/Hycore.git
 cd Hycore
 git fetch origin --tags
-git checkout hycore-seg-rebuild-20261108
+git checkout hycore-seg-reproduce-20261108
 ```
 
 原交接标签hycore-seg-handoff-20261107保留。新标签新增数据准备和内容校验入口，模型及历史训练代码不变。离线源码ZIP没有Git元数据，正式运行请使用上述完整仓库。
@@ -73,7 +77,7 @@ python handoff/segmentation/data_identity.py --data data/shapenetpart_rebuilt
 先运行nvidia-smi，选择完全空闲的GPU。以下以GPU0为例；若是其他卡，修改CUDA_VISIBLE_DEVICES。输出JSON必须是新文件。
 
 ```bash
-export HANDOFF=/path/to/154_HYCORE_SEG_COAUTHOR_HANDOFF_2026-11-07
+export HANDOFF=/path/to/154_HYCORE_SEG_HANDOFF_2026-11-07
 nvidia-smi
 CUDA_VISIBLE_DEVICES=0 python handoff/segmentation/evaluate.py \
   --experiment TAN-R0 \

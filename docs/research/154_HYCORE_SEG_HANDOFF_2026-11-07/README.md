@@ -1,4 +1,4 @@
-# HyCoRe Seg 二作接手入口
+# HyCoRe Seg 接手入口
 
 这份交接保留已训练实验的实际实现。先读研究交接主文，再按实验注册表定位配置和原始提交。
 
@@ -14,7 +14,7 @@
 
     git clone git@github.com:Linneking/Hycore.git
     cd Hycore
-    git checkout hycore-seg-handoff-20261107
+    git checkout hycore-seg-reproduce-20261108
     python -m pip install -r handoff/segmentation/requirements.txt
 
 历史生产环境为Linux/Python3.9.23、Torch2.8.0+cu128、CUDA12.8、Geoopt0.5.1、NumPy1.26.4、h5py3.14.0。代码设置了固定seed和部分确定性选项，跨硬件或版本仍无法据此保证逐位一致。
