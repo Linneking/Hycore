@@ -55,7 +55,7 @@ PY
 fi
 "$python" -m pip install --disable-pip-version-check --no-deps --target "$root/deps" \
     'timm==0.4.12' 'pytorch-metric-learning==2.9.0' 'pandas==2.2.3' \
-    python-dateutil pytz tzdata six 'Pillow==11.3.0' 'scikit-learn==1.6.1' joblib threadpoolctl
+    python-dateutil pytz tzdata six 'Pillow==11.3.0' 'scikit-learn==1.6.1' joblib threadpoolctl tqdm
 fetch https://download.pytorch.org/models/resnet50-0676ba61.pth \
     "$TORCH_HOME/hub/checkpoints/resnet50-0676ba61.pth"
 sha256sum "$TORCH_HOME/hub/checkpoints/resnet50-0676ba61.pth" | grep '^0676ba61' > pretrained.sha256
