@@ -13,19 +13,22 @@ from pathlib import Path
 
 run = Path(__file__).resolve().parent
 base = Path(sys.argv[1]).resolve()
-devices = sys.argv[2]
+requested_devices = sys.argv[2]
+automatic = requested_devices == 'auto'
+devices = '0,1,2' if automatic else requested_devices
 gpu_ids = [int(value) for value in devices.split(',')]
-assert len(gpu_ids) == 2 and len(set(gpu_ids)) == 2
+assert len(set(gpu_ids)) == (3 if automatic else 2)
 source = base / 'source'
 script = source / 'scripts' / 'Resnet50' / 'hier_Cars.sh'
 args = shlex.split(script.read_text().split('hier/train.py', 1)[1].replace('\\\n', ' '))
 idx = args.index('--lambda2') + 1
 assert args[idx] == '0.5'
 args[idx] = '0'
-assert (base / 'data' / 'cars196' / 'cars_annos.mat').is_file()
+data_root = Path(os.environ.get('HIER_DATA_ROOT', str(base / 'data'))).resolve()
+assert (data_root / 'cars196' / 'cars_annos.mat').is_file()
 assert (base / 'pretrained.sha256').read_text().startswith('0676ba61')
 command = [sys.executable, '-m', 'torch.distributed.run', '--standalone',
-           '--nproc-per-node=2', 'hier/train.py', *args, '--data_path', str(base / 'data'),
+           '--nproc-per-node=2', 'hier/train.py', *args, '--data_path', str(data_root),
            '--output_dir', str(run), '--run_name', 'Cars_off', '--saveckp_freq', '0']
 state = dict(dataset='Cars', hier='off', gpu=gpu_ids, seed=0, command=command,
              source_sha256=(base / 'source.sha256').read_text().strip(),
@@ -63,22 +66,26 @@ def read_probe(command, separator=None):
             proc.terminate()
 
 
-def idle():
+def available():
     rows = read_probe(['nvidia-smi', '-i', devices, '--query-gpu=index,memory.used,utilization.gpu',
                        '--format=csv,noheader,nounits'], ',')
     pmon = read_probe(['nvidia-smi', 'pmon', '-i', devices, '-c', '1'])
-    return ({int(row[0]) for row in pmon} == set(gpu_ids) and all(row[1] == '-' for row in pmon)
-            and {int(row[0]) for row in rows} == set(gpu_ids)
-            and all(mem.strip().isdigit() and int(mem) < 128 and load.strip() == '0'
-                    for _, mem, load in rows))
+    busy = {int(row[0]) for row in pmon
+            if row[1] != '-' and not (row[2] == 'G' and row[-1] in {'Xorg', 'gnome-shell'})}
+    return [int(index) for index, mem, load in rows if int(index) not in busy
+            and mem.strip().isdigit() and int(mem) < 128 and load.strip() == '0']
 
 
-publish('waiting_for_idle_gpu_pair')
+publish('waiting_for_idle_gpu_pair', candidate_gpus=gpu_ids)
 try:
     while True:
-        if idle():
+        ready = available()
+        if len(ready) >= 2:
+            picked = ready[:2]
             break
         time.sleep(15)
+    state['gpu'] = picked
+    devices = ','.join(map(str, picked))
     env = dict(os.environ, CUDA_VISIBLE_DEVICES=devices,
                PYTHONPATH=str(base / 'deps'), TORCH_HOME=str(base / 'pretrained'),
                OMP_NUM_THREADS='1', MKL_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1',
