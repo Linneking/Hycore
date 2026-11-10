@@ -16,6 +16,8 @@ from pathlib import Path
 root = Path(__file__).resolve().parent
 source = root / 'source'
 datasets = sys.argv[1:]
+gpu_allowlist = os.environ.get('HIER_GPU_ALLOWLIST')
+allowed_gpus = {int(value) for value in gpu_allowlist.split(',')} if gpu_allowlist else None
 
 
 def update(path, **values):
@@ -26,14 +28,15 @@ def update(path, **values):
 
 def query(fields, kind):
     lines = subprocess.check_output(['nvidia-smi', f'--query-{kind}={fields}',
-                                     '--format=csv,noheader,nounits'], text=True)
+                                     '--format=csv,noheader,nounits'], text=True, timeout=10)
     return [[part.strip() for part in row] for row in csv.reader(lines.splitlines()) if row]
 
 
 def idle():
     busy = {row[0] for row in query('gpu_uuid,pid', 'compute-apps')}
-    return {int(idx) for idx, uuid, mem, load in query('index,uuid,memory.used,utilization.gpu', 'gpu')
-            if uuid not in busy and mem.isdigit() and int(mem) < 128 and load == '0'}
+    idle_gpus = {int(idx) for idx, uuid, mem, load in query('index,uuid,memory.used,utilization.gpu', 'gpu')
+                 if uuid not in busy and mem.isdigit() and int(mem) < 128 and load == '0'}
+    return idle_gpus if allowed_gpus is None else idle_gpus & allowed_gpus
 
 
 def configuration(dataset, tag):
@@ -73,7 +76,7 @@ while jobs or active:
     unavailable = {idx for pair in active for idx in pair}
     try:
         current_idle = idle() - unavailable
-    except subprocess.CalledProcessError as exc:
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
         print(f'GPU query unavailable: {exc}', flush=True)
         current_idle = set()
     eligible = sorted(current_idle & previous_idle)
