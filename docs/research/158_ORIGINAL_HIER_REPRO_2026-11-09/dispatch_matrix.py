@@ -1,11 +1,10 @@
-"""Queue whole two-GPU official HIER jobs without claiming occupied GPUs."""
+"""Queue official HIER jobs without claiming occupied GPUs."""
 import csv
 import datetime
 import hashlib
 import itertools
 import json
 import os
-import re
 import shlex
 import subprocess
 import sys
@@ -16,6 +15,9 @@ from pathlib import Path
 root = Path(__file__).resolve().parent
 source = root / 'source'
 datasets = sys.argv[1:]
+gpu_count = int(os.environ.get('HIER_GPU_COUNT', '2'))
+if gpu_count not in (1, 2):
+    raise ValueError('HIER_GPU_COUNT must be 1 or 2')
 gpu_allowlist = os.environ.get('HIER_GPU_ALLOWLIST')
 allowed_gpus = {int(value) for value in gpu_allowlist.split(',')} if gpu_allowlist else None
 
@@ -42,6 +44,8 @@ def idle():
 def configuration(dataset, tag):
     script = (source / 'scripts' / 'Resnet50' / f'hier_{dataset}.sh').read_text()
     args = shlex.split(script.split('hier/train.py', 1)[1].replace('\\\n', ' '))
+    batch_index = args.index('--batch_size') + 1
+    args[batch_index] = str(2 * int(args[batch_index]) // gpu_count)
     assert args[args.index('--lambda2') + 1] == '0.5'
     if tag == 'off':
         args[args.index('--lambda2') + 1] = '0'
@@ -53,7 +57,8 @@ for dataset, tag in itertools.product(datasets, ('on', 'off')):
     run = root / f'{dataset}_{tag}'
     args = configuration(dataset, tag)
     jobs.append((dataset, tag, run, args))
-    update(run / 'state.json', status='waiting_for_idle_gpu_pair', dataset=dataset, hier=tag,
+    waiting = 'waiting_for_idle_gpu' if gpu_count == 1 else 'waiting_for_idle_gpu_pair'
+    update(run / 'state.json', status=waiting, dataset=dataset, hier=tag,
            args=args, source=(root / 'source.sha256').read_text().strip(), seed=0)
 
 active = {}
@@ -80,18 +85,18 @@ while jobs or active:
         print(f'GPU query unavailable: {exc}', flush=True)
         current_idle = set()
     eligible = sorted(current_idle & previous_idle)
-    while len(eligible) >= 2 and jobs:
+    while len(eligible) >= gpu_count and jobs:
         index = next((i for i, (ds, _, _, _) in enumerate(jobs)
                       if ds not in {job[1] for job in active.values()}), None)
         if index is None:
             break
         dataset, tag, run, args = jobs.pop(index)
-        pair = tuple(eligible[:2])
-        del eligible[:2]
+        pair = tuple(eligible[:gpu_count])
+        del eligible[:gpu_count]
         current_idle.difference_update(pair)
         env = dict(os.environ, CUDA_VISIBLE_DEVICES=','.join(map(str, pair)))
         command = [sys.executable, '-m', 'torch.distributed.run', '--standalone',
-                   '--nproc-per-node=2', 'hier/train.py', *args, '--data_path', str(root / 'data'),
+                   f'--nproc-per-node={gpu_count}', 'hier/train.py', *args, '--data_path', str(root / 'data'),
                    '--output_dir', str(run), '--run_name', f'{dataset}_{tag}', '--saveckp_freq', '0']
         with (run / 'training.log').open('x') as log:
             proc = subprocess.Popen(command, cwd=source, env=env, stdout=log, stderr=subprocess.STDOUT)
