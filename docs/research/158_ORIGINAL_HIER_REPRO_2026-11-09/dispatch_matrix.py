@@ -52,7 +52,6 @@ def configuration(dataset, tag):
     args[batch_index] = str(2 * int(args[batch_index]) // gpu_count)
     assert args[args.index('--lambda2') + 1] == '0.5'
     if cub_deit_ablation:
-        args[args.index('--epochs') + 1] = '50'
         args[args.index('--lambda2') + 1] = '1' if tag == 'on' else '0'
         args[args.index('--hyp_c') + 1] = '0.1' if tag == 'on' else '0'
     elif tag == 'off':
