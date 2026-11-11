@@ -15,7 +15,9 @@ from pathlib import Path
 root = Path(__file__).resolve().parent
 source = root / 'source'
 datasets = sys.argv[1:]
-cub_deit_ablation = os.environ.get('HIER_CUB_DEIT_ABLATION') == '1'
+deit_profile = os.environ.get('HIER_CUB_DEIT_ABLATION')
+hyperbolic_pa_only = deit_profile == 'hyperbolic_pa'
+cub_deit_ablation = deit_profile == '1' or hyperbolic_pa_only
 if cub_deit_ablation and datasets != ['CUB']:
     raise ValueError('The DeiT ablation profile is defined for CUB')
 gpu_count = int(os.environ.get('HIER_GPU_COUNT', '2'))
@@ -53,14 +55,16 @@ def configuration(dataset, tag):
     assert args[args.index('--lambda2') + 1] == '0.5'
     if cub_deit_ablation:
         args[args.index('--lambda2') + 1] = '1' if tag == 'on' else '0'
-        args[args.index('--hyp_c') + 1] = '0.1' if tag == 'on' else '0'
+        if tag == 'off' and not hyperbolic_pa_only:
+            args[args.index('--hyp_c') + 1] = '0'
     elif tag == 'off':
         args[args.index('--lambda2') + 1] = '0'
     return args
 
 
 jobs = []
-for dataset, tag in itertools.product(datasets, ('on', 'off')):
+tags = ('off',) if hyperbolic_pa_only else ('on', 'off')
+for dataset, tag in itertools.product(datasets, tags):
     run = root / f'{dataset}_{tag}'
     args = configuration(dataset, tag)
     jobs.append((dataset, tag, run, args))
