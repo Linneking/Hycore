@@ -15,6 +15,9 @@ from pathlib import Path
 root = Path(__file__).resolve().parent
 source = root / 'source'
 datasets = sys.argv[1:]
+cub_deit_ablation = os.environ.get('HIER_CUB_DEIT_ABLATION') == '1'
+if cub_deit_ablation and datasets != ['CUB']:
+    raise ValueError('The DeiT ablation profile is defined for CUB')
 gpu_count = int(os.environ.get('HIER_GPU_COUNT', '2'))
 if gpu_count not in (1, 2):
     raise ValueError('HIER_GPU_COUNT must be 1 or 2')
@@ -42,12 +45,17 @@ def idle():
 
 
 def configuration(dataset, tag):
-    script = (source / 'scripts' / 'Resnet50' / f'hier_{dataset}.sh').read_text()
+    script_dir = 'Deit' if cub_deit_ablation else 'Resnet50'
+    script = (source / 'scripts' / script_dir / f'hier_{dataset}.sh').read_text()
     args = shlex.split(script.split('hier/train.py', 1)[1].replace('\\\n', ' '))
     batch_index = args.index('--batch_size') + 1
     args[batch_index] = str(2 * int(args[batch_index]) // gpu_count)
     assert args[args.index('--lambda2') + 1] == '0.5'
-    if tag == 'off':
+    if cub_deit_ablation:
+        args[args.index('--epochs') + 1] = '50'
+        args[args.index('--lambda2') + 1] = '1' if tag == 'on' else '0'
+        args[args.index('--hyp_c') + 1] = '0.1' if tag == 'on' else '0'
+    elif tag == 'off':
         args[args.index('--lambda2') + 1] = '0'
     return args
 
@@ -69,7 +77,8 @@ while jobs or active:
         if result is None:
             continue
         best = run / 'checkpoint_best.pth'
-        log = run / dataset / f'resnet50_{dataset}_{tag}_log.txt'
+        model = args[args.index('--model') + 1]
+        log = run / dataset / f'{model}_{dataset}_{tag}_log.txt'
         epochs = int(args[args.index('--epochs') + 1])
         complete = result == 0 and best.is_file() and log.is_file()
         complete = complete and len(log.read_text().splitlines()) == epochs
@@ -103,7 +112,8 @@ while jobs or active:
         update(run / 'state.json', status='running', dataset=dataset, hier=tag, gpu=list(pair), pid=proc.pid,
                start=datetime.datetime.now(datetime.timezone.utc).isoformat(), command=command, seed=0,
                source=(root / 'source.sha256').read_text().strip(),
-               initialization='ImageNet ResNet50 V1, fresh PA and HIER parameters')
+               initialization=('ImageNet DeiT-S distilled, fresh PA and HIER parameters' if cub_deit_ablation
+                               else 'ImageNet ResNet50 V1, fresh PA and HIER parameters'))
         active[pair] = (proc, dataset, tag, run, args)
     previous_idle = current_idle
     if jobs or active:
