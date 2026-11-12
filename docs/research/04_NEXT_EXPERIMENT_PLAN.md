@@ -1,5 +1,10 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-11-13 用户确认 B13 单卡对照
+
+三组为 CB32×200 H0、CB32×300 H0 和 CB32×200 Hshell-A1 Ks20/Kp20 λ=.5 W0，均从头训练 300 轮，seed4780。详见 [配置和对照关系](161_MN40_B13_CB32_CONTROLS_2026-11-13.md)。
+
+
 ## 2026-11-12 用户确认 TS23 三组代理消融
 
 TS23 历史协议上的三组独立消融已获用户启动授权。P256 只减代理数至 256，INIT05 只改初始系数至 0.5，CAP29 只改代理切空间前向 cap 至 2.9。各组独立单卡、从头训练 300×200 步。详见 [三组配置与验收](160_MN40_TS23_PROXY_ABLATIONS_2026-11-12.md)。
