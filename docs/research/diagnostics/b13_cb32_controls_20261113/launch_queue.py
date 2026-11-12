@@ -1,7 +1,11 @@
 """Run an approved B13 control behind the historical single-GPU idle gate."""
 from __future__ import annotations
 
+import hashlib
+import json
 from pathlib import Path
+import shutil
+import subprocess
 import sys
 
 HERE = Path(__file__).resolve().parent
@@ -74,14 +78,29 @@ def main():
     scope = {"__name__": "b13_controls_manager", "__file__": str(PARENT), "GPU_BY_VARIANT": GPU_BY_VARIANT}
     exec(compile(manager_source(), str(PARENT) + "[B13 controls]", "exec"), scope)
     scope.update(runner=runner, RELATIVE=HERE.relative_to(REPO))
+    freeze_parent = scope["freeze_source"]
     accept_parent = scope["accept_run"]
+
+    def freeze_source(repo, root, commit, variant):
+        snapshot = freeze_parent(repo, root, commit, variant)
+        relative = PARENT.relative_to(REPO)
+        subprocess.run(["git", "-C", str(repo), "ls-files", "--error-unmatch", "--", relative.as_posix()],
+                       check=True, stdout=subprocess.DEVNULL)
+        target = snapshot / relative
+        target.parent.mkdir(parents=True, exist_ok=False)
+        shutil.copy2(repo / relative, target)
+        identity_path = root / "source_identity.json"
+        identity = json.loads(identity_path.read_text(encoding="utf-8"))
+        identity["files"][relative.as_posix()] = hashlib.sha256(target.read_bytes()).hexdigest()
+        scope["write"](identity_path, identity)
+        return snapshot
 
     def accept_run(directory, variant, initial_hash, smoke):
         accepted = accept_parent(directory, variant, initial_hash, smoke)
         verify_first_forward(directory, variant)
         return accepted
 
-    scope["accept_run"] = accept_run
+    scope.update(freeze_source=freeze_source, accept_run=accept_run)
     scope["main"]()
 
 
