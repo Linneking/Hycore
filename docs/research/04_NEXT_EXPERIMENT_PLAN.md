@@ -1,5 +1,10 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-11-13 分类 V10 续表和下一批待审阅
+
+六组已完成训练按 V9 命名接续为 TS27–TS32。拟新增 TS33 的 A0 配方对照、TS34 的 HIER 权重对照和 TS35 的 SH32×307 开启组。第三组已通过冻结嵌入 CPU 可行性检查，拟复用 TS06 原训练入口并先验收关闭路径等价性。三组待用户确认后启动。见 [续表及三组方案](162_MN40_V10_TS_CONTINUATION_AND_SH32_2026-11-13.md)。
+
+
 ## 2026-11-13 用户确认 B13 单卡对照
 
 三组为 CB32×200 H0、CB32×300 H0 和 CB32×200 Hshell-A1 Ks20/Kp20 λ=.5 W0，均从头训练 300 轮，seed4780。详见 [配置和对照关系](161_MN40_B13_CB32_CONTROLS_2026-11-13.md)。
