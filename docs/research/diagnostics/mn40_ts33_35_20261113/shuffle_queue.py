@@ -1,4 +1,4 @@
-"""TS35 GPU2 gate: verify TS06 parity, enable HIER, then start a fresh run."""
+"""Verify TS06 parity on an idle GPU, enable HIER, and start a fresh run."""
 from __future__ import annotations
 
 import argparse
@@ -11,12 +11,12 @@ import subprocess
 import sys
 import time
 
-from shuffle_runner import NAME, REPO, ts06
+from shuffle_runner import REPO, WEIGHTS, canonical_name, ts06
 from inter_hierarchy_MN40.hier_proxy_scratch_v8.queue import (
     device_environment, idle_gpus, now, query_gpus, write,
 )
 
-GPU = 2
+GPU_BY_ARM = {"TS35": 2, "TS36": 0, "TS37": 1}
 INITIAL = "8926765a4842652b751873fb89aa37d24d9b0f4f2d831d853b9cc0c1cd46472d"
 REFERENCE_COMMIT = "e20cf8c1698ff3048c15ad66d01dfbb5b0a99731"
 
@@ -25,9 +25,9 @@ def json_file(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def target_idle():
+def target_idle(gpu):
     try:
-        return next((row for row in idle_gpus(query_gpus()) if row["index"] == GPU), None)
+        return next((row for row in idle_gpus(query_gpus()) if row["index"] == gpu), None)
     except (subprocess.SubprocessError, OSError):
         return None
 
@@ -54,7 +54,7 @@ def read_smoke(root, mode, expected_train, commit):
     return trace, state
 
 
-def accept(root, expected_train, commit):
+def accept(root, expected_train, commit, arm):
     import numpy as np
     import torch
     from inter_hierarchy_MN40.hier_proxy_cycle_v9c.geometry import assert_hier_shell
@@ -83,12 +83,14 @@ def accept(root, expected_train, commit):
     snapshot = torch.load(root / "enabled" / "actual_training_epoch_001.pth", map_location="cpu", weights_only=False)
     assert snapshot["hier_mu"].shape == (32, 256)
     assert snapshot["proxy_tangent"].shape == (512, 256)
-    assert (snapshot["sample_K"], snapshot["proxy_K"], snapshot["lambda_hier"]) == (20, 20, .5)
+    assert (snapshot["sample_K"], snapshot["proxy_K"], snapshot["lambda_hier"]) == (20, 20, WEIGHTS[arm])
+    assert hierarchy["training_config"]["lambda_hier_after_warmup"] == WEIGHTS[arm]
     assert snapshot["whole_gradient_norm"] > 0
     assert_hier_shell(snapshot["hier_mu"])
     metrics = hierarchy["metrics"]["hierarchy"]
     assert metrics["sample_active_triplets"] > 0 and metrics["proxy_active_triplets"] > 0
-    return dict(accepted=True, reference="TS06", reference_commit=REFERENCE_COMMIT,
+    return dict(accepted=True, arm=arm, lambda_hier=WEIGHTS[arm],
+                reference="TS06", reference_commit=REFERENCE_COMMIT,
                 reference_initialization=INITIAL, smoke_updates_per_mode=4,
                 augmentation_labels_crops_and_rng_match=True, h0_model_state_close=True,
                 whole_gradient_norm=snapshot["whole_gradient_norm"],
@@ -108,10 +110,13 @@ def main():
     parser.add_argument("--ts06-manifest", required=True, type=Path)
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--source-branch", required=True)
+    parser.add_argument("--arm", choices=WEIGHTS, default="TS35")
     args = parser.parse_args()
+    gpu = GPU_BY_ARM[args.arm]
     args.root.mkdir(parents=True, exist_ok=False)
     path = args.root / "queue_status.json"
-    state = dict(experiment_id="TS35", canonical_name=NAME, target_physical_gpu=GPU,
+    state = dict(experiment_id=args.arm, canonical_name=canonical_name(args.arm),
+                 lambda_hier=WEIGHTS[args.arm], target_physical_gpu=gpu,
                  queue_pid=os.getpid(), commit=args.expected_commit, branch=args.source_branch,
                  status="checking_source_and_data", production_started=False)
 
@@ -124,7 +129,7 @@ def main():
         revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip()
         dirty = subprocess.check_output(["git", "status", "--porcelain"], cwd=REPO, text=True).strip()
         if revision != args.expected_commit or dirty:
-            raise RuntimeError("TS35 isolated checkout changed")
+            raise RuntimeError("Isolated shuffle checkout changed")
         reference = json_file(args.ts06_manifest)
         if not (reference["commit"] == REFERENCE_COMMIT and reference["status"] == "completed"
                 and reference["initialized_model_sha256"] == INITIAL):
@@ -134,7 +139,7 @@ def main():
             if ts06.digest(args.data_dir / filename) != digest:
                 raise RuntimeError(f"TS06 training shard differs: {filename}")
         command = [sys.executable, str(Path(__file__).with_name("shuffle_runner.py")),
-                   "--variant", "c01-cap", "--data-dir", str(args.data_dir),
+                   "--arm", args.arm, "--variant", "c01-cap", "--data-dir", str(args.data_dir),
                    "--source-commit", args.expected_commit, "--source-branch", args.source_branch]
         env = dict(os.environ, HYCORE_TRAIN_SHARD_ORDER=json.dumps(expected_train["file_order"]),
                    PYTHONDONTWRITEBYTECODE="1", PYTHONUNBUFFERED="1",
@@ -142,18 +147,18 @@ def main():
         status("waiting_for_gpu")
         attempt = 0
         while True:
-            chosen = target_idle()
+            chosen = target_idle(gpu)
             if chosen is None:
                 time.sleep(15)
                 continue
-            with Path(f"/tmp/hycore_{os.getuid()}_gpu_{GPU}.lock").open("a+") as lock:
+            with Path(f"/tmp/hycore_{os.getuid()}_gpu_{gpu}.lock").open("a+") as lock:
                 try:
                     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
                 except BlockingIOError:
                     time.sleep(15)
                     continue
                 time.sleep(10)
-                check = target_idle()
+                check = target_idle(gpu)
                 if check is None or check["uuid"] != chosen["uuid"]:
                     continue
                 attempt += 1
@@ -161,7 +166,7 @@ def main():
                 attempt_root.mkdir()
                 env.update(device_environment([chosen]))
                 for mode in ("reference", "off", "enabled"):
-                    check = target_idle()
+                    check = target_idle(gpu)
                     if check is None or check["uuid"] != chosen["uuid"]:
                         break
                     status("smoke_running", smoke_mode=mode, smoke_dir=str(attempt_root))
@@ -170,9 +175,9 @@ def main():
                            env, attempt_root / f"{mode}.log", timeout=1800)
                     time.sleep(5)
                 else:
-                    accepted = accept(attempt_root, expected_train, args.expected_commit)
+                    accepted = accept(attempt_root, expected_train, args.expected_commit, args.arm)
                     write(args.root / "smoke_acceptance.json", accepted)
-                    check = target_idle()
+                    check = target_idle(gpu)
                     if check is not None and check["uuid"] == chosen["uuid"]:
                         production = args.root / "main"
                         status("production_running", smoke_passed=True, production_started=True,
@@ -180,9 +185,10 @@ def main():
                         launch(command + ["--mode", "enabled", "--run-dir", str(production)],
                                env, args.root / "production.log")
                         manifest = json_file(production / "manifest.json")
-                        if (manifest["status"], manifest["completed_epochs"], manifest["optimizer_steps"]) != (
-                                "completed", 300, 92100):
-                            raise RuntimeError("TS35 production completion did not match the authorized budget")
+                        if (manifest["status"], manifest["completed_epochs"], manifest["optimizer_steps"],
+                            manifest["experiment_id"], manifest["training_config"]["lambda_hier_after_warmup"]) != (
+                                "completed", 300, 92100, args.arm, WEIGHTS[args.arm]):
+                            raise RuntimeError("Production did not complete with the authorized identity and budget")
                         status("completed")
                         return
             status("waiting_for_gpu")

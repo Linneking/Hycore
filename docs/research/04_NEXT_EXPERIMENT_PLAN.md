@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-11-14 分类 V10 固定 SH32 的 HIER 权重消融
+
+按用户指定，以 TS35 的 B05 / SH32×307 / Hshell-A1-Ks20-Kp20-L0.5-W0 为对照，从头训练 TS36（λ=.1）和 TS37（λ=1.0）。两组只改 HIER 总系数，均为单卡 300 轮、seed 4780、原 SH32 训练与历史 TS 选模口径。配置及启动记录见 [TS35 权重消融](162_MN40_V10_TS_CONTINUATION_AND_SH32_2026-11-13.md#ts35-权重消融)。
+
 ## 2026-11-13 分类 V10 续表和三组启动
 
 六组已完成训练按 V9 命名接续为 TS27–TS32。用户确认查重后，在 8000 启动了 TS33 的 A0 配方对照、TS34 的 HIER 权重对照和 TS35 的 SH32×307 开启组。TS35 通过同卡原入口等价性和 HIER 回传验收。见 [续表、三组配置及运行目录](162_MN40_V10_TS_CONTINUATION_AND_SH32_2026-11-13.md)。

@@ -1,4 +1,4 @@
-"""TS35: fixed-shell HIER on the original TS06 shuffle32 training path."""
+"""Fixed-shell HIER on the original TS06 shuffle32 training path."""
 from __future__ import annotations
 
 import argparse
@@ -13,11 +13,16 @@ REPO = HERE.parents[3]
 sys.path.insert(0, str(REPO))
 from inter_hierarchy_MN40.hycore_c01_gs_halfmargin_20261020 import train as ts06
 
-NAME = "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-L0.5-W0 (S4780)"
+WEIGHTS = {"TS35": .5, "TS36": .1, "TS37": 1.}
 ORIGINAL = REPO / "classification_ModelNet40/main_pointmlp_hycore.py"
 TRAIN_SHA = "3f7bc6437d6424d1197508e41c7340198277f05d0fef6961af08c110bedcc29e"
 ADAPTER_SHA = "9dc3d81bfcf13ddf3621d2b9be34758842a91c23d3e373c1eaf7a00a13f0c18e"
 SEED = 4780
+
+
+def canonical_name(arm):
+    return (f"HC-C01-Cap23-GS1-M500_2-SH32x307 / "
+            f"Hshell-A1-Ks20-Kp20-L{WEIGHTS[arm]:.1f}-W0 (S4780)")
 
 
 def pinned_text(path, expected):
@@ -56,10 +61,10 @@ def train_source(source, reference):
 
 
 class Hierarchy:
-    def __init__(self, mode, args):
+    def __init__(self, mode, args, weight):
         self.enabled = mode == "enabled"
         self.reference = mode == "reference"
-        self.mode = mode
+        self.weight = weight
         self.output = args.run_dir
         self.smoke = args.smoke
         self.epochs = args.epochs
@@ -156,9 +161,9 @@ class Hierarchy:
             torch.save({"labels": labels.detach().cpu(), "hier_source_mu": pre_gs.detach().cpu(),
                         "hier_mu": shell.detach().cpu(), "proxy_tangent": self.proxy.tangent_proxies.detach().cpu(),
                         "proxy_ball": self.proxy.proxies().detach().cpu(), "sample_K": 20, "proxy_K": 20,
-                        "lambda_hier": .5, "whole_gradient_norm": float(grad.norm())},
+                        "lambda_hier": self.weight, "whole_gradient_norm": float(grad.norm())},
                        self.output / "actual_training_epoch_001.pth")
-        return loss + .5 * regularizer
+        return loss + self.weight * regularizer
 
     def step(self):
         if self.enabled:
@@ -191,13 +196,14 @@ def tensor_sha(tensor):
 def main():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("--mode", choices=("reference", "off", "enabled"), required=True)
+    parser.add_argument("--arm", choices=WEIGHTS, default="TS35")
     known, remaining = parser.parse_known_args()
     args = ts06.argument_parser().parse_args(remaining)
     if known.mode != "enabled" and not args.smoke:
-        parser.error("Only TS35 HIER-enabled can run a full experiment")
+        parser.error("Only the HIER-enabled path can run a full experiment")
     source = pinned_text(ORIGINAL, TRAIN_SHA)
     pinned_text(ts06.__file__, ADAPTER_SHA)
-    hier = Hierarchy(known.mode, args)
+    hier = Hierarchy(known.mode, args, WEIGHTS[known.arm])
     original_import = ts06.import_original
     original_identity = ts06.source_identity
     original_install = ts06.install_loss_curvature
@@ -231,11 +237,11 @@ def main():
             if hier.enabled:
                 config.update(sample_K=20, proxy_K=20, T=50, hier_c=.1, hier_view_depth=4.6,
                               proxy_count=512, proxy_init_scale=.9, proxy_cap=2.3, warmup_epochs=0,
-                              lambda_hier_after_warmup=.5, proxy_optimizer=dict(name="AdamW", lr=.005,
+                              lambda_hier_after_warmup=hier.weight, proxy_optimizer=dict(name="AdamW", lr=.005,
                               eps=1e-4, betas=[.9, .999], weight_decay=.01, min_lr=.0005),
                               gradient_hook_scope="native whole/part GS plus independent pre-GS fixed-shell branch")
                 if path.name == "manifest.json":
-                    value.update(experiment_id="TS35", variant="ts35", canonical_name=NAME,
+                    value.update(experiment_id=known.arm, variant=known.arm.lower(), canonical_name=canonical_name(known.arm),
                                  changed_from_baseline=["add independent fixed-shell HIER to original whole forward"])
         original_write(path, value)
 
