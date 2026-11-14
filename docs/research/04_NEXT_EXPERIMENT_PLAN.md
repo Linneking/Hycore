@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-11-14 分类 V10 固定 SH32 的联合 K 消融
+
+用户指定 TS38，基于 TS35 的 B05 / SH32×307 / A1 / λ=.5，同时把样本 K 和代理 K 从 20 改为 10。单卡从头训练 300 轮，seed 4780，沿用 TS35 的数据、采样和历史 TS 选模规则。见 [TS38 方案与运行](162_MN40_V10_TS_CONTINUATION_AND_SH32_2026-11-13.md#ts38-联合-k-消融)。
+
 ## 2026-11-14 分类 V10 固定 SH32 的 HIER 权重消融
 
 按用户指定，以 TS35 的 B05 / SH32×307 / Hshell-A1-Ks20-Kp20-L0.5-W0 为对照，从头训练 TS36（λ=.1）和 TS37（λ=1.0）。两组只改 HIER 总系数，均为单卡 300 轮、seed 4780、原 SH32 训练与历史 TS 选模口径。配置及启动记录见 [TS35 权重消融](162_MN40_V10_TS_CONTINUATION_AND_SH32_2026-11-13.md#ts35-权重消融)。

@@ -11,12 +11,12 @@ import subprocess
 import sys
 import time
 
-from shuffle_runner import REPO, WEIGHTS, canonical_name, ts06
+from shuffle_runner import ARMS, REPO, canonical_name, ts06
 from inter_hierarchy_MN40.hier_proxy_scratch_v8.queue import (
     device_environment, idle_gpus, now, query_gpus, write,
 )
 
-GPU_BY_ARM = {"TS35": 2, "TS36": 0, "TS37": 1}
+GPU_BY_ARM = {"TS35": 2, "TS36": 0, "TS37": 1, "TS38": 2}
 INITIAL = "8926765a4842652b751873fb89aa37d24d9b0f4f2d831d853b9cc0c1cd46472d"
 REFERENCE_COMMIT = "e20cf8c1698ff3048c15ad66d01dfbb5b0a99731"
 
@@ -83,13 +83,14 @@ def accept(root, expected_train, commit, arm):
     snapshot = torch.load(root / "enabled" / "actual_training_epoch_001.pth", map_location="cpu", weights_only=False)
     assert snapshot["hier_mu"].shape == (32, 256)
     assert snapshot["proxy_tangent"].shape == (512, 256)
-    assert (snapshot["sample_K"], snapshot["proxy_K"], snapshot["lambda_hier"]) == (20, 20, WEIGHTS[arm])
-    assert hierarchy["training_config"]["lambda_hier_after_warmup"] == WEIGHTS[arm]
+    assert (snapshot["lambda_hier"], snapshot["sample_K"], snapshot["proxy_K"]) == ARMS[arm]
+    assert hier_settings(hierarchy["training_config"]) == ARMS[arm]
     assert snapshot["whole_gradient_norm"] > 0
     assert_hier_shell(snapshot["hier_mu"])
     metrics = hierarchy["metrics"]["hierarchy"]
     assert metrics["sample_active_triplets"] > 0 and metrics["proxy_active_triplets"] > 0
-    return dict(accepted=True, arm=arm, lambda_hier=WEIGHTS[arm],
+    return dict(accepted=True, arm=arm, lambda_hier=snapshot["lambda_hier"],
+                sample_K=snapshot["sample_K"], proxy_K=snapshot["proxy_K"],
                 reference="TS06", reference_commit=REFERENCE_COMMIT,
                 reference_initialization=INITIAL, smoke_updates_per_mode=4,
                 augmentation_labels_crops_and_rng_match=True, h0_model_state_close=True,
@@ -103,6 +104,10 @@ def launch(command, env, log_path, timeout=None):
                        stdout=stream, stderr=subprocess.STDOUT, timeout=timeout, check=True)
 
 
+def hier_settings(config):
+    return config["lambda_hier_after_warmup"], config["sample_K"], config["proxy_K"]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", required=True, type=Path)
@@ -110,13 +115,14 @@ def main():
     parser.add_argument("--ts06-manifest", required=True, type=Path)
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--source-branch", required=True)
-    parser.add_argument("--arm", choices=WEIGHTS, default="TS35")
+    parser.add_argument("--arm", choices=ARMS, default="TS35")
     args = parser.parse_args()
     gpu = GPU_BY_ARM[args.arm]
+    weight, sample_k, proxy_k = ARMS[args.arm]
     args.root.mkdir(parents=True, exist_ok=False)
     path = args.root / "queue_status.json"
     state = dict(experiment_id=args.arm, canonical_name=canonical_name(args.arm),
-                 lambda_hier=WEIGHTS[args.arm], target_physical_gpu=gpu,
+                 lambda_hier=weight, sample_K=sample_k, proxy_K=proxy_k, target_physical_gpu=gpu,
                  queue_pid=os.getpid(), commit=args.expected_commit, branch=args.source_branch,
                  status="checking_source_and_data", production_started=False)
 
@@ -186,8 +192,8 @@ def main():
                                env, args.root / "production.log")
                         manifest = json_file(production / "manifest.json")
                         if (manifest["status"], manifest["completed_epochs"], manifest["optimizer_steps"],
-                            manifest["experiment_id"], manifest["training_config"]["lambda_hier_after_warmup"]) != (
-                                "completed", 300, 92100, args.arm, WEIGHTS[args.arm]):
+                            manifest["experiment_id"], hier_settings(manifest["training_config"])) != (
+                                "completed", 300, 92100, args.arm, ARMS[args.arm]):
                             raise RuntimeError("Production did not complete with the authorized identity and budget")
                         status("completed")
                         return

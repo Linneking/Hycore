@@ -13,7 +13,12 @@ REPO = HERE.parents[3]
 sys.path.insert(0, str(REPO))
 from inter_hierarchy_MN40.hycore_c01_gs_halfmargin_20261020 import train as ts06
 
-WEIGHTS = {"TS35": .5, "TS36": .1, "TS37": 1.}
+ARMS = {
+    "TS35": (.5, 20, 20),
+    "TS36": (.1, 20, 20),
+    "TS37": (1., 20, 20),
+    "TS38": (.5, 10, 10),
+}
 ORIGINAL = REPO / "classification_ModelNet40/main_pointmlp_hycore.py"
 TRAIN_SHA = "3f7bc6437d6424d1197508e41c7340198277f05d0fef6961af08c110bedcc29e"
 ADAPTER_SHA = "9dc3d81bfcf13ddf3621d2b9be34758842a91c23d3e373c1eaf7a00a13f0c18e"
@@ -21,8 +26,9 @@ SEED = 4780
 
 
 def canonical_name(arm):
+    weight, sample_k, proxy_k = ARMS[arm]
     return (f"HC-C01-Cap23-GS1-M500_2-SH32x307 / "
-            f"Hshell-A1-Ks20-Kp20-L{WEIGHTS[arm]:.1f}-W0 (S4780)")
+            f"Hshell-A1-Ks{sample_k}-Kp{proxy_k}-L{weight:.1f}-W0 (S4780)")
 
 
 def pinned_text(path, expected):
@@ -61,10 +67,10 @@ def train_source(source, reference):
 
 
 class Hierarchy:
-    def __init__(self, mode, args, weight):
+    def __init__(self, mode, args, arm):
         self.enabled = mode == "enabled"
         self.reference = mode == "reference"
-        self.weight = weight
+        self.weight, self.sample_k, self.proxy_k = ARMS[arm]
         self.output = args.run_dir
         self.smoke = args.smoke
         self.epochs = args.epochs
@@ -139,7 +145,7 @@ class Hierarchy:
         assert_hier_shell(shell)
         # The original sampler draws each row at most once per epoch, so positions
         # and object IDs give identical within-batch identity for mining.
-        regularizer, stats = self.proxy(shell, labels, topk=20, proxy_topk=20,
+        regularizer, stats = self.proxy(shell, labels, topk=self.sample_k, proxy_topk=self.proxy_k,
                                         seed=SEED + self.updates * 10007, generator=self.gumbel,
                                         monitor_structure=False)
         if not bool(torch.isfinite(regularizer)):
@@ -160,7 +166,9 @@ class Hierarchy:
                 raise RuntimeError("HIER has no finite nonzero gradient to the TS06 whole path")
             torch.save({"labels": labels.detach().cpu(), "hier_source_mu": pre_gs.detach().cpu(),
                         "hier_mu": shell.detach().cpu(), "proxy_tangent": self.proxy.tangent_proxies.detach().cpu(),
-                        "proxy_ball": self.proxy.proxies().detach().cpu(), "sample_K": 20, "proxy_K": 20,
+                        "proxy_ball": self.proxy.proxies().detach().cpu(),
+                        "sample_K": stats["sample"]["topk_including_self"],
+                        "proxy_K": stats["proxy"]["topk_including_self"],
                         "lambda_hier": self.weight, "whole_gradient_norm": float(grad.norm())},
                        self.output / "actual_training_epoch_001.pth")
         return loss + self.weight * regularizer
@@ -196,14 +204,14 @@ def tensor_sha(tensor):
 def main():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("--mode", choices=("reference", "off", "enabled"), required=True)
-    parser.add_argument("--arm", choices=WEIGHTS, default="TS35")
+    parser.add_argument("--arm", choices=ARMS, default="TS35")
     known, remaining = parser.parse_known_args()
     args = ts06.argument_parser().parse_args(remaining)
     if known.mode != "enabled" and not args.smoke:
         parser.error("Only the HIER-enabled path can run a full experiment")
     source = pinned_text(ORIGINAL, TRAIN_SHA)
     pinned_text(ts06.__file__, ADAPTER_SHA)
-    hier = Hierarchy(known.mode, args, WEIGHTS[known.arm])
+    hier = Hierarchy(known.mode, args, known.arm)
     original_import = ts06.import_original
     original_identity = ts06.source_identity
     original_install = ts06.install_loss_curvature
@@ -235,7 +243,7 @@ def main():
                           world_size=1, global_batch=32, baseline="TS06/B05", hier_enabled=hier.enabled,
                           comparison_mode=known.mode)
             if hier.enabled:
-                config.update(sample_K=20, proxy_K=20, T=50, hier_c=.1, hier_view_depth=4.6,
+                config.update(sample_K=hier.sample_k, proxy_K=hier.proxy_k, T=50, hier_c=.1, hier_view_depth=4.6,
                               proxy_count=512, proxy_init_scale=.9, proxy_cap=2.3, warmup_epochs=0,
                               lambda_hier_after_warmup=hier.weight, proxy_optimizer=dict(name="AdamW", lr=.005,
                               eps=1e-4, betas=[.9, .999], weight_decay=.01, min_lr=.0005),
