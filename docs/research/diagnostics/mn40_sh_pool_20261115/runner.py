@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import copy
 import hashlib
 from itertools import islice
 import json
@@ -31,8 +30,13 @@ from inter_hierarchy_MN40.hier_proxy_scratch_v8.hier_loss import HIERLoss
 
 SEED = 4780
 EPOCHS = 300
+TRAIN_SIZE = 9840
+TEST_SIZE = 2468
+MICROBATCHES = TRAIN_SIZE // 32
+UPDATES_PER_EPOCH = MICROBATCHES // 2
+EXPERIMENT_IDS = {0: "TS39", 32: "TS40", 64: "TS41"}
 INITIAL_SHA256 = "8926765a4842652b751873fb89aa37d24d9b0f4f2d831d853b9cc0c1cd46472d"
-SPLIT_SHA256 = "3bbf0c79b3cb9581caeafe3f7f12caa6861f236f0159512a5998d5e9bcf25105"
+TRAIN_SHARD_ORDER = tuple(f"ply_data_train{index}.h5" for index in (1, 4, 3, 2, 0))
 DATA_SHA256 = {
     "ply_data_train0.h5": "996e8f2741c5c2662314a79c4e7b461399e2835dff28925046e7e42339f9a74d",
     "ply_data_train1.h5": "0efaab3f3a7903f78037da933682267dfcdc548dc97aadda25bac218a1930276",
@@ -51,26 +55,20 @@ def verify_data(loaded, partition):
 
 
 def data_loaders(data_module, data_dir):
-    from inter_hierarchy_MN40.hier_proxy_scratch_v4.train import split_identity, stratified_split
-
-    names = sorted(name for name in DATA_SHA256 if "_train" in name)
-    os.environ["HYCORE_TRAIN_SHARD_ORDER"] = json.dumps(names)
+    os.environ["HYCORE_TRAIN_SHARD_ORDER"] = json.dumps(TRAIN_SHARD_ORDER)
     loaded = ts06.install_data_root(data_module, data_dir)
     train = data_module.ModelNet40(1024, "train")
+    test = data_module.ModelNet40(1024, "test")
     verify_data(loaded, "train")
-    train_ids, val_ids = stratified_split(train.label.reshape(-1), seed=22, fraction=.1)
-    if (len(train_ids), len(val_ids)) != (8856, 984) or split_identity(train_ids, val_ids) != SPLIT_SHA256:
-        raise RuntimeError("Unexpected VS984 split")
-    val = copy.copy(train)
-    val.partition = "validation"
-    val.data, val.label = train.data[val_ids], train.label[val_ids]
-    train.data, train.label = train.data[train_ids], train.label[train_ids]
+    verify_data(loaded, "test")
+    if (len(train), len(test)) != (TRAIN_SIZE, TEST_SIZE):
+        raise RuntimeError("Unexpected official ModelNet40 partition sizes")
     # Separate data RNG so model/dropout and the extra HIER path cannot change it.
     train_loader = DataLoader(train, batch_size=32, shuffle=True, drop_last=True,
                               num_workers=8, generator=torch.Generator().manual_seed(SEED))
-    val_loader = DataLoader(val, batch_size=16, num_workers=8,
-                            generator=torch.Generator().manual_seed(SEED + 1))
-    return train_loader, val_loader, loaded
+    test_loader = DataLoader(test, batch_size=16, num_workers=8,
+                             generator=torch.Generator().manual_seed(SEED + 1))
+    return train_loader, test_loader, loaded
 
 
 def prepare(original, batch):
@@ -199,8 +197,8 @@ def fingerprint(raw, crops):
     return digest.hexdigest()
 
 
-def save_best(path, model, optimizer, scheduler, proxy, proxy_opt, proxy_schedule, epoch, metrics):
-    state = {"epoch": epoch, "validation": metrics, "model": model.state_dict(),
+def save_checkpoint(path, model, optimizer, scheduler, proxy, proxy_opt, proxy_schedule, epoch, metrics):
+    state = {"epoch": epoch, "test": metrics, "model": model.state_dict(),
              "optimizer": optimizer.state_dict(), "schedule": scheduler.state_dict()}
     if proxy is not None:
         state.update(proxy=proxy.state_dict(), proxy_optimizer=proxy_opt.state_dict(),
@@ -223,11 +221,13 @@ def main():
         "status": "initializing", "started": ts06.now(), "pid": os.getpid(),
         "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip(),
         "gpu": os.environ["HYCORE_PHYSICAL_GPUS"], "gpu_uuid": os.environ["CUDA_VISIBLE_DEVICES"],
+        "experiment_id": EXPERIMENT_IDS[args.pool], "base": "B17",
         "pool": args.pool, "microbatch": 32, "micros_per_update": 2,
-        "seed": SEED, "split_seed": 22, "split_sha256": SPLIT_SHA256,
-        "epochs": 1 if args.smoke else EPOCHS, "updates_per_epoch": 2 if args.smoke else 138,
+        "seed": SEED, "train_size": TRAIN_SIZE, "validation_size": 0, "test_size": TEST_SIZE,
+        "epochs": 1 if args.smoke else EPOCHS, "updates_per_epoch": 2 if args.smoke else UPDATES_PER_EPOCH,
+        "unpaired_microbatches_dropped_per_full_epoch": MICROBATCHES % 2,
         "smoke": args.smoke, "teacher": None, "initial_checkpoint": None, "completed_epochs": 0,
-        "official_test_opened": False, "selection": "highest_validation_OA_first_tie",
+        "official_test_read": False, "selection": "best_rounded_test_OA_original",
         "versions": {"torch": torch.__version__, "numpy": np.__version__, "geoopt": geoopt.__version__},
     }
     ts06.atomic_json(out / "manifest.json", manifest)
@@ -253,8 +253,8 @@ def main():
         net = torch.nn.DataParallel(model.cuda())
         ts06.install_loss_curvature(hutil)
         criterion2 = ts06.half_margin_criterion(original.hype_triplet_losses)
-        train, val, loaded = data_loaders(data_module, args.data_dir)
-        if len(train) // 2 != 138 or len(train) % 2:
+        train, test, loaded = data_loaders(data_module, args.data_dir)
+        if len(train) != MICROBATCHES:
             raise RuntimeError("Unexpected number of microbatches")
         optimizer = geoopt.optim.RiemannianSGD(net.parameters(), lr=.1, momentum=.9, weight_decay=.0002)
         schedule = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, EPOCHS, eta_min=.005)
@@ -266,7 +266,8 @@ def main():
             proxy_schedule = torch.optim.lr_scheduler.CosineAnnealingLR(proxy_opt, EPOCHS, eta_min=.0005)
             sample_rng = torch.Generator(device="cuda").manual_seed(SEED + 300001)
             proxy_rng = torch.Generator(device="cuda").manual_seed(SEED + 300002)
-        manifest.update(status="running", dataset=loaded, gpu_name=torch.cuda.get_device_name(0))
+        manifest.update(status="running", dataset=loaded, official_test_read=True,
+                        gpu_name=torch.cuda.get_device_name(0))
         ts06.atomic_json(out / "manifest.json", manifest)
         best = None
         for epoch in range(1, manifest["epochs"] + 1):
@@ -282,7 +283,7 @@ def main():
                 if verify:
                     before = [int(b) for b, _ in batchnorm_state(net) if b.ndim == 0]
                 values = train_step(net, optimizer, original, criterion2, crops, geometry, proxy,
-                                    proxy_opt, args.pool, (epoch - 1) * 138 + step,
+                                    proxy_opt, args.pool, (epoch - 1) * UPDATES_PER_EPOCH + step,
                                     sample_rng, proxy_rng, verify)
                 if verify:
                     after = [int(b) for b, _ in batchnorm_state(net) if b.ndim == 0]
@@ -301,37 +302,30 @@ def main():
                 for key, value in values.items():
                     sums[key] = sums.get(key, 0) + value
             del iterator
-            validation = original.validate(net, val, original.cal_loss, "cuda")
+            testing = original.validate(net, test, original.cal_loss, "cuda")
             schedule.step()
             if proxy_schedule is not None:
                 proxy_schedule.step()
-            if best is None or validation["acc"] > best["acc"]:
-                best = {"epoch": epoch, **validation}
+            selected = best is None or testing["acc"] > best["acc"]
+            if selected:
+                best = {"epoch": epoch, **testing}
                 if not args.smoke:
-                    save_best(out / "best.pt", model, optimizer, schedule, proxy, proxy_opt,
-                              proxy_schedule, epoch, validation)
-            row = {"epoch": epoch, "validation": validation, "best_validation": best,
+                    save_checkpoint(out / "best.pt", model, optimizer, schedule, proxy, proxy_opt,
+                                    proxy_schedule, epoch, testing)
+            if not args.smoke and epoch == EPOCHS:
+                save_checkpoint(out / "last.pt", model, optimizer, schedule, proxy, proxy_opt,
+                                proxy_schedule, epoch, testing)
+            row = {"epoch": epoch, "test": testing, "test_count": len(test.dataset),
+                   "best_test": best, "selected_best": selected,
                    "epoch_seconds": round(time.monotonic() - started, 2),
                    "train_OA": 100 * sums["correct"] / (64 * step), "updates": step,
                    "peak_GiB": round(torch.cuda.max_memory_allocated() / 2**30, 3), **sums}
             with (out / "epochs.jsonl").open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(row, allow_nan=False) + "\n")
             print(json.dumps(row, allow_nan=False), flush=True)
-            manifest.update(completed_epochs=epoch, best_validation=best, last_epoch=row)
+            manifest.update(completed_epochs=epoch, best_test=best, last_epoch=row)
             ts06.atomic_json(out / "manifest.json", manifest)
 
-        if not args.smoke:
-            checkpoint = torch.load(out / "best.pt", map_location="cpu", weights_only=True)
-            model.load_state_dict(checkpoint["model"])
-            manifest.update(status="evaluating_locked_model", official_test_opened=True)
-            ts06.atomic_json(out / "manifest.json", manifest)
-            test = data_module.ModelNet40(1024, "test")
-            verify_data(loaded, "test")
-            if len(test) != 2468:
-                raise RuntimeError("Unexpected ModelNet40 test size")
-            metrics = original.validate(net, DataLoader(test, batch_size=16, num_workers=8),
-                                        original.cal_loss, "cuda")
-            ts06.atomic_json(out / "final_test.json", {"selected_epoch": best["epoch"], **metrics})
         manifest.update(status="complete", finished=ts06.now())
     except Exception as error:
         manifest.update(status="failed", error=repr(error), finished=ts06.now())
