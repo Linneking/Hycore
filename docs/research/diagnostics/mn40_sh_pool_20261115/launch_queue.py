@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+from threading import Lock
 import time
 
 HERE = Path(__file__).resolve().parent
@@ -101,7 +102,6 @@ def main():
             # Whichever first arm finishes successfully gets the queued third
             # arm. Its GPU must pass the idle gate again before H32 starts.
             waiting = iter(arms[1:2])
-            from threading import Lock
             dispatch_lock = Lock()
 
             def lane(arm, gpu):
