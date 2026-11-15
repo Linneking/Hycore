@@ -1,5 +1,9 @@
 # Local–GitHub–server workflow
 
+## 2026-11-15 ModelNet40 分类 V10 选模
+
+按用户确认，ModelNet40 分类 V10 的正式实验统一使用 TS06 历史口径。训练使用官方 train 9,840，固定训练预算，每轮用官方 test 2,468 评估，测试 OA 严格上升才更新 best，平局取较早轮。AA 取 best 同轮。既有运行保留实际协议及文件，口径差异和重跑编号写入 [V10 实验图谱](163_MN40_V10_EXPERIMENT_ATLAS_2026-11-15/report.md#选模审查与重跑标记)。
+
 ## Sources of truth
 
 - **Code source of truth:** local `D:\Hycore` working copy.
