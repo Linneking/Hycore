@@ -6,18 +6,30 @@
 
 完整名称沿用 `底座全名 / 组件全名 (S4780)`。表中所有正式组均为单卡 batch32、seed 4780、300 轮，使用官方训练 9,840 个对象、每轮评估官方测试 2,468 个对象、按测试 OA 选 best。AA 取 best OA 同轮，e300 独立报末轮。末 10 轮为 e291–300，标准差为轮间总体标准差。SH32 逐轮日志保存至 0.001%，CB32 先用未四舍五入的 OA 选 best，本表统一显示三位小数。这是历史 TS 协议。
 
-| 底座 | 全名 | 每轮步数 | 300 轮总更新数 |
-| --- | --- | ---: | ---: |
-| B05 | `HC-C01-Cap23-GS1-M500_2-SH32x307` | 307 | 92,100 |
-| B13 | `HC-C01-Cap23-GS1-M500_2-CB32x200` | 200 | 60,000 |
-| B16 | `HC-C01-Cap23-GS1-M500_2-CB32x300` | 300 | 90,000 |
-| B15 | `HC-C1-Cap0-GS0-M1000_4-CB32x200` | 200（计划） | 60,000（计划） |
+### 底座详细配置
 
-C01 为主支曲率 .1，Cap23 为主支切空间 cap 2.3，GS1 为主支出口 GS，两个基础 margin 为 `500/Nchild` 和 2。H0 关闭 HIER。Hshell 默认取主支 GS 前 whole 的方向，映射到 `c=.1、深度 4.6` 后走独立 GS。代理默认 512×256、初始化系数 .9、前向 cap 2.3、代理 GS，T50、margin/τ=.1、W0。A0 代理 AdamW 的初始 LR/eps 为 .01/1e−8，A1 为 .005/1e−4。两套其余 AdamW 设置相同。P256、I05/I07 和 PCap29 分别标记代理数量、初始化系数和代理 cap 的变更。 [配置与命名来源](../162_MN40_V10_TS_CONTINUATION_AND_SH32_2026-11-13.md)
+底座编号定义 **HyCoRe 主支、组批和训练预算**。成绩表中的 HIER 组件在此配方上额外加入样本关系和代理关系。
+
+| 底座 | 统一全名 | 主支几何 | 主支 margin | 每轮步数 / 300 轮更新 | 使用实验 |
+| --- | --- | --- | --- | ---: | --- |
+| B05 | `HC-C01-Cap23-GS1-M500_2-SH32x307` | `c=.1`，切空间 cap 2.3，出口 GS 开 | 径向 `500/Nchild`，对比 2 | 307 / 92,100 | TS06、TS35–TS38 |
+| B13 | `HC-C01-Cap23-GS1-M500_2-CB32x200` | `c=.1`，切空间 cap 2.3，出口 GS 开 | 径向 `500/Nchild`，对比 2 | 200 / 60,000 | TS19–TS25、TS27–TS30、TS32–TS34 |
+| B16 | `HC-C01-Cap23-GS1-M500_2-CB32x300` | `c=.1`，切空间 cap 2.3，出口 GS 开 | 径向 `500/Nchild`，对比 2 | 300 / 90,000 | TS31 |
+| B15 | `HC-C1-Cap0-GS0-M1000_4-CB32x200` | `c=1`，无新增切空间 cap，出口 GS 关 | 径向 `1000/Nchild`，对比 4 | 200 / 60,000（计划） | TS26 预留方案 |
+
+- **网络与主支几何。** 使用原版 HyCoRe `Hype_pointMLP`，输入为 1,024 点，经过 PointMLP 编码、最大池化、512 维投影和原点指数映射，再经 Möbius 层得到 256 维双曲嵌入，whole 经分类头输出 40 类 logits。B05、B13、B16 对 whole 和 part 的 256 维嵌入分别使用切空间 cap 2.3（对应双曲深度上限约 4.6）和一次逆度量梯度缩放。深度上限允许样本留在壳内。 [原版网络](../../../classification_ModelNet40/models/pointmlp.py#L349) · [主支 cap 与 GS](../../../inter_hierarchy_MN40/hier_proxy_cycle_v9c/geometry.py#L36)
+- **组批和负例。** B05 每轮无放回打乱 9,840 个对象，取 307 个完整的 32 对象批次，丢弃末尾 16 个。B13 和 B16 每步均匀抽 16 个不同类别，每类有放回地抽 2 个对象，相同类别相邻。两种组批都用 `part.flip(0)` 构造基础对比负例。SH32 允许出现同类配对，CB32 的类别块保证反序配对跨类。B16 沿用 B13 组批规则，将每轮步数增至 300。 [SH32 入口](../../../inter_hierarchy_MN40/hycore_c01_gs_halfmargin_20261020/train.py#L297) · [CB32 入口](../diagnostics/b13_cb32_controls_20261113/runner.py) · [CB32 采样](../../../inter_hierarchy_MN40/hier_proxy_scratch_v5/sampler.py#L105)
+- **增强与前向。** 训练点云做各轴随机缩放和平移，再打乱点顺序。每批构造 800–1,024 点的 whole 和 200–600 点的 part，保留原实现中 part 裁剪覆写 whole 前缀的行为。先前向 part，再前向 whole，普通 BN 每步更新两次。测试使用每个对象的前 1,024 点。 [数据增强](../../../classification_ModelNet40/data.py#L49) · [原版训练前向](../../../classification_ModelNet40/main_pointmlp_hycore.py#L196) · [CB32 前向](../../../inter_hierarchy_MN40/hier_proxy_cycle_v9c/base_protocol.py#L26)
+- **主支损失。** 分类交叉熵的标签平滑为 .2。总基础损失为 `CE + .01 × 对比项 + .01 × 径向项`。对比项对 `正对距离 − 负对距离 + 对比 margin` 取正部后平均。径向项对 `part 深度 − whole 深度 + 径向 margin` 取正部后平均，其中 `Nchild` 是 part 的点数。距离和深度均使用表中的主支曲率。 [原版损失](../../../classification_ModelNet40/hutil.py#L42) · [CB32 基础损失](../../../inter_hierarchy_MN40/hier_proxy_cycle_v9c/base_protocol.py#L95)
+- **共同训练设置。** 从头训练 300 轮，seed 4780，单卡训练 batch32，8 个 DataLoader workers，测试 batch16。主网用 RiemannianSGD，初始 LR .1、末端 LR .005、momentum .9、weight decay .0002、梯度范数裁剪 1，按轮走余弦退火。每轮完整测试，平局保留首次 best。两条入口各自的随机流和 best OA 精度见第 4 节。 [SH32 优化器](../../../inter_hierarchy_MN40/hycore_c01_gs_halfmargin_20261020/train.py#L318) · [CB32 配置](../../../inter_hierarchy_MN40/hier_proxy_cycle_v9c/train.py#L90)
+
+### HIER 组件配置
+
+H0 关闭 HIER。Hshell 取主支 GS 前 whole 的方向，映射到 `c=.1、固定深度 4.6` 后使用独立 GS。代理默认 512×256、初始化系数 .9、前向 cap 2.3、代理 GS，T50、margin/τ=.1、W0。A0 代理 AdamW 的初始 LR/eps 为 .01/1e−8，A1 为 .005/1e−4。两套其余 AdamW 设置相同。P256、I05/I07 和 PCap29 分别标记代理数量、初始化系数和代理 cap 的变更。 [配置与命名来源](../162_MN40_V10_TS_CONTINUATION_AND_SH32_2026-11-13.md)
 
 ## 2. 正式训练与成绩
 
-| TS / 底座 | HIER 组件 | 状态 | Best 轮 | Best OA / 同轮 AA (%) | e300 OA / AA (%) | 末10 OA 均值 ± SD (%) |
+| TS / [底座](#底座详细配置) | HIER 组件 | 状态 | Best 轮 | Best OA / 同轮 AA (%) | e300 OA / AA (%) | 末10 OA 均值 ± SD (%) |
 | --- | --- | --- | ---: | ---: | ---: | ---: |
 | TS06 / B05 | `H0` | 完成 | 184 | 94.327 / 91.415 | 93.517 / 91.141 | 93.027 ± 0.351 |
 | TS25 / B13 | `Hshell-A1-Ks10-Kp10-L0.1-W0-I07` | 完成 | 262 | 93.720 / 91.508 | 93.193 / 90.712 | 92.905 ± 0.231 |
