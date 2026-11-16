@@ -51,7 +51,8 @@ class HIERLoss(nn.Module):
 
     def forward(self, mu, labels, topk=20, proxy_topk=None, seed=22, data_ids=None,
                 exclude_self_negative=True, t_per_anchor=50, generator=None,
-                return_mining=False, return_components=False, monitor_structure=True):
+                return_mining=False, return_components=False, monitor_structure=True,
+                sample_anchor_count=None):
         if not exclude_self_negative:
             raise ValueError("V8 retains sample and proxy self-k exclusion")
         proxies = self.proxies()
@@ -61,7 +62,7 @@ class HIERLoss(nn.Module):
         d_sp = official_distance(mu, proxies)
         similarity = torch.exp(-ds.detach()) + (labels[:, None] == labels[None, :]).to(mu.dtype)
         sample = mine_reciprocal_triplets(similarity, topk, t_per_anchor, seed, True,
-                                         labels=labels, data_ids=data_ids)
+                                         labels=labels, data_ids=data_ids, anchor_count=sample_anchor_count)
         mined = mine_reciprocal_triplets(torch.exp(-dp.detach()), proxy_topk or topk,
                                         t_per_anchor, seed + 1, True)
         sample_loss, ss, sd = ghhc_loss(d_sp, sample["triplets"], self.tau, self.margin,

@@ -40,6 +40,7 @@ def mine_reciprocal_triplets(
     exclude_self_negative: bool = False,
     labels: torch.Tensor | None = None,
     data_ids: torch.Tensor | None = None,
+    anchor_count: int | None = None,
 ) -> dict:
     """Return ``triplets[T,3]``, ``mutual[N,N]`` and coverage ``stats``.
 
@@ -47,6 +48,8 @@ def mine_reciprocal_triplets(
     eligible anchors. Candidate-triple coverage has the full eligible
     Cartesian-product denominator; repeat rate instead uses actual draws.
     Position coverage and unique data-ID coverage have separate fields.
+    With anchor_count, only the leading current rows can be anchors.
+    All rows still participate in the reciprocal-neighbour graph.
     A local NumPy RandomState reproduces source choice order without
     consuming a caller's global RNG or depending on the CUDA rank.
     """
@@ -70,6 +73,10 @@ def mine_reciprocal_triplets(
     if exclude_self_negative:
         negative.fill_diagonal_(False)
     eligible = (mutual.sum(-1) >= 2) & negative.any(-1)
+    if anchor_count is not None:
+        if not 1 <= anchor_count <= n:
+            raise ValueError("anchor_count must be between 1 and the pool size")
+        eligible[anchor_count:] = False
     rng = np.random.RandomState(seed)
     rows = []
     positive_candidates, negative_candidates = set(), set()
@@ -102,9 +109,9 @@ def mine_reciprocal_triplets(
         "exclude_self_negative": bool(exclude_self_negative),
         "directed_self_neighbours": int(directed.diagonal().sum()),
         "eligible_anchors": len(eligible_positions),
-        "anchor_coverage": len(eligible_positions) / n,
+        "anchor_coverage": len(eligible_positions) / (anchor_count if anchor_count is not None else n),
         "eligible_anchor_data_ids": len({ids[i] for i in eligible_positions}),
-        "anchor_data_id_coverage": len({ids[i] for i in eligible_positions}) / len(all_ids),
+        "anchor_data_id_coverage": len({ids[i] for i in eligible_positions}) / len(set(ids[:anchor_count])),
         "mutual_positive_edges": int(mutual.sum()),
         "mutual_degree_min": min(degree), "mutual_degree_max": max(degree),
         "mutual_degree_mean": sum(degree) / n,

@@ -11,7 +11,7 @@ import subprocess
 import sys
 import time
 
-from shuffle_runner import ARMS, REPO, canonical_name, ts06
+from shuffle_runner import ARMS, CACHED_POOL_ARM, REPO, canonical_name, ts06
 from inter_hierarchy_MN40.hier_proxy_scratch_v8.queue import (
     device_environment, idle_gpus, now, query_gpus, write,
 )
@@ -89,6 +89,10 @@ def accept(root, expected_train, commit, arm):
     assert_hier_shell(snapshot["hier_mu"])
     metrics = hierarchy["metrics"]["hierarchy"]
     assert metrics["sample_active_triplets"] > 0 and metrics["proxy_active_triplets"] > 0
+    if arm == CACHED_POOL_ARM:
+        assert metrics["max_sample_pool"] == 64 and metrics["cached_pool_updates"] == 1
+        assert metrics["cached_sample_triplets"] > 0
+        assert metrics["sample_triplets"] <= 2 * 32 * 50
     return dict(accepted=True, arm=arm, lambda_hier=snapshot["lambda_hier"],
                 sample_K=snapshot["sample_K"], proxy_K=snapshot["proxy_K"],
                 reference="TS06", reference_commit=REFERENCE_COMMIT,
@@ -116,8 +120,11 @@ def main():
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--source-branch", required=True)
     parser.add_argument("--arm", choices=ARMS, default="TS35")
+    parser.add_argument("--gpu", type=int, help="Physical GPU index on this server")
     args = parser.parse_args()
-    gpu = GPU_BY_ARM[args.arm]
+    gpu = args.gpu if args.gpu is not None else GPU_BY_ARM.get(args.arm)
+    if gpu is None:
+        parser.error("--gpu is required for this experiment")
     weight, sample_k, proxy_k = ARMS[args.arm]
     args.root.mkdir(parents=True, exist_ok=False)
     path = args.root / "queue_status.json"
@@ -141,9 +148,11 @@ def main():
                 and reference["initialized_model_sha256"] == INITIAL):
             raise RuntimeError("TS06 reference identity changed")
         expected_train = reference["dataset_identity"]["train"]
-        for filename, digest in expected_train["file_sha256"].items():
-            if ts06.digest(args.data_dir / filename) != digest:
-                raise RuntimeError(f"TS06 training shard differs: {filename}")
+        expected_test = reference["dataset_identity"]["test"]
+        for split, expected in (("train", expected_train), ("test", expected_test)):
+            for filename, digest in expected["file_sha256"].items():
+                if ts06.digest(args.data_dir / filename) != digest:
+                    raise RuntimeError(f"TS06 {split} shard differs: {filename}")
         command = [sys.executable, str(Path(__file__).with_name("shuffle_runner.py")),
                    "--arm", args.arm, "--variant", "c01-cap", "--data-dir", str(args.data_dir),
                    "--source-commit", args.expected_commit, "--source-branch", args.source_branch]
@@ -195,6 +204,9 @@ def main():
                             manifest["experiment_id"], hier_settings(manifest["training_config"])) != (
                                 "completed", 300, 92100, args.arm, ARMS[args.arm]):
                             raise RuntimeError("Production did not complete with the authorized identity and budget")
+                        if (manifest["train_size"], manifest["validation_size"], manifest["test_size"],
+                            manifest["training_config"]["selection"]) != (9840, 0, 2468, "best_rounded_test_OA_original"):
+                            raise RuntimeError("Production did not use the TS06 selection protocol")
                         status("completed")
                         return
             status("waiting_for_gpu")

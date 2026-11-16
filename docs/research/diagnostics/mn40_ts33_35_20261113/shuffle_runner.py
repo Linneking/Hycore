@@ -18,7 +18,11 @@ ARMS = {
     "TS36": (.1, 20, 20),
     "TS37": (1., 20, 20),
     "TS38": (.5, 10, 10),
+    "TS42": (.5, 10, 20),
+    "TS43": (.5, 20, 10),
+    "TS44": (.5, 20, 20),
 }
+CACHED_POOL_ARM = "TS44"
 ORIGINAL = REPO / "classification_ModelNet40/main_pointmlp_hycore.py"
 TRAIN_SHA = "3f7bc6437d6424d1197508e41c7340198277f05d0fef6961af08c110bedcc29e"
 ADAPTER_SHA = "9dc3d81bfcf13ddf3621d2b9be34758842a91c23d3e373c1eaf7a00a13f0c18e"
@@ -27,8 +31,9 @@ SEED = 4780
 
 def canonical_name(arm):
     weight, sample_k, proxy_k = ARMS[arm]
+    pool = "-Hist1-SP64" if arm == CACHED_POOL_ARM else ""
     return (f"HC-C01-Cap23-GS1-M500_2-SH32x307 / "
-            f"Hshell-A1-Ks{sample_k}-Kp{proxy_k}-L{weight:.1f}-W0 (S4780)")
+            f"Hshell-A1-Ks{sample_k}-Kp{proxy_k}-L{weight:.1f}-W0{pool} (S4780)")
 
 
 def pinned_text(path, expected):
@@ -71,6 +76,8 @@ class Hierarchy:
         self.enabled = mode == "enabled"
         self.reference = mode == "reference"
         self.weight, self.sample_k, self.proxy_k = ARMS[arm]
+        self.use_cache = arm == CACHED_POOL_ARM
+        self.previous = None
         self.output = args.run_dir
         self.smoke = args.smoke
         self.epochs = args.epochs
@@ -145,9 +152,24 @@ class Hierarchy:
         assert_hier_shell(shell)
         # The original sampler draws each row at most once per epoch, so positions
         # and object IDs give identical within-batch identity for mining.
-        regularizer, stats = self.proxy(shell, labels, topk=self.sample_k, proxy_topk=self.proxy_k,
+        points, pool_labels = shell, labels
+        if self.use_cache:
+            if self.previous is not None:
+                cached_points, cached_labels = self.previous
+                points = torch.cat((shell, cached_points))
+                pool_labels = torch.cat((labels, cached_labels))
+                self.counts["cached_pool_updates"] += 1
+            self.previous = (shell.detach(), labels.detach())
+        regularizer, stats = self.proxy(points, pool_labels, topk=self.sample_k, proxy_topk=self.proxy_k,
                                         seed=SEED + self.updates * 10007, generator=self.gumbel,
-                                        monitor_structure=False)
+                                        monitor_structure=False, return_mining=self.use_cache,
+                                        sample_anchor_count=len(shell) if self.use_cache else None)
+        if self.use_cache:
+            triplets = stats["_sample_mining"]["triplets"]
+            if len(triplets) > 50 * len(shell) or bool((triplets[:, 0] >= len(shell)).any()):
+                raise RuntimeError("Cached positions must only serve as candidates")
+            self.counts["cached_sample_triplets"] += int((triplets[:, 1:] >= len(shell)).any(dim=1).sum())
+            self.counts["max_sample_pool"] = max(self.counts["max_sample_pool"], len(points))
         if not bool(torch.isfinite(regularizer)):
             raise RuntimeError("Nonfinite TS35 HIER loss")
         for population in ("sample", "proxy"):
@@ -189,6 +211,7 @@ class Hierarchy:
         if self.enabled:
             metrics["hierarchy"] = dict(self.counts, proxy_lr=self.optimizer.param_groups[0]["lr"])
             self.counts.clear()
+            self.previous = None
             self.scheduler.step()
         state = self.original_checkpoint(net, epoch, optimizer, scheduler, metrics, best, torch, np, config)
         if self.enabled:
@@ -248,6 +271,9 @@ def main():
                               lambda_hier_after_warmup=hier.weight, proxy_optimizer=dict(name="AdamW", lr=.005,
                               eps=1e-4, betas=[.9, .999], weight_decay=.01, min_lr=.0005),
                               gradient_hook_scope="native whole/part GS plus independent pre-GS fixed-shell branch")
+                if hier.use_cache:
+                    config.update(sample_max_pool=64, sample_anchors=32, sample_history_batches=1,
+                                  sample_history_detached=True, sample_history_reset="each epoch")
                 if path.name == "manifest.json":
                     value.update(experiment_id=known.arm, variant=known.arm.lower(), canonical_name=canonical_name(known.arm),
                                  changed_from_baseline=["add independent fixed-shell HIER to original whole forward"])
