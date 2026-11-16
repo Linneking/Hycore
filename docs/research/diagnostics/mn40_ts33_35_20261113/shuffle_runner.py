@@ -198,7 +198,9 @@ class Hierarchy:
         if self.split_weights:
             sample_weight, proxy_weight = loss_weights(self.arm, self.current_epoch)
             components = stats.pop("_components")
-            weighted = sample_weight * components["sample_loss"] + proxy_weight * components["proxy_loss"]
+            weighted = proxy_weight * components["proxy_loss"]
+            if sample_weight > 0:
+                weighted = weighted + sample_weight * components["sample_loss"]
         else:
             weighted = self.weight * regularizer
         if self.use_cache:
@@ -230,12 +232,18 @@ class Hierarchy:
                         "proxy_K": stats["proxy"]["topk_including_self"],
                         "whole_gradient_norm": float(grad.norm())}
             if self.split_weights:
-                weighted_grad, = torch.autograd.grad(weighted, pre_gs, retain_graph=True)
+                weighted_grad, = torch.autograd.grad(weighted, pre_gs, retain_graph=True, allow_unused=True)
                 snapshot.update(lambda_sample=sample_weight, lambda_proxy=proxy_weight,
-                                weighted_whole_gradient_norm=float(weighted_grad.norm()))
+                                weighted_whole_connected=weighted_grad is not None,
+                                weighted_whole_gradient_norm=float(weighted_grad.norm()) if weighted_grad is not None else 0.)
             else:
                 snapshot["lambda_hier"] = self.weight
             torch.save(snapshot, self.output / "actual_training_epoch_001.pth")
+        if self.split_weights and sample_weight == 0:
+            # Backpropagate the proxy-only term separately so the backbone
+            # follows the original backward graph during the zero-weight epoch.
+            weighted.backward()
+            return loss + weighted.detach()
         return loss + weighted
 
     def step(self):

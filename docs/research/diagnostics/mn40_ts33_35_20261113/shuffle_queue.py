@@ -87,6 +87,7 @@ def accept(root, expected_train, commit, arm):
     if arm in SPLIT_WEIGHT_ARMS:
         sample, proxy = loss_weights(arm, 1)
         assert (snapshot["lambda_sample"], snapshot["lambda_proxy"]) == (sample, proxy)
+        assert snapshot["weighted_whole_connected"] is (sample > 0)
         assert math.isclose(snapshot["weighted_whole_gradient_norm"],
                             sample * snapshot["whole_gradient_norm"], rel_tol=1e-5, abs_tol=1e-8)
         for epoch in (1, 2):
