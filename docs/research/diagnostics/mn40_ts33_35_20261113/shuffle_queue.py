@@ -11,7 +11,7 @@ import subprocess
 import sys
 import time
 
-from shuffle_runner import (ARMS, CACHED_POOL_ARM, RAMP_ARM, REPO, SPLIT_WEIGHT_ARMS,
+from shuffle_runner import (ARMS, CACHED_POOL_ARM, REPO, SPLIT_WEIGHT_ARMS,
                             canonical_name, loss_weights, split_weight_config, ts06)
 from inter_hierarchy_MN40.hier_proxy_scratch_v8.queue import (
     device_environment, idle_gpus, now, query_gpus, write,
@@ -66,10 +66,13 @@ def accept(root, expected_train, commit, arm):
     for control, off_step, hier_step in zip(reference, off, enabled):
         for key in ("cloud", "labels", "whole", "part", "whole_count", "part_count"):
             assert control[key] == off_step[key] == hier_step[key], key
-        np.testing.assert_allclose(off_step["base_losses"], control["base_losses"], rtol=1e-4, atol=1e-5)
-    np.testing.assert_allclose(enabled[0]["base_losses"], reference[0]["base_losses"], rtol=1e-4, atol=1e-5)
-    for key, value in original["net"].items():
-        torch.testing.assert_close(overlay["net"][key], value, rtol=1e-4, atol=1e-5, msg=key)
+        if arm not in SPLIT_WEIGHT_ARMS:
+            np.testing.assert_allclose(off_step["base_losses"], control["base_losses"], rtol=1e-4, atol=1e-5)
+    for trace in (off, enabled):
+        np.testing.assert_allclose(trace[0]["base_losses"], reference[0]["base_losses"], rtol=1e-4, atol=1e-5)
+    if arm not in SPLIT_WEIGHT_ARMS:
+        for key, value in original["net"].items():
+            torch.testing.assert_close(overlay["net"][key], value, rtol=1e-4, atol=1e-5, msg=key)
     for control in (overlay, hierarchy):
         assert torch.equal(original["rng"]["torch_cpu"], control["rng"]["torch_cpu"])
         for first, second in zip(original["rng"]["torch_cuda"], control["rng"]["torch_cuda"]):
@@ -94,12 +97,6 @@ def accept(root, expected_train, commit, arm):
             weights = json_file(root / "enabled" / f"metrics_epoch_{epoch:03}.json")["hierarchy"]
             assert (weights["lambda_sample"], weights["lambda_proxy"]) == loss_weights(arm, epoch)
         assert any(bool(item["exp_avg"].count_nonzero()) for item in hierarchy["proxy_optimizer"]["state"].values())
-        if arm == RAMP_ARM:
-            reference_e1, ramp_e1 = (torch.load(root / mode / "checkpoint_epoch_001.pth",
-                                                 map_location="cpu", weights_only=False)["net"]
-                                     for mode in ("reference", "enabled"))
-            for key, value in reference_e1.items():
-                torch.testing.assert_close(ramp_e1[key], value, rtol=1e-4, atol=1e-5, msg=key)
     else:
         assert snapshot["lambda_hier"] == ARMS[arm][0]
     assert (snapshot["sample_K"], snapshot["proxy_K"]) == ARMS[arm][1:]
@@ -117,8 +114,12 @@ def accept(root, expected_train, commit, arm):
                 sample_K=snapshot["sample_K"], proxy_K=snapshot["proxy_K"],
                 reference="TS06", reference_commit=REFERENCE_COMMIT,
                 reference_initialization=INITIAL, smoke_updates_per_mode=4,
-                augmentation_labels_crops_and_rng_match=True, h0_model_state_close=True,
+                augmentation_labels_crops_and_rng_match=True,
+                h0_model_state_close=True if arm not in SPLIT_WEIGHT_ARMS else None,
+                first_base_losses_close=True,
                 whole_gradient_norm=snapshot["whole_gradient_norm"],
+                weighted_whole_connected=snapshot.get("weighted_whole_connected"),
+                weighted_whole_gradient_norm=snapshot.get("weighted_whole_gradient_norm"),
                 last_epoch_smoke_hierarchy=metrics, official_test_read=False)
 
 

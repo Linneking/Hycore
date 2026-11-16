@@ -198,9 +198,13 @@ class Hierarchy:
         if self.split_weights:
             sample_weight, proxy_weight = loss_weights(self.arm, self.current_epoch)
             components = stats.pop("_components")
-            weighted = proxy_weight * components["proxy_loss"]
-            if sample_weight > 0:
-                weighted = weighted + sample_weight * components["sample_loss"]
+            sample_loss, proxy_loss = components["sample_loss"], components["proxy_loss"]
+            if sample_weight == 0:
+                weighted = proxy_weight * proxy_loss
+            elif proxy_weight == 0:
+                weighted = sample_weight * sample_loss
+            else:
+                weighted = sample_weight * sample_loss + proxy_weight * proxy_loss
         else:
             weighted = self.weight * regularizer
         if self.use_cache:
