@@ -11,7 +11,8 @@ import subprocess
 import sys
 import time
 
-from shuffle_runner import ARMS, CACHED_POOL_ARM, REPO, canonical_name, ts06
+from shuffle_runner import (ARMS, CACHED_POOL_ARM, RAMP_ARM, REPO, SPLIT_WEIGHT_ARMS,
+                            canonical_name, loss_weights, split_weight_config, ts06)
 from inter_hierarchy_MN40.hier_proxy_scratch_v8.queue import (
     device_environment, idle_gpus, now, query_gpus, write,
 )
@@ -83,8 +84,25 @@ def accept(root, expected_train, commit, arm):
     snapshot = torch.load(root / "enabled" / "actual_training_epoch_001.pth", map_location="cpu", weights_only=False)
     assert snapshot["hier_mu"].shape == (32, 256)
     assert snapshot["proxy_tangent"].shape == (512, 256)
-    assert (snapshot["lambda_hier"], snapshot["sample_K"], snapshot["proxy_K"]) == ARMS[arm]
-    assert hier_settings(hierarchy["training_config"]) == ARMS[arm]
+    if arm in SPLIT_WEIGHT_ARMS:
+        sample, proxy = loss_weights(arm, 1)
+        assert (snapshot["lambda_sample"], snapshot["lambda_proxy"]) == (sample, proxy)
+        assert math.isclose(snapshot["weighted_whole_gradient_norm"],
+                            sample * snapshot["whole_gradient_norm"], rel_tol=1e-5, abs_tol=1e-8)
+        for epoch in (1, 2):
+            weights = json_file(root / "enabled" / f"metrics_epoch_{epoch:03}.json")["hierarchy"]
+            assert (weights["lambda_sample"], weights["lambda_proxy"]) == loss_weights(arm, epoch)
+        assert any(bool(item["exp_avg"].count_nonzero()) for item in hierarchy["proxy_optimizer"]["state"].values())
+        if arm == RAMP_ARM:
+            reference_e1, ramp_e1 = (torch.load(root / mode / "checkpoint_epoch_001.pth",
+                                                 map_location="cpu", weights_only=False)["net"]
+                                     for mode in ("reference", "enabled"))
+            for key, value in reference_e1.items():
+                torch.testing.assert_close(ramp_e1[key], value, rtol=1e-4, atol=1e-5, msg=key)
+    else:
+        assert snapshot["lambda_hier"] == ARMS[arm][0]
+    assert (snapshot["sample_K"], snapshot["proxy_K"]) == ARMS[arm][1:]
+    assert settings_match(hierarchy["training_config"], arm)
     assert snapshot["whole_gradient_norm"] > 0
     assert_hier_shell(snapshot["hier_mu"])
     metrics = hierarchy["metrics"]["hierarchy"]
@@ -93,7 +111,8 @@ def accept(root, expected_train, commit, arm):
         assert metrics["max_sample_pool"] == 64 and metrics["cached_pool_updates"] == 1
         assert metrics["cached_sample_triplets"] > 0
         assert metrics["sample_triplets"] <= 2 * 32 * 50
-    return dict(accepted=True, arm=arm, lambda_hier=snapshot["lambda_hier"],
+    weights = {key: value for key, value in snapshot.items() if key.startswith("lambda_")}
+    return dict(accepted=True, arm=arm, **weights,
                 sample_K=snapshot["sample_K"], proxy_K=snapshot["proxy_K"],
                 reference="TS06", reference_commit=REFERENCE_COMMIT,
                 reference_initialization=INITIAL, smoke_updates_per_mode=4,
@@ -108,8 +127,11 @@ def launch(command, env, log_path, timeout=None):
                        stdout=stream, stderr=subprocess.STDOUT, timeout=timeout, check=True)
 
 
-def hier_settings(config):
-    return config["lambda_hier_after_warmup"], config["sample_K"], config["proxy_K"]
+def settings_match(config, arm):
+    weight, sample_k, proxy_k = ARMS[arm]
+    expected = split_weight_config(arm) if arm in SPLIT_WEIGHT_ARMS else {"lambda_hier_after_warmup": weight}
+    return (config["sample_K"], config["proxy_K"]) == (sample_k, proxy_k) and all(
+        config.get(key) == value for key, value in expected.items())
 
 
 def main():
@@ -132,6 +154,9 @@ def main():
                  lambda_hier=weight, sample_K=sample_k, proxy_K=proxy_k, target_physical_gpu=gpu,
                  queue_pid=os.getpid(), commit=args.expected_commit, branch=args.source_branch,
                  status="checking_source_and_data", production_started=False)
+    if args.arm in SPLIT_WEIGHT_ARMS:
+        state.pop("lambda_hier")
+        state.update(split_weight_config(args.arm))
 
     def status(value, **details):
         state.update(status=value, updated_utc=now(), **details)
@@ -200,9 +225,9 @@ def main():
                         launch(command + ["--mode", "enabled", "--run-dir", str(production)],
                                env, args.root / "production.log")
                         manifest = json_file(production / "manifest.json")
-                        if (manifest["status"], manifest["completed_epochs"], manifest["optimizer_steps"],
-                            manifest["experiment_id"], hier_settings(manifest["training_config"])) != (
-                                "completed", 300, 92100, args.arm, ARMS[args.arm]):
+                        if ((manifest["status"], manifest["completed_epochs"], manifest["optimizer_steps"],
+                             manifest["experiment_id"]) != ("completed", 300, 92100, args.arm)
+                                or not settings_match(manifest["training_config"], args.arm)):
                             raise RuntimeError("Production did not complete with the authorized identity and budget")
                         if (manifest["train_size"], manifest["validation_size"], manifest["test_size"],
                             manifest["training_config"]["selection"]) != (9840, 0, 2468, "best_rounded_test_OA_original"):

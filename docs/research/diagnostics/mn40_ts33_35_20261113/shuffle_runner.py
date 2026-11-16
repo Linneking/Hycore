@@ -21,8 +21,14 @@ ARMS = {
     "TS42": (.5, 10, 20),
     "TS43": (.5, 20, 10),
     "TS44": (.5, 20, 20),
+    "TS45": (.5, 20, 20),
+    "TS46": (.5, 20, 20),
 }
 CACHED_POOL_ARM = "TS44"
+RAMP_ARM = "TS45"
+SAMPLE_ONLY_ARM = "TS46"
+SPLIT_WEIGHT_ARMS = (RAMP_ARM, SAMPLE_ONLY_ARM)
+RAMP_END_EPOCH = 51
 ORIGINAL = REPO / "classification_ModelNet40/main_pointmlp_hycore.py"
 TRAIN_SHA = "3f7bc6437d6424d1197508e41c7340198277f05d0fef6961af08c110bedcc29e"
 ADAPTER_SHA = "9dc3d81bfcf13ddf3621d2b9be34758842a91c23d3e373c1eaf7a00a13f0c18e"
@@ -31,9 +37,30 @@ SEED = 4780
 
 def canonical_name(arm):
     weight, sample_k, proxy_k = ARMS[arm]
-    pool = "-Hist1-SP64" if arm == CACHED_POOL_ARM else ""
+    weights = f"L{weight:.1f}-W0"
+    if arm == CACHED_POOL_ARM:
+        weights += "-Hist1-SP64"
+    elif arm == RAMP_ARM:
+        weights = "Ls0to0.5e51-Lp0.5"
+    elif arm == SAMPLE_ONLY_ARM:
+        weights = "Ls0.5-Lp0.0-W0"
     return (f"HC-C01-Cap23-GS1-M500_2-SH32x307 / "
-            f"Hshell-A1-Ks{sample_k}-Kp{proxy_k}-L{weight:.1f}-W0{pool} (S4780)")
+            f"Hshell-A1-Ks{sample_k}-Kp{proxy_k}-{weights} (S4780)")
+
+
+def loss_weights(arm, epoch):
+    """Return sample and proxy weights for a one-based training epoch."""
+    weight, _, _ = ARMS[arm]
+    if arm == RAMP_ARM:
+        return weight * min((epoch - 1) / (RAMP_END_EPOCH - 1), 1.0), weight
+    return weight, 0.0 if arm == SAMPLE_ONLY_ARM else weight
+
+
+def split_weight_config(arm):
+    initial, proxy = loss_weights(arm, 1)
+    terminal_epoch = RAMP_END_EPOCH if arm == RAMP_ARM else 1
+    return dict(lambda_sample_initial=initial, lambda_sample_final=loss_weights(arm, terminal_epoch)[0],
+                lambda_sample_final_epoch=terminal_epoch, lambda_proxy=proxy)
 
 
 def pinned_text(path, expected):
@@ -76,6 +103,9 @@ class Hierarchy:
         self.enabled = mode == "enabled"
         self.reference = mode == "reference"
         self.weight, self.sample_k, self.proxy_k = ARMS[arm]
+        self.arm = arm
+        self.split_weights = arm in SPLIT_WEIGHT_ARMS
+        self.current_epoch = 1
         self.use_cache = arm == CACHED_POOL_ARM
         self.previous = None
         self.output = args.run_dir
@@ -163,14 +193,21 @@ class Hierarchy:
         regularizer, stats = self.proxy(points, pool_labels, topk=self.sample_k, proxy_topk=self.proxy_k,
                                         seed=SEED + self.updates * 10007, generator=self.gumbel,
                                         monitor_structure=False, return_mining=self.use_cache,
+                                        return_components=self.split_weights,
                                         sample_anchor_count=len(shell) if self.use_cache else None)
+        if self.split_weights:
+            sample_weight, proxy_weight = loss_weights(self.arm, self.current_epoch)
+            components = stats.pop("_components")
+            weighted = sample_weight * components["sample_loss"] + proxy_weight * components["proxy_loss"]
+        else:
+            weighted = self.weight * regularizer
         if self.use_cache:
             triplets = stats["_sample_mining"]["triplets"]
             if len(triplets) > 50 * len(shell) or bool((triplets[:, 0] >= len(shell)).any()):
                 raise RuntimeError("Cached positions must only serve as candidates")
             self.counts["cached_sample_triplets"] += int((triplets[:, 1:] >= len(shell)).any(dim=1).sum())
             self.counts["max_sample_pool"] = max(self.counts["max_sample_pool"], len(points))
-        if not bool(torch.isfinite(regularizer)):
+        if not bool(torch.isfinite(regularizer)) or not bool(torch.isfinite(weighted)):
             raise RuntimeError("Nonfinite TS35 HIER loss")
         for population in ("sample", "proxy"):
             row = stats[population]
@@ -186,14 +223,20 @@ class Hierarchy:
             grad, = torch.autograd.grad(regularizer, pre_gs, retain_graph=True)
             if not bool(torch.isfinite(grad).all()) or not bool((grad != 0).any()):
                 raise RuntimeError("HIER has no finite nonzero gradient to the TS06 whole path")
-            torch.save({"labels": labels.detach().cpu(), "hier_source_mu": pre_gs.detach().cpu(),
+            snapshot = {"labels": labels.detach().cpu(), "hier_source_mu": pre_gs.detach().cpu(),
                         "hier_mu": shell.detach().cpu(), "proxy_tangent": self.proxy.tangent_proxies.detach().cpu(),
                         "proxy_ball": self.proxy.proxies().detach().cpu(),
                         "sample_K": stats["sample"]["topk_including_self"],
                         "proxy_K": stats["proxy"]["topk_including_self"],
-                        "lambda_hier": self.weight, "whole_gradient_norm": float(grad.norm())},
-                       self.output / "actual_training_epoch_001.pth")
-        return loss + self.weight * regularizer
+                        "whole_gradient_norm": float(grad.norm())}
+            if self.split_weights:
+                weighted_grad, = torch.autograd.grad(weighted, pre_gs, retain_graph=True)
+                snapshot.update(lambda_sample=sample_weight, lambda_proxy=proxy_weight,
+                                weighted_whole_gradient_norm=float(weighted_grad.norm()))
+            else:
+                snapshot["lambda_hier"] = self.weight
+            torch.save(snapshot, self.output / "actual_training_epoch_001.pth")
+        return loss + weighted
 
     def step(self):
         if self.enabled:
@@ -210,6 +253,12 @@ class Hierarchy:
     def checkpoint(self, net, epoch, optimizer, scheduler, metrics, best, torch, np, config):
         if self.enabled:
             metrics["hierarchy"] = dict(self.counts, proxy_lr=self.optimizer.param_groups[0]["lr"])
+            if self.split_weights:
+                if self.current_epoch != epoch + 1:
+                    raise RuntimeError("HIER weight schedule and training epoch differ")
+                sample, proxy = loss_weights(self.arm, self.current_epoch)
+                metrics["hierarchy"].update(lambda_sample=sample, lambda_proxy=proxy)
+                self.current_epoch += 1
             self.counts.clear()
             self.previous = None
             self.scheduler.step()
@@ -271,6 +320,9 @@ def main():
                               lambda_hier_after_warmup=hier.weight, proxy_optimizer=dict(name="AdamW", lr=.005,
                               eps=1e-4, betas=[.9, .999], weight_decay=.01, min_lr=.0005),
                               gradient_hook_scope="native whole/part GS plus independent pre-GS fixed-shell branch")
+                if hier.split_weights:
+                    config.pop("lambda_hier_after_warmup", None)
+                    config.update(split_weight_config(known.arm))
                 if hier.use_cache:
                     config.update(sample_max_pool=64, sample_anchors=32, sample_history_batches=1,
                                   sample_history_detached=True, sample_history_reset="each epoch")
