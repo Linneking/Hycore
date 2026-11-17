@@ -71,8 +71,8 @@ def validate_arguments(args):
     if args.epochs < 1:
         raise ValueError("epochs must be positive")
     if args.smoke:
-        if args.epochs != 2 or args.steps_per_epoch != 2:
-            raise ValueError("smoke is strictly two train-only epochs of two steps")
+        if args.epochs != 2 or args.steps_per_epoch not in (2, 4):
+            raise ValueError("smoke requires two train-only epochs of two or four steps")
     elif args.epochs != 300 or args.steps_per_epoch is not None:
         raise ValueError("production is strictly 300 complete original epochs")
     if args.run_dir.exists():
@@ -257,7 +257,7 @@ def main(argv=None):
               "gradient_hook": True, "radial_gamma": 500, "contrastive_margin": 2,
               "seed": 4780, "batch_size": 32, "eval_batch_size": 16, "workers": 8,
               "num_points": 1024, "epochs": args.epochs, "smoke": args.smoke,
-              "steps_per_epoch": 2 if args.smoke else 307,
+              "steps_per_epoch": args.steps_per_epoch if args.smoke else 307,
               "optimizer": "RiemannianSGD", "learning_rate": .1, "min_lr": .005,
               "momentum": .9, "weight_decay": .0002, "clip_grad_norm": 1,
               "rcontr_coefficient": .01, "rhier_coefficient": .01,
@@ -339,10 +339,10 @@ def main(argv=None):
             started = time.monotonic()
             current.update(epoch=epoch, phase="train", epoch_steps=0)
             effective_lr = optimizer.param_groups[0]["lr"]
-            loader = LimitedLoader(train_loader, 2) if args.smoke else train_loader
+            loader = LimitedLoader(train_loader, args.steps_per_epoch) if args.smoke else train_loader
             train_output = original.train(net, loader, optimizer, original.cal_loss, original.hype_triplet_losses, "cuda")
             training = train_output[-1]
-            if current["epoch_steps"] != (2 if args.smoke else 307):
+            if current["epoch_steps"] != config["steps_per_epoch"]:
                 raise AssertionError("Unexpected number of original training updates")
             testing = None
             if not args.smoke:

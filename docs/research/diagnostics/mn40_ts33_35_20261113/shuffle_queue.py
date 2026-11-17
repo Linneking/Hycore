@@ -11,7 +11,7 @@ import subprocess
 import sys
 import time
 
-from shuffle_runner import (ARMS, CACHED_POOL_ARM, REPO, SPLIT_WEIGHT_ARMS,
+from shuffle_runner import (ARMS, CACHE_BATCHES, REPO, SPLIT_WEIGHT_ARMS,
                             canonical_name, loss_weights, split_weight_config, ts06)
 from inter_hierarchy_MN40.hier_proxy_scratch_v8.queue import (
     device_environment, idle_gpus, now, query_gpus, write,
@@ -33,44 +33,45 @@ def target_idle(gpu):
         return None
 
 
-def read_smoke(root, mode, expected_train, commit):
+def read_smoke(root, mode, expected_train, commit, smoke_steps):
     import torch
 
     directory = root / mode
     manifest = json_file(directory / "manifest.json")
     assert manifest["commit"] == commit
     assert manifest["status"] == "completed"
-    assert manifest["completed_epochs"] == 2 and manifest["optimizer_steps"] == 4
+    assert manifest["completed_epochs"] == 2 and manifest["optimizer_steps"] == 2 * smoke_steps
     assert manifest["dataset_identity"]["train"] == expected_train
     assert manifest["initialized_model_sha256"] == INITIAL
     assert manifest["official_test_read"] is False and manifest["test_size"] == 0
     assert manifest["training_config"]["hier_enabled"] is (mode == "enabled")
     state = torch.load(directory / "last_checkpoint.pth", map_location="cpu", weights_only=False)
     counters = [int(tensor) for name, tensor in state["net"].items() if name.endswith("num_batches_tracked")]
-    assert counters and set(counters) == {8}
+    assert counters and set(counters) == {4 * smoke_steps}
     assert all(bool(torch.isfinite(tensor).all()) for tensor in state["net"].values())
     assert state["scheduler"]["T_max"] == state["scheduler"]["last_epoch"] == 2
     trace = [json.loads(line) for line in (directory / "input_trace.jsonl").read_text().splitlines()]
-    assert len(trace) == 4
+    assert len(trace) == 2 * smoke_steps
     return trace, state
 
 
-def accept(root, expected_train, commit, arm):
+def accept(root, expected_train, commit, arm, smoke_steps):
     import numpy as np
     import torch
     from inter_hierarchy_MN40.hier_proxy_cycle_v9c.geometry import assert_hier_shell
 
-    reference, original = read_smoke(root, "reference", expected_train, commit)
-    off, overlay = read_smoke(root, "off", expected_train, commit)
-    enabled, hierarchy = read_smoke(root, "enabled", expected_train, commit)
+    reference, original = read_smoke(root, "reference", expected_train, commit, smoke_steps)
+    off, overlay = read_smoke(root, "off", expected_train, commit, smoke_steps)
+    enabled, hierarchy = read_smoke(root, "enabled", expected_train, commit, smoke_steps)
+    compare_trajectory = arm not in SPLIT_WEIGHT_ARMS and arm != "TS47"
     for control, off_step, hier_step in zip(reference, off, enabled):
         for key in ("cloud", "labels", "whole", "part", "whole_count", "part_count"):
             assert control[key] == off_step[key] == hier_step[key], key
-        if arm not in SPLIT_WEIGHT_ARMS:
+        if compare_trajectory:
             np.testing.assert_allclose(off_step["base_losses"], control["base_losses"], rtol=1e-4, atol=1e-5)
     for trace in (off, enabled):
         np.testing.assert_allclose(trace[0]["base_losses"], reference[0]["base_losses"], rtol=1e-4, atol=1e-5)
-    if arm not in SPLIT_WEIGHT_ARMS:
+    if compare_trajectory:
         for key, value in original["net"].items():
             torch.testing.assert_close(overlay["net"][key], value, rtol=1e-4, atol=1e-5, msg=key)
     for control in (overlay, hierarchy):
@@ -82,7 +83,7 @@ def accept(root, expected_train, commit, arm):
     assert (group["initial_lr"], group["eps"], tuple(group["betas"]), group["weight_decay"]) == (
         .005, 1e-4, (.9, .999), .01)
     assert math.isclose(group["lr"], .0005, abs_tol=1e-12)
-    assert {int(item["step"]) for item in hierarchy["proxy_optimizer"]["state"].values()} == {4}
+    assert {int(item["step"]) for item in hierarchy["proxy_optimizer"]["state"].values()} == {2 * smoke_steps}
     assert hierarchy["proxy_scheduler"]["T_max"] == hierarchy["proxy_scheduler"]["last_epoch"] == 2
     snapshot = torch.load(root / "enabled" / "actual_training_epoch_001.pth", map_location="cpu", weights_only=False)
     assert snapshot["hier_mu"].shape == (32, 256)
@@ -105,17 +106,25 @@ def accept(root, expected_train, commit, arm):
     assert_hier_shell(snapshot["hier_mu"])
     metrics = hierarchy["metrics"]["hierarchy"]
     assert metrics["sample_active_triplets"] > 0 and metrics["proxy_active_triplets"] > 0
-    if arm == CACHED_POOL_ARM:
-        assert metrics["max_sample_pool"] == 64 and metrics["cached_pool_updates"] == 1
-        assert metrics["cached_sample_triplets"] > 0
-        assert metrics["sample_triplets"] <= 2 * 32 * 50
+    if arm in CACHE_BATCHES:
+        history = CACHE_BATCHES[arm]
+        max_pool = 32 * (history + 1)
+        for epoch in (1, 2):
+            counts = json_file(root / "enabled" / f"metrics_epoch_{epoch:03}.json")["hierarchy"]
+            assert counts["max_sample_pool"] == max_pool
+            assert counts["cached_pool_updates"] == smoke_steps - 1
+            assert counts["cached_sample_triplets"] > 0
+            assert counts["sample_triplets"] <= smoke_steps * 32 * 50
+            for step in range(history):
+                assert counts[f"sample_pool_{32 * (step + 1)}_updates"] == 1
+            assert counts[f"sample_pool_{max_pool}_updates"] == smoke_steps - history
     weights = {key: value for key, value in snapshot.items() if key.startswith("lambda_")}
     return dict(accepted=True, arm=arm, **weights,
                 sample_K=snapshot["sample_K"], proxy_K=snapshot["proxy_K"],
                 reference="TS06", reference_commit=REFERENCE_COMMIT,
-                reference_initialization=INITIAL, smoke_updates_per_mode=4,
+                reference_initialization=INITIAL, smoke_updates_per_mode=2 * smoke_steps,
                 augmentation_labels_crops_and_rng_match=True,
-                h0_model_state_close=True if arm not in SPLIT_WEIGHT_ARMS else None,
+                h0_model_state_close=True if compare_trajectory else None,
                 first_base_losses_close=True,
                 whole_gradient_norm=snapshot["whole_gradient_norm"],
                 weighted_whole_connected=snapshot.get("weighted_whole_connected"),
@@ -132,6 +141,10 @@ def launch(command, env, log_path, timeout=None):
 def settings_match(config, arm):
     weight, sample_k, proxy_k = ARMS[arm]
     expected = split_weight_config(arm) if arm in SPLIT_WEIGHT_ARMS else {"lambda_hier_after_warmup": weight}
+    if arm in CACHE_BATCHES:
+        history = CACHE_BATCHES[arm]
+        expected.update(sample_history_batches=history, sample_max_pool=32 * (history + 1),
+                        sample_anchors=32, sample_history_detached=True, sample_history_reset="each epoch")
     return (config["sample_K"], config["proxy_K"]) == (sample_k, proxy_k) and all(
         config.get(key) == value for key, value in expected.items())
 
@@ -146,6 +159,7 @@ def main():
     parser.add_argument("--arm", choices=ARMS, default="TS35")
     parser.add_argument("--gpu", type=int, help="Physical GPU index on this server")
     args = parser.parse_args()
+    smoke_steps = 4 if CACHE_BATCHES.get(args.arm) == 2 else 2
     gpu = args.gpu if args.gpu is not None else GPU_BY_ARM.get(args.arm)
     if gpu is None:
         parser.error("--gpu is required for this experiment")
@@ -213,11 +227,11 @@ def main():
                         break
                     status("smoke_running", smoke_mode=mode, smoke_dir=str(attempt_root))
                     launch(command + ["--mode", mode, "--run-dir", str(attempt_root / mode),
-                                      "--smoke", "--epochs", "2", "--steps-per-epoch", "2"],
+                                      "--smoke", "--epochs", "2", "--steps-per-epoch", str(smoke_steps)],
                            env, attempt_root / f"{mode}.log", timeout=1800)
                     time.sleep(5)
                 else:
-                    accepted = accept(attempt_root, expected_train, args.expected_commit, args.arm)
+                    accepted = accept(attempt_root, expected_train, args.expected_commit, args.arm, smoke_steps)
                     write(args.root / "smoke_acceptance.json", accepted)
                     check = target_idle(gpu)
                     if check is not None and check["uuid"] == chosen["uuid"]:

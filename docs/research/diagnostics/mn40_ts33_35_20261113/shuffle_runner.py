@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import argparse
-from collections import Counter
+from collections import Counter, deque
 import hashlib
 import json
 from pathlib import Path
@@ -23,23 +23,25 @@ ARMS = {
     "TS44": (.5, 20, 20),
     "TS45": (.5, 20, 20),
     "TS46": (.5, 20, 20),
+    "TS47": (.5, 20, 20),
 }
-CACHED_POOL_ARM = "TS44"
+CACHE_BATCHES = {"TS44": 1, "TS47": 2}
 RAMP_ARM = "TS45"
 SAMPLE_ONLY_ARM = "TS46"
 SPLIT_WEIGHT_ARMS = (RAMP_ARM, SAMPLE_ONLY_ARM)
 RAMP_END_EPOCH = 51
 ORIGINAL = REPO / "classification_ModelNet40/main_pointmlp_hycore.py"
 TRAIN_SHA = "3f7bc6437d6424d1197508e41c7340198277f05d0fef6961af08c110bedcc29e"
-ADAPTER_SHA = "9dc3d81bfcf13ddf3621d2b9be34758842a91c23d3e373c1eaf7a00a13f0c18e"
+ADAPTER_SHA = "e34d5efda05a7ee90aeda1535f0f810958de0c2348a3b50714c43d3ccb081bc2"
 SEED = 4780
 
 
 def canonical_name(arm):
     weight, sample_k, proxy_k = ARMS[arm]
     weights = f"L{weight:.1f}-W0"
-    if arm == CACHED_POOL_ARM:
-        weights += "-Hist1-SP64"
+    if arm in CACHE_BATCHES:
+        history = CACHE_BATCHES[arm]
+        weights += f"-Hist{history}-SP{32 * (history + 1)}"
     elif arm == RAMP_ARM:
         weights = "Ls0to0.5e51-Lp0.5"
     elif arm == SAMPLE_ONLY_ARM:
@@ -106,8 +108,9 @@ class Hierarchy:
         self.arm = arm
         self.split_weights = arm in SPLIT_WEIGHT_ARMS
         self.current_epoch = 1
-        self.use_cache = arm == CACHED_POOL_ARM
-        self.previous = None
+        self.history_batches = CACHE_BATCHES.get(arm, 0)
+        self.use_cache = self.history_batches > 0
+        self.previous = deque(maxlen=self.history_batches)
         self.output = args.run_dir
         self.smoke = args.smoke
         self.epochs = args.epochs
@@ -184,12 +187,11 @@ class Hierarchy:
         # and object IDs give identical within-batch identity for mining.
         points, pool_labels = shell, labels
         if self.use_cache:
-            if self.previous is not None:
-                cached_points, cached_labels = self.previous
-                points = torch.cat((shell, cached_points))
-                pool_labels = torch.cat((labels, cached_labels))
+            if self.previous:
+                points = torch.cat((shell, *(p for p, _ in self.previous)))
+                pool_labels = torch.cat((labels, *(y for _, y in self.previous)))
                 self.counts["cached_pool_updates"] += 1
-            self.previous = (shell.detach(), labels.detach())
+            self.previous.appendleft((shell.detach(), labels.detach()))
         regularizer, stats = self.proxy(points, pool_labels, topk=self.sample_k, proxy_topk=self.proxy_k,
                                         seed=SEED + self.updates * 10007, generator=self.gumbel,
                                         monitor_structure=False, return_mining=self.use_cache,
@@ -213,6 +215,7 @@ class Hierarchy:
                 raise RuntimeError("Cached positions must only serve as candidates")
             self.counts["cached_sample_triplets"] += int((triplets[:, 1:] >= len(shell)).any(dim=1).sum())
             self.counts["max_sample_pool"] = max(self.counts["max_sample_pool"], len(points))
+            self.counts[f"sample_pool_{len(points)}_updates"] += 1
         if not bool(torch.isfinite(regularizer)) or not bool(torch.isfinite(weighted)):
             raise RuntimeError("Nonfinite TS35 HIER loss")
         for population in ("sample", "proxy"):
@@ -272,7 +275,7 @@ class Hierarchy:
                 metrics["hierarchy"].update(lambda_sample=sample, lambda_proxy=proxy)
                 self.current_epoch += 1
             self.counts.clear()
-            self.previous = None
+            self.previous.clear()
             self.scheduler.step()
         state = self.original_checkpoint(net, epoch, optimizer, scheduler, metrics, best, torch, np, config)
         if self.enabled:
@@ -336,8 +339,9 @@ def main():
                     config.pop("lambda_hier_after_warmup", None)
                     config.update(split_weight_config(known.arm))
                 if hier.use_cache:
-                    config.update(sample_max_pool=64, sample_anchors=32, sample_history_batches=1,
-                                  sample_history_detached=True, sample_history_reset="each epoch")
+                    config.update(sample_max_pool=32 * (hier.history_batches + 1), sample_anchors=32,
+                                  sample_history_batches=hier.history_batches, sample_history_detached=True,
+                                  sample_history_reset="each epoch")
                 if path.name == "manifest.json":
                     value.update(experiment_id=known.arm, variant=known.arm.lower(), canonical_name=canonical_name(known.arm),
                                  changed_from_baseline=["add independent fixed-shell HIER to original whole forward"])
