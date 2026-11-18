@@ -1,0 +1,116 @@
+"""Actual idle-GPU smoke gates; all smoke runs are fresh train-only 2x2."""
+import argparse
+import fcntl
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+HERE=Path(__file__).resolve().parent
+sys.path.insert(0,str(HERE.parents[3]))
+from inter_hierarchy_MN40.hier_proxy_scratch_v8.queue import device_environment,idle_gpus,query_gpus,now,write
+
+
+def load(path):
+    import torch
+    return torch.load(path,map_location='cpu',weights_only=False)
+
+
+def rows(path):
+    return [json.loads(x) for x in path.read_text().splitlines()]
+
+
+def verify(root):
+    import torch
+    names=['legacy_ref','full_off','dual_on','sh_h0','sh_on','cb_ref','cb_h0','cb_off','cb_on']
+    m={name:json.loads((root/name/'manifest.json').read_text()) for name in names}
+    s={name:load(root/name/'last_checkpoint.pth') for name in names}
+    for name in names:
+        assert m[name]['status']=='completed' and m[name]['completed_epochs']==2,name
+        assert not m[name]['official_test_read'],name
+        assert s[name]['metrics']['optimizer_steps']==4,name
+        for value in s[name]['net'].values():
+            assert bool(torch.isfinite(value).all()),name
+    full=['legacy_ref','full_off','dual_on'];sh=['sh_h0','sh_on'];cb=['cb_ref','cb_h0','cb_off','cb_on']
+    for group in [full,sh,cb]:
+        assert len({m[n]['initialized_model_sha256'] for n in group})==1,group
+        fingerprints=[]
+        for n in group:
+            trace=rows(root/n/'input_trace.jsonl')
+            fingerprints.append([(r['cloud'],r['labels'],r['whole'],r['part']) for r in trace])
+        assert all(x==fingerprints[0] for x in fingerprints),group
+    for a,b in [('legacy_ref','full_off'),('cb_ref','cb_h0'),('cb_h0','cb_off')]:
+        for name,value in s[a]['net'].items():
+            assert torch.allclose(value,s[b]['net'][name],rtol=2e-6,atol=2e-7),(a,b,name)
+    for name in ['dual_on','sh_on','cb_on']:
+        state=s[name]
+        assert 'proxy' in state and torch.isfinite(state['proxy']['tangent_proxies']).all(),name
+        assert all(int(v['step'])==4 for v in state['proxy_optimizer']['state'].values()),name
+    for name in ['full_off','dual_on']:
+        counters=[int(v) for k,v in s[name]['net'].items() if k.endswith('num_batches_tracked')]
+        assert counters and set(counters)=={8},(name,set(counters))
+    aux=rows(root/'dual_on/aux_trace.jsonl')
+    assert len(aux)==4
+    for row in aux:
+        from collections import Counter
+        assert sorted(Counter(row['labels']).values())==[2]*16
+    for name in ['sh_h0','sh_on','cb_h0','cb_on']:
+        assert m[name]['dataset_identity']['train']['size']==4298,name
+        assert m[name]['training_config']['num_classes']==20,name
+    assert len(s['sh_h0']['metrics']['sample_coverage']['id_draw_counts'])==4298
+    return dict(passed=True,checks=['nine train-only smokes','initialization matches',
+        'SH/CB paired augmented inputs and crops match','legacy full-data off equivalence',
+        'CB off/reference equivalence','four updates each','finite networks and proxy updates',
+        'auxiliary BN counter restoration','fresh CB16x2','filtered 20-class identities'],
+        smoke_names=names,updated_at=now())
+
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True)
+    p.add_argument('--data-dir',type=Path,required=True);p.add_argument('--gpu',type=int,required=True)
+    p.add_argument('--source-commit',required=True);a=p.parse_args()
+    a.root.mkdir(parents=True,exist_ok=False)
+    tasks=[('legacy_ref',None,'reference'),('full_off','TS53','off'),('dual_on','TS53','enabled'),
+        ('sh_h0','TS51','enabled'),('sh_on','TS52','enabled'),('cb_ref','TS54','reference'),
+        ('cb_h0','TS54','enabled'),('cb_off','TS55','off'),('cb_on','TS55','enabled')]
+    record=dict(state='waiting_for_idle_gpu',source_commit=a.source_commit,pid=os.getpid(),updated_at=now())
+    write(a.root/'status.json',record)
+    try:
+        with open('/tmp/hycore_%d_gpu_%d.lock'%(os.getuid(),a.gpu),'a+') as lock:
+            while True:
+                try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+                except BlockingIOError:time.sleep(15);continue
+                first={r['index']:r for r in idle_gpus(query_gpus())}
+                if a.gpu in first:
+                    time.sleep(2);second={r['index']:r for r in idle_gpus(query_gpus())}
+                    if a.gpu in second and first[a.gpu]['uuid']==second[a.gpu]['uuid']:
+                        gpu=second[a.gpu];break
+                fcntl.flock(lock,fcntl.LOCK_UN);time.sleep(15)
+            env={**os.environ,**device_environment([gpu]),'PYTHONHASHSEED':'4780',
+                'OMP_NUM_THREADS':'2','MKL_NUM_THREADS':'2','OPENBLAS_NUM_THREADS':'2',
+                'MPLBACKEND':'Agg','PYTHONDONTWRITEBYTECODE':'1'}
+            for name,arm,mode in tasks:
+                record.update(state='running_smoke',smoke=name,updated_at=now());write(a.root/'status.json',record)
+                if arm is None:
+                    command=[sys.executable,'-u',str(HERE.parent/'mn40_ts33_35_20261113/shuffle_runner.py'),
+                        '--mode','reference','--variant','c01-cap','--data-dir',str(a.data_dir),
+                        '--run-dir',str(a.root/name),'--smoke','--epochs','2','--steps-per-epoch','2']
+                else:
+                    command=[sys.executable,'-u',str(HERE/'runner.py'),'--arm',arm,'--mode',mode,
+                        '--data-dir',str(a.data_dir),'--output',str(a.root/name),'--smoke',
+                        '--source-commit',a.source_commit]
+                with (a.root/(name+'.log')).open('x') as log:
+                    subprocess.run(command,env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,check=True)
+                print('completed smoke',name,flush=True)
+        result=verify(a.root);result['source_commit']=a.source_commit
+        write(a.root/'acceptance.json',result);write(a.root/'status.json',dict(state='passed',**result))
+        print(json.dumps(result),flush=True)
+    except BaseException as error:
+        write(a.root/'acceptance.json',dict(passed=False,source_commit=a.source_commit,error=repr(error),updated_at=now()))
+        write(a.root/'status.json',dict(state='failed',error=repr(error),updated_at=now()))
+        raise
+
+
+if __name__=='__main__':main()
