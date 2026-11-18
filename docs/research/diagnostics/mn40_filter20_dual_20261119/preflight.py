@@ -22,9 +22,10 @@ def rows(path):
     return [json.loads(x) for x in path.read_text().splitlines()]
 
 
-def verify(root):
+def verify(root, full_reference='legacy_ref', cb_reference='cb_ref'):
     import torch
     names=['legacy_ref','full_off','dual_on','sh_h0','sh_on','cb_ref','cb_h0','cb_off','cb_on']
+    names += [n for n in (full_reference,cb_reference) if n not in names]
     m={name:json.loads((root/name/'manifest.json').read_text()) for name in names}
     s={name:load(root/name/'last_checkpoint.pth') for name in names}
     for name in names:
@@ -33,7 +34,8 @@ def verify(root):
         assert s[name]['metrics']['optimizer_steps']==4,name
         for value in s[name]['net'].values():
             assert bool(torch.isfinite(value).all()),name
-    full=['legacy_ref','full_off','dual_on'];sh=['sh_h0','sh_on'];cb=['cb_ref','cb_h0','cb_off','cb_on']
+    full=list(dict.fromkeys(['legacy_ref',full_reference,'full_off','dual_on']))
+    sh=['sh_h0','sh_on'];cb=list(dict.fromkeys(['cb_ref',cb_reference,'cb_h0','cb_off','cb_on']))
     for group in [full,sh,cb]:
         assert len({m[n]['initialized_model_sha256'] for n in group})==1,group
         fingerprints=[]
@@ -41,7 +43,7 @@ def verify(root):
             trace=rows(root/n/'input_trace.jsonl')
             fingerprints.append([(r['cloud'],r['labels'],r['whole'],r['part']) for r in trace])
         assert all(x==fingerprints[0] for x in fingerprints),group
-    for a,b in [('legacy_ref','full_off'),('cb_ref','cb_h0'),('cb_h0','cb_off')]:
+    for a,b in [(full_reference,'full_off'),(cb_reference,'cb_h0'),('cb_h0','cb_off')]:
         for name,value in s[a]['net'].items():
             assert torch.allclose(value,s[b]['net'][name],rtol=2e-6,atol=2e-7),(a,b,name)
     for name in ['dual_on','sh_on','cb_on']:
@@ -60,7 +62,11 @@ def verify(root):
         assert m[name]['dataset_identity']['train']['size']==4298,name
         assert m[name]['training_config']['num_classes']==20,name
     assert len(s['sh_h0']['metrics']['sample_coverage']['id_draw_counts'])==4298
-    return dict(passed=True,checks=['nine train-only smokes','initialization matches',
+    repeats={}
+    for initial,repeated in [('legacy_ref',full_reference),('cb_ref',cb_reference)]:
+        repeats[initial]=dict(reference_used=repeated,max_state_difference=max(float((x-s[repeated]['net'][k]).abs().max())
+            for k,x in s[initial]['net'].items() if x.is_floating_point()))
+    return dict(passed=True,reference_repeats=repeats,checks=['train-only smokes including declared reference repeats','initialization matches',
         'SH/CB paired augmented inputs and crops match','legacy full-data off equivalence',
         'CB off/reference equivalence','four updates each','finite networks and proxy updates',
         'auxiliary BN counter restoration','fresh CB16x2','filtered 20-class identities'],
@@ -70,7 +76,18 @@ def verify(root):
 def main():
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True)
     p.add_argument('--data-dir',type=Path,required=True);p.add_argument('--gpu',type=int,required=True)
-    p.add_argument('--source-commit',required=True);a=p.parse_args()
+    p.add_argument('--source-commit',required=True)
+    p.add_argument('--verify-only',action='store_true')
+    p.add_argument('--full-reference',default='legacy_ref');p.add_argument('--cb-reference',default='cb_ref')
+    p.add_argument('--verification-commit');a=p.parse_args()
+    if a.verify_only:
+        result=verify(a.root,a.full_reference,a.cb_reference)
+        result.update(source_commit=a.source_commit,verification_commit=a.verification_commit)
+        destination=a.root/'acceptance_verified.json'
+        if destination.exists():raise FileExistsError(destination)
+        write(destination,result)
+        print(json.dumps(result),flush=True)
+        return
     a.root.mkdir(parents=True,exist_ok=False)
     tasks=[('legacy_ref',None,'reference'),('full_off','TS53','off'),('dual_on','TS53','enabled'),
         ('sh_h0','TS51','enabled'),('sh_on','TS52','enabled'),('cb_ref','TS54','reference'),
