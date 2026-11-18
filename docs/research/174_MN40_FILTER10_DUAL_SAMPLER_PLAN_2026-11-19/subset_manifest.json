@@ -1,5 +1,5 @@
 {
-  "status": "proposed_not_launched",
+  "status": "superseded_not_launched",
   "rule_confirmed_by_user": true,
   "task": "MN40-F10-N200_400",
   "official_modelnet10": false,
@@ -96,5 +96,6 @@
   "dropped_per_epoch": 4,
   "test_selection": "same retained class IDs, all objects",
   "seed": 4780,
-  "per_class_truncation": false
+  "per_class_truncation": false,
+  "superseded_by": "175_MN40_FILTER20_DUAL_SAMPLER_PLAN_2026-11-19/plan.md"
 }
