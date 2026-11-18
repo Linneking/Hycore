@@ -1,0 +1,1155 @@
+{
+  "best_test": {
+    "both_correct": 2273,
+    "both_wrong": 97,
+    "cb_only": 43,
+    "sh_only": 55,
+    "all_three_h0_wrong": 87,
+    "sh_correct": 2328,
+    "cb_correct": 2316
+  },
+  "best_train": {
+    "both_correct": 9586,
+    "both_wrong": 53,
+    "cb_only": 162,
+    "sh_only": 39,
+    "all_three_h0_wrong": 22,
+    "sh_correct": 9625,
+    "cb_correct": 9748
+  },
+  "best_class_association": {
+    "spearman": -0.21285040050445422,
+    "bootstrap_class_ci95": [
+      -0.5038953268629919,
+      0.11015540366631699
+    ],
+    "high_loss_classes": [
+      {
+        "class_id": 33,
+        "name": "table",
+        "train_size": 392,
+        "test_size": 100,
+        "sh_draws": 71994,
+        "cb_draws": 41734,
+        "sh_per_train_object": 183.65816326530611,
+        "cb_per_train_object": 106.46428571428571,
+        "cb_to_sh_exposure_ratio": 0.5796871961552351,
+        "sh_only": 14,
+        "cb_only": 1,
+        "net_sh_advantage": 13,
+        "delta_oa_class": 13.0,
+        "persistent_sh": 0,
+        "persistent_cb": 1
+      },
+      {
+        "class_id": 14,
+        "name": "dresser",
+        "train_size": 200,
+        "test_size": 86,
+        "sh_draws": 36749,
+        "cb_draws": 42022,
+        "sh_per_train_object": 183.745,
+        "cb_per_train_object": 210.11,
+        "cb_to_sh_exposure_ratio": 1.1434868976026558,
+        "sh_only": 7,
+        "cb_only": 1,
+        "net_sh_advantage": 6,
+        "delta_oa_class": 6.976744186046512,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 37,
+        "name": "vase",
+        "train_size": 475,
+        "test_size": 100,
+        "sh_draws": 87262,
+        "cb_draws": 42190,
+        "sh_per_train_object": 183.70947368421054,
+        "cb_per_train_object": 88.82105263157895,
+        "cb_to_sh_exposure_ratio": 0.48348651188375236,
+        "sh_only": 7,
+        "cb_only": 1,
+        "net_sh_advantage": 6,
+        "delta_oa_class": 6.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 4,
+        "name": "bookshelf",
+        "train_size": 572,
+        "test_size": 100,
+        "sh_draws": 105085,
+        "cb_draws": 42002,
+        "sh_per_train_object": 183.71503496503496,
+        "cb_per_train_object": 73.43006993006993,
+        "cb_to_sh_exposure_ratio": 0.39969548460769855,
+        "sh_only": 2,
+        "cb_only": 0,
+        "net_sh_advantage": 2,
+        "delta_oa_class": 2.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 5,
+        "name": "bottle",
+        "train_size": 335,
+        "test_size": 100,
+        "sh_draws": 61547,
+        "cb_draws": 42100,
+        "sh_per_train_object": 183.7223880597015,
+        "cb_per_train_object": 125.67164179104478,
+        "cb_to_sh_exposure_ratio": 0.6840300908248981,
+        "sh_only": 3,
+        "cb_only": 1,
+        "net_sh_advantage": 2,
+        "delta_oa_class": 2.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 8,
+        "name": "chair",
+        "train_size": 889,
+        "test_size": 100,
+        "sh_draws": 163297,
+        "cb_draws": 42286,
+        "sh_per_train_object": 183.6861642294713,
+        "cb_per_train_object": 47.56580427446569,
+        "cb_to_sh_exposure_ratio": 0.2589514810437424,
+        "sh_only": 2,
+        "cb_only": 0,
+        "net_sh_advantage": 2,
+        "delta_oa_class": 2.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 39,
+        "name": "xbox",
+        "train_size": 103,
+        "test_size": 20,
+        "sh_draws": 18921,
+        "cb_draws": 41634,
+        "sh_per_train_object": 183.6990291262136,
+        "cb_per_train_object": 404.2135922330097,
+        "cb_to_sh_exposure_ratio": 2.200412240367845,
+        "sh_only": 2,
+        "cb_only": 0,
+        "net_sh_advantage": 2,
+        "delta_oa_class": 10.0,
+        "persistent_sh": 1,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 10,
+        "name": "cup",
+        "train_size": 79,
+        "test_size": 20,
+        "sh_draws": 14515,
+        "cb_draws": 41900,
+        "sh_per_train_object": 183.73417721518987,
+        "cb_per_train_object": 530.379746835443,
+        "cb_to_sh_exposure_ratio": 2.886668963141578,
+        "sh_only": 1,
+        "cb_only": 0,
+        "net_sh_advantage": 1,
+        "delta_oa_class": 5.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 25,
+        "name": "piano",
+        "train_size": 231,
+        "test_size": 100,
+        "sh_draws": 42428,
+        "cb_draws": 42112,
+        "sh_per_train_object": 183.67099567099567,
+        "cb_per_train_object": 182.3030303030303,
+        "cb_to_sh_exposure_ratio": 0.9925520882436127,
+        "sh_only": 1,
+        "cb_only": 0,
+        "net_sh_advantage": 1,
+        "delta_oa_class": 1.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 29,
+        "name": "sink",
+        "train_size": 128,
+        "test_size": 20,
+        "sh_draws": 23508,
+        "cb_draws": 41606,
+        "sh_per_train_object": 183.65625,
+        "cb_per_train_object": 325.046875,
+        "cb_to_sh_exposure_ratio": 1.7698655776756849,
+        "sh_only": 1,
+        "cb_only": 0,
+        "net_sh_advantage": 1,
+        "delta_oa_class": 5.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      }
+    ],
+    "high_gain_classes": [
+      {
+        "class_id": 12,
+        "name": "desk",
+        "train_size": 200,
+        "test_size": 86,
+        "sh_draws": 36745,
+        "cb_draws": 41472,
+        "sh_per_train_object": 183.725,
+        "cb_per_train_object": 207.36,
+        "cb_to_sh_exposure_ratio": 1.1286433528371207,
+        "sh_only": 0,
+        "cb_only": 4,
+        "net_sh_advantage": -4,
+        "delta_oa_class": -4.651162790697675,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 36,
+        "name": "tv_stand",
+        "train_size": 267,
+        "test_size": 100,
+        "sh_draws": 49057,
+        "cb_draws": 42296,
+        "sh_per_train_object": 183.73408239700373,
+        "cb_per_train_object": 158.4119850187266,
+        "cb_to_sh_exposure_ratio": 0.8621807285402695,
+        "sh_only": 2,
+        "cb_only": 6,
+        "net_sh_advantage": -4,
+        "delta_oa_class": -4.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 1,
+        "name": "bathtub",
+        "train_size": 106,
+        "test_size": 50,
+        "sh_draws": 19476,
+        "cb_draws": 42040,
+        "sh_per_train_object": 183.73584905660377,
+        "cb_per_train_object": 396.60377358490564,
+        "cb_to_sh_exposure_ratio": 2.1585541178886833,
+        "sh_only": 0,
+        "cb_only": 2,
+        "net_sh_advantage": -2,
+        "delta_oa_class": -4.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 23,
+        "name": "night_stand",
+        "train_size": 200,
+        "test_size": 86,
+        "sh_draws": 36743,
+        "cb_draws": 41564,
+        "sh_per_train_object": 183.715,
+        "cb_per_train_object": 207.82,
+        "cb_to_sh_exposure_ratio": 1.131208665596168,
+        "sh_only": 3,
+        "cb_only": 5,
+        "net_sh_advantage": -2,
+        "delta_oa_class": -2.3255813953488373,
+        "persistent_sh": 0,
+        "persistent_cb": 1
+      },
+      {
+        "class_id": 26,
+        "name": "plant",
+        "train_size": 239,
+        "test_size": 100,
+        "sh_draws": 43905,
+        "cb_draws": 41850,
+        "sh_per_train_object": 183.70292887029288,
+        "cb_per_train_object": 175.10460251046024,
+        "cb_to_sh_exposure_ratio": 0.9531943969935087,
+        "sh_only": 4,
+        "cb_only": 6,
+        "net_sh_advantage": -2,
+        "delta_oa_class": -2.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 2,
+        "name": "bed",
+        "train_size": 515,
+        "test_size": 100,
+        "sh_draws": 94603,
+        "cb_draws": 41884,
+        "sh_per_train_object": 183.69514563106796,
+        "cb_per_train_object": 81.32815533980583,
+        "cb_to_sh_exposure_ratio": 0.44273437417418054,
+        "sh_only": 0,
+        "cb_only": 1,
+        "net_sh_advantage": -1,
+        "delta_oa_class": -1.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      }
+    ]
+  },
+  "best_within_train": {
+    "both_correct": {
+      "n": 9586,
+      "cb_exposure_z_mean": 0.001278523077735575
+    },
+    "sh_only": {
+      "n": 39,
+      "cb_exposure_z_mean": -0.21367781094741703
+    },
+    "cb_only": {
+      "n": 162,
+      "cb_exposure_z_mean": 0.0164376104672458
+    },
+    "both_wrong": {
+      "n": 53,
+      "cb_exposure_z_mean": -0.12425246211166484
+    },
+    "spearman_exposure_z_cb_margin": 0.014298635583154447
+  },
+  "e300_test": {
+    "both_correct": 2268,
+    "both_wrong": 124,
+    "cb_only": 36,
+    "sh_only": 40,
+    "all_three_h0_wrong": 105,
+    "sh_correct": 2308,
+    "cb_correct": 2304
+  },
+  "e300_train": {
+    "both_correct": 9767,
+    "both_wrong": 18,
+    "cb_only": 26,
+    "sh_only": 29,
+    "all_three_h0_wrong": 11,
+    "sh_correct": 9796,
+    "cb_correct": 9793
+  },
+  "e300_class_association": {
+    "spearman": -0.034411608344133135,
+    "bootstrap_class_ci95": [
+      -0.36211837106394734,
+      0.28787944153959544
+    ],
+    "high_loss_classes": [
+      {
+        "class_id": 14,
+        "name": "dresser",
+        "train_size": 200,
+        "test_size": 86,
+        "sh_draws": 59899,
+        "cb_draws": 48034,
+        "sh_per_train_object": 299.495,
+        "cb_per_train_object": 240.17,
+        "cb_to_sh_exposure_ratio": 0.8019165595418956,
+        "sh_only": 8,
+        "cb_only": 1,
+        "net_sh_advantage": 7,
+        "delta_oa_class": 8.13953488372093,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 1,
+        "name": "bathtub",
+        "train_size": 106,
+        "test_size": 50,
+        "sh_draws": 31751,
+        "cb_draws": 48112,
+        "sh_per_train_object": 299.5377358490566,
+        "cb_per_train_object": 453.8867924528302,
+        "cb_to_sh_exposure_ratio": 1.5152908569808825,
+        "sh_only": 2,
+        "cb_only": 0,
+        "net_sh_advantage": 2,
+        "delta_oa_class": 4.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 8,
+        "name": "chair",
+        "train_size": 889,
+        "test_size": 100,
+        "sh_draws": 266254,
+        "cb_draws": 48316,
+        "sh_per_train_object": 299.49831271091114,
+        "cb_per_train_object": 54.34870641169854,
+        "cb_to_sh_exposure_ratio": 0.18146581835390266,
+        "sh_only": 2,
+        "cb_only": 0,
+        "net_sh_advantage": 2,
+        "delta_oa_class": 2.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 11,
+        "name": "curtain",
+        "train_size": 137,
+        "test_size": 20,
+        "sh_draws": 41032,
+        "cb_draws": 48094,
+        "sh_per_train_object": 299.5036496350365,
+        "cb_per_train_object": 351.05109489051097,
+        "cb_to_sh_exposure_ratio": 1.1721095730161826,
+        "sh_only": 2,
+        "cb_only": 0,
+        "net_sh_advantage": 2,
+        "delta_oa_class": 10.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 26,
+        "name": "plant",
+        "train_size": 239,
+        "test_size": 100,
+        "sh_draws": 71583,
+        "cb_draws": 47960,
+        "sh_per_train_object": 299.510460251046,
+        "cb_per_train_object": 200.6694560669456,
+        "cb_to_sh_exposure_ratio": 0.669991478423648,
+        "sh_only": 4,
+        "cb_only": 2,
+        "net_sh_advantage": 2,
+        "delta_oa_class": 2.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 5,
+        "name": "bottle",
+        "train_size": 335,
+        "test_size": 100,
+        "sh_draws": 100351,
+        "cb_draws": 48078,
+        "sh_per_train_object": 299.555223880597,
+        "cb_per_train_object": 143.51641791044776,
+        "cb_to_sh_exposure_ratio": 0.4790983647397634,
+        "sh_only": 2,
+        "cb_only": 1,
+        "net_sh_advantage": 1,
+        "delta_oa_class": 1.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 9,
+        "name": "cone",
+        "train_size": 167,
+        "test_size": 20,
+        "sh_draws": 50010,
+        "cb_draws": 48094,
+        "sh_per_train_object": 299.4610778443114,
+        "cb_per_train_object": 287.98802395209583,
+        "cb_to_sh_exposure_ratio": 0.9616876624675065,
+        "sh_only": 2,
+        "cb_only": 1,
+        "net_sh_advantage": 1,
+        "delta_oa_class": 5.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 19,
+        "name": "lamp",
+        "train_size": 124,
+        "test_size": 20,
+        "sh_draws": 37144,
+        "cb_draws": 47768,
+        "sh_per_train_object": 299.5483870967742,
+        "cb_per_train_object": 385.2258064516129,
+        "cb_to_sh_exposure_ratio": 1.2860219685548138,
+        "sh_only": 1,
+        "cb_only": 0,
+        "net_sh_advantage": 1,
+        "delta_oa_class": 5.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 32,
+        "name": "stool",
+        "train_size": 90,
+        "test_size": 20,
+        "sh_draws": 26958,
+        "cb_draws": 48116,
+        "sh_per_train_object": 299.53333333333336,
+        "cb_per_train_object": 534.6222222222223,
+        "cb_to_sh_exposure_ratio": 1.7848505081979376,
+        "sh_only": 2,
+        "cb_only": 1,
+        "net_sh_advantage": 1,
+        "delta_oa_class": 5.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 33,
+        "name": "table",
+        "train_size": 392,
+        "test_size": 100,
+        "sh_draws": 117396,
+        "cb_draws": 48058,
+        "sh_per_train_object": 299.4795918367347,
+        "cb_per_train_object": 122.59693877551021,
+        "cb_to_sh_exposure_ratio": 0.409366588299431,
+        "sh_only": 7,
+        "cb_only": 6,
+        "net_sh_advantage": 1,
+        "delta_oa_class": 1.0,
+        "persistent_sh": 0,
+        "persistent_cb": 1
+      }
+    ],
+    "high_gain_classes": [
+      {
+        "class_id": 23,
+        "name": "night_stand",
+        "train_size": 200,
+        "test_size": 86,
+        "sh_draws": 59903,
+        "cb_draws": 47600,
+        "sh_per_train_object": 299.515,
+        "cb_per_train_object": 238.0,
+        "cb_to_sh_exposure_ratio": 0.7946179657112331,
+        "sh_only": 1,
+        "cb_only": 7,
+        "net_sh_advantage": -6,
+        "delta_oa_class": -6.976744186046512,
+        "persistent_sh": 0,
+        "persistent_cb": 1
+      },
+      {
+        "class_id": 12,
+        "name": "desk",
+        "train_size": 200,
+        "test_size": 86,
+        "sh_draws": 59905,
+        "cb_draws": 47514,
+        "sh_per_train_object": 299.525,
+        "cb_per_train_object": 237.57,
+        "cb_to_sh_exposure_ratio": 0.7931558300642684,
+        "sh_only": 0,
+        "cb_only": 3,
+        "net_sh_advantage": -3,
+        "delta_oa_class": -3.488372093023256,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 37,
+        "name": "vase",
+        "train_size": 475,
+        "test_size": 100,
+        "sh_draws": 142275,
+        "cb_draws": 48380,
+        "sh_per_train_object": 299.5263157894737,
+        "cb_per_train_object": 101.85263157894737,
+        "cb_to_sh_exposure_ratio": 0.34004568617114744,
+        "sh_only": 2,
+        "cb_only": 5,
+        "net_sh_advantage": -3,
+        "delta_oa_class": -3.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 16,
+        "name": "glass_box",
+        "train_size": 171,
+        "test_size": 100,
+        "sh_draws": 51210,
+        "cb_draws": 48112,
+        "sh_per_train_object": 299.4736842105263,
+        "cb_per_train_object": 281.3567251461988,
+        "cb_to_sh_exposure_ratio": 0.9395040031243898,
+        "sh_only": 0,
+        "cb_only": 2,
+        "net_sh_advantage": -2,
+        "delta_oa_class": -2.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 38,
+        "name": "wardrobe",
+        "train_size": 87,
+        "test_size": 20,
+        "sh_draws": 26055,
+        "cb_draws": 47888,
+        "sh_per_train_object": 299.48275862068965,
+        "cb_per_train_object": 550.4367816091954,
+        "cb_to_sh_exposure_ratio": 1.8379581654193053,
+        "sh_only": 0,
+        "cb_only": 2,
+        "net_sh_advantage": -2,
+        "delta_oa_class": -10.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      },
+      {
+        "class_id": 10,
+        "name": "cup",
+        "train_size": 79,
+        "test_size": 20,
+        "sh_draws": 23659,
+        "cb_draws": 47804,
+        "sh_per_train_object": 299.4810126582278,
+        "cb_per_train_object": 605.1139240506329,
+        "cb_to_sh_exposure_ratio": 2.020541865674796,
+        "sh_only": 0,
+        "cb_only": 1,
+        "net_sh_advantage": -1,
+        "delta_oa_class": -5.0,
+        "persistent_sh": 0,
+        "persistent_cb": 0
+      }
+    ]
+  },
+  "e300_within_train": {
+    "both_correct": {
+      "n": 9767,
+      "cb_exposure_z_mean": 0.0006730748048381926
+    },
+    "sh_only": {
+      "n": 29,
+      "cb_exposure_z_mean": -0.13112897657936345
+    },
+    "cb_only": {
+      "n": 26,
+      "cb_exposure_z_mean": 0.13208876746743672
+    },
+    "both_wrong": {
+      "n": 18,
+      "cb_exposure_z_mean": -0.3447494029003815
+    },
+    "spearman_exposure_z_cb_margin": 0.013755179606568496
+  },
+  "stability": {
+    "persistent_sh": 1,
+    "persistent_cb": 3,
+    "unanimous_sh": 0,
+    "unanimous_cb": 0,
+    "persistent_both_wrong": 85,
+    "best_sh_and_persistent": 1,
+    "best_cb_and_persistent": 1,
+    "cb30_persistently_wrong_cb31_recovered": 2
+  },
+  "sampling": {
+    "TS06": {
+      "best_epoch": 184,
+      "provenance": "exact sampler replay; initial model hash and every available archived CPU RNG verified",
+      "total_presentations": 2947200,
+      "best_presentations": 1807616,
+      "count_min": 295,
+      "count_max": 300,
+      "count_mean": 299.5121951219512,
+      "never_seen": 0,
+      "duplicate_within_batch_positions": 0,
+      "first_epoch_unique": 9824
+    },
+    "TS30": {
+      "best_epoch": 262,
+      "provenance": "all 300 epochs recorded per-ID counts exactly match deterministic sampler replay",
+      "total_presentations": 1920000,
+      "best_presentations": 1676800,
+      "count_min": 31,
+      "count_max": 820,
+      "count_mean": 195.1219512195122,
+      "never_seen": 0,
+      "duplicate_within_batch_positions": 5934,
+      "first_epoch_unique": 4234
+    },
+    "TS31": {
+      "best_epoch": 292,
+      "provenance": "all 300 epochs recorded per-ID counts exactly match deterministic sampler replay",
+      "total_presentations": 2880000,
+      "best_presentations": 2803200,
+      "count_min": 53,
+      "count_max": 1181,
+      "count_mean": 292.6829268292683,
+      "never_seen": 0,
+      "duplicate_within_batch_positions": 8904,
+      "first_epoch_unique": 5347
+    }
+  },
+  "sampling_validation": {
+    "TS06": 21,
+    "TS30": 300,
+    "TS31": 300
+  },
+  "all_three_wrong_all_six_late": 52,
+  "mesh_mapping_verified_objects": 12308,
+  "mesh_mapping_sha256": {
+    "ply_data_train_1_id2file.json": "9ffbdd010eb07232a7bcf9b62a3330d5f156f03ded7c77951cb62c4b7f76b13c",
+    "ply_data_train_4_id2file.json": "58a2a50c2dbf607bd59efafa5be6a04083c8ffc3e864a7e94c4bc639d1a78108",
+    "ply_data_train_3_id2file.json": "188e8332665e9f14d3c6e65c16f452fbdeafe33461896e4d25e7d9706272dc66",
+    "ply_data_train_2_id2file.json": "e309fcbaf8399eeec5625a716873cb9a152e2b1c016cd4879ddbc5213c763b8e",
+    "ply_data_train_0_id2file.json": "da70e19eef29744b97cd76356afb9e5ace568b67f9a014cdd3877e103ed0fff5",
+    "ply_data_test_0_id2file.json": "a821815a14bd8ba38b8036fdd7bc5798a3d16d098a2bd5be52afcd038013079a",
+    "ply_data_test_1_id2file.json": "74fb14133606193f452d60a72d6fc053e9604995c263457184260dfcfbd3ce26"
+  },
+  "gallery": [
+    {
+      "id": "test/ply_data_test0.h5/0168",
+      "mesh": "night_stand/night_stand_0266.ply",
+      "label": "night_stand",
+      "group": "cb_only",
+      "png": "case_0168.png",
+      "late_sh_only": 0,
+      "late_cb_only": 5,
+      "SH_prediction": "dresser",
+      "CB_prediction": "night_stand",
+      "nearest_train": [
+        "night_stand/night_stand_0022.ply",
+        "night_stand/night_stand_0095.ply",
+        "night_stand/night_stand_0158.ply"
+      ],
+      "nearest_sh_counts": [
+        184,
+        184,
+        184
+      ],
+      "nearest_cb_counts": [
+        209,
+        212,
+        236
+      ]
+    },
+    {
+      "id": "test/ply_data_test0.h5/0427",
+      "mesh": "bowl/bowl_0067.ply",
+      "label": "bowl",
+      "group": "both_wrong",
+      "png": "case_0427.png",
+      "late_sh_only": 0,
+      "late_cb_only": 5,
+      "SH_prediction": "vase",
+      "CB_prediction": "vase",
+      "nearest_train": [
+        "bowl/bowl_0012.ply",
+        "bowl/bowl_0041.ply",
+        "bowl/bowl_0042.ply"
+      ],
+      "nearest_sh_counts": [
+        184,
+        184,
+        184
+      ],
+      "nearest_cb_counts": [
+        645,
+        714,
+        714
+      ]
+    },
+    {
+      "id": "test/ply_data_test0.h5/0511",
+      "mesh": "table/table_0462.ply",
+      "label": "table",
+      "group": "both_correct",
+      "png": "case_0511.png",
+      "late_sh_only": 0,
+      "late_cb_only": 5,
+      "SH_prediction": "table",
+      "CB_prediction": "table",
+      "nearest_train": [
+        "table/table_0117.ply",
+        "table/table_0390.ply",
+        "table/table_0173.ply"
+      ],
+      "nearest_sh_counts": [
+        184,
+        184,
+        184
+      ],
+      "nearest_cb_counts": [
+        110,
+        91,
+        114
+      ]
+    },
+    {
+      "id": "test/ply_data_test0.h5/1379",
+      "mesh": "xbox/xbox_0106.ply",
+      "label": "xbox",
+      "group": "sh_only",
+      "png": "case_1379.png",
+      "late_sh_only": 5,
+      "late_cb_only": 0,
+      "SH_prediction": "xbox",
+      "CB_prediction": "monitor",
+      "nearest_train": [
+        "xbox/xbox_0046.ply",
+        "xbox/xbox_0007.ply",
+        "xbox/xbox_0089.ply"
+      ],
+      "nearest_sh_counts": [
+        182,
+        183,
+        184
+      ],
+      "nearest_cb_counts": [
+        407,
+        386,
+        417
+      ]
+    },
+    {
+      "id": "test/ply_data_test0.h5/0060",
+      "mesh": "table/table_0410.ply",
+      "label": "table",
+      "group": "sh_only",
+      "png": "case_0060.png",
+      "late_sh_only": 1,
+      "late_cb_only": 1,
+      "SH_prediction": "table",
+      "CB_prediction": "desk",
+      "nearest_train": [
+        "table/table_0300.ply",
+        "table/table_0154.ply",
+        "table/table_0293.ply"
+      ],
+      "nearest_sh_counts": [
+        184,
+        184,
+        184
+      ],
+      "nearest_cb_counts": [
+        114,
+        104,
+        102
+      ]
+    },
+    {
+      "id": "test/ply_data_test0.h5/0235",
+      "mesh": "dresser/dresser_0233.ply",
+      "label": "dresser",
+      "group": "sh_only",
+      "png": "case_0235.png",
+      "late_sh_only": 0,
+      "late_cb_only": 3,
+      "SH_prediction": "dresser",
+      "CB_prediction": "desk",
+      "nearest_train": [
+        "dresser/dresser_0077.ply",
+        "dresser/dresser_0098.ply",
+        "dresser/dresser_0189.ply"
+      ],
+      "nearest_sh_counts": [
+        183,
+        184,
+        183
+      ],
+      "nearest_cb_counts": [
+        218,
+        225,
+        216
+      ]
+    },
+    {
+      "id": "test/ply_data_test0.h5/0005",
+      "mesh": "vase/vase_0499.ply",
+      "label": "vase",
+      "group": "sh_only",
+      "png": "case_0005.png",
+      "late_sh_only": 0,
+      "late_cb_only": 1,
+      "SH_prediction": "vase",
+      "CB_prediction": "wardrobe",
+      "nearest_train": [
+        "vase/vase_0045.ply",
+        "vase/vase_0397.ply",
+        "vase/vase_0463.ply"
+      ],
+      "nearest_sh_counts": [
+        184,
+        182,
+        184
+      ],
+      "nearest_cb_counts": [
+        93,
+        90,
+        86
+      ]
+    },
+    {
+      "id": "test/ply_data_test0.h5/0104",
+      "mesh": "flower_pot/flower_pot_0168.ply",
+      "label": "flower_pot",
+      "group": "both_wrong",
+      "png": "case_0104.png",
+      "late_sh_only": 1,
+      "late_cb_only": 0,
+      "SH_prediction": "plant",
+      "CB_prediction": "plant",
+      "nearest_train": [
+        "flower_pot/flower_pot_0013.ply",
+        "flower_pot/flower_pot_0057.ply",
+        "flower_pot/flower_pot_0041.ply"
+      ],
+      "nearest_sh_counts": [
+        184,
+        184,
+        184
+      ],
+      "nearest_cb_counts": [
+        275,
+        298,
+        283
+      ]
+    },
+    {
+      "id": "test/ply_data_test0.h5/0132",
+      "mesh": "vase/vase_0498.ply",
+      "label": "vase",
+      "group": "both_wrong",
+      "png": "case_0132.png",
+      "late_sh_only": 0,
+      "late_cb_only": 0,
+      "SH_prediction": "flower_pot",
+      "CB_prediction": "flower_pot",
+      "nearest_train": [
+        "vase/vase_0240.ply",
+        "vase/vase_0348.ply",
+        "vase/vase_0218.ply"
+      ],
+      "nearest_sh_counts": [
+        184,
+        184,
+        184
+      ],
+      "nearest_cb_counts": [
+        70,
+        105,
+        83
+      ]
+    },
+    {
+      "id": "test/ply_data_test0.h5/0085",
+      "mesh": "table/table_0450.ply",
+      "label": "table",
+      "group": "both_wrong",
+      "png": "case_0085.png",
+      "late_sh_only": 0,
+      "late_cb_only": 0,
+      "SH_prediction": "night_stand",
+      "CB_prediction": "night_stand",
+      "nearest_train": [
+        "table/table_0324.ply",
+        "table/table_0002.ply",
+        "table/table_0297.ply"
+      ],
+      "nearest_sh_counts": [
+        184,
+        183,
+        183
+      ],
+      "nearest_cb_counts": [
+        76,
+        119,
+        124
+      ]
+    }
+  ],
+  "geometry": {
+    "sh_only": {
+      "n": 55,
+      "k5_cb_class_relative": 0.9984004236211542,
+      "k5_cb_z": 0.002424159219845191
+    },
+    "cb_only": {
+      "n": 43,
+      "k5_cb_class_relative": 1.004685348510899,
+      "k5_cb_z": 0.06758960024824658
+    },
+    "both_wrong": {
+      "n": 97,
+      "k5_cb_class_relative": 0.9938045581209742,
+      "k5_cb_z": -0.060754670744010524
+    },
+    "both_correct": {
+      "n": 152,
+      "k5_cb_class_relative": 1.0014820700152116,
+      "k5_cb_z": 0.02318904500528465
+    },
+    "matched_controls": {
+      "sh_only": {
+        "n": 55,
+        "class_count": 17,
+        "mean_delta_z": -0.02440958672371988,
+        "class_mean_delta_z": 0.041521335324566276,
+        "class_bootstrap_ci95": [
+          -0.1019610322359651,
+          0.18806612318253554
+        ],
+        "mean_delta_k10_z": 0.04152636855813735
+      },
+      "cb_only": {
+        "n": 43,
+        "class_count": 23,
+        "mean_delta_z": 0.15882897538834984,
+        "class_mean_delta_z": 0.0959148375210601,
+        "class_bootstrap_ci95": [
+          -0.07719581759350358,
+          0.2826116173439134
+        ],
+        "mean_delta_k10_z": 0.01162471237743256
+      },
+      "both_wrong": {
+        "n": 97,
+        "class_count": 26,
+        "mean_delta_z": -0.06622393600386411,
+        "class_mean_delta_z": -0.09370172897805847,
+        "class_bootstrap_ci95": [
+          -0.21144869280437958,
+          0.01234918647788706
+        ],
+        "mean_delta_k10_z": -0.06993055282782422
+      }
+    },
+    "method": "same-class top20 independent fixed-shape descriptor candidates, reranked by symmetric squared Chamfer on fixed 256 points; approximate candidate neighbours, not exhaustive global nearest",
+    "query_count": 347,
+    "target_count": 196,
+    "unique_control_count": 152,
+    "gallery": [
+      {
+        "test_id": "test/ply_data_test0.h5/1379",
+        "class_name": "xbox",
+        "group": "sh_only",
+        "png": "case_1379.png",
+        "sh_only_epochs": 5,
+        "cb_only_epochs": 0,
+        "nearest_train": [
+          "train/ply_data_train2.h5/1521",
+          "train/ply_data_train4.h5/1516",
+          "train/ply_data_train2.h5/0793"
+        ],
+        "nearest_cb_counts": [
+          407,
+          386,
+          417
+        ],
+        "nearest_sh_counts": [
+          182,
+          183,
+          184
+        ]
+      },
+      {
+        "test_id": "test/ply_data_test0.h5/0168",
+        "class_name": "night_stand",
+        "group": "cb_only",
+        "png": "case_0168.png",
+        "sh_only_epochs": 0,
+        "cb_only_epochs": 5,
+        "nearest_train": [
+          "train/ply_data_train2.h5/1900",
+          "train/ply_data_train1.h5/0107",
+          "train/ply_data_train1.h5/1734"
+        ],
+        "nearest_cb_counts": [
+          209,
+          212,
+          236
+        ],
+        "nearest_sh_counts": [
+          184,
+          184,
+          184
+        ]
+      },
+      {
+        "test_id": "test/ply_data_test0.h5/0085",
+        "class_name": "table",
+        "group": "both_wrong",
+        "png": "case_0085.png",
+        "sh_only_epochs": 0,
+        "cb_only_epochs": 0,
+        "nearest_train": [
+          "train/ply_data_train3.h5/0516",
+          "train/ply_data_train3.h5/0342",
+          "train/ply_data_train1.h5/1589"
+        ],
+        "nearest_cb_counts": [
+          76,
+          119,
+          124
+        ],
+        "nearest_sh_counts": [
+          184,
+          183,
+          183
+        ]
+      },
+      {
+        "test_id": "test/ply_data_test0.h5/0992",
+        "class_name": "table",
+        "group": "both_wrong",
+        "png": "case_0992.png",
+        "sh_only_epochs": 0,
+        "cb_only_epochs": 0,
+        "nearest_train": [
+          "train/ply_data_train2.h5/0550",
+          "train/ply_data_train1.h5/2021",
+          "train/ply_data_train0.h5/0324"
+        ],
+        "nearest_cb_counts": [
+          105,
+          104,
+          117
+        ],
+        "nearest_sh_counts": [
+          182,
+          184,
+          184
+        ]
+      },
+      {
+        "test_id": "test/ply_data_test0.h5/1521",
+        "class_name": "table",
+        "group": "both_wrong",
+        "png": "case_1521.png",
+        "sh_only_epochs": 0,
+        "cb_only_epochs": 0,
+        "nearest_train": [
+          "train/ply_data_train1.h5/0786",
+          "train/ply_data_train3.h5/0047",
+          "train/ply_data_train2.h5/0223"
+        ],
+        "nearest_cb_counts": [
+          117,
+          127,
+          113
+        ],
+        "nearest_sh_counts": [
+          184,
+          184,
+          184
+        ]
+      }
+    ]
+  },
+  "acceptance": {
+    "frozen_evaluations": 27,
+    "historical_test_scores_match": true,
+    "cb_confusion_matrices_exact": 14,
+    "sh_rng_checkpoints_exact": 21,
+    "cb_epochs_all_id_counts_match_per_model": 300,
+    "mesh_objects_verified": 12308,
+    "no_optimizer_updates": true
+  }
+}

@@ -1,6 +1,6 @@
 # TS06 与 TS30：训练抽样频次和逐对象错误筛查计划
 
-状态：待用户审阅。本轮只阅读已有代码与记录、制定计划；尚未连接服务器执行本项统计、重建抽样或模型推理，不新增训练，不做梯度审查。
+状态：用户已批准且审查完成，见[171结果](171_MN40_TS06_TS30_SAMPLING_ERROR_AUDIT_2026-11-18/report.md)。以下保留原筛查范围和验收规则；本次没有新增训练或梯度审查。
 
 ## 要回答的问题与检查对象
 
@@ -45,7 +45,7 @@ best测试复评应与历史OA/AA一致。按当前日志精度，TS06 best预�
 
 这里的精确对象抽样重建与完整训练参数逐位复现分开判断。数据增强/裁剪需同时固定各自随机流、worker数和调用顺序；完整训练还受GPU算子、软件栈及当前cudnn.benchmark=True影响。若所有随机流与数值执行都确定，则训练流程也可重放；不能用尚未确认参数逐位一致，反过来否定CB32对象采样的确定性。
 
-依据：[CB32采样器](../../inter_hierarchy_MN40/hier_proxy_scratch_v5/sampler.py)、[Python3.9随机数复现说明](https://docs.python.org/3.9/library/random.html#notes-on-reproducibility)、[PyTorch2.8确定性说明](https://docs.pytorch.org/docs/2.8/notes/randomness.html)。本次只澄清源码逻辑和计划用语，尚未执行60,000批次历史统计。
+依据：[CB32采样器](../../inter_hierarchy_MN40/hier_proxy_scratch_v5/sampler.py)、[Python3.9随机数复现说明](https://docs.python.org/3.9/library/random.html#notes-on-reproducibility)、[PyTorch2.8确定性说明](https://docs.pytorch.org/docs/2.8/notes/randomness.html)。这条说明在计划澄清时尚未执行历史统计；现已完成300轮逐ID实测与重建核对，结果以171报告为准。
 
 输出每个train ID在best、e300以及早/中/晚阶段的出现次数、出现过的轮数、单轮重复、最长缺席、不同对象覆盖率、同类搭档的不同对象数。分别报告类别总供给和类内对象间频次离散程度，避免把类别少见与同类内某个对象少见混成一种情况。重复呈现同一个对象不等于增加了形态多样性。
 
