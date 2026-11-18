@@ -1,0 +1,100 @@
+{
+  "status": "proposed_not_launched",
+  "rule_confirmed_by_user": true,
+  "task": "MN40-F10-N200_400",
+  "official_modelnet10": false,
+  "selection_rule": {
+    "use_only": "official_train_class_counts",
+    "minimum_inclusive": 200,
+    "maximum_inclusive": 400
+  },
+  "source": {
+    "relative_path": "171_MN40_TS06_TS30_SAMPLING_ERROR_AUDIT_2026-11-18/best_classes.csv",
+    "sha256": "5b39b0d17a0cfabfe9278c949c4cbaaa17bdcf2e86a08a1b64b98baf41ac8478",
+    "source_train": 9840,
+    "source_test": 2468,
+    "hdf5_label_counts_independently_checked": true
+  },
+  "classes": [
+    {
+      "new_label": 0,
+      "old_label": 5,
+      "name": "bottle",
+      "train": 335,
+      "test": 100
+    },
+    {
+      "new_label": 1,
+      "old_label": 12,
+      "name": "desk",
+      "train": 200,
+      "test": 86
+    },
+    {
+      "new_label": 2,
+      "old_label": 14,
+      "name": "dresser",
+      "train": 200,
+      "test": 86
+    },
+    {
+      "new_label": 3,
+      "old_label": 21,
+      "name": "mantel",
+      "train": 284,
+      "test": 100
+    },
+    {
+      "new_label": 4,
+      "old_label": 23,
+      "name": "night_stand",
+      "train": 200,
+      "test": 86
+    },
+    {
+      "new_label": 5,
+      "old_label": 25,
+      "name": "piano",
+      "train": 231,
+      "test": 100
+    },
+    {
+      "new_label": 6,
+      "old_label": 26,
+      "name": "plant",
+      "train": 239,
+      "test": 100
+    },
+    {
+      "new_label": 7,
+      "old_label": 33,
+      "name": "table",
+      "train": 392,
+      "test": 100
+    },
+    {
+      "new_label": 8,
+      "old_label": 35,
+      "name": "toilet",
+      "train": 344,
+      "test": 100
+    },
+    {
+      "new_label": 9,
+      "old_label": 36,
+      "name": "tv_stand",
+      "train": 267,
+      "test": 100
+    }
+  ],
+  "train": 2692,
+  "test": 958,
+  "steps_per_epoch": 84,
+  "epochs": 300,
+  "updates": 25200,
+  "train_positions_per_epoch": 2688,
+  "dropped_per_epoch": 4,
+  "test_selection": "same retained class IDs, all objects",
+  "seed": 4780,
+  "per_class_truncation": false
+}
