@@ -1,0 +1,108 @@
+{
+  "best": {
+    "table/desk": {
+      "test_n": 186,
+      "truth_counts": {
+        "table": 100,
+        "desk": 86
+      },
+      "prediction_counts": {
+        "TS06": {
+          "table": 94,
+          "desk": 84
+        },
+        "TS30": {
+          "table": 80,
+          "desk": 99
+        }
+      }
+    },
+    "dresser/night_stand": {
+      "test_n": 172,
+      "truth_counts": {
+        "dresser": 86,
+        "night_stand": 86
+      },
+      "prediction_counts": {
+        "TS06": {
+          "dresser": 86,
+          "night_stand": 83
+        },
+        "TS30": {
+          "dresser": 78,
+          "night_stand": 89
+        }
+      }
+    },
+    "vase/flower_pot": {
+      "test_n": 120,
+      "truth_counts": {
+        "vase": 100,
+        "flower_pot": 20
+      },
+      "prediction_counts": {
+        "TS06": {
+          "vase": 89,
+          "flower_pot": 5
+        },
+        "TS30": {
+          "vase": 82,
+          "flower_pot": 10
+        }
+      }
+    }
+  },
+  "e300": {
+    "table/desk": {
+      "test_n": 186,
+      "truth_counts": {
+        "table": 100,
+        "desk": 86
+      },
+      "prediction_counts": {
+        "TS06": {
+          "table": 87,
+          "desk": 94
+        },
+        "TS30": {
+          "table": 83,
+          "desk": 99
+        }
+      }
+    },
+    "dresser/night_stand": {
+      "test_n": 172,
+      "truth_counts": {
+        "dresser": 86,
+        "night_stand": 86
+      },
+      "prediction_counts": {
+        "TS06": {
+          "dresser": 89,
+          "night_stand": 77
+        },
+        "TS30": {
+          "dresser": 77,
+          "night_stand": 91
+        }
+      }
+    },
+    "vase/flower_pot": {
+      "test_n": 120,
+      "truth_counts": {
+        "vase": 100,
+        "flower_pot": 20
+      },
+      "prediction_counts": {
+        "TS06": {
+          "vase": 84,
+          "flower_pot": 9
+        },
+        "TS30": {
+          "vase": 87,
+          "flower_pot": 8
+        }
+      }
+    }
+  }
+}

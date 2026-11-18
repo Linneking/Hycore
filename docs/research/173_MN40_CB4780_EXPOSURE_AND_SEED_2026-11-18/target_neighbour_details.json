@@ -1,0 +1,37 @@
+{
+  "table": {
+    "query_n": 14,
+    "neighbour_slots": 70,
+    "low10_slots": 5,
+    "high10_slots": 5,
+    "mean_frequency_relative_to_class": 0.9963099630996313
+  },
+  "dresser": {
+    "query_n": 7,
+    "neighbour_slots": 35,
+    "low10_slots": 0,
+    "high10_slots": 3,
+    "mean_frequency_relative_to_class": 1.0123948679943158
+  },
+  "vase": {
+    "query_n": 7,
+    "neighbour_slots": 35,
+    "low10_slots": 5,
+    "high10_slots": 3,
+    "mean_frequency_relative_to_class": 0.9775674669014321
+  },
+  "chair": {
+    "query_n": 2,
+    "neighbour_slots": 10,
+    "low10_slots": 1,
+    "high10_slots": 1,
+    "mean_frequency_relative_to_class": 1.0133330180201487
+  },
+  "xbox": {
+    "query_n": 2,
+    "neighbour_slots": 10,
+    "low10_slots": 0,
+    "high10_slots": 1,
+    "mean_frequency_relative_to_class": 1.0138204352212135
+  }
+}

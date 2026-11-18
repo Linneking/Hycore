@@ -1,0 +1,43 @@
+{
+  "cpu_sampling_source_commit": "e0a162b12941efad8fa645de7937023777aa9bea",
+  "simulations": 4000,
+  "monte_carlo_seed": 20261118,
+  "sampler_seeds": [
+    0,
+    1,
+    2,
+    3,
+    7,
+    22,
+    42,
+    123,
+    2026,
+    2027,
+    4780,
+    4781
+  ],
+  "no_model_training": true,
+  "persistent_id_preference": {
+    "rank_correlations": {
+      "1_2": 0.009948963103881936,
+      "1_3": -0.0015315518047114304,
+      "2_3": -0.00982037409492388
+    },
+    "high10": {
+      "all_three_blocks": 13,
+      "independent_assignment_expectation": 9.344218493422433
+    },
+    "low10": {
+      "all_three_blocks": 13,
+      "independent_assignment_expectation": 9.955926941325515
+    }
+  },
+  "files": {
+    "boundary_predictions.json": "c5e7cc0c71fc168bd8fe5a2f66828f1bbc9d4be03d610a23702b2c2e180cb541",
+    "class_tail_details.csv": "ed0472e88e18e6cb7b4c38787be0160d84bb7f8feac4bd09458fb34b99fc86ec",
+    "sampler_seeds.csv": "bd702135bd2ea078350180dd4b626e81e1260ca0bb5713b9c49cb81ffc7e2635",
+    "tail_errors.csv": "64afab4ca832b7f138aa3c7d7978a90d8032c30a16548eb26c9fcc0d10bcfcfe",
+    "target_neighbour_details.json": "dbfbec1dbda06bc9a0a6b0fc545daa8154bfaa2db844e03811ba052da3116524",
+    "within_class.csv": "b50727d2d7feaad36105d2cf849fce655488e09a4950a9b49732387cfe8e24d4"
+  }
+}
