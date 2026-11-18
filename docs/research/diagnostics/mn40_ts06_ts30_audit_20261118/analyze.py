@@ -29,18 +29,23 @@ def corr(x, y):
     return None if np.std(x) == 0 or np.std(y) == 0 else float(spearmanr(x, y).statistic)
 
 
+def arrays(path):
+    with np.load(path) as z:
+        return {key: z[key] for key in z.files}
+
+
 def main():
     p = argparse.ArgumentParser(); p.add_argument("--inputs", type=Path, required=True)
     p.add_argument("--predictions", type=Path, required=True); p.add_argument("--out", type=Path, required=True)
     args = p.parse_args(); args.out.mkdir(parents=True, exist_ok=False)
-    meta = load_json(args.inputs / "manifest.json"); identity = np.load(args.inputs / "identity.npz")
-    sampling = {a: np.load(args.inputs / f"{a}_sampling.npz") for a in ("TS06", "TS30", "TS31")}
+    meta = load_json(args.inputs / "manifest.json"); identity = arrays(args.inputs / "identity.npz")
+    sampling = {a: arrays(args.inputs / f"{a}_sampling.npz") for a in ("TS06", "TS30", "TS31")}
     assert load_json(args.predictions / "manifest.json")["status"] == "completed"
     ytrain = identity["train_labels"]; nclass = np.bincount(ytrain, minlength=40)
     results, groups = {}, {}
 
     def pred(arm, tag, split):
-        z = np.load(args.predictions / f"{arm}_{tag}_{split}.npz")
+        z = arrays(args.predictions / f"{arm}_{tag}_{split}.npz")
         assert np.array_equal(z["ids"], identity[f"{split}_ids"])
         assert np.array_equal(z["labels"], identity[f"{split}_labels"])
         return z
