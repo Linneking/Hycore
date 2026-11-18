@@ -12,12 +12,13 @@ import sys
 import time
 
 from shuffle_runner import (ARMS, CACHE_BATCHES, REPO, SPLIT_WEIGHT_ARMS,
-                            canonical_name, loss_weights, split_weight_config, ts06)
+                            cache_config, canonical_name, loss_weights, split_weight_config, ts06)
+from history_candidates import SELECTED_HISTORY_ARMS
 from inter_hierarchy_MN40.hier_proxy_scratch_v8.queue import (
     device_environment, idle_gpus, now, query_gpus, write,
 )
 
-GPU_BY_ARM = {"TS35": 2, "TS36": 0, "TS37": 1, "TS38": 2}
+GPU_BY_ARM = {"TS35": 2, "TS36": 0, "TS37": 1, "TS38": 2, "TS48": 0, "TS49": 1, "TS50": 2}
 INITIAL = "8926765a4842652b751873fb89aa37d24d9b0f4f2d831d853b9cc0c1cd46472d"
 REFERENCE_COMMIT = "e20cf8c1698ff3048c15ad66d01dfbb5b0a99731"
 
@@ -63,7 +64,7 @@ def accept(root, expected_train, commit, arm, smoke_steps):
     reference, original = read_smoke(root, "reference", expected_train, commit, smoke_steps)
     off, overlay = read_smoke(root, "off", expected_train, commit, smoke_steps)
     enabled, hierarchy = read_smoke(root, "enabled", expected_train, commit, smoke_steps)
-    compare_trajectory = arm not in SPLIT_WEIGHT_ARMS and arm != "TS47"
+    compare_trajectory = arm not in SPLIT_WEIGHT_ARMS and arm not in ("TS47", "TS48", "TS49", "TS50")
     for control, off_step, hier_step in zip(reference, off, enabled):
         for key in ("cloud", "labels", "whole", "part", "whole_count", "part_count"):
             assert control[key] == off_step[key] == hier_step[key], key
@@ -108,16 +109,24 @@ def accept(root, expected_train, commit, arm, smoke_steps):
     assert metrics["sample_active_triplets"] > 0 and metrics["proxy_active_triplets"] > 0
     if arm in CACHE_BATCHES:
         history = CACHE_BATCHES[arm]
-        max_pool = 32 * (history + 1)
+        max_pool = cache_config(arm)["sample_max_pool"]
         for epoch in (1, 2):
             counts = json_file(root / "enabled" / f"metrics_epoch_{epoch:03}.json")["hierarchy"]
             assert counts["max_sample_pool"] == max_pool
             assert counts["cached_pool_updates"] == smoke_steps - 1
             assert counts["cached_sample_triplets"] > 0
             assert counts["sample_triplets"] <= smoke_steps * 32 * 50
-            for step in range(history):
+            ramp = 1 if arm in SELECTED_HISTORY_ARMS else history
+            for step in range(ramp):
                 assert counts[f"sample_pool_{32 * (step + 1)}_updates"] == 1
-            assert counts[f"sample_pool_{max_pool}_updates"] == smoke_steps - history
+            assert counts[f"sample_pool_{max_pool}_updates"] == smoke_steps - ramp
+            if arm in SELECTED_HISTORY_ARMS:
+                assert counts["history_reservoir_96_updates"] == smoke_steps - 3
+                assert sum(counts[f"selected_history_age_{age}_count"] for age in (1, 2, 3)) == 32 * (smoke_steps - 1)
+        if arm in SELECTED_HISTORY_ARMS:
+            rows = [json.loads(line) for line in (root / "enabled" / "candidate_trace.jsonl").read_text().splitlines()]
+            assert [row["history_objects"] for row in rows] == [32, 64, 96] * 2
+            assert all(len(row["indices"]) == len(set(row["indices"])) == 32 for row in rows)
     weights = {key: value for key, value in snapshot.items() if key.startswith("lambda_")}
     return dict(accepted=True, arm=arm, **weights,
                 sample_K=snapshot["sample_K"], proxy_K=snapshot["proxy_K"],
@@ -142,9 +151,7 @@ def settings_match(config, arm):
     weight, sample_k, proxy_k = ARMS[arm]
     expected = split_weight_config(arm) if arm in SPLIT_WEIGHT_ARMS else {"lambda_hier_after_warmup": weight}
     if arm in CACHE_BATCHES:
-        history = CACHE_BATCHES[arm]
-        expected.update(sample_history_batches=history, sample_max_pool=32 * (history + 1),
-                        sample_anchors=32, sample_history_detached=True, sample_history_reset="each epoch")
+        expected.update(cache_config(arm))
     return (config["sample_K"], config["proxy_K"]) == (sample_k, proxy_k) and all(
         config.get(key) == value for key, value in expected.items())
 
@@ -159,7 +166,7 @@ def main():
     parser.add_argument("--arm", choices=ARMS, default="TS35")
     parser.add_argument("--gpu", type=int, help="Physical GPU index on this server")
     args = parser.parse_args()
-    smoke_steps = 4 if CACHE_BATCHES.get(args.arm) == 2 else 2
+    smoke_steps = 4 if CACHE_BATCHES.get(args.arm, 0) >= 2 else 2
     gpu = args.gpu if args.gpu is not None else GPU_BY_ARM.get(args.arm)
     if gpu is None:
         parser.error("--gpu is required for this experiment")

@@ -12,6 +12,7 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[3]
 sys.path.insert(0, str(REPO))
 from inter_hierarchy_MN40.hycore_c01_gs_halfmargin_20261020 import train as ts06
+from history_candidates import SELECTED_HISTORY_ARMS, candidate_statistics, select_history
 
 ARMS = {
     "TS35": (.5, 20, 20),
@@ -24,8 +25,11 @@ ARMS = {
     "TS45": (.5, 20, 20),
     "TS46": (.5, 20, 20),
     "TS47": (.5, 20, 20),
+    "TS48": (.5, 20, 20),
+    "TS49": (.5, 20, 20),
+    "TS50": (.1, 20, 20),
 }
-CACHE_BATCHES = {"TS44": 1, "TS47": 2}
+CACHE_BATCHES = {"TS44": 1, "TS47": 2, "TS48": 3, "TS49": 3, "TS50": 1}
 RAMP_ARM = "TS45"
 SAMPLE_ONLY_ARM = "TS46"
 SPLIT_WEIGHT_ARMS = (RAMP_ARM, SAMPLE_ONLY_ARM)
@@ -36,12 +40,28 @@ ADAPTER_SHA = "e34d5efda05a7ee90aeda1535f0f810958de0c2348a3b50714c43d3ccb081bc2"
 SEED = 4780
 
 
+def cache_config(arm):
+    if arm not in CACHE_BATCHES:
+        return {}
+    history = CACHE_BATCHES[arm]
+    config = dict(sample_max_pool=64 if arm in SELECTED_HISTORY_ARMS else 32 * (history + 1),
+                  sample_anchors=32, sample_history_batches=history, sample_history_detached=True,
+                  sample_history_reset="each epoch")
+    if arm in SELECTED_HISTORY_ARMS:
+        config.update(sample_history_selection=SELECTED_HISTORY_ARMS[arm],
+                      sample_selected_history_max=32, sample_history_selection_seed=SEED + 700001)
+    return config
+
+
 def canonical_name(arm):
     weight, sample_k, proxy_k = ARMS[arm]
     weights = f"L{weight:.1f}-W0"
     if arm in CACHE_BATCHES:
         history = CACHE_BATCHES[arm]
-        weights += f"-Hist{history}-SP{32 * (history + 1)}"
+        pool = cache_config(arm)["sample_max_pool"]
+        weights += f"-Hist{history}-SP{pool}"
+        if arm in SELECTED_HISTORY_ARMS:
+            weights += "-" + ("CP16x2" if arm == "TS48" else "Random32")
     elif arm == RAMP_ARM:
         weights = "Ls0to0.5e51-Lp0.5"
     elif arm == SAMPLE_ONLY_ARM:
@@ -188,8 +208,29 @@ class Hierarchy:
         points, pool_labels = shell, labels
         if self.use_cache:
             if self.previous:
-                points = torch.cat((shell, *(p for p, _ in self.previous)))
-                pool_labels = torch.cat((labels, *(y for _, y in self.previous)))
+                if self.arm in SELECTED_HISTORY_ARMS:
+                    historical_points = torch.cat([p for p, _ in self.previous])
+                    historical_labels = torch.cat([y for _, y in self.previous])
+                    history_labels_cpu = historical_labels.detach().cpu().reshape(-1).tolist()
+                    indices = select_history(history_labels_cpu, SELECTED_HISTORY_ARMS[self.arm], self.updates)
+                    index_tensor = torch.tensor(indices, dtype=torch.long, device=shell.device)
+                    points = torch.cat((shell, historical_points[index_tensor]))
+                    pool_labels = torch.cat((labels, historical_labels[index_tensor]))
+                    ages = [age for age, (p, _) in enumerate(self.previous, 1) for _ in range(len(p))]
+                    candidate_row = candidate_statistics(labels.detach().cpu().reshape(-1).tolist(),
+                                                         history_labels_cpu, indices, ages)
+                    candidate_row.update(update=self.updates + 1, indices=indices)
+                    with (self.output / "candidate_trace.jsonl").open("a", encoding="utf-8") as handle:
+                        handle.write(json.dumps(candidate_row, allow_nan=False) + "\n")
+                    self.counts[f"history_reservoir_{len(historical_points)}_updates"] += 1
+                    for key in ("pool_classes", "pool_paired_classes", "current_anchors_with_peer",
+                                "current_anchors_with_two_peers", "history_eligible_classes"):
+                        self.counts[key + "_sum"] += candidate_row[key]
+                    for age, count in candidate_row["selected_age_counts"].items():
+                        self.counts[f"selected_history_age_{age}_count"] += count
+                else:
+                    points = torch.cat((shell, *(p for p, _ in self.previous)))
+                    pool_labels = torch.cat((labels, *(y for _, y in self.previous)))
                 self.counts["cached_pool_updates"] += 1
             self.previous.appendleft((shell.detach(), labels.detach()))
         regularizer, stats = self.proxy(points, pool_labels, topk=self.sample_k, proxy_topk=self.proxy_k,
@@ -319,7 +360,9 @@ def main():
             hier.start(torch)
 
     def identity(repo):
-        return dict(original_identity(repo), **{str(Path(__file__).relative_to(repo)): ts06.digest(__file__)})
+        helper = Path(__file__).with_name("history_candidates.py")
+        return dict(original_identity(repo), **{str(Path(__file__).relative_to(repo)): ts06.digest(__file__),
+                    str(helper.relative_to(repo)): ts06.digest(helper)})
 
     original_write = ts06.atomic_json
 
@@ -339,9 +382,7 @@ def main():
                     config.pop("lambda_hier_after_warmup", None)
                     config.update(split_weight_config(known.arm))
                 if hier.use_cache:
-                    config.update(sample_max_pool=32 * (hier.history_batches + 1), sample_anchors=32,
-                                  sample_history_batches=hier.history_batches, sample_history_detached=True,
-                                  sample_history_reset="each epoch")
+                    config.update(cache_config(known.arm))
                 if path.name == "manifest.json":
                     value.update(experiment_id=known.arm, variant=known.arm.lower(), canonical_name=canonical_name(known.arm),
                                  changed_from_baseline=["add independent fixed-shell HIER to original whole forward"])
