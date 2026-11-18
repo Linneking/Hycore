@@ -1,7 +1,7 @@
 {
-  "status": "proposed_not_launched",
+  "status": "authorized_running_and_queued",
   "twenty_class_direction_confirmed": true,
-  "threshold_confirmed": false,
+  "threshold_confirmed": true,
   "sampler_choice_confirmed": true,
   "recommended_sampler": "SH32_without_replacement",
   "alternative_sampler": "CB32_16_classes_x_2_with_replacement_for_future_controls",
@@ -167,5 +167,13 @@
   "cb_distinct_objects_per_epoch": "not_fixed",
   "sh_dropped_per_epoch": 10,
   "seed": 4780,
-  "per_class_truncation": false
+  "per_class_truncation": false,
+  "launch_authorized": true,
+  "authorized_runs": [
+    "TS51",
+    "TS52",
+    "TS53",
+    "TS54",
+    "TS55"
+  ]
 }

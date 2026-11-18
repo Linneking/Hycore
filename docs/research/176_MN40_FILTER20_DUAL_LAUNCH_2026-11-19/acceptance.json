@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "reference_repeats": {
+    "legacy_ref": {
+      "reference_used": "legacy_repeat",
+      "max_state_difference": 0.3809678554534912
+    },
+    "cb_ref": {
+      "reference_used": "cb_repeat",
+      "max_state_difference": 0.33063316345214844
+    }
+  },
+  "cross_run_parameter_bitwise_reproducibility": false,
+  "checks": [
+    "train-only smokes including declared reference repeats",
+    "initialization matches",
+    "SH/CB paired augmented inputs and crops match",
+    "legacy full-data off equivalence",
+    "first-step base losses match references",
+    "FP32/FP64 cap GS functional equivalence",
+    "same-entry CB H0/off equivalence",
+    "four updates each",
+    "finite networks and proxy updates",
+    "auxiliary BN counter restoration",
+    "fresh CB16x2",
+    "filtered 20-class identities"
+  ],
+  "smoke_names": [
+    "legacy_ref",
+    "full_off",
+    "dual_on",
+    "sh_h0",
+    "sh_on",
+    "cb_ref",
+    "cb_h0",
+    "cb_off",
+    "cb_on",
+    "legacy_repeat",
+    "cb_repeat"
+  ],
+  "updated_at": "2026-11-18T17:53:52.534845+00:00",
+  "source_commit": "2be1562f8489459923b40ec1e35eee3c5d7e84eb",
+  "verification_commit": "3a9002ff4ed14e6f23e39b48906d6301b4c6c34f"
+}
