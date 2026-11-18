@@ -118,11 +118,13 @@ def main():
         ix,dist=neighbours[int(i)];show=[None,*ix[:3]]
         fig=plt.figure(figsize=(15,7.5))
         for col,j in enumerate(show):
-            cloud=tesub[i] if j is None else trsub[j]
+            cloud=te[i] if j is None else tr[j]
             title=(str(test_ids[i])+f"\n{records[i]['group']}: SH={records[i]['TS06_prediction']} CB={records[i]['TS30_prediction']}") if j is None else f"{train_ids[j]}\nSH count={s[j]}, CB count={c[j]}, d={dist[col-1]:.4f}"
             for view,(az,el) in enumerate(((35,20),(125,15))):
                 ax=fig.add_subplot(2,4,view*4+col+1,projection='3d')
-                ax.scatter(cloud[:,0],cloud[:,2],cloud[:,1],c=cloud[:,1],s=4,cmap='viridis',alpha=.85)
+                ax.scatter(cloud[:,0],cloud[:,2],cloud[:,1],c=cloud[:,1],s=2,cmap='viridis',alpha=.85)
+                bound=max(np.abs(te[i]).max(),np.abs(tr[ix[:3]]).max())*1.05
+                ax.set_xlim(-bound,bound);ax.set_ylim(-bound,bound);ax.set_zlim(-bound,bound)
                 ax.view_init(el,az);ax.set_box_aspect((1,1,1));ax.set_axis_off()
                 if view==0:ax.set_title(title,fontsize=8)
         filename=f"case_{i:04d}.png";fig.suptitle(f"True class: {NAMES[int(y[i])]} | late SH-only={stable['sh_only_count'][i]}/6 CB-only={stable['cb_only_count'][i]}/6",fontsize=12)
