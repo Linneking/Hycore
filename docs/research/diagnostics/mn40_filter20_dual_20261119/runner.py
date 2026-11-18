@@ -15,6 +15,7 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[3]
 sys.path.insert(0, str(REPO))
 PREVIOUS = HERE.parent / 'mn40_ts33_35_20261113/shuffle_runner.py'
+sys.path.insert(0, str(PREVIOUS.parent))
 spec = importlib.util.spec_from_file_location('mn40_ts35_reused', PREVIOUS)
 previous = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(previous)
@@ -42,8 +43,14 @@ def replace(source, before, after):
 
 
 def main_source(source):
+    old_steps = '"steps_per_epoch": 2 if args.smoke else 307'
+    new_steps = '"steps_per_epoch": args.steps_per_epoch if args.smoke else 307'
+    steps_boundary = old_steps if old_steps in source else new_steps
+    source = replace(source, steps_boundary, '"steps_per_epoch": args.steps_per_epoch if args.smoke else exp.steps')
+    if 'if current["epoch_steps"] != (2 if args.smoke else 307):' in source:
+        source = replace(source, 'if current["epoch_steps"] != (2 if args.smoke else 307):',
+            'if current["epoch_steps"] != config["steps_per_epoch"]:')
     for before, after in [
-        ('"steps_per_epoch": 2 if args.smoke else 307', '"steps_per_epoch": 2 if args.smoke else exp.steps'),
         ('"train_size": 9840', '"train_size": exp.train_size'),
         ('"test_size": 0 if args.smoke else 2468', '"test_size": 0 if args.smoke else exp.test_size'),
         ('original.Hype_pointMLP()', 'original.Hype_pointMLP(num_classes=exp.num_classes)'),
@@ -53,8 +60,6 @@ def main_source(source):
          'train_loader = exp.make_train_loader(train_set)'),
         ('for epoch in range(args.epochs):\n            started',
          'for epoch in range(args.epochs):\n            exp.start_epoch(epoch)\n            started'),
-        ('if current["epoch_steps"] != (2 if args.smoke else 307):',
-         'if current["epoch_steps"] != (2 if args.smoke else exp.steps):'),
     ]:
         source = replace(source, before, after)
     return source
