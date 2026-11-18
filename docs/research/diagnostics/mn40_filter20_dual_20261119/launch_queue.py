@@ -1,4 +1,4 @@
-"""Persistent idle-only lane; immutable source, no interruption or GPU reservation."""
+"""Persistent idle-only lane; never shadows Python's standard queue module."""
 from __future__ import annotations
 import argparse
 import fcntl

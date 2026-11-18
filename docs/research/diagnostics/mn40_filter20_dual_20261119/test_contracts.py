@@ -11,6 +11,9 @@ runner=importlib.util.module_from_spec(spec);spec.loader.exec_module(runner)
 
 
 class Contracts(unittest.TestCase):
+    def test_script_directory_does_not_shadow_standard_queue(self):
+        self.assertFalse((HERE/'queue.py').exists())
+
     def test_subset_counts_and_mapping(self):
         import csv
         p=HERE.parents[1]/'171_MN40_TS06_TS30_SAMPLING_ERROR_AUDIT_2026-11-18/best_classes.csv'
