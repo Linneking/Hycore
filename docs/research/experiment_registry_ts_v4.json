@@ -3728,7 +3728,7 @@
       "train_count": 9840,
       "validation_count": 0,
       "test_count": 2468,
-      "status": "running",
+      "status": "completed",
       "planned_epochs": 300,
       "planned_total_updates": 92100,
       "steps_per_epoch": 307,
@@ -3754,7 +3754,22 @@
       "physical_gpu": 0,
       "source_document": "167_MN40_V10_SH32_FIFO96_2026-11-18.md",
       "run_directory_id": "mn40_v10_sh32_fifo96_20261118/TS47/main",
-      "reference_run_id": "TS44"
+      "reference_run_id": "TS44",
+      "completed_epochs": 300,
+      "total_updates": 92100,
+      "best_epoch": 182,
+      "best_test_oa": 93.76,
+      "best_test_aa_same_epoch": 91.011,
+      "end_test_oa": 93.274,
+      "end_test_aa": 90.77,
+      "last10_test_oa_mean": 93.0064,
+      "last10_test_oa_population_std": 0.2916862012505905,
+      "last10_test_aa_mean": 90.682,
+      "completion_accepted": true,
+      "best_checkpoint_sha256": "7649f11d9d6c1f4de0a1b2fe26d93f1b2990c16167c06ff29524fc02acd1514f",
+      "last_checkpoint_sha256": "da1b10c9bd66bd08faa7949df5c45ce39db17fbcb629fb5ab94326a75cf970f9",
+      "finished_utc": "2026-11-18T05:12:02.840810Z",
+      "finished_beijing": "2026-11-18T13:12:02.840810+08:00"
     },
     {
       "run_id": "TS48",
@@ -4054,7 +4069,7 @@
   ],
   "source_atlas75_sha256": "5f9009cb8cd94dacc561e5b83858c311c76019bc79c88025be8c2b8190112dec",
   "collection_policy": "Read-only saved scalar evidence; no training/evaluation/checkpoint mutation; 8001 restored and re-collected",
-  "updated_utc": "2026-11-18T04:55:39.084612Z",
+  "updated_utc": "2026-11-18T07:17:38.439399Z",
   "continuation_document": "docs/research/162_MN40_V10_TS_CONTINUATION_AND_SH32_2026-11-13.md",
   "v10_atlas_document": "docs/research/163_MN40_V10_EXPERIMENT_ATLAS_2026-11-15/report.md",
   "v9_v10_combined_document": "docs/research/V9&10.md",
@@ -4065,5 +4080,6 @@
       "status": "planned_unverified",
       "source_document": "98_NATIVE_HYCORE_CB32_H0_2026-10-27/run.md"
     }
-  ]
+  ],
+  "batch_audit_document": "docs/research/169_MN40_BATCH_H0_HIER_AUDIT_2026-11-18.md"
 }
