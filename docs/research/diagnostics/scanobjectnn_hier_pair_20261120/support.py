@@ -117,7 +117,9 @@ def inspect_data(directory):
         with h5py.File(path, 'r') as hdf:
             cloud = hdf['data'][:].astype('float32')
             label = hdf['label'][:].astype('int64')
-        if cloud.shape != (expected_rows, 2048, 3) or label.shape != (expected_rows, 1):
+        # The author release stores scalar labels as [N], not [N,1]. Keep
+        # that original layout; its Dataset and training loop handle it.
+        if cloud.shape != (expected_rows, 2048, 3) or label.shape != (expected_rows,):
             raise RuntimeError('Dataset shape mismatch: ' + name)
         if not np.isfinite(cloud).all() or set(label.reshape(-1).tolist()) != set(range(15)):
             raise RuntimeError('Invalid coordinates or label identity')

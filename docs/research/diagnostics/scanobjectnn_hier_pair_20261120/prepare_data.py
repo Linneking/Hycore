@@ -14,6 +14,7 @@ from support import DATA_FILES, inspect_data, now, sha_file, write
 def main():
     p=argparse.ArgumentParser()
     p.add_argument('--root',type=Path,required=True)
+    p.add_argument('--verify-existing',action='store_true')
     args=p.parse_args()
     archive=args.root/'h5_files.zip'
     partial=args.root/'h5_files.zip.partial'
@@ -22,20 +23,24 @@ def main():
             raise RuntimeError('Author archive is incomplete or has the wrong size')
         partial.rename(archive)
     destination=args.root/'main_split'
-    destination.mkdir(exist_ok=False)
-    with zipfile.ZipFile(archive) as package:
-        for partition,(name,expected,rows) in DATA_FILES.items():
-            candidates=[item for item in package.infolist() if Path(item.filename).name==name and '/main_split/' in '/'+item.filename]
-            if len(candidates)!=1:
-                raise RuntimeError('Missing or ambiguous main_split member: '+name)
-            target=destination/name
-            with package.open(candidates[0]) as source,target.open('xb') as output:
-                while True:
-                    chunk=source.read(8*1024*1024)
-                    if not chunk:break
-                    output.write(chunk)
-            if sha_file(target)!=expected:
-                raise RuntimeError('Author archive disagrees with independent HDF checksum: '+name)
+    if destination.exists():
+        if not args.verify_existing:
+            raise FileExistsError('Use explicit verification for existing data; never overwrite it')
+    else:
+        destination.mkdir(exist_ok=False)
+        with zipfile.ZipFile(archive) as package:
+            for partition,(name,expected,rows) in DATA_FILES.items():
+                candidates=[item for item in package.infolist() if Path(item.filename).name==name and '/main_split/' in '/'+item.filename]
+                if len(candidates)!=1:
+                    raise RuntimeError('Missing or ambiguous main_split member: '+name)
+                target=destination/name
+                with package.open(candidates[0]) as source,target.open('xb') as output:
+                    while True:
+                        chunk=source.read(8*1024*1024)
+                        if not chunk:break
+                        output.write(chunk)
+                if sha_file(target)!=expected:
+                    raise RuntimeError('Author archive disagrees with independent HDF checksum: '+name)
     arrays,identity=inspect_data(destination)
     del arrays
     record=dict(verified=True,variant='PB_T50_RS',split='main_split',background=True,
