@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "scope": "ScanObjectNN classification; separate from MN40 TS identities",
+  "accuracy_unit": "percent",
+  "observed_at": "2026-11-20T01:25:16.071243+08:00",
+  "production_commit": "142e75db151a2772e16214e89d11e00dc364a7c7",
+  "official_reference_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+  "branch": "codex/scanobjectnn-hier-pair-plan-20261120",
+  "report": "179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md",
+  "dataset_identity": "178_SCANOBJECTNN_HIER_PAIR_PLAN_2026-11-20/dataset_identity_verified.json",
+  "common_config": {
+    "dataset": "ScanObjectNN PB_T50_RS main_split background",
+    "train_rows": 11416,
+    "test_rows": 2882,
+    "num_classes": 15,
+    "backbone": "official ScanObject PointMLP+HyCoRe",
+    "base_c": 1,
+    "base_extra_cap": null,
+    "base_output_GS": false,
+    "batch": "SH32",
+    "world_size": 1,
+    "seed": 4780,
+    "epochs": 300,
+    "steps_per_epoch": 356,
+    "planned_updates": 106800,
+    "selection": "full official train; full test each epoch; strictly higher 3-decimal OA; earliest tie; same-epoch AA",
+    "teacher": null,
+    "initialization_checkpoint": null,
+    "main_optimizer": {
+      "name": "RiemannianSGD",
+      "lr": 0.1,
+      "min_lr": 0.001,
+      "momentum": 0.9,
+      "weight_decay": 0.0001,
+      "clip_norm": 1
+    },
+    "hycore_losses": {
+      "contrastive_weight": 0.01,
+      "contrastive_margin": 4,
+      "radial_weight": 0.001,
+      "radial_margin": "500/Npart"
+    }
+  },
+  "experiments": [
+    {
+      "id": "SO-H0",
+      "immutable_run_id": "scanobject_hier_pair_20261120_A/SO-H0/main",
+      "name": "ScanObject-PointMLP-HC-C1-Cap0-GS0-M500_4-SH32x356 / H0 (S4780)",
+      "status": "running",
+      "server_alias": "8000",
+      "gpu": 0,
+      "started_at": "2026-11-20T01:20:40.448772+08:00",
+      "completed_epochs_at_snapshot": 1,
+      "first_epoch_accepted": true,
+      "first_epoch_OA": 35.149,
+      "first_epoch_AA": 26.609,
+      "first_epoch_wall_seconds": 155.82945221406408,
+      "initial_model_sha256": "e012ae2c0b2928968cf20e23c2ecb4552214bce5a062a8f298ef33b5c0739dd2",
+      "checkpoint_epoch001_sha256": "794b34b40526fc875f6dcb31ac064d351cacb0f4faac55120496a8fd348c3d9e",
+      "final_result": null,
+      "hier": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "SO-HIER",
+      "immutable_run_id": "scanobject_hier_pair_20261120_A/SO-HIER/main",
+      "name": "ScanObject-PointMLP-HC-C1-Cap0-GS0-M500_4-SH32x356 / HdepthCap23-A1-Ks20-Kp20-L0.5-W0 (S4780)",
+      "status": "running",
+      "server_alias": "8000",
+      "gpu": 1,
+      "started_at": "2026-11-20T01:20:40.524881+08:00",
+      "completed_epochs_at_snapshot": 1,
+      "first_epoch_accepted": true,
+      "first_epoch_OA": 27.724,
+      "first_epoch_AA": 19.064,
+      "first_epoch_wall_seconds": 268.9122869730927,
+      "initial_model_sha256": "e012ae2c0b2928968cf20e23c2ecb4552214bce5a062a8f298ef33b5c0739dd2",
+      "checkpoint_epoch001_sha256": "ee6637f3a197a337001c8c3be3732162fae017d340b95a47b65f5225055185bb",
+      "final_result": null,
+      "hier": {
+        "enabled": true,
+        "view": "native_c1_logmap -> tangent_cap2.3 -> c0.1_expmap -> independent_GS",
+        "fixed_shell": false,
+        "proxy_count": 512,
+        "proxy_dim": 256,
+        "proxy_init_scale": 0.9,
+        "proxy_cap": 2.3,
+        "proxy_GS": true,
+        "sample_K": 20,
+        "proxy_K": 20,
+        "T": 50,
+        "margin": 0.1,
+        "tau": 0.1,
+        "lambda_sample": 0.5,
+        "lambda_proxy": 0.5,
+        "warmup": 0,
+        "pool": 32,
+        "queue": false,
+        "optimizer": {
+          "name": "AdamW",
+          "lr": 0.005,
+          "min_lr": 0.0005,
+          "eps": 0.0001,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "weight_decay": 0.01
+        }
+      }
+    }
+  ]
+}

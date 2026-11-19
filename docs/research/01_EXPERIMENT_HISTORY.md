@@ -1,5 +1,9 @@
 # Experiment history
 
+## 2026-11-20 01:20：ScanObjectNN源码H0/HIER两组已启动
+
+用户批准178默认PointMLP、实际深度分支cap和两项λ=.5。生产142e75d冻结，8000 GPU0/1分别fresh启动SO-H0/SO-HIER，各单卡、seed4780、SH32×356、300轮106,800更新，完整15类PB_T50_RS train11,416/test2,882，原生c1无新增主支cap/GS、源码损失及逐轮test-best。新增分支读取whole μ、logmap→cap2.3→c.1入球与自身GS，不用固定壳；512代理、A1/K20/20。数据SHA/形状/类计数和7项CPU合同通过，三入口训练短测主初值/输入/RNG一致，追加关闭入口重复与源码4步全部参数/BN一致；另有数值轨迹偏差留档，不承诺整程逐位复现。两组后台已脱离会话，01:25正式首轮全部通过：各356更新/BN712，HIER代理356步，整轮采样顺序与主随机流一致，首末批输入匹配，权重有限。首轮156/269秒；主支深度可超过4.6，分支末批触cap90.625%另行记录。既有TS53不变。与MN40 TS系列分开编号，见[179执行记录](179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md)。
+
 ## 2026-11-20：ScanObjectNN源码H0/HIER两组计划，待用户判断
 
 用户要求先产出新数据集两组计划、讨论后再训练。178推荐ScanObjectNN PB_T50_RS/main_split含背景、原生PointMLP+HyCoRe，对照仅新增HIER；保持源码SH32/c1/300轮/原损失与test-best，seed成对4780。静态核实ScanObject PointMLP与MN40不同：whole600–1024、part上限依whole、margin500/N、Rhier权重.001、LR最小.001/WD1e−4。暂建议HIER分支保实际深度并cap，固定4.6壳列为备选；骨干、视图和λ待用户判断。预计11416/2882尚未HDF验收，本机无数据；只有15类，不能套16类×2 CB32。完整结构、参数、配对验收及三项决策见[178计划](178_SCANOBJECTNN_HIER_PAIR_PLAN_2026-11-20/plan.md)。本轮仅资料与计划，无训练代码/数据下载/服务器连接/排队/GPU使用；未新增正式TS编号。

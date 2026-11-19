@@ -1,6 +1,6 @@
 # ScanObjectNN：原生HyCoRe与新增HIER的两组对照计划
 
-2026-11-20，**用户已同意并授权启动；按三项默认推荐实施**。前一轮完成只读资料与计划；本轮开始实现、数据验收和训练前检查。实际启动与冻结身份另见179执行记录。新数据任务与MN40的TS历史身份分别管理，暂称SO-H0、SO-HIER，不登记为已启动。
+2026-11-20，**用户已同意并授权启动；按三项默认推荐实施**。前一轮完成只读资料与计划；已完成实现、数据验收和短测，两组于01:20北京在8000 GPU0/1分别fresh启动。实际身份见[179执行记录](../179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md)。新数据任务与MN40的TS历史身份分别管理，名称SO-H0、SO-HIER。
 
 ## 1. 推荐任务与本批问题
 
@@ -10,7 +10,7 @@
 
 HyCoRe论文Table2的PointMLP+HyCoRe为OA87.2/AA85.9，DGCNN+HyCoRe为82.1/80.2，仅作为来源和量级参考；直接对照必须是本批重新训练的SO-H0，不能拿论文数值代替本地基线。[正式论文](https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf)
 
-原始数据为15类、2902个独立实例，全体原始类别78–395例、最大/最小约5.06，不是严格均衡数据。扰动版本与原始对象数不同。PB_T50_RS预计HDF训练11,416行、测试2,882行，但本机没有该数据，**两个行数尚未由实际文件验收**；实施前须核对HDF形状、15类计数、文件SHA、有限坐标和行ID。[一手证据与边界](primary_sources.md)
+原始数据为15类、2902个独立实例，全体原始类别78–395例、最大/最小约5.06，不是严格均衡数据。扰动版本与原始对象数不同。PB_T50_RS已于实施阶段从PointMLP作者发布包核验HDF训练11,416行、测试2,882行；XYZ形状为[N,2048,3]、标签为[N]，文件SHA与独立公开镜像一致，15类计数与有限坐标通过。见[实际数据身份](dataset_identity_verified.json)。[一手证据与边界](primary_sources.md)
 
 ## 2. 最小两组矩阵
 
@@ -22,7 +22,7 @@ HyCoRe论文Table2的PointMLP+HyCoRe为OA87.2/AA85.9，DGCNN+HyCoRe为82.1/80.2�
 | 主支额外cap／出口GS | 无 | 无；HIER映射仅在新分支 |
 | 主支采样 | 自然SH32、shuffle/drop_last | 同一批对象、增强、whole/part |
 | HyCoRe目标 | CE＋.01 Rcontr＋.001 Rhier | 完全相同 |
-| 新增目标 | 无 | λs Rsample＋λp Rproxy，暂建议两者均.5 |
+| 新增目标 | 无 | λs Rsample＋λp Rproxy，两者均.5（已批准） |
 | HIER输入 | 无 | 当前批whole的256维嵌入，接在分类层之前 |
 | HIER搜索 | 无 | 当前批32，Ks20/Kp20；不增加编码器前向 |
 | 训练预算 | 单卡、300轮；预计356步/轮、106,800更新 | 相同；代理预计106,800次更新 |
@@ -44,7 +44,7 @@ flowchart TD
     M --> Z["whole μ／part ν<br/>主支无新增cap或GS"]
     Z -->|whole| C["原生Mobius分类层256→15<br/>CE"]
     Z --> B["原版whole–part两项损失"]
-    Z -->|仅SO-HIER，取whole| V["确定性HIER视图，待选<br/>A：保留实际深度、只设cap<br/>B：V9固定深度4.6"]
+    Z -->|仅SO-HIER，取whole| V["已批准A：保留实际深度<br/>分支切空间cap2.3，不用固定壳"]
     V --> S["HIER分支GS，c=.1"]
     S --> RS["样本近邻／三元组挖掘<br/>祖先选择与距离约束"]
     Q["512×256可训练代理"] --> QG["自身cap2.3→入球→GS"]
@@ -54,7 +54,7 @@ flowchart TD
 
 接点是`model.emb`之后、`model.classifier`之前的whole μ。接入器只读取这个张量，不替换主支输出；原生分类头及whole–part目标继续用原μ/ν。HIER样本项回传同一PointMLP，代理内部项直接更新代理；没有第二套编码器或额外可训练投影头。新增可训练参数为512×256＝131,072个代理坐标。[原生模型](../../../classification_ScanObject/models/pointmlp.py)、[训练顺序](../../../classification_ScanObject/main_pointmlp_hycore.py)
 
-## 4. 必须由用户决定的HIER视图
+## 4. HIER视图：已批准A，B保留作备选历史
 
 **暂推荐A：只在HIER分支设深度上限，允许样本在内部有深浅差别。** 这样先测试接近HIER发布代码“cap是上界”的设定，不把V9强制等深壳作为默认前提。它仍是对原生c1表示的适配，不称完全复刻原图像HIER。
 
@@ -96,7 +96,7 @@ HIER暂定：512×256代理、高斯初始化系数.9、cH=.1、代理cap2.3及�
 
 ## 6. “其余保持一致”的验收与工程问题
 
-这是实施获批后的验收清单，本轮尚未执行：
+以下验收清单已按授权执行，实际结果与数值复现边界见[179](../179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md)：
 
 1. 固定官方源码身份、数据文件与标签行序；记录15类实际计数与原始/扰动行身份。数据缺失时先确认来源与SHA；不沿用旧下载地址而跳过验收。
 2. 两组从相同原网络初值开始。HIER初始化、关系挖掘和Gumbel使用派生独立随机流，不能消费原训练与test shuffle所用CPU/CUDA/NumPy/Python流。记录真实对象行ID、增强和whole/part输入指纹；固定seed不承诺跨硬件参数逐位一致。

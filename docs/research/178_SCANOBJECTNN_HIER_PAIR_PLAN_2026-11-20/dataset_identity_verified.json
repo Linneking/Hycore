@@ -1,0 +1,73 @@
+{
+  "verified": true,
+  "variant": "PB_T50_RS",
+  "split": "main_split",
+  "background": true,
+  "source": "https://github.com/ma-xu/pointMLP-pytorch/releases/download/dataset/h5_files.zip",
+  "source_owner": "PointMLP authors public dataset release",
+  "archive_sha256": "993c2b62168bd1301e9ef4fba47fc09d218fedd192f6dee9d33eb434d5feafa5",
+  "file_hash_crosscheck": "cminst/ScanObjectNN public HDF checksums",
+  "files": {
+    "training": {
+      "file": "training_objectdataset_augmentedrot_scale75.h5",
+      "sha256": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+      "rows": 11416,
+      "data_shape": [
+        11416,
+        2048,
+        3
+      ],
+      "label_shape": [
+        11416
+      ],
+      "class_counts": [
+        298,
+        794,
+        406,
+        1344,
+        1585,
+        592,
+        678,
+        892,
+        1084,
+        922,
+        564,
+        405,
+        469,
+        1058,
+        325
+      ]
+    },
+    "test": {
+      "file": "test_objectdataset_augmentedrot_scale75.h5",
+      "sha256": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1",
+      "rows": 2882,
+      "data_shape": [
+        2882,
+        2048,
+        3
+      ],
+      "label_shape": [
+        2882
+      ],
+      "class_counts": [
+        83,
+        199,
+        133,
+        372,
+        390,
+        150,
+        204,
+        210,
+        241,
+        270,
+        110,
+        105,
+        120,
+        210,
+        85
+      ]
+    }
+  },
+  "verified_at": "2026-11-20T01:09:17.377244+08:00"
+}

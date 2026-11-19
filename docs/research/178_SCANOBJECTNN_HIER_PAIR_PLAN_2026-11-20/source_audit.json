@@ -1,5 +1,5 @@
 {
-  "status": "approved_implementation_in_progress",
+  "status": "approved_launched",
   "official_reference_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
   "audit": "Static local source reads; first five listed files compared equal to pinned official git blobs.",
   "files": [
@@ -38,9 +38,12 @@
     "background": true,
     "expected_train_rows": 11416,
     "expected_test_rows": 2882,
-    "actual_hdf_verified": false,
+    "actual_hdf_verified": true,
     "num_classes": 15,
-    "local_data_directory_present": false
+    "local_data_directory_present": false,
+    "actual_train_rows": 11416,
+    "actual_test_rows": 2882,
+    "verified_identity": "dataset_identity_verified.json"
   },
   "proposed_pair": {
     "backbone": "official ScanObject PointMLP+HyCoRe",
@@ -56,11 +59,12 @@
     "world_size_per_run": 1
   },
   "pending_choices": [],
-  "implementation_state": "Seven local CPU contracts passed; new versioned runner implemented; author archive downloaded on 8000, HDF verification and GPU preflight pending.",
+  "implementation_state": "Production 142e75d; seven CPU contracts passed on local/server; author HDF verified; three-way GPU smoke plus source/no-op repeats reviewed; fresh formal pair started 2026-11-20 01:20 +08:00.",
   "approved_choices": {
     "backbone": "PointMLP",
     "hier_view": "native_c1_logmap -> tangent_cap2.3 -> c0.1_expmap -> branch_GS",
     "lambda_sample": 0.5,
     "lambda_proxy": 0.5
-  }
+  },
+  "launch_report": "../179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md"
 }

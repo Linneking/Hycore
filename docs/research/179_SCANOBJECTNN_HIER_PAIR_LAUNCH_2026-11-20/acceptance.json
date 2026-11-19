@@ -1,0 +1,190 @@
+{
+  "passed": true,
+  "cpu_contracts_passed": true,
+  "source_commit": "142e75db151a2772e16214e89d11e00dc364a7c7",
+  "observed_at": "2026-11-20T01:12:01.412292+08:00",
+  "checks": {
+    "reference_complete4": true,
+    "reference_BN8": true,
+    "reference_finite": true,
+    "reference_no_test": true,
+    "reference_initial_model": true,
+    "reference_inputs": true,
+    "reference_main_rng": true,
+    "disabled_complete4": true,
+    "disabled_BN8": true,
+    "disabled_finite": true,
+    "disabled_no_test": true,
+    "disabled_initial_model": true,
+    "disabled_inputs": true,
+    "disabled_main_rng": true,
+    "enabled_complete4": true,
+    "enabled_BN8": true,
+    "enabled_finite": true,
+    "enabled_no_test": true,
+    "enabled_initial_model": true,
+    "enabled_inputs": true,
+    "enabled_main_rng": true,
+    "off_no_proxy": true,
+    "enabled_proxy4": true,
+    "base_first_loss": true,
+    "live_non_shell_branch": true
+  },
+  "reference_repeatability": {
+    "disabled_first_base_losses": [
+      2.7066164016723633,
+      4.038934230804443,
+      1.3886971473693848
+    ],
+    "enabled_first_base_losses": [
+      2.7066164016723633,
+      4.038934230804443,
+      1.3886971473693848
+    ],
+    "reference_first_base_losses": [
+      2.7066164016723633,
+      4.038934230804443,
+      1.3886971473693848
+    ],
+    "disabled_reference_all_state_max_abs": 0.37279438972473145
+  },
+  "bitwise_replay_claimed": false,
+  "dataset": {
+    "training": {
+      "file": "training_objectdataset_augmentedrot_scale75.h5",
+      "sha256": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+      "rows": 11416,
+      "data_shape": [
+        11416,
+        2048,
+        3
+      ],
+      "label_shape": [
+        11416
+      ],
+      "class_counts": [
+        298,
+        794,
+        406,
+        1344,
+        1585,
+        592,
+        678,
+        892,
+        1084,
+        922,
+        564,
+        405,
+        469,
+        1058,
+        325
+      ]
+    },
+    "test": {
+      "file": "test_objectdataset_augmentedrot_scale75.h5",
+      "sha256": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1",
+      "rows": 2882,
+      "data_shape": [
+        2882,
+        2048,
+        3
+      ],
+      "label_shape": [
+        2882
+      ],
+      "class_counts": [
+        83,
+        199,
+        133,
+        372,
+        390,
+        150,
+        204,
+        210,
+        241,
+        270,
+        110,
+        105,
+        120,
+        210,
+        85
+      ]
+    }
+  },
+  "production_initialization": "fresh; no smoke weights loaded",
+  "reference_self_repeat": {
+    "disabled": {
+      "all_state_max": 0.37279438972473145,
+      "parameter_max": 0.011318333446979523,
+      "top_state_differences": [
+        [
+          "proj.1.running_var",
+          0.37279438972473145
+        ],
+        [
+          "proj.1.running_mean",
+          0.07213687896728516
+        ],
+        [
+          "pos_blocks_list.2.operation.1.net1.1.running_var",
+          0.033425211906433105
+        ],
+        [
+          "pre_blocks_list.1.transfer.net.1.running_var",
+          0.023360490798950195
+        ],
+        [
+          "pre_blocks_list.1.transfer.net.1.running_mean",
+          0.021789267659187317
+        ]
+      ]
+    },
+    "reference_repeat": {
+      "all_state_max": 0.0,
+      "parameter_max": 0.0,
+      "top_state_differences": [
+        [
+          "manifold.isp_c",
+          0.0
+        ],
+        [
+          "manifold.dim",
+          0.0
+        ],
+        [
+          "manifold2.isp_c",
+          0.0
+        ],
+        [
+          "manifold2.dim",
+          0.0
+        ],
+        [
+          "embedding.net.0.weight",
+          0.0
+        ]
+      ]
+    },
+    "reference_repeat_inputs_match": true,
+    "reference_repeat_first_losses_match": true
+  },
+  "repeatability_note": "Source H0 itself is not asserted to replay bitwise; exact initial/input/main RNG contracts preserved; production H0 calls literal source train.",
+  "additional_noop_verification": {
+    "disabled_repeat": {
+      "all_state_max": 0.0,
+      "inputs_and_forward_match": true,
+      "python_rng_match": true,
+      "cpu_rng_match": true,
+      "cuda_rng_match": true
+    },
+    "compiled_no_call": {
+      "all_state_max": 0.5203976631164551,
+      "inputs_and_forward_match": false,
+      "python_rng_match": true,
+      "cpu_rng_match": true,
+      "cuda_rng_match": true
+    }
+  },
+  "review_note": "No-op disabled repeat exactly matched native full model/buffers and inputs across four updates; earlier disabled attempt differed, retained as numeric variability evidence. Causal kernel source not identified. Preserve original benchmark=True, deterministic=False; no bitwise full-training claim.",
+  "summary_note": "Reviewed summary: renamed original all-state maximum (includes BN) to avoid calling it parameter-only. Separate trainable-parameter maximum appears under reference_self_repeat.disabled.parameter_max."
+}
