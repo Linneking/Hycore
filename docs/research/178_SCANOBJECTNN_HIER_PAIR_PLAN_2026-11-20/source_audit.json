@@ -1,0 +1,64 @@
+{
+  "status": "design_only_pending_user_review",
+  "official_reference_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+  "audit": "Static local source reads; first five listed files compared equal to pinned official git blobs.",
+  "files": [
+    {
+      "path": "classification_ScanObject/main_pointmlp_hycore.py",
+      "normalized_utf8_lf_sha256": "6b0ee90db0628c5c2e3fd46fee7f656d779171fce316c2afbe65b573c2e1598b"
+    },
+    {
+      "path": "classification_ScanObject/models/pointmlp.py",
+      "normalized_utf8_lf_sha256": "548b43bcd3c2d0d9f794c1a2bda1cacf45151c1bb2f413443c78ff5dcc1de045"
+    },
+    {
+      "path": "classification_ScanObject/ScanObjectNN.py",
+      "normalized_utf8_lf_sha256": "ef99cd8ac20354107d0d54df74c40b2ea8de3087e5dd193acc79e8727951a9ae"
+    },
+    {
+      "path": "classification_ScanObject/hutil.py",
+      "normalized_utf8_lf_sha256": "2821f4ac43416a81d04e02c23ef38de11aec6b8f8f45065febed01cdbf6db04a"
+    },
+    {
+      "path": "classification_ScanObject/launcher_pointmlp.sh",
+      "normalized_utf8_lf_sha256": "c9b8de2df551af8600aba68d59a822743d2cfb99dabade82db8b81e9ee71b9aa"
+    },
+    {
+      "path": "classification_ScanObject/models/ops/manifold_layers.py",
+      "normalized_utf8_lf_sha256": "5c1c99c5647bf7f1b3d9a44adac646257e7a488ac34c0fd03991ac3f95096688"
+    },
+    {
+      "path": "classification_ScanObject/utils/misc.py",
+      "normalized_utf8_lf_sha256": "2453a7ff182ce85f9c93a0e0cd15f1ca7ca351b4f26568ff581fcbfa40c7243c"
+    }
+  ],
+  "dataset": {
+    "name": "ScanObjectNN",
+    "variant": "PB_T50_RS",
+    "background": true,
+    "expected_train_rows": 11416,
+    "expected_test_rows": 2882,
+    "actual_hdf_verified": false,
+    "num_classes": 15,
+    "local_data_directory_present": false
+  },
+  "proposed_pair": {
+    "backbone": "official ScanObject PointMLP+HyCoRe",
+    "root_seed": 4780,
+    "official_parser_seed": 12,
+    "epochs": 300,
+    "batch_size": 32,
+    "sampler": "shuffle drop_last",
+    "expected_steps_per_epoch": 356,
+    "expected_updates_per_arm": 106800,
+    "expected_updates_pair": 213600,
+    "number_of_training_runs": 2,
+    "world_size_per_run": 1
+  },
+  "pending_choices": [
+    "PointMLP versus DGCNN",
+    "HIER view: source-depth-preserving tangent-cap mapping or legacy fixed-depth shell",
+    "HIER lambda .5 or .1"
+  ],
+  "implementation_state": "No new training code, dataset download, server connection, queue or GPU use."
+}
