@@ -1,0 +1,275 @@
+{
+  "observed_at": "2026-11-19T10:06:24.634548+08:00",
+  "completed": [
+    {
+      "arm": "TS48",
+      "status": "completed",
+      "epochs": 300,
+      "updates": 92100,
+      "best_epoch": 248,
+      "best_OA": 93.882,
+      "best_AA": 91.341,
+      "e300_OA": 93.193,
+      "e300_AA": 90.728,
+      "tail10_OA_mean": 93.1522,
+      "tail10_OA_sd": 0.18292391861099006,
+      "tail10_AA_mean": 90.7064,
+      "tail10_AA_sd": 0.1287036907007736,
+      "finished_at": "2026-11-19T09:17:03.867979+08:00",
+      "hashes": {
+        "best": "5067bfcb3503dd9503e231a19d48c958da6ce78a921ca568e62220db68178350",
+        "last": "9206375b65ce11b2f7c1d67920025a0bf2146e79bbe239b47a0cc388214857fa"
+      },
+      "checks": "300 contiguous epochs; update budget; first maximum OA; actual best/last SHA256"
+    },
+    {
+      "arm": "TS49",
+      "status": "completed",
+      "epochs": 300,
+      "updates": 92100,
+      "best_epoch": 182,
+      "best_OA": 93.963,
+      "best_AA": 90.208,
+      "e300_OA": 93.314,
+      "e300_AA": 90.899,
+      "tail10_OA_mean": 93.047,
+      "tail10_OA_sd": 0.24787456505256744,
+      "tail10_AA_mean": 90.4751,
+      "tail10_AA_sd": 0.3949947974340922,
+      "finished_at": "2026-11-19T09:36:13.751240+08:00",
+      "hashes": {
+        "best": "c6547639ad72e49ed103e993496c18f1524efa9b1ca9ae261f15fbdd64065049",
+        "last": "049bb3277a6ed293809e654a5fd3ea27ec5aa570ab365920dbecb06b538a6da8"
+      },
+      "checks": "300 contiguous epochs; update budget; first maximum OA; actual best/last SHA256"
+    },
+    {
+      "arm": "TS50",
+      "status": "completed",
+      "epochs": 300,
+      "updates": 92100,
+      "best_epoch": 189,
+      "best_OA": 93.801,
+      "best_AA": 89.548,
+      "e300_OA": 93.193,
+      "e300_AA": 90.428,
+      "tail10_OA_mean": 93.0227,
+      "tail10_OA_sd": 0.21247449258675774,
+      "tail10_AA_mean": 90.3976,
+      "tail10_AA_sd": 0.2783879307728707,
+      "finished_at": "2026-11-19T09:24:06.259843+08:00",
+      "hashes": {
+        "best": "6b01bbcd026b6516485f8bdf096cb25f241684e27cab72ce8565d79f55541b72",
+        "last": "cdb5f476d96c5f8db66d5efd37fa3cb6c589e307139a564dc22f64f8ec3293c2"
+      },
+      "checks": "300 contiguous epochs; update budget; first maximum OA; actual best/last SHA256"
+    },
+    {
+      "arm": "TS54",
+      "status": "completed",
+      "epochs": 300,
+      "updates": 40200,
+      "best_epoch": 220,
+      "best_OA": 92.918,
+      "best_AA": 90.973,
+      "e300_OA": 91.702,
+      "e300_AA": 90.899,
+      "tail10_OA_mean": 91.8025,
+      "tail10_OA_sd": 0.3265658432843238,
+      "tail10_AA_mean": 90.7657,
+      "tail10_AA_sd": 0.3123277285160566,
+      "finished_at": "2026-11-19T05:40:14.417347+08:00",
+      "hashes": {
+        "best": "f89e1ca6be6a4451cd58935f09ddf13da9bb825ee996847dc083761cb80240a4",
+        "last": "9623e480a6df3dc060cccaabd38ac95d606bc26c58982ceefdcffd48247cc18d"
+      },
+      "checks": "300 contiguous epochs; update budget; first maximum OA; actual best/last SHA256"
+    }
+  ],
+  "first_epochs": [
+    {
+      "arm": "TS51",
+      "accepted": true,
+      "updates": 134,
+      "BN_counts": [
+        268
+      ],
+      "proxy_present": false,
+      "finite": true,
+      "test": {
+        "loss": 2.423,
+        "acc": 33.476,
+        "acc_avg": 26.69,
+        "time": 6
+      },
+      "wall_seconds": 68.87293050298467,
+      "started_at": "2026-11-19T09:17:19.999227+08:00",
+      "main_unique_objects": 4288
+    },
+    {
+      "arm": "TS52",
+      "accepted": true,
+      "updates": 134,
+      "BN_counts": [
+        268
+      ],
+      "proxy_present": true,
+      "finite": true,
+      "test": {
+        "loss": 2.448,
+        "acc": 33.19,
+        "acc_avg": 25.8,
+        "time": 6
+      },
+      "wall_seconds": 110.08246508799493,
+      "started_at": "2026-11-19T09:36:35.026886+08:00",
+      "main_unique_objects": 4288
+    },
+    {
+      "arm": "TS53",
+      "accepted": true,
+      "updates": 307,
+      "BN_counts": [
+        614
+      ],
+      "proxy_present": true,
+      "finite": true,
+      "test": {
+        "loss": 3.117,
+        "acc": 24.838,
+        "acc_avg": 15.325,
+        "time": 10
+      },
+      "wall_seconds": 303.14582695800345,
+      "started_at": "2026-11-19T09:24:19.117786+08:00",
+      "main_unique_objects": 9824
+    },
+    {
+      "arm": "TS55",
+      "accepted": true,
+      "updates": 134,
+      "BN_counts": [
+        268
+      ],
+      "proxy_steps": 134,
+      "finite": true,
+      "wall_seconds": 68.4188450180227
+    }
+  ],
+  "SH_pair_initial_and_first_input_match": true,
+  "running": [
+    {
+      "arm": "TS51",
+      "server": "8000",
+      "gpu": 0,
+      "completed_epochs": 56,
+      "updates": 7611,
+      "started_at": "2026-11-19T09:17:19.999227+08:00",
+      "best_OA_so_far": 91.416,
+      "best_AA_same_epoch_so_far": 89.107,
+      "best_epoch_so_far": 47,
+      "recent_mean_seconds": 50.126516538509165,
+      "eta": "2026-11-19T13:29:35.478186+08:00",
+      "remaining_hours": 3.3863454549615986,
+      "config": {
+        "seed": 4780,
+        "epochs": 300,
+        "steps_per_epoch": 134,
+        "num_classes": 20,
+        "sampler": "original SH32 no replacement",
+        "hier_enabled": false,
+        "lambda_hier": 0,
+        "sample_K": 20,
+        "proxy_K": 20,
+        "hier_input": "current main batch"
+      },
+      "train_size": 4298,
+      "test_size": 1398
+    },
+    {
+      "arm": "TS52",
+      "server": "8000",
+      "gpu": 1,
+      "completed_epochs": 18,
+      "updates": 2502,
+      "started_at": "2026-11-19T09:36:35.026886+08:00",
+      "best_OA_so_far": 88.269,
+      "best_AA_same_epoch_so_far": 84.936,
+      "best_epoch_so_far": 11,
+      "recent_mean_seconds": 92.43955074681435,
+      "eta": "2026-11-19T17:19:50.501593+08:00",
+      "remaining_hours": 7.223851956992967,
+      "config": {
+        "seed": 4780,
+        "epochs": 300,
+        "steps_per_epoch": 134,
+        "num_classes": 20,
+        "sampler": "original SH32 no replacement",
+        "hier_enabled": true,
+        "lambda_hier": 0.5,
+        "sample_K": 20,
+        "proxy_K": 20,
+        "hier_input": "current main batch"
+      },
+      "train_size": 4298,
+      "test_size": 1398
+    },
+    {
+      "arm": "TS53",
+      "server": "8000",
+      "gpu": 2,
+      "completed_epochs": 9,
+      "updates": 2883,
+      "started_at": "2026-11-19T09:24:19.117786+08:00",
+      "best_OA_so_far": 79.052,
+      "best_AA_same_epoch_so_far": 65.503,
+      "best_epoch_so_far": 9,
+      "recent_mean_seconds": 267.8915462029011,
+      "eta": "2026-11-20T07:43:56.361185+08:00",
+      "remaining_hours": 21.62547962141172,
+      "config": {
+        "seed": 4780,
+        "epochs": 300,
+        "steps_per_epoch": 307,
+        "num_classes": 40,
+        "sampler": "original SH32 no replacement",
+        "hier_enabled": true,
+        "lambda_hier": 0.5,
+        "sample_K": 20,
+        "proxy_K": 20,
+        "hier_input": "fresh independently sampled CB32"
+      },
+      "train_size": 9840,
+      "test_size": 2468
+    },
+    {
+      "arm": "TS55",
+      "server": "8001",
+      "gpu": 0,
+      "completed_epochs": 271,
+      "updates": 36432,
+      "started_at": "2026-11-19T05:40:35.364069+08:00",
+      "best_OA_so_far": 93.062,
+      "best_AA_same_epoch_so_far": 91.057,
+      "best_epoch_so_far": 221,
+      "recent_mean_seconds": 59.26544830241473,
+      "eta": "2026-11-19T10:34:11.314056+08:00",
+      "remaining_hours": 0.46291917330741855,
+      "config": {
+        "seed": 4780,
+        "epochs": 300,
+        "steps_per_epoch": 134,
+        "num_classes": 20,
+        "sampler": "SourceClassBatchSampler16x2",
+        "hier_enabled": true,
+        "lambda_hier": 0.5,
+        "sample_K": 20,
+        "proxy_K": 20,
+        "hier_input": "current main batch"
+      },
+      "train_size": 4298,
+      "test_size": 1398
+    }
+  ],
+  "CB_pair_initial_and_first_input_match": true
+}
