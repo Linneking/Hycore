@@ -1,5 +1,5 @@
 {
-  "status": "design_only_pending_user_review",
+  "status": "approved_implementation_in_progress",
   "official_reference_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
   "audit": "Static local source reads; first five listed files compared equal to pinned official git blobs.",
   "files": [
@@ -55,10 +55,12 @@
     "number_of_training_runs": 2,
     "world_size_per_run": 1
   },
-  "pending_choices": [
-    "PointMLP versus DGCNN",
-    "HIER view: source-depth-preserving tangent-cap mapping or legacy fixed-depth shell",
-    "HIER lambda .5 or .1"
-  ],
-  "implementation_state": "No new training code, dataset download, server connection, queue or GPU use."
+  "pending_choices": [],
+  "implementation_state": "Seven local CPU contracts passed; new versioned runner implemented; author archive downloaded on 8000, HDF verification and GPU preflight pending.",
+  "approved_choices": {
+    "backbone": "PointMLP",
+    "hier_view": "native_c1_logmap -> tangent_cap2.3 -> c0.1_expmap -> branch_GS",
+    "lambda_sample": 0.5,
+    "lambda_proxy": 0.5
+  }
 }
