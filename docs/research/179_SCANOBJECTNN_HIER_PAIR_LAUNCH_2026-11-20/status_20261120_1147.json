@@ -1,0 +1,249 @@
+{
+  "observed_at": "2026-11-20T11:46:34.907859+08:00",
+  "runs": {
+    "SO-H0": {
+      "status": "running",
+      "completed_epochs": 299,
+      "optimizer_steps": 106444,
+      "best": {
+        "raw_epoch": 211,
+        "completed_epochs": 211,
+        "OA": 85.357,
+        "AA": 83.903,
+        "optimizer_steps": 75116,
+        "wall_seconds": 124.28208016999997,
+        "finished_at": "2026-11-20T08:40:51.276739+08:00"
+      },
+      "last": {
+        "raw_epoch": 299,
+        "completed_epochs": 299,
+        "OA": 84.039,
+        "AA": 82.977,
+        "optimizer_steps": 106444,
+        "wall_seconds": 124.94197002903093,
+        "finished_at": "2026-11-20T11:44:40.627176+08:00"
+      },
+      "tail10_OA_mean": 83.8965,
+      "tail10_OA_sd": 0.3411689464180463,
+      "tail10_AA_mean": 82.5615,
+      "tail10_AA_sd": 0.32859252882559564,
+      "recent10_seconds": 125.03776223249733,
+      "started_at": "2026-11-20T01:20:40.448772+08:00",
+      "finished_at": null,
+      "heartbeat": {
+        "status": "running",
+        "phase": "train",
+        "epoch": 300,
+        "completed_epochs": 299,
+        "batch": 340,
+        "batches": 356,
+        "optimizer_steps": 106784,
+        "updated_at": "2026-11-20T11:46:33.838531+08:00"
+      },
+      "commit": "142e75db151a2772e16214e89d11e00dc364a7c7",
+      "failure": false,
+      "checks": {
+        "epochs_contiguous": true,
+        "step_budget": true,
+        "best_matches_manifest": true
+      },
+      "prefix140_best": {
+        "raw_epoch": 136,
+        "completed_epochs": 136,
+        "OA": 84.698,
+        "AA": 82.071,
+        "optimizer_steps": 48416,
+        "wall_seconds": 124.10534822195768,
+        "finished_at": "2026-11-20T06:04:44.513023+08:00"
+      },
+      "prefix140_tail10_OA_mean": 82.6023
+    },
+    "SO-HIER": {
+      "status": "running",
+      "completed_epochs": 141,
+      "optimizer_steps": 50196,
+      "best": {
+        "raw_epoch": 136,
+        "completed_epochs": 136,
+        "OA": 85.323,
+        "AA": 83.654,
+        "optimizer_steps": 48416,
+        "wall_seconds": 292.5903865719447,
+        "finished_at": "2026-11-20T11:22:03.563100+08:00"
+      },
+      "last": {
+        "raw_epoch": 141,
+        "completed_epochs": 141,
+        "OA": 84.039,
+        "AA": 81.833,
+        "optimizer_steps": 50196,
+        "wall_seconds": 290.00659097894095,
+        "finished_at": "2026-11-20T11:46:27.836379+08:00"
+      },
+      "tail10_OA_mean": 82.7968,
+      "tail10_OA_sd": 1.1075063701848396,
+      "tail10_AA_mean": 81.0281,
+      "tail10_AA_sd": 1.275250912565836,
+      "recent10_seconds": 292.3256774543901,
+      "started_at": "2026-11-20T01:20:40.524881+08:00",
+      "finished_at": null,
+      "heartbeat": {
+        "status": "running",
+        "phase": "epoch_complete",
+        "completed_epochs": 141,
+        "optimizer_steps": 50196,
+        "updated_at": "2026-11-20T11:46:28.487649+08:00"
+      },
+      "commit": "142e75db151a2772e16214e89d11e00dc364a7c7",
+      "failure": false,
+      "checks": {
+        "epochs_contiguous": true,
+        "step_budget": true,
+        "best_matches_manifest": true
+      },
+      "prefix140_best": {
+        "raw_epoch": 136,
+        "completed_epochs": 136,
+        "OA": 85.323,
+        "AA": 83.654,
+        "optimizer_steps": 48416,
+        "wall_seconds": 292.5903865719447,
+        "finished_at": "2026-11-20T11:22:03.563100+08:00"
+      },
+      "prefix140_tail10_OA_mean": 82.6753,
+      "last_geometry": {
+        "sample_loss": 0.04284292459487915,
+        "proxy_loss": 0.04792862758040428,
+        "whole_view": {
+          "c": 0.1,
+          "points": 32,
+          "depth_min": 3.5626635551452637,
+          "depth_median": 4.599984645843506,
+          "depth_max": 4.599985599517822,
+          "radius_max": 1.9651150703430176,
+          "cap_fraction": 0.90625,
+          "inverse_metric_factor_min": 0.09419750422239304,
+          "inverse_metric_factor_median": 0.09419754147529602
+        },
+        "proxy": {
+          "c": 0.1,
+          "points": 512,
+          "depth_min": 2.8233840465545654,
+          "depth_median": 3.5209274291992188,
+          "depth_max": 4.402914524078369,
+          "radius_max": 1.9034569263458252,
+          "cap_fraction": 0.0,
+          "inverse_metric_factor_min": 0.1016605943441391,
+          "inverse_metric_factor_median": 0.1385115534067154
+        },
+        "native_whole_depth_max": 6.212618827819824
+      }
+    },
+    "TS53": {
+      "status": "completed",
+      "completed_epochs": 300,
+      "optimizer_steps": 92100,
+      "best": {
+        "raw_epoch": 213,
+        "completed_epochs": 214,
+        "OA": 93.841,
+        "AA": 90.682,
+        "optimizer_steps": 65698,
+        "wall_seconds": 311.232257084921,
+        "finished_at": "2026-11-20T02:43:56.631624+08:00"
+      },
+      "last": {
+        "raw_epoch": 299,
+        "completed_epochs": 300,
+        "OA": 93.395,
+        "AA": 90.466,
+        "optimizer_steps": 92100,
+        "wall_seconds": 313.91731916205026,
+        "finished_at": "2026-11-20T10:13:57.746803+08:00"
+      },
+      "tail10_OA_mean": 92.9416,
+      "tail10_OA_sd": 0.26046888489798514,
+      "tail10_AA_mean": 90.33109999999999,
+      "tail10_AA_sd": 0.3065770539358739,
+      "recent10_seconds": 313.83388532222017,
+      "started_at": "2026-11-19T09:24:19.117786+08:00",
+      "finished_at": "2026-11-20T10:13:58.492927+08:00",
+      "heartbeat": {
+        "status": "completed",
+        "completed_epochs": 300,
+        "optimizer_steps": 92100,
+        "updated_at": "2026-11-20T10:13:58.747857+08:00"
+      },
+      "commit": "2be1562f8489459923b40ec1e35eee3c5d7e84eb",
+      "failure": false,
+      "checks": {
+        "epochs_contiguous": true,
+        "step_budget": true,
+        "best_matches_manifest": true,
+        "full300": true,
+        "best_sha256_matches": true,
+        "last_sha256_matches": true
+      },
+      "checkpoints": {
+        "best": {
+          "file": "best_checkpoint.pth",
+          "sha256": "e83ef57be82c459c3922b9e36869adbf7ad8729d0741e103fdf318a291afea81"
+        },
+        "last": {
+          "file": "last_checkpoint.pth",
+          "sha256": "c68b5ad5e3b1e3e92e6dc37ad11b7417daaf792548fa25446128b8f0147519b5"
+        }
+      }
+    }
+  },
+  "SO_H0_final_verification": {
+    "status": "completed",
+    "completed_epochs": 300,
+    "optimizer_steps": 106800,
+    "best_epoch": 211,
+    "best_OA": 85.357,
+    "best_AA": 83.903,
+    "last_OA": 83.657,
+    "last_AA": 82.606,
+    "finished_at": "2026-11-20T11:46:47.257060+08:00",
+    "last_epoch": 300,
+    "tail10_OA_mean": 83.7959,
+    "tail10_OA_sd": 0.23078061010405518,
+    "tail10_AA_mean": 82.5007,
+    "tail10_AA_sd": 0.248794714574084,
+    "checks": {
+      "continuous": true,
+      "updates": true,
+      "full300": true,
+      "best_sha256_matches": true,
+      "last_sha256_matches": true
+    },
+    "observed_at": "2026-11-20T11:47:13.188140+08:00",
+    "checkpoints": {
+      "best": {
+        "file": "best.pth",
+        "sha256": "881dcd111ed582cd72228281fb3499cc3c1094c78aaacedd79d718ba7c30b5ad"
+      },
+      "last": {
+        "file": "last.pth",
+        "sha256": "2e74e3024f749904750f82c04d2096720ece35a9f91072b985fb4c0214ad7d11"
+      }
+    }
+  },
+  "paper_comparison": {
+    "source": "https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf",
+    "table": 2,
+    "dataset": "ScanObjectNN",
+    "PointMLP": {
+      "OA": 86.1,
+      "AA": 84.4
+    },
+    "PointMLP_HyCoRe": {
+      "OA": 87.2,
+      "AA": 85.9
+    },
+    "SO_H0_best_minus_paper_OA": -1.843,
+    "SO_H0_best_minus_paper_AA": -1.997,
+    "comparison_scope": "Published reference; HIER is additional local method. Same-140-epoch local comparison reported separately."
+  }
+}

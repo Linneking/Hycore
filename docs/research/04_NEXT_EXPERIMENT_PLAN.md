@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-11-20 11:47：ScanObjectNN H0完成，TS53终局与论文OA对照
+
+SO-H0于11:46:47完成300轮/106,800更新，best OA85.357/AA83.903，e30083.657/82.606、末10 OA83.7959±.2308；连续轮次和best/last SHA通过。HyCoRe论文Table2的PointMLP+HyCoRe为87.2/85.9，本地H0 best OA低1.843个百分点。SO-HIER完成141轮，best85.323/83.654，继续原预算，预计11月21日00:42左右结束；前140轮同预算best增量+.625pp，但e131–140均值仅+.073pp，不作终局增益。TS53已于10:13:58完成300轮/92,100更新，best93.841/90.682、e30093.395/90.466、末10 OA92.9416±.2605，指纹核验通过；相对TS06三项OA均低，独立CB-HIER未超过H0。当前只有SO-HIER继续训练。见[179进度和论文核对](179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md)、[176 TS53分析](176_MN40_FILTER20_DUAL_LAUNCH_2026-11-19/run.md)。本次只读服务器并补录，无新增、停止或改配方。
+
 ## 2026-11-20 01:20：ScanObjectNN源码H0/HIER两组已启动
 
 用户批准178默认PointMLP、实际深度分支cap和两项λ=.5。生产142e75d冻结，8000 GPU0/1分别fresh启动SO-H0/SO-HIER，各单卡、seed4780、SH32×356、300轮106,800更新，完整15类PB_T50_RS train11,416/test2,882，原生c1无新增主支cap/GS、源码损失及逐轮test-best。新增分支读取whole μ、logmap→cap2.3→c.1入球与自身GS，不用固定壳；512代理、A1/K20/20。数据SHA/形状/类计数和7项CPU合同通过，三入口训练短测主初值/输入/RNG一致，追加关闭入口重复与源码4步全部参数/BN一致；另有数值轨迹偏差留档，不承诺整程逐位复现。两组后台已脱离会话，01:25正式首轮全部通过：各356更新/BN712，HIER代理356步，整轮采样顺序与主随机流一致，首末批输入匹配，权重有限。首轮156/269秒；主支深度可超过4.6，分支末批触cap90.625%另行记录。既有TS53不变。与MN40 TS系列分开编号，见[179执行记录](179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md)。

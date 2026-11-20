@@ -2,7 +2,7 @@
   "schema_version": 1,
   "scope": "ScanObjectNN classification; separate from MN40 TS identities",
   "accuracy_unit": "percent",
-  "observed_at": "2026-11-20T01:25:16.071243+08:00",
+  "observed_at": "2026-11-20T11:47:13.188140+08:00",
   "production_commit": "142e75db151a2772e16214e89d11e00dc364a7c7",
   "official_reference_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
   "branch": "codex/scanobjectnn-hier-pair-plan-20261120",
@@ -46,20 +46,76 @@
       "id": "SO-H0",
       "immutable_run_id": "scanobject_hier_pair_20261120_A/SO-H0/main",
       "name": "ScanObject-PointMLP-HC-C1-Cap0-GS0-M500_4-SH32x356 / H0 (S4780)",
-      "status": "running",
+      "status": "completed",
       "server_alias": "8000",
       "gpu": 0,
       "started_at": "2026-11-20T01:20:40.448772+08:00",
-      "completed_epochs_at_snapshot": 1,
+      "completed_epochs_at_snapshot": 300,
       "first_epoch_accepted": true,
       "first_epoch_OA": 35.149,
       "first_epoch_AA": 26.609,
       "first_epoch_wall_seconds": 155.82945221406408,
       "initial_model_sha256": "e012ae2c0b2928968cf20e23c2ecb4552214bce5a062a8f298ef33b5c0739dd2",
       "checkpoint_epoch001_sha256": "794b34b40526fc875f6dcb31ac064d351cacb0f4faac55120496a8fd348c3d9e",
-      "final_result": null,
+      "final_result": {
+        "status": "completed",
+        "completed_epochs": 300,
+        "optimizer_steps": 106800,
+        "best_epoch": 211,
+        "best_OA": 85.357,
+        "best_AA": 83.903,
+        "last_OA": 83.657,
+        "last_AA": 82.606,
+        "finished_at": "2026-11-20T11:46:47.257060+08:00",
+        "last_epoch": 300,
+        "tail10_OA_mean": 83.7959,
+        "tail10_OA_sd": 0.23078061010405518,
+        "tail10_AA_mean": 82.5007,
+        "tail10_AA_sd": 0.248794714574084,
+        "checks": {
+          "continuous": true,
+          "updates": true,
+          "full300": true,
+          "best_sha256_matches": true,
+          "last_sha256_matches": true
+        },
+        "observed_at": "2026-11-20T11:47:13.188140+08:00",
+        "checkpoints": {
+          "best": {
+            "file": "best.pth",
+            "sha256": "881dcd111ed582cd72228281fb3499cc3c1094c78aaacedd79d718ba7c30b5ad"
+          },
+          "last": {
+            "file": "last.pth",
+            "sha256": "2e74e3024f749904750f82c04d2096720ece35a9f91072b985fb4c0214ad7d11"
+          }
+        }
+      },
       "hier": {
         "enabled": false
+      },
+      "completed_epochs": 300,
+      "total_updates": 106800,
+      "best_epoch": 211,
+      "best_test_OA": 85.357,
+      "best_test_AA_same_epoch": 83.903,
+      "end_test_OA": 83.657,
+      "end_test_AA": 82.606,
+      "tail10_OA_mean": 83.7959,
+      "tail10_OA_sd": 0.23078061010405518,
+      "tail10_AA_mean": 82.5007,
+      "tail10_AA_sd": 0.248794714574084,
+      "finished_at": "2026-11-20T11:46:47.257060+08:00",
+      "completion_accepted": true,
+      "checkpoints": {
+        "best": {
+          "file": "best.pth",
+          "sha256": "881dcd111ed582cd72228281fb3499cc3c1094c78aaacedd79d718ba7c30b5ad"
+        },
+        "last": {
+          "file": "last.pth",
+          "sha256": "2e74e3024f749904750f82c04d2096720ece35a9f91072b985fb4c0214ad7d11"
+        }
       }
     },
     {
@@ -70,7 +126,7 @@
       "server_alias": "8000",
       "gpu": 1,
       "started_at": "2026-11-20T01:20:40.524881+08:00",
-      "completed_epochs_at_snapshot": 1,
+      "completed_epochs_at_snapshot": 141,
       "first_epoch_accepted": true,
       "first_epoch_OA": 27.724,
       "first_epoch_AA": 19.064,
@@ -108,7 +164,31 @@
           ],
           "weight_decay": 0.01
         }
-      }
+      },
+      "completed_epochs": 141,
+      "total_updates": 50196,
+      "best_epoch_so_far": 136,
+      "best_test_OA_so_far": 85.323,
+      "best_test_AA_same_epoch_so_far": 83.654,
+      "recent_epoch_seconds": 292.3256774543901,
+      "estimated_finish": "2026-11-21T00:42:00+08:00",
+      "progress_observed_at": "2026-11-20T11:46:34.907859+08:00"
     }
-  ]
+  ],
+  "paper_comparison": {
+    "source": "https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf",
+    "table": 2,
+    "dataset": "ScanObjectNN",
+    "PointMLP": {
+      "OA": 86.1,
+      "AA": 84.4
+    },
+    "PointMLP_HyCoRe": {
+      "OA": 87.2,
+      "AA": 85.9
+    },
+    "SO_H0_best_minus_paper_OA": -1.843,
+    "SO_H0_best_minus_paper_AA": -1.997,
+    "comparison_scope": "Published reference; HIER is additional local method. Same-140-epoch local comparison reported separately."
+  }
 }
