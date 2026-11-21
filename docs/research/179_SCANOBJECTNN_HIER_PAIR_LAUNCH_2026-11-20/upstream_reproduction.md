@@ -23,4 +23,4 @@ PointMLP 作者的 Model Zoo 列有 **纯 PointMLP** 的 ScanObjectNN 非投票 
 
 README 推荐 Python 3.7、PyTorch 1.10.1／CUDA 10.2，另给 Ampere 用的 PyTorch 1.8.1／CUDA 11.1 示例。Geoopt 在 README 中未锁定。论文 §4.1 给出 A6000 与通用 HyCoRe 配方，但 Table 2 没有逐行训练命令、种子或重复运行统计。因此当前公开记录可作为复测依据，无法直接确定本地与 87.2% 差距归因。[官方安装说明](https://github.com/diegovalsesia/HyCoRe#installation) · [论文 §4.1](https://proceedings.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf#page=7)
 
-论文发表页列有补充材料 PDF，直接请求其响应头返回 200，当前核验未覆盖 PDF 正文。PointMLP 历史权重目录的响应头经重定向后为 HTML，尚未核验实际权重文件。[NeurIPS 发表页](https://proceedings.neurips.cc/paper_files/paper/2022/hash/da8f9fc2b555d122369f36a9684415c1-Abstract-Conference.html)
+已读 NeurIPS 补充材料全文，共三页，内容为测地线分析和嵌入可视化，未提供 ScanObjectNN Table 2 的训练命令、种子或权重。PointMLP 历史权重目录的响应头经重定向后为 HTML，尚未核验实际权重文件。[NeurIPS 补充材料](https://papers.nips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Supplemental-Conference.pdf)
