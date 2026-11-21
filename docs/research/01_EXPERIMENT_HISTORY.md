@@ -1,5 +1,9 @@
 # Experiment history
 
+## 2026-11-21 14:11：ScanObjectNN 作者入口 seed 12 配对已启动
+
+用户批准作者 launcher 原入口和新增 HIER 配对。SO-S12-H0、SO-S12-HIER 分别在 8000 GPU0/1 开始 300 轮、SH32×356、seed12、完整 PB_T50_RS。生产 b876d85，原 `main()`、数据 loader、测试 OA 数值和最终保存规则沿用。环境为实际可运行的 PyTorch 2.8.0+cu128／Geoopt 0.5.1。两组短测初值、输入、裁剪、首步基础损失及随机状态一致，开启组代理按步更新。当前目录与前一轮 seed4780 分开。见[180 启动记录](180_SCANOBJECTNN_AUTHOR_LAUNCHER_S12_2026-11-21/run.md)。
+
 ## 2026-11-21 12:45：TS41–TS55 终局对照与 ScanObjectNN 收官
 
 TS41–TS55 共15组已完成300轮。两台服务器的轮次、更新预算、best规则、OA/AA及best/last SHA核对通过。已把每组目的、直接对照和三项OA差值补入 [V9&10](V9%2610.md#ts41ts55-实验目的与直接对照)。完整MN40的TS44在该批三项OA均最高（best/e300/末10：94.084/94.084/93.416）。MN20的HIER在CB32的三项OA均升，在SH32的三项OA均降但AA提高。SO-HIER于00:33完成300轮，best86.051／同轮AA84.691，e300 84.629／83.485，末10 OA84.608，较SO-H0分别提高OA .694／.972／.812个百分点，单列于 [179终局](179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md#2026-11-21-配对终局)。
