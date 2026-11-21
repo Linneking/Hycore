@@ -1,5 +1,9 @@
 # Next experiment plan — current review and historical drafts
 
+## 2026-11-21 12:45：TS41–TS55 终局对照与 ScanObjectNN 收官
+
+TS41–TS55 共15组已完成300轮。两台服务器的轮次、更新预算、best规则、OA/AA及best/last SHA核对通过。已把每组目的、直接对照和三项OA差值补入 [V9&10](V9%2610.md#ts41ts55-实验目的与直接对照)。完整MN40的TS44在该批三项OA均最高（best/e300/末10：94.084/94.084/93.416）。MN20的HIER在CB32的三项OA均升，在SH32的三项OA均降但AA提高。SO-HIER于00:33完成300轮，best86.051／同轮AA84.691，e300 84.629／83.485，末10 OA84.608，较SO-H0分别提高OA .694／.972／.812个百分点，单列于 [179终局](179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md#2026-11-21-配对终局)。
+
 ## 2026-11-20 11:47：ScanObjectNN H0完成，TS53终局与论文OA对照
 
 SO-H0于11:46:47完成300轮/106,800更新，best OA85.357/AA83.903，e30083.657/82.606、末10 OA83.7959±.2308；连续轮次和best/last SHA通过。HyCoRe论文Table2的PointMLP+HyCoRe为87.2/85.9，本地H0 best OA低1.843个百分点。SO-HIER完成141轮，best85.323/83.654，继续原预算，预计11月21日00:42左右结束；前140轮同预算best增量+.625pp，但e131–140均值仅+.073pp，不作终局增益。TS53已于10:13:58完成300轮/92,100更新，best93.841/90.682、e30093.395/90.466、末10 OA92.9416±.2605，指纹核验通过；相对TS06三项OA均低，独立CB-HIER未超过H0。当前只有SO-HIER继续训练。见[179进度和论文核对](179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md)、[176 TS53分析](176_MN40_FILTER20_DUAL_LAUNCH_2026-11-19/run.md)。本次只读服务器并补录，无新增、停止或改配方。

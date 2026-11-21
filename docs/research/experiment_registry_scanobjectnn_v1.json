@@ -2,7 +2,7 @@
   "schema_version": 1,
   "scope": "ScanObjectNN classification; separate from MN40 TS identities",
   "accuracy_unit": "percent",
-  "observed_at": "2026-11-20T11:47:13.188140+08:00",
+  "observed_at": "2026-11-21T12:43:51.538618+08:00",
   "production_commit": "142e75db151a2772e16214e89d11e00dc364a7c7",
   "official_reference_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
   "branch": "codex/scanobjectnn-hier-pair-plan-20261120",
@@ -122,18 +122,78 @@
       "id": "SO-HIER",
       "immutable_run_id": "scanobject_hier_pair_20261120_A/SO-HIER/main",
       "name": "ScanObject-PointMLP-HC-C1-Cap0-GS0-M500_4-SH32x356 / HdepthCap23-A1-Ks20-Kp20-L0.5-W0 (S4780)",
-      "status": "running",
+      "status": "completed",
       "server_alias": "8000",
       "gpu": 1,
       "started_at": "2026-11-20T01:20:40.524881+08:00",
-      "completed_epochs_at_snapshot": 141,
+      "completed_epochs_at_snapshot": 300,
       "first_epoch_accepted": true,
       "first_epoch_OA": 27.724,
       "first_epoch_AA": 19.064,
       "first_epoch_wall_seconds": 268.9122869730927,
       "initial_model_sha256": "e012ae2c0b2928968cf20e23c2ecb4552214bce5a062a8f298ef33b5c0739dd2",
       "checkpoint_epoch001_sha256": "ee6637f3a197a337001c8c3be3732162fae017d340b95a47b65f5225055185bb",
-      "final_result": null,
+      "final_result": {
+        "status": "completed",
+        "commit": "142e75db151a2772e16214e89d11e00dc364a7c7",
+        "finished_at": "2026-11-21T00:33:14.472233+08:00",
+        "epochs": 300,
+        "optimizer_steps": 106800,
+        "best": [
+          260,
+          260,
+          86.051,
+          84.691
+        ],
+        "end": [
+          300,
+          84.629,
+          83.485
+        ],
+        "tail_OA": 84.608,
+        "tail_OA_sd": 0.17626343920393797,
+        "tail_AA": 83.2986,
+        "tail_AA_sd": 0.2541240641891262,
+        "checks": {
+          "contiguous": true,
+          "budget": true,
+          "finite": true,
+          "best_manifest": true,
+          "manifest_status_rounds": true,
+          "registered_scalars": true,
+          "best_hash": true,
+          "last_hash": true
+        },
+        "best_sha256": "daa9d4a9504786ae8f591bbda7e56fe2c2a8b842b617556a74f85bc0896a42b1",
+        "last_sha256": "5ea519d62c4a8e0ed97444ed3cb462d49d628ff5d72286f7c25f5cff983e6a82",
+        "geometry": {
+          "sample_loss": 0.006691272836178541,
+          "proxy_loss": 0.04380284249782562,
+          "whole_view": {
+            "c": 0.1,
+            "points": 32,
+            "depth_min": 4.599981784820557,
+            "depth_median": 4.599984645843506,
+            "depth_max": 4.599985599517822,
+            "radius_max": 1.9651151895523071,
+            "cap_fraction": 1,
+            "inverse_metric_factor_min": 0.09419750422239304,
+            "inverse_metric_factor_median": 0.09419754147529602
+          },
+          "proxy": {
+            "c": 0.1,
+            "points": 512,
+            "depth_min": 2.889941930770874,
+            "depth_median": 3.5179123878479004,
+            "depth_max": 3.967888832092285,
+            "radius_max": 1.758998990058899,
+            "cap_fraction": 0,
+            "inverse_metric_factor_min": 0.11922942847013474,
+            "inverse_metric_factor_median": 0.13860420882701874
+          },
+          "native_whole_depth_max": 6.212618827819824
+        }
+      },
       "hier": {
         "enabled": true,
         "view": "native_c1_logmap -> tangent_cap2.3 -> c0.1_expmap -> independent_GS",
@@ -165,14 +225,29 @@
           "weight_decay": 0.01
         }
       },
-      "completed_epochs": 141,
-      "total_updates": 50196,
-      "best_epoch_so_far": 136,
-      "best_test_OA_so_far": 85.323,
-      "best_test_AA_same_epoch_so_far": 83.654,
-      "recent_epoch_seconds": 292.3256774543901,
-      "estimated_finish": "2026-11-21T00:42:00+08:00",
-      "progress_observed_at": "2026-11-20T11:46:34.907859+08:00"
+      "completed_epochs": 300,
+      "total_updates": 106800,
+      "best_epoch": 260,
+      "best_test_OA": 86.051,
+      "best_test_AA_same_epoch": 84.691,
+      "end_test_OA": 84.629,
+      "end_test_AA": 83.485,
+      "tail10_OA_mean": 84.608,
+      "tail10_OA_sd": 0.17626343920393797,
+      "tail10_AA_mean": 83.2986,
+      "tail10_AA_sd": 0.2541240641891262,
+      "finished_at": "2026-11-21T00:33:14.472233+08:00",
+      "completion_accepted": true,
+      "checkpoints": {
+        "best": {
+          "file": "best.pth",
+          "sha256": "daa9d4a9504786ae8f591bbda7e56fe2c2a8b842b617556a74f85bc0896a42b1"
+        },
+        "last": {
+          "file": "last.pth",
+          "sha256": "5ea519d62c4a8e0ed97444ed3cb462d49d628ff5d72286f7c25f5cff983e6a82"
+        }
+      }
     }
   ],
   "paper_comparison": {
@@ -189,6 +264,8 @@
     },
     "SO_H0_best_minus_paper_OA": -1.843,
     "SO_H0_best_minus_paper_AA": -1.997,
-    "comparison_scope": "Published reference; HIER is additional local method. Same-140-epoch local comparison reported separately."
+    "comparison_scope": "Published reference and completed local matched pair; HIER is an additional local method.",
+    "SO_HIER_best_minus_paper_OA": -1.149,
+    "SO_HIER_best_minus_paper_AA": -1.209
   }
 }
