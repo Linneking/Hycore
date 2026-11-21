@@ -1,5 +1,16 @@
 # Next experiment plan — current review and historical drafts
 
+## ScanObjectNN 作者 launcher 的 seed 12 配对
+
+用户已批准重跑作者发布入口并增设一组相同配置的 HIER。固定 HyCoRe 发布提交 `ef56a73` 的原 `main()`、ScanObjectNN PB_T50_RS 含背景、官方 train 11,416/test 2,882、SH32、单卡、300 轮、每轮 356 次更新、seed 12。作者 launcher 指定 LR .1 和 8 workers。两组使用原训练及测试入口、逐轮完整测试 OA 选 best、同轮报告 AA。模型从头训练。
+
+| 实验 | 改动 | 用途 |
+| --- | --- | --- |
+| SO-S12-H0 | 原作者 `main()`，共用最少导入、GPU 绑定与数据放置适配 | 本轮 H0 |
+| SO-S12-HIER | 原入口的 whole 输出接入上一轮 HIER，保持 512 代理、A1、Ks20/Kp20、权重各 .5、实际深度映射和 cap2.3 | 和 SO-S12-H0 比较 HIER 的增量 |
+
+现有设备使用已验收的 Blackwell 兼容 Python 3.9.23、PyTorch 2.8.0/CUDA 12.8、Geoopt 0.5.1。该环境还能与上一轮 seed4780 同底座比较，跨批同时有入口和 seed 的差异。作者旧环境缺完整依赖锁且设备支持不同。先用独立短测核对两组原网初值、主输入及随机流、首步基础损失和代理正常更新，再在空闲卡全新目录启动，短测权重独立保存。
+
 ## 2026-11-21 12:45：TS41–TS55 终局对照与 ScanObjectNN 收官
 
 TS41–TS55 共15组已完成300轮。两台服务器的轮次、更新预算、best规则、OA/AA及best/last SHA核对通过。已把每组目的、直接对照和三项OA差值补入 [V9&10](V9%2610.md#ts41ts55-实验目的与直接对照)。完整MN40的TS44在该批三项OA均最高（best/e300/末10：94.084/94.084/93.416）。MN20的HIER在CB32的三项OA均升，在SH32的三项OA均降但AA提高。SO-HIER于00:33完成300轮，best86.051／同轮AA84.691，e300 84.629／83.485，末10 OA84.608，较SO-H0分别提高OA .694／.972／.812个百分点，单列于 [179终局](179_SCANOBJECTNN_HIER_PAIR_LAUNCH_2026-11-20/run.md#2026-11-21-配对终局)。
