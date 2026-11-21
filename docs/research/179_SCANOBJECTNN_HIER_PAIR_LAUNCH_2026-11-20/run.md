@@ -113,3 +113,24 @@ HIER e141末批样本视图触cap90.625%，原生whole最大深度6.213；512代
 在这次配对中，HIER 的 OA、AA 在峰值、末轮和末段均提高。SO-HIER 的 best OA 距 HyCoRe 论文 Table 2 同骨干的 87.2% 仍差 1.149 个百分点。增量按本地配对计算，证据限 seed4780 和这一分支配方。[论文 Table 2](https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf#page=7)
 
 e300 末批几何快照中，HIER 视图的 32 个样本均触 4.6 的 cap，512 个代理均在 cap 内（深度 2.890–3.968，中位 3.518）。原生 whole 最大深度 6.213。此处是末批统计。最终指标和 SHA-256 见 [ScanObjectNN 登记表](../experiment_registry_scanobjectnn_v1.json)。
+
+## SO-H0 的 87.2% 复现差距审查
+
+SO-H0 在第 211 轮取得 **85.357% OA／83.903% AA**，相对论文 Table 2 的 **87.2% OA／85.9% AA** 分别低 **1.843／1.997 个百分点**。已读实际运行清单与逐轮日志，300 轮／106,800 次更新、选模轮次、权重指纹和 2,882 行测试数据身份均有记录。这个差距尚未定位到单个变量。[论文 Table 2 及 §4.1](https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf#page=7)
+
+| 项目 | 论文 §4.1 公布设置 | 作者 ScanObjectNN PointMLP 发布入口 | SO-H0 实际运行 |
+| --- | --- | --- | --- |
+| HyCoRe 对比项 | 权重 .01，margin 4 | .01，margin 4 | 同发布入口 |
+| HyCoRe 层次项 | 权重 .01，margin 1000/Npart | **.001，margin 500/Npart** | 同发布入口 |
+| whole 裁剪点数 | 800–1024 | **600–1024** | 同发布入口 |
+| part 裁剪点数 | 200–600 | **200–floor((whole_K−1)/2)** | 同发布入口 |
+| seed | Table 2 对应的 seed 未披露 | launcher 未传，解析器 **12** | **4780**，本地两组配对 |
+| 设备与环境 | A6000，PyTorch＋Geoopt | README 给出旧环境安装建议，未锁定 Geoopt 版本 | RTX 5090，Python 3.9.23，Torch 2.8.0+cu128，Geoopt 0.5.1，现代 PointNet2 扩展 |
+
+发布入口对应参数见 [launcher](https://github.com/diegovalsesia/HyCoRe/blob/ef56a73020e309b1009c486fea1f601d3f7b3252/classification_ScanObject/launcher_pointmlp.sh)、[训练函数](https://github.com/diegovalsesia/HyCoRe/blob/ef56a73020e309b1009c486fea1f601d3f7b3252/classification_ScanObject/main_pointmlp_hycore.py#L201-L226)、[裁剪 helper](https://github.com/diegovalsesia/HyCoRe/blob/ef56a73020e309b1009c486fea1f601d3f7b3252/classification_ScanObject/hutil.py#L26-L40) 和 [安装说明](https://github.com/diegovalsesia/HyCoRe#installation)。论文描述与发布脚本确实有差异，目前没有可核对的 Table 2 原始配置或权重来确认哪套参数实际产出了 87.2%。
+
+**入口身份。** 生产提交 `142e75d` 与作者提交 `ef56a73` 比对，`classification_ScanObject` 的追踪源码相同，差异仅为移除缓存字节码。SO-H0 调用作者的 `Hype_pointMLP`、`train()` 和 `validate()`，保留 c=1、损失、裁剪、反向及原参数梯度裁剪。运行由本地 `runner.py` 管理，调用兼容层解决残留的 `modelsnet` 导入，并替换模块内硬编码的 GPU 绑定。它从已核验 HDF 加载数组，通过原 `ScanObjectNN` 类保留裁点和增强，外层加入行号跟踪、只读 hook、优化步计数和日志保存。发布版的 300 轮、batch 32、8 workers、RiemannianSGD 及 cosine、逐轮测试 OA 选模均沿用，随机数入口改用 4780。PointNet2 的追踪算子源一致，构建脚本调整了目标架构和编译参数，生产复用本服务器编译的扩展。既有短测是在包装内比较原训练函数与增量入口，尚缺作者原 `main()` 的同环境对照。[本地入口](../diagnostics/scanobjectnn_hier_pair_20261120/runner.py) · [兼容与数据层](../diagnostics/scanobjectnn_hier_pair_20261120/support.py) · [数据身份](../178_SCANOBJECTNN_HIER_PAIR_PLAN_2026-11-20/dataset_identity_verified.json)
+
+**公开证据。** 作者仓库可查到 6 个 issue，未发现明确讨论同一 PointMLP＋HyCoRe 的 PB_T50_RS 87.2% 差距或提供对应权重的记录。#2 确认过 `modelsnet` 导入问题，#3 中提问者报告旧环境用 Geoopt 0.3 可绕开算子错误，#5 澄清层次公式中 whole／part 的变量名。#1 作者曾预告发布 checkpoint，README 的预训练小节仍为占位，公开 releases 和 tags 均为空。纯 PointMLP 仓库列有 86.1% 模型的历史权重链接，镜像下载可用性未证实。[公开材料与 issue 逐项核对](upstream_reproduction.md)
+
+SO-H0 的准确名称为“作者发布训练实现，使用本地适配入口和 seed 4780”。配对实验支持 SO-HIER 相对这条本地基线的增益。若要定位论文差距，先用相同 seed 4780、相同数据和环境对照作者的 `main()` 与本地入口，检查初始化、首批数据、基础损失和首步更新。再用作者 launcher 默认 seed 12 单独检查种子；论文正文的层次权重、margin 与裁剪应明确标为另一套训练配方。
