@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import importlib.metadata
+import importlib
 import itertools
 import json
 import os
@@ -171,8 +171,11 @@ def main():
     # Set source-defined HDF5 behavior before importing its dependencies.
     os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
     program = published_program(support.source_text(), hier=hier, smoke=args.smoke)
-    versions = {p: importlib.metadata.version(p) for p in
-                ("torch", "geoopt", "numpy", "h5py", "scikit-learn", "scipy", "matplotlib")}
+    # The server's Conda PyTorch build exposes a module version without
+    # Python wheel metadata. Read the actual imported libraries instead.
+    os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+    versions = {p: importlib.import_module(p).__version__ for p in
+                ("torch", "geoopt", "numpy", "h5py", "sklearn", "scipy", "matplotlib")}
     extension = next((REPO / "pointnet2_ops_lib" / "pointnet2_ops").glob("_ext*.so"))
     manifest = dict(arm=args.arm, source_commit=head, author_commit=support.SOURCE_COMMIT,
                     author_source_sha256=support.TRAIN_SHA, program_sha256=hashlib.sha256(program.encode()).hexdigest(),
