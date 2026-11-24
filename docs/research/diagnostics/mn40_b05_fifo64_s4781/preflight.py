@@ -11,7 +11,7 @@ import subprocess
 import sys
 import time
 
-from runner import ARM_NAMES, HERE, REPO, SEED, TS44_COMMIT, ts06
+from runner import ARM_NAMES, HIER_ARMS, HERE, REPO, SEED, TS44_COMMIT, ts06
 
 
 def read_json(path):
@@ -55,7 +55,13 @@ def idle_device(index):
     from inter_hierarchy_MN40.hier_proxy_scratch_v8.queue import idle_gpus, query_gpus
 
     def match():
-        return next((gpu for gpu in idle_gpus(query_gpus()) if gpu["index"] == index), None)
+        gpu = next((gpu for gpu in idle_gpus(query_gpus()) if gpu["index"] == index), None)
+        if gpu is None:
+            return None
+        used = subprocess.check_output(
+            ["nvidia-smi", "-i", gpu["uuid"], "--query-gpu=memory.used,utilization.gpu",
+             "--format=csv,noheader,nounits"], text=True, timeout=20)
+        return gpu if tuple(int(field.strip()) for field in used.split(",")) == (0, 0) else None
 
     with Path(f"/tmp/hycore_{os.getuid()}_gpu_{index}.lock").open("a+") as lock:
         while True:
@@ -107,13 +113,13 @@ def accept(root, expected, commit):
         m = manifests[arm] = read_json(run / "manifest.json")
         assert (m["status"], m["commit"], m["completed_epochs"], m["optimizer_steps"]) == ("completed", commit, 2, 4)
         assert m["ts44_source_commit"] == TS44_COMMIT and m["training_config"]["seed"] == SEED
-        assert m["training_config"]["hier_enabled"] is (arm == "hier")
+        assert m["training_config"]["hier_enabled"] is (arm in HIER_ARMS)
         assert m["dataset_identity"] == {"train": expected["train"]} and not m["official_test_read"]
         state = states[arm] = torch.load(run / "last_checkpoint.pth", map_location="cpu", weights_only=False)
         counters = {int(x) for key, x in state["net"].items() if key.endswith("num_batches_tracked")}
         assert counters == {8} and all(bool(torch.isfinite(x).all()) for x in state["net"].values())
         assert state["scheduler"]["T_max"] == state["scheduler"]["last_epoch"] == 2
-        assert ("proxy" in state) is (arm == "hier")
+        assert ("proxy" in state) is (arm in HIER_ARMS)
         traces[arm] = [json.loads(line) for line in (run / "input_trace.jsonl").read_text().splitlines()]
         assert len(traces[arm]) == 4
         for step, trace in enumerate(traces[arm]):
@@ -146,17 +152,32 @@ def accept(root, expected, commit):
     assert (snapshot["lambda_hier"], snapshot["sample_K"], snapshot["proxy_K"]) == (.5, 20, 20)
     assert snapshot["whole_gradient_norm"] > 0
     assert_hier_shell(snapshot["hier_mu"])
-    hierarchy = []
-    for epoch in (1, 2):
-        metrics = read_json(root / "hier" / f"metrics_epoch_{epoch:03d}.json")["hierarchy"]
-        assert (metrics["cached_pool_updates"], metrics["max_sample_pool"], metrics["proxy_updates"]) == (1, 64, epoch * 2)
-        assert 0 < metrics["cached_sample_triplets"] <= 50 * 32
-        hierarchy.append(metrics)
+    hierarchy = {}
+    for arm, pool in (("hier", 64), ("hier-current", 32)):
+        hierarchy[arm] = []
+        for epoch in (1, 2):
+            metrics = read_json(root / arm / f"metrics_epoch_{epoch:03d}.json")["hierarchy"]
+            assert (metrics["max_sample_pool"], metrics["proxy_updates"]) == (pool, epoch * 2)
+            assert metrics.get("cached_pool_updates", 0) == int(arm == "hier")
+            cached = metrics.get("cached_sample_triplets", 0)
+            if arm == "hier":
+                assert 0 < cached <= 50 * 32
+            else:
+                assert cached == 0
+            hierarchy[arm].append(metrics)
+    current = states["hier-current"]
+    assert {int(item["step"]) for item in current["proxy_optimizer"]["state"].values()} == {4}
+    current_snapshot = torch.load(root / "hier-current" / "actual_training_epoch_001.pth",
+                                  map_location="cpu", weights_only=False)
+    assert (current_snapshot["lambda_hier"], current_snapshot["sample_K"], current_snapshot["proxy_K"]) == (.5, 20, 20)
+    assert current_snapshot["whole_gradient_norm"] > 0
+    assert_hier_shell(current_snapshot["hier_mu"])
     return dict(passed=True, source_commit=commit, ts44_source_commit=TS44_COMMIT, seed=SEED,
                 initialized_model_sha256=manifests["h0"]["initialized_model_sha256"],
                 first_step_base_losses={arm: steps[0]["base_losses"] for arm, steps in traces.items()},
                 augmented_inputs_crops_and_main_rng_match=True, four_main_updates_per_smoke=True,
-                whole_gradient_norm=snapshot["whole_gradient_norm"], hierarchy_metrics=hierarchy)
+                whole_gradient_norm=snapshot["whole_gradient_norm"], hierarchy_metrics=hierarchy["hier"],
+                current_hierarchy_metrics=hierarchy["hier-current"])
 
 
 def main():
@@ -165,6 +186,7 @@ def main():
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--reference-manifest", type=Path, required=True)
     parser.add_argument("--gpu", type=int, required=True)
+    parser.add_argument("--reference-initial-model", help="Completed matched prior arm's initial model SHA-256")
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--source-branch", required=True)
     args = parser.parse_args()
@@ -187,6 +209,14 @@ def main():
                                    env=environment(gpu), stdin=subprocess.DEVNULL, stdout=log,
                                    stderr=subprocess.STDOUT, timeout=1800, check=True)
         result = accept(args.root, expected, args.source_commit)
+        if args.reference_initial_model and result["initialized_model_sha256"] != args.reference_initial_model:
+            raise RuntimeError("Preflight model initialization differs from the matched prior arms")
+        reference = read_json(args.reference_manifest)
+        local = read_json(args.root / "h0" / "manifest.json")
+        if args.reference_initial_model:
+            for key in ("gpu_name", "library_versions"):
+                if reference[key] != local[key]:
+                    raise RuntimeError(f"Matched reference differs in {key}: {reference[key]} vs {local[key]}")
         result.update(reference_commit=reference_commit, reference_manifest_sha256=ts06.digest(args.reference_manifest),
                       dataset_identity_sha256=ts06.digest(identity), updated_at=now())
         write(destination, result)

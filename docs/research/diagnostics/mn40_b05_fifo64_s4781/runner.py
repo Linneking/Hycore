@@ -17,7 +17,12 @@ from docs.research.diagnostics.mn40_ts33_35_20261113 import shuffle_runner as ts
 ts06 = ts44.ts06
 SEED = 4781
 TS44_COMMIT = "78e772209dbb263bde844f748867b118c644d9ed"
-ARM_NAMES = {"h0": "MN40-B05-S4781-H0", "hier": "MN40-B05-S4781-HIER-FIFO1"}
+ARM_NAMES = {
+    "h0": "MN40-B05-S4781-H0",
+    "hier": "MN40-B05-S4781-HIER-FIFO1",
+    "hier-current": "MN40-B05-S4781-HIER-CURRENT32",
+}
+HIER_ARMS = {"hier": ts44.CACHED_POOL_ARM, "hier-current": "TS35"}
 PINNED = {
     "docs/research/diagnostics/mn40_ts33_35_20261113/shuffle_runner.py":
         "87ab50ab91c1895e9c5b3b6d718b532d17e622f658c9f4d582f9f63e69dd7bc1",
@@ -75,12 +80,21 @@ class Hierarchy(ts44.Hierarchy):
         ):
             raise RuntimeError("Proxy initialization consumed Torch's training RNG")
 
+    def add_loss(self, loss, labels):
+        if self.enabled and not self.use_cache:
+            self.counts["max_sample_pool"] = max(self.counts["max_sample_pool"], len(labels))
+        return super().add_loss(loss, labels)
+
     def checkpoint(self, net, epoch, optimizer, scheduler, metrics, best, torch, np, config):
         state = super().checkpoint(net, epoch, optimizer, scheduler, metrics, best, torch, np, config)
         if self.enabled:
             metrics["hierarchy"]["proxy_updates"] = self.updates
-            if metrics["hierarchy"].get("cached_pool_updates") != metrics["epoch_optimizer_steps"] - 1:
-                raise RuntimeError("TS44 must use history on every step after the first in each epoch")
+            history_steps = metrics["epoch_optimizer_steps"] - 1 if self.use_cache else 0
+            counters = metrics["hierarchy"]
+            if counters.get("cached_pool_updates", 0) != history_steps:
+                raise RuntimeError("Candidate history differs from the configured arm")
+            if counters.get("max_sample_pool") != (64 if history_steps else 32):
+                raise RuntimeError("Unexpected maximum HIER candidate count")
         return state
 
 
@@ -118,8 +132,8 @@ def main():
         legacy_args += ["--smoke", "--epochs", "2", "--steps-per-epoch", "2"]
     args = ts06.argument_parser().parse_args(legacy_args)
     ts44.SEED = SEED
-    mode = {"reference": "reference", "h0": "off", "hier": "enabled"}[options.arm]
-    hier = Hierarchy(mode, args, ts44.CACHED_POOL_ARM)
+    mode = {"reference": "reference", "h0": "off"}.get(options.arm, "enabled")
+    hier = Hierarchy(mode, args, HIER_ARMS.get(options.arm, ts44.CACHED_POOL_ARM))
     original_import = ts06.import_original
     original_install = ts06.install_loss_curvature
     original_identity = ts06.source_identity
@@ -157,15 +171,18 @@ def main():
                               proxy_optimizer=dict(name="AdamW", lr=.005, eps=1e-4, betas=[.9, .999],
                                                    weight_decay=.01, min_lr=.0005),
                               proxy_seed=SEED, gumbel_seed=SEED + 300001, mining_seed_stride=10007,
-                              sample_max_pool=64, sample_anchors=32, sample_history_batches=1,
-                              sample_history_detached=True, sample_history_reset="each epoch",
+                              sample_max_pool=64 if hier.use_cache else 32, sample_anchors=32,
+                              sample_history_batches=int(hier.use_cache),
+                              sample_history_detached=hier.use_cache,
+                              sample_history_reset="each epoch" if hier.use_cache else None,
                               gradient_hook_scope="native whole/part GS plus independent pre-GS fixed-shell branch")
             if path.name == "manifest.json":
                 value.update(experiment_id=ARM_NAMES.get(options.arm, "MN40-B05-S4781-REFERENCE"),
                              canonical_name=ARM_NAMES.get(options.arm, "MN40-B05-S4781-REFERENCE"),
                              variant=options.arm, ts44_source_commit=TS44_COMMIT)
                 if hier.enabled:
-                    value["changed_from_baseline"] = ["fixed-shell HIER with detached one-step FIFO candidates"]
+                    candidate_source = "detached one-step FIFO candidates" if hier.use_cache else "current-batch candidates only"
+                    value["changed_from_baseline"] = [f"fixed-shell HIER with {candidate_source}"]
                 if value["status"] == "running" and value["completed_epochs"] == 0:
                     loaded = value["dataset_identity"]
                     splits = ("train",) if args.smoke else ("train", "test")
