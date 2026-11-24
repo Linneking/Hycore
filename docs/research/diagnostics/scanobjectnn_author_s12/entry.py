@@ -32,12 +32,13 @@ def add_once(source, old, new):
     return source.replace(old, new, 1)
 
 
-def published_program(source, hier=False, smoke=False):
+def published_program(source, hier=False, smoke=False,
+                      base_loss="        loss = std_loss + 0.01*t_loss + 0.001*h_loss"):
     # The worker is already bound to a verified physical GPU by the queue.
     source = add_once(source, 'os.environ["CUDA_VISIBLE_DEVICES"] = "0"',
                       '# Device visibility supplied by the launch queue')
     if hier:
-        loss = "        loss = std_loss + 0.01*t_loss + 0.001*h_loss"
+        loss = base_loss
         source = add_once(source, loss, loss +
                           "\n        loss = hier_addon.loss(loss, parent_mu, label, net.manifold2)")
         step = "        optimizer.step()"
@@ -53,7 +54,7 @@ def published_program(source, hier=False, smoke=False):
                           "        smoke_trace.inputs(data, label)")
         crop = "        pos_mu, _ = net(pos_data)"
         source = add_once(source, crop, "        smoke_trace.crops(data, pos_data)\n" + crop)
-        loss = "        loss = std_loss + 0.01*t_loss + 0.001*h_loss"
+        loss = base_loss
         source = add_once(source, loss, loss + "\n        smoke_trace.base(std_loss, t_loss, h_loss)")
         evaluate = "        for batch_idx, (data, label) in enumerate(testloader):"
         source = add_once(source, evaluate,
