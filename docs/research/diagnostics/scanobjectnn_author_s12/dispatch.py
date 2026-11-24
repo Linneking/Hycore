@@ -20,7 +20,7 @@ from inter_hierarchy_MN40.hier_proxy_scratch_v8.queue import (
 
 
 @contextmanager
-def reserve(index):
+def reserve(index, extra_check=None):
     with Path("/tmp/hycore_%d_gpu_%d.lock" % (os.getuid(), index)).open("a+") as lock:
         while True:
             try:
@@ -29,10 +29,11 @@ def reserve(index):
                 time.sleep(15)
                 continue
             first = {row["index"]: row for row in idle_gpus(query_gpus())}
-            if index in first:
+            if index in first and (extra_check is None or extra_check(first[index])):
                 time.sleep(2)
                 second = {row["index"]: row for row in idle_gpus(query_gpus())}
-                if index in second and second[index]["uuid"] == first[index]["uuid"]:
+                if (index in second and second[index]["uuid"] == first[index]["uuid"]
+                        and (extra_check is None or extra_check(second[index]))):
                     yield second[index]
                     return
             fcntl.flock(lock, fcntl.LOCK_UN)

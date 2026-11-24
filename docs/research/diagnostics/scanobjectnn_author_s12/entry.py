@@ -22,6 +22,7 @@ SEED = 12
 POINTMLP_ARGS = ["--learning_rate", "0.1", "--epoch=300",
                  "--msg=Offv_pointmlp_hycore", "--workers=8"]
 ARM_NAMES = ("SO-S12-H0", "SO-S12-HIER")
+PAPER_INTRA_ARM = "SO-S12-H0-PAPER-INTRA"
 SOURCE = support.SOURCE / "main_pointmlp_hycore.py"
 PROXY_DIR = "hier"
 
@@ -60,6 +61,14 @@ def published_program(source, hier=False, smoke=False,
         source = add_once(source, evaluate,
                           "        for batch_idx, (data, label) in enumerate(smoke_trace.limit(testloader)):")
     return source
+
+
+def paper_intra_program(source):
+    """Use 1000/N_part and coefficient .01 for the existing intra loss."""
+    source = add_once(source, "hier_margin=mar*0.5, contr_margin=4",
+                      "hier_margin=mar, contr_margin=4")
+    return add_once(source, "loss = std_loss + 0.01*t_loss + 0.001*h_loss",
+                    "loss = std_loss + 0.01*t_loss + 0.01*h_loss")
 
 
 class HierAddition:
@@ -141,7 +150,7 @@ def source_environment():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--arm", choices=ARM_NAMES, required=True)
+    parser.add_argument("--arm", choices=(*ARM_NAMES, PAPER_INTRA_ARM), required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--smoke", action="store_true")
@@ -159,6 +168,7 @@ def main():
         if support.sha_file(data / filename) != sha256:
             raise RuntimeError("Official loader input fingerprint mismatch")
     hier = args.arm == "SO-S12-HIER"
+    paper_intra = args.arm == PAPER_INTRA_ARM
     actual_args = list(POINTMLP_ARGS)
     if args.smoke:
         actual_args[2] = "--epoch=2"
@@ -172,6 +182,8 @@ def main():
     # Set source-defined HDF5 behavior before importing its dependencies.
     os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
     program = published_program(support.source_text(), hier=hier, smoke=args.smoke)
+    if paper_intra:
+        program = paper_intra_program(program)
     # The server's Conda PyTorch build exposes a module version without
     # Python wheel metadata. Read the actual imported libraries instead.
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
@@ -186,6 +198,8 @@ def main():
                     data_sha256={k: v[1] for k, v in support.DATA_FILES.items()},
                     batch_size=32, steps_per_epoch=2 if args.smoke else 356,
                     test_rows=64 if args.smoke else 2882, hier_enabled=hier,
+                    intra_hierarchy=dict(weight=.01 if paper_intra else .001,
+                                         margin_numerator=1000 if paper_intra else 500),
                     hierarchy=dict(curvature=.1, tangent_cap=2.3, GS=True, fixed_shell=False,
                                    proxy_count=512, initialization=.9, sample_K=20, proxy_K=20,
                                    sample_weight=.5, proxy_weight=.5, T=50, cands=32,
