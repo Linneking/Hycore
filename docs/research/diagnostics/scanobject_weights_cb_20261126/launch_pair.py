@@ -114,9 +114,9 @@ def gpu_lock(stack, index):
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
 
 
-def update(root, status, **values):
-    status.update(values, updated_at=now())
-    write(root / "status.json", status)
+def update(root, state, **values):
+    state.update(values, updated_at=now())
+    write(root / "status.json", state)
 
 
 def preflight(args, root, status, device):
