@@ -109,32 +109,96 @@ def start(args, arm, device, stage, smoke):
                                 stdout=log, stderr=subprocess.STDOUT)
 
 
+def gpu_lock(stack, index):
+    lock = stack.enter_context(open(f"/tmp/hycore_{os.getuid()}_gpu_{index}.lock", "a"))
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+
+def update(root, status, **values):
+    status.update(values, updated_at=now())
+    write(root / "status.json", status)
+
+
+def preflight(args, root, status, device):
+    stage = root / "preflight"
+    stage.mkdir()
+    update(root, status, status="preflight")
+    for arm in ARMS[args.pair]:
+        if start(args, arm, device, stage, smoke=True).wait() != 0:
+            raise RuntimeError(f"Preflight worker failed for {arm}")
+    accept(stage, args.pair, args.source_commit)
+
+
+def wait_for_gpu(locks, index, display_mib, running, first_lock):
+    while True:
+        code = running.poll()
+        if code is not None:
+            first_lock.close()
+            if code != 0:
+                raise RuntimeError(f"First training worker failed with {code}")
+        with ExitStack() as attempt:
+            try:
+                gpu_lock(attempt, index)
+            except BlockingIOError:
+                pass
+            else:
+                device = available((index,), display_mib)
+                if device:
+                    time.sleep(2)
+                    if device == available((index,), display_mib):
+                        locks.enter_context(attempt.pop_all())
+                        return device[0]
+        time.sleep(20)
+
+
+def run_staggered(args, root, status, locks, workers):
+    waiting_arm, first_arm = ARMS[args.pair]
+    waiting_gpu, first_gpu = args.gpus
+    gpu_lock(locks[first_gpu], first_gpu)
+    first_device = reserve((first_gpu,), args.display_mib)[0]
+    preflight(args, root, status, first_device)
+    first_device = reserve((first_gpu,), args.display_mib)[0]
+    workers[first_arm] = start(args, first_arm, first_device, root, smoke=False)
+    update(root, status, status="partially_running", started_at=now(),
+           pids={first_arm: workers[first_arm].pid}, queued={waiting_arm: waiting_gpu})
+    waiting_device = wait_for_gpu(locks[waiting_gpu], waiting_gpu, args.display_mib,
+                                  workers[first_arm], locks[first_gpu])
+    workers[waiting_arm] = start(args, waiting_arm, waiting_device, root, smoke=False)
+
+
+def run_together(args, root, status, locks, workers):
+    for index in sorted(args.gpus):
+        gpu_lock(locks[index], index)
+    devices = reserve(args.gpus, args.display_mib)
+    preflight(args, root, status, devices[0])
+    devices = reserve(args.gpus, args.display_mib)
+    for arm, device in zip(ARMS[args.pair], devices):
+        workers[arm] = start(args, arm, device, root, smoke=False)
+
+
 def run(args, root, status):
-    arms = ARMS[args.pair]
-    with ExitStack() as locks:
-        for index in sorted(args.gpus):
-            lock = locks.enter_context(open(f"/tmp/hycore_{os.getuid()}_gpu_{index}.lock", "a"))
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        devices = reserve(args.gpus, args.display_mib)
-        stage = root / "preflight"
-        stage.mkdir()
-        status.update(status="preflight", updated_at=now())
-        write(root / "status.json", status)
-        for arm in arms:
-            if start(args, arm, devices[0], stage, smoke=True).wait() != 0:
-                raise RuntimeError(f"Preflight worker failed for {arm}")
-        accept(stage, args.pair, args.source_commit)
-        devices = reserve(args.gpus, args.display_mib)
+    arm_gpus = dict(zip(ARMS[args.pair], args.gpus))
+    with ExitStack() as stack:
+        locks = {index: stack.enter_context(ExitStack()) for index in args.gpus}
         workers = {}
         try:
-            for arm, device in zip(arms, devices):
-                workers[arm] = start(args, arm, device, root, smoke=False)
-            status.update(status="running", started_at=now(), pids={arm: p.pid for arm, p in workers.items()})
-            write(root / "status.json", status)
+            if args.stagger:
+                run_staggered(args, root, status, locks, workers)
+            else:
+                run_together(args, root, status, locks, workers)
+            update(root, status, status="running", started_at=status.get("started_at", now()),
+                   queued={}, pids={arm: p.pid for arm, p in workers.items()})
         finally:
-            codes = {arm: process.wait() for arm, process in workers.items()}
+            codes = {}
+            while len(codes) < len(workers):
+                for arm, process in workers.items():
+                    if arm not in codes and process.poll() is not None:
+                        codes[arm] = process.returncode
+                        locks[arm_gpus[arm]].close()
+                if len(codes) < len(workers):
+                    time.sleep(5)
         status["exit_codes"] = codes
-        if set(codes) != set(arms) or any(codes.values()):
+        if set(codes) != set(ARMS[args.pair]) or any(codes.values()):
             raise RuntimeError(f"Training worker failed: {codes}")
 
 
@@ -143,11 +207,14 @@ def main():
     parser.add_argument("--pair", choices=ARMS, required=True)
     parser.add_argument("--gpus", nargs=2, type=int, required=True)
     parser.add_argument("--display-mib", type=int, default=0)
+    parser.add_argument("--stagger", action="store_true", help="Start DGCNN HIER first and queue H0")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source-commit", required=True)
     args = parser.parse_args()
     if len(set(args.gpus)) != 2 or not 0 <= args.display_mib <= 128:
         parser.error("Two distinct GPUs and a display allowance between 0 and 128 MiB are required")
+    if args.stagger and args.pair != "dgcnn":
+        parser.error("Staggered launch is only supported for DGCNN")
     root = args.output.resolve()
     root.mkdir()
     status = dict(status="waiting", pair=args.pair, gpus=args.gpus, source_commit=args.source_commit,
