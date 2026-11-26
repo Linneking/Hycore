@@ -1,0 +1,281 @@
+{
+  "observed_at": "2026-11-26T14:01:38.545003+08:00",
+  "audit": "read-only manifests, complete epoch logs and fixed endpoint test files; no model evaluation",
+  "runs": [
+    {
+      "name": "DeLA-H0",
+      "run_dir": "~/HyCoRe_runs/de_la_pw_dmr_hier_20261125/formal_seed4780/h0/work",
+      "manifest": {
+        "batch_size": 32,
+        "batches_per_epoch": 356,
+        "calibration": false,
+        "cuda": "12.8",
+        "dela_config_sha": "43ce42b4d1fba5afb50b0f131a4fae83abe1ad19e295eb222831f966eccd7616",
+        "dela_file_sha": "69a08fd1766e5a5b7888b1dcb25152362665e5421c2bce752ad3e7b0c74d84d5",
+        "epochs": 250,
+        "gpu": "NVIDIA GeForce RTX 5090",
+        "hier": null,
+        "initialized_from": "random",
+        "input_scale": 0.0761,
+        "lambda_h": 0.02,
+        "mode": "h0",
+        "optimizer": "AdamW",
+        "revision": "5850e4799371ab1696f208dbb56717a48f7f491c",
+        "seed": 4780,
+        "selection": "fixed e250; evaluate official test once",
+        "smoke": false,
+        "start": "2026-11-25T10:57:22.621918+00:00",
+        "torch": "2.8.0+cu128",
+        "train_sha": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5"
+      },
+      "completed_epochs": 250,
+      "continuous_epochs": true,
+      "final_train": {
+        "ce": 1.9836393658364757,
+        "coordinate": 0.2298459362531646,
+        "l_h": 0.047544610048277994,
+        "l_c": 0.12782531271406103,
+        "epoch": 250,
+        "steps": 89000,
+        "updates": 88961,
+        "skipped": 39,
+        "train_oa": 99.99122191011236,
+        "peak_mib": 1693
+      },
+      "test": {
+        "oa": 87.47397661209106,
+        "aa": 86.09171509742737,
+        "rows": 2882,
+        "correct": 2521,
+        "recomputed_oa": 87.47397640527412,
+        "recomputed_aa": 86.09171120782045,
+        "class_counts_match": true
+      },
+      "artifacts": {
+        "manifest.json": "87779f6c2c5dfcd91bdea4e9f4374bdf67811a43d50aa3fac00e2896652cea03",
+        "metrics.jsonl": "8208341d65c3668ff2cb40073e4912b91e70ad978728ad1cf3c3e0e7f021d39d",
+        "test_e250.json": "9e250529dd5213bfbe1ba09e1f5f100ada0eca46d74c93e449e6632d2eaa74e2",
+        "last.pt": "e1b369e8f0bb073fad3d0b29db21c6fbe420b0baf73f459b28644f36a8bd31b8"
+      }
+    },
+    {
+      "name": "DeLA-HIER",
+      "run_dir": "~/HyCoRe_runs/de_la_pw_dmr_hier_20261125/formal_seed4780/hier/work",
+      "manifest": {
+        "batch_size": 32,
+        "batches_per_epoch": 356,
+        "calibration": false,
+        "cuda": "12.8",
+        "dela_config_sha": "43ce42b4d1fba5afb50b0f131a4fae83abe1ad19e295eb222831f966eccd7616",
+        "dela_file_sha": "69a08fd1766e5a5b7888b1dcb25152362665e5421c2bce752ad3e7b0c74d84d5",
+        "epochs": 250,
+        "gpu": "NVIDIA GeForce RTX 5090",
+        "hier": {
+          "a1": true,
+          "c": 0.1,
+          "cap": 2.3,
+          "gs": true,
+          "lambda_proxy": 0.5,
+          "lambda_sample": 0.5,
+          "proxy_count": 512,
+          "proxy_k": 20,
+          "sample_k": 20,
+          "t": 50
+        },
+        "initialized_from": "random",
+        "input_scale": 0.0761,
+        "lambda_h": 0.02,
+        "mode": "hier",
+        "optimizer": "AdamW",
+        "revision": "5850e4799371ab1696f208dbb56717a48f7f491c",
+        "seed": 4780,
+        "selection": "fixed e250; evaluate official test once",
+        "smoke": false,
+        "start": "2026-11-25T10:57:22.384798+00:00",
+        "torch": "2.8.0+cu128",
+        "train_sha": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5"
+      },
+      "completed_epochs": 250,
+      "continuous_epochs": true,
+      "final_train": {
+        "ce": 1.9836666784929426,
+        "coordinate": 0.22208575682526224,
+        "l_h": 0.04396155656556065,
+        "l_c": 0.12637543816412433,
+        "hier_sample_loss": 0.018105682939175895,
+        "hier_proxy_loss": 0.06267516760762488,
+        "hier_active_sample": 94.46910112359551,
+        "epoch": 250,
+        "steps": 89000,
+        "updates": 88961,
+        "skipped": 39,
+        "train_oa": 99.98244382022472,
+        "peak_mib": 2232
+      },
+      "test": {
+        "oa": 88.23733329772949,
+        "aa": 86.89911365509033,
+        "rows": 2882,
+        "correct": 2543,
+        "recomputed_oa": 88.23733518390007,
+        "recomputed_aa": 86.89910966484678,
+        "class_counts_match": true
+      },
+      "artifacts": {
+        "manifest.json": "2ed04202ef4adb0bc38e70017c468e2cf0afdfd764f529bac12292c490d3c8b2",
+        "metrics.jsonl": "0ac723d8bf467497070259373fbd7edaad1a9094af86a300b6a7ec7e444df57b",
+        "test_e250.json": "5f1a0910ddc5c1d6ba64c838e0016ca0c7f9cd9ad42407752847193e7a8e4a36",
+        "last.pt": "6aff1622d1dfcd3f586059218e5f6f1d5a47628b2e2585eebf063b848feee517"
+      }
+    },
+    {
+      "name": "DG-S4780-CB32-H0",
+      "run_dir": "~/HyCoRe_runs/scanobject_weights_cb_20261126/runs_verified/DG-S4780-CB32-H0",
+      "manifest": {
+        "source_commit": "e653cce96e6bd78ec9a9a4d53ebd2116db5797c3",
+        "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+        "author_source_sha256": "7521d795939b2ed6123bf6ca6bae17f52c1c9aebf4c71bb75591232b6296ca1c",
+        "program_sha256": "c108b2f490a5f3d3ccfcd0bcf3db9b1caf5159e344b35117337c21adb1094f08",
+        "seed": 4780,
+        "smoke": false,
+        "status": "completed",
+        "started_at": "2026-11-26T07:51:08.060724+08:00",
+        "teacher": null,
+        "initial_checkpoint": null,
+        "data_variant": "PB_T50_RS / main_split",
+        "data_sha256": {
+          "training": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+          "test": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1"
+        },
+        "train_rows": 11416,
+        "test_rows": 2882,
+        "epochs": 250,
+        "batch_size": 32,
+        "steps_per_epoch": 356,
+        "hier_enabled": false,
+        "gpu": "0",
+        "python": "3.9.23",
+        "torch": "2.8.0+cu128",
+        "cuda": "12.8",
+        "geoopt": "0.5.1",
+        "extension_sha256": "ae139590cc43d313a0901a1b4cca5bbb73114ad92b693c762d18b0bc76a2f03d",
+        "hierarchy": null,
+        "finished_at": "2026-11-26T10:23:17.680889+08:00",
+        "arm": "DG-S4780-CB32-H0",
+        "sampler": "CB32",
+        "sampler_seed": 4780,
+        "sampler_log": "cb_sampler.jsonl",
+        "classes_per_batch": 15
+      },
+      "completed_epochs": 250,
+      "continuous_epochs": true,
+      "best": {
+        "epoch": 247,
+        "oa": 81.783,
+        "aa": 79.69
+      },
+      "last": {
+        "epoch": 250,
+        "oa": 81.124,
+        "aa": 79.134
+      },
+      "tail10": {
+        "oa": 81.06530000000001,
+        "aa": 79.01509999999999
+      },
+      "sampler_epochs": 250,
+      "artifacts": {
+        "checkpoints/PointNet-toyproof-Offv_dgcnn_hycore/log.txt": "d5a13a985e444c1cf4e9fe7933c7ce93c57ac176255200e84eafcabb8537fb7b",
+        "manifest.json": "f7d3ee73d2597bc3ac545811281664a71860b7153935079d1f1a05aacbfe7bf8",
+        "checkpoints/PointNet-toyproof-Offv_dgcnn_hycore/best_checkpoint.pth": "514d7dd099f1de4e68a875f5d6d24bd7ce61bbebac2f1de642130f945780080e",
+        "checkpoints/PointNet-toyproof-Offv_dgcnn_hycore/last_checkpoint.pth": "8842418dc57761d761e341bdd6478ee12891233a3d6486d5aa62fe15beab0ff7"
+      }
+    },
+    {
+      "name": "DG-S4780-CB32-HIER",
+      "run_dir": "~/HyCoRe_runs/scanobject_weights_cb_20261126/runs_verified/DG-S4780-CB32-HIER",
+      "manifest": {
+        "source_commit": "e653cce96e6bd78ec9a9a4d53ebd2116db5797c3",
+        "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+        "author_source_sha256": "7521d795939b2ed6123bf6ca6bae17f52c1c9aebf4c71bb75591232b6296ca1c",
+        "program_sha256": "7f1ff2c575a9e8481677c8c7d57c46078d219f2299a027866c4ecc3e12de4958",
+        "seed": 4780,
+        "smoke": false,
+        "status": "completed",
+        "started_at": "2026-11-26T00:32:39.306460+08:00",
+        "teacher": null,
+        "initial_checkpoint": null,
+        "data_variant": "PB_T50_RS / main_split",
+        "data_sha256": {
+          "training": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+          "test": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1"
+        },
+        "train_rows": 11416,
+        "test_rows": 2882,
+        "epochs": 250,
+        "batch_size": 32,
+        "steps_per_epoch": 356,
+        "hier_enabled": true,
+        "gpu": "2",
+        "python": "3.9.23",
+        "torch": "2.8.0+cu128",
+        "cuda": "12.8",
+        "geoopt": "0.5.1",
+        "extension_sha256": "ae139590cc43d313a0901a1b4cca5bbb73114ad92b693c762d18b0bc76a2f03d",
+        "hierarchy": {
+          "curvature": 0.1,
+          "tangent_cap": 2.3,
+          "fixed_shell": false,
+          "GS": true,
+          "pool": 32,
+          "proxy_count": 512,
+          "initialization": 0.9,
+          "sample_K": 20,
+          "proxy_K": 20,
+          "T": 50,
+          "sample_weight": 0.5,
+          "proxy_weight": 0.5,
+          "proxy_seed": 4780,
+          "gumbel_seed": 304781,
+          "optimizer": "AdamW .005 to .0005, eps 1e-4"
+        },
+        "finished_at": "2026-11-26T13:57:49.443671+08:00",
+        "arm": "DG-S4780-CB32-HIER",
+        "sampler": "CB32",
+        "sampler_seed": 4780,
+        "sampler_log": "cb_sampler.jsonl",
+        "classes_per_batch": 15
+      },
+      "completed_epochs": 250,
+      "continuous_epochs": true,
+      "best": {
+        "epoch": 218,
+        "oa": 81.437,
+        "aa": 79.18
+      },
+      "last": {
+        "epoch": 250,
+        "oa": 80.465,
+        "aa": 78.354
+      },
+      "tail10": {
+        "oa": 80.56890000000001,
+        "aa": 78.40610000000001
+      },
+      "sampler_epochs": 250,
+      "artifacts": {
+        "checkpoints/PointNet-toyproof-Offv_dgcnn_hycore/log.txt": "8952686b28762c3ce1ee0bf9d686a2efdba12150a664a9488c04f95ad0c81fef",
+        "manifest.json": "796c8b02cc73d55422e4ec7128f8eaf1241d45e1a7f8f9c529f2fb66082d66d4",
+        "checkpoints/PointNet-toyproof-Offv_dgcnn_hycore/best_checkpoint.pth": "e8f66ddc0b66b4b017dad22c13eb63a97202fa25c3bcb0824f2fd6226e8aa570",
+        "checkpoints/PointNet-toyproof-Offv_dgcnn_hycore/last_checkpoint.pth": "cb6b9cb91df878e575a447390353ef8b7319686fa877aa7f5c8c1f542f8ca18e"
+      },
+      "hier_epochs": 250,
+      "hier_final": {
+        "epoch": 250,
+        "optimizer_steps": 89000,
+        "selected_best": false
+      }
+    }
+  ],
+  "CB_sampler_all_epochs_match": true
+}

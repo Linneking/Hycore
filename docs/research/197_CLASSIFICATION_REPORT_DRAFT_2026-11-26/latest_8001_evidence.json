@@ -1,0 +1,157 @@
+{
+  "observed_at": "2026-11-26T14:13:35.863834+08:00",
+  "audit": "read-only manifests and flushed log.txt",
+  "runs": [
+    {
+      "name": "SO-S12-HIER-L0.1",
+      "run_dir": "~/HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L0.1",
+      "manifest": {
+        "arm": "SO-S12-HIER-L0.1",
+        "source_commit": "62d51fec1c73d15745f875a4eda21702615b21ad",
+        "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+        "author_source_sha256": "6b0ee90db0628c5c2e3fd46fee7f656d779171fce316c2afbe65b573c2e1598b",
+        "program_sha256": "df5b5dd87e63eb5bc692a69f7e9359fea71573544a145dca802d273a748d442c",
+        "entry": "author main()",
+        "seed": 12,
+        "smoke": false,
+        "started_at": "2026-11-26T00:25:00.188384+08:00",
+        "status": "completed",
+        "teacher": null,
+        "initial_checkpoint": null,
+        "data_variant": "ScanObjectNN PB_T50_RS / main_split",
+        "data_sha256": {
+          "training": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+          "test": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1"
+        },
+        "batch_size": 32,
+        "steps_per_epoch": 356,
+        "test_rows": 2882,
+        "hier_enabled": true,
+        "hierarchy": {
+          "curvature": 0.1,
+          "tangent_cap": 2.3,
+          "GS": true,
+          "fixed_shell": false,
+          "proxy_count": 512,
+          "initialization": 0.9,
+          "sample_K": 20,
+          "proxy_K": 20,
+          "sample_weight": 0.1,
+          "proxy_weight": 0.1,
+          "T": 50,
+          "cands": 32,
+          "optimizer": "AdamW A1 (lr .005 to .0005, eps 1e-4)"
+        },
+        "gpu": "0",
+        "python": "3.9.25",
+        "libraries": {
+          "torch": "2.8.0+cu128",
+          "geoopt": "0.5.1",
+          "numpy": "1.26.4",
+          "h5py": "3.14.0",
+          "sklearn": "0.24.2",
+          "scipy": "1.13.1",
+          "matplotlib": "3.4.2"
+        },
+        "extension_sha256": "ae139590cc43d313a0901a1b4cca5bbb73114ad92b693c762d18b0bc76a2f03d",
+        "finished_at": "2026-11-26T14:03:39.436108+08:00"
+      },
+      "completed_epochs": 300,
+      "continuous_epochs": true,
+      "best": {
+        "epoch": 284,
+        "oa": 85.566,
+        "aa": 84.249
+      },
+      "latest": {
+        "epoch": 300,
+        "oa": 84.559,
+        "aa": 83.132
+      },
+      "latest10": {
+        "from_epoch": 291,
+        "to_epoch": 300,
+        "oa": 84.44460000000001,
+        "aa": 83.0917
+      },
+      "hier_epochs": 300,
+      "proxy_updates": 106800,
+      "log_sha256": "c6fe93a0d0149b38efc1d1cd61cf0b6c6fadeb4976219f9bdc2f585375041b09"
+    },
+    {
+      "name": "SO-S12-HIER-L1.0",
+      "run_dir": "~/HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L1.0",
+      "manifest": {
+        "arm": "SO-S12-HIER-L1.0",
+        "source_commit": "62d51fec1c73d15745f875a4eda21702615b21ad",
+        "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+        "author_source_sha256": "6b0ee90db0628c5c2e3fd46fee7f656d779171fce316c2afbe65b573c2e1598b",
+        "program_sha256": "df5b5dd87e63eb5bc692a69f7e9359fea71573544a145dca802d273a748d442c",
+        "entry": "author main()",
+        "seed": 12,
+        "smoke": false,
+        "started_at": "2026-11-26T00:25:00.193941+08:00",
+        "status": "running",
+        "teacher": null,
+        "initial_checkpoint": null,
+        "data_variant": "ScanObjectNN PB_T50_RS / main_split",
+        "data_sha256": {
+          "training": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+          "test": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1"
+        },
+        "batch_size": 32,
+        "steps_per_epoch": 356,
+        "test_rows": 2882,
+        "hier_enabled": true,
+        "hierarchy": {
+          "curvature": 0.1,
+          "tangent_cap": 2.3,
+          "GS": true,
+          "fixed_shell": false,
+          "proxy_count": 512,
+          "initialization": 0.9,
+          "sample_K": 20,
+          "proxy_K": 20,
+          "sample_weight": 1.0,
+          "proxy_weight": 1.0,
+          "T": 50,
+          "cands": 32,
+          "optimizer": "AdamW A1 (lr .005 to .0005, eps 1e-4)"
+        },
+        "gpu": "1",
+        "python": "3.9.25",
+        "libraries": {
+          "torch": "2.8.0+cu128",
+          "geoopt": "0.5.1",
+          "numpy": "1.26.4",
+          "h5py": "3.14.0",
+          "sklearn": "0.24.2",
+          "scipy": "1.13.1",
+          "matplotlib": "3.4.2"
+        },
+        "extension_sha256": "ae139590cc43d313a0901a1b4cca5bbb73114ad92b693c762d18b0bc76a2f03d"
+      },
+      "completed_epochs": 298,
+      "continuous_epochs": true,
+      "best": {
+        "epoch": 188,
+        "oa": 85.253,
+        "aa": 83.742
+      },
+      "latest": {
+        "epoch": 298,
+        "oa": 83.761,
+        "aa": 82.182
+      },
+      "latest10": {
+        "from_epoch": 289,
+        "to_epoch": 298,
+        "oa": 83.9867,
+        "aa": 82.47630000000001
+      },
+      "hier_epochs": 298,
+      "proxy_updates": 106088,
+      "log_sha256": "7a8724cb239063f25c4f6a6bb245f88f6bf0ebf9508433893d556a2c6b5ade67"
+    }
+  ]
+}

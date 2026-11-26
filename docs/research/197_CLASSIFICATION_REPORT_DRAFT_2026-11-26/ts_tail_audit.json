@@ -1,0 +1,1192 @@
+{
+  "scope": "Read-only historical tail metrics audit; no checkpoint load, GPU work, or server mutation",
+  "observed_until_beijing": "2026-11-26 14:12:13 +08:00",
+  "rows": [
+    {
+      "id": "TS25",
+      "directory": "ts25_ts23_init07_full_20261027_170102/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "d66e8f7cb9a68c89c30874fb390aa153f43bac7ecf3880470b4e611c0987b038",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 92.90923824959481,
+          "aa": 90.9122109413147,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 92.70664505672609,
+          "aa": 90.59128761291504,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 92.90923824959481,
+          "aa": 90.63256978988647,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 92.90923824959481,
+          "aa": 90.51221013069153,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.0713128038898,
+          "aa": 91.20872616767883,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 92.6256077795786,
+          "aa": 90.63720703125,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 92.74716369529983,
+          "aa": 90.49593210220337,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.354943273906,
+          "aa": 91.20756983757019,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 92.6256077795786,
+          "aa": 90.34942388534546,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.19286871961103,
+          "aa": 90.71162939071655,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 92.90518638573744,
+      "last10_aa_mean": 90.72587668895721,
+      "last10_oa_population_std": 0.23095623987034475,
+      "last10_aa_population_std": 0.27839229103530355,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS27",
+      "directory": "ts23_proxy_ablations_20261112_B/ts23ablate_20261112_B_p256/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "41710b5f0f17696fb8d3b51e5a02413374608a0e202f4a331b2384e30c54b91e",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 92.6256077795786,
+          "aa": 90.2581512928009,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 93.27390599675851,
+          "aa": 91.04127883911133,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 93.15235008103728,
+          "aa": 91.19941592216492,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 93.11183144246354,
+          "aa": 90.66627621650696,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.76012965964344,
+          "aa": 91.4581298828125,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 93.23338735818477,
+          "aa": 91.53255224227905,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 93.19286871961103,
+          "aa": 90.78720211982727,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.76012965964344,
+          "aa": 91.37441515922546,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 93.11183144246354,
+          "aa": 90.85000157356262,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.39546191247975,
+          "aa": 91.11628532409668,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 93.26175040518639,
+      "last10_aa_mean": 91.02837085723877,
+      "last10_oa_population_std": 0.31335869207431744,
+      "last10_aa_population_std": 0.37551551223465546,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS28",
+      "directory": "ts23_proxy_ablations_20261112_B/ts23ablate_20261112_B_init05/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "8e853c03b7602202760fffd32ed1ebd0fb97f0496c1a4fa4e8a5e73f18e2807f",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 92.90923824959481,
+          "aa": 90.85348844528198,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 93.0713128038898,
+          "aa": 90.55756330490112,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 92.94975688816855,
+          "aa": 90.9866213798523,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 92.9902755267423,
+          "aa": 90.69534540176392,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.59805510534846,
+          "aa": 91.05814099311829,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 93.03079416531604,
+          "aa": 90.9284770488739,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 93.51701782820098,
+          "aa": 91.21627807617188,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.354943273906,
+          "aa": 91.02034568786621,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 93.27390599675851,
+          "aa": 91.47849082946777,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.31442463533226,
+          "aa": 91.15347862243652,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 93.20097244732577,
+      "last10_aa_mean": 90.99482297897339,
+      "last10_oa_population_std": 0.23191390634123923,
+      "last10_aa_population_std": 0.24862350720878107,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS29",
+      "directory": "ts23_proxy_ablations_20261112_B/ts23ablate_20261112_B_cap29/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "b57a17a29e888d9bfd6b452d057cfbb513526351eef6fe950f7a988c2a9f1568",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 93.0713128038898,
+          "aa": 91.26162528991699,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 93.15235008103728,
+          "aa": 91.36686325073242,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 92.78768233387358,
+          "aa": 90.9622073173523,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 93.11183144246354,
+          "aa": 90.65814018249512,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.51701782820098,
+          "aa": 90.99999666213989,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 92.78768233387358,
+          "aa": 91.02907180786133,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 92.90923824959481,
+          "aa": 90.625,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.51701782820098,
+          "aa": 91.24476313591003,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 93.27390599675851,
+          "aa": 91.36627912521362,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.67909238249595,
+          "aa": 91.41977429389954,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 93.1807131280389,
+      "last10_aa_mean": 91.09337210655212,
+      "last10_oa_population_std": 0.29722568776488695,
+      "last10_aa_population_std": 0.2731115841626957,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS30",
+      "directory": "b13_cb32_controls_20261113_B/b13control_20261113_B_h0_200/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "5bed80de4073b490412fab378088dfcc927c2761f24b7d38f5d68d474af80706",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 93.0713128038898,
+          "aa": 90.94535112380981,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 92.86871961102106,
+          "aa": 90.524423122406,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 92.9902755267423,
+          "aa": 90.82791209220886,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 92.58508914100486,
+          "aa": 90.13721346855164,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.23338735818477,
+          "aa": 91.04127883911133,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 92.9902755267423,
+          "aa": 90.88255167007446,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 93.23338735818477,
+          "aa": 90.62848091125488,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.39546191247975,
+          "aa": 90.65756797790527,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 93.15235008103728,
+          "aa": 90.79534411430359,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.354943273906,
+          "aa": 90.79883694648743,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 93.08752025931929,
+      "last10_aa_mean": 90.72389602661133,
+      "last10_oa_population_std": 0.2307784581182888,
+      "last10_aa_population_std": 0.24371611626740164,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS31",
+      "directory": "b13_cb32_controls_20261113_B/b13control_20261113_B_h0_300/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "c7e53dbf907c3e760e169c905271eee1fa5b6dd36cc4ab57ff0182d08c9c7f2d",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 92.74716369529983,
+          "aa": 90.51221013069153,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 93.80064829821718,
+          "aa": 91.48256182670593,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 92.9902755267423,
+          "aa": 91.48663282394409,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 93.19286871961103,
+          "aa": 90.98255038261414,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.03079416531604,
+          "aa": 90.57908058166504,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 92.74716369529983,
+          "aa": 90.608149766922,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 93.0713128038898,
+          "aa": 90.44128656387329,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.03079416531604,
+          "aa": 90.9749984741211,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 92.66612641815234,
+          "aa": 90.666264295578,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.11183144246354,
+          "aa": 90.45348167419434,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 93.03889789303079,
+      "last10_aa_mean": 90.81872165203094,
+      "last10_oa_population_std": 0.30364658014903395,
+      "last10_aa_population_std": 0.37853266913220923,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS32",
+      "directory": "b13_cb32_controls_20261113_B/b13control_20261113_B_a1_200/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "953533190932a1d0738ec3e807b07c141a45e116c7ff19dc3ab942d225f23019",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 92.42301458670988,
+          "aa": 90.34126996994019,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 92.78768233387358,
+          "aa": 90.75813293457031,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 92.58508914100486,
+          "aa": 90.6244158744812,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 92.74716369529983,
+          "aa": 90.08721113204956,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.47649918962723,
+          "aa": 91.08721613883972,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 92.58508914100486,
+          "aa": 90.93313217163086,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 92.66612641815234,
+          "aa": 90.24593234062195,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.51701782820098,
+          "aa": 90.93663096427917,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 91.9773095623987,
+          "aa": 89.81278538703918,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.19286871961103,
+          "aa": 90.69477319717407,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 92.79578606158833,
+      "last10_aa_mean": 90.55215001106262,
+      "last10_oa_population_std": 0.4536640195228041,
+      "last10_aa_population_std": 0.39348816069483905,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS33",
+      "directory": "mn40_v10_ts33_ts35_20261113/mn40v10_20261113_ts33/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "7e4bce5da71716caf8fa9f457baac013bc41ee8e0318da70695eaa3a05a3ce98",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 93.11183144246354,
+          "aa": 91.06162190437317,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 92.86871961102106,
+          "aa": 91.17907285690308,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 92.78768233387358,
+          "aa": 91.15754961967468,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 92.50405186385737,
+          "aa": 90.1662826538086,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 92.9902755267423,
+          "aa": 90.85000157356262,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 92.74716369529983,
+          "aa": 90.9244179725647,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 93.43598055105349,
+          "aa": 91.33313298225403,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.39546191247975,
+          "aa": 91.43255352973938,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 93.23338735818477,
+          "aa": 91.4244294166565,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.43598055105349,
+          "aa": 91.4779007434845,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 93.05105348460292,
+      "last10_aa_mean": 91.10069632530212,
+      "last10_oa_population_std": 0.3081814727683421,
+      "last10_aa_population_std": 0.3727190771870094,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS34",
+      "directory": "mn40_v10_ts33_ts35_20261113/mn40v10_20261113_ts34/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "8c8bae3bb830ea1a6e3dac5240a9e814fc284e21f213bc854c6fa67b19de9332",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 92.58508914100486,
+          "aa": 90.73313474655151,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 92.86871961102106,
+          "aa": 90.89534878730774,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 92.66612641815234,
+          "aa": 90.79534411430359,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 93.11183144246354,
+          "aa": 90.72906374931335,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.39546191247975,
+          "aa": 91.08721017837524,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 92.54457050243111,
+          "aa": 90.86219668388367,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 93.19286871961103,
+          "aa": 91.13720655441284,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.354943273906,
+          "aa": 91.1034882068634,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 93.31442463533226,
+          "aa": 91.26221537590027,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.23338735818477,
+          "aa": 91.43662452697754,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 93.02674230145867,
+      "last10_aa_mean": 91.00418329238892,
+      "last10_oa_population_std": 0.3140913286269659,
+      "last10_aa_population_std": 0.22645377487375185,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS35",
+      "directory": "mn40_v10_ts33_ts35_20261113/mn40v10_20261113_ts35_r2/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "40a5af9da5dd374f5423cdc49e38b577a9d4349260a4136d10d67ccdf8c51702",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 92.869,
+          "aa": 90.367,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 92.909,
+          "aa": 90.712,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 93.031,
+          "aa": 90.875,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 93.031,
+          "aa": 90.891,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.112,
+          "aa": 91.558,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 92.747,
+          "aa": 90.62,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 92.828,
+          "aa": 90.799,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 92.828,
+          "aa": 90.17,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 92.869,
+          "aa": 90.283,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.031,
+          "aa": 90.008,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 92.9255,
+      "last10_aa_mean": 90.6283,
+      "last10_oa_population_std": 0.11211801817727628,
+      "last10_aa_population_std": 0.4257637960184049,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS36",
+      "directory": "mn40_v10_ts35_lambda_20261114/TS36/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "44bcd1f960931798aae842c5aeb0a4408707709a4898b61eb5d82f21dd666280",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 92.99,
+          "aa": 90.17,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 93.152,
+          "aa": 90.875,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 93.274,
+          "aa": 91.258,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 93.152,
+          "aa": 91.391,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 92.788,
+          "aa": 90.466,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 93.193,
+          "aa": 90.92,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 92.99,
+          "aa": 90.412,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.031,
+          "aa": 90.637,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 92.666,
+          "aa": 90.187,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.193,
+          "aa": 90.324,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 93.0429,
+      "last10_aa_mean": 90.664,
+      "last10_oa_population_std": 0.18304067853895337,
+      "last10_aa_population_std": 0.4101248590368553,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS37",
+      "directory": "mn40_v10_ts35_lambda_20261114/TS37/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "f7fdb8b07cdee6cf9dc4a831bcf4d4b1bdba32a16afaaaf55b4c788bf40de7ed",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 93.517,
+          "aa": 91.108,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 93.071,
+          "aa": 90.749,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 93.314,
+          "aa": 91.278,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 93.314,
+          "aa": 90.678,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.517,
+          "aa": 91.503,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 93.193,
+          "aa": 90.82,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 92.99,
+          "aa": 91.087,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 93.517,
+          "aa": 90.345,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 93.355,
+          "aa": 91.012,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.274,
+          "aa": 90.574,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 93.30619999999999,
+      "last10_aa_mean": 90.9154,
+      "last10_oa_population_std": 0.17463264299666303,
+      "last10_aa_population_std": 0.32980060642758285,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS38",
+      "directory": "mn40_v10_ts38_k10_20261114/TS38/main",
+      "source": "metrics_epoch_291.json..metrics_epoch_300.json",
+      "source_sha256": "344b65978e53322c92cdadd72a7e9dbdb211073113953e4f9951ec7cad613ea0",
+      "hash_policy": "filename+NUL+original bytes for each chronological tail file",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 92.869,
+          "aa": 89.987,
+          "file": "metrics_epoch_291.json"
+        },
+        {
+          "epoch": 292,
+          "oa": 93.395,
+          "aa": 90.653,
+          "file": "metrics_epoch_292.json"
+        },
+        {
+          "epoch": 293,
+          "oa": 93.476,
+          "aa": 90.916,
+          "file": "metrics_epoch_293.json"
+        },
+        {
+          "epoch": 294,
+          "oa": 92.99,
+          "aa": 90.687,
+          "file": "metrics_epoch_294.json"
+        },
+        {
+          "epoch": 295,
+          "oa": 93.112,
+          "aa": 90.778,
+          "file": "metrics_epoch_295.json"
+        },
+        {
+          "epoch": 296,
+          "oa": 92.99,
+          "aa": 90.595,
+          "file": "metrics_epoch_296.json"
+        },
+        {
+          "epoch": 297,
+          "oa": 92.707,
+          "aa": 90.824,
+          "file": "metrics_epoch_297.json"
+        },
+        {
+          "epoch": 298,
+          "oa": 92.747,
+          "aa": 89.962,
+          "file": "metrics_epoch_298.json"
+        },
+        {
+          "epoch": 299,
+          "oa": 92.909,
+          "aa": 90.653,
+          "file": "metrics_epoch_299.json"
+        },
+        {
+          "epoch": 300,
+          "oa": 93.355,
+          "aa": 90.716,
+          "file": "metrics_epoch_300.json"
+        }
+      ],
+      "last10_oa_mean": 93.05499999999999,
+      "last10_aa_mean": 90.5771,
+      "last10_oa_population_std": 0.2581511185333123,
+      "last10_aa_population_std": 0.3139988694247164,
+      "continuity_basis": "all metric filenames numbered 001..300; e291..300 epoch values also parsed"
+    },
+    {
+      "id": "TS39",
+      "directory": "mn40_v10_b17_sh_pool_testbest_20261115/H0/main",
+      "source": "epochs.jsonl",
+      "source_sha256": "d7c5ce04617f16c7e72dd54db874f68e37eddd92558fa4843587a21aec77e866",
+      "hash_policy": "whole epochs.jsonl bytes",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 92.707,
+          "aa": 89.963
+        },
+        {
+          "epoch": 292,
+          "oa": 93.031,
+          "aa": 90.788
+        },
+        {
+          "epoch": 293,
+          "oa": 92.707,
+          "aa": 90.688
+        },
+        {
+          "epoch": 294,
+          "oa": 92.666,
+          "aa": 89.671
+        },
+        {
+          "epoch": 295,
+          "oa": 92.99,
+          "aa": 90.271
+        },
+        {
+          "epoch": 296,
+          "oa": 92.707,
+          "aa": 89.904
+        },
+        {
+          "epoch": 297,
+          "oa": 91.896,
+          "aa": 89.388
+        },
+        {
+          "epoch": 298,
+          "oa": 92.828,
+          "aa": 90.167
+        },
+        {
+          "epoch": 299,
+          "oa": 93.031,
+          "aa": 90.428
+        },
+        {
+          "epoch": 300,
+          "oa": 92.828,
+          "aa": 90.479
+        }
+      ],
+      "last10_oa_mean": 92.7391,
+      "last10_aa_mean": 90.1747,
+      "last10_oa_population_std": 0.3111946175627088,
+      "last10_aa_population_std": 0.42384101972319604,
+      "continuity_basis": "parsed epoch values in all 300 JSONL records"
+    },
+    {
+      "id": "TS40",
+      "directory": "mn40_v10_b17_sh_pool_testbest_20261115/H32/main",
+      "source": "epochs.jsonl",
+      "source_sha256": "9511e926df0ae3e552192bd9cfb4dd3eb3850164275f14444a9d975cc395b0ff",
+      "hash_policy": "whole epochs.jsonl bytes",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 93.355,
+          "aa": 90.624
+        },
+        {
+          "epoch": 292,
+          "oa": 93.071,
+          "aa": 90.062
+        },
+        {
+          "epoch": 293,
+          "oa": 92.585,
+          "aa": 89.645
+        },
+        {
+          "epoch": 294,
+          "oa": 93.031,
+          "aa": 90.124
+        },
+        {
+          "epoch": 295,
+          "oa": 93.071,
+          "aa": 90.066
+        },
+        {
+          "epoch": 296,
+          "oa": 93.152,
+          "aa": 90.208
+        },
+        {
+          "epoch": 297,
+          "oa": 92.666,
+          "aa": 90.332
+        },
+        {
+          "epoch": 298,
+          "oa": 93.071,
+          "aa": 90.349
+        },
+        {
+          "epoch": 299,
+          "oa": 92.828,
+          "aa": 89.595
+        },
+        {
+          "epoch": 300,
+          "oa": 92.869,
+          "aa": 89.628
+        }
+      ],
+      "last10_oa_mean": 92.9699,
+      "last10_aa_mean": 90.0633,
+      "last10_oa_population_std": 0.22060800076153378,
+      "last10_aa_population_std": 0.32811676275374846,
+      "continuity_basis": "parsed epoch values in all 300 JSONL records"
+    },
+    {
+      "id": "TS41",
+      "directory": "mn40_v10_b17_sh_pool_testbest_20261115/H64/main",
+      "source": "epochs.jsonl",
+      "source_sha256": "fcf5f2cfe737ec37bd63e2fd2f7a1487010657a725eaf788ab7d8212029526a5",
+      "hash_policy": "whole epochs.jsonl bytes",
+      "record_count": 300,
+      "continuous_1_300": true,
+      "tail": [
+        {
+          "epoch": 291,
+          "oa": 93.517,
+          "aa": 90.904
+        },
+        {
+          "epoch": 292,
+          "oa": 93.233,
+          "aa": 91.033
+        },
+        {
+          "epoch": 293,
+          "oa": 92.464,
+          "aa": 90.309
+        },
+        {
+          "epoch": 294,
+          "oa": 93.071,
+          "aa": 90.345
+        },
+        {
+          "epoch": 295,
+          "oa": 92.909,
+          "aa": 89.749
+        },
+        {
+          "epoch": 296,
+          "oa": 93.193,
+          "aa": 90.328
+        },
+        {
+          "epoch": 297,
+          "oa": 92.747,
+          "aa": 90.245
+        },
+        {
+          "epoch": 298,
+          "oa": 93.112,
+          "aa": 90.487
+        },
+        {
+          "epoch": 299,
+          "oa": 93.355,
+          "aa": 90.737
+        },
+        {
+          "epoch": 300,
+          "oa": 93.152,
+          "aa": 90.203
+        }
+      ],
+      "last10_oa_mean": 93.0753,
+      "last10_aa_mean": 90.434,
+      "last10_oa_population_std": 0.2878239218689091,
+      "last10_aa_population_std": 0.35600674150920203,
+      "continuity_basis": "parsed epoch values in all 300 JSONL records"
+    }
+  ]
+}
