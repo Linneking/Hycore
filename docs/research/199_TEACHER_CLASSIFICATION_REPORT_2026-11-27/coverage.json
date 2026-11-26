@@ -1,0 +1,731 @@
+{
+  "scope": "52 completed formal training runs launched from TS27 on; TS06/TS23 references excluded; stopped and inference-only work separate",
+  "generated_local_date": "2026-11-27",
+  "evidence_cutoff": "2026-11-26 18:03:51 Asia/Shanghai; all source records are local 197/198 evidence",
+  "formal_count": 52,
+  "counts_by_category": {
+    "TS": 29,
+    "non_TS_historical": 17,
+    "194_196_latest": 6
+  },
+  "counts_by_date": {
+    "2026-11-12": 3,
+    "2026-11-13": 6,
+    "2026-11-14": 2,
+    "2026-11-15": 3,
+    "2026-11-16": 5,
+    "2026-11-17": 1,
+    "2026-11-18": 4,
+    "2026-11-19": 5,
+    "2026-11-20": 2,
+    "2026-11-21": 3,
+    "2026-11-23": 4,
+    "2026-11-24": 8,
+    "2026-11-25": 2,
+    "2026-11-26": 4
+  },
+  "unique_id_count": 52,
+  "formal_runs": [
+    {
+      "id": "TS27",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-CB32x200 / Hshell-A1-Ks10-Kp10-L0.1-W0 / TS23-P256 (S4780)",
+      "date": "2026-11-12",
+      "time": "01:17:12",
+      "date_stage": "2026-11-12",
+      "stage": "A：11/12–13凌晨 代理消融、H0和预算",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "ts23_proxy_ablations_20261112_B/ts23ablate_20261112_B_p256/main"
+    },
+    {
+      "id": "TS28",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-CB32x200 / Hshell-A1-Ks10-Kp10-L0.1-W0 / TS23-INIT05 (S4780)",
+      "date": "2026-11-12",
+      "time": "01:17:12",
+      "date_stage": "2026-11-12",
+      "stage": "A：11/12–13凌晨 代理消融、H0和预算",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "ts23_proxy_ablations_20261112_B/ts23ablate_20261112_B_init05/main"
+    },
+    {
+      "id": "TS29",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-CB32x200 / Hshell-A1-Ks10-Kp10-L0.1-W0 / TS23-CAP29 (S4780)",
+      "date": "2026-11-12",
+      "time": "01:17:12",
+      "date_stage": "2026-11-12",
+      "stage": "A：11/12–13凌晨 代理消融、H0和预算",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "ts23_proxy_ablations_20261112_B/ts23ablate_20261112_B_cap29/main"
+    },
+    {
+      "id": "TS30",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-CB32x200 / H0 (S4780)",
+      "date": "2026-11-13",
+      "time": "00:41:24",
+      "date_stage": "2026-11-13",
+      "stage": "A：11/12–13凌晨 代理消融、H0和预算",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "b13_cb32_controls_20261113_B/b13control_20261113_B_h0_200/main"
+    },
+    {
+      "id": "TS31",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-CB32x300 / H0 (S4780)",
+      "date": "2026-11-13",
+      "time": "00:41:25",
+      "date_stage": "2026-11-13",
+      "stage": "A：11/12–13凌晨 代理消融、H0和预算",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "b13_cb32_controls_20261113_B/b13control_20261113_B_h0_300/main"
+    },
+    {
+      "id": "TS32",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-CB32x200 / Hshell-A1-Ks20-Kp20-L0.5-W0 (S4780)",
+      "date": "2026-11-13",
+      "time": "00:41:27",
+      "date_stage": "2026-11-13",
+      "stage": "A：11/12–13凌晨 代理消融、H0和预算",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "b13_cb32_controls_20261113_B/b13control_20261113_B_a1_200/main"
+    },
+    {
+      "id": "TS33",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-CB32x200 / Hshell-A0-Ks20-Kp20-L0.5-W0 (S4780)",
+      "date": "2026-11-13",
+      "time": "23:31:41",
+      "date_stage": "2026-11-13",
+      "stage": "B：11/13晚–15凌晨 SH32、优化器与权重",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "mn40_v10_ts33_ts35_20261113/mn40v10_20261113_ts33/main"
+    },
+    {
+      "id": "TS34",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-CB32x200 / Hshell-A1-Ks20-Kp20-L1.0-W0 (S4780)",
+      "date": "2026-11-13",
+      "time": "23:31:41",
+      "date_stage": "2026-11-13",
+      "stage": "B：11/13晚–15凌晨 SH32、优化器与权重",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "mn40_v10_ts33_ts35_20261113/mn40v10_20261113_ts34/main"
+    },
+    {
+      "id": "TS35",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-L0.5-W0 (S4780)",
+      "date": "2026-11-13",
+      "time": "23:38:39",
+      "date_stage": "2026-11-13",
+      "stage": "B：11/13晚–15凌晨 SH32、优化器与权重",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "mn40_v10_ts33_ts35_20261113/mn40v10_20261113_ts35_r2/main"
+    },
+    {
+      "id": "TS36",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-L0.1-W0 (S4780)",
+      "date": "2026-11-14",
+      "time": "12:45:20",
+      "date_stage": "2026-11-14",
+      "stage": "B：11/13晚–15凌晨 SH32、优化器与权重",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "mn40_v10_ts35_lambda_20261114/TS36/main"
+    },
+    {
+      "id": "TS37",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-L1.0-W0 (S4780)",
+      "date": "2026-11-14",
+      "time": "12:45:20",
+      "date_stage": "2026-11-14",
+      "stage": "B：11/13晚–15凌晨 SH32、优化器与权重",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "mn40_v10_ts35_lambda_20261114/TS37/main"
+    },
+    {
+      "id": "TS38",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks10-Kp10-L0.5-W0 (S4780)",
+      "date": "2026-11-15",
+      "time": "00:00:16",
+      "date_stage": "2026-11-15",
+      "stage": "B：11/13晚–15凌晨 SH32、优化器与权重",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "mn40_v10_ts38_k10_20261114/TS38/main"
+    },
+    {
+      "id": "TS41",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH2x32x153 / Hshell-A1-Ks20-Kp20-L0.5-W0-SP64 (S4780)",
+      "date": "2026-11-15",
+      "time": "13:49:13",
+      "date_stage": "2026-11-15",
+      "stage": "C：11/15–16下午 实时池、分项K与缓存",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "mn40_v10_b17_sh_pool_testbest_20261115/H64/main"
+    },
+    {
+      "id": "TS39",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH2x32x153 / H0 (S4780)",
+      "date": "2026-11-15",
+      "time": "13:49:29",
+      "date_stage": "2026-11-15",
+      "stage": "C：11/15–16下午 实时池、分项K与缓存",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "mn40_v10_b17_sh_pool_testbest_20261115/H0/main"
+    },
+    {
+      "id": "TS40",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH2x32x153 / Hshell-A1-Ks20-Kp20-L0.5-W0-SP32 (S4780)",
+      "date": "2026-11-16",
+      "time": "02:55:25",
+      "date_stage": "2026-11-16",
+      "stage": "C：11/15–16下午 实时池、分项K与缓存",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_tail_audit.json",
+      "run_dir": "mn40_v10_b17_sh_pool_testbest_20261115/H32/main"
+    },
+    {
+      "id": "TS43",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp10-L0.5-W0 (S4780)",
+      "date": "2026-11-16",
+      "time": "13:03:04",
+      "date_stage": "2026-11-16",
+      "stage": "C：11/15–16下午 实时池、分项K与缓存",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_v10_sh32_ts42_ts44_20261116/TS43/main"
+    },
+    {
+      "id": "TS42",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks10-Kp20-L0.5-W0 (S4780)",
+      "date": "2026-11-16",
+      "time": "13:05:20",
+      "date_stage": "2026-11-16",
+      "stage": "C：11/15–16下午 实时池、分项K与缓存",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_v10_sh32_ts42_ts44_20261116_r2/TS42/main"
+    },
+    {
+      "id": "TS44",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-L0.5-W0-Hist1-SP64 (S4780)",
+      "date": "2026-11-16",
+      "time": "13:05:20",
+      "date_stage": "2026-11-16",
+      "stage": "C：11/15–16下午 实时池、分项K与缓存",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_v10_sh32_ts42_ts44_20261116_r2/TS44/main"
+    },
+    {
+      "id": "TS45",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-Ls0to0.5e51-Lp0.5 (S4780)",
+      "date": "2026-11-16",
+      "time": "23:52:56",
+      "date_stage": "2026-11-16",
+      "stage": "D：11/16晚–18 分项权重与历史候选",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_v10_sh32_ts45_ts46_20261116_r3/TS45/main"
+    },
+    {
+      "id": "TS46",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-Ls0.5-Lp0.0-W0 (S4780)",
+      "date": "2026-11-17",
+      "time": "00:42:34",
+      "date_stage": "2026-11-17",
+      "stage": "D：11/16晚–18 分项权重与历史候选",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_v10_sh32_ts45_ts46_20261116_r3/TS46/main"
+    },
+    {
+      "id": "TS47",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-L0.5-W0-Hist2-SP96 (S4780)",
+      "date": "2026-11-18",
+      "time": "01:10:50",
+      "date_stage": "2026-11-18",
+      "stage": "D：11/16晚–18 分项权重与历史候选",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_v10_sh32_fifo96_20261118/TS47/main"
+    },
+    {
+      "id": "TS50",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-L0.1-W0-Hist1-SP64 (S4780)",
+      "date": "2026-11-18",
+      "time": "12:50:07",
+      "date_stage": "2026-11-18",
+      "stage": "D：11/16晚–18 分项权重与历史候选",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_v10_history_selection_20261118/TS50/main"
+    },
+    {
+      "id": "TS48",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-L0.5-W0-Hist3-SP64-CP16x2 (S4780)",
+      "date": "2026-11-18",
+      "time": "12:50:14",
+      "date_stage": "2026-11-18",
+      "stage": "D：11/16晚–18 分项权重与历史候选",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_v10_history_selection_20261118/TS48/main"
+    },
+    {
+      "id": "TS49",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307 / Hshell-A1-Ks20-Kp20-L0.5-W0-Hist3-SP64-Random32 (S4780)",
+      "date": "2026-11-18",
+      "time": "12:50:14",
+      "date_stage": "2026-11-18",
+      "stage": "D：11/16晚–18 分项权重与历史候选",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_v10_history_selection_20261118/TS49/main"
+    },
+    {
+      "id": "TS54",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-CB32x134-MN40F20N130_400 / H0 (S4780)",
+      "date": "2026-11-19",
+      "time": "01:54:49",
+      "date_stage": "2026-11-19",
+      "stage": "E：11/19 MN20与双采样",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_filter20_dual_20261119/TS54/main"
+    },
+    {
+      "id": "TS55",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-CB32x134-MN40F20N130_400 / Hshell-A1-Ks20-Kp20-L0.5-W0 (S4780)",
+      "date": "2026-11-19",
+      "time": "05:40:35",
+      "date_stage": "2026-11-19",
+      "stage": "E：11/19 MN20与双采样",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_filter20_dual_20261119/TS55/main"
+    },
+    {
+      "id": "TS51",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x134-MN40F20N130_400 / H0 (S4780)",
+      "date": "2026-11-19",
+      "time": "09:17:19",
+      "date_stage": "2026-11-19",
+      "stage": "E：11/19 MN20与双采样",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_filter20_dual_20261119/TS51/main"
+    },
+    {
+      "id": "TS53",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x307-MN40 / Hshell-A1-Ks20-Kp20-L0.5-W0-AuxFreshCB32-BNrestore (S4780)",
+      "date": "2026-11-19",
+      "time": "09:24:19",
+      "date_stage": "2026-11-19",
+      "stage": "E：11/19 MN20与双采样",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_filter20_dual_20261119/TS53/main"
+    },
+    {
+      "id": "TS52",
+      "run_name": "HC-C01-Cap23-GS1-M500_2-SH32x134-MN40F20N130_400 / Hshell-A1-Ks20-Kp20-L0.5-W0 (S4780)",
+      "date": "2026-11-19",
+      "time": "09:36:35",
+      "date_stage": "2026-11-19",
+      "stage": "E：11/19 MN20与双采样",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/ts_inventory.json",
+      "run_dir": "mn40_filter20_dual_20261119/TS52/main"
+    },
+    {
+      "id": "SO-H0",
+      "run_name": "SO-H0",
+      "date": "2026-11-20",
+      "time": "01:20:40",
+      "date_stage": "2026-11-20",
+      "stage": "F：11/20–21 SO迁移与作者入口",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "scanobject_hier_pair_20261120_A/SO-H0/main"
+    },
+    {
+      "id": "SO-HIER",
+      "run_name": "SO-HIER",
+      "date": "2026-11-20",
+      "time": "01:20:40",
+      "date_stage": "2026-11-20",
+      "stage": "F：11/20–21 SO迁移与作者入口",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "scanobject_hier_pair_20261120_A/SO-HIER/main"
+    },
+    {
+      "id": "SO-S12-HIER",
+      "run_name": "SO-S12-HIER",
+      "date": "2026-11-21",
+      "time": "14:11:17",
+      "date_stage": "2026-11-21",
+      "stage": "F：11/20–21 SO迁移与作者入口",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "scanobject_author_s12_20261121_B/SO-S12-HIER/main/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore"
+    },
+    {
+      "id": "SO-S12-H0",
+      "run_name": "SO-S12-H0",
+      "date": "2026-11-21",
+      "time": "14:11:32",
+      "date_stage": "2026-11-21",
+      "stage": "F：11/20–21 SO迁移与作者入口",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "scanobject_author_s12_20261121_B/SO-S12-H0/main/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore"
+    },
+    {
+      "id": "MN40-AUTHOR-H0-S4780",
+      "run_name": "mn40_author_s4780_20261121_a",
+      "date": "2026-11-21",
+      "time": "19:31:41",
+      "date_stage": "2026-11-21",
+      "stage": "F：11/20–21 SO迁移与作者入口",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "mn40_author_s4780_20261121_a/source/classification_ModelNet40/checkpoints/Hype_PointNet-Offv_pointmlp_hycore_var-4780"
+    },
+    {
+      "id": "SO-S4780-HIER",
+      "run_name": "SO-S4780-HIER",
+      "date": "2026-11-23",
+      "time": "14:49:58",
+      "date_stage": "2026-11-23",
+      "stage": "G：11/23 配对seed复验",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "scanobject_author_s4780_20261123/SO-S4780-HIER/main/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore"
+    },
+    {
+      "id": "SO-S4780-H0",
+      "run_name": "SO-S4780-H0",
+      "date": "2026-11-23",
+      "time": "14:49:59",
+      "date_stage": "2026-11-23",
+      "stage": "G：11/23 配对seed复验",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "scanobject_author_s4780_20261123/SO-S4780-H0/main/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore"
+    },
+    {
+      "id": "MN40-B05-S4781-HIER-FIFO1",
+      "run_name": "MN40-B05-S4781-HIER-FIFO1",
+      "date": "2026-11-23",
+      "time": "14:51:47",
+      "date_stage": "2026-11-23",
+      "stage": "G：11/23 配对seed复验",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "mn40_b05_fifo64_s4781_20261123/hier/main"
+    },
+    {
+      "id": "MN40-B05-S4781-H0",
+      "run_name": "MN40-B05-S4781-H0",
+      "date": "2026-11-23",
+      "time": "14:51:48",
+      "date_stage": "2026-11-23",
+      "stage": "G：11/23 配对seed复验",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "mn40_b05_fifo64_s4781_20261123/h0/main"
+    },
+    {
+      "id": "DeLA-v1-AUTHOR-S4780",
+      "run_name": "de_la_v1_author_train_scanobjectnn_s4780_20261124_0150",
+      "date": "2026-11-24",
+      "time": "约01:50；精确秒缺",
+      "date_stage": "2026-11-24",
+      "stage": "H：11/24 发布权重、复现与替代骨干",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "de_la_v1_author_train_scanobjectnn_s4780_20261124_0150/Matrix-ASC-DeLA-0f427c3/ScanObjectNN/output/log/01"
+    },
+    {
+      "id": "DG-S12-H0",
+      "run_name": "DG-S12-H0",
+      "date": "2026-11-24",
+      "time": "01:55:30",
+      "date_stage": "2026-11-24",
+      "stage": "H：11/24 发布权重、复现与替代骨干",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "hycore_author_dgcnn_scanobjectnn_s12_20261124_fresh/classification_ScanObject/checkpoints/PointNet-toyproof-Offv_dgcnn_hycore"
+    },
+    {
+      "id": "DG-S12-HIER",
+      "run_name": "DG-S12-HIER",
+      "date": "2026-11-24",
+      "time": "14:14:22",
+      "date_stage": "2026-11-24",
+      "stage": "H：11/24 发布权重、复现与替代骨干",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "scanobject_dgcnn_hier_20261124_1415/DG-S12-HIER/main/checkpoints/PointNet-toyproof-Offv_dgcnn_hycore"
+    },
+    {
+      "id": "DG-S4780-H0",
+      "run_name": "DG-S4780-H0",
+      "date": "2026-11-24",
+      "time": "14:14:24",
+      "date_stage": "2026-11-24",
+      "stage": "H：11/24 发布权重、复现与替代骨干",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "scanobject_dgcnn_hier_20261124_1415/DG-S4780-H0/main/checkpoints/PointNet-toyproof-Offv_dgcnn_hycore"
+    },
+    {
+      "id": "DG-S4780-HIER",
+      "run_name": "DG-S4780-HIER",
+      "date": "2026-11-24",
+      "time": "14:19:51",
+      "date_stage": "2026-11-24",
+      "stage": "H：11/24 发布权重、复现与替代骨干",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "scanobject_dgcnn_hier_20261124_1415/DG-S4780-HIER/main/checkpoints/PointNet-toyproof-Offv_dgcnn_hycore"
+    },
+    {
+      "id": "MN40-B05-S4781-HIER-CURRENT32",
+      "run_name": "MN40-B05-S4781-HIER-CURRENT32",
+      "date": "2026-11-24",
+      "time": "21:38:30",
+      "date_stage": "2026-11-24",
+      "stage": "H：11/24 发布权重、复现与替代骨干",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "mn40_b05_s4781_current32_20261124/hier-current/main"
+    },
+    {
+      "id": "SO-S12-H0-PAPER-INTRA",
+      "run_name": "SO-S12-H0-PAPER-INTRA",
+      "date": "2026-11-24",
+      "time": "21:50:08",
+      "date_stage": "2026-11-24",
+      "stage": "H：11/24 发布权重、复现与替代骨干",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "scanobject_author_paper_intra_s12_20261124/main/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore"
+    },
+    {
+      "id": "MN40-AUTHOR-TRAIN-ORDER-S4780",
+      "run_name": "mn40_author_train_order_s4780_20261124",
+      "date": "2026-11-24",
+      "time": "21:50:10",
+      "date_stage": "2026-11-24",
+      "stage": "H：11/24 发布权重、复现与替代骨干",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
+      "run_dir": "mn40_author_train_order_s4780_20261124/source/classification_ModelNet40/checkpoints/Hype_PointNet-Offv_pointmlp_hycore_var-4780"
+    },
+    {
+      "id": "DeLA-H0",
+      "run_name": "DeLA-H0",
+      "date": "2026-11-25",
+      "time": "18:57:22",
+      "date_stage": "2026-11-25",
+      "stage": "I：11/25 DeLA Part–Whole配对",
+      "source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/provenance_dela.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/latest_8000_evidence.json",
+      "run_dir": "de_la_pw_dmr_hier_20261125/formal_seed4780/h0/work"
+    },
+    {
+      "id": "DeLA-HIER",
+      "run_name": "DeLA-HIER",
+      "date": "2026-11-25",
+      "time": "18:57:22",
+      "date_stage": "2026-11-25",
+      "stage": "I：11/25 DeLA Part–Whole配对",
+      "source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/provenance_dela.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/latest_8000_evidence.json",
+      "run_dir": "de_la_pw_dmr_hier_20261125/formal_seed4780/hier/work"
+    },
+    {
+      "id": "SO-S12-HIER-L0.1",
+      "run_name": "SO-S12-HIER-L0.1",
+      "date": "2026-11-26",
+      "time": "00:25:00",
+      "date_stage": "2026-11-26",
+      "stage": "J：11/26 权重与CB32配对",
+      "source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/weights_final.json",
+      "metric_source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/weights_final.json",
+      "run_dir": "scanobject_weights_cb_20261126/runs/SO-S12-HIER-L0.1"
+    },
+    {
+      "id": "SO-S12-HIER-L1.0",
+      "run_name": "SO-S12-HIER-L1.0",
+      "date": "2026-11-26",
+      "time": "00:25:00",
+      "date_stage": "2026-11-26",
+      "stage": "J：11/26 权重与CB32配对",
+      "source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/weights_final.json",
+      "metric_source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/weights_final.json",
+      "run_dir": "scanobject_weights_cb_20261126/runs/SO-S12-HIER-L1.0"
+    },
+    {
+      "id": "DG-S4780-CB32-HIER",
+      "run_name": "DG-S4780-CB32-HIER",
+      "date": "2026-11-26",
+      "time": "00:32:39",
+      "date_stage": "2026-11-26",
+      "stage": "J：11/26 权重与CB32配对",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/latest_8000_evidence.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/latest_8000_evidence.json",
+      "run_dir": "scanobject_weights_cb_20261126/runs_verified/DG-S4780-CB32-HIER"
+    },
+    {
+      "id": "DG-S4780-CB32-H0",
+      "run_name": "DG-S4780-CB32-H0",
+      "date": "2026-11-26",
+      "time": "07:51:08",
+      "date_stage": "2026-11-26",
+      "stage": "J：11/26 权重与CB32配对",
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/latest_8000_evidence.json",
+      "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/latest_8000_evidence.json",
+      "run_dir": "scanobject_weights_cb_20261126/runs_verified/DG-S4780-CB32-H0"
+    }
+  ],
+  "stopped_formal_runs": [
+    {
+      "id": "B17-H0-VS984",
+      "date": "2026-11-15",
+      "time": "13:36",
+      "completed_epochs": 2,
+      "rerun_id": "TS39",
+      "run_dir": "mn40_v10_b17_sh_pool_20261115_r2/H0/main",
+      "source": "../164_MN40_V10_SH_POOL32_64_2026-11-15.md"
+    },
+    {
+      "id": "B17-H64-VS984",
+      "date": "2026-11-15",
+      "time": "13:35",
+      "completed_epochs": 2,
+      "rerun_id": "TS41",
+      "run_dir": "mn40_v10_b17_sh_pool_20261115_r2/H64/main",
+      "source": "../164_MN40_V10_SH_POOL32_64_2026-11-15.md"
+    }
+  ],
+  "reference_only_ids": [
+    "TS06",
+    "TS23"
+  ],
+  "published_checkpoint_conditions": [
+    "DeLA-MN40",
+    "DeLA-SO",
+    "point2vec-FPS0-FP16",
+    "point2vec-FPS0-FP32",
+    "point2vec-FPS1-FP16",
+    "point2vec-FPS12-FP16",
+    "point2vec-FPS4780-FP16"
+  ],
+  "published_checkpoint_condition_count": 7,
+  "diagnostics_are_not_formal_training": true,
+  "stopped_formal_count": 2,
+  "reference_only_count": 2,
+  "published_checkpoint_evaluations": [
+    {
+      "id": "DeLA-MN40",
+      "source": "../184_V9_V10_BASELINE_AND_HIER_ROADMAP_2026-11-24/report.md",
+      "kind": "checkpoint_inference_condition_not_training"
+    },
+    {
+      "id": "DeLA-SO",
+      "source": "../184_V9_V10_BASELINE_AND_HIER_ROADMAP_2026-11-24/report.md",
+      "kind": "checkpoint_inference_condition_not_training"
+    },
+    {
+      "id": "point2vec-FPS0-FP16",
+      "source": "../184_V9_V10_BASELINE_AND_HIER_ROADMAP_2026-11-24/report.md",
+      "kind": "checkpoint_inference_condition_not_training"
+    },
+    {
+      "id": "point2vec-FPS0-FP32",
+      "source": "../184_V9_V10_BASELINE_AND_HIER_ROADMAP_2026-11-24/report.md",
+      "kind": "checkpoint_inference_condition_not_training"
+    },
+    {
+      "id": "point2vec-FPS1-FP16",
+      "source": "../184_V9_V10_BASELINE_AND_HIER_ROADMAP_2026-11-24/report.md",
+      "kind": "checkpoint_inference_condition_not_training"
+    },
+    {
+      "id": "point2vec-FPS12-FP16",
+      "source": "../184_V9_V10_BASELINE_AND_HIER_ROADMAP_2026-11-24/report.md",
+      "kind": "checkpoint_inference_condition_not_training"
+    },
+    {
+      "id": "point2vec-FPS4780-FP16",
+      "source": "../184_V9_V10_BASELINE_AND_HIER_ROADMAP_2026-11-24/report.md",
+      "kind": "checkpoint_inference_condition_not_training"
+    }
+  ],
+  "diagnostic_records": [
+    {
+      "id": "PROXY_EPS_CAP_SHORT_CONTROL",
+      "date": "pre-TS27 background",
+      "source": "../88_B05_EPS_ONLY_10E_2026-10-25/report.md"
+    },
+    {
+      "id": "TS27_29_PREFLIGHT_CONTRACT",
+      "date": "2026-11-12",
+      "source": "../160_MN40_TS23_PROXY_ABLATIONS_2026-11-12.md"
+    },
+    {
+      "id": "SAMPLER_EXPOSURE_ERROR_NEIGHBOR",
+      "date": "2026-11-18",
+      "source": "../171_MN40_TS06_TS30_SAMPLING_ERROR_AUDIT_2026-11-18/report.md"
+    },
+    {
+      "id": "FIFO_RELATION_TELEMETRY",
+      "date": "2026-11-26",
+      "source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/mechanism_evidence.json"
+    },
+    {
+      "id": "SO_CAP_PROXY_HINGE_TELEMETRY",
+      "date": "2026-11-26",
+      "source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/mechanism_evidence.json"
+    },
+    {
+      "id": "DELA_CODE_DATA_AMP_AUDIT",
+      "date": "2026-11-26",
+      "source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/provenance_dela.json"
+    },
+    {
+      "id": "DELA_FIRST_BATCH_GEOMETRY",
+      "date": "2026-11-26",
+      "source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/mechanism_evidence.json"
+    },
+    {
+      "id": "DELA_E250_OBJECT_REEVALUATION",
+      "date": "2026-11-26",
+      "source": "../198_CLASSIFICATION_PREPOWER_AUDIT_2026-11-26/dela_object_diagnostic_summary.json"
+    }
+  ],
+  "diagnostic_record_count": 8,
+  "counts_by_manuscript_stage": {
+    "A": 6,
+    "B": 6,
+    "C": 6,
+    "D": 6,
+    "E": 5,
+    "F": 5,
+    "G": 4,
+    "H": 8,
+    "I": 2,
+    "J": 4
+  }
+}

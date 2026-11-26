@@ -1,0 +1,120 @@
+{
+  "paired_seed_effects": [
+    {
+      "group": "MN40 当前批",
+      "seed": "4780",
+      "h0": "TS06",
+      "hier": "TS35",
+      "h0_oa": 93.0265,
+      "hier_oa": 92.9255,
+      "delta_oa": -0.10099999999999909
+    },
+    {
+      "group": "MN40 当前批",
+      "seed": "4781",
+      "h0": "MN40-B05-S4781-H0",
+      "hier": "MN40-B05-S4781-HIER-CURRENT32",
+      "h0_oa": 93.2536,
+      "hier_oa": 93.3711,
+      "delta_oa": 0.11749999999999261
+    },
+    {
+      "group": "MN40 FIFO1",
+      "seed": "4780",
+      "h0": "TS06",
+      "hier": "TS44",
+      "h0_oa": 93.0265,
+      "hier_oa": 93.4156,
+      "delta_oa": 0.3890999999999991
+    },
+    {
+      "group": "MN40 FIFO1",
+      "seed": "4781",
+      "h0": "MN40-B05-S4781-H0",
+      "hier": "MN40-B05-S4781-HIER-FIFO1",
+      "h0_oa": 93.2536,
+      "hier_oa": 93.03880000000001,
+      "delta_oa": -0.21479999999999677
+    },
+    {
+      "group": "SO PointMLP 作者",
+      "seed": "12",
+      "h0": "SO-S12-H0",
+      "hier": "SO-S12-HIER",
+      "h0_oa": 84.0424,
+      "hier_oa": 84.6393,
+      "delta_oa": 0.5969000000000051
+    },
+    {
+      "group": "SO PointMLP 作者",
+      "seed": "4780",
+      "h0": "SO-S4780-H0",
+      "hier": "SO-S4780-HIER",
+      "h0_oa": 84.7329,
+      "hier_oa": 84.2887,
+      "delta_oa": -0.44419999999999504
+    },
+    {
+      "group": "SO DGCNN SH32",
+      "seed": "12",
+      "h0": "DG-S12-H0",
+      "hier": "DG-S12-HIER",
+      "h0_oa": 81.6066,
+      "hier_oa": 81.2631,
+      "delta_oa": -0.3435000000000059
+    },
+    {
+      "group": "SO DGCNN SH32",
+      "seed": "4780",
+      "h0": "DG-S4780-H0",
+      "hier": "DG-S4780-HIER",
+      "h0_oa": 80.9404,
+      "hier_oa": 80.3261,
+      "delta_oa": -0.6143000000000001
+    }
+  ],
+  "mn20_oa_aa": [
+    {
+      "metric": "tail_oa",
+      "sampler": "SH32",
+      "h0": 92.7111,
+      "hier": 92.1531
+    },
+    {
+      "metric": "tail_oa",
+      "sampler": "CB32",
+      "h0": 91.8025,
+      "hier": 92.5323
+    },
+    {
+      "metric": "tail_aa",
+      "sampler": "SH32",
+      "h0": 91.0621,
+      "hier": 91.5046
+    },
+    {
+      "metric": "tail_aa",
+      "sampler": "CB32",
+      "h0": 90.7657,
+      "hier": 91.5274
+    }
+  ],
+  "dela_absolute_levels": [
+    {
+      "label": "新 Part–Whole H0",
+      "oa": 87.47397661209106
+    },
+    {
+      "label": "同 Part–Whole＋HIER",
+      "oa": 88.23733329772949
+    },
+    {
+      "label": "原版 DeLA，从头训练",
+      "oa": 89.38000000000001
+    },
+    {
+      "label": "作者发布权重单次复评",
+      "oa": 90.42
+    }
+  ]
+}

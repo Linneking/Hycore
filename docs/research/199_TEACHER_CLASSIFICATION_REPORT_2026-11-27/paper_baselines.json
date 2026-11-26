@@ -1,0 +1,168 @@
+{
+  "checked_at": "2026-11-27",
+  "accuracy_unit": "percent",
+  "scope": "论文/官方作者资料参考；本地实验复算转引197；不把文献数字视为本项目配对对照。",
+  "modelnet40_pointmlp": {
+    "dataset": "ModelNet40",
+    "backbone": "PointMLP",
+    "backbone_oa": 93.4,
+    "backbone_aa": 91.2,
+    "hycore_oa": 94.3,
+    "hycore_aa": 91.7,
+    "points": 1024,
+    "voting": false,
+    "voting_reference": {
+      "backbone_oa": 93.7,
+      "backbone_aa": 91.4,
+      "hycore_oa": 94.5,
+      "hycore_aa": 91.9
+    },
+    "source": "https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf#page=7",
+    "table": "Table 1",
+    "page": 7,
+    "note": "PointMLP原骨干行带双星号，即HyCoRe作者重新实现、未精确复现原PointMLP参考结果。其他论文表中的PointMLP 94.1不能替换本表原骨干93.4。单次93.4→94.3；投票另列。"
+  },
+  "scanobjectnn_pointmlp": {
+    "dataset": "ScanObjectNN PB_T50_RS",
+    "backbone": "PointMLP",
+    "backbone_oa": 86.1,
+    "backbone_aa": 84.4,
+    "hycore_oa": 87.2,
+    "hycore_aa": 85.9,
+    "points": 1024,
+    "voting": false,
+    "source": "https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf#page=7",
+    "table": "Table 2",
+    "page": 7,
+    "note": "Table 2无voting标记，作为本项目单次评估的论文参照；精确训练seed和对应论文checkpoint未核实。PB_T50_RS身份另由作者发布数据入口确认，不能套用较简单OBJ_ONLY/OBJ_BG。"
+  },
+  "scanobjectnn_dgcnn": {
+    "dataset": "ScanObjectNN PB_T50_RS",
+    "backbone": "DGCNN",
+    "backbone_oa": 80.3,
+    "backbone_aa": 77.8,
+    "hycore_oa": 82.1,
+    "hycore_aa": 80.2,
+    "points": 1024,
+    "voting": false,
+    "source": "https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf#page=7",
+    "table": "Table 2",
+    "page": 7,
+    "note": "原DGCNN和+HyCoRe均取同一张HyCoRe论文表。DeLA论文转录的DGCNN86.1属于另一训练配方，不能直接替换这里80.3。"
+  },
+  "de_la": {
+    "backbone_oa": 90.4,
+    "hycore_oa": null,
+    "source": "https://arxiv.org/pdf/2308.16532#page=9",
+    "table": "Table 6 (SO), Table 7 (MN40)",
+    "page": 9,
+    "scanobjectnn": {
+      "oa": 90.4,
+      "aa": 89.3,
+      "dataset": "PB_T50_RS",
+      "voting": false
+    },
+    "modelnet40": {
+      "oa": 94,
+      "aa": 92.2,
+      "voting": false
+    },
+    "paper_report_rule": "正文§4.1主结果报告best run；不属于三seed均值",
+    "points": {
+      "local_and_pinned_author_code": 1024,
+      "paper_table_explicit_input_point_count": null
+    },
+    "author_three_runs": {
+      "scanobjectnn": {
+        "oa_mean": 90.15,
+        "oa_sd": 0.25,
+        "aa_mean": 89.01,
+        "aa_sd": 0.39
+      },
+      "modelnet40": {
+        "oa_mean": 93.75,
+        "oa_sd": 0.18,
+        "aa_mean": 91.15,
+        "aa_sd": 0.61
+      },
+      "source": "https://raw.githubusercontent.com/Matrix-ASC/DeLA/0f427c36c5a991a28397ffdaaf8c205b80d6b30d/readme.md"
+    },
+    "local_public_checkpoint_reevaluation": {
+      "scanobjectnn": {
+        "oa": 90.42,
+        "aa": 89.24
+      },
+      "modelnet40": {
+        "oa": 94,
+        "aa": 92.25
+      },
+      "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_experiments.md"
+    },
+    "local_scratch_scanobjectnn": {
+      "best_oa": 89.59,
+      "best_aa": 88.29,
+      "last_e250_oa": 89.38,
+      "last_e250_aa": 88.44,
+      "tail10_oa": 89.243,
+      "tail10_aa": 88.24
+    },
+    "note": "DeLA原版保留分类和局部坐标预测，非HyCoRe Part–Whole。新DeLA-H0换双曲头并加0.02 HLoss，必须用新H0与HIER匹配；论文90.4、三seed90.15±.25、作者权重复评90.42、从头训练89.59及固定e25089.38分列。"
+  },
+  "point2vec": {
+    "backbone_oa": 94.7,
+    "backbone_aa": 92,
+    "hycore_oa": null,
+    "points": 1024,
+    "voting": false,
+    "voting_oa": 94.8,
+    "source": "https://karimknaebel.com/point2vec.pdf",
+    "table": "Table 1",
+    "paper_verified_by": "root agent: current author PDF Table1",
+    "note": "ShapeNet自监督预训练后MN40微调；不是从头训练基线。旧184所记作者94.65与当前论文表94.7不是同一精度/来源表述；94.65原发布资产出处尚未重新核明，不用其作为当前论文原数。",
+    "local_same_e125_checkpoint_no_voting": [
+      {
+        "fps_seed": 0,
+        "precision": "FP16",
+        "oa": 94.28687196110211,
+        "aa": 91.90348837209304
+      },
+      {
+        "fps_seed": 0,
+        "precision": "FP32",
+        "oa": 94.28687196110211,
+        "aa": 91.90348837209304
+      },
+      {
+        "fps_seed": 1,
+        "precision": "FP16",
+        "oa": 94.12479740680713,
+        "aa": 92.01162790697674
+      },
+      {
+        "fps_seed": 12,
+        "precision": "FP16",
+        "oa": 94.3679092382496,
+        "aa": 91.8610465116279
+      },
+      {
+        "fps_seed": 4780,
+        "precision": "FP16",
+        "oa": 94.32739059967585,
+        "aa": 91.84476744186047
+      }
+    ],
+    "local_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_experiments.md"
+  },
+  "mn20": {
+    "backbone_oa": null,
+    "hycore_oa": null,
+    "source": "../175_MN40_FILTER20_DUAL_SAMPLER_PLAN_2026-11-19/subset_manifest.json",
+    "note": "按MN40训练类计数130–400筛出的自定义20类；不是官方ModelNet10，也没有同划分论文baseline。只能以TS51/54等同子集H0作直接对照。"
+  },
+  "global_cautions": [
+    "H0指跨对象HIER关闭；HyCoRe H0依然有Part–Whole，不能误标成论文原骨干。",
+    "TS06 94.327为改版B05完整MN40历史目标，不是作者原生c1论文权重重评；不能跨数据集/子集硬套。",
+    "HyCoRe当前记录无已核实论文对应发布权重的本地实评，TS01/A3均为本地权重。",
+    "论文best run、公开权重单次复评、历史逐轮test-best、末10和固定e250是不同统计量。"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "BASE_MN40": "**论文尺度（MN40单次、无投票）：** 原PointMLP **93.4%** → ＋HyCoRe **94.3%**，分别为AA91.2／91.7；原骨干取HyCoRe作者重实现。[HyCoRe Table 1](https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf#page=7)",
+  "BASE_SO_POINTMLP": "**论文尺度（SO PB_T50_RS）：** PointMLP **86.1%** → ＋HyCoRe **87.2%**，AA84.4→85.9。[HyCoRe Table 2](https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf#page=7)",
+  "BASE_SO_ALL": "**论文尺度（SO PB_T50_RS）：** PointMLP **86.1%→87.2%**，DGCNN **80.3%→82.1%**；箭头均为原骨干→＋HyCoRe，不能互换两种骨干的目标。[HyCoRe Table 2](https://papers.neurips.cc/paper_files/paper/2022/file/da8f9fc2b555d122369f36a9684415c1-Paper-Conference.pdf#page=7)",
+  "BASE_DELA": "**DeLA论文尺度（无投票）：** SO PB_T50_RS **OA90.4%／AA89.3%**，MN40 **OA94.0%／AA92.2%**；没有可填的DeLA＋HyCoRe论文配对。作者仓库SO三次训练OA90.15±.25是另一项统计，不替换论文90.4。[DeLA Tables 6–7](https://arxiv.org/html/2308.16532#S4.SS2.SSS3) · [作者仓库](https://github.com/Matrix-ASC/DeLA#performance--training-time-and-memory-requirement)",
+  "BASE_ALTERNATIVES": "**替代骨干论文尺度：** DeLA无投票的SO **90.4%**、MN40 **94.0%**；point2vec作者PDF Table 1的MN40无投票 **94.7%**（ShapeNet预训练后微调，投票为94.8%）。二者均无本项目可用的＋HyCoRe论文配对；先各看绝对水平，再看实际权重复评。[DeLA Tables 6–7](https://arxiv.org/html/2308.16532#S4.SS2.SSS3) · [point2vec Table 1](https://karimknaebel.com/point2vec.pdf#page=5)"
+}
