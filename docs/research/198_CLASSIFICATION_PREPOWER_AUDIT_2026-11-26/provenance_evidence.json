@@ -1,0 +1,44 @@
+{
+  "observed_until_beijing": "2026-11-26T17:51:31.186410+08:00",
+  "scope": "Initial read-only provenance and CPU checkpoint metadata plus separately authorized fixed-e250 GPU diagnostic; no training or model selection. See explicit first-attempt build-cache incident and successful retry.",
+  "evidence_files": [
+    "provenance_dela.json",
+    "provenance_code.json",
+    "provenance_weights.json",
+    "provenance_checkpoint_metadata.json",
+    "provenance_pairs_8000.json",
+    "provenance_pairs_8001.json",
+    "provenance_data_hashes.json"
+  ],
+  "checks": {
+    "dela_frozen_adapter_and_author_files_match_recipe": true,
+    "dela_frozen_head_matches_recipe": true,
+    "dela_same_total_updates_and_skips": true,
+    "dela_epoch_cumulative_skip_mismatches": 145,
+    "mn40_s4781_all_three_initial_models_match": true,
+    "mn40_s4781_all_three_dataset_identities_match": true
+  },
+  "important_limits": [
+    "AMP skip timing differs between DeLA H0 and HIER; no per-step skip trace",
+    "checkpoint best_test_acc_avg is independent highest AA, not best-OA same-epoch AA",
+    "same short-test inputs and initial state do not establish bitwise full-training pairing"
+  ],
+  "independent_diagnostic_followup": {
+    "status": "completed",
+    "summary_file": "dela_object_diagnostic_summary.json",
+    "explanation_file": "dela_object_diagnostic.md",
+    "paired_rows": {
+      "both_correct": 2451,
+      "h0_only_correct": 70,
+      "hier_only_correct": 92,
+      "both_wrong": 269,
+      "net_correct": 22
+    },
+    "both_original_matrices_exactly_reproduced": true,
+    "parameters_and_bn_unchanged": true,
+    "private_final_result_files_hash_checked": 9,
+    "fixed_rule_private_point_cloud_cases": 55,
+    "gpu_released_checked_beijing": "2026-11-26 18:03:51",
+    "first_attempt_cache_mutation": "The first cutils build attempt changed old author-clone build cache objects/build files; frozen source, weights, metrics and existing shared library remained unchanged. It failed before model forward. Retry loaded the existing binary with no build."
+  }
+}

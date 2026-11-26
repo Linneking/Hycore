@@ -25,22 +25,6 @@
     "lambda_h": 0.02,
     "input_scale": 0.0761
   },
-  "recipe_parent_entries": [
-    "calibration1",
-    "calibration2",
-    "dela_build.log",
-    "deps",
-    "DeLA-0f427c3",
-    "dela_build_retry1.log",
-    "formal_seed4780",
-    "train_controller.log",
-    "training-from78.bundle",
-    "smoke1",
-    "code",
-    "training.bundle",
-    "dela-0f427c3.tar.gz",
-    "train_controller.pid"
-  ],
   "dela": [
     {
       "name": "DeLA-H0",

@@ -1,0 +1,296 @@
+{
+  "status": "completed",
+  "diagnostic_started_utc": "2026-11-26T10:02:16.986505+00:00",
+  "diagnostic_finished_utc": "2026-11-26T10:02:50.726881+00:00",
+  "diagnostic_commit": "c37a2b5c4c7cb747d3954d46f14794ada5dd95b6",
+  "script_sha256": "48302f4a912b91482c008b5469717ba004d81be9ce8db2006a91c590d1f5fe9f",
+  "source_training_commit": "5850e4799371ab1696f208dbb56717a48f7f491c",
+  "recipe_sha256": "1bfff606a0bb22fb328b755f702282ee8e777b944821dd79d08a7512931ffc0e",
+  "gpu": {
+    "physical_index": 0,
+    "name": "NVIDIA GeForce RTX 5090"
+  },
+  "training_updates": 0,
+  "same_input_fingerprint": true,
+  "input_sha256": "a81f376d6aa52b67507fcdbc7836443a51038344dda23473ee66acfc729d1fc5",
+  "test_hdf_sha256": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1",
+  "both_original_confusions_exactly_reproduced": true,
+  "parameters_and_bn_unchanged": true,
+  "metrics": [
+    {
+      "mode": "h0",
+      "checkpoint_epoch": 250,
+      "checkpoint_sha256": "e1b369e8f0bb073fad3d0b29db21c6fbe420b0baf73f459b28644f36a8bd31b8",
+      "oa": 87.47397661209106,
+      "aa": 86.09171509742737,
+      "rows": 2882,
+      "original_confusion_exact_match": true,
+      "parameter_bn_sha256_before": "48b1d0a4b06d5e56cb129feb583adb58d60979d7b14af3d84305ee8ebbbec1bd",
+      "parameter_bn_sha256_after": "48b1d0a4b06d5e56cb129feb583adb58d60979d7b14af3d84305ee8ebbbec1bd"
+    },
+    {
+      "mode": "hier",
+      "checkpoint_epoch": 250,
+      "checkpoint_sha256": "6aff1622d1dfcd3f586059218e5f6f1d5a47628b2e2585eebf063b848feee517",
+      "oa": 88.23733329772949,
+      "aa": 86.89911365509033,
+      "rows": 2882,
+      "original_confusion_exact_match": true,
+      "parameter_bn_sha256_before": "d47769b7de5172e037e45661eb78551e40ca17dc3038554fc97d710c1ac1028e",
+      "parameter_bn_sha256_after": "d47769b7de5172e037e45661eb78551e40ca17dc3038554fc97d710c1ac1028e"
+    }
+  ],
+  "paired_rows": {
+    "both_correct": 2451,
+    "h0_only_correct": 70,
+    "hier_only_correct": 92,
+    "both_wrong": 269,
+    "net_additional_correct": 22
+  },
+  "per_class": [
+    {
+      "label": 0,
+      "rows": 83,
+      "h0_correct": 54,
+      "hier_correct": 56,
+      "hier_only_correct": 7,
+      "h0_only_correct": 5
+    },
+    {
+      "label": 1,
+      "rows": 199,
+      "h0_correct": 172,
+      "hier_correct": 176,
+      "hier_only_correct": 8,
+      "h0_only_correct": 4
+    },
+    {
+      "label": 2,
+      "rows": 133,
+      "h0_correct": 105,
+      "hier_correct": 105,
+      "hier_only_correct": 10,
+      "h0_only_correct": 10
+    },
+    {
+      "label": 3,
+      "rows": 372,
+      "h0_correct": 328,
+      "hier_correct": 327,
+      "hier_only_correct": 10,
+      "h0_only_correct": 11
+    },
+    {
+      "label": 4,
+      "rows": 390,
+      "h0_correct": 369,
+      "hier_correct": 369,
+      "hier_only_correct": 4,
+      "h0_only_correct": 4
+    },
+    {
+      "label": 5,
+      "rows": 150,
+      "h0_correct": 127,
+      "hier_correct": 134,
+      "hier_only_correct": 10,
+      "h0_only_correct": 3
+    },
+    {
+      "label": 6,
+      "rows": 204,
+      "h0_correct": 185,
+      "hier_correct": 177,
+      "hier_only_correct": 3,
+      "h0_only_correct": 11
+    },
+    {
+      "label": 7,
+      "rows": 210,
+      "h0_correct": 191,
+      "hier_correct": 199,
+      "hier_only_correct": 8,
+      "h0_only_correct": 0
+    },
+    {
+      "label": 8,
+      "rows": 241,
+      "h0_correct": 223,
+      "hier_correct": 223,
+      "hier_only_correct": 3,
+      "h0_only_correct": 3
+    },
+    {
+      "label": 9,
+      "rows": 270,
+      "h0_correct": 201,
+      "hier_correct": 213,
+      "hier_only_correct": 17,
+      "h0_only_correct": 5
+    },
+    {
+      "label": 10,
+      "rows": 110,
+      "h0_correct": 93,
+      "hier_correct": 95,
+      "hier_only_correct": 4,
+      "h0_only_correct": 2
+    },
+    {
+      "label": 11,
+      "rows": 105,
+      "h0_correct": 91,
+      "hier_correct": 92,
+      "hier_only_correct": 2,
+      "h0_only_correct": 1
+    },
+    {
+      "label": 12,
+      "rows": 120,
+      "h0_correct": 102,
+      "hier_correct": 98,
+      "hier_only_correct": 0,
+      "h0_only_correct": 4
+    },
+    {
+      "label": 13,
+      "rows": 210,
+      "h0_correct": 201,
+      "hier_correct": 200,
+      "hier_only_correct": 2,
+      "h0_only_correct": 3
+    },
+    {
+      "label": 14,
+      "rows": 85,
+      "h0_correct": 79,
+      "hier_correct": 79,
+      "hier_only_correct": 4,
+      "h0_only_correct": 4
+    }
+  ],
+  "existing_dependencies": {
+    "pointnet2_sha256": "ae139590cc43d313a0901a1b4cca5bbb73114ad92b693c762d18b0bc76a2f03d",
+    "cutils_sha256": "33fe778724d16812d38772db6348608c8dc8c0a122232cc50934f45d35c8f99e",
+    "cutils_mtime_utc": "2026-11-25T09:15:19.208157+00:00",
+    "loading": "existing binary via process-local load adapter; no build"
+  },
+  "first_attempt": {
+    "status": "failed",
+    "started_utc": "2026-11-26T09:57:06.622476+00:00",
+    "finished_utc": "2026-11-26T09:58:28.701883+00:00",
+    "error": "RuntimeError: Error building extension 'cutils_'",
+    "failure_reason": "Author cutils loader attempted a build using system nvcc, which did not support compute_120. CPU objects and build files in the old author clone build cache were changed; recipe-checked source, weights, metrics and existing cutils_.so were not changed. No model forward ran."
+  },
+  "successful_retry_loading_adaptation": "Only process-local load dispatch changed: use preexisting cutils binary directly without rebuilding; frozen model and source hashes still match recipe.",
+  "private_results_sha256": {
+    "cases_manifest.json": {
+      "bytes": 1703,
+      "sha256": "e0b2bfbd6da7c9c9dced8d3aec447984f4277e83148c0f198d6a5c891f8aac39"
+    },
+    "gpu_release.json": {
+      "bytes": 138,
+      "sha256": "6c48410e65cf5f6c872115343ee90d5ba5d3f3a03774cc6fde44c79495c41a00"
+    },
+    "h0_predictions.json": {
+      "bytes": 2820228,
+      "sha256": "10ef859cd75dc241881177a8fa87f5cbba8a2ab296f88a52f2621933c21ee700"
+    },
+    "h0_summary.json": {
+      "bytes": 3254,
+      "sha256": "aa6362f96a8dad29e82f7232ff3174803fad9227a5c0e0bd5a95f175e5cb4d8a"
+    },
+    "hier_predictions.json": {
+      "bytes": 2820649,
+      "sha256": "ceedc0e0a8bea87e9a81b77b364442a40784f08c67401a92433f43144b0febaf"
+    },
+    "hier_summary.json": {
+      "bytes": 3253,
+      "sha256": "3bff1d539212e29c64dc780485dff3d6ed84408ad7fd62b18c379a7e6a10e424"
+    },
+    "paired_cases_first2_each_outcome_per_class.npz": {
+      "bytes": 1031459,
+      "sha256": "30158598e362187af4859e318775190931e313b2983742cb4f52c85103eaa921"
+    },
+    "paired_summary.json": {
+      "bytes": 2618,
+      "sha256": "ac1e485d5d4937b42a36887edf6d27f36797fba3a89b919d261dc18f8ea0f4db"
+    },
+    "status.json": {
+      "bytes": 10011,
+      "sha256": "2fbe3fedffe3b9c01434768d95c8b32e92065214490958a427a8314c8970f177"
+    }
+  },
+  "cases": {
+    "selected_rows": 55,
+    "rule": "For each GT label 0..14 and each direction (H0-only-correct / HIER-only-correct), take up to two smallest HDF row IDs; final output sorted by row ID. No aesthetic selection.",
+    "source_hdf_sha256": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1",
+    "npz_sha256": "30158598e362187af4859e318775190931e313b2983742cb4f52c85103eaa921",
+    "npz_bytes": 1031459,
+    "array_metadata": {
+      "data": {
+        "shape": [
+          55,
+          2048,
+          3
+        ],
+        "dtype": "float32",
+        "sha256": "e24b767603238a91290d5038353c6f62580e589209dbed31a46df64c4b8eb071"
+      },
+      "label": {
+        "shape": [
+          55
+        ],
+        "dtype": "int32",
+        "sha256": "577d04614b8c8305f6fb1bab99a2bf6dcab550c5091ef1d80793a0c330503b0b"
+      },
+      "mask": {
+        "shape": [
+          55,
+          2048
+        ],
+        "dtype": "int32",
+        "sha256": "2e82ba264e89c965b9ee3e2dde042297c638c5bd1e1b29bdbff0a797eb7b0716"
+      },
+      "row_id": {
+        "shape": [
+          55
+        ],
+        "dtype": "int64",
+        "sha256": "1eee35792355570093e7c3fc0e3120665a0609d3f01279ef89e9bb4d7108a617"
+      },
+      "outcome": {
+        "shape": [
+          55
+        ],
+        "dtype": "int8",
+        "sha256": "badbb64c9ee5a0f4dfeb96de14a6ad61a3674e1690730366e62b3f6f07121055"
+      },
+      "prediction_h0": {
+        "shape": [
+          55
+        ],
+        "dtype": "int64",
+        "sha256": "011763ab3a9e471fbdccede7fff83f2521f620862976bb847898e45689df383b"
+      },
+      "prediction_hier": {
+        "shape": [
+          55
+        ],
+        "dtype": "int64",
+        "sha256": "11e0eb7e8c0c29669643e49864676ac161b8c6323f6684a5c147d6ca3f236d81"
+      }
+    }
+  },
+  "gpu_release": {
+    "checked_at": "2026-11-26T10:03:51.374994+00:00",
+    "memory_mib_utilization": "0, 0",
+    "diagnostic_gpu_has_compute_process": false
+  },
+  "interpretation_limits": [
+    "Rows are HDF perturbation examples; independent original scan/object identity was not verified. No independent-object significance test is performed.",
+    "Class names were not verified against an actual author mapping; public table retains label IDs.",
+    "Fixed weights were not selected again; original terminal scores are retained, this is a separate reproduction diagnostic.",
+    "Raw predictions, confidence vectors and point-cloud cases remain in a local private offline directory and are not included in Git."
+  ]
+}
