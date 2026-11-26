@@ -68,7 +68,9 @@ def load_frozen(args, recipe):
     for filename, expected in recipe["dela_source_sha256"].items():
         if sha(args.dela_root / "ScanObjectNN" / filename) != expected:
             raise RuntimeError("Frozen author hash mismatch: " + filename)
-    sys.path[:0] = [str(folder), str(args.frozen_root), str(args.frozen_root / "pointnet2_ops_lib")]
+    # The frozen Git tree contains Python sources but not the original compiled extension.
+    # Resolve the already-built runtime explicitly rather than triggering a new JIT build.
+    sys.path[:0] = [str(folder), str(args.frozen_root), str(args.pointnet2_root)]
     spec = importlib.util.spec_from_file_location("frozen_dela_training", folder / "run.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -188,6 +190,7 @@ def main():
     parser.add_argument("--frozen-root", type=Path, required=True)
     parser.add_argument("--dela-root", type=Path, required=True)
     parser.add_argument("--data-root", type=Path, required=True)
+    parser.add_argument("--pointnet2-root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--diagnostic-commit", required=True)
     parser.add_argument("--gpu", type=int, default=0)
@@ -215,6 +218,15 @@ def main():
             torch.set_num_threads(2)
             torch.set_float32_matmul_precision("high")
             recipe = read(args.formal_root / "recipe.json")
+            extensions = list((args.pointnet2_root / "pointnet2_ops").glob("_ext*.so"))
+            if len(extensions) != 1:
+                raise RuntimeError("Expected exactly one existing PointNet2 extension; no JIT build allowed")
+            extension_sha = sha(extensions[0])
+            # This is the existing classification runtime's sm_120 build recorded by the
+            # same-host DGCNN manifests. DeLA's original manifest omitted this field.
+            recorded_extension_sha = "ae139590cc43d313a0901a1b4cca5bbb73114ad92b693c762d18b0bc76a2f03d"
+            if extension_sha != recorded_extension_sha:
+                raise RuntimeError("Existing PointNet2 extension differs from same-host recorded runtime")
             frozen = load_frozen(args, recipe)
             config, dataset, make_model, _, _ = frozen.source_imports(
                 SimpleNamespace(dela_root=args.dela_root, data_root=args.data_root))
@@ -223,6 +235,8 @@ def main():
                 raise RuntimeError("Official test data hash mismatch")
             status.update(device=device, original_source_commit=recipe["source_commit"],
                           recipe_sha256=sha(args.formal_root / "recipe.json"),
+                          pointnet2_extension_sha256=extension_sha,
+                          extension_identity_basis="same-host classification manifests; original DeLA field absent",
                           test_sha256=frozen.TEST_SHA, torch=str(torch.__version__),
                           cuda=torch.version.cuda)
             write(args.output / "status.json", status)
