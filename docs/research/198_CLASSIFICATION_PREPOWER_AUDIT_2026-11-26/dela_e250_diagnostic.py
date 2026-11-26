@@ -191,6 +191,7 @@ def main():
     parser.add_argument("--dela-root", type=Path, required=True)
     parser.add_argument("--data-root", type=Path, required=True)
     parser.add_argument("--pointnet2-root", type=Path, required=True)
+    parser.add_argument("--cutils-extension", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--diagnostic-commit", required=True)
     parser.add_argument("--gpu", type=int, default=0)
@@ -228,8 +229,33 @@ def main():
             if extension_sha != recorded_extension_sha:
                 raise RuntimeError("Existing PointNet2 extension differs from same-host recorded runtime")
             frozen = load_frozen(args, recipe)
-            config, dataset, make_model, _, _ = frozen.source_imports(
-                SimpleNamespace(dela_root=args.dela_root, data_root=args.data_root))
+            if args.cutils_extension:
+                # Reuse the original binary without calling the author's build directory.
+                # Loading happens here, after the exclusive idle-GPU lock is held.
+                from torch.utils import cpp_extension
+                original_load = cpp_extension.load
+                extension = args.cutils_extension.resolve(strict=True)
+                def existing_cutils(name, *unused_args, **unused_kwargs):
+                    if name != "cutils_":
+                        raise RuntimeError("Unexpected extension build request: " + name)
+                    spec = importlib.util.spec_from_file_location(name, extension)
+                    module = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(module)
+                    sys.modules[name] = module
+                    return module
+                cpp_extension.load = existing_cutils
+                try:
+                    config, dataset, make_model, _, _ = frozen.source_imports(
+                        SimpleNamespace(dela_root=args.dela_root, data_root=args.data_root))
+                finally:
+                    cpp_extension.load = original_load
+                status.update(cutils_extension_sha256=sha(extension),
+                              cutils_extension_mtime_utc=datetime.fromtimestamp(
+                                  extension.stat().st_mtime, timezone.utc).isoformat(),
+                              cutils_loading="existing binary via process-local load adapter; no build")
+            else:
+                config, dataset, make_model, _, _ = frozen.source_imports(
+                    SimpleNamespace(dela_root=args.dela_root, data_root=args.data_root))
             test_path = args.data_root / "main_split/test_objectdataset_augmentedrot_scale75.h5"
             if sha(test_path) != frozen.TEST_SHA:
                 raise RuntimeError("Official test data hash mismatch")
