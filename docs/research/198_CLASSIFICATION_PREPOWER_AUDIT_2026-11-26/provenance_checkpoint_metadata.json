@@ -1,0 +1,209 @@
+{
+  "observed_at": "2026-11-26T17:42:48.331934+08:00",
+  "map_location": "cpu",
+  "cuda_visible_devices": "",
+  "checkpoint_metadata": [
+    {
+      "arm": "SO-S12-HIER-L0.1",
+      "best_log_epoch_completed": 284,
+      "best_log_oa": 85.566,
+      "same_epoch_aa_from_log": 84.249,
+      "log_epochs": 300,
+      "files": [
+        {
+          "path": "SO-S12-HIER-L0.1/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore/last_checkpoint.pth",
+          "keys": [
+            "net",
+            "epoch",
+            "acc",
+            "best_test_acc",
+            "best_train_acc",
+            "best_test_acc_avg",
+            "best_train_acc_avg",
+            "best_test_loss",
+            "best_train_loss",
+            "optimizer"
+          ],
+          "metadata": {
+            "epoch": 299,
+            "acc": 84.559,
+            "best_test_acc": 85.566,
+            "best_train_acc": 99.772,
+            "best_test_acc_avg": 84.361,
+            "best_train_acc_avg": 99.768,
+            "best_test_loss": 2.109,
+            "best_train_loss": 2.019
+          },
+          "tensor_devices": [
+            "cpu"
+          ]
+        },
+        {
+          "path": "SO-S12-HIER-L0.1/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore/best_checkpoint.pth",
+          "keys": [
+            "net",
+            "epoch",
+            "acc",
+            "best_test_acc",
+            "best_train_acc",
+            "best_test_acc_avg",
+            "best_train_acc_avg",
+            "best_test_loss",
+            "best_train_loss",
+            "optimizer"
+          ],
+          "metadata": {
+            "epoch": 283,
+            "acc": 85.566,
+            "best_test_acc": 85.566,
+            "best_train_acc": 99.693,
+            "best_test_acc_avg": 84.361,
+            "best_train_acc_avg": 99.719,
+            "best_test_loss": 2.109,
+            "best_train_loss": 2.02
+          },
+          "tensor_devices": [
+            "cpu"
+          ]
+        },
+        {
+          "path": "SO-S12-HIER-L0.1/hier/best.pth",
+          "keys": [
+            "epoch",
+            "optimizer_steps",
+            "proxy",
+            "proxy_optimizer",
+            "proxy_scheduler",
+            "gumbel_rng"
+          ],
+          "metadata": {
+            "epoch": 283,
+            "optimizer_steps": 101104
+          },
+          "tensor_devices": [
+            "cpu"
+          ]
+        },
+        {
+          "path": "SO-S12-HIER-L0.1/hier/last.pth",
+          "keys": [
+            "epoch",
+            "optimizer_steps",
+            "proxy",
+            "proxy_optimizer",
+            "proxy_scheduler",
+            "gumbel_rng"
+          ],
+          "metadata": {
+            "epoch": 299,
+            "optimizer_steps": 106800
+          },
+          "tensor_devices": [
+            "cpu"
+          ]
+        }
+      ]
+    },
+    {
+      "arm": "SO-S12-HIER-L1.0",
+      "best_log_epoch_completed": 188,
+      "best_log_oa": 85.253,
+      "same_epoch_aa_from_log": 83.742,
+      "log_epochs": 300,
+      "files": [
+        {
+          "path": "SO-S12-HIER-L1.0/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore/last_checkpoint.pth",
+          "keys": [
+            "net",
+            "epoch",
+            "acc",
+            "best_test_acc",
+            "best_train_acc",
+            "best_test_acc_avg",
+            "best_train_acc_avg",
+            "best_test_loss",
+            "best_train_loss",
+            "optimizer"
+          ],
+          "metadata": {
+            "epoch": 299,
+            "acc": 84.525,
+            "best_test_acc": 85.253,
+            "best_train_acc": 99.789,
+            "best_test_acc_avg": 84.241,
+            "best_train_acc_avg": 99.809,
+            "best_test_loss": 2.109,
+            "best_train_loss": 2.07
+          },
+          "tensor_devices": [
+            "cpu"
+          ]
+        },
+        {
+          "path": "SO-S12-HIER-L1.0/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore/best_checkpoint.pth",
+          "keys": [
+            "net",
+            "epoch",
+            "acc",
+            "best_test_acc",
+            "best_train_acc",
+            "best_test_acc_avg",
+            "best_train_acc_avg",
+            "best_test_loss",
+            "best_train_loss",
+            "optimizer"
+          ],
+          "metadata": {
+            "epoch": 187,
+            "acc": 85.253,
+            "best_test_acc": 85.253,
+            "best_train_acc": 96.331,
+            "best_test_acc_avg": 83.946,
+            "best_train_acc_avg": 96.288,
+            "best_test_loss": 2.11,
+            "best_train_loss": 2.113
+          },
+          "tensor_devices": [
+            "cpu"
+          ]
+        },
+        {
+          "path": "SO-S12-HIER-L1.0/hier/best.pth",
+          "keys": [
+            "epoch",
+            "optimizer_steps",
+            "proxy",
+            "proxy_optimizer",
+            "proxy_scheduler",
+            "gumbel_rng"
+          ],
+          "metadata": {
+            "epoch": 187,
+            "optimizer_steps": 66928
+          },
+          "tensor_devices": [
+            "cpu"
+          ]
+        },
+        {
+          "path": "SO-S12-HIER-L1.0/hier/last.pth",
+          "keys": [
+            "epoch",
+            "optimizer_steps",
+            "proxy",
+            "proxy_optimizer",
+            "proxy_scheduler",
+            "gumbel_rng"
+          ],
+          "metadata": {
+            "epoch": 299,
+            "optimizer_steps": 106800
+          },
+          "tensor_devices": [
+            "cpu"
+          ]
+        }
+      ]
+    }
+  ]
+}

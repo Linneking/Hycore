@@ -1,0 +1,23 @@
+{
+  "verified_utc": "2026-11-26T09:44:49.458889+00:00",
+  "archive": "checkpoints_dela.tar.gz",
+  "archive_bytes": 121955144,
+  "file_count": 2,
+  "verified_all_file_hashes": true,
+  "sha256": "9238869955583d8eb11bd53c299691498db7a3ed50011f4b8528f81a18e5d4b0",
+  "files": [
+    {
+      "path": "HyCoRe_runs/de_la_pw_dmr_hier_20261125/formal_seed4780/h0/work/last.pt",
+      "bytes": 64270907,
+      "sha256": "e1b369e8f0bb073fad3d0b29db21c6fbe420b0baf73f459b28644f36a8bd31b8"
+    },
+    {
+      "path": "HyCoRe_runs/de_la_pw_dmr_hier_20261125/formal_seed4780/hier/work/last.pt",
+      "bytes": 65845745,
+      "sha256": "6aff1622d1dfcd3f586059218e5f6f1d5a47628b2e2585eebf063b848feee517"
+    }
+  ],
+  "private_storage": "local .codex-local offline_classification_20261126_1736",
+  "model_execution": false,
+  "training": false
+}

@@ -1,0 +1,2698 @@
+{
+  "scope": "Existing classification HIER telemetry only; no inference, GPU allocation, optimizer update, or server write",
+  "observed_between": [
+    "2026-11-26T17:41:41.390041+08:00",
+    "2026-11-26T17:43:18.705565+08:00"
+  ],
+  "semantics": {
+    "epoch_records": "e1, midpoint and final completed epoch; last_geometry describes the last training batch, not full epoch",
+    "tail10": "sums of ten complete epoch counters divided by total training attempts; DeLA retains its per-batch mean convention",
+    "hinge_zero": "In noncolliding sampled ancestor draws, active means any of three positive hinges; 1-active/noncollision measures simultaneous margin satisfaction, not morphology validity",
+    "per_role": "Available only where active_i/j/k_hinges was actually logged; collision draws excluded",
+    "cap_fraction": "Mapped-output depth >=4.5999 in c=.1; SO values are last batch, not raw optimizer-parameter overcap fraction",
+    "proxy_forward_clip_count_last": "MN40 last optimizer-step tangent parameter norm >2.3 count among512; not full-epoch maximum or mapped-output radius",
+    "cached_fraction": "Fraction of sampled triplets using history candidates; repeats counted and candidates may be stale"
+  },
+  "runs": [
+    {
+      "name": "SO-S12-HIER",
+      "source_relative": "scanobject_author_s12_20261121_B/SO-S12-HIER/main/hier/metrics.jsonl",
+      "source_sha256": "7e96d5ceab0cdc5b8c2546ca8ffc77ff26a57eef980565ebd6bd1627a097611a",
+      "rows": 300,
+      "epoch_records": [
+        {
+          "epoch": 1,
+          "optimizer_steps": 356,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 133313,
+            "sample_noncollision_triplets": 556099,
+            "sample_collisions": 13501,
+            "proxy_triplets": 5459900,
+            "proxy_active_triplets": 2619196,
+            "proxy_noncollision_triplets": 5365507,
+            "proxy_collisions": 94393,
+            "sample_loss_sum": 28.069491539150476,
+            "proxy_loss_sum": 73.78797455132008
+          },
+          "last_geometry": {
+            "sample_loss": 0.06547895073890686,
+            "proxy_loss": 0.1638057678937912,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.055990219116211,
+              "depth_median": 4.599982738494873,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 0.875,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.0941975936293602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.6389622688293457,
+              "depth_median": 3.9200222492218018,
+              "depth_max": 4.59998083114624,
+              "radius_max": 1.965113639831543,
+              "cap_fraction": 0.060546875,
+              "inverse_metric_factor_min": 0.09419768303632736,
+              "inverse_metric_factor_median": 0.12123308330774307
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": true
+        },
+        {
+          "epoch": 150,
+          "optimizer_steps": 53400,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 40532,
+            "sample_noncollision_triplets": 563006,
+            "sample_collisions": 6594,
+            "proxy_triplets": 7917900,
+            "proxy_active_triplets": 686963,
+            "proxy_noncollision_triplets": 7828392,
+            "proxy_collisions": 89508,
+            "sample_loss_sum": 8.705917763523757,
+            "proxy_loss_sum": 19.018882106989622
+          },
+          "last_geometry": {
+            "sample_loss": 0.027412161231040955,
+            "proxy_loss": 0.05734473839402199,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.187298774719238,
+              "depth_median": 4.599984645843506,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 0.9375,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419754147529602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 2.8558807373046875,
+              "depth_median": 3.4745259284973145,
+              "depth_max": 4.235136985778809,
+              "radius_max": 1.849107265472412,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.1082673966884613,
+              "inverse_metric_factor_median": 0.14053408801555634
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        },
+        {
+          "epoch": 300,
+          "optimizer_steps": 106800,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 29118,
+            "sample_noncollision_triplets": 564774,
+            "sample_collisions": 4826,
+            "proxy_triplets": 8686400,
+            "proxy_active_triplets": 677408,
+            "proxy_noncollision_triplets": 8596228,
+            "proxy_collisions": 90172,
+            "sample_loss_sum": 5.778787659946829,
+            "proxy_loss_sum": 16.77332926914096
+          },
+          "last_geometry": {
+            "sample_loss": 0.012967191636562347,
+            "proxy_loss": 0.04735482484102249,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 3.832498550415039,
+              "depth_median": 4.599985599517822,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 0.9375,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419750422239304
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 2.8781497478485107,
+              "depth_median": 3.453303813934326,
+              "depth_max": 4.223647117614746,
+              "radius_max": 1.8453224897384644,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.10872796922922134,
+              "inverse_metric_factor_median": 0.14154218137264252
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1600.0,
+        "sample_active_per_step": 81.13202247191012,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9488456125057361,
+        "sample_collision_fraction": 0.008735779494381979,
+        "proxy_draws_per_step": 24400.0,
+        "proxy_active_per_step": 1901.7176966292134,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.9212448733551829,
+        "proxy_collision_fraction": 0.010359665684288033
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "optimizer_steps",
+        "stats",
+        "last_geometry",
+        "selected_best"
+      ],
+      "available_hier_fields": [
+        "sample_triplets",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_collisions",
+        "proxy_triplets",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_collisions",
+        "sample_loss_sum",
+        "proxy_loss_sum"
+      ]
+    },
+    {
+      "name": "SO-S4780-HIER",
+      "source_relative": "scanobject_author_s4780_20261123/SO-S4780-HIER/main/hier/metrics.jsonl",
+      "source_sha256": "7336bb05179f84ffc8b0653c2670d8e76f3da4675fa676e8859e16c62d803050",
+      "rows": 300,
+      "epoch_records": [
+        {
+          "epoch": 1,
+          "optimizer_steps": 356,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 147016,
+            "sample_noncollision_triplets": 554073,
+            "sample_collisions": 15527,
+            "proxy_triplets": 4779000,
+            "proxy_active_triplets": 2207833,
+            "proxy_noncollision_triplets": 4694921,
+            "proxy_collisions": 84079,
+            "sample_loss_sum": 31.637712301686406,
+            "proxy_loss_sum": 71.72164110839367
+          },
+          "last_geometry": {
+            "sample_loss": 0.08496104925870895,
+            "proxy_loss": 0.16386033594608307,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.338068962097168,
+              "depth_median": 4.599982738494873,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 0.84375,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.0941975936293602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.6407787799835205,
+              "depth_median": 3.8869292736053467,
+              "depth_max": 4.599982738494873,
+              "radius_max": 1.9651142358779907,
+              "cap_fraction": 0.009765625,
+              "inverse_metric_factor_min": 0.09419761598110199,
+              "inverse_metric_factor_median": 0.12246432155370712
+            },
+            "native_whole_depth_max": 6.212604522705078
+          },
+          "selected_best": true
+        },
+        {
+          "epoch": 150,
+          "optimizer_steps": 53400,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 37136,
+            "sample_noncollision_triplets": 563073,
+            "sample_collisions": 6527,
+            "proxy_triplets": 8561800,
+            "proxy_active_triplets": 745129,
+            "proxy_noncollision_triplets": 8472189,
+            "proxy_collisions": 89611,
+            "sample_loss_sum": 8.058605768252164,
+            "proxy_loss_sum": 16.841338019818068
+          },
+          "last_geometry": {
+            "sample_loss": 0.016767919063568115,
+            "proxy_loss": 0.04522402212023735,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 3.7113163471221924,
+              "depth_median": 4.599984645843506,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651150703430176,
+              "cap_fraction": 0.9375,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419754147529602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 2.711686611175537,
+              "depth_median": 3.3819446563720703,
+              "depth_max": 3.9150032997131348,
+              "radius_max": 1.7406530380249023,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.12145666033029556,
+              "inverse_metric_factor_median": 0.14472976326942444
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        },
+        {
+          "epoch": 300,
+          "optimizer_steps": 106800,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 27874,
+            "sample_noncollision_triplets": 564586,
+            "sample_collisions": 5014,
+            "proxy_triplets": 8878900,
+            "proxy_active_triplets": 724370,
+            "proxy_noncollision_triplets": 8791738,
+            "proxy_collisions": 87162,
+            "sample_loss_sum": 5.549354961607605,
+            "proxy_loss_sum": 15.455764964222908
+          },
+          "last_geometry": {
+            "sample_loss": 0.013106141239404678,
+            "proxy_loss": 0.045573581010103226,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.599981784820557,
+              "depth_median": 4.599985599517822,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 1.0,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419750422239304
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 2.7618753910064697,
+              "depth_median": 3.3817520141601562,
+              "depth_max": 3.9236693382263184,
+              "radius_max": 1.7436708211898804,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.12109050899744034,
+              "inverse_metric_factor_median": 0.14466352760791779
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1600.0,
+        "sample_active_per_step": 76.12359550561797,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9520020545246034,
+        "sample_collision_fraction": 0.008764922752808935,
+        "proxy_draws_per_step": 24883.988764044945,
+        "proxy_active_per_step": 2036.7314606741572,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.9172617581988781,
+        "proxy_collision_fraction": 0.010746746136566343
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "optimizer_steps",
+        "stats",
+        "last_geometry",
+        "selected_best"
+      ],
+      "available_hier_fields": [
+        "sample_triplets",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_collisions",
+        "proxy_triplets",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_collisions",
+        "sample_loss_sum",
+        "proxy_loss_sum"
+      ]
+    },
+    {
+      "name": "DG-S12-HIER",
+      "source_relative": "scanobject_dgcnn_hier_20261124_1415/DG-S12-HIER/main/hier/metrics.jsonl",
+      "source_sha256": "a0c12b217d68d77c175e1c884a1363038911f157110579a239a0a67e6121b4f0",
+      "rows": 250,
+      "epoch_records": [
+        {
+          "epoch": 1,
+          "optimizer_steps": 356,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 131375,
+            "sample_noncollision_triplets": 560020,
+            "sample_collisions": 9580,
+            "proxy_triplets": 5170500,
+            "proxy_active_triplets": 2455020,
+            "proxy_noncollision_triplets": 5080112,
+            "proxy_collisions": 90388,
+            "sample_loss_sum": 29.09067414328456,
+            "proxy_loss_sum": 73.23254452645779
+          },
+          "last_geometry": {
+            "sample_loss": 0.08420741558074951,
+            "proxy_loss": 0.15416613221168518,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 3.1114957332611084,
+              "depth_median": 4.599982738494873,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 0.75,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.0941975936293602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.685368299484253,
+              "depth_median": 3.901855230331421,
+              "depth_max": 4.59998083114624,
+              "radius_max": 1.965113639831543,
+              "cap_fraction": 0.02734375,
+              "inverse_metric_factor_min": 0.09419768303632736,
+              "inverse_metric_factor_median": 0.12193667143583298
+            },
+            "native_whole_depth_max": 6.212604522705078
+          },
+          "selected_best": true
+        },
+        {
+          "epoch": 125,
+          "optimizer_steps": 44500,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 54858,
+            "sample_noncollision_triplets": 564512,
+            "sample_collisions": 5088,
+            "proxy_triplets": 8289650,
+            "proxy_active_triplets": 719556,
+            "proxy_noncollision_triplets": 8191484,
+            "proxy_collisions": 98166,
+            "sample_loss_sum": 12.436337562277913,
+            "proxy_loss_sum": 18.562131330370903
+          },
+          "last_geometry": {
+            "sample_loss": 0.03360947221517563,
+            "proxy_loss": 0.04781337082386017,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.472182750701904,
+              "depth_median": 4.599984645843506,
+              "depth_max": 4.5999860763549805,
+              "radius_max": 1.9651153087615967,
+              "cap_fraction": 0.96875,
+              "inverse_metric_factor_min": 0.09419748187065125,
+              "inverse_metric_factor_median": 0.09419754147529602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.141568422317505,
+              "depth_median": 3.4502525329589844,
+              "depth_max": 4.409034252166748,
+              "radius_max": 1.9054070711135864,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.10142390429973602,
+              "inverse_metric_factor_median": 0.14165404438972473
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        },
+        {
+          "epoch": 250,
+          "optimizer_steps": 89000,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 50564,
+            "sample_noncollision_triplets": 565534,
+            "sample_collisions": 4066,
+            "proxy_triplets": 8722000,
+            "proxy_active_triplets": 724830,
+            "proxy_noncollision_triplets": 8624253,
+            "proxy_collisions": 97747,
+            "sample_loss_sum": 11.173770770430565,
+            "proxy_loss_sum": 17.108275458216667
+          },
+          "last_geometry": {
+            "sample_loss": 0.025297148153185844,
+            "proxy_loss": 0.048931557685136795,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.599982738494873,
+              "depth_median": 4.599984645843506,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 1.0,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419754147529602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.101674795150757,
+              "depth_median": 3.463981866836548,
+              "depth_max": 4.4381632804870605,
+              "radius_max": 1.9146580696105957,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.10030155628919601,
+              "inverse_metric_factor_median": 0.14106424152851105
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1600.0,
+        "sample_active_per_step": 142.1558988764045,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9105004230262078,
+        "sample_collision_fraction": 0.0072865168539325564,
+        "proxy_draws_per_step": 24466.671348314605,
+        "proxy_active_per_step": 2038.1491573033709,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.9157453512947186,
+        "proxy_collision_fraction": 0.011293923687749952
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "optimizer_steps",
+        "stats",
+        "last_geometry",
+        "selected_best"
+      ],
+      "available_hier_fields": [
+        "sample_triplets",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_collisions",
+        "proxy_triplets",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_collisions",
+        "sample_loss_sum",
+        "proxy_loss_sum"
+      ]
+    },
+    {
+      "name": "DG-S4780-HIER",
+      "source_relative": "scanobject_dgcnn_hier_20261124_1415/DG-S4780-HIER/main/hier/metrics.jsonl",
+      "source_sha256": "52acc1dd5c9627c8d823b6ac6c70d8a3d1fd70cd67ef15d22017865c82db6c9a",
+      "rows": 250,
+      "epoch_records": [
+        {
+          "epoch": 1,
+          "optimizer_steps": 356,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 124227,
+            "sample_noncollision_triplets": 557153,
+            "sample_collisions": 12447,
+            "proxy_triplets": 4409200,
+            "proxy_active_triplets": 1980794,
+            "proxy_noncollision_triplets": 4330380,
+            "proxy_collisions": 78820,
+            "sample_loss_sum": 27.507119048386812,
+            "proxy_loss_sum": 69.9206740707159
+          },
+          "last_geometry": {
+            "sample_loss": 0.08123239129781723,
+            "proxy_loss": 0.14987553656101227,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 3.9925057888031006,
+              "depth_median": 4.599984169006348,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 0.9375,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419754147529602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.5497891902923584,
+              "depth_median": 4.293887615203857,
+              "depth_max": 4.59998083114624,
+              "radius_max": 1.965113639831543,
+              "cap_fraction": 0.00390625,
+              "inverse_metric_factor_min": 0.09419768303632736,
+              "inverse_metric_factor_median": 0.10585114359855652
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": true
+        },
+        {
+          "epoch": 125,
+          "optimizer_steps": 44500,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 57707,
+            "sample_noncollision_triplets": 564127,
+            "sample_collisions": 5473,
+            "proxy_triplets": 8081200,
+            "proxy_active_triplets": 781210,
+            "proxy_noncollision_triplets": 7991266,
+            "proxy_collisions": 89934,
+            "sample_loss_sum": 12.866106128320098,
+            "proxy_loss_sum": 17.981589764356613
+          },
+          "last_geometry": {
+            "sample_loss": 0.03370226174592972,
+            "proxy_loss": 0.04922633245587349,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.59998083114624,
+              "depth_median": 4.599984645843506,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 1.0,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419754147529602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 2.914249897003174,
+              "depth_median": 3.328514337539673,
+              "depth_max": 4.319401741027832,
+              "radius_max": 1.8766177892684937,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.10492110252380371,
+              "inverse_metric_factor_median": 0.14710696041584015
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        },
+        {
+          "epoch": 250,
+          "optimizer_steps": 89000,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 49720,
+            "sample_noncollision_triplets": 565755,
+            "sample_collisions": 3845,
+            "proxy_triplets": 8791450,
+            "proxy_active_triplets": 737928,
+            "proxy_noncollision_triplets": 8702014,
+            "proxy_collisions": 89436,
+            "sample_loss_sum": 10.822522481903434,
+            "proxy_loss_sum": 15.695584915578365
+          },
+          "last_geometry": {
+            "sample_loss": 0.03431742265820503,
+            "proxy_loss": 0.04438141733407974,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.59998083114624,
+              "depth_median": 4.599984645843506,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 1.0,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419754147529602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.1382033824920654,
+              "depth_median": 3.430063009262085,
+              "depth_max": 4.395329475402832,
+              "radius_max": 1.9010366201400757,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.1019543930888176,
+              "inverse_metric_factor_median": 0.14258693158626556
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1600.0,
+        "sample_active_per_step": 140.81348314606743,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9113863054069811,
+        "sample_collision_fraction": 0.006830407303370811,
+        "proxy_draws_per_step": 24606.91011235955,
+        "proxy_active_per_step": 2051.0553370786515,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.9156857670933137,
+        "proxy_collision_fraction": 0.011402741533733773
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "optimizer_steps",
+        "stats",
+        "last_geometry",
+        "selected_best"
+      ],
+      "available_hier_fields": [
+        "sample_triplets",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_collisions",
+        "proxy_triplets",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_collisions",
+        "sample_loss_sum",
+        "proxy_loss_sum"
+      ]
+    },
+    {
+      "name": "DG-S4780-CB32-HIER",
+      "source_relative": "scanobject_weights_cb_20261126/runs_verified/DG-S4780-CB32-HIER/hier/metrics.jsonl",
+      "source_sha256": "d6457cf0ea931a44864642b254a1e8b24f72816398c9578ba1a21dfd15bfecf5",
+      "rows": 250,
+      "epoch_records": [
+        {
+          "epoch": 1,
+          "optimizer_steps": 356,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 91031,
+            "sample_noncollision_triplets": 560252,
+            "sample_collisions": 9348,
+            "proxy_triplets": 4440350,
+            "proxy_active_triplets": 1998834,
+            "proxy_noncollision_triplets": 4360749,
+            "proxy_collisions": 79601,
+            "sample_loss_sum": 20.03835708834231,
+            "proxy_loss_sum": 70.109070032835
+          },
+          "last_geometry": {
+            "sample_loss": 0.06339369714260101,
+            "proxy_loss": 0.1603517085313797,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 3.2895121574401855,
+              "depth_median": 4.599982738494873,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651150703430176,
+              "cap_fraction": 0.75,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.0941975936293602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.537675619125366,
+              "depth_median": 4.2848801612854,
+              "depth_max": 4.59998083114624,
+              "radius_max": 1.965113639831543,
+              "cap_fraction": 0.0078125,
+              "inverse_metric_factor_min": 0.09419768303632736,
+              "inverse_metric_factor_median": 0.10622405260801315
+            },
+            "native_whole_depth_max": 6.212604522705078
+          },
+          "selected_best": true
+        },
+        {
+          "epoch": 125,
+          "optimizer_steps": 44500,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 42866,
+            "sample_noncollision_triplets": 565557,
+            "sample_collisions": 4043,
+            "proxy_triplets": 8041400,
+            "proxy_active_triplets": 756293,
+            "proxy_noncollision_triplets": 7959378,
+            "proxy_collisions": 82022,
+            "sample_loss_sum": 9.215955786406994,
+            "proxy_loss_sum": 16.898967940360308
+          },
+          "last_geometry": {
+            "sample_loss": 0.033219318836927414,
+            "proxy_loss": 0.04643857106566429,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.59998083114624,
+              "depth_median": 4.599984169006348,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 1.0,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419754147529602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 2.9680066108703613,
+              "depth_median": 3.340956449508667,
+              "depth_max": 4.309225082397461,
+              "radius_max": 1.8733183145523071,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.10532227903604507,
+              "inverse_metric_factor_median": 0.14656521379947662
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        },
+        {
+          "epoch": 250,
+          "optimizer_steps": 89000,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 40468,
+            "sample_noncollision_triplets": 566454,
+            "sample_collisions": 3146,
+            "proxy_triplets": 8544000,
+            "proxy_active_triplets": 740643,
+            "proxy_noncollision_triplets": 8460877,
+            "proxy_collisions": 83123,
+            "sample_loss_sum": 8.630305096507072,
+            "proxy_loss_sum": 15.290992479771376
+          },
+          "last_geometry": {
+            "sample_loss": 0.026132524013519287,
+            "proxy_loss": 0.037300124764442444,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.599983215332031,
+              "depth_median": 4.599985599517822,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 1.0,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419750422239304
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 2.9685399532318115,
+              "depth_median": 3.309033155441284,
+              "depth_max": 4.524836540222168,
+              "radius_max": 1.941880464553833,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.0970042273402214,
+              "inverse_metric_factor_median": 0.14798179268836975
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1600.0,
+        "sample_active_per_step": 112.29185393258427,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9294331032936656,
+        "sample_collision_fraction": 0.0054485603932584725,
+        "proxy_draws_per_step": 23924.9297752809,
+        "proxy_active_per_step": 2079.6769662921347,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.9122238792401463,
+        "proxy_collision_fraction": 0.009695330959725967
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "optimizer_steps",
+        "stats",
+        "last_geometry",
+        "selected_best"
+      ],
+      "available_hier_fields": [
+        "sample_triplets",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_collisions",
+        "proxy_triplets",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_collisions",
+        "sample_loss_sum",
+        "proxy_loss_sum"
+      ]
+    },
+    {
+      "name": "TS35",
+      "source_relative": "mn40_v10_ts33_ts35_20261113/mn40v10_20261113_ts35_r2/main/metrics.jsonl",
+      "source_sha256": "ff173bc93a7cf21db433b493f2adfd49e1fa3fbf0e4cda17c9770d34b47da2e7",
+      "rows": 300,
+      "epoch_records": [
+        {
+          "epoch": 0,
+          "completed_epochs": 1,
+          "train": {
+            "loss": 3.441,
+            "acc": 23.646,
+            "acc_avg": 9.116,
+            "time": 145
+          },
+          "test": {
+            "loss": 3.1,
+            "acc": 27.229,
+            "acc_avg": 16.8,
+            "time": 6
+          },
+          "effective_lr": 0.1,
+          "lr_after_scheduler": 0.09999739554486184,
+          "optimizer_steps": 307,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 152.1576180710108,
+          "last_batch": {
+            "ce": 3.015717029571533,
+            "rcontr": 0.6021995544433594,
+            "rhier": 0.9057971239089966,
+            "positive_distance": 3.919236660003662,
+            "negative_distance": 7.214236259460449,
+            "whole_radius": 1.9651163816452026,
+            "part_radius": 1.9651163816452026
+          },
+          "selected_best": true,
+          "finished_at": "2026-11-13T23:41:14.932903+08:00",
+          "hierarchy": {
+            "sample_active_triplets": 146888,
+            "sample_noncollision_triplets": 481559,
+            "sample_triplets": 491150,
+            "sample_active_i_hinges": 68698,
+            "sample_active_j_hinges": 76399,
+            "sample_active_k_hinges": 91223,
+            "proxy_active_triplets": 1998975,
+            "proxy_noncollision_triplets": 4108739,
+            "proxy_triplets": 4180700,
+            "proxy_active_i_hinges": 493462,
+            "proxy_active_j_hinges": 525489,
+            "proxy_active_k_hinges": 1490868,
+            "same_class_flip_positions": 394,
+            "sample_loss_sum": 32.162903720512986,
+            "proxy_loss_sum": 63.91038928925991,
+            "proxy_forward_clip_count_last": 7,
+            "proxy_lr": 0.005
+          }
+        },
+        {
+          "epoch": 149,
+          "completed_epochs": 150,
+          "train": {
+            "loss": 1.831,
+            "acc": 94.473,
+            "acc_avg": 91.708,
+            "time": 143
+          },
+          "test": {
+            "loss": 1.798,
+            "acc": 91.896,
+            "acc_avg": 88.2,
+            "time": 5
+          },
+          "effective_lr": 0.05299740974552168,
+          "lr_after_scheduler": 0.052500000000000005,
+          "optimizer_steps": 46050,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 148.5847541920084,
+          "last_batch": {
+            "ce": 1.8200891017913818,
+            "rcontr": 0.37060701847076416,
+            "rhier": 1.214030385017395,
+            "positive_distance": 2.028899908065796,
+            "negative_distance": 6.3376874923706055,
+            "whole_radius": 1.8779784440994263,
+            "part_radius": 1.7930166721343994
+          },
+          "selected_best": false,
+          "finished_at": "2026-11-14T05:33:17.069069+08:00",
+          "hierarchy": {
+            "sample_active_triplets": 67645,
+            "sample_noncollision_triplets": 475121,
+            "sample_triplets": 491200,
+            "sample_active_i_hinges": 27384,
+            "sample_active_j_hinges": 28615,
+            "sample_active_k_hinges": 46881,
+            "proxy_active_triplets": 689134,
+            "proxy_noncollision_triplets": 7011138,
+            "proxy_triplets": 7091700,
+            "proxy_active_i_hinges": 167081,
+            "proxy_active_j_hinges": 207228,
+            "proxy_active_k_hinges": 492733,
+            "same_class_flip_positions": 428,
+            "sample_loss_sum": 11.704125807620585,
+            "proxy_loss_sum": 18.077667851001024,
+            "proxy_forward_clip_count_last": 0,
+            "proxy_lr": 0.002773561514261536
+          }
+        },
+        {
+          "epoch": 299,
+          "completed_epochs": 300,
+          "train": {
+            "loss": 1.681,
+            "acc": 99.043,
+            "acc_avg": 98.687,
+            "time": 139
+          },
+          "test": {
+            "loss": 1.83,
+            "acc": 93.031,
+            "acc_avg": 90.008,
+            "time": 5
+          },
+          "effective_lr": 0.005002604455138174,
+          "lr_after_scheduler": 0.005,
+          "optimizer_steps": 92100,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 144.9900016200263,
+          "last_batch": {
+            "ce": 1.6430613994598389,
+            "rcontr": 0.07629147171974182,
+            "rhier": 0.004707738757133484,
+            "positive_distance": 2.3325271606445312,
+            "negative_distance": 5.343100547790527,
+            "whole_radius": 1.916706919670105,
+            "part_radius": 1.1607694625854492
+          },
+          "selected_best": false,
+          "finished_at": "2026-11-14T11:40:09.073762+08:00",
+          "hierarchy": {
+            "sample_active_triplets": 38564,
+            "sample_noncollision_triplets": 479370,
+            "sample_triplets": 491200,
+            "sample_active_i_hinges": 13285,
+            "sample_active_j_hinges": 13785,
+            "sample_active_k_hinges": 28978,
+            "proxy_active_triplets": 676175,
+            "proxy_noncollision_triplets": 7058780,
+            "proxy_triplets": 7137750,
+            "proxy_active_i_hinges": 169746,
+            "proxy_active_j_hinges": 208377,
+            "proxy_active_k_hinges": 486528,
+            "same_class_flip_positions": 380,
+            "sample_loss_sum": 5.522682222072035,
+            "proxy_loss_sum": 17.148026205599308,
+            "proxy_forward_clip_count_last": 0,
+            "proxy_lr": 0.0005001233689275977
+          }
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1600.0,
+        "sample_active_per_step": 127.01433224755701,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9186035686060526,
+        "sample_collision_fraction": 0.024724348534201912,
+        "sample_i_hinge_zero_fraction_noncollision": 0.9713993412870411,
+        "sample_j_hinge_zero_fraction_noncollision": 0.9706714505253463,
+        "sample_k_hinge_zero_fraction_noncollision": 0.9391178974289821,
+        "proxy_draws_per_step": 23250.0,
+        "proxy_active_per_step": 2204.8475570032574,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.9041076553911604,
+        "proxy_collision_fraction": 0.01105606108367485,
+        "proxy_i_hinge_zero_fraction_noncollision": 0.9759636101970713,
+        "proxy_j_hinge_zero_fraction_noncollision": 0.9704792204650893,
+        "proxy_k_hinge_zero_fraction_noncollision": 0.9309808874116415
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "completed_epochs",
+        "train",
+        "test",
+        "effective_lr",
+        "lr_after_scheduler",
+        "optimizer_steps",
+        "epoch_optimizer_steps",
+        "wall_seconds",
+        "last_batch",
+        "selected_best",
+        "finished_at",
+        "hierarchy"
+      ],
+      "available_hier_fields": [
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_triplets",
+        "sample_active_i_hinges",
+        "sample_active_j_hinges",
+        "sample_active_k_hinges",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_triplets",
+        "proxy_active_i_hinges",
+        "proxy_active_j_hinges",
+        "proxy_active_k_hinges",
+        "same_class_flip_positions",
+        "sample_loss_sum",
+        "proxy_loss_sum",
+        "proxy_forward_clip_count_last",
+        "proxy_lr"
+      ]
+    },
+    {
+      "name": "TS44",
+      "source_relative": "mn40_v10_sh32_ts42_ts44_20261116_r2/TS44/main/metrics.jsonl",
+      "source_sha256": "8cab68373182fa5606f68738fb0a6a6d65539ac9974cecaf55232c2136c078dc",
+      "rows": 300,
+      "epoch_records": [
+        {
+          "epoch": 0,
+          "completed_epochs": 1,
+          "train": {
+            "loss": 3.394,
+            "acc": 26.995,
+            "acc_avg": 10.888,
+            "time": 148
+          },
+          "test": {
+            "loss": 3.041,
+            "acc": 27.512,
+            "acc_avg": 16.975,
+            "time": 6
+          },
+          "effective_lr": 0.1,
+          "lr_after_scheduler": 0.09999739554486184,
+          "optimizer_steps": 307,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 154.80924879998202,
+          "last_batch": {
+            "ce": 2.852107048034668,
+            "rcontr": 0.3482816517353058,
+            "rhier": 0.9057971239089966,
+            "positive_distance": 3.6188392639160156,
+            "negative_distance": 7.026693344116211,
+            "whole_radius": 1.965116262435913,
+            "part_radius": 1.965116262435913
+          },
+          "selected_best": true,
+          "finished_at": "2026-11-16T13:07:58.535500+08:00",
+          "hierarchy": {
+            "cached_sample_triplets": 374631,
+            "max_sample_pool": 64,
+            "sample_active_triplets": 198026,
+            "sample_noncollision_triplets": 478664,
+            "sample_triplets": 489300,
+            "sample_active_i_hinges": 102574,
+            "sample_active_j_hinges": 105045,
+            "sample_active_k_hinges": 124331,
+            "proxy_active_triplets": 2296416,
+            "proxy_noncollision_triplets": 4585202,
+            "proxy_triplets": 4664200,
+            "proxy_active_i_hinges": 578739,
+            "proxy_active_j_hinges": 616346,
+            "proxy_active_k_hinges": 1718743,
+            "same_class_flip_positions": 394,
+            "sample_loss_sum": 42.39679329842329,
+            "proxy_loss_sum": 66.63573740422726,
+            "proxy_forward_clip_count_last": 26,
+            "cached_pool_updates": 306,
+            "proxy_lr": 0.005
+          }
+        },
+        {
+          "epoch": 149,
+          "completed_epochs": 150,
+          "train": {
+            "loss": 1.838,
+            "acc": 94.218,
+            "acc_avg": 91.322,
+            "time": 243
+          },
+          "test": {
+            "loss": 1.807,
+            "acc": 91.532,
+            "acc_avg": 88.801,
+            "time": 8
+          },
+          "effective_lr": 0.05299740974552168,
+          "lr_after_scheduler": 0.052500000000000005,
+          "optimizer_steps": 46050,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 252.18742596602533,
+          "last_batch": {
+            "ce": 1.7692476511001587,
+            "rcontr": 0.31419166922569275,
+            "rhier": 1.164548397064209,
+            "positive_distance": 2.1072957515716553,
+            "negative_distance": 6.210954189300537,
+            "whole_radius": 1.8746168613433838,
+            "part_radius": 1.7572901248931885
+          },
+          "selected_best": false,
+          "finished_at": "2026-11-16T20:35:25.003980+08:00",
+          "hierarchy": {
+            "cached_sample_triplets": 401327,
+            "max_sample_pool": 64,
+            "sample_active_triplets": 67109,
+            "sample_noncollision_triplets": 471640,
+            "sample_triplets": 491150,
+            "sample_active_i_hinges": 24905,
+            "sample_active_j_hinges": 25840,
+            "sample_active_k_hinges": 45254,
+            "proxy_active_triplets": 707870,
+            "proxy_noncollision_triplets": 6427383,
+            "proxy_triplets": 6510000,
+            "proxy_active_i_hinges": 181717,
+            "proxy_active_j_hinges": 225335,
+            "proxy_active_k_hinges": 481133,
+            "same_class_flip_positions": 428,
+            "sample_loss_sum": 11.84616670012474,
+            "proxy_loss_sum": 20.888915594667196,
+            "proxy_forward_clip_count_last": 0,
+            "cached_pool_updates": 306,
+            "proxy_lr": 0.002773561514261536
+          }
+        },
+        {
+          "epoch": 299,
+          "completed_epochs": 300,
+          "train": {
+            "loss": 1.686,
+            "acc": 99.125,
+            "acc_avg": 98.789,
+            "time": 249
+          },
+          "test": {
+            "loss": 1.819,
+            "acc": 94.084,
+            "acc_avg": 91.299,
+            "time": 8
+          },
+          "effective_lr": 0.005002604455138174,
+          "lr_after_scheduler": 0.005,
+          "optimizer_steps": 92100,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 257.9557019060012,
+          "last_batch": {
+            "ce": 1.6335747241973877,
+            "rcontr": 0.08178243041038513,
+            "rhier": 0.018657788634300232,
+            "positive_distance": 2.3696672916412354,
+            "negative_distance": 5.349388122558594,
+            "whole_radius": 1.9283424615859985,
+            "part_radius": 1.157982349395752
+          },
+          "selected_best": true,
+          "finished_at": "2026-11-17T07:18:20.391720+08:00",
+          "hierarchy": {
+            "cached_sample_triplets": 413807,
+            "max_sample_pool": 64,
+            "sample_active_triplets": 46123,
+            "sample_noncollision_triplets": 471954,
+            "sample_triplets": 491200,
+            "sample_active_i_hinges": 15546,
+            "sample_active_j_hinges": 15852,
+            "sample_active_k_hinges": 33959,
+            "proxy_active_triplets": 697333,
+            "proxy_noncollision_triplets": 6810829,
+            "proxy_triplets": 6892150,
+            "proxy_active_i_hinges": 181384,
+            "proxy_active_j_hinges": 223799,
+            "proxy_active_k_hinges": 477480,
+            "same_class_flip_positions": 380,
+            "sample_loss_sum": 6.931451871059835,
+            "proxy_loss_sum": 19.039247073233128,
+            "proxy_forward_clip_count_last": 0,
+            "cached_pool_updates": 306,
+            "proxy_lr": 0.0005001233689275977
+          }
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1599.9837133550488,
+        "sample_active_per_step": 151.02117263843647,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9017015625218643,
+        "sample_collision_fraction": 0.03976913445780195,
+        "sample_i_hinge_zero_fraction_noncollision": 0.9668899628249635,
+        "sample_j_hinge_zero_fraction_noncollision": 0.9663815463916214,
+        "sample_k_hinge_zero_fraction_noncollision": 0.9274289605703763,
+        "proxy_draws_per_step": 22401.498371335503,
+        "proxy_active_per_step": 2265.428338762215,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.897660262174041,
+        "proxy_collision_fraction": 0.011836152770143937,
+        "proxy_i_hinge_zero_fraction_noncollision": 0.9733569690969341,
+        "proxy_j_hinge_zero_fraction_noncollision": 0.9669970967764387,
+        "proxy_k_hinge_zero_fraction_noncollision": 0.9300292058707451,
+        "draws_using_cached_candidate_fraction": 0.8414554301244923
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "completed_epochs",
+        "train",
+        "test",
+        "effective_lr",
+        "lr_after_scheduler",
+        "optimizer_steps",
+        "epoch_optimizer_steps",
+        "wall_seconds",
+        "last_batch",
+        "selected_best",
+        "finished_at",
+        "hierarchy"
+      ],
+      "available_hier_fields": [
+        "cached_sample_triplets",
+        "max_sample_pool",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_triplets",
+        "sample_active_i_hinges",
+        "sample_active_j_hinges",
+        "sample_active_k_hinges",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_triplets",
+        "proxy_active_i_hinges",
+        "proxy_active_j_hinges",
+        "proxy_active_k_hinges",
+        "same_class_flip_positions",
+        "sample_loss_sum",
+        "proxy_loss_sum",
+        "proxy_forward_clip_count_last",
+        "cached_pool_updates",
+        "proxy_lr"
+      ]
+    },
+    {
+      "name": "MN40-S4781-CURRENT32",
+      "source_relative": "mn40_b05_s4781_current32_20261124/hier-current/main/metrics.jsonl",
+      "source_sha256": "48b4d26433b6ee5d35bdb1b23f4797c1d08980888984edb0513900ed97c6924e",
+      "rows": 300,
+      "epoch_records": [
+        {
+          "epoch": 0,
+          "completed_epochs": 1,
+          "train": {
+            "loss": 3.418,
+            "acc": 24.613,
+            "acc_avg": 9.536,
+            "time": 238
+          },
+          "test": {
+            "loss": 3.114,
+            "acc": 25.162,
+            "acc_avg": 15.525,
+            "time": 9
+          },
+          "effective_lr": 0.1,
+          "lr_after_scheduler": 0.09999739554486184,
+          "optimizer_steps": 307,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 248.33949330699397,
+          "last_batch": {
+            "ce": 2.9294276237487793,
+            "rcontr": 0.6892414093017578,
+            "rhier": 1.096490740776062,
+            "positive_distance": 4.461764335632324,
+            "negative_distance": 6.977999687194824,
+            "whole_radius": 1.9651163816452026,
+            "part_radius": 1.965116262435913
+          },
+          "selected_best": true,
+          "finished_at": "2026-11-24T21:42:44.331141+08:00",
+          "hierarchy": {
+            "max_sample_pool": 32,
+            "sample_active_triplets": 145529,
+            "sample_noncollision_triplets": 482033,
+            "sample_triplets": 491150,
+            "sample_active_i_hinges": 67487,
+            "sample_active_j_hinges": 75210,
+            "sample_active_k_hinges": 90133,
+            "proxy_active_triplets": 2240573,
+            "proxy_noncollision_triplets": 4519985,
+            "proxy_triplets": 4597750,
+            "proxy_active_i_hinges": 561944,
+            "proxy_active_j_hinges": 597385,
+            "proxy_active_k_hinges": 1678900,
+            "same_class_flip_positions": 356,
+            "sample_loss_sum": 31.640993367880583,
+            "proxy_loss_sum": 65.44703383743763,
+            "proxy_forward_clip_count_last": 43,
+            "proxy_lr": 0.005,
+            "proxy_updates": 307
+          }
+        },
+        {
+          "epoch": 149,
+          "completed_epochs": 150,
+          "train": {
+            "loss": 1.841,
+            "acc": 93.933,
+            "acc_avg": 91.143,
+            "time": 235
+          },
+          "test": {
+            "loss": 1.772,
+            "acc": 92.301,
+            "acc_avg": 89.533,
+            "time": 7
+          },
+          "effective_lr": 0.05299740974552168,
+          "lr_after_scheduler": 0.052500000000000005,
+          "optimizer_steps": 46050,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 243.00772923298064,
+          "last_batch": {
+            "ce": 1.7603237628936768,
+            "rcontr": 0.3151581287384033,
+            "rhier": 1.4587318897247314,
+            "positive_distance": 3.1423749923706055,
+            "negative_distance": 6.388138294219971,
+            "whole_radius": 1.8736011981964111,
+            "part_radius": 1.6316711902618408
+          },
+          "selected_best": false,
+          "finished_at": "2026-11-25T07:20:47.879652+08:00",
+          "hierarchy": {
+            "max_sample_pool": 32,
+            "sample_active_triplets": 63654,
+            "sample_noncollision_triplets": 475714,
+            "sample_triplets": 491200,
+            "sample_active_i_hinges": 23983,
+            "sample_active_j_hinges": 24992,
+            "sample_active_k_hinges": 43581,
+            "proxy_active_triplets": 794606,
+            "proxy_noncollision_triplets": 6643726,
+            "proxy_triplets": 6729200,
+            "proxy_active_i_hinges": 193541,
+            "proxy_active_j_hinges": 236664,
+            "proxy_active_k_hinges": 552025,
+            "same_class_flip_positions": 366,
+            "sample_loss_sum": 10.838658543303609,
+            "proxy_loss_sum": 21.388952407985926,
+            "proxy_forward_clip_count_last": 0,
+            "proxy_lr": 0.002773561514261536,
+            "proxy_updates": 46050
+          }
+        },
+        {
+          "epoch": 299,
+          "completed_epochs": 300,
+          "train": {
+            "loss": 1.683,
+            "acc": 99.084,
+            "acc_avg": 98.719,
+            "time": 239
+          },
+          "test": {
+            "loss": 1.809,
+            "acc": 93.841,
+            "acc_avg": 90.565,
+            "time": 7
+          },
+          "effective_lr": 0.005002604455138174,
+          "lr_after_scheduler": 0.005,
+          "optimizer_steps": 92100,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 246.752988903987,
+          "last_batch": {
+            "ce": 1.6210010051727295,
+            "rcontr": 0.4055500030517578,
+            "rhier": 0.08878963440656662,
+            "positive_distance": 3.2286317348480225,
+            "negative_distance": 5.1848859786987305,
+            "whole_radius": 1.943903923034668,
+            "part_radius": 0.9188430309295654
+          },
+          "selected_best": false,
+          "finished_at": "2026-11-25T17:36:41.083728+08:00",
+          "hierarchy": {
+            "max_sample_pool": 32,
+            "sample_active_triplets": 37898,
+            "sample_noncollision_triplets": 479820,
+            "sample_triplets": 491200,
+            "sample_active_i_hinges": 12564,
+            "sample_active_j_hinges": 12894,
+            "sample_active_k_hinges": 28156,
+            "proxy_active_triplets": 707208,
+            "proxy_noncollision_triplets": 6898282,
+            "proxy_triplets": 6984250,
+            "proxy_active_i_hinges": 181933,
+            "proxy_active_j_hinges": 223154,
+            "proxy_active_k_hinges": 488599,
+            "same_class_flip_positions": 382,
+            "sample_loss_sum": 5.39164183055982,
+            "proxy_loss_sum": 18.66529443487525,
+            "proxy_forward_clip_count_last": 0,
+            "proxy_lr": 0.0005001233689275977,
+            "proxy_updates": 92100
+          }
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1600.0,
+        "sample_active_per_step": 122.36026058631921,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9217142072356308,
+        "sample_collision_fraction": 0.023128460912052118,
+        "sample_i_hinge_zero_fraction_noncollision": 0.9741265461165853,
+        "sample_j_hinge_zero_fraction_noncollision": 0.9734058881796468,
+        "sample_k_hinge_zero_fraction_noncollision": 0.9418148951117593,
+        "proxy_draws_per_step": 22750.0,
+        "proxy_active_per_step": 2308.341368078176,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.8972692297104312,
+        "proxy_collision_fraction": 0.012315839209650292,
+        "proxy_i_hinge_zero_fraction_noncollision": 0.9735588378421135,
+        "proxy_j_hinge_zero_fraction_noncollision": 0.9676325231746663,
+        "proxy_k_hinge_zero_fraction_noncollision": 0.9289347731667693
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "completed_epochs",
+        "train",
+        "test",
+        "effective_lr",
+        "lr_after_scheduler",
+        "optimizer_steps",
+        "epoch_optimizer_steps",
+        "wall_seconds",
+        "last_batch",
+        "selected_best",
+        "finished_at",
+        "hierarchy"
+      ],
+      "available_hier_fields": [
+        "max_sample_pool",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_triplets",
+        "sample_active_i_hinges",
+        "sample_active_j_hinges",
+        "sample_active_k_hinges",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_triplets",
+        "proxy_active_i_hinges",
+        "proxy_active_j_hinges",
+        "proxy_active_k_hinges",
+        "same_class_flip_positions",
+        "sample_loss_sum",
+        "proxy_loss_sum",
+        "proxy_forward_clip_count_last",
+        "proxy_lr",
+        "proxy_updates"
+      ]
+    },
+    {
+      "name": "DeLA-HIER",
+      "source_relative": "de_la_pw_dmr_hier_20261125/formal_seed4780/hier/work/metrics.jsonl",
+      "source_sha256": "0ac723d8bf467497070259373fbd7edaad1a9094af86a300b6a7ec7e444df57b",
+      "rows": 250,
+      "epoch_records": [
+        {
+          "ce": 2.457983136177063,
+          "coordinate": 1.2661335156037565,
+          "l_h": 3.2118264959099587,
+          "l_c": 2.174455155315024,
+          "hier_sample_loss": 0.2089210127930293,
+          "hier_proxy_loss": 0.21577602348635705,
+          "hier_active_sample": 1070.556179775281,
+          "epoch": 1,
+          "steps": 356,
+          "updates": 355,
+          "skipped": 1,
+          "train_oa": 41.151685393258425,
+          "peak_mib": 2048
+        },
+        {
+          "ce": 1.9998684826861606,
+          "coordinate": 0.25716700739739984,
+          "l_h": 0.10142931639311019,
+          "l_c": 0.19430280700744537,
+          "hier_sample_loss": 0.024590312186733222,
+          "hier_proxy_loss": 0.07384199471202459,
+          "hier_active_sample": 122.71629213483146,
+          "epoch": 125,
+          "steps": 44500,
+          "updates": 44482,
+          "skipped": 18,
+          "train_oa": 98.57794943820225,
+          "peak_mib": 2177
+        },
+        {
+          "ce": 1.9836666784929426,
+          "coordinate": 0.22208575682526224,
+          "l_h": 0.04396155656556065,
+          "l_c": 0.12637543816412433,
+          "hier_sample_loss": 0.018105682939175895,
+          "hier_proxy_loss": 0.06267516760762488,
+          "hier_active_sample": 94.46910112359551,
+          "epoch": 250,
+          "steps": 89000,
+          "updates": 88961,
+          "skipped": 39,
+          "train_oa": 99.98244382022472,
+          "peak_mib": 2232
+        }
+      ],
+      "tail10_derived": {
+        "hier_sample_loss": 0.017946713077024758,
+        "hier_proxy_loss": 0.06289094594631636,
+        "hier_active_sample": 93.54747191011236,
+        "l_h": 0.04377533269397328,
+        "l_c": 0.12683511865691524,
+        "scope": "mean of epoch per-batch means; no collision denominator recorded"
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "ce",
+        "coordinate",
+        "l_h",
+        "l_c",
+        "hier_sample_loss",
+        "hier_proxy_loss",
+        "hier_active_sample",
+        "epoch",
+        "steps",
+        "updates",
+        "skipped",
+        "train_oa",
+        "peak_mib"
+      ],
+      "available_hier_fields": [],
+      "first_batch_geometry_traces": [
+        {
+          "epoch": 1,
+          "step": 0,
+          "ce": 2.7104475498199463,
+          "l_h": 5.825985431671143,
+          "l_c": 0.8526324033737183,
+          "base": 3.4858670234680176,
+          "m": 469,
+          "did_step": true,
+          "whole_depth_mean": 0.8449232578277588,
+          "part_depth_mean": 0.8404273986816406,
+          "part_tangent_norm_p95": 1.8448649644851685,
+          "part_expmap_norm_p95": 0.9512568712234497,
+          "part_embedding_norm_p95": 0.6219733357429504,
+          "whole_tangent_norm_p95": 1.8172025680541992,
+          "whole_expmap_norm_p95": 0.948216438293457,
+          "whole_embedding_norm_p95": 0.6300621032714844,
+          "hier_samples": 1543,
+          "hier_proxies": 9035
+        },
+        {
+          "epoch": 125,
+          "step": 44144,
+          "ce": 1.9912455081939697,
+          "l_h": 0.14861395955085754,
+          "l_c": 0.23698164522647858,
+          "base": 2.003134250640869,
+          "m": 386,
+          "did_step": true,
+          "whole_depth_mean": 6.206193923950195,
+          "part_depth_mean": 1.4606506824493408,
+          "part_tangent_norm_p95": 0.6103648543357849,
+          "part_expmap_norm_p95": 0.5443809628486633,
+          "part_embedding_norm_p95": 0.6668904423713684,
+          "whole_tangent_norm_p95": 1.1105214357376099,
+          "whole_expmap_norm_p95": 0.8017297983169556,
+          "whole_embedding_norm_p95": 0.9960000514984131,
+          "hier_samples": 104,
+          "hier_proxies": 2925
+        },
+        {
+          "epoch": 250,
+          "step": 88644,
+          "ce": 1.9839978218078613,
+          "l_h": 0.056123286485672,
+          "l_c": 0.09965844452381134,
+          "base": 1.9873629808425903,
+          "m": 498,
+          "did_step": true,
+          "whole_depth_mean": 6.212604522705078,
+          "part_depth_mean": 1.5135350227355957,
+          "part_tangent_norm_p95": 0.7086244821548462,
+          "part_expmap_norm_p95": 0.6098012924194336,
+          "part_embedding_norm_p95": 0.6734389662742615,
+          "whole_tangent_norm_p95": 1.3858201503753662,
+          "whole_expmap_norm_p95": 0.8820589184761047,
+          "whole_embedding_norm_p95": 0.9960000514984131,
+          "hier_samples": 75,
+          "hier_proxies": 2732
+        }
+      ]
+    },
+    {
+      "name": "TS47",
+      "source_relative": "mn40_v10_sh32_fifo96_20261118/TS47/main/metrics.jsonl",
+      "source_sha256": "e6b6d9a777fdb395cd4112687df5863653608754e748aaa795fb697154a5ffe7",
+      "rows": 300,
+      "epoch_records": [
+        {
+          "epoch": 0,
+          "completed_epochs": 1,
+          "train": {
+            "loss": 3.43,
+            "acc": 25.957,
+            "acc_avg": 10.441,
+            "time": 145
+          },
+          "test": {
+            "loss": 3.022,
+            "acc": 30.267,
+            "acc_avg": 18.875,
+            "time": 6
+          },
+          "effective_lr": 0.1,
+          "lr_after_scheduler": 0.09999739554486184,
+          "optimizer_steps": 307,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 151.6035855030641,
+          "last_batch": {
+            "ce": 2.8770506381988525,
+            "rcontr": 0.6004899740219116,
+            "rhier": 0.905797004699707,
+            "positive_distance": 3.936004638671875,
+            "negative_distance": 7.076164245605469,
+            "whole_radius": 1.965116262435913,
+            "part_radius": 1.965116262435913
+          },
+          "selected_best": true,
+          "finished_at": "2026-11-18T01:13:25.069484+08:00",
+          "hierarchy": {
+            "cached_sample_triplets": 437530,
+            "max_sample_pool": 96,
+            "sample_pool_32_updates": 1,
+            "sample_active_triplets": 237441,
+            "sample_noncollision_triplets": 478702,
+            "sample_triplets": 488050,
+            "sample_active_i_hinges": 133114,
+            "sample_active_j_hinges": 134058,
+            "sample_active_k_hinges": 151289,
+            "proxy_active_triplets": 2348416,
+            "proxy_noncollision_triplets": 4656063,
+            "proxy_triplets": 4735250,
+            "proxy_active_i_hinges": 588390,
+            "proxy_active_j_hinges": 625955,
+            "proxy_active_k_hinges": 1766499,
+            "same_class_flip_positions": 394,
+            "sample_loss_sum": 50.0694434940815,
+            "proxy_loss_sum": 67.01722191274166,
+            "proxy_forward_clip_count_last": 35,
+            "cached_pool_updates": 306,
+            "sample_pool_64_updates": 1,
+            "sample_pool_96_updates": 305,
+            "proxy_lr": 0.005
+          }
+        },
+        {
+          "epoch": 149,
+          "completed_epochs": 150,
+          "train": {
+            "loss": 1.828,
+            "acc": 94.33,
+            "acc_avg": 91.521,
+            "time": 141
+          },
+          "test": {
+            "loss": 1.776,
+            "acc": 92.95,
+            "acc_avg": 90.024,
+            "time": 5
+          },
+          "effective_lr": 0.05299740974552168,
+          "lr_after_scheduler": 0.052500000000000005,
+          "optimizer_steps": 46050,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 146.64703261700924,
+          "last_batch": {
+            "ce": 1.8067677021026611,
+            "rcontr": 0.2897884249687195,
+            "rhier": 1.264183759689331,
+            "positive_distance": 2.243842363357544,
+            "negative_distance": 6.297123908996582,
+            "whole_radius": 1.8670002222061157,
+            "part_radius": 1.8039474487304688
+          },
+          "selected_best": false,
+          "finished_at": "2026-11-18T07:03:12.389684+08:00",
+          "hierarchy": {
+            "cached_sample_triplets": 455144,
+            "max_sample_pool": 96,
+            "sample_pool_32_updates": 1,
+            "sample_active_triplets": 54060,
+            "sample_noncollision_triplets": 474795,
+            "sample_triplets": 491200,
+            "sample_active_i_hinges": 20116,
+            "sample_active_j_hinges": 20561,
+            "sample_active_k_hinges": 37505,
+            "proxy_active_triplets": 673795,
+            "proxy_noncollision_triplets": 7413644,
+            "proxy_triplets": 7501600,
+            "proxy_active_i_hinges": 178029,
+            "proxy_active_j_hinges": 223462,
+            "proxy_active_k_hinges": 496942,
+            "same_class_flip_positions": 428,
+            "sample_loss_sum": 9.575022337958217,
+            "proxy_loss_sum": 17.862553626298904,
+            "proxy_forward_clip_count_last": 1,
+            "cached_pool_updates": 306,
+            "sample_pool_64_updates": 1,
+            "sample_pool_96_updates": 305,
+            "proxy_lr": 0.002773561514261536
+          }
+        },
+        {
+          "epoch": 299,
+          "completed_epochs": 300,
+          "train": {
+            "loss": 1.68,
+            "acc": 99.094,
+            "acc_avg": 98.781,
+            "time": 142
+          },
+          "test": {
+            "loss": 1.819,
+            "acc": 93.274,
+            "acc_avg": 90.77,
+            "time": 5
+          },
+          "effective_lr": 0.005002604455138174,
+          "lr_after_scheduler": 0.005,
+          "optimizer_steps": 92100,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 147.57795814308338,
+          "last_batch": {
+            "ce": 1.6326653957366943,
+            "rcontr": 0.10949096828699112,
+            "rhier": 0.00857609510421753,
+            "positive_distance": 2.2873196601867676,
+            "negative_distance": 5.328330039978027,
+            "whole_radius": 1.9207683801651,
+            "part_radius": 1.1907707452774048
+          },
+          "selected_best": false,
+          "finished_at": "2026-11-18T13:12:02.179254+08:00",
+          "hierarchy": {
+            "cached_sample_triplets": 461951,
+            "max_sample_pool": 96,
+            "sample_pool_32_updates": 1,
+            "sample_active_triplets": 36876,
+            "sample_noncollision_triplets": 474095,
+            "sample_triplets": 491200,
+            "sample_active_i_hinges": 12274,
+            "sample_active_j_hinges": 12414,
+            "sample_active_k_hinges": 27733,
+            "proxy_active_triplets": 643216,
+            "proxy_noncollision_triplets": 7421330,
+            "proxy_triplets": 7508700,
+            "proxy_active_i_hinges": 175146,
+            "proxy_active_j_hinges": 219579,
+            "proxy_active_k_hinges": 470967,
+            "same_class_flip_positions": 380,
+            "sample_loss_sum": 5.4455823940224946,
+            "proxy_loss_sum": 17.025637432932854,
+            "proxy_forward_clip_count_last": 0,
+            "cached_pool_updates": 306,
+            "sample_pool_64_updates": 1,
+            "sample_pool_96_updates": 305,
+            "proxy_lr": 0.0005001233689275977
+          }
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1600.0,
+        "sample_active_per_step": 120.53257328990227,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9219337584095233,
+        "sample_collision_fraction": 0.03501364006514662,
+        "sample_i_hinge_zero_fraction_noncollision": 0.9738407890442494,
+        "sample_j_hinge_zero_fraction_noncollision": 0.9735165283301965,
+        "sample_k_hinge_zero_fraction_noncollision": 0.9414151395787311,
+        "proxy_draws_per_step": 24464.885993485343,
+        "proxy_active_per_step": 2101.740390879479,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.913080022936386,
+        "proxy_collision_fraction": 0.011637472838822327,
+        "proxy_i_hinge_zero_fraction_noncollision": 0.9763694496455505,
+        "proxy_j_hinge_zero_fraction_noncollision": 0.9703844544260298,
+        "proxy_k_hinge_zero_fraction_noncollision": 0.9363125435267174,
+        "draws_using_cached_candidate_fraction": 0.9396720276872964
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "completed_epochs",
+        "train",
+        "test",
+        "effective_lr",
+        "lr_after_scheduler",
+        "optimizer_steps",
+        "epoch_optimizer_steps",
+        "wall_seconds",
+        "last_batch",
+        "selected_best",
+        "finished_at",
+        "hierarchy"
+      ],
+      "available_hier_fields": [
+        "cached_sample_triplets",
+        "max_sample_pool",
+        "sample_pool_32_updates",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_triplets",
+        "sample_active_i_hinges",
+        "sample_active_j_hinges",
+        "sample_active_k_hinges",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_triplets",
+        "proxy_active_i_hinges",
+        "proxy_active_j_hinges",
+        "proxy_active_k_hinges",
+        "same_class_flip_positions",
+        "sample_loss_sum",
+        "proxy_loss_sum",
+        "proxy_forward_clip_count_last",
+        "cached_pool_updates",
+        "sample_pool_64_updates",
+        "sample_pool_96_updates",
+        "proxy_lr"
+      ]
+    },
+    {
+      "name": "MN40-S4781-FIFO1",
+      "source_relative": "mn40_b05_fifo64_s4781_20261123/hier/main/metrics.jsonl",
+      "source_sha256": "e4f3bf2b6a60f54af977d703f545b33fc28c7fa41c10bebd047d6e80ebeb48fd",
+      "rows": 300,
+      "epoch_records": [
+        {
+          "epoch": 0,
+          "completed_epochs": 1,
+          "train": {
+            "loss": 3.434,
+            "acc": 24.053,
+            "acc_avg": 9.466,
+            "time": 140
+          },
+          "test": {
+            "loss": 3.088,
+            "acc": 28.485,
+            "acc_avg": 17.675,
+            "time": 6
+          },
+          "effective_lr": 0.1,
+          "lr_after_scheduler": 0.09999739554486184,
+          "optimizer_steps": 307,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 146.99477425600026,
+          "last_batch": {
+            "ce": 3.007128953933716,
+            "rcontr": 0.6947511434555054,
+            "rhier": 1.0964915752410889,
+            "positive_distance": 4.933089733123779,
+            "negative_distance": 7.0634870529174805,
+            "whole_radius": 1.965116262435913,
+            "part_radius": 1.965116262435913
+          },
+          "selected_best": true,
+          "finished_at": "2026-11-23T14:54:17.709919+08:00",
+          "hierarchy": {
+            "cached_sample_triplets": 374391,
+            "max_sample_pool": 64,
+            "sample_active_triplets": 177961,
+            "sample_noncollision_triplets": 479654,
+            "sample_triplets": 489200,
+            "sample_active_i_hinges": 89783,
+            "sample_active_j_hinges": 92690,
+            "sample_active_k_hinges": 112062,
+            "proxy_active_triplets": 2386547,
+            "proxy_noncollision_triplets": 4736567,
+            "proxy_triplets": 4817850,
+            "proxy_active_i_hinges": 607939,
+            "proxy_active_j_hinges": 644068,
+            "proxy_active_k_hinges": 1788865,
+            "same_class_flip_positions": 356,
+            "sample_loss_sum": 37.819263000041246,
+            "proxy_loss_sum": 66.88836996257305,
+            "proxy_forward_clip_count_last": 57,
+            "cached_pool_updates": 306,
+            "proxy_lr": 0.005,
+            "proxy_updates": 307
+          }
+        },
+        {
+          "epoch": 149,
+          "completed_epochs": 150,
+          "train": {
+            "loss": 1.832,
+            "acc": 93.913,
+            "acc_avg": 90.953,
+            "time": 139
+          },
+          "test": {
+            "loss": 1.784,
+            "acc": 92.342,
+            "acc_avg": 89.012,
+            "time": 5
+          },
+          "effective_lr": 0.05299740974552168,
+          "lr_after_scheduler": 0.052500000000000005,
+          "optimizer_steps": 46050,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 145.19449582599918,
+          "last_batch": {
+            "ce": 1.794577717781067,
+            "rcontr": 0.3989763855934143,
+            "rhier": 1.4430255889892578,
+            "positive_distance": 3.290754795074463,
+            "negative_distance": 6.239593982696533,
+            "whole_radius": 1.8516302108764648,
+            "part_radius": 1.6055972576141357
+          },
+          "selected_best": false,
+          "finished_at": "2026-11-23T20:34:06.019541+08:00",
+          "hierarchy": {
+            "cached_sample_triplets": 400499,
+            "max_sample_pool": 64,
+            "sample_active_triplets": 61151,
+            "sample_noncollision_triplets": 471386,
+            "sample_triplets": 491200,
+            "sample_active_i_hinges": 24161,
+            "sample_active_j_hinges": 24682,
+            "sample_active_k_hinges": 41186,
+            "proxy_active_triplets": 626889,
+            "proxy_noncollision_triplets": 7522313,
+            "proxy_triplets": 7615600,
+            "proxy_active_i_hinges": 166009,
+            "proxy_active_j_hinges": 209595,
+            "proxy_active_k_hinges": 446482,
+            "same_class_flip_positions": 366,
+            "sample_loss_sum": 11.331947894766927,
+            "proxy_loss_sum": 17.119950477033854,
+            "proxy_forward_clip_count_last": 0,
+            "cached_pool_updates": 306,
+            "proxy_lr": 0.002773561514261536,
+            "proxy_updates": 46050
+          }
+        },
+        {
+          "epoch": 299,
+          "completed_epochs": 300,
+          "train": {
+            "loss": 1.68,
+            "acc": 99.094,
+            "acc_avg": 98.713,
+            "time": 137
+          },
+          "test": {
+            "loss": 1.809,
+            "acc": 93.355,
+            "acc_avg": 90.545,
+            "time": 5
+          },
+          "effective_lr": 0.005002604455138174,
+          "lr_after_scheduler": 0.005,
+          "optimizer_steps": 92100,
+          "epoch_optimizer_steps": 307,
+          "wall_seconds": 143.2581147739984,
+          "last_batch": {
+            "ce": 1.6279041767120361,
+            "rcontr": 0.39246034622192383,
+            "rhier": 0.1086864024400711,
+            "positive_distance": 3.26151704788208,
+            "negative_distance": 5.1188225746154785,
+            "whole_radius": 1.9237993955612183,
+            "part_radius": 0.911349356174469
+          },
+          "selected_best": false,
+          "finished_at": "2026-11-24T02:37:15.787745+08:00",
+          "hierarchy": {
+            "cached_sample_triplets": 412754,
+            "max_sample_pool": 64,
+            "sample_active_triplets": 39754,
+            "sample_noncollision_triplets": 471693,
+            "sample_triplets": 491150,
+            "sample_active_i_hinges": 14009,
+            "sample_active_j_hinges": 14404,
+            "sample_active_k_hinges": 29478,
+            "proxy_active_triplets": 645806,
+            "proxy_noncollision_triplets": 7663227,
+            "proxy_triplets": 7752350,
+            "proxy_active_i_hinges": 174493,
+            "proxy_active_j_hinges": 222206,
+            "proxy_active_k_hinges": 465907,
+            "same_class_flip_positions": 382,
+            "sample_loss_sum": 5.983067191205919,
+            "proxy_loss_sum": 17.18983543664217,
+            "proxy_forward_clip_count_last": 0,
+            "cached_pool_updates": 306,
+            "proxy_lr": 0.0005001233689275977,
+            "proxy_updates": 92100
+          }
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1599.8534201954396,
+        "sample_active_per_step": 130.19902280130293,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9152341663285952,
+        "sample_collision_fraction": 0.03992161333998434,
+        "sample_i_hinge_zero_fraction_noncollision": 0.9699832869364324,
+        "sample_j_hinge_zero_fraction_noncollision": 0.9693294818992708,
+        "sample_k_hinge_zero_fraction_noncollision": 0.9371844563631262,
+        "proxy_draws_per_step": 25262.81758957655,
+        "proxy_active_per_step": 2096.087296416938,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.9160642630418118,
+        "proxy_collision_fraction": 0.01149089990116925,
+        "proxy_i_hinge_zero_fraction_noncollision": 0.9771570194172483,
+        "proxy_j_hinge_zero_fraction_noncollision": 0.9710534255940326,
+        "proxy_k_hinge_zero_fraction_noncollision": 0.9395012775734302,
+        "draws_using_cached_candidate_fraction": 0.8408991051704655
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "completed_epochs",
+        "train",
+        "test",
+        "effective_lr",
+        "lr_after_scheduler",
+        "optimizer_steps",
+        "epoch_optimizer_steps",
+        "wall_seconds",
+        "last_batch",
+        "selected_best",
+        "finished_at",
+        "hierarchy"
+      ],
+      "available_hier_fields": [
+        "cached_sample_triplets",
+        "max_sample_pool",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_triplets",
+        "sample_active_i_hinges",
+        "sample_active_j_hinges",
+        "sample_active_k_hinges",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_triplets",
+        "proxy_active_i_hinges",
+        "proxy_active_j_hinges",
+        "proxy_active_k_hinges",
+        "same_class_flip_positions",
+        "sample_loss_sum",
+        "proxy_loss_sum",
+        "proxy_forward_clip_count_last",
+        "cached_pool_updates",
+        "proxy_lr",
+        "proxy_updates"
+      ]
+    },
+    {
+      "name": "SO-S12-HIER-L0.1",
+      "source_relative": "scanobject_weights_cb_20261126/runs/SO-S12-HIER-L0.1/hier/metrics.jsonl",
+      "source_sha256": "974405743d5909872a85db40190604104e5b8c941ffa75f1546b7d55dd9bfd8f",
+      "rows": 300,
+      "epoch_records": [
+        {
+          "epoch": 1,
+          "optimizer_steps": 356,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 260784,
+            "sample_noncollision_triplets": 560262,
+            "sample_collisions": 9338,
+            "proxy_triplets": 6389250,
+            "proxy_active_triplets": 4206383,
+            "proxy_noncollision_triplets": 6323315,
+            "proxy_collisions": 65935,
+            "sample_loss_sum": 53.36039023846388,
+            "proxy_loss_sum": 103.42140436172485
+          },
+          "last_geometry": {
+            "sample_loss": 0.09104116261005402,
+            "proxy_loss": 0.2523038685321808,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 3.8024582862854004,
+              "depth_median": 4.599982738494873,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651150703430176,
+              "cap_fraction": 0.9375,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.0941975936293602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.9294092655181885,
+              "depth_median": 4.021422863006592,
+              "depth_max": 4.596188068389893,
+              "radius_max": 1.9639493227005005,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.09433814138174057,
+              "inverse_metric_factor_median": 0.11697594821453094
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": true
+        },
+        {
+          "epoch": 150,
+          "optimizer_steps": 53400,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 51267,
+            "sample_noncollision_triplets": 559615,
+            "sample_collisions": 9985,
+            "proxy_triplets": 7080350,
+            "proxy_active_triplets": 1678407,
+            "proxy_noncollision_triplets": 6963619,
+            "proxy_collisions": 116731,
+            "sample_loss_sum": 11.367691948078573,
+            "proxy_loss_sum": 33.382672958076
+          },
+          "last_geometry": {
+            "sample_loss": 0.03306637331843376,
+            "proxy_loss": 0.09132064133882523,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 2.0290253162384033,
+              "depth_median": 4.599984645843506,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 0.9375,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419750422239304
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 2.298529863357544,
+              "depth_median": 2.757570743560791,
+              "depth_max": 3.394284963607788,
+              "radius_max": 1.5510132312774658,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.14418567717075348,
+              "inverse_metric_factor_median": 0.17289073765277863
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        },
+        {
+          "epoch": 300,
+          "optimizer_steps": 106800,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 35484,
+            "sample_noncollision_triplets": 562950,
+            "sample_collisions": 6650,
+            "proxy_triplets": 8437200,
+            "proxy_active_triplets": 1588245,
+            "proxy_noncollision_triplets": 8315922,
+            "proxy_collisions": 121278,
+            "sample_loss_sum": 7.386912128888071,
+            "proxy_loss_sum": 27.346654646098614
+          },
+          "last_geometry": {
+            "sample_loss": 0.02554422803223133,
+            "proxy_loss": 0.0756029486656189,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.448206424713135,
+              "depth_median": 4.599984645843506,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 0.96875,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419750422239304
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 2.3187031745910645,
+              "depth_median": 2.818068265914917,
+              "depth_max": 3.5329442024230957,
+              "radius_max": 1.6030961275100708,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.13801531493663788,
+              "inverse_metric_factor_median": 0.1701706498861313
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1600.0,
+        "sample_active_per_step": 99.47134831460674,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9370735890611345,
+        "sample_collision_fraction": 0.012027036516853884,
+        "proxy_draws_per_step": 23700.0,
+        "proxy_active_per_step": 4470.334831460674,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.8086325999719726,
+        "proxy_collision_fraction": 0.014347674583985226
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "optimizer_steps",
+        "stats",
+        "last_geometry",
+        "selected_best"
+      ],
+      "available_hier_fields": [
+        "sample_triplets",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_collisions",
+        "proxy_triplets",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_collisions",
+        "sample_loss_sum",
+        "proxy_loss_sum"
+      ]
+    },
+    {
+      "name": "SO-S12-HIER-L1.0",
+      "source_relative": "scanobject_weights_cb_20261126/runs/SO-S12-HIER-L1.0/hier/metrics.jsonl",
+      "source_sha256": "110bfe50ee917e69b78953dab81c7142d2c35992f087241673f477719c035339",
+      "rows": 300,
+      "epoch_records": [
+        {
+          "epoch": 1,
+          "optimizer_steps": 356,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 129719,
+            "sample_noncollision_triplets": 557805,
+            "sample_collisions": 11795,
+            "proxy_triplets": 5431050,
+            "proxy_active_triplets": 2318252,
+            "proxy_noncollision_triplets": 5332510,
+            "proxy_collisions": 98540,
+            "sample_loss_sum": 27.011830462142825,
+            "proxy_loss_sum": 66.21700103580952
+          },
+          "last_geometry": {
+            "sample_loss": 0.05394498631358147,
+            "proxy_loss": 0.14782007038593292,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 3.8742001056671143,
+              "depth_median": 4.599983215332031,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 0.90625,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.094197578728199
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.5150225162506104,
+              "depth_median": 3.852231979370117,
+              "depth_max": 4.59998083114624,
+              "radius_max": 1.965113639831543,
+              "cap_fraction": 0.11328125,
+              "inverse_metric_factor_min": 0.09419768303632736,
+              "inverse_metric_factor_median": 0.12407664954662323
+            },
+            "native_whole_depth_max": 6.212604522705078
+          },
+          "selected_best": true
+        },
+        {
+          "epoch": 150,
+          "optimizer_steps": 53400,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 38064,
+            "sample_noncollision_triplets": 564779,
+            "sample_collisions": 4821,
+            "proxy_triplets": 8544000,
+            "proxy_active_triplets": 625320,
+            "proxy_noncollision_triplets": 8452607,
+            "proxy_collisions": 91393,
+            "sample_loss_sum": 8.133407129906118,
+            "proxy_loss_sum": 18.006139505654573
+          },
+          "last_geometry": {
+            "sample_loss": 0.02059590257704258,
+            "proxy_loss": 0.052725840359926224,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 3.083463668823242,
+              "depth_median": 4.599985599517822,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651150703430176,
+              "cap_fraction": 0.9375,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419750422239304
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.1212141513824463,
+              "depth_median": 3.639035701751709,
+              "depth_max": 4.441251754760742,
+              "radius_max": 1.9156359434127808,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.10018297284841537,
+              "inverse_metric_factor_median": 0.13332170248031616
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        },
+        {
+          "epoch": 300,
+          "optimizer_steps": 106800,
+          "stats": {
+            "sample_triplets": 569600,
+            "sample_active_triplets": 29075,
+            "sample_noncollision_triplets": 565767,
+            "sample_collisions": 3833,
+            "proxy_triplets": 9006800,
+            "proxy_active_triplets": 609102,
+            "proxy_noncollision_triplets": 8917478,
+            "proxy_collisions": 89322,
+            "sample_loss_sum": 5.8358538947068155,
+            "proxy_loss_sum": 16.02483319863677
+          },
+          "last_geometry": {
+            "sample_loss": 0.014784039929509163,
+            "proxy_loss": 0.0454825684428215,
+            "whole_view": {
+              "c": 0.1,
+              "points": 32,
+              "depth_min": 4.098521709442139,
+              "depth_median": 4.599984645843506,
+              "depth_max": 4.599985599517822,
+              "radius_max": 1.9651151895523071,
+              "cap_fraction": 0.96875,
+              "inverse_metric_factor_min": 0.09419750422239304,
+              "inverse_metric_factor_median": 0.09419754147529602
+            },
+            "proxy": {
+              "c": 0.1,
+              "points": 512,
+              "depth_min": 3.2189793586730957,
+              "depth_median": 3.6262710094451904,
+              "depth_max": 4.266296863555908,
+              "radius_max": 1.8593305349349976,
+              "cap_fraction": 0.0,
+              "inverse_metric_factor_min": 0.10702352970838547,
+              "inverse_metric_factor_median": 0.13388556241989136
+            },
+            "native_whole_depth_max": 6.212618827819824
+          },
+          "selected_best": false
+        }
+      ],
+      "tail10_derived": {
+        "sample_draws_per_step": 1600.0,
+        "sample_active_per_step": 81.92808988764045,
+        "sample_all_three_hinges_zero_fraction_noncollision": 0.9484528739788495,
+        "sample_collision_fraction": 0.0066360603932584805,
+        "proxy_draws_per_step": 25300.0,
+        "proxy_active_per_step": 1719.8862359550562,
+        "proxy_all_three_hinges_zero_fraction_noncollision": 0.9313419176414972,
+        "proxy_collision_fraction": 0.009880690145223636
+      },
+      "last10_scope": "ten complete epoch aggregates; geometry named last_geometry is last training batch only",
+      "available_top_fields": [
+        "epoch",
+        "optimizer_steps",
+        "stats",
+        "last_geometry",
+        "selected_best"
+      ],
+      "available_hier_fields": [
+        "sample_triplets",
+        "sample_active_triplets",
+        "sample_noncollision_triplets",
+        "sample_collisions",
+        "proxy_triplets",
+        "proxy_active_triplets",
+        "proxy_noncollision_triplets",
+        "proxy_collisions",
+        "sample_loss_sum",
+        "proxy_loss_sum"
+      ]
+    }
+  ],
+  "dela_same_epoch_first_batch_pair": [
+    {
+      "name": "DeLA-H0",
+      "source_relative": "de_la_pw_dmr_hier_20261125/formal_seed4780/h0/worker.log",
+      "source_sha256": "fd13b57e5eaacac6089c716c3751d37f16ec325676eeeb6c230e71f360a00798",
+      "first_batch_geometry_traces": [
+        {
+          "epoch": 1,
+          "step": 0,
+          "ce": 2.7104475498199463,
+          "l_h": 5.825985431671143,
+          "l_c": 0.8526324033737183,
+          "base": 3.4858670234680176,
+          "m": 469,
+          "did_step": true,
+          "whole_depth_mean": 0.8449232578277588,
+          "part_depth_mean": 0.8404273986816406,
+          "part_tangent_norm_p95": 1.8448649644851685,
+          "part_expmap_norm_p95": 0.9512568712234497,
+          "part_embedding_norm_p95": 0.6219733357429504,
+          "whole_tangent_norm_p95": 1.8172025680541992,
+          "whole_expmap_norm_p95": 0.948216438293457,
+          "whole_embedding_norm_p95": 0.6300621032714844
+        },
+        {
+          "epoch": 125,
+          "step": 44144,
+          "ce": 1.9911997318267822,
+          "l_h": 0.1645520180463791,
+          "l_c": 0.2918199896812439,
+          "base": 2.0046474933624268,
+          "m": 386,
+          "did_step": true,
+          "whole_depth_mean": 6.212607383728027,
+          "part_depth_mean": 1.4649009704589844,
+          "part_tangent_norm_p95": 1.770704984664917,
+          "part_expmap_norm_p95": 0.8853970766067505,
+          "part_embedding_norm_p95": 0.6656635999679565,
+          "whole_tangent_norm_p95": 1.334812045097351,
+          "whole_expmap_norm_p95": 0.870420515537262,
+          "whole_embedding_norm_p95": 0.9960000514984131
+        },
+        {
+          "epoch": 250,
+          "step": 88644,
+          "ce": 1.9836149215698242,
+          "l_h": 0.0699140727519989,
+          "l_c": 0.09923072159290314,
+          "base": 1.987256407737732,
+          "m": 498,
+          "did_step": true,
+          "whole_depth_mean": 6.206460475921631,
+          "part_depth_mean": 1.5314892530441284,
+          "part_tangent_norm_p95": 1.0051997900009155,
+          "part_expmap_norm_p95": 0.7634351253509521,
+          "part_embedding_norm_p95": 0.6815187335014343,
+          "whole_tangent_norm_p95": 2.478567361831665,
+          "whole_expmap_norm_p95": 0.9859269857406616,
+          "whole_embedding_norm_p95": 0.9960000514984131
+        }
+      ]
+    },
+    {
+      "name": "DeLA-HIER",
+      "source_relative": "de_la_pw_dmr_hier_20261125/formal_seed4780/hier/worker.log",
+      "source_sha256": "f614390b50882b7b641cd8a6f84e22666976ff1c21b97f0ac1662d2d5b8e7e6a",
+      "first_batch_geometry_traces": [
+        {
+          "epoch": 1,
+          "step": 0,
+          "ce": 2.7104475498199463,
+          "l_h": 5.825985431671143,
+          "l_c": 0.8526324033737183,
+          "base": 3.4858670234680176,
+          "m": 469,
+          "did_step": true,
+          "whole_depth_mean": 0.8449232578277588,
+          "part_depth_mean": 0.8404273986816406,
+          "part_tangent_norm_p95": 1.8448649644851685,
+          "part_expmap_norm_p95": 0.9512568712234497,
+          "part_embedding_norm_p95": 0.6219733357429504,
+          "whole_tangent_norm_p95": 1.8172025680541992,
+          "whole_expmap_norm_p95": 0.948216438293457,
+          "whole_embedding_norm_p95": 0.6300621032714844,
+          "hier_samples": 1543,
+          "hier_proxies": 9035
+        },
+        {
+          "epoch": 125,
+          "step": 44144,
+          "ce": 1.9912455081939697,
+          "l_h": 0.14861395955085754,
+          "l_c": 0.23698164522647858,
+          "base": 2.003134250640869,
+          "m": 386,
+          "did_step": true,
+          "whole_depth_mean": 6.206193923950195,
+          "part_depth_mean": 1.4606506824493408,
+          "part_tangent_norm_p95": 0.6103648543357849,
+          "part_expmap_norm_p95": 0.5443809628486633,
+          "part_embedding_norm_p95": 0.6668904423713684,
+          "whole_tangent_norm_p95": 1.1105214357376099,
+          "whole_expmap_norm_p95": 0.8017297983169556,
+          "whole_embedding_norm_p95": 0.9960000514984131,
+          "hier_samples": 104,
+          "hier_proxies": 2925
+        },
+        {
+          "epoch": 250,
+          "step": 88644,
+          "ce": 1.9839978218078613,
+          "l_h": 0.056123286485672,
+          "l_c": 0.09965844452381134,
+          "base": 1.9873629808425903,
+          "m": 498,
+          "did_step": true,
+          "whole_depth_mean": 6.212604522705078,
+          "part_depth_mean": 1.5135350227355957,
+          "part_tangent_norm_p95": 0.7086244821548462,
+          "part_expmap_norm_p95": 0.6098012924194336,
+          "part_embedding_norm_p95": 0.6734389662742615,
+          "whole_tangent_norm_p95": 1.3858201503753662,
+          "whole_expmap_norm_p95": 0.8820589184761047,
+          "whole_embedding_norm_p95": 0.9960000514984131,
+          "hier_samples": 75,
+          "hier_proxies": 2732
+        }
+      ]
+    }
+  ],
+  "code_semantics_sources": [
+    {
+      "research_relative": "diagnostics/scanobjectnn_hier_pair_20261120/support.py",
+      "local_sha256": "c69477b90cc63f952cfb1f46589307a6ac5e2c285af357b9116fbbfdb0fecb22"
+    },
+    {
+      "research_relative": "diagnostics/scanobjectnn_author_s12/entry.py",
+      "local_sha256": "e3c0c707d91e2037cb339299f5d6c5e2404ae1026e7ba6f323f32227a9261eaf"
+    },
+    {
+      "research_relative": "diagnostics/dela_h0_20261125/run.py",
+      "local_sha256": "07404a40daa1bad93264122f8f4e89e6d7e70ea52707956a6d3ca71d4f26f4ac"
+    },
+    {
+      "research_relative": "diagnostics/mn40_ts33_35_20261113/shuffle_runner.py",
+      "local_sha256": "a86e5d870251af9e8cc1a94173e2a3e35362e8c95d49182af5f5702004111f87"
+    },
+    {
+      "code_relative": "inter_hierarchy_MN40/hier_proxy_scratch_v6/hier_loss.py",
+      "local_sha256": "e2cd382dfc3be20605c3f50b01f8be3fed11e11f7c8b0f3b4f869997e521dcfa"
+    },
+    {
+      "code_relative": "inter_hierarchy_MN40/hier_proxy_scratch_v8/hier_loss.py",
+      "local_sha256": "e77ff498d1cd056a30c7932dfcf367379755711a4aefc7f70b1d8a88dbed651d"
+    },
+    {
+      "code_relative": "inter_hierarchy_MN40/hier_proxy_scratch_v8/geometry.py",
+      "local_sha256": "16d5a7879d8d23924c6fe542bb1d47973448044604602f4ab44c9c72f8c871dc"
+    }
+  ],
+  "private_curve_archives": [
+    {
+      "file": "mn40_curves_primary.json",
+      "bytes": 2019644,
+      "sha256": "3411de3c38dd4ebda44f4997b4cc92973830d64570077af49745a3f229dbbce5",
+      "observed_at": "2026-11-26T17:47:56.906062+08:00",
+      "runs": [
+        {
+          "name": "TS06",
+          "row_count": 300,
+          "continuous_epochs": true,
+          "source_relative": "orig_c01_cap_gs_halfmargin_20261020_160111/gs_half_margin/metrics.jsonl",
+          "source_sha256": "cf29da5ef34592696233bd232bd5c1145f65829f74b12cf6a18c137cea0e4763"
+        },
+        {
+          "name": "TS35",
+          "row_count": 300,
+          "continuous_epochs": true,
+          "source_relative": "mn40_v10_ts33_ts35_20261113/mn40v10_20261113_ts35_r2/main/metrics.jsonl",
+          "source_sha256": "ff173bc93a7cf21db433b493f2adfd49e1fa3fbf0e4cda17c9770d34b47da2e7"
+        },
+        {
+          "name": "TS44",
+          "row_count": 300,
+          "continuous_epochs": true,
+          "source_relative": "mn40_v10_sh32_ts42_ts44_20261116_r2/TS44/main/metrics.jsonl",
+          "source_sha256": "8cab68373182fa5606f68738fb0a6a6d65539ac9974cecaf55232c2136c078dc"
+        },
+        {
+          "name": "MN40-S4781-CURRENT32",
+          "row_count": 300,
+          "continuous_epochs": true,
+          "source_relative": "mn40_b05_s4781_current32_20261124/hier-current/main/metrics.jsonl",
+          "source_sha256": "48b4d26433b6ee5d35bdb1b23f4797c1d08980888984edb0513900ed97c6924e"
+        }
+      ]
+    },
+    {
+      "file": "mn40_curves_secondary.json",
+      "bytes": 1530801,
+      "sha256": "08db09534c068b65951c15c4badc557a5f6567772b1fb1c8e9e365b285c47649",
+      "observed_at": "2026-11-26T17:47:56.982753+08:00",
+      "runs": [
+        {
+          "name": "TS47",
+          "row_count": 300,
+          "continuous_epochs": true,
+          "source_relative": "mn40_v10_sh32_fifo96_20261118/TS47/main/metrics.jsonl",
+          "source_sha256": "e6b6d9a777fdb395cd4112687df5863653608754e748aaa795fb697154a5ffe7"
+        },
+        {
+          "name": "MN40-S4781-H0",
+          "row_count": 300,
+          "continuous_epochs": true,
+          "source_relative": "mn40_b05_fifo64_s4781_20261123/h0/main/metrics.jsonl",
+          "source_sha256": "8de5a22a58c492caa440a925f1d96a2fc16ec15ae8ba26a47211b435f977eea6"
+        },
+        {
+          "name": "MN40-S4781-FIFO1",
+          "row_count": 300,
+          "continuous_epochs": true,
+          "source_relative": "mn40_b05_fifo64_s4781_20261123/hier/main/metrics.jsonl",
+          "source_sha256": "e4f3bf2b6a60f54af977d703f545b33fc28c7fa41c10bebd047d6e80ebeb48fd"
+        }
+      ]
+    }
+  ]
+}

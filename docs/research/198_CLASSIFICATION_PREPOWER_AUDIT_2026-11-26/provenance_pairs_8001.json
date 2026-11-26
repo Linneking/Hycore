@@ -1,0 +1,377 @@
+{
+  "observed_at": "2026-11-26T17:44:52.597305+08:00",
+  "runs": [
+    {
+      "run_dir": "mn40_b05_fifo64_s4781_20261123/h0/main",
+      "manifest_sha256": "30b8ab6a4e29d4f878f0d981a662aa720ebfec8910fec9bf5729d0553fa668ae",
+      "manifest": {
+        "commit": "72618bb7cf9c2768fc51d470343c8a610942b024",
+        "status": "completed",
+        "started_at": "2026-11-23T14:51:48.156258+08:00",
+        "finished_at": "2026-11-23T23:10:23.822490+08:00",
+        "completed_epochs": 300,
+        "train_size": 9840,
+        "validation_size": 0,
+        "test_size": 2468,
+        "teacher": null,
+        "checkpoint_initialization": "from_scratch",
+        "initialized_model_sha256": "05d3ce67986c9d85d551199fee4ec4dc93b82fa27fb164e621e6fd1e04e98eba",
+        "dataset_identity": {
+          "train": {
+            "size": 9840,
+            "file_order": [
+              "ply_data_train1.h5",
+              "ply_data_train4.h5",
+              "ply_data_train3.h5",
+              "ply_data_train2.h5",
+              "ply_data_train0.h5"
+            ],
+            "file_sha256": {
+              "ply_data_train1.h5": "0efaab3f3a7903f78037da933682267dfcdc548dc97aadda25bac218a1930276",
+              "ply_data_train4.h5": "15143c2e796907767bb795d505a22d46d776e710ae55b9487e5a9684732bd1fa",
+              "ply_data_train3.h5": "ee6fb75f9cb85bc36e589e7ebf23b3cd9c42ef00566c29e7a6679e83ed575495",
+              "ply_data_train2.h5": "d705fc9b55b80e0a45103ec6a2938968f1e704c6bec8f2624bebbf4e435bb50a",
+              "ply_data_train0.h5": "996e8f2741c5c2662314a79c4e7b461399e2835dff28925046e7e42339f9a74d"
+            },
+            "labels_sha256": "2c1052c604c4379a4b8452ddf3e7beee2e5471269eba8bd660d5f2c630613d89"
+          },
+          "test": {
+            "size": 2468,
+            "file_order": [
+              "ply_data_test0.h5",
+              "ply_data_test1.h5"
+            ],
+            "file_sha256": {
+              "ply_data_test0.h5": "fb1631826ff4102aac03ee8a59ed309f8ce839a210b6da1a40a2e4d45bba9d56",
+              "ply_data_test1.h5": "dc002c8e9e168cedd22afbdfa8f1fae19d0f2fafb6efa993e4c88fbcaee8f353"
+            },
+            "labels_sha256": "51a870948420ac011793a54e04d0b0c7341809a3b0295dfba1c7ba450131a576"
+          }
+        },
+        "last_sha256": "7e0557d590811c1171bb3489c6eaa0927aacb7cb8ddb1157024deb5040abdbca",
+        "best_sha256": "13b9aac7b056ae7ad183487d90c821d239637307508951091d9452de56f623b4",
+        "source_sha256": {
+          "inter_hierarchy_MN40/hycore_c01_gs_halfmargin_20261020/train.py": "9dc3d81bfcf13ddf3621d2b9be34758842a91c23d3e373c1eaf7a00a13f0c18e",
+          "classification_ModelNet40/main_pointmlp_hycore.py": "3f7bc6437d6424d1197508e41c7340198277f05d0fef6961af08c110bedcc29e",
+          "classification_ModelNet40/hutil.py": "2821f4ac43416a81d04e02c23ef38de11aec6b8f8f45065febed01cdbf6db04a",
+          "classification_ModelNet40/data.py": "703d440f5f740e83e4ab7fd952fc2a9059a32b6ed9b1e4a5ba3e848a77141171",
+          "classification_ModelNet40/models/pointmlp.py": "b688a54a48d4135a1d35032454366c4a83632ad0db4b5f8b0178758549c1ba13",
+          "classification_ModelNet40/models/manifolds/poincareball.py": "c36447e3cfcb71e9ad8ee2c8dcca187f8d7dc2d3a76ed195cabf3373dafc11cb",
+          "classification_ModelNet40/models/ops/manifold_layers.py": "f792ae163760bf81142c894e5a419b958260b80abea5f6f19c13428a6d8e2041",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v8/geometry.py": "16d5a7879d8d23924c6fe542bb1d47973448044604602f4ab44c9c72f8c871dc",
+          "docs/research/diagnostics/mn40_ts33_35_20261113/shuffle_runner.py": "87ab50ab91c1895e9c5b3b6d718b532d17e622f658c9f4d582f9f63e69dd7bc1",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v8/hier_loss.py": "6f3a0566926862b0da78f15db11c0fb9b3cee2d83230106028c2d9e6b6930b49",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v5/relations.py": "8f74a1cfaea601613ea7b4894ff3f3154e4737386dd3c0fa2c64ea1aa942bab4",
+          "inter_hierarchy_MN40/hier_proxy_cycle_v9c/geometry.py": "3fc8fe66fbfe41fa62fe511abecf956ebd5cb8f3a84bfc5b01c2f50c7e259d3b",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v6/hier_loss.py": "e2cd382dfc3be20605c3f50b01f8be3fed11e11f7c8b0f3b4f869997e521dcfa",
+          "docs/research/diagnostics/mn40_b05_fifo64_s4781/runner.py": "ef6523294c4fabbaa7849d23238f39ee9aba9d2e06320d37a08128591dfc5200"
+        },
+        "optimizer_steps": 92100,
+        "training_config": {
+          "c": 0.1,
+          "clip_r": 2.3,
+          "gradient_hook": true,
+          "radial_gamma": 500,
+          "contrastive_margin": 2,
+          "seed": 4781,
+          "batch_size": 32,
+          "eval_batch_size": 16,
+          "workers": 8,
+          "num_points": 1024,
+          "epochs": 300,
+          "smoke": false,
+          "steps_per_epoch": 307,
+          "optimizer": "RiemannianSGD",
+          "learning_rate": 0.1,
+          "min_lr": 0.005,
+          "momentum": 0.9,
+          "weight_decay": 0.0002,
+          "clip_grad_norm": 1,
+          "rcontr_coefficient": 0.01,
+          "rhier_coefficient": 0.01,
+          "selection": "best_rounded_test_OA_original",
+          "original_alias_crops": true,
+          "part_before_whole": true,
+          "train_shard_order": [
+            "ply_data_train1.h5",
+            "ply_data_train4.h5",
+            "ply_data_train3.h5",
+            "ply_data_train2.h5",
+            "ply_data_train0.h5"
+          ],
+          "gradient_hook_scope": "once per shared whole/part output; all downstream objectives; no proxies",
+          "data_loader_generator": "default_global_rng",
+          "cudnn_benchmark": true,
+          "cudnn_deterministic": true,
+          "sampler": "original DataLoader shuffle without replacement",
+          "world_size": 1,
+          "global_batch": 32,
+          "baseline": "TS06/B05",
+          "hier_enabled": false,
+          "comparison_mode": "off",
+          "test_shard_order": [
+            "ply_data_test0.h5",
+            "ply_data_test1.h5"
+          ]
+        },
+        "best_epoch": 281,
+        "best_completed_epochs": 282,
+        "best_test_OA": 93.882
+      }
+    },
+    {
+      "run_dir": "mn40_b05_fifo64_s4781_20261123/hier/main",
+      "manifest_sha256": "743fce72d5e8991677d7b11b12ef649482a465e4da57d89e4191cdc07e13b9c1",
+      "manifest": {
+        "commit": "72618bb7cf9c2768fc51d470343c8a610942b024",
+        "status": "completed",
+        "started_at": "2026-11-23T14:51:47.898369+08:00",
+        "finished_at": "2026-11-24T02:37:16.433223+08:00",
+        "completed_epochs": 300,
+        "train_size": 9840,
+        "validation_size": 0,
+        "test_size": 2468,
+        "teacher": null,
+        "checkpoint_initialization": "from_scratch",
+        "initialized_model_sha256": "05d3ce67986c9d85d551199fee4ec4dc93b82fa27fb164e621e6fd1e04e98eba",
+        "dataset_identity": {
+          "train": {
+            "size": 9840,
+            "file_order": [
+              "ply_data_train1.h5",
+              "ply_data_train4.h5",
+              "ply_data_train3.h5",
+              "ply_data_train2.h5",
+              "ply_data_train0.h5"
+            ],
+            "file_sha256": {
+              "ply_data_train1.h5": "0efaab3f3a7903f78037da933682267dfcdc548dc97aadda25bac218a1930276",
+              "ply_data_train4.h5": "15143c2e796907767bb795d505a22d46d776e710ae55b9487e5a9684732bd1fa",
+              "ply_data_train3.h5": "ee6fb75f9cb85bc36e589e7ebf23b3cd9c42ef00566c29e7a6679e83ed575495",
+              "ply_data_train2.h5": "d705fc9b55b80e0a45103ec6a2938968f1e704c6bec8f2624bebbf4e435bb50a",
+              "ply_data_train0.h5": "996e8f2741c5c2662314a79c4e7b461399e2835dff28925046e7e42339f9a74d"
+            },
+            "labels_sha256": "2c1052c604c4379a4b8452ddf3e7beee2e5471269eba8bd660d5f2c630613d89"
+          },
+          "test": {
+            "size": 2468,
+            "file_order": [
+              "ply_data_test0.h5",
+              "ply_data_test1.h5"
+            ],
+            "file_sha256": {
+              "ply_data_test0.h5": "fb1631826ff4102aac03ee8a59ed309f8ce839a210b6da1a40a2e4d45bba9d56",
+              "ply_data_test1.h5": "dc002c8e9e168cedd22afbdfa8f1fae19d0f2fafb6efa993e4c88fbcaee8f353"
+            },
+            "labels_sha256": "51a870948420ac011793a54e04d0b0c7341809a3b0295dfba1c7ba450131a576"
+          }
+        },
+        "last_sha256": "9b528d3583d3b3d281c51aaed918dce33b85cd50f94a5e01cd2e568586a045c8",
+        "best_sha256": "807086842090713120259924d301044d8ad0422123f67e6dd0c9d82f6fa249bc",
+        "source_sha256": {
+          "inter_hierarchy_MN40/hycore_c01_gs_halfmargin_20261020/train.py": "9dc3d81bfcf13ddf3621d2b9be34758842a91c23d3e373c1eaf7a00a13f0c18e",
+          "classification_ModelNet40/main_pointmlp_hycore.py": "3f7bc6437d6424d1197508e41c7340198277f05d0fef6961af08c110bedcc29e",
+          "classification_ModelNet40/hutil.py": "2821f4ac43416a81d04e02c23ef38de11aec6b8f8f45065febed01cdbf6db04a",
+          "classification_ModelNet40/data.py": "703d440f5f740e83e4ab7fd952fc2a9059a32b6ed9b1e4a5ba3e848a77141171",
+          "classification_ModelNet40/models/pointmlp.py": "b688a54a48d4135a1d35032454366c4a83632ad0db4b5f8b0178758549c1ba13",
+          "classification_ModelNet40/models/manifolds/poincareball.py": "c36447e3cfcb71e9ad8ee2c8dcca187f8d7dc2d3a76ed195cabf3373dafc11cb",
+          "classification_ModelNet40/models/ops/manifold_layers.py": "f792ae163760bf81142c894e5a419b958260b80abea5f6f19c13428a6d8e2041",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v8/geometry.py": "16d5a7879d8d23924c6fe542bb1d47973448044604602f4ab44c9c72f8c871dc",
+          "docs/research/diagnostics/mn40_ts33_35_20261113/shuffle_runner.py": "87ab50ab91c1895e9c5b3b6d718b532d17e622f658c9f4d582f9f63e69dd7bc1",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v8/hier_loss.py": "6f3a0566926862b0da78f15db11c0fb9b3cee2d83230106028c2d9e6b6930b49",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v5/relations.py": "8f74a1cfaea601613ea7b4894ff3f3154e4737386dd3c0fa2c64ea1aa942bab4",
+          "inter_hierarchy_MN40/hier_proxy_cycle_v9c/geometry.py": "3fc8fe66fbfe41fa62fe511abecf956ebd5cb8f3a84bfc5b01c2f50c7e259d3b",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v6/hier_loss.py": "e2cd382dfc3be20605c3f50b01f8be3fed11e11f7c8b0f3b4f869997e521dcfa",
+          "docs/research/diagnostics/mn40_b05_fifo64_s4781/runner.py": "ef6523294c4fabbaa7849d23238f39ee9aba9d2e06320d37a08128591dfc5200"
+        },
+        "optimizer_steps": 92100,
+        "training_config": {
+          "c": 0.1,
+          "clip_r": 2.3,
+          "gradient_hook": true,
+          "radial_gamma": 500,
+          "contrastive_margin": 2,
+          "seed": 4781,
+          "batch_size": 32,
+          "eval_batch_size": 16,
+          "workers": 8,
+          "num_points": 1024,
+          "epochs": 300,
+          "smoke": false,
+          "steps_per_epoch": 307,
+          "optimizer": "RiemannianSGD",
+          "learning_rate": 0.1,
+          "min_lr": 0.005,
+          "momentum": 0.9,
+          "weight_decay": 0.0002,
+          "clip_grad_norm": 1,
+          "rcontr_coefficient": 0.01,
+          "rhier_coefficient": 0.01,
+          "selection": "best_rounded_test_OA_original",
+          "original_alias_crops": true,
+          "part_before_whole": true,
+          "train_shard_order": [
+            "ply_data_train1.h5",
+            "ply_data_train4.h5",
+            "ply_data_train3.h5",
+            "ply_data_train2.h5",
+            "ply_data_train0.h5"
+          ],
+          "gradient_hook_scope": "native whole/part GS plus independent pre-GS fixed-shell branch",
+          "data_loader_generator": "default_global_rng",
+          "cudnn_benchmark": true,
+          "cudnn_deterministic": true,
+          "sampler": "original DataLoader shuffle without replacement",
+          "world_size": 1,
+          "global_batch": 32,
+          "baseline": "TS06/B05",
+          "hier_enabled": true,
+          "comparison_mode": "enabled",
+          "test_shard_order": [
+            "ply_data_test0.h5",
+            "ply_data_test1.h5"
+          ],
+          "sample_K": 20,
+          "proxy_K": 20,
+          "T": 50,
+          "hier_c": 0.1,
+          "hier_view_depth": 4.6,
+          "proxy_count": 512,
+          "proxy_init_scale": 0.9,
+          "proxy_cap": 2.3,
+          "warmup_epochs": 0,
+          "lambda_hier_after_warmup": 0.5,
+          "lambda_sample": 0.5,
+          "lambda_proxy": 0.5,
+          "proxy_optimizer": {
+            "name": "AdamW",
+            "lr": 0.005,
+            "eps": 0.0001,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "weight_decay": 0.01,
+            "min_lr": 0.0005
+          },
+          "proxy_seed": 4781,
+          "gumbel_seed": 304782,
+          "mining_seed_stride": 10007,
+          "sample_max_pool": 64,
+          "sample_anchors": 32,
+          "sample_history_batches": 1,
+          "sample_history_detached": true,
+          "sample_history_reset": "each epoch"
+        },
+        "best_epoch": 242,
+        "best_completed_epochs": 243,
+        "best_test_OA": 93.801
+      }
+    },
+    {
+      "run_dir": "scanobject_weights_cb_20261126/runs/SO-S12-HIER-L0.1",
+      "manifest_sha256": "e1295c14cf44cb89fecf285c917c83ef3e9371e3ff7890a3308bdcfe375c926f",
+      "manifest": {
+        "arm": "SO-S12-HIER-L0.1",
+        "source_commit": "62d51fec1c73d15745f875a4eda21702615b21ad",
+        "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+        "author_source_sha256": "6b0ee90db0628c5c2e3fd46fee7f656d779171fce316c2afbe65b573c2e1598b",
+        "program_sha256": "df5b5dd87e63eb5bc692a69f7e9359fea71573544a145dca802d273a748d442c",
+        "seed": 12,
+        "status": "completed",
+        "started_at": "2026-11-26T00:25:00.188384+08:00",
+        "finished_at": "2026-11-26T14:03:39.436108+08:00",
+        "batch_size": 32,
+        "steps_per_epoch": 356,
+        "test_rows": 2882,
+        "hier_enabled": true,
+        "hierarchy": {
+          "curvature": 0.1,
+          "tangent_cap": 2.3,
+          "GS": true,
+          "fixed_shell": false,
+          "proxy_count": 512,
+          "initialization": 0.9,
+          "sample_K": 20,
+          "proxy_K": 20,
+          "sample_weight": 0.1,
+          "proxy_weight": 0.1,
+          "T": 50,
+          "cands": 32,
+          "optimizer": "AdamW A1 (lr .005 to .0005, eps 1e-4)"
+        },
+        "teacher": null,
+        "initial_checkpoint": null
+      }
+    },
+    {
+      "run_dir": "scanobject_weights_cb_20261126/runs/SO-S12-HIER-L1.0",
+      "manifest_sha256": "e6e935736d7a046c022ae68b8761f7ebe9d7ddb48f01e4b05a77a4aa55cc9f6b",
+      "manifest": {
+        "arm": "SO-S12-HIER-L1.0",
+        "source_commit": "62d51fec1c73d15745f875a4eda21702615b21ad",
+        "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+        "author_source_sha256": "6b0ee90db0628c5c2e3fd46fee7f656d779171fce316c2afbe65b573c2e1598b",
+        "program_sha256": "df5b5dd87e63eb5bc692a69f7e9359fea71573544a145dca802d273a748d442c",
+        "seed": 12,
+        "status": "completed",
+        "started_at": "2026-11-26T00:25:00.193941+08:00",
+        "finished_at": "2026-11-26T14:18:53.104023+08:00",
+        "batch_size": 32,
+        "steps_per_epoch": 356,
+        "test_rows": 2882,
+        "hier_enabled": true,
+        "hierarchy": {
+          "curvature": 0.1,
+          "tangent_cap": 2.3,
+          "GS": true,
+          "fixed_shell": false,
+          "proxy_count": 512,
+          "initialization": 0.9,
+          "sample_K": 20,
+          "proxy_K": 20,
+          "sample_weight": 1.0,
+          "proxy_weight": 1.0,
+          "T": 50,
+          "cands": 32,
+          "optimizer": "AdamW A1 (lr .005 to .0005, eps 1e-4)"
+        },
+        "teacher": null,
+        "initial_checkpoint": null
+      }
+    }
+  ],
+  "acceptances": [
+    {
+      "path": "scanobject_weights_cb_20261126/runs/preflight/acceptance.json",
+      "sha256": "fa2c87376d8e0050de8395afdfefe9a317fb644b81723e6bbd8f2e780677bcb3",
+      "evidence": {
+        "passed": true,
+        "checks": {
+          "provenance": true,
+          "inputs": true,
+          "initial_model": true,
+          "matching_batches": true,
+          "first_losses": true,
+          "main_rng": true,
+          "weights": true,
+          "SO-S12-HIER-L0.1": true,
+          "SO-S12-HIER-L1.0": true
+        },
+        "first_base_losses": [
+          [
+            2.7081360816955566,
+            3.982100248336792,
+            1.466736078262329
+          ],
+          [
+            2.7081360816955566,
+            3.982100248336792,
+            1.466736078262329
+          ]
+        ],
+        "observed_at": "2026-11-25T16:24:51.192816+00:00"
+      }
+    }
+  ]
+}

@@ -1,0 +1,351 @@
+{
+  "observed_at": "2026-11-26T17:44:44.718773+08:00",
+  "runs": [
+    {
+      "run_dir": "scanobject_weights_cb_20261126/runs_verified/DG-S4780-CB32-H0",
+      "manifest_sha256": "f7d3ee73d2597bc3ac545811281664a71860b7153935079d1f1a05aacbfe7bf8",
+      "manifest": {
+        "arm": "DG-S4780-CB32-H0",
+        "source_commit": "e653cce96e6bd78ec9a9a4d53ebd2116db5797c3",
+        "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+        "author_source_sha256": "7521d795939b2ed6123bf6ca6bae17f52c1c9aebf4c71bb75591232b6296ca1c",
+        "program_sha256": "c108b2f490a5f3d3ccfcd0bcf3db9b1caf5159e344b35117337c21adb1094f08",
+        "seed": 4780,
+        "status": "completed",
+        "started_at": "2026-11-26T07:51:08.060724+08:00",
+        "finished_at": "2026-11-26T10:23:17.680889+08:00",
+        "epochs": 250,
+        "batch_size": 32,
+        "steps_per_epoch": 356,
+        "train_rows": 11416,
+        "test_rows": 2882,
+        "hier_enabled": false,
+        "hierarchy": null,
+        "sampler": "CB32",
+        "sampler_seed": 4780,
+        "classes_per_batch": 15,
+        "teacher": null,
+        "initial_checkpoint": null
+      }
+    },
+    {
+      "run_dir": "scanobject_weights_cb_20261126/runs_verified/DG-S4780-CB32-HIER",
+      "manifest_sha256": "796c8b02cc73d55422e4ec7128f8eaf1241d45e1a7f8f9c529f2fb66082d66d4",
+      "manifest": {
+        "arm": "DG-S4780-CB32-HIER",
+        "source_commit": "e653cce96e6bd78ec9a9a4d53ebd2116db5797c3",
+        "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+        "author_source_sha256": "7521d795939b2ed6123bf6ca6bae17f52c1c9aebf4c71bb75591232b6296ca1c",
+        "program_sha256": "7f1ff2c575a9e8481677c8c7d57c46078d219f2299a027866c4ecc3e12de4958",
+        "seed": 4780,
+        "status": "completed",
+        "started_at": "2026-11-26T00:32:39.306460+08:00",
+        "finished_at": "2026-11-26T13:57:49.443671+08:00",
+        "epochs": 250,
+        "batch_size": 32,
+        "steps_per_epoch": 356,
+        "train_rows": 11416,
+        "test_rows": 2882,
+        "hier_enabled": true,
+        "hierarchy": {
+          "curvature": 0.1,
+          "tangent_cap": 2.3,
+          "fixed_shell": false,
+          "GS": true,
+          "pool": 32,
+          "proxy_count": 512,
+          "initialization": 0.9,
+          "sample_K": 20,
+          "proxy_K": 20,
+          "T": 50,
+          "sample_weight": 0.5,
+          "proxy_weight": 0.5,
+          "proxy_seed": 4780,
+          "gumbel_seed": 304781,
+          "optimizer": "AdamW .005 to .0005, eps 1e-4"
+        },
+        "sampler": "CB32",
+        "sampler_seed": 4780,
+        "classes_per_batch": 15,
+        "teacher": null,
+        "initial_checkpoint": null
+      }
+    },
+    {
+      "run_dir": "scanobject_author_s4780_20261123/SO-S4780-H0/main",
+      "manifest_sha256": "8d54defff8b34f7df8eec88e57597d87a90af748ae2eeeca2b4b06ecb4cd7af7",
+      "manifest": {
+        "arm": "SO-S4780-H0",
+        "source_commit": "4a7aa8c6b5d07f914c7c94aa0f15f8e2f51d6115",
+        "reference_commit": "b876d85238a8e8e254df2adab9a4dd26ee721476",
+        "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+        "author_source_sha256": "6b0ee90db0628c5c2e3fd46fee7f656d779171fce316c2afbe65b573c2e1598b",
+        "program_sha256": "3afb916cb75ad6285f3e694a815430d38b310b41b9fa992f41351cb415cd3e0b",
+        "seed": 4780,
+        "status": "completed",
+        "started_at": "2026-11-23T14:49:59.123727+08:00",
+        "finished_at": "2026-11-24T01:16:09.785344+08:00",
+        "epochs": 300,
+        "batch_size": 32,
+        "steps_per_epoch": 356,
+        "test_rows": 2882,
+        "hier_enabled": false,
+        "hierarchy": null,
+        "teacher": null,
+        "initial_checkpoint": null
+      }
+    },
+    {
+      "run_dir": "scanobject_author_s4780_20261123/SO-S4780-HIER/main",
+      "manifest_sha256": "fd6d9c470709d120b9a92e43c9e3b61b10c2a5bf9199d7330a195a3bc4e2ae46",
+      "manifest": {
+        "arm": "SO-S4780-HIER",
+        "source_commit": "4a7aa8c6b5d07f914c7c94aa0f15f8e2f51d6115",
+        "reference_commit": "b876d85238a8e8e254df2adab9a4dd26ee721476",
+        "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+        "author_source_sha256": "6b0ee90db0628c5c2e3fd46fee7f656d779171fce316c2afbe65b573c2e1598b",
+        "program_sha256": "df5b5dd87e63eb5bc692a69f7e9359fea71573544a145dca802d273a748d442c",
+        "seed": 4780,
+        "status": "completed",
+        "started_at": "2026-11-23T14:49:58.308832+08:00",
+        "finished_at": "2026-11-24T14:18:45.642994+08:00",
+        "epochs": 300,
+        "batch_size": 32,
+        "steps_per_epoch": 356,
+        "test_rows": 2882,
+        "hier_enabled": true,
+        "hierarchy": {
+          "curvature": 0.1,
+          "tangent_cap": 2.3,
+          "GS": true,
+          "fixed_shell": false,
+          "proxy_count": 512,
+          "initialization": 0.9,
+          "sample_K": 20,
+          "proxy_K": 20,
+          "sample_weight": 0.5,
+          "proxy_weight": 0.5,
+          "T": 50,
+          "cands": 32,
+          "optimizer": "AdamW A1 (lr .005 to .0005, eps 1e-4)",
+          "proxy_seed": 4780,
+          "gumbel_seed": 304781,
+          "first_relationship_seed": 4780
+        },
+        "teacher": null,
+        "initial_checkpoint": null
+      }
+    },
+    {
+      "run_dir": "mn40_b05_s4781_current32_20261124/hier-current/main",
+      "manifest_sha256": "a2e10766322068ef3475b4f1039ea6b825967a86e8835a7df74f1a6d36c5f47e",
+      "manifest": {
+        "commit": "2dab9281bd761c9fbfd6074c2a9a4b15c7d7802a",
+        "status": "completed",
+        "started_at": "2026-11-24T21:38:30.708455+08:00",
+        "finished_at": "2026-11-25T17:36:41.821048+08:00",
+        "completed_epochs": 300,
+        "train_size": 9840,
+        "validation_size": 0,
+        "test_size": 2468,
+        "teacher": null,
+        "checkpoint_initialization": "from_scratch",
+        "initialized_model_sha256": "05d3ce67986c9d85d551199fee4ec4dc93b82fa27fb164e621e6fd1e04e98eba",
+        "dataset_identity": {
+          "train": {
+            "size": 9840,
+            "file_order": [
+              "ply_data_train1.h5",
+              "ply_data_train4.h5",
+              "ply_data_train3.h5",
+              "ply_data_train2.h5",
+              "ply_data_train0.h5"
+            ],
+            "file_sha256": {
+              "ply_data_train1.h5": "0efaab3f3a7903f78037da933682267dfcdc548dc97aadda25bac218a1930276",
+              "ply_data_train4.h5": "15143c2e796907767bb795d505a22d46d776e710ae55b9487e5a9684732bd1fa",
+              "ply_data_train3.h5": "ee6fb75f9cb85bc36e589e7ebf23b3cd9c42ef00566c29e7a6679e83ed575495",
+              "ply_data_train2.h5": "d705fc9b55b80e0a45103ec6a2938968f1e704c6bec8f2624bebbf4e435bb50a",
+              "ply_data_train0.h5": "996e8f2741c5c2662314a79c4e7b461399e2835dff28925046e7e42339f9a74d"
+            },
+            "labels_sha256": "2c1052c604c4379a4b8452ddf3e7beee2e5471269eba8bd660d5f2c630613d89"
+          },
+          "test": {
+            "size": 2468,
+            "file_order": [
+              "ply_data_test0.h5",
+              "ply_data_test1.h5"
+            ],
+            "file_sha256": {
+              "ply_data_test0.h5": "fb1631826ff4102aac03ee8a59ed309f8ce839a210b6da1a40a2e4d45bba9d56",
+              "ply_data_test1.h5": "dc002c8e9e168cedd22afbdfa8f1fae19d0f2fafb6efa993e4c88fbcaee8f353"
+            },
+            "labels_sha256": "51a870948420ac011793a54e04d0b0c7341809a3b0295dfba1c7ba450131a576"
+          }
+        },
+        "last_sha256": "fc2bd5b6d235184be41b68bb838e1a071348cfd95a788264ca3e52f2e99bfa31",
+        "best_sha256": "c1f27ff39101389de523e959fe13a2e38e7f894bd853bed2f9dd7725b3620b85",
+        "source_sha256": {
+          "inter_hierarchy_MN40/hycore_c01_gs_halfmargin_20261020/train.py": "9dc3d81bfcf13ddf3621d2b9be34758842a91c23d3e373c1eaf7a00a13f0c18e",
+          "classification_ModelNet40/main_pointmlp_hycore.py": "3f7bc6437d6424d1197508e41c7340198277f05d0fef6961af08c110bedcc29e",
+          "classification_ModelNet40/hutil.py": "2821f4ac43416a81d04e02c23ef38de11aec6b8f8f45065febed01cdbf6db04a",
+          "classification_ModelNet40/data.py": "703d440f5f740e83e4ab7fd952fc2a9059a32b6ed9b1e4a5ba3e848a77141171",
+          "classification_ModelNet40/models/pointmlp.py": "b688a54a48d4135a1d35032454366c4a83632ad0db4b5f8b0178758549c1ba13",
+          "classification_ModelNet40/models/manifolds/poincareball.py": "c36447e3cfcb71e9ad8ee2c8dcca187f8d7dc2d3a76ed195cabf3373dafc11cb",
+          "classification_ModelNet40/models/ops/manifold_layers.py": "f792ae163760bf81142c894e5a419b958260b80abea5f6f19c13428a6d8e2041",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v8/geometry.py": "16d5a7879d8d23924c6fe542bb1d47973448044604602f4ab44c9c72f8c871dc",
+          "docs/research/diagnostics/mn40_ts33_35_20261113/shuffle_runner.py": "87ab50ab91c1895e9c5b3b6d718b532d17e622f658c9f4d582f9f63e69dd7bc1",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v8/hier_loss.py": "6f3a0566926862b0da78f15db11c0fb9b3cee2d83230106028c2d9e6b6930b49",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v5/relations.py": "8f74a1cfaea601613ea7b4894ff3f3154e4737386dd3c0fa2c64ea1aa942bab4",
+          "inter_hierarchy_MN40/hier_proxy_cycle_v9c/geometry.py": "3fc8fe66fbfe41fa62fe511abecf956ebd5cb8f3a84bfc5b01c2f50c7e259d3b",
+          "inter_hierarchy_MN40/hier_proxy_scratch_v6/hier_loss.py": "e2cd382dfc3be20605c3f50b01f8be3fed11e11f7c8b0f3b4f869997e521dcfa",
+          "docs/research/diagnostics/mn40_b05_fifo64_s4781/runner.py": "a11574a67ee7ffabea8fc92985fe9171453955089640643ed0eb9cc1b20f9f2a"
+        },
+        "optimizer_steps": 92100,
+        "training_config": {
+          "c": 0.1,
+          "clip_r": 2.3,
+          "gradient_hook": true,
+          "radial_gamma": 500,
+          "contrastive_margin": 2,
+          "seed": 4781,
+          "batch_size": 32,
+          "eval_batch_size": 16,
+          "workers": 8,
+          "num_points": 1024,
+          "epochs": 300,
+          "smoke": false,
+          "steps_per_epoch": 307,
+          "optimizer": "RiemannianSGD",
+          "learning_rate": 0.1,
+          "min_lr": 0.005,
+          "momentum": 0.9,
+          "weight_decay": 0.0002,
+          "clip_grad_norm": 1,
+          "rcontr_coefficient": 0.01,
+          "rhier_coefficient": 0.01,
+          "selection": "best_rounded_test_OA_original",
+          "original_alias_crops": true,
+          "part_before_whole": true,
+          "train_shard_order": [
+            "ply_data_train1.h5",
+            "ply_data_train4.h5",
+            "ply_data_train3.h5",
+            "ply_data_train2.h5",
+            "ply_data_train0.h5"
+          ],
+          "gradient_hook_scope": "native whole/part GS plus independent pre-GS fixed-shell branch",
+          "data_loader_generator": "default_global_rng",
+          "cudnn_benchmark": true,
+          "cudnn_deterministic": true,
+          "sampler": "original DataLoader shuffle without replacement",
+          "world_size": 1,
+          "global_batch": 32,
+          "baseline": "TS06/B05",
+          "hier_enabled": true,
+          "comparison_mode": "enabled",
+          "test_shard_order": [
+            "ply_data_test0.h5",
+            "ply_data_test1.h5"
+          ],
+          "sample_K": 20,
+          "proxy_K": 20,
+          "T": 50,
+          "hier_c": 0.1,
+          "hier_view_depth": 4.6,
+          "proxy_count": 512,
+          "proxy_init_scale": 0.9,
+          "proxy_cap": 2.3,
+          "warmup_epochs": 0,
+          "lambda_hier_after_warmup": 0.5,
+          "lambda_sample": 0.5,
+          "lambda_proxy": 0.5,
+          "proxy_optimizer": {
+            "name": "AdamW",
+            "lr": 0.005,
+            "eps": 0.0001,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "weight_decay": 0.01,
+            "min_lr": 0.0005
+          },
+          "proxy_seed": 4781,
+          "gumbel_seed": 304782,
+          "mining_seed_stride": 10007,
+          "sample_max_pool": 32,
+          "sample_anchors": 32,
+          "sample_history_batches": 0,
+          "sample_history_detached": false,
+          "sample_history_reset": null
+        },
+        "best_epoch": 281,
+        "best_completed_epochs": 282,
+        "best_test_OA": 94.084
+      }
+    }
+  ],
+  "acceptances": [
+    {
+      "path": "scanobject_author_s4780_20261123/preflight/acceptance.json",
+      "sha256": "c6b8ab211832fd8238206e5e60ff444c4856939efb4351f8ada84f70e81dc859",
+      "evidence": {
+        "passed": true,
+        "source_commit": "4a7aa8c6b5d07f914c7c94aa0f15f8e2f51d6115",
+        "reference_commit": "b876d85238a8e8e254df2adab9a4dd26ee721476",
+        "seed": 4780,
+        "initial_model_sha256": "e012ae2c0b2928968cf20e23c2ecb4552214bce5a062a8f298ef33b5c0739dd2",
+        "checks": {
+          "same_seed": true,
+          "provenance": true,
+          "same_verified_inputs": true,
+          "hierarchy_routing": true,
+          "initial_matches": true,
+          "same_batches": true,
+          "same_first_base_losses": true,
+          "same_main_rng": true,
+          "proxy_updates": true,
+          "sample_relationships": true,
+          "proxy_relationships": true
+        },
+        "observed_at": "2026-11-23T14:49:41.682156+08:00"
+      }
+    },
+    {
+      "path": "scanobject_weights_cb_20261126/runs_verified/preflight/acceptance.json",
+      "sha256": "ee27b0e4dfa0b28142b6c7600aa27af4f42d2ec4b5a1ada3110788faaf8d1c79",
+      "evidence": {
+        "passed": true,
+        "checks": {
+          "provenance": true,
+          "inputs": true,
+          "initial_model": true,
+          "matching_batches": true,
+          "first_losses": true,
+          "main_rng": true,
+          "sampler": true,
+          "h0": true,
+          "DG-S4780-CB32-HIER": true
+        },
+        "observed_at": "2026-11-25T16:32:28.507624+00:00"
+      }
+    },
+    {
+      "path": "mn40_b05_s4781_current32_20261124/preflight/acceptance.json",
+      "sha256": "9e4154e160577597e441b4f4d7f4c4138f512711bed30e39b34fef802b63a9b3",
+      "evidence": {
+        "passed": true,
+        "source_commit": "2dab9281bd761c9fbfd6074c2a9a4b15c7d7802a",
+        "reference_commit": "72618bb7cf9c2768fc51d470343c8a610942b024",
+        "seed": 4781,
+        "initialized_model_sha256": "05d3ce67986c9d85d551199fee4ec4dc93b82fa27fb164e621e6fd1e04e98eba",
+        "augmented_inputs_crops_and_main_rng_match": true,
+        "four_main_updates_per_smoke": true,
+        "reference_manifest_sha256": "30b8ab6a4e29d4f878f0d981a662aa720ebfec8910fec9bf5729d0553fa668ae",
+        "dataset_identity_sha256": "c8f72583c1dcc0318e06f089b1effa1e80dede1a6567389202a6c8cc459b8df8",
+        "updated_at": "2026-11-24T13:38:20.346848+00:00"
+      }
+    }
+  ]
+}

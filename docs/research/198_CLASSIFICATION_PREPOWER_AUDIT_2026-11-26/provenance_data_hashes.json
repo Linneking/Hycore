@@ -1,0 +1,18 @@
+{
+  "scanobject_weights_cb_20261126/runs_verified/DG-S4780-CB32-H0": {
+    "training": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+    "test": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1"
+  },
+  "scanobject_weights_cb_20261126/runs_verified/DG-S4780-CB32-HIER": {
+    "training": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+    "test": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1"
+  },
+  "scanobject_author_s4780_20261123/SO-S4780-H0/main": {
+    "training": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+    "test": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1"
+  },
+  "scanobject_author_s4780_20261123/SO-S4780-HIER/main": {
+    "training": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+    "test": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1"
+  }
+}

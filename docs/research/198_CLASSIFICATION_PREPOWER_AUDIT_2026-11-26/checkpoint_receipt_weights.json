@@ -1,0 +1,63 @@
+{
+  "verified_utc": "2026-11-26T09:44:52.332513+00:00",
+  "archive": "checkpoints_weights.tar.gz",
+  "archive_bytes": 205964860,
+  "file_count": 10,
+  "verified_all_file_hashes": true,
+  "sha256": "0c82cc4ca8ed1cbae0746927b632179dfd8c67a17e0fa09ad64251d0d19a9cb7",
+  "files": [
+    {
+      "path": "HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L0.1/hier/best.pth",
+      "bytes": 1575992,
+      "sha256": "cfe33c30ed62244e3b5b36e7c18fd2d10105c8ced51b169485fea848f85f424e"
+    },
+    {
+      "path": "HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L0.1/hier/last.pth",
+      "bytes": 1576228,
+      "sha256": "459792c97e3b7fbbef1e05429fa9bb5e77e3f14b5aed614dcb8e384168211a42"
+    },
+    {
+      "path": "HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L0.1/hier/first_hier_view.pth",
+      "bytes": 592621,
+      "sha256": "9d4c189c3481fbf9bfb2afd0303a3da29bbe54cdebce9d4326415363f60d2724"
+    },
+    {
+      "path": "HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L0.1/hier/initial_proxies.pth",
+      "bytes": 526049,
+      "sha256": "9d01cc5ea09d59d8064238d6418671ef81d69e51fcc304915ca5b3604991486d"
+    },
+    {
+      "path": "HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L1.0/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore/best_checkpoint.pth",
+      "bytes": 106129959,
+      "sha256": "4e27472ea487b39856d6584cad652f3643bd4a48bd0a4fc5e107b622fbc9dd4e"
+    },
+    {
+      "path": "HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L1.0/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore/last_checkpoint.pth",
+      "bytes": 106129959,
+      "sha256": "91087e781cc84040cba76a1f97fdbd0bf49b0b9d4a993e08ed37cd1437035fe1"
+    },
+    {
+      "path": "HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L1.0/hier/best.pth",
+      "bytes": 1575992,
+      "sha256": "3ed93a0979ff63b916ff6f1467ea335c012b5d135f23867ee3274619176c66c8"
+    },
+    {
+      "path": "HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L1.0/hier/last.pth",
+      "bytes": 1576228,
+      "sha256": "57522d8d8ee066010a1fb7c983f3e0d8426e3cc37c10855387c2dbdae596412f"
+    },
+    {
+      "path": "HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L1.0/hier/first_hier_view.pth",
+      "bytes": 592621,
+      "sha256": "9d4c189c3481fbf9bfb2afd0303a3da29bbe54cdebce9d4326415363f60d2724"
+    },
+    {
+      "path": "HyCoRe_runs/scanobject_weights_cb_20261126/runs/SO-S12-HIER-L1.0/hier/initial_proxies.pth",
+      "bytes": 526049,
+      "sha256": "9d01cc5ea09d59d8064238d6418671ef81d69e51fcc304915ca5b3604991486d"
+    }
+  ],
+  "private_storage": "local .codex-local offline_classification_20261126_1736",
+  "model_execution": false,
+  "training": false
+}

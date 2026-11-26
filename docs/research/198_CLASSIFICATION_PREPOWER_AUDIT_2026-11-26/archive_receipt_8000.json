@@ -1,0 +1,13 @@
+{
+  "verified_utc": "2026-11-26T09:41:29.432759+00:00",
+  "archive_name": "records_8000.tar.gz",
+  "archive_bytes": 34455372,
+  "archived_uncompressed_bytes": 402653175,
+  "file_count": 1107,
+  "verified_all_file_hashes": true,
+  "sha256": "c69ab53216c3cb037edcaf171b08658a007e86d98feb51eeb40d87eab1b61386",
+  "skipped_count": 15288,
+  "missing_root_count": 18,
+  "private_storage": "local .codex-local offline_classification_20261126_1736",
+  "exclusions": "No datasets, model weights, embeddings, build binaries, or step-level logs"
+}

@@ -1,0 +1,51 @@
+{
+  "checks": {
+    "adapter/dispatch.py": {
+      "expected": "8bdc727c714955c7ce16627c5d4e3722fde097005fdc41d5ab97629fea931f84",
+      "observed": "8bdc727c714955c7ce16627c5d4e3722fde097005fdc41d5ab97629fea931f84",
+      "matches": true
+    },
+    "adapter/run.py": {
+      "expected": "07404a40daa1bad93264122f8f4e89e6d7e70ea52707956a6d3ca71d4f26f4ac",
+      "observed": "07404a40daa1bad93264122f8f4e89e6d7e70ea52707956a6d3ca71d4f26f4ac",
+      "matches": true
+    },
+    "adapter/model.py": {
+      "expected": "cd190ed2d42364554daa71ccb5ff7fec0b3ac51feffc66ea95f7c1b9360d4993",
+      "observed": "cd190ed2d42364554daa71ccb5ff7fec0b3ac51feffc66ea95f7c1b9360d4993",
+      "matches": true
+    },
+    "adapter/loss.py": {
+      "expected": "9a9286ac75f7b2d634b5393cca6f564397e4d51b0460549576a86178465fec78",
+      "observed": "9a9286ac75f7b2d634b5393cca6f564397e4d51b0460549576a86178465fec78",
+      "matches": true
+    },
+    "author/config.py": {
+      "expected": "43ce42b4d1fba5afb50b0f131a4fae83abe1ad19e295eb222831f966eccd7616",
+      "observed": "43ce42b4d1fba5afb50b0f131a4fae83abe1ad19e295eb222831f966eccd7616",
+      "matches": true
+    },
+    "author/delacls.py": {
+      "expected": "69a08fd1766e5a5b7888b1dcb25152362665e5421c2bce752ad3e7b0c74d84d5",
+      "observed": "69a08fd1766e5a5b7888b1dcb25152362665e5421c2bce752ad3e7b0c74d84d5",
+      "matches": true
+    },
+    "author/ScanObjectNN.py": {
+      "expected": "3e2a7e8169e8dc086943c5db8cd685b93e6a954443602f89c45d4139ff74c767",
+      "observed": "3e2a7e8169e8dc086943c5db8cd685b93e6a954443602f89c45d4139ff74c767",
+      "matches": true
+    },
+    "author/train.py": {
+      "expected": "75dcabf751ee1d0676647bda8a43c2da1a33ac6802917fd2f4bbe60500c1ed94",
+      "observed": "75dcabf751ee1d0676647bda8a43c2da1a33ac6802917fd2f4bbe60500c1ed94",
+      "matches": true
+    },
+    "inter_hierarchy_MN40/hier_proxy_scratch_v8/hier_loss.py": {
+      "observed": "6f3a0566926862b0da78f15db11c0fb9b3cee2d83230106028c2d9e6b6930b49"
+    },
+    "inter_hierarchy_MN40/hier_proxy_scratch_v8/geometry.py": {
+      "observed": "16d5a7879d8d23924c6fe542bb1d47973448044604602f4ab44c9c72f8c871dc"
+    }
+  },
+  "frozen_head": "5850e4799371ab1696f208dbb56717a48f7f491c"
+}

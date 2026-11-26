@@ -1,0 +1,181 @@
+{
+  "observed_at": "2026-11-26T17:41:44.241277+08:00",
+  "checkpoints": [
+    {
+      "arm": "SO-S12-HIER-L0.1",
+      "path": "SO-S12-HIER-L0.1/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore/last_checkpoint.pth",
+      "bytes": 106129959,
+      "sha256": "246568471a2910effce9f2b53b5c707fd8fb6c7f5b9bc91b080fe2520b0a7624"
+    },
+    {
+      "arm": "SO-S12-HIER-L0.1",
+      "path": "SO-S12-HIER-L0.1/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore/best_checkpoint.pth",
+      "bytes": 106129959,
+      "sha256": "ce28b2aa1f61f558032fb725f227d6374c71988e275c8ee4f8b8b8b4f89f59fb"
+    },
+    {
+      "arm": "SO-S12-HIER-L0.1",
+      "path": "SO-S12-HIER-L0.1/hier/first_hier_view.pth",
+      "bytes": 592621,
+      "sha256": "9d4c189c3481fbf9bfb2afd0303a3da29bbe54cdebce9d4326415363f60d2724"
+    },
+    {
+      "arm": "SO-S12-HIER-L0.1",
+      "path": "SO-S12-HIER-L0.1/hier/best.pth",
+      "bytes": 1575992,
+      "sha256": "cfe33c30ed62244e3b5b36e7c18fd2d10105c8ced51b169485fea848f85f424e"
+    },
+    {
+      "arm": "SO-S12-HIER-L0.1",
+      "path": "SO-S12-HIER-L0.1/hier/last.pth",
+      "bytes": 1576228,
+      "sha256": "459792c97e3b7fbbef1e05429fa9bb5e77e3f14b5aed614dcb8e384168211a42"
+    },
+    {
+      "arm": "SO-S12-HIER-L0.1",
+      "path": "SO-S12-HIER-L0.1/hier/initial_proxies.pth",
+      "bytes": 526049,
+      "sha256": "9d01cc5ea09d59d8064238d6418671ef81d69e51fcc304915ca5b3604991486d"
+    },
+    {
+      "arm": "SO-S12-HIER-L1.0",
+      "path": "SO-S12-HIER-L1.0/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore/last_checkpoint.pth",
+      "bytes": 106129959,
+      "sha256": "91087e781cc84040cba76a1f97fdbd0bf49b0b9d4a993e08ed37cd1437035fe1"
+    },
+    {
+      "arm": "SO-S12-HIER-L1.0",
+      "path": "SO-S12-HIER-L1.0/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore/best_checkpoint.pth",
+      "bytes": 106129959,
+      "sha256": "4e27472ea487b39856d6584cad652f3643bd4a48bd0a4fc5e107b622fbc9dd4e"
+    },
+    {
+      "arm": "SO-S12-HIER-L1.0",
+      "path": "SO-S12-HIER-L1.0/hier/first_hier_view.pth",
+      "bytes": 592621,
+      "sha256": "9d4c189c3481fbf9bfb2afd0303a3da29bbe54cdebce9d4326415363f60d2724"
+    },
+    {
+      "arm": "SO-S12-HIER-L1.0",
+      "path": "SO-S12-HIER-L1.0/hier/best.pth",
+      "bytes": 1575992,
+      "sha256": "3ed93a0979ff63b916ff6f1467ea335c012b5d135f23867ee3274619176c66c8"
+    },
+    {
+      "arm": "SO-S12-HIER-L1.0",
+      "path": "SO-S12-HIER-L1.0/hier/last.pth",
+      "bytes": 1576228,
+      "sha256": "57522d8d8ee066010a1fb7c983f3e0d8426e3cc37c10855387c2dbdae596412f"
+    },
+    {
+      "arm": "SO-S12-HIER-L1.0",
+      "path": "SO-S12-HIER-L1.0/hier/initial_proxies.pth",
+      "bytes": 526049,
+      "sha256": "9d01cc5ea09d59d8064238d6418671ef81d69e51fcc304915ca5b3604991486d"
+    }
+  ],
+  "weight_manifests": [
+    {
+      "arm": "SO-S12-HIER-L0.1",
+      "source_commit": "62d51fec1c73d15745f875a4eda21702615b21ad",
+      "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+      "author_source_sha256": "6b0ee90db0628c5c2e3fd46fee7f656d779171fce316c2afbe65b573c2e1598b",
+      "program_sha256": "df5b5dd87e63eb5bc692a69f7e9359fea71573544a145dca802d273a748d442c",
+      "entry": "author main()",
+      "seed": 12,
+      "smoke": false,
+      "started_at": "2026-11-26T00:25:00.188384+08:00",
+      "status": "completed",
+      "teacher": null,
+      "initial_checkpoint": null,
+      "data_variant": "ScanObjectNN PB_T50_RS / main_split",
+      "data_sha256": {
+        "training": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+        "test": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1"
+      },
+      "batch_size": 32,
+      "steps_per_epoch": 356,
+      "test_rows": 2882,
+      "hier_enabled": true,
+      "hierarchy": {
+        "curvature": 0.1,
+        "tangent_cap": 2.3,
+        "GS": true,
+        "fixed_shell": false,
+        "proxy_count": 512,
+        "initialization": 0.9,
+        "sample_K": 20,
+        "proxy_K": 20,
+        "sample_weight": 0.1,
+        "proxy_weight": 0.1,
+        "T": 50,
+        "cands": 32,
+        "optimizer": "AdamW A1 (lr .005 to .0005, eps 1e-4)"
+      },
+      "gpu": "0",
+      "python": "3.9.25",
+      "libraries": {
+        "torch": "2.8.0+cu128",
+        "geoopt": "0.5.1",
+        "numpy": "1.26.4",
+        "h5py": "3.14.0",
+        "sklearn": "0.24.2",
+        "scipy": "1.13.1",
+        "matplotlib": "3.4.2"
+      },
+      "extension_sha256": "ae139590cc43d313a0901a1b4cca5bbb73114ad92b693c762d18b0bc76a2f03d",
+      "finished_at": "2026-11-26T14:03:39.436108+08:00"
+    },
+    {
+      "arm": "SO-S12-HIER-L1.0",
+      "source_commit": "62d51fec1c73d15745f875a4eda21702615b21ad",
+      "author_commit": "ef56a73020e309b1009c486fea1f601d3f7b3252",
+      "author_source_sha256": "6b0ee90db0628c5c2e3fd46fee7f656d779171fce316c2afbe65b573c2e1598b",
+      "program_sha256": "df5b5dd87e63eb5bc692a69f7e9359fea71573544a145dca802d273a748d442c",
+      "entry": "author main()",
+      "seed": 12,
+      "smoke": false,
+      "started_at": "2026-11-26T00:25:00.193941+08:00",
+      "status": "completed",
+      "teacher": null,
+      "initial_checkpoint": null,
+      "data_variant": "ScanObjectNN PB_T50_RS / main_split",
+      "data_sha256": {
+        "training": "bd1ebda43155b112fac0ec9335723e66c4885449022002a2a8d370b56376eed5",
+        "test": "f23822ee2f1e1d18331e91334d74adb10c8718d72d503bfa76ebe0a9348a7ea1"
+      },
+      "batch_size": 32,
+      "steps_per_epoch": 356,
+      "test_rows": 2882,
+      "hier_enabled": true,
+      "hierarchy": {
+        "curvature": 0.1,
+        "tangent_cap": 2.3,
+        "GS": true,
+        "fixed_shell": false,
+        "proxy_count": 512,
+        "initialization": 0.9,
+        "sample_K": 20,
+        "proxy_K": 20,
+        "sample_weight": 1.0,
+        "proxy_weight": 1.0,
+        "T": 50,
+        "cands": 32,
+        "optimizer": "AdamW A1 (lr .005 to .0005, eps 1e-4)"
+      },
+      "gpu": "1",
+      "python": "3.9.25",
+      "libraries": {
+        "torch": "2.8.0+cu128",
+        "geoopt": "0.5.1",
+        "numpy": "1.26.4",
+        "h5py": "3.14.0",
+        "sklearn": "0.24.2",
+        "scipy": "1.13.1",
+        "matplotlib": "3.4.2"
+      },
+      "extension_sha256": "ae139590cc43d313a0901a1b4cca5bbb73114ad92b693c762d18b0bc76a2f03d",
+      "finished_at": "2026-11-26T14:18:53.104023+08:00"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "verified_utc": "2026-11-26T09:44:49.782355+00:00",
+  "archive_name": "records_curated_8001.tar.gz",
+  "archive_bytes": 21520715,
+  "archived_uncompressed_bytes": 134746409,
+  "file_count": 3249,
+  "verified_all_file_hashes": true,
+  "sha256": "2b9b36dc1d2c53bcbd50538d0d1bb7f55a70370ea80ed32d937a70cc5088021d",
+  "skipped_count": 5099,
+  "missing_root_count": 26,
+  "private_storage": "local .codex-local offline_classification_20261126_1736",
+  "exclusions": "No dataset files, model weights, binary feature caches or build binaries; large historical epoch JSON retained at e1/e20/e100/e200/e300 only; oversized streams skipped explicitly"
+}
