@@ -30,7 +30,7 @@ def fmt(value, signed=False):
 pairs = [
     ('MN40 当前批', [('4780', 'TS06', 'TS35'), ('4781', 'MN40-B05-S4781-H0', 'MN40-B05-S4781-HIER-CURRENT32')]),
     ('MN40 FIFO1', [('4780', 'TS06', 'TS44'), ('4781', 'MN40-B05-S4781-H0', 'MN40-B05-S4781-HIER-FIFO1')]),
-    ('SO PointMLP 作者', [('12', 'SO-S12-H0', 'SO-S12-HIER'), ('4780', 'SO-S4780-H0', 'SO-S4780-HIER')]),
+    ('SO PointMLP 原脚本', [('12', 'SO-S12-H0', 'SO-S12-HIER'), ('4780', 'SO-S4780-H0', 'SO-S4780-HIER')]),
     ('SO DGCNN SH32', [('12', 'DG-S12-H0', 'DG-S12-HIER'), ('4780', 'DG-S4780-H0', 'DG-S4780-HIER')]),
 ]
 fig, ax = plt.subplots(figsize=(11, 4.8))

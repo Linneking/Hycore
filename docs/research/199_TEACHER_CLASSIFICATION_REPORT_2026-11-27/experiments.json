@@ -1256,7 +1256,7 @@
     "dataset": "SO-PB_T50_RS含背景11416/0/2882",
     "backbone": "PointMLP",
     "seed": 4780,
-    "base": "SO / PMLP原生，本地适配",
+    "base": "SO / PMLP原生，封装入口",
     "sampler": "SH32",
     "pool": "—",
     "cards": 1,
@@ -1288,7 +1288,7 @@
     "production_commit": "142e75db151a2772e16214e89d11e00dc364a7c7",
     "category": "non_TS_historical",
     "status": "completed",
-    "stage": "F：11/20–21 SO迁移与作者入口",
+    "stage": "F：11/20–21 SO迁移与原脚本入口",
     "date_stage": "2026-11-20"
   },
   {
@@ -1301,7 +1301,7 @@
     "dataset": "SO-PB_T50_RS含背景11416/0/2882",
     "backbone": "PointMLP",
     "seed": 4780,
-    "base": "SO / PMLP原生，本地适配",
+    "base": "SO / PMLP原生，封装入口",
     "sampler": "SH32",
     "pool": "32",
     "cards": 1,
@@ -1333,7 +1333,7 @@
     "production_commit": "142e75db151a2772e16214e89d11e00dc364a7c7",
     "category": "non_TS_historical",
     "status": "completed",
-    "stage": "F：11/20–21 SO迁移与作者入口",
+    "stage": "F：11/20–21 SO迁移与原脚本入口",
     "date_stage": "2026-11-20"
   },
   {
@@ -1346,7 +1346,7 @@
     "dataset": "SO-PB_T50_RS含背景11416/0/2882",
     "backbone": "PointMLP",
     "seed": 12,
-    "base": "SO / PMLP原生，作者main",
+    "base": "SO / PMLP原生，原脚本main",
     "sampler": "SH32",
     "pool": "32",
     "cards": 1,
@@ -1378,7 +1378,7 @@
     "production_commit": null,
     "category": "non_TS_historical",
     "status": "completed",
-    "stage": "F：11/20–21 SO迁移与作者入口",
+    "stage": "F：11/20–21 SO迁移与原脚本入口",
     "date_stage": "2026-11-21"
   },
   {
@@ -1391,7 +1391,7 @@
     "dataset": "SO-PB_T50_RS含背景11416/0/2882",
     "backbone": "PointMLP",
     "seed": 12,
-    "base": "SO / PMLP原生，作者main",
+    "base": "SO / PMLP原生，原脚本main",
     "sampler": "SH32",
     "pool": "—",
     "cards": 1,
@@ -1423,7 +1423,7 @@
     "production_commit": null,
     "category": "non_TS_historical",
     "status": "completed",
-    "stage": "F：11/20–21 SO迁移与作者入口",
+    "stage": "F：11/20–21 SO迁移与原脚本入口",
     "date_stage": "2026-11-21"
   },
   {
@@ -1468,7 +1468,7 @@
     "production_commit": null,
     "category": "non_TS_historical",
     "status": "completed",
-    "stage": "F：11/20–21 SO迁移与作者入口",
+    "stage": "F：11/20–21 SO迁移与原脚本入口",
     "date_stage": "2026-11-21"
   },
   {
@@ -1481,7 +1481,7 @@
     "dataset": "SO-PB_T50_RS含背景11416/0/2882",
     "backbone": "PointMLP",
     "seed": 4780,
-    "base": "SO / PMLP原生，作者main",
+    "base": "SO / PMLP原生，原脚本main",
     "sampler": "SH32",
     "pool": "32",
     "cards": 1,
@@ -1526,7 +1526,7 @@
     "dataset": "SO-PB_T50_RS含背景11416/0/2882",
     "backbone": "PointMLP",
     "seed": 4780,
-    "base": "SO / PMLP原生，作者main",
+    "base": "SO / PMLP原生，原脚本main",
     "sampler": "SH32",
     "pool": "—",
     "cards": 1,
@@ -1931,7 +1931,7 @@
     "dataset": "SO-PB_T50_RS含背景11416/0/2882",
     "backbone": "PointMLP",
     "seed": 12,
-    "base": "SO / PMLP作者main",
+    "base": "SO / PMLP原脚本main",
     "sampler": "SH32",
     "pool": "—",
     "cards": 1,

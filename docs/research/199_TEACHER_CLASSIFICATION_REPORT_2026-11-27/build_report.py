@@ -69,7 +69,7 @@ def table(stage):
             '|---|---|---:|---:|---:|---:|']
     for identity in stage_ids[stage]:
         x=rows[identity];control=controls.get(identity)
-        change=short_change.get(identity,x['change'])
+        change=short_change.get(identity,x['change']).replace('作者入口','原脚本入口')
         delta=fmt(x['tail_oa']-rows[control]['tail_oa'],True) if control else '—'
         result.append(f"| **{identity}**：{change} | {control or '本阶段H0／独立基准'} | {pair(x,'best')} | {pair(x,'last')} | {pair(x,'tail')} | {delta} |")
     return '\n'.join(result)
@@ -106,7 +106,7 @@ assert len(flat)==52 and len(set(flat))==52 and set(flat)==set(x['id'] for x in 
 stage_names={
  'A':'11/12–13凌晨 代理消融、H0和预算', 'B':'11/13晚–15凌晨 SH32、优化器与权重',
  'C':'11/15–16下午 实时池、分项K与缓存', 'D':'11/16晚–18 分项权重与历史候选',
- 'E':'11/19 MN20与双采样', 'F':'11/20–21 SO迁移与作者入口',
+ 'E':'11/19 MN20与双采样', 'F':'11/20–21 SO迁移与原脚本入口',
  'G':'11/23 配对seed复验', 'H':'11/24 发布权重、复现与替代骨干',
  'I':'11/25 DeLA Part–Whole配对', 'J':'11/26 权重与CB32配对'}
 by_id={identity:stage for stage,ids in stage_ids.items() for identity in ids}

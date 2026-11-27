@@ -351,7 +351,7 @@
       "date": "2026-11-20",
       "time": "01:20:40",
       "date_stage": "2026-11-20",
-      "stage": "F：11/20–21 SO迁移与作者入口",
+      "stage": "F：11/20–21 SO迁移与原脚本入口",
       "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
       "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
       "run_dir": "scanobject_hier_pair_20261120_A/SO-H0/main"
@@ -362,7 +362,7 @@
       "date": "2026-11-20",
       "time": "01:20:40",
       "date_stage": "2026-11-20",
-      "stage": "F：11/20–21 SO迁移与作者入口",
+      "stage": "F：11/20–21 SO迁移与原脚本入口",
       "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
       "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
       "run_dir": "scanobject_hier_pair_20261120_A/SO-HIER/main"
@@ -373,7 +373,7 @@
       "date": "2026-11-21",
       "time": "14:11:17",
       "date_stage": "2026-11-21",
-      "stage": "F：11/20–21 SO迁移与作者入口",
+      "stage": "F：11/20–21 SO迁移与原脚本入口",
       "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
       "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
       "run_dir": "scanobject_author_s12_20261121_B/SO-S12-HIER/main/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore"
@@ -384,7 +384,7 @@
       "date": "2026-11-21",
       "time": "14:11:32",
       "date_stage": "2026-11-21",
-      "stage": "F：11/20–21 SO迁移与作者入口",
+      "stage": "F：11/20–21 SO迁移与原脚本入口",
       "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
       "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
       "run_dir": "scanobject_author_s12_20261121_B/SO-S12-H0/main/checkpoints/PointNet-toyproof-Offv_pointmlp_hycore"
@@ -395,7 +395,7 @@
       "date": "2026-11-21",
       "time": "19:31:41",
       "date_stage": "2026-11-21",
-      "stage": "F：11/20–21 SO迁移与作者入口",
+      "stage": "F：11/20–21 SO迁移与原脚本入口",
       "source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
       "metric_source": "../197_CLASSIFICATION_REPORT_DRAFT_2026-11-26/non_ts_log_audit.json",
       "run_dir": "mn40_author_s4780_20261121_a/source/classification_ModelNet40/checkpoints/Hype_PointNet-Offv_pointmlp_hycore_var-4780"

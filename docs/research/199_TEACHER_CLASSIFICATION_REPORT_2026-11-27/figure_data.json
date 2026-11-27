@@ -37,7 +37,7 @@
       "delta_oa": -0.21479999999999677
     },
     {
-      "group": "SO PointMLP 作者",
+      "group": "SO PointMLP 原脚本",
       "seed": "12",
       "h0": "SO-S12-H0",
       "hier": "SO-S12-HIER",
@@ -46,7 +46,7 @@
       "delta_oa": 0.5969000000000051
     },
     {
-      "group": "SO PointMLP 作者",
+      "group": "SO PointMLP 原脚本",
       "seed": "4780",
       "h0": "SO-S4780-H0",
       "hier": "SO-S4780-HIER",
