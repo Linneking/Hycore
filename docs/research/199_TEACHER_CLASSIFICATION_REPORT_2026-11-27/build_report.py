@@ -54,6 +54,7 @@ short_change = {
  'TS47':'FIFO两步，池最多96','TS48':'长窗口按类选32','TS49':'同窗口随机选32','TS50':'FIFO64 λ=.1',
  'TS51':'MN20 SH32 H0','TS52':'MN20 SH32 HIER','TS54':'MN20 CB32 H0','TS55':'MN20 CB32 HIER',
  'TS53':'完整MN40 SH分类＋独立CB-HIER',
+ 'MN40-B05-S4781-HIER-CURRENT32':'SH32分类；HIER仅当批32，无缓存',
 }
 def table(stage):
     if stage=='I':
