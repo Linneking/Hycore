@@ -13,7 +13,7 @@
 | 用户给的 ICCV2025 PDF | [UST-SSM: Unified Spatio-Temporal State Space Models for Point Cloud Video Modeling](https://openaccess.thecvf.com/content/ICCV2025/papers/Li_UST-SSM_Unified_Spatio-Temporal_State_Space_Models_for_Point_Cloud_Video_ICCV_2025_paper.pdf)；[可读原文镜像入口：作者arXiv稿](https://arxiv.org/html/2508.14604v1)；[作者代码 wangzy01/UST-SSM](https://github.com/wangzy01/UST-SSM)。CVF PDF本次直接抓取403，借对应arXiv原文和作者仓库核对。 | 点云视频编码器；STSS、STSA、TIS属于该工作。内部聚类和扫描次序不是预测的层次真值。未核到独立公开补充材料和下载权重，不能承诺现成权重复用。 |
 | `https://arxiv.org/pdf/2603.03283` | [Utonia: Toward One Encoder for All Point Clouds](https://arxiv.org/abs/2603.03283)，与下面项目页是同一项工作，和UST-SSM不是同一论文。核对版本为2026-07-03 v2。 | 跨域点云预训练骨干；不是现成的时变树预测器。 |
 | `https://pointcept.github.io/Utonia/` | [作者项目](https://pointcept.github.io/Utonia/)链接[推理与权重仓库](https://github.com/Pointcept/Utonia)、[预训练框架Pointcept](https://github.com/Pointcept/Pointcept)、[公开权重](https://huggingface.co/Pointcept/Utonia/tree/main)。 | PTv3派生骨干、预训练表示、点特征接口。代码Apache-2.0、权重CC-BY-NC-4.0，二者不可混写。论文的开放部件分割是在P³SAM思路上改解码器，并比较Sonata/Utonia初始化；不属于UST-SSM。依据[README许可](https://raw.githubusercontent.com/Pointcept/Utonia/main/README.md)、[论文附录A.3](https://arxiv.org/html/2603.03283v2)。 |
-| 本地BuseTH技术补充，9页，匿名审稿稿 | 已读取用户指定PDF全部页面；只作内部研究线索，没有查到可验证的公开论文/实现对应。 | 公开任务输出仍是逐帧动作标签；段内进度和几何约束不等于整棵多级结构输出。补充S3.3/Table S3明确区分引用成绩和该稿作者复现；其UST-SSM、3DInAction、STS-Mixer的HOI4D结果及IKEA分段结果不可冒充对应原论文结果。本文不转录匿名稿图表、成绩或实现细节。 |
+| 本地BuseTH正文与技术补充，各9页，匿名审稿稿 | 用户已补充正文，完成逐页阅读及图1/图2核查；详见[正文核实](buseth_verified_reading.md)。 | 正文明确以“视频→动作片段→帧”作为层次动机，方法组织类别语义分支与段内进展，主要任务输出仍是逐帧动作标签。真实标签用于构造段和线性归一化时间目标，不是独立标注的物理完成度。补充S3.3/Table S3区分引用成绩与该稿作者复现；不转录匿名稿图表/成绩，不将其复现误归属原论文。 |
 
 ### 1.2 与任务和协议最接近的工作
 
